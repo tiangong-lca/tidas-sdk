@@ -240,7 +240,7 @@ class JsonSchemaToTypeScript {
   }
   
   private addDirectConstraints(schema: any, annotations: string[]): void {
-    // String constraints
+    // String constraints (using correct ts-to-zod format - NO curly braces!)
     if (schema.minLength !== undefined) {
       annotations.push(`@minLength ${schema.minLength}`);
     }
@@ -251,7 +251,7 @@ class JsonSchemaToTypeScript {
       annotations.push(`@pattern ${schema.pattern}`);
     }
     
-    // Numeric constraints
+    // Numeric constraints (using correct ts-to-zod format - NO curly braces!)
     if (schema.minimum !== undefined) {
       annotations.push(`@minimum ${schema.minimum}`);
     }
@@ -268,7 +268,7 @@ class JsonSchemaToTypeScript {
       annotations.push(`@multipleOf ${schema.multipleOf}`);
     }
     
-    // Array constraints
+    // Array constraints (using correct ts-to-zod format - NO curly braces!)
     if (schema.minItems !== undefined) {
       annotations.push(`@minItems ${schema.minItems}`);
     }
@@ -279,7 +279,7 @@ class JsonSchemaToTypeScript {
       annotations.push(`@uniqueItems`);
     }
     
-    // Format annotation (common in JSON Schema)
+    // Format annotation (using correct ts-to-zod format - NO curly braces!)
     if (schema.format !== undefined) {
       annotations.push(`@format ${schema.format}`);
     }

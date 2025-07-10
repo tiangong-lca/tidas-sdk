@@ -6,6 +6,8 @@
 
 /**
  * CAS Number, leading zeros are requried.
+ *
+ * @pattern ^[0-9]{2,7}-[0-9]{2}-[0-9]$
  */
 export type CASNumber = string;
 /**
@@ -14,20 +16,31 @@ export type CASNumber = string;
 export type FT = string;
 /**
  * Multi-language string with a maximum length of 500 characters
+ *
+ * @maxLength 500
  */
 export type StringMultiLang =
   | { '@xml:lang': string; '#text': string }[]
   | { '@xml:lang': string; '#text': string };
 /**
  * 1-digit integer number
+ *
+ * @minimum 0
+ * @maximum 9
  */
 export type Int1 = string;
 /**
  * 5-digit integer number
+ *
+ * @minimum 0
+ * @maximum 99999
  */
 export type Int5 = string;
 /**
  * 6-digit integer number
+ *
+ * @minimum 0
+ * @maximum 999999
  */
 export type Int6 = string;
 /**
@@ -36,6 +49,8 @@ export type Int6 = string;
 export type LevelType = Int1;
 /**
  * percentage amount
+ *
+ * @pattern ^0\.\d+$
  */
 export type Perc = string;
 /**
@@ -48,18 +63,27 @@ export type MatR = string;
 export type MatV = string;
 /**
  * 38-digit real number
+ *
+ * @pattern [+-]?(\d+(\.\d*)?|\.\d+)([Ee][+-]?\d+)?$
  */
 export type Real = string;
 /**
  * Short text with a maximum length of 1000 characters
+ *
+ * @maxLength 1000
  */
 export type ST = string;
 /**
  * String with a maximum length of 500 characters. Must have a minimum length of 1.
+ *
+ * @minLength 1
+ * @maxLength 500
  */
 export type String = string;
 /**
  * Multi-lang short text with a maximum length of 1000 characters.
+ *
+ * @maxLength 1000
  */
 export type STMultiLang =
   | { '@xml:lang': string; '#text': string }[]
@@ -90,17 +114,26 @@ export type GlobalReferenceType =
     }[];
 /**
  * Global geographical reference in Latitude and LongitudeExamples: "+42.42;-180", "0;0", "13.22 ; -3"
+ *
+ * @pattern ^\s*[+-]?((90(\.0+)?)|([0-8]?\d(\.\d+)?))\s*;\s*[+-]?((180(\.0+)?)|((1[0-7]\d|[0-9]?\d)(\.\d+)?))\s*$
  */
 export type GIS = string;
 /**
  * Unique Universal Identifier, 16-byte hex number
+ *
+ * @pattern ^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$
  */
 export type UUID = string;
 /**
  * 4-digit year
+ *
+ * @minimum 1000
+ * @maximum 9999
  */
 export type Year = number;
 /**
  * Date and time format acc. to ISO 8601
+ *
+ * @format date-time
  */
 export type dateTime = string;

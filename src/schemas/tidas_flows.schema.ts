@@ -6,7 +6,6 @@ import {
   FTMultiLangSchema,
   GlobalReferenceTypeSchema,
   Int5Schema,
-  LevelTypeSchema,
   PercSchema,
   RealSchema,
   StringSchema,
@@ -40,32 +39,7 @@ export const FlowsSchema = z.object({
           'common:other': z.string().optional(),
         }),
         'common:synonyms': FTMultiLangSchema.optional(),
-        classificationInformation: z.object({
-          'common:elementaryFlowCategorization': z
-            .object({
-              'common:category': z.array(
-                z.object({
-                  '@level': LevelTypeSchema,
-                  '@catId': z.string(),
-                  '#text': z.string(),
-                })
-              ),
-              'common:other': z.string().optional(),
-            })
-            .optional(),
-          'common:classification': z
-            .object({
-              'common:class': z.array(
-                z.object({
-                  '@level': LevelTypeSchema,
-                  '@classId': z.string(),
-                  '#text': z.string(),
-                })
-              ),
-              'common:other': z.string().optional(),
-            })
-            .optional(),
-        }),
+        classificationInformation: z.union([z.any(), z.any()]),
         CASNumber: CASNumberSchema.optional(),
         sumFormula: StringSchema.optional(),
         'common:generalComment': FTMultiLangSchema.optional(),
