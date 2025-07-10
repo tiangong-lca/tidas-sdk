@@ -4,43 +4,27 @@
  */
 
 // Export all schemas
-export * from './tidas_data_types.schema';
-export * from './tidas_contacts.schema';
-export * from './tidas_contacts_category.schema';
-export * from './tidas_flowproperties.schema';
-export * from './tidas_flowproperties_category.schema';
-export * from './tidas_locations_category.schema';
-export * from './tidas_flows.schema';
-export * from './tidas_flows_elementary_category.schema';
-export * from './tidas_flows_product_category.schema';
-export * from './tidas_lciamethods.schema';
-export * from './tidas_lciamethods_category.schema';
-export * from './tidas_lifecyclemodels.schema';
-export * from './tidas_processes.schema';
-export * from './tidas_processes_category.schema';
-export * from './tidas_sources.schema';
-export * from './tidas_sources_category.schema';
-export * from './tidas_unitgroups.schema';
-export * from './tidas_unitgroups_category.schema';
 
 // Re-export commonly used schemas with simpler names
-export { ContactsSchema } from './tidas_contacts.schema';
-export { SourcesSchema } from './tidas_sources.schema';
-export { FlowpropertiesSchema } from './tidas_flowproperties.schema';
-export { UnitgroupsSchema } from './tidas_unitgroups.schema';
-export { LciamethodsSchema } from './tidas_lciamethods.schema';
-export { LifecyclemodelsSchema } from './tidas_lifecyclemodels.schema';
+export { ContactsSchema as ContactSchema } from './tidas_contacts.schema';
+export { SourcesSchema as SourceSchema } from './tidas_sources.schema';
+export { FlowpropertiesSchema as FlowPropertySchema } from './tidas_flowproperties.schema';
+export { UnitgroupsSchema as UnitGroupSchema } from './tidas_unitgroups.schema';
+export { LciamethodsSchema as LCIAMethodSchema } from './tidas_lciamethods.schema';
+export { LifecyclemodelsSchema as LifeCycleModelSchema } from './tidas_lifecyclemodels.schema';
+export { FlowsSchema as FlowSchema } from './tidas_flows.schema';
+export { ProcessesSchema as ProcessSchema } from './tidas_processes.schema';
 
 // Export category/enum types (if schemas exist)
-export { LocationsCategorySchema } from './tidas_locations_category.schema';
-export { ContactsCategorySchema } from './tidas_contacts_category.schema';
-export { FlowpropertiesCategorySchema } from './tidas_flowproperties_category.schema';
-export { FlowsElementaryCategorySchema } from './tidas_flows_elementary_category.schema';
-export { FlowsProductCategorySchema } from './tidas_flows_product_category.schema';
-export { LciamethodsCategorySchema } from './tidas_lciamethods_category.schema';
-export { ProcessesCategorySchema } from './tidas_processes_category.schema';
-export { SourcesCategorySchema } from './tidas_sources_category.schema';
-export { UnitgroupsCategorySchema } from './tidas_unitgroups_category.schema';
+export { LocationsCategorySchema as LocationCategorySchema } from './tidas_locations_category.schema';
+export { ContactsCategorySchema as ContactCategorySchema } from './tidas_contacts_category.schema';
+export { FlowpropertiesCategorySchema as FlowPropertyCategorySchema } from './tidas_flowproperties_category.schema';
+export { FlowsElementaryCategorySchema as FlowElementaryCategorySchema } from './tidas_flows_elementary_category.schema';
+export { FlowsProductCategorySchema as FlowProductCategorySchema } from './tidas_flows_product_category.schema';
+export { LciamethodsCategorySchema as LCIAMethodCategorySchema } from './tidas_lciamethods_category.schema';
+export { ProcessesCategorySchema as ProcessCategorySchema } from './tidas_processes_category.schema';
+export { SourcesCategorySchema as SourceCategorySchema } from './tidas_sources_category.schema';
+export { UnitgroupsCategorySchema as UnitGroupCategorySchema } from './tidas_unitgroups_category.schema';
 
 // Export validation helper functions
 import { z } from 'zod';

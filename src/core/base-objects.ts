@@ -1,23 +1,23 @@
 import { TidasBase, type ValidationOptions } from './base';
 import type { 
-  Contacts, 
-  Processes, 
-  Flows, 
-  Sources, 
-  Flowproperties, 
-  Unitgroups, 
-  Lciamethods, 
-  Lifecyclemodels 
+  Contact, 
+  Process, 
+  Flow, 
+  Source, 
+  FlowProperty, 
+  UnitGroup, 
+  LCIAMethod, 
+  LifeCycleModel 
 } from '../types';
 import { 
-  ContactsSchema, 
-  ProcessesSchema, 
-  FlowsSchema, 
-  SourcesSchema, 
-  FlowpropertiesSchema, 
-  UnitgroupsSchema, 
-  LciamethodsSchema, 
-  LifecyclemodelsSchema 
+  ContactSchema, 
+  ProcessSchema, 
+  FlowSchema, 
+  SourceSchema, 
+  FlowPropertySchema, 
+  UnitGroupSchema, 
+  LCIAMethodSchema, 
+  LifeCycleModelSchema 
 } from '../schemas';
 import { z } from 'zod';
 
@@ -202,143 +202,143 @@ abstract class TypedTidasBase<T> extends TidasBase<T> {
 /**
  * Contact object
  */
-export class ContactBaseObject extends TypedTidasBase<Contacts> {
-  constructor(data?: Partial<Contacts>, options?: ValidationOptions) {
+export class ContactBaseObject extends TypedTidasBase<Contact> {
+  constructor(data?: Partial<Contact>, options?: ValidationOptions) {
     const fullData = data || { contactDataSet: {} };
-    super(fullData as Contacts, options);
+    super(fullData as Contact, options);
   }
   
   protected getRootKey(): string {
     return 'contactDataSet';
   }
   
-  protected getSchema(): z.ZodSchema<Contacts> {
-    return ContactsSchema;
+  protected getSchema(): z.ZodSchema<Contact> {
+    return ContactSchema;
   }
 }
 
 /**
  * Process object
  */
-export class ProcessBaseObject extends TypedTidasBase<Processes> {
-  constructor(data?: Partial<Processes>, options?: ValidationOptions) {
+export class ProcessBaseObject extends TypedTidasBase<Process> {
+  constructor(data?: Partial<Process>, options?: ValidationOptions) {
     const fullData = data || { processDataSet: {} };
-    super(fullData as Processes, options);
+    super(fullData as Process, options);
   }
   
   protected getRootKey(): string {
     return 'processDataSet';
   }
   
-  protected getSchema(): z.ZodSchema<Processes> {
-    return ProcessesSchema as any;
+  protected getSchema(): z.ZodSchema<Process> {
+    return ProcessSchema as any;
   }
 }
 
 /**
  * Flow object
  */
-export class FlowBaseObject extends TypedTidasBase<Flows> {
-  constructor(data?: Partial<Flows>, options?: ValidationOptions) {
+export class FlowBaseObject extends TypedTidasBase<Flow> {
+  constructor(data?: Partial<Flow>, options?: ValidationOptions) {
     const fullData = data || { flowDataSet: {} };
-    super(fullData as Flows, options);
+    super(fullData as Flow, options);
   }
   
   protected getRootKey(): string {
     return 'flowDataSet';
   }
   
-  protected getSchema(): z.ZodSchema<Flows> {
-    return FlowsSchema as any;
+  protected getSchema(): z.ZodSchema<Flow> {
+    return FlowSchema as any;
   }
 }
 
 /**
  * Source object
  */
-export class SourceBaseObject extends TypedTidasBase<Sources> {
-  constructor(data?: Partial<Sources>, options?: ValidationOptions) {
+export class SourceBaseObject extends TypedTidasBase<Source> {
+  constructor(data?: Partial<Source>, options?: ValidationOptions) {
     const fullData = data || { sourceDataSet: {} };
-    super(fullData as Sources, options);
+    super(fullData as Source, options);
   }
   
   protected getRootKey(): string {
     return 'sourceDataSet';
   }
   
-  protected getSchema(): z.ZodSchema<Sources> {
-    return SourcesSchema;
+  protected getSchema(): z.ZodSchema<Source> {
+    return SourceSchema;
   }
 }
 
 /**
  * Flow Property object
  */
-export class FlowPropertyBaseObject extends TypedTidasBase<Flowproperties> {
-  constructor(data?: Partial<Flowproperties>, options?: ValidationOptions) {
+export class FlowPropertyBaseObject extends TypedTidasBase<FlowProperty> {
+  constructor(data?: Partial<FlowProperty>, options?: ValidationOptions) {
     const fullData = data || { flowPropertyDataSet: {} };
-    super(fullData as Flowproperties, options);
+    super(fullData as FlowProperty, options);
   }
   
   protected getRootKey(): string {
     return 'flowPropertyDataSet';
   }
   
-  protected getSchema(): z.ZodSchema<Flowproperties> {
-    return FlowpropertiesSchema;
+  protected getSchema(): z.ZodSchema<FlowProperty> {
+    return FlowPropertySchema;
   }
 }
 
 /**
  * Unit Group object
  */
-export class UnitGroupBaseObject extends TypedTidasBase<Unitgroups> {
-  constructor(data?: Partial<Unitgroups>, options?: ValidationOptions) {
+export class UnitGroupBaseObject extends TypedTidasBase<UnitGroup> {
+  constructor(data?: Partial<UnitGroup>, options?: ValidationOptions) {
     const fullData = data || { unitGroupDataSet: {} };
-    super(fullData as Unitgroups, options);
+    super(fullData as UnitGroup, options);
   }
   
   protected getRootKey(): string {
     return 'unitGroupDataSet';
   }
   
-  protected getSchema(): z.ZodSchema<Unitgroups> {
-    return UnitgroupsSchema;
+  protected getSchema(): z.ZodSchema<UnitGroup> {
+    return UnitGroupSchema;
   }
 }
 
 /**
  * LCIA Method object
  */
-export class LCIAMethodBaseObject extends TypedTidasBase<Lciamethods> {
-  constructor(data?: Partial<Lciamethods>, options?: ValidationOptions) {
+export class LCIAMethodBaseObject extends TypedTidasBase<LCIAMethod> {
+  constructor(data?: Partial<LCIAMethod>, options?: ValidationOptions) {
     const fullData = data || { LCIAMethodDataSet: {} };
-    super(fullData as Lciamethods, options);
+    super(fullData as LCIAMethod, options);
   }
   
   protected getRootKey(): string {
     return 'LCIAMethodDataSet';
   }
   
-  protected getSchema(): z.ZodSchema<Lciamethods> {
-    return LciamethodsSchema;
+  protected getSchema(): z.ZodSchema<LCIAMethod> {
+    return LCIAMethodSchema;
   }
 }
 
 /**
  * Life Cycle Model object
  */
-export class LifeCycleModelBaseObject extends TypedTidasBase<Lifecyclemodels> {
-  constructor(data?: Partial<Lifecyclemodels>, options?: ValidationOptions) {
+export class LifeCycleModelBaseObject extends TypedTidasBase<LifeCycleModel> {
+  constructor(data?: Partial<LifeCycleModel>, options?: ValidationOptions) {
     const fullData = data || { lifeCycleModelDataSet: {} };
-    super(fullData as Lifecyclemodels, options);
+    super(fullData as LifeCycleModel, options);
   }
   
   protected getRootKey(): string {
     return 'lifeCycleModelDataSet';
   }
   
-  protected getSchema(): z.ZodSchema<Lifecyclemodels> {
-    return LifecyclemodelsSchema;
+  protected getSchema(): z.ZodSchema<LifeCycleModel> {
+    return LifeCycleModelSchema;
   }
 }

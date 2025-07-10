@@ -25,14 +25,14 @@ export {
 
 // User-friendly object classes (compatible with existing API)
 import { ContactBaseObject, ProcessBaseObject, FlowBaseObject } from './base-objects';
-import type { Contacts, Processes, Flows } from '../types';
+import type { Contact, Process, Flow } from '../types';
 import type { ValidationOptions } from './base';
 
 /**
  * Contact object - user-friendly alias for ContactBaseObject
  */
 export class TidasContact extends ContactBaseObject {
-  constructor(data?: Partial<Contacts>, options?: ValidationOptions) {
+  constructor(data?: Partial<Contact>, options?: ValidationOptions) {
     // Ensure basic structure exists
     const fullData = data || { contactDataSet: {} as any };
     if (!fullData.contactDataSet) {
@@ -46,7 +46,7 @@ export class TidasContact extends ContactBaseObject {
  * Process object - user-friendly alias for ProcessBaseObject  
  */
 export class TidasProcess extends ProcessBaseObject {
-  constructor(data?: Partial<Processes>, options?: ValidationOptions) {
+  constructor(data?: Partial<Process>, options?: ValidationOptions) {
     super(data, options);
   }
 }
@@ -55,7 +55,7 @@ export class TidasProcess extends ProcessBaseObject {
  * Flow object - user-friendly alias for FlowBaseObject
  */
 export class TidasFlow extends FlowBaseObject {
-  constructor(data?: Partial<Flows>, options?: ValidationOptions) {
+  constructor(data?: Partial<Flow>, options?: ValidationOptions) {
     super(data, options);
   }
 }
@@ -64,21 +64,21 @@ export class TidasFlow extends FlowBaseObject {
 /**
  * Create a new Contact object
  */
-export function createContact(data?: Partial<Contacts>, options?: ValidationOptions): TidasContact {
+export function createContact(data?: Partial<Contact>, options?: ValidationOptions): TidasContact {
   return new TidasContact(data, options);
 }
 
 /**
  * Create a new Process object
  */
-export function createProcess(data?: Partial<Processes>, options?: ValidationOptions): TidasProcess {
+export function createProcess(data?: Partial<Process>, options?: ValidationOptions): TidasProcess {
   return new TidasProcess(data, options);
 }
 
 /**
  * Create a new Flow object
  */
-export function createFlow(data?: Partial<Flows>, options?: ValidationOptions): TidasFlow {
+export function createFlow(data?: Partial<Flow>, options?: ValidationOptions): TidasFlow {
   return new TidasFlow(data, options);
 }
 
@@ -106,10 +106,10 @@ export function buildFlow(): FlowBuilder {
 
 // Builder classes
 class ContactBuilder {
-  private _data: Partial<Contacts> = {};
+  private _data: Partial<Contact> = {};
   private _options: ValidationOptions = {};
 
-  withData(data: Partial<Contacts>): this {
+  withData(data: Partial<Contact>): this {
     this._data = { ...this._data, ...data };
     return this;
   }
@@ -143,10 +143,10 @@ class ContactBuilder {
 }
 
 class ProcessBuilder {
-  private _data: Partial<Processes> = {};
+  private _data: Partial<Process> = {};
   private _options: ValidationOptions = {};
 
-  withData(data: Partial<Processes>): this {
+  withData(data: Partial<Process>): this {
     this._data = { ...this._data, ...data };
     return this;
   }
@@ -176,10 +176,10 @@ class ProcessBuilder {
 }
 
 class FlowBuilder {
-  private _data: Partial<Flows> = {};
+  private _data: Partial<Flow> = {};
   private _options: ValidationOptions = {};
 
-  withData(data: Partial<Flows>): this {
+  withData(data: Partial<Flow>): this {
     this._data = { ...this._data, ...data };
     return this;
   }
@@ -210,7 +210,7 @@ class FlowBuilder {
 
 // JSON conversion functions
 import { validateWithZod } from '../schemas';
-import { ContactsSchema, ProcessesSchema, FlowsSchema } from '../schemas';
+import { ContactSchema, ProcessSchema, FlowSchema } from '../schemas';
 
 /**
  * Convert JSON to Tidas object with validation
@@ -225,7 +225,7 @@ export function fromJSON<T>(
   switch (type) {
     case 'contact':
       if (options?.enableValidation) {
-        const result = validateWithZod(data, ContactsSchema);
+        const result = validateWithZod(data, ContactSchema);
         if (!result.success) {
           throw new Error(`Validation failed: ${result.error?.message}`);
         }
@@ -235,21 +235,21 @@ export function fromJSON<T>(
       
     case 'process':
       if (options?.enableValidation) {
-        const result = validateWithZod(data, ProcessesSchema);
+        const result = validateWithZod(data, ProcessSchema);
         if (!result.success) {
           throw new Error(`Validation failed: ${result.error?.message}`);
         }
-        return new TidasProcess(result.data as Partial<Processes>, options) as unknown as T;
+        return new TidasProcess(result.data as Partial<Process>, options) as unknown as T;
       }
       return new TidasProcess(data as any, options) as unknown as T;
       
     case 'flow':
       if (options?.enableValidation) {
-        const result = validateWithZod(data, FlowsSchema);
+        const result = validateWithZod(data, FlowSchema);
         if (!result.success) {
           throw new Error(`Validation failed: ${result.error?.message}`);
         }
-        return new TidasFlow(result.data as Partial<Flows>, options) as unknown as T;
+        return new TidasFlow(result.data as Partial<Flow>, options) as unknown as T;
       }
       return new TidasFlow(data, options) as unknown as T;
       

@@ -83,14 +83,14 @@ export {
   validateBatch,
   
   // Main schemas
-  ContactsSchema,
-  ProcessesSchema,
-  FlowsSchema,
-  SourcesSchema,
-  FlowpropertiesSchema,
-  UnitgroupsSchema,
-  LciamethodsSchema,
-  LifecyclemodelsSchema,
+  ContactSchema,
+  ProcessSchema,
+  FlowSchema,
+  SourceSchema,
+  FlowPropertySchema,
+  UnitGroupSchema,
+  LCIAMethodSchema,
+  LifeCycleModelSchema,
   
   // Validation result type
   type ValidationResult
@@ -98,13 +98,13 @@ export {
 
 export {
   // Common types
-  type Contacts,
-  type Processes,
-  type Flows,
-  type Sources,
-  type Flowproperties,
-  type Unitgroups,
-  type Lciamethods,
-  type Lifecyclemodels,
+  type Contact,
+  type Process,
+  type Flow,
+  type Source,
+  type FlowProperty,
+  type UnitGroup,
+  type LCIAMethod,
+  type LifeCycleModel,
   type DataSet
 } from './types';
