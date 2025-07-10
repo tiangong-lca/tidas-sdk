@@ -37,3 +37,6 @@ coverage/
 
 # test config
 ts-to-zod-configs/
+
+# claude
+.claude/
