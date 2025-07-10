@@ -118,9 +118,17 @@ class JsonSchemaToTypeScript {
 
     const tsType = this.getTypeScriptType(schema);
     if (schema.anyOf || schema.oneOf) {
-      // For union types, create a type alias with JSDoc
+      // For union types, check if we need to create helper types for objects with constraints
+      const { unionType, helperTypes } = this.generateUnionWithHelperTypes(name, schema);
+      
+      // Add helper types first
+      helperTypes.forEach(helperType => {
+        this.typeDefinitions.set(helperType.name, helperType.definition);
+      });
+      
+      // Then add the main union type
       const jsdoc = this.generateJSDoc(schema);
-      const definition = jsdoc ? `${jsdoc}\n${this.config.exportStyle} type ${name} = ${tsType};` : `${this.config.exportStyle} type ${name} = ${tsType};`;
+      const definition = jsdoc ? `${jsdoc}\n${this.config.exportStyle} type ${name} = ${unionType};` : `${this.config.exportStyle} type ${name} = ${unionType};`;
       this.typeDefinitions.set(name, definition);
     } else if (schema.type === "object" && schema.properties) {
       // For objects, create an interface
@@ -198,13 +206,17 @@ class JsonSchemaToTypeScript {
       parts.push(schema.description);
     }
     
-    // Add nested property constraints as additional description
-    const nestedConstraints = this.extractNestedPropertyConstraints(schema);
-    if (nestedConstraints.length > 0) {
-      if (parts.length > 0) {
-        parts.push(''); // Add empty line
+    // Skip nested property constraints for union types (anyOf/oneOf) to avoid 
+    // incorrectly applying property-level constraints to the union type itself.
+    // ts-to-zod will naturally infer constraints from the inline object structures.
+    if (!schema.anyOf && !schema.oneOf) {
+      const nestedConstraints = this.extractNestedPropertyConstraints(schema);
+      if (nestedConstraints.length > 0) {
+        if (parts.length > 0) {
+          parts.push(''); // Add empty line
+        }
+        parts.push(...nestedConstraints);
       }
-      parts.push(...nestedConstraints);
     }
     
     // Add direct constraint annotations
@@ -290,7 +302,7 @@ class JsonSchemaToTypeScript {
     }
   }
   
-  private addUnionLevelConstraints(schema: any, annotations: string[]): void {
+  private addUnionLevelConstraints(_schema: any, _annotations: string[]): void {
     // For anyOf/oneOf structures, only add constraints that apply to ALL options
     // Currently, we don't extract union-level constraints to avoid confusion
     // Each union option will have its own type definition with its own constraints
@@ -310,6 +322,114 @@ class JsonSchemaToTypeScript {
       
       if (commonConstraints.length > 0) {
         constraints.push(...commonConstraints);
+      }
+    }
+    
+    return constraints;
+  }
+
+  private generateUnionWithHelperTypes(typeName: string, schema: any): { unionType: string; helperTypes: Array<{ name: string; definition: string }> } {
+    const unionOptions = schema.anyOf || schema.oneOf;
+    const helperTypes: Array<{ name: string; definition: string }> = [];
+    const unionParts: string[] = [];
+
+    unionOptions.forEach((option: any, index: number) => {
+      if (this.shouldCreateHelperType(option)) {
+        // Create a helper type for objects with constraints
+        const helperTypeName = `${typeName}Item${index === 0 ? '' : index + 1}`;
+        const helperTypeDefinition = this.generateHelperTypeDefinition(helperTypeName, option);
+        
+        helperTypes.push({
+          name: helperTypeName,
+          definition: helperTypeDefinition
+        });
+
+        // Use the helper type in the union (the helper type already includes array notation if needed)
+        unionParts.push(helperTypeName);
+      } else {
+        // Use inline type for simple cases
+        const optionType = this.getTypeScriptType(option);
+        if (optionType.startsWith("{") && optionType.endsWith("}")) {
+          unionParts.push(`(${optionType})`);
+        } else {
+          unionParts.push(optionType);
+        }
+      }
+    });
+
+    return {
+      unionType: unionParts.join(' | '),
+      helperTypes
+    };
+  }
+
+  private shouldCreateHelperType(option: any): boolean {
+    // Create helper type if it's an object (or array of objects) with property constraints
+    if (option.type === 'object' && option.properties) {
+      return this.hasPropertyConstraints(option);
+    }
+    
+    if (option.type === 'array' && option.items && option.items.type === 'object' && option.items.properties) {
+      return this.hasPropertyConstraints(option.items);
+    }
+    
+    return false;
+  }
+
+  private hasPropertyConstraints(objectSchema: any): boolean {
+    if (!objectSchema.properties) return false;
+    
+    for (const propSchema of Object.values(objectSchema.properties)) {
+      if (this.hasConstraints(propSchema as any)) {
+        return true;
+      }
+    }
+    
+    return false;
+  }
+
+  private generateHelperTypeDefinition(typeName: string, option: any): string {
+    let targetSchema = option;
+    let isArray = false;
+    
+    if (option.type === 'array' && option.items) {
+      targetSchema = option.items;
+      isArray = true;
+    }
+    
+    // Extract constraints from the object's properties
+    const constraintAnnotations = this.extractPropertyConstraints(targetSchema);
+    
+    // Generate JSDoc if there are constraints
+    let jsdoc = '';
+    if (constraintAnnotations.length > 0) {
+      jsdoc = [
+        '/**',
+        ...constraintAnnotations.map(annotation => ` * ${annotation}`),
+        ' */'
+      ].join('\n') + '\n';
+    }
+    
+    // Generate the object type
+    const objectType = this.getTypeScriptType(targetSchema);
+    const finalType = isArray ? `${objectType}[]` : objectType;
+    
+    return `${jsdoc}type ${typeName} = ${finalType};`;
+  }
+
+  private extractPropertyConstraints(objectSchema: any): string[] {
+    const constraints: string[] = [];
+    
+    if (!objectSchema.properties) return constraints;
+    
+    // Look for properties with constraints and store them for post-processing
+    for (const [propName, propSchema] of Object.entries(objectSchema.properties)) {
+      const propConstraints = this.extractConstraintAnnotations(propSchema as any);
+      if (propConstraints.length > 0) {
+        // For specific properties like '#text', add descriptive constraint info
+        if (propName === '#text' || propName === 'text' || propName === 'value') {
+          constraints.push(`Property '${propName}' has constraints: ${propConstraints.join(', ')}`);
+        }
       }
     }
     

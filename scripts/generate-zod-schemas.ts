@@ -84,16 +84,7 @@ async function generateZodSchemas(): Promise<void> {
   // Run ts-to-zod with configuration, processing each type in dependency order
   console.log('\n📦 Running ts-to-zod for each type in dependency order...');
   
-  // First, process tidas_data_types in complete isolation
-  const dataTypesIndex = typeNames.indexOf('tidas_data_types');
-  if (dataTypesIndex !== -1) {
-    console.log('🔄 Processing tidas_data_types (isolated)...');
-    await processTypeIsolated('tidas_data_types');
-    // Remove from main processing list
-    typeNames.splice(dataTypesIndex, 1);
-  }
-  
-  // Then process remaining types
+  // Process all types using standard config approach
   for (const typeName of typeNames) {
     const configName = typeName.replace('tidas_', '');
     console.log(`🔄 Processing ${typeName}...`);
@@ -104,6 +95,9 @@ async function generateZodSchemas(): Promise<void> {
       const outputFile = path.join(SCHEMAS_DIR, `${typeName}.schema.ts`);
       if (fs.existsSync(outputFile)) {
         console.log(`   ✅ ${typeName}.schema.ts generated successfully`);
+        
+        // Post-process the generated schema to fix constraint placement
+        await postProcessZodSchema(outputFile);
       } else {
         console.log(`   ❌ ${typeName}.schema.ts failed to generate`);
         if (stderr) {
@@ -162,51 +156,47 @@ function getDataSetKeyForType(typeName: string): string {
   }
 }
 
-/**
- * Process a single type in complete isolation (for tidas_data_types)
- */
-async function processTypeIsolated(typeName: string): Promise<void> {
-  // Create a temporary isolated config just for this type
-  const isolatedConfig = `/**
- * Isolated configuration for ${typeName}
- */
-module.exports = {
-  name: "${typeName.replace('tidas_', '')}",
-  input: "${TYPES_DIR}/${typeName}.ts",
-  output: "${SCHEMAS_DIR}/${typeName}.schema.ts",
-  getSchemaName: (id) => \`\${id}Schema\`,
-  skipValidation: true,
-  keepComments: false,
-  skipParseJSDoc: false
-};`;
 
-  const isolatedConfigFile = 'ts-to-zod-isolated.config.js';
+/**
+ * Post-process generated Zod schema to fix constraint placement
+ */
+async function postProcessZodSchema(schemaFile: string): Promise<void> {
+  const content = fs.readFileSync(schemaFile, 'utf8');
   
-  try {
-    // Write isolated config
-    fs.writeFileSync(isolatedConfigFile, isolatedConfig, 'utf8');
-    
-    // Run ts-to-zod with isolated config and skip validation
-    await execAsync(`npx ts-to-zod --config=${isolatedConfigFile} --skipValidation`);
-    
-    const outputFile = path.join(SCHEMAS_DIR, `${typeName}.schema.ts`);
-    if (fs.existsSync(outputFile)) {
-      console.log(`   ✅ ${typeName}.schema.ts generated successfully (isolated)`);
-    } else {
-      console.log(`   ❌ ${typeName}.schema.ts failed to generate (isolated)`);
-      console.log(`   🔄 Trying fallback approach for ${typeName}...`);
-      await generateFallbackSchema(typeName);
+  // Fix patterns for known constraint placement issues
+  const fixes = [
+    // Fix STMultiLang-like schemas: move .max() from object/array level to #text property level
+    {
+      // Match multi-line object pattern: z.object({\n'@xml:lang': z.string(),\n'#text': z.string(),\n}).max(N)
+      pattern: /z\.object\(\{\s*'@xml:lang':\s*z\.string\(\),\s*'#text':\s*z\.string\(\),?\s*\}\)\s*\.max\((\d+)\)/gs,
+      replacement: "z.object({\n      '@xml:lang': z.string(),\n      '#text': z.string().max($1),\n    })"
+    },
+    {
+      // Match multi-line array pattern: z.array(\nz.object({\n'@xml:lang': z.string(),\n'#text': z.string(),\n})\n).max(N)
+      pattern: /z\s*\.array\(\s*z\.object\(\{\s*'@xml:lang':\s*z\.string\(\),\s*'#text':\s*z\.string\(\),?\s*\}\)\s*\)\s*\.max\((\d+)\)/gs,
+      replacement: "z.array(\n    z.object({\n      '@xml:lang': z.string(),\n      '#text': z.string().max($1),\n    })\n  )"
+    },
+    {
+      // Match multi-line object with trailing .max(): z.object({\n'@xml:lang': z.string(),\n'#text': z.string(),\n})\n.max(N)
+      pattern: /z\s*\.object\(\{\s*'@xml:lang':\s*z\.string\(\),\s*'#text':\s*z\.string\(\),?\s*\}\)\s*\.max\((\d+)\)/gs,
+      replacement: "z.object({\n    '@xml:lang': z.string(),\n    '#text': z.string().max($1),\n  })"
     }
-    
-  } catch (error) {
-    console.log(`   ❌ Failed to process ${typeName} in isolation:`, (error as Error).message);
-    console.log(`   🔄 Trying fallback approach for ${typeName}...`);
-    await generateFallbackSchema(typeName);
-  } finally {
-    // Clean up isolated config
-    if (fs.existsSync(isolatedConfigFile)) {
-      fs.unlinkSync(isolatedConfigFile);
+  ];
+  
+  let fixedContent = content;
+  let hasChanges = false;
+  
+  for (const fix of fixes) {
+    const newContent = fixedContent.replace(fix.pattern, fix.replacement);
+    if (newContent !== fixedContent) {
+      fixedContent = newContent;
+      hasChanges = true;
     }
+  }
+  
+  if (hasChanges) {
+    fs.writeFileSync(schemaFile, fixedContent, 'utf8');
+    console.log(`   🔧 Applied constraint fixes to ${path.basename(schemaFile)}`);
   }
 }
 

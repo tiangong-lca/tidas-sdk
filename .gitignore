@@ -34,3 +34,6 @@ coverage/
 .npm
 .eslintcache
 .prettier-cache
+
+# test config
+ts-to-zod-configs/
