@@ -9,6 +9,7 @@ import type {
   FTMultiLang,
   GlobalReferenceType,
   Int5,
+  LevelType,
   Perc,
   Real,
   String,
@@ -38,7 +39,24 @@ export interface Flows {
           'common:other'?: string;
         };
         'common:synonyms'?: FTMultiLang;
-        classificationInformation: any | any;
+        classificationInformation: {
+          'common:elementaryFlowCategorization'?: {
+            'common:category': Array<{
+              '@level': LevelType;
+              '@catId': string;
+              '#text': string;
+            }>;
+            'common:other'?: string;
+          };
+          'common:classification'?: {
+            'common:class': Array<{
+              '@level': LevelType;
+              '@classId': string;
+              '#text': string;
+            }>;
+            'common:other'?: string;
+          };
+        };
         CASNumber?: CASNumber;
         sumFormula?: String;
         'common:generalComment'?: FTMultiLang;

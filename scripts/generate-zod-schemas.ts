@@ -23,6 +23,7 @@ interface TypeFileInfo {
 const TYPES_DIR = 'src/types';
 const SCHEMAS_DIR = 'src/schemas';
 const CONFIG_FILE = 'ts-to-zod.config.js';
+const CONFIG_SAVE_DIR = 'src/schemas/ts-to-zod-configs';
 
 // Main types to generate schemas for - these are the primary interfaces we want to validate
 const MAIN_TYPES = [
@@ -329,7 +330,9 @@ async function generateTsToZodConfig(): Promise<void> {
     input: `${TYPES_DIR}/${typeInfo.fileName}.ts`,
     output: `${SCHEMAS_DIR}/${typeInfo.fileName}.schema.ts`,
     getSchemaName: '(id) => `${id}Schema`',
-    skipValidation: true
+    skipValidation: true,
+    keepComments: false,
+    skipParseJSDoc: true
   }));
   
   const configContent = `/**
@@ -343,12 +346,24 @@ ${configs.map(config => `  {
     input: "${config.input}",
     output: "${config.output}",
     getSchemaName: ${config.getSchemaName},
-    skipValidation: ${config.skipValidation}
+    skipValidation: ${config.skipValidation},
+    keepComments: ${config.keepComments},
+    skipParseJSDoc: ${config.skipParseJSDoc}
   }`).join(',\n')}
 ];`;
 
   fs.writeFileSync(CONFIG_FILE, configContent, 'utf8');
+  
+  // Save configuration files for debugging
+  if (!fs.existsSync(CONFIG_SAVE_DIR)) {
+    fs.mkdirSync(CONFIG_SAVE_DIR, { recursive: true });
+  }
+  const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
+  const savedConfigFile = path.join(CONFIG_SAVE_DIR, `ts-to-zod.config.${timestamp}.js`);
+  fs.writeFileSync(savedConfigFile, configContent, 'utf8');
+  
   console.log(`   ✅ Generated configuration for ${configs.length} types in dependency order`);
+  console.log(`   📁 Configuration saved to: ${savedConfigFile}`);
 }
 
 async function generateSchemasIndex(): Promise<void> {

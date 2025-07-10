@@ -118,15 +118,19 @@ class JsonSchemaToTypeScript {
 
     const tsType = this.getTypeScriptType(schema);
     if (schema.anyOf || schema.oneOf) {
-      // For union types, create a type alias
-      this.typeDefinitions.set(name, `${this.config.exportStyle} type ${name} = ${tsType};`);
+      // For union types, create a type alias with JSDoc
+      const jsdoc = this.generateJSDoc(schema);
+      const definition = jsdoc ? `${jsdoc}\n${this.config.exportStyle} type ${name} = ${tsType};` : `${this.config.exportStyle} type ${name} = ${tsType};`;
+      this.typeDefinitions.set(name, definition);
     } else if (schema.type === "object" && schema.properties) {
       // For objects, create an interface
       const interfaceContent = this.processObject(schema, name);
       this.typeDefinitions.set(name, interfaceContent);
     } else {
-      // For simple types, create a type alias
-      this.typeDefinitions.set(name, `${this.config.exportStyle} type ${name} = ${tsType};`);
+      // For simple types, create a type alias with JSDoc
+      const jsdoc = this.generateJSDoc(schema);
+      const definition = jsdoc ? `${jsdoc}\n${this.config.exportStyle} type ${name} = ${tsType};` : `${this.config.exportStyle} type ${name} = ${tsType};`;
+      this.typeDefinitions.set(name, definition);
     }
   }
 
@@ -139,11 +143,12 @@ class JsonSchemaToTypeScript {
     for (const [propName, propSchema] of Object.entries(properties)) {
       const propSchemaObj = propSchema as any;
       
-      // Handle description
-      if (this.config.includeDescriptions && propSchemaObj.description) {
-        lines.push(`  /**`);
-        lines.push(`   * ${propSchemaObj.description}`);
-        lines.push(`   */`);
+      // Handle description and constraints
+      if (this.config.includeDescriptions && (propSchemaObj.description || this.hasConstraints(propSchemaObj))) {
+        const jsdoc = this.generateJSDoc(propSchemaObj);
+        if (jsdoc) {
+          lines.push(jsdoc.split('\n').map(line => `  ${line}`).join('\n'));
+        }
       }
 
       // Determine if property is optional
@@ -166,6 +171,238 @@ class JsonSchemaToTypeScript {
 
     lines.push("}");
     return lines.join("\n");
+  }
+
+  private hasConstraints(schema: any): boolean {
+    const constraintFields = [
+      'maxLength', 'minLength', 'pattern', 'minimum', 'maximum', 
+      'exclusiveMinimum', 'exclusiveMaximum', 'multipleOf', 
+      'minItems', 'maxItems', 'uniqueItems', 'format', 'default'
+    ];
+    
+    // Check direct constraints on the schema itself
+    if (constraintFields.some(field => schema[field] !== undefined)) {
+      return true;
+    }
+    
+    // Check if there are nested property constraints to document
+    const nestedConstraints = this.extractNestedPropertyConstraints(schema);
+    return nestedConstraints.length > 0;
+  }
+
+  private generateJSDoc(schema: any): string | null {
+    const parts: string[] = [];
+    
+    // Add description
+    if (schema.description) {
+      parts.push(schema.description);
+    }
+    
+    // Add nested property constraints as additional description
+    const nestedConstraints = this.extractNestedPropertyConstraints(schema);
+    if (nestedConstraints.length > 0) {
+      if (parts.length > 0) {
+        parts.push(''); // Add empty line
+      }
+      parts.push(...nestedConstraints);
+    }
+    
+    // Add direct constraint annotations
+    const annotations = this.extractConstraintAnnotations(schema);
+    if (annotations.length > 0) {
+      if (parts.length > 0) {
+        parts.push(''); // Add empty line between description and annotations
+      }
+      parts.push(...annotations);
+    }
+    
+    if (parts.length === 0) {
+      return null;
+    }
+    
+    return [
+      '/**',
+      ...parts.map(part => part === '' ? ' *' : ` * ${part}`),
+      ' */'
+    ].join('\n');
+  }
+
+  private extractConstraintAnnotations(schema: any): string[] {
+    const annotations: string[] = [];
+    
+    // Only extract direct constraints from the current schema
+    this.addDirectConstraints(schema, annotations);
+    
+    // For union types (anyOf/oneOf), extract constraints that apply to all options
+    this.addUnionLevelConstraints(schema, annotations);
+    
+    return [...new Set(annotations)]; // Remove duplicates
+  }
+  
+  private addDirectConstraints(schema: any, annotations: string[]): void {
+    // String constraints
+    if (schema.minLength !== undefined) {
+      annotations.push(`@minLength ${schema.minLength}`);
+    }
+    if (schema.maxLength !== undefined) {
+      annotations.push(`@maxLength ${schema.maxLength}`);
+    }
+    if (schema.pattern !== undefined) {
+      annotations.push(`@pattern ${schema.pattern}`);
+    }
+    
+    // Numeric constraints
+    if (schema.minimum !== undefined) {
+      annotations.push(`@minimum ${schema.minimum}`);
+    }
+    if (schema.maximum !== undefined) {
+      annotations.push(`@maximum ${schema.maximum}`);
+    }
+    if (schema.exclusiveMinimum !== undefined) {
+      annotations.push(`@exclusiveMinimum ${schema.exclusiveMinimum}`);
+    }
+    if (schema.exclusiveMaximum !== undefined) {
+      annotations.push(`@exclusiveMaximum ${schema.exclusiveMaximum}`);
+    }
+    if (schema.multipleOf !== undefined) {
+      annotations.push(`@multipleOf ${schema.multipleOf}`);
+    }
+    
+    // Array constraints
+    if (schema.minItems !== undefined) {
+      annotations.push(`@minItems ${schema.minItems}`);
+    }
+    if (schema.maxItems !== undefined) {
+      annotations.push(`@maxItems ${schema.maxItems}`);
+    }
+    if (schema.uniqueItems === true) {
+      annotations.push(`@uniqueItems`);
+    }
+    
+    // Format annotation (common in JSON Schema)
+    if (schema.format !== undefined) {
+      annotations.push(`@format ${schema.format}`);
+    }
+    
+    // Default value annotation
+    if (schema.default !== undefined) {
+      annotations.push(`@default ${JSON.stringify(schema.default)}`);
+    }
+  }
+  
+  private addUnionLevelConstraints(schema: any, annotations: string[]): void {
+    // For anyOf/oneOf structures, only add constraints that apply to ALL options
+    // Currently, we don't extract union-level constraints to avoid confusion
+    // Each union option will have its own type definition with its own constraints
+    
+    // In the future, we could analyze if all union options share common constraints
+    // and only then add them at the union level, but for now we keep it simple
+    // and only show direct constraints on the schema itself
+  }
+
+  private extractNestedPropertyConstraints(schema: any): string[] {
+    const constraints: string[] = [];
+    
+    // Handle anyOf/oneOf structures - look for common property constraints
+    if (schema.anyOf || schema.oneOf) {
+      const unionOptions = schema.anyOf || schema.oneOf;
+      const commonConstraints = this.findCommonPropertyConstraints(unionOptions);
+      
+      if (commonConstraints.length > 0) {
+        constraints.push(...commonConstraints);
+      }
+    }
+    
+    return constraints;
+  }
+
+  private findCommonPropertyConstraints(unionOptions: any[]): string[] {
+    const constraints: string[] = [];
+    const meaningfulProps = ['#text', 'text', 'value'];
+    
+    // Look for properties that exist in all union options with the same constraints
+    for (const propName of meaningfulProps) {
+      const propConstraints = this.analyzePropertyAcrossUnion(unionOptions, propName);
+      if (propConstraints.length > 0) {
+        constraints.push(...propConstraints);
+      }
+    }
+    
+    return constraints;
+  }
+
+  private analyzePropertyAcrossUnion(unionOptions: any[], propName: string): string[] {
+    const allConstraints: any[][] = [];
+    
+    for (const option of unionOptions) {
+      const propConstraints = this.getPropertyConstraints(option, propName);
+      allConstraints.push(propConstraints);
+    }
+    
+    // Find constraints that appear in ALL union options
+    if (allConstraints.length === 0) return [];
+    
+    const commonConstraints = allConstraints[0].filter(constraint =>
+      allConstraints.every(optionConstraints => 
+        optionConstraints.some(c => 
+          c.type === constraint.type && c.value === constraint.value
+        )
+      )
+    );
+    
+    return commonConstraints.map(constraint => {
+      switch (constraint.type) {
+        case 'maxLength': return `@maxLength ${constraint.value}`;
+        case 'minLength': return `@minLength ${constraint.value}`;
+        case 'pattern': return `@pattern ${constraint.value}`;
+        case 'minimum': return `@minimum ${constraint.value}`;
+        case 'maximum': return `@maximum ${constraint.value}`;
+        case 'format': return `@format ${constraint.value}`;
+        default: return `@${constraint.type} ${constraint.value}`;
+      }
+    });
+  }
+
+  private getPropertyConstraints(schema: any, propName: string): any[] {
+    const constraints: any[] = [];
+    
+    // Check if it's an object with properties
+    if (schema.properties && schema.properties[propName]) {
+      const prop = schema.properties[propName];
+      this.addPropertyConstraintsFromProp(prop, constraints);
+    }
+    
+    // Check if it's an array with items having the property
+    if (schema.type === 'array' && schema.items && schema.items.properties && schema.items.properties[propName]) {
+      const prop = schema.items.properties[propName];
+      this.addPropertyConstraintsFromProp(prop, constraints);
+    }
+    
+    return constraints;
+  }
+
+  private addPropertyConstraintsFromProp(prop: any, constraints: any[]): void {
+    if (prop.maxLength !== undefined) {
+      constraints.push({ type: 'maxLength', value: prop.maxLength });
+    }
+    if (prop.minLength !== undefined) {
+      constraints.push({ type: 'minLength', value: prop.minLength });
+    }
+    if (prop.pattern !== undefined) {
+      constraints.push({ type: 'pattern', value: prop.pattern });
+    }
+    if (prop.minimum !== undefined) {
+      constraints.push({ type: 'minimum', value: prop.minimum });
+    }
+    if (prop.maximum !== undefined) {
+      constraints.push({ type: 'maximum', value: prop.maximum });
+    }
+    if (prop.format !== undefined) {
+      constraints.push({ type: 'format', value: prop.format });
+    }
+    if (prop.default !== undefined) {
+      constraints.push({ type: 'default', value: prop.default });
+    }
   }
 
   private generateImports(): string[] {
