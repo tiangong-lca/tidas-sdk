@@ -291,6 +291,62 @@ export function toJSONArray(objects: (TidasContact | TidasProcess | TidasFlow)[]
   return JSON.stringify(objects.map(obj => obj.toJSONObject(options)), null, options?.pretty ? 2 : 0);
 }
 
+// Simplified object classes for easy creation with schema discovery
+export {
+  SimplifiedTidasObject,
+  SchemaIntrospector,
+  UniversalTidasBuilder,
+  createSimplified,
+  buildObject,
+  registerSchema,
+  getSchemaFromRegistry,
+  type FieldMetadata,
+  type ConversionOptions,
+  type IncompleteValidationResult
+} from './simplified-objects';
+
+// Typed accessors for property-style access with code hints
+export {
+  createTypedAccessor,
+  createEnhancedTypedAccessor,
+  createMultiLangAccessor,
+  createTypedContact,
+  createTypedProcess,
+  createTypedFlow,
+  type TypedAccessor,
+  type EnhancedTypedAccessor,
+  type MultiLangTextAccessor,
+  type ContactAccessor,
+  type ProcessAccessor,
+  type FlowAccessor,
+  type NestedKeyOf,
+  type PathValue
+} from './typed-accessors';
+
+// Zod Proxy for true property access with Schema validation
+export {
+  ZodProxy,
+  createZodProxy,
+  type PathInfo,
+  type AccessLogEntry,
+  type ZodProxyOptions,
+  type ZodProxyValidationResult
+} from './zod-proxy';
+
+// TIDAS-specific Zod factories
+export {
+  createZodContact,
+  createZodFlow,
+  createZodProcess,
+  createZodTidasProxy,
+  ContactSchema,
+  FlowSchema,
+  ProcessSchema,
+  type ZodContact,
+  type ZodFlow,
+  type ZodProcess
+} from './zod-factories';
+
 // Utility functions
 export { deepClone, merge, get, set, updatePath } from '../utils/object-utils';
 

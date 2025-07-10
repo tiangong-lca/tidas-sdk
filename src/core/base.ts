@@ -3,6 +3,7 @@ import { TypeAwareHelpers } from './type-aware-helpers';
 import { z } from 'zod';
 import type { ValidationResult } from '../schemas';
 import { generateMock } from '@anatine/zod-mock';
+import { createDirectPropertyAccessor } from './typed-accessors';
 
 export interface SerializationOptions {
   pretty?: boolean;
@@ -43,6 +44,16 @@ export abstract class TidasBase<T = any> {
    */
   get data(): T {
     return this._data;
+  }
+
+  /**
+   * Create a direct property accessor for seamless property access
+   * This allows syntax like: obj.contactDataSet.contactInformation.dataSetInformation.email = 'test@example.com'
+   */
+  createDirectAccessor(): any {
+    return createDirectPropertyAccessor(this._data, '', (newValue: T) => {
+      this._data = newValue;
+    });
   }
 
   /**
