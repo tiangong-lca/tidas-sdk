@@ -231,7 +231,7 @@ export class ProcessBaseObject extends TypedTidasBase<Processes> {
   }
   
   protected getSchema(): z.ZodSchema<Processes> {
-    return ProcessesSchema;
+    return ProcessesSchema as any;
   }
 }
 
@@ -249,7 +249,7 @@ export class FlowBaseObject extends TypedTidasBase<Flows> {
   }
   
   protected getSchema(): z.ZodSchema<Flows> {
-    return FlowsSchema;
+    return FlowsSchema as any;
   }
 }
 

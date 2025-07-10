@@ -2,6 +2,7 @@ import { set } from '../utils/object-utils';
 import { TypeAwareHelpers } from './type-aware-helpers';
 import { z } from 'zod';
 import type { ValidationResult } from '../schemas';
+import { generateMock } from '@anatine/zod-mock';
 
 export interface SerializationOptions {
   pretty?: boolean;
@@ -18,9 +19,15 @@ export interface ValidationOptions {
   throwOnValidationError?: boolean;
 }
 
-export interface CreateOptions extends ValidationOptions {
-  // Additional options for object creation
+export interface MockOptions {
+  fillMissingFields?: boolean;
+  useRealData?: boolean;
+  customFields?: Record<string, any>;
 }
+
+// export interface CreateOptions extends ValidationOptions {
+//   // Additional options for object creation
+// }
 
 export abstract class TidasBase<T = any> {
   protected _data: T;
@@ -372,5 +379,206 @@ export abstract class TidasBase<T = any> {
    */
   getValidationOptions(): ValidationOptions {
     return { ...this._validationOptions };
+  }
+
+  /**
+   * Generate mock data using the object's Zod schema
+   */
+  generateMock(options: MockOptions = {}): T {
+    const schema = this.getSchema();
+    if (!schema) {
+      throw new Error('No schema available for mock generation. Override getSchema() in the subclass.');
+    }
+
+    try {
+      // Create stringMap for custom field generation
+      const stringMap: Record<string, () => any> = {
+        // UUID fields
+        'common:UUID': () => TypeAwareHelpers.generateUUID(),
+        'UUID': () => TypeAwareHelpers.generateUUID(),
+        
+        // Email fields
+        'email': () => 'mock@example.com',
+        'Email': () => 'mock@example.com',
+        
+        // Phone fields
+        'telephoneNumber': () => '+1-555-0123',
+        'phone': () => '+1-555-0123',
+        
+        // URL fields
+        'WWWAddress': () => 'https://mock-example.com',
+        'uri': () => 'https://mock-example.com',
+        
+        // Timestamp fields
+        'common:timeStamp': () => new Date().toISOString(),
+        'timeStamp': () => new Date().toISOString(),
+        
+        // Version fields
+        'common:dataSetVersion': () => '01.00.000',
+        'version': () => '01.00.000',
+        '@version': () => '1.1',
+        
+        // Text content fields
+        '#text': () => 'Mock Text Content',
+        
+        // Language fields
+        '@xml:lang': () => 'en',
+        
+        // Classification fields
+        '@classId': () => '00.00.00',
+        '@level': () => '0',
+        
+        // Status fields
+        'common:workflowAndPublicationStatus': () => 'Data set finalised; entirely published',
+        
+        // CAS Number
+        'CASNumber': () => '123-45-6',
+        
+        // Location
+        '@location': () => 'US',
+        
+        // Year
+        'referenceYear': () => '2024',
+        
+        // Override with custom fields if provided
+        ...this.createStringMapFromCustomFields(options.customFields)
+      };
+
+      const mockData = generateMock(schema, { 
+        stringMap,
+        seed: options.useRealData ? undefined : 12345 // Use fixed seed for reproducible results
+      });
+      
+      // Apply additional custom fields if provided (for deep paths)
+      if (options.customFields) {
+        for (const [path, value] of Object.entries(options.customFields)) {
+          TypeAwareHelpers.safeSet(mockData, path, value);
+        }
+      }
+
+      return mockData;
+    } catch (error) {
+      // Fallback to template-based mock generation for complex schemas
+      console.warn('Schema-based mock generation failed, using template fallback:', error instanceof Error ? error.message : 'Unknown error');
+      return this.generateTemplateMock(options);
+    }
+  }
+
+  /**
+   * Create stringMap from custom fields for direct field mapping
+   */
+  private createStringMapFromCustomFields(customFields?: Record<string, any>): Record<string, () => any> {
+    if (!customFields) return {};
+    
+    const stringMap: Record<string, () => any> = {};
+    for (const [path, value] of Object.entries(customFields)) {
+      // Extract the last part of the path as the field name
+      const fieldName = path.split('.').pop();
+      if (fieldName) {
+        stringMap[fieldName] = () => value;
+      }
+    }
+    return stringMap;
+  }
+
+  /**
+   * Generate template-based mock data as fallback
+   */
+  protected generateTemplateMock(options: MockOptions = {}): T {
+    // Simple fallback - create basic structure and let subclasses override if needed
+    const template = this.getDefaultTemplate();
+    
+    // Apply custom fields if provided
+    if (options.customFields) {
+      for (const [path, value] of Object.entries(options.customFields)) {
+        TypeAwareHelpers.safeSet(template, path, value);
+      }
+    }
+
+    return template as T;
+  }
+
+  /**
+   * Get default template for the object type (override in subclasses if needed)
+   * Most cases should work with stringMap in generateMock()
+   */
+  protected getDefaultTemplate(): any {
+    // Return empty object - the stringMap approach should handle most cases
+    return {};
+  }
+
+  /**
+   * Create a new instance with mock data
+   */
+  static createMock<T extends TidasBase>(
+    this: new (data: any, options?: ValidationOptions) => T,
+    options: MockOptions = {}
+  ): T {
+    const instance = new this({} as any);
+    const mockData = instance.generateMock(options);
+    return new this(mockData);
+  }
+
+  /**
+   * Replace current data with mock data
+   */
+  fillWithMockData(options: MockOptions = {}): this {
+    const mockData = this.generateMock(options);
+    this._data = mockData;
+    return this;
+  }
+
+  /**
+   * Generate mock data for a specific field schema
+   */
+  generateMockForField<F>(fieldSchema: z.ZodSchema<F>): F {
+    return generateMock(fieldSchema);
+  }
+
+  /**
+   * Fill missing fields with mock data
+   */
+  fillMissingFields(): this {
+    const schema = this.getSchema();
+    if (!schema) {
+      return this;
+    }
+
+    try {
+      const fullMockData = generateMock(schema);
+      this._data = this.deepMergeWithMock(this._data, fullMockData);
+    } catch (error) {
+      console.warn('Failed to generate mock data for missing fields:', error);
+    }
+
+    return this;
+  }
+
+  /**
+   * Deep merge current data with mock data, only filling missing fields
+   */
+  private deepMergeWithMock(current: any, mock: any): any {
+    if (current === null || current === undefined) {
+      return mock;
+    }
+
+    if (typeof current !== 'object' || typeof mock !== 'object') {
+      return current; // Keep existing primitive values
+    }
+
+    if (Array.isArray(current) || Array.isArray(mock)) {
+      return current.length > 0 ? current : mock;
+    }
+
+    const result = { ...current };
+    for (const key in mock) {
+      if (!(key in result) || result[key] === null || result[key] === undefined) {
+        result[key] = mock[key];
+      } else if (typeof result[key] === 'object' && typeof mock[key] === 'object') {
+        result[key] = this.deepMergeWithMock(result[key], mock[key]);
+      }
+    }
+
+    return result;
   }
 }

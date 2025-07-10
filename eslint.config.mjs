@@ -10,6 +10,7 @@ export default tseslint.config(
       'coverage/**',
       '*.js',
       '!src/**/*.js',
+      'test/**',
     ],
   },
   eslint.configs.recommended,
@@ -19,7 +20,7 @@ export default tseslint.config(
     rules: {
       '@typescript-eslint/explicit-function-return-type': 'off',
       '@typescript-eslint/no-explicit-any': 'off',
-      '@typescript-eslint/no-useless-escape': 'off',
+      'no-useless-escape': 'warn',
       '@typescript-eslint/no-unused-vars': [
         'warn',
         {

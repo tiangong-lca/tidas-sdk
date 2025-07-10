@@ -1,8 +1,36 @@
 {
-  "name": "@tidas/sdk",
+  "name": "@tidas-typescript-sdk",
   "version": "0.1.0",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
+  "module": "dist/index.js",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "require": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    },
+    "./core": {
+      "types": "./dist/core/index.d.ts",
+      "import": "./dist/core/index.js",
+      "require": "./dist/core/index.js"
+    },
+    "./types": {
+      "types": "./dist/types/index.d.ts",
+      "import": "./dist/types/index.js",
+      "require": "./dist/types/index.js"
+    },
+    "./schemas": {
+      "types": "./dist/schemas/index.d.ts",
+      "import": "./dist/schemas/index.js",
+      "require": "./dist/schemas/index.js"
+    },
+    "./utils": {
+      "types": "./dist/utils/index.d.ts",
+      "import": "./dist/utils/index.js",
+      "require": "./dist/utils/index.js"
+    }
+  },
   "scripts": {
     "build": "tsc",
     "dev": "tsc --watch",
@@ -54,7 +82,9 @@
     "node": ">=14.0.0"
   },
   "dependencies": {
+    "@anatine/zod-mock": "^3.14.0",
+    "@faker-js/faker": "^9.9.0",
     "ts-to-zod": "^3.15.0",
-    "zod": "^4.0.2"
+    "zod": "^3.25.76"
   }
 }

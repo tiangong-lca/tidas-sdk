@@ -529,8 +529,7 @@ export function parseWithZod<T>(
       error: new z.ZodError([{
         code: 'custom',
         message: \`Invalid JSON: \${error instanceof Error ? error.message : 'Unknown error'}\`,
-        path: [],
-        input: undefined as any
+        path: []
       }])
     };
   }

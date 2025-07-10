@@ -4,7 +4,7 @@
  */
 
 // Base classes and types
-export { TidasBase, type SerializationOptions, type CloneOptions, type ValidationOptions, type CreateOptions } from './base';
+export { TidasBase, type SerializationOptions, type CloneOptions, type ValidationOptions, type MockOptions } from './base';
 export { TypeAwareHelpers } from './type-aware-helpers';
 
 // Import needed for internal use
@@ -239,9 +239,9 @@ export function fromJSON<T>(
         if (!result.success) {
           throw new Error(`Validation failed: ${result.error?.message}`);
         }
-        return new TidasProcess(result.data, options) as unknown as T;
+        return new TidasProcess(result.data as Partial<Processes>, options) as unknown as T;
       }
-      return new TidasProcess(data, options) as unknown as T;
+      return new TidasProcess(data as any, options) as unknown as T;
       
     case 'flow':
       if (options?.enableValidation) {
@@ -249,7 +249,7 @@ export function fromJSON<T>(
         if (!result.success) {
           throw new Error(`Validation failed: ${result.error?.message}`);
         }
-        return new TidasFlow(result.data, options) as unknown as T;
+        return new TidasFlow(result.data as Partial<Flows>, options) as unknown as T;
       }
       return new TidasFlow(data, options) as unknown as T;
       
