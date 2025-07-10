@@ -453,7 +453,7 @@ async function generateSchemasIndex(): Promise<void> {
   console.log('📋 Generating enhanced schemas index file...');
   
   // Get all generated schemas
-  const allGeneratedTypes = (await analyzeTypeDependencies()).map(t => t.fileName);
+  const _allGeneratedTypes = (await analyzeTypeDependencies()).map(t => t.fileName);
   
   const indexContent = `/**
  * Automatically generated index file for all Zod schemas

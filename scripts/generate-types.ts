@@ -51,7 +51,7 @@ async function main() {
   console.log('\nType generation completed!');
 }
 
-function generateIndexFile(schemaFiles: string[]) {
+function generateIndexFile(_schemaFiles: string[]) {
   const indexPath = path.join(OUTPUT_DIR, 'index.ts');
   const lines: string[] = [
     '/**',
@@ -61,10 +61,10 @@ function generateIndexFile(schemaFiles: string[]) {
   ];
 
   // Add exports for each generated file
-  for (const schemaFile of schemaFiles) {
+  // for (const schemaFile of schemaFiles) {
     // const moduleName = schemaFile.replace('.json', '');
     // lines.push(`export * from './${moduleName}';`);
-  }
+  // }
 
   lines.push('');
   lines.push('// Re-export commonly used types with simpler names');
