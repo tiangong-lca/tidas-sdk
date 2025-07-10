@@ -1,5 +1,7 @@
 import { set } from '../utils/object-utils';
 import { TypeAwareHelpers } from './type-aware-helpers';
+import { z } from 'zod';
+import type { ValidationResult } from '../schemas';
 
 export interface SerializationOptions {
   pretty?: boolean;
@@ -11,11 +13,22 @@ export interface CloneOptions {
   generateNewUUID?: boolean;
 }
 
+export interface ValidationOptions {
+  enableValidation?: boolean;
+  throwOnValidationError?: boolean;
+}
+
+export interface CreateOptions extends ValidationOptions {
+  // Additional options for object creation
+}
+
 export abstract class TidasBase<T = any> {
   protected _data: T;
+  protected _validationOptions: ValidationOptions;
 
-  constructor(data: T) {
+  constructor(data: T, options: ValidationOptions = {}) {
     this._data = data;
+    this._validationOptions = options;
   }
 
   /**
@@ -279,5 +292,85 @@ export abstract class TidasBase<T = any> {
     }
     
     return false;
+  }
+
+  /**
+   * Validate the current object using Zod schema
+   * Override in subclasses to provide the appropriate schema
+   */
+  validate(): ValidationResult<T> {
+    const schema = this.getSchema();
+    if (!schema) {
+      return {
+        success: true,
+        data: this._data
+      };
+    }
+
+    const result = schema.safeParse(this._data);
+    if (result.success) {
+      return {
+        success: true,
+        data: result.data
+      };
+    } else {
+      return {
+        success: false,
+        error: result.error
+      };
+    }
+  }
+
+  /**
+   * Get the Zod schema for this object type
+   * Override in subclasses to provide specific schema
+   */
+  protected getSchema(): z.ZodSchema<T> | null {
+    return null;
+  }
+
+  /**
+   * Validate and throw error if validation fails
+   */
+  validateOrThrow(): T {
+    const result = this.validate();
+    if (!result.success) {
+      throw new Error(`Validation failed: ${result.error?.message}`);
+    }
+    return result.data!;
+  }
+
+  /**
+   * Check if the object is valid
+   */
+  isValid(): boolean {
+    return this.validate().success;
+  }
+
+  /**
+   * Perform validation if enabled in options
+   */
+  protected performValidationIfEnabled(): void {
+    if (this._validationOptions.enableValidation) {
+      const result = this.validate();
+      if (!result.success && this._validationOptions.throwOnValidationError) {
+        throw new Error(`Validation failed: ${result.error?.message}`);
+      }
+    }
+  }
+
+  /**
+   * Update validation options
+   */
+  setValidationOptions(options: ValidationOptions): this {
+    this._validationOptions = { ...this._validationOptions, ...options };
+    return this;
+  }
+
+  /**
+   * Get current validation options
+   */
+  getValidationOptions(): ValidationOptions {
+    return { ...this._validationOptions };
   }
 }

@@ -164,12 +164,31 @@ async function postProcessZodSchema(schemaFile: string): Promise<void> {
   const content = fs.readFileSync(schemaFile, 'utf8');
   let fixedContent = content;
   
+  // Fix complex union types that exceed TypeScript compiler limits
+  // Add explicit type annotation for complex schemas
+  if (schemaFile.includes('flows_product_category') || 
+      schemaFile.includes('flows_elementary_category') ||
+      schemaFile.includes('processes_category') ||
+      schemaFile.includes('sources_category') ||
+      schemaFile.includes('unitgroups_category') ||
+      schemaFile.includes('lciamethods_category') ||
+      schemaFile.includes('flowproperties_category') ||
+      schemaFile.includes('contacts_category') ||
+      schemaFile.includes('locations_category')) {
+    
+    // Find all schema exports and add explicit type annotation
+    fixedContent = fixedContent.replace(
+      /export const (\w+Schema) = (z\.union\(\[[\s\S]*?\]\)|z\.literal\([^)]+\)(?:\.optional\(\))?);/g,
+      'export const $1: z.ZodType<any> = $2;'
+    );
+  }
+  
   // For tidas_data_types, apply specific constraint fixes
   if (schemaFile.includes('tidas_data_types')) {
     // Fix StringMultiLang schemas - should have max(500)
     fixedContent = fixedContent.replace(
       /StringMultiLangSchema = z\.union\(\[([\s\S]*?)\]\);/g,
-      (match, unionContent) => {
+      (_, unionContent) => {
         const fixedUnion = unionContent.replace(/('#text':\s*z\.string\(\)),/g, "'#text': z.string().max(500),");
         return `StringMultiLangSchema = z.union([${fixedUnion}]);`;
       }
@@ -178,7 +197,7 @@ async function postProcessZodSchema(schemaFile: string): Promise<void> {
     // Fix STMultiLang schemas - should have max(1000)  
     fixedContent = fixedContent.replace(
       /STMultiLangSchema = z\.union\(\[([\s\S]*?)\]\);/g,
-      (match, unionContent) => {
+      (_, unionContent) => {
         const fixedUnion = unionContent.replace(/('#text':\s*z\.string\(\)),/g, "'#text': z.string().max(1000),");
         return `STMultiLangSchema = z.union([${fixedUnion}]);`;
       }
@@ -200,7 +219,7 @@ async function postProcessZodSchema(schemaFile: string): Promise<void> {
   
   // Pattern 3: Fix union-level constraints by identifying and replacing them
   const unionMaxPattern = /(\w+Schema = z\.union\(\[[\s\S]*?'#text':\s*z\.string\(\)[\s\S]*?\]\))\.max\((\d+)\);/g;
-  const newContent3 = newContent2.replace(unionMaxPattern, (match, unionPart, maxValue) => {
+  const newContent3 = newContent2.replace(unionMaxPattern, (_, unionPart, maxValue) => {
     const fixedUnion = unionPart.replace(/('#text':\s*z\.string\(\))/g, `'#text': z.string().max(${maxValue})`);
     return `${fixedUnion};`;
   });

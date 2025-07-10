@@ -1,0 +1,309 @@
+/**
+ * Core module exports
+ * Provides unified access to all Tidas SDK functionality
+ */
+
+// Base classes and types
+export { TidasBase, type SerializationOptions, type CloneOptions, type ValidationOptions, type CreateOptions } from './base';
+export { TypeAwareHelpers } from './type-aware-helpers';
+
+// Import needed for internal use
+import { SerializationOptions } from './base';
+import { TypeAwareHelpers } from './type-aware-helpers';
+
+// Base object classes
+export {
+  ContactBaseObject,
+  ProcessBaseObject,
+  FlowBaseObject,
+  SourceBaseObject,
+  FlowPropertyBaseObject,
+  UnitGroupBaseObject,
+  LCIAMethodBaseObject,
+  LifeCycleModelBaseObject
+} from './base-objects';
+
+// User-friendly object classes (compatible with existing API)
+import { ContactBaseObject, ProcessBaseObject, FlowBaseObject } from './base-objects';
+import type { Contacts, Processes, Flows } from '../types';
+import type { ValidationOptions } from './base';
+
+/**
+ * Contact object - user-friendly alias for ContactBaseObject
+ */
+export class TidasContact extends ContactBaseObject {
+  constructor(data?: Partial<Contacts>, options?: ValidationOptions) {
+    // Ensure basic structure exists
+    const fullData = data || { contactDataSet: {} as any };
+    if (!fullData.contactDataSet) {
+      fullData.contactDataSet = {} as any;
+    }
+    super(fullData, options);
+  }
+}
+
+/**
+ * Process object - user-friendly alias for ProcessBaseObject  
+ */
+export class TidasProcess extends ProcessBaseObject {
+  constructor(data?: Partial<Processes>, options?: ValidationOptions) {
+    super(data, options);
+  }
+}
+
+/**
+ * Flow object - user-friendly alias for FlowBaseObject
+ */
+export class TidasFlow extends FlowBaseObject {
+  constructor(data?: Partial<Flows>, options?: ValidationOptions) {
+    super(data, options);
+  }
+}
+
+// Factory functions
+/**
+ * Create a new Contact object
+ */
+export function createContact(data?: Partial<Contacts>, options?: ValidationOptions): TidasContact {
+  return new TidasContact(data, options);
+}
+
+/**
+ * Create a new Process object
+ */
+export function createProcess(data?: Partial<Processes>, options?: ValidationOptions): TidasProcess {
+  return new TidasProcess(data, options);
+}
+
+/**
+ * Create a new Flow object
+ */
+export function createFlow(data?: Partial<Flows>, options?: ValidationOptions): TidasFlow {
+  return new TidasFlow(data, options);
+}
+
+// Builder functions (fluent API)
+/**
+ * Build a Contact object with fluent API
+ */
+export function buildContact(): ContactBuilder {
+  return new ContactBuilder();
+}
+
+/**
+ * Build a Process object with fluent API
+ */
+export function buildProcess(): ProcessBuilder {
+  return new ProcessBuilder();
+}
+
+/**
+ * Build a Flow object with fluent API
+ */
+export function buildFlow(): FlowBuilder {
+  return new FlowBuilder();
+}
+
+// Builder classes
+class ContactBuilder {
+  private _data: Partial<Contacts> = {};
+  private _options: ValidationOptions = {};
+
+  withData(data: Partial<Contacts>): this {
+    this._data = { ...this._data, ...data };
+    return this;
+  }
+
+  withValidation(options: ValidationOptions = { enableValidation: true }): this {
+    this._options = { ...this._options, ...options };
+    return this;
+  }
+
+  withUUID(): this {
+    // Ensure we have a contactDataSet structure first
+    if (!this._data.contactDataSet) {
+      this._data.contactDataSet = {} as any;
+    }
+    const contact = new TidasContact(this._data, this._options);
+    contact.createWithUUID();
+    this._data = contact.data;
+    return this;
+  }
+
+  withAutoStructure(): this {
+    const contact = new TidasContact(this._data, this._options);
+    contact.createWithAutoStructure();
+    this._data = contact.data;
+    return this;
+  }
+
+  build(): TidasContact {
+    return new TidasContact(this._data, this._options);
+  }
+}
+
+class ProcessBuilder {
+  private _data: Partial<Processes> = {};
+  private _options: ValidationOptions = {};
+
+  withData(data: Partial<Processes>): this {
+    this._data = { ...this._data, ...data };
+    return this;
+  }
+
+  withValidation(options: ValidationOptions = { enableValidation: true }): this {
+    this._options = { ...this._options, ...options };
+    return this;
+  }
+
+  withUUID(): this {
+    const process = new TidasProcess(this._data, this._options);
+    process.createWithUUID();
+    this._data = process.data;
+    return this;
+  }
+
+  withAutoStructure(): this {
+    const process = new TidasProcess(this._data, this._options);
+    process.createWithAutoStructure();
+    this._data = process.data;
+    return this;
+  }
+
+  build(): TidasProcess {
+    return new TidasProcess(this._data, this._options);
+  }
+}
+
+class FlowBuilder {
+  private _data: Partial<Flows> = {};
+  private _options: ValidationOptions = {};
+
+  withData(data: Partial<Flows>): this {
+    this._data = { ...this._data, ...data };
+    return this;
+  }
+
+  withValidation(options: ValidationOptions = { enableValidation: true }): this {
+    this._options = { ...this._options, ...options };
+    return this;
+  }
+
+  withUUID(): this {
+    const flow = new TidasFlow(this._data, this._options);
+    flow.createWithUUID();
+    this._data = flow.data;
+    return this;
+  }
+
+  withAutoStructure(): this {
+    const flow = new TidasFlow(this._data, this._options);
+    flow.createWithAutoStructure();
+    this._data = flow.data;
+    return this;
+  }
+
+  build(): TidasFlow {
+    return new TidasFlow(this._data, this._options);
+  }
+}
+
+// JSON conversion functions
+import { validateWithZod } from '../schemas';
+import { ContactsSchema, ProcessesSchema, FlowsSchema } from '../schemas';
+
+/**
+ * Convert JSON to Tidas object with validation
+ */
+export function fromJSON<T>(
+  jsonData: string | object,
+  type: 'contact' | 'process' | 'flow',
+  options?: ValidationOptions
+): T {
+  const data = typeof jsonData === 'string' ? JSON.parse(jsonData) : jsonData;
+  
+  switch (type) {
+    case 'contact':
+      if (options?.enableValidation) {
+        const result = validateWithZod(data, ContactsSchema);
+        if (!result.success) {
+          throw new Error(`Validation failed: ${result.error?.message}`);
+        }
+        return new TidasContact(result.data, options) as unknown as T;
+      }
+      return new TidasContact(data, options) as unknown as T;
+      
+    case 'process':
+      if (options?.enableValidation) {
+        const result = validateWithZod(data, ProcessesSchema);
+        if (!result.success) {
+          throw new Error(`Validation failed: ${result.error?.message}`);
+        }
+        return new TidasProcess(result.data, options) as unknown as T;
+      }
+      return new TidasProcess(data, options) as unknown as T;
+      
+    case 'flow':
+      if (options?.enableValidation) {
+        const result = validateWithZod(data, FlowsSchema);
+        if (!result.success) {
+          throw new Error(`Validation failed: ${result.error?.message}`);
+        }
+        return new TidasFlow(result.data, options) as unknown as T;
+      }
+      return new TidasFlow(data, options) as unknown as T;
+      
+    default:
+      throw new Error(`Unknown type: ${type}`);
+  }
+}
+
+/**
+ * Convert Tidas object to JSON string
+ */
+export function toJSON(obj: TidasContact | TidasProcess | TidasFlow, options?: SerializationOptions): string {
+  return obj.toJSON(options);
+}
+
+/**
+ * Convert Tidas object to JSON object
+ */
+export function toJSONObject(obj: TidasContact | TidasProcess | TidasFlow, options?: SerializationOptions): any {
+  return obj.toJSONObject(options);
+}
+
+/**
+ * Convert JSON array to Tidas objects
+ */
+export function fromJSONArray<T>(
+  jsonArray: string | object[],
+  type: 'contact' | 'process' | 'flow',
+  options?: ValidationOptions
+): T[] {
+  const array = typeof jsonArray === 'string' ? JSON.parse(jsonArray) : jsonArray;
+  return array.map((item: any) => fromJSON<T>(item, type, options));
+}
+
+/**
+ * Convert Tidas objects array to JSON string
+ */
+export function toJSONArray(objects: (TidasContact | TidasProcess | TidasFlow)[], options?: SerializationOptions): string {
+  return JSON.stringify(objects.map(obj => obj.toJSONObject(options)), null, options?.pretty ? 2 : 0);
+}
+
+// Utility functions
+export { deepClone, merge, get, set, updatePath } from '../utils/object-utils';
+
+/**
+ * Create multi-language text helper
+ */
+export function createMultiLangText(text: string, lang: string = 'en') {
+  return TypeAwareHelpers.createOrUpdateMultiLangText(undefined, text, lang);
+}
+
+/**
+ * Generate UUID helper
+ */
+export function generateUUID(): string {
+  return TypeAwareHelpers.generateUUID();
+}
