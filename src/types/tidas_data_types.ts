@@ -15,17 +15,11 @@ export type CASNumber = string;
  */
 export type FT = string;
 /**
- * Property '#text' has constraints: @maxLength 500
- */
-type StringMultiLangItem = { '@xml:lang': string; '#text': string }[];
-/**
- * Property '#text' has constraints: @maxLength 500
- */
-type StringMultiLangItem2 = { '@xml:lang': string; '#text': string };
-/**
  * Multi-language string with a maximum length of 500 characters
  */
-export type StringMultiLang = StringMultiLangItem | StringMultiLangItem2;
+export type StringMultiLang =
+  | { '@xml:lang': string; '#text': string }[]
+  | { '@xml:lang': string; '#text': string };
 /**
  * 1-digit integer number
  *
@@ -85,43 +79,35 @@ export type ST = string;
  */
 export type String = string;
 /**
- * Property '#text' has constraints: @maxLength 1000
- */
-type STMultiLangItem = { '@xml:lang': string; '#text': string }[];
-/**
- * Property '#text' has constraints: @maxLength 1000
- */
-type STMultiLangItem2 = { '@xml:lang': string; '#text': string };
-/**
  * Multi-lang short text with a maximum length of 1000 characters.
  */
-export type STMultiLang = STMultiLangItem | STMultiLangItem2;
+export type STMultiLang =
+  | { '@xml:lang': string; '#text': string }[]
+  | { '@xml:lang': string; '#text': string };
 /**
  * Multi-lang free text with an unlimited length.
  */
 export type FTMultiLang =
   | { '@xml:lang': string; '#text': string }[]
   | { '@xml:lang': string; '#text': string };
-type GlobalReferenceTypeItem = {
-  '@type': string;
-  '@refObjectId': string;
-  '@version': string;
-  '@uri': string;
-  'common:shortDescription': STMultiLang;
-};
-type GlobalReferenceTypeItem2 = {
-  '@type': string;
-  '@refObjectId': string;
-  '@version': string;
-  '@uri': string;
-  'common:shortDescription': STMultiLang;
-}[];
 /**
  * Represents a reference to another dataset or file. Either refObjectId and version, or uri, or both have to be specified.
  */
 export type GlobalReferenceType =
-  | GlobalReferenceTypeItem
-  | GlobalReferenceTypeItem2;
+  | {
+      '@type': string;
+      '@refObjectId': string;
+      '@version': string;
+      '@uri': string;
+      'common:shortDescription': STMultiLang;
+    }
+  | {
+      '@type': string;
+      '@refObjectId': string;
+      '@version': string;
+      '@uri': string;
+      'common:shortDescription': STMultiLang;
+    }[];
 /**
  * Global geographical reference in Latitude and LongitudeExamples: "+42.42;-180", "0;0", "13.22 ; -3"
  *

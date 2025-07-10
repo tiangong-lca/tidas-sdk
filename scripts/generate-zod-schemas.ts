@@ -162,37 +162,51 @@ function getDataSetKeyForType(typeName: string): string {
  */
 async function postProcessZodSchema(schemaFile: string): Promise<void> {
   const content = fs.readFileSync(schemaFile, 'utf8');
-  
-  // Fix patterns for known constraint placement issues
-  const fixes = [
-    // Fix STMultiLang-like schemas: move .max() from object/array level to #text property level
-    {
-      // Match multi-line object pattern: z.object({\n'@xml:lang': z.string(),\n'#text': z.string(),\n}).max(N)
-      pattern: /z\.object\(\{\s*'@xml:lang':\s*z\.string\(\),\s*'#text':\s*z\.string\(\),?\s*\}\)\s*\.max\((\d+)\)/gs,
-      replacement: "z.object({\n      '@xml:lang': z.string(),\n      '#text': z.string().max($1),\n    })"
-    },
-    {
-      // Match multi-line array pattern: z.array(\nz.object({\n'@xml:lang': z.string(),\n'#text': z.string(),\n})\n).max(N)
-      pattern: /z\s*\.array\(\s*z\.object\(\{\s*'@xml:lang':\s*z\.string\(\),\s*'#text':\s*z\.string\(\),?\s*\}\)\s*\)\s*\.max\((\d+)\)/gs,
-      replacement: "z.array(\n    z.object({\n      '@xml:lang': z.string(),\n      '#text': z.string().max($1),\n    })\n  )"
-    },
-    {
-      // Match multi-line object with trailing .max(): z.object({\n'@xml:lang': z.string(),\n'#text': z.string(),\n})\n.max(N)
-      pattern: /z\s*\.object\(\{\s*'@xml:lang':\s*z\.string\(\),\s*'#text':\s*z\.string\(\),?\s*\}\)\s*\.max\((\d+)\)/gs,
-      replacement: "z.object({\n    '@xml:lang': z.string(),\n    '#text': z.string().max($1),\n  })"
-    }
-  ];
-  
   let fixedContent = content;
-  let hasChanges = false;
   
-  for (const fix of fixes) {
-    const newContent = fixedContent.replace(fix.pattern, fix.replacement);
-    if (newContent !== fixedContent) {
-      fixedContent = newContent;
-      hasChanges = true;
-    }
+  // For tidas_data_types, apply specific constraint fixes
+  if (schemaFile.includes('tidas_data_types')) {
+    // Fix StringMultiLang schemas - should have max(500)
+    fixedContent = fixedContent.replace(
+      /StringMultiLangSchema = z\.union\(\[([\s\S]*?)\]\);/g,
+      (match, unionContent) => {
+        const fixedUnion = unionContent.replace(/('#text':\s*z\.string\(\)),/g, "'#text': z.string().max(500),");
+        return `StringMultiLangSchema = z.union([${fixedUnion}]);`;
+      }
+    );
+    
+    // Fix STMultiLang schemas - should have max(1000)  
+    fixedContent = fixedContent.replace(
+      /STMultiLangSchema = z\.union\(\[([\s\S]*?)\]\);/g,
+      (match, unionContent) => {
+        const fixedUnion = unionContent.replace(/('#text':\s*z\.string\(\)),/g, "'#text': z.string().max(1000),");
+        return `STMultiLangSchema = z.union([${fixedUnion}]);`;
+      }
+    );
   }
+  
+  // Apply intelligent constraint fixes for all schemas
+  // Pattern 1: Fix object-level constraints and move them to #text property
+  const newContent1 = fixedContent.replace(
+    /('#text':\s*z\.string\(\)),(\s*\}\)\s*\.max\((\d+)\))/g,
+    "'#text': z.string().max($3),\n    }))"
+  );
+  
+  // Pattern 2: Fix array-level constraints and move them to #text property within objects
+  const newContent2 = newContent1.replace(
+    /('#text':\s*z\.string\(\)),(\s*\}\)\s*\)\s*\.max\((\d+)\))/g,
+    "'#text': z.string().max($3),\n    })\n  )"
+  );
+  
+  // Pattern 3: Fix union-level constraints by identifying and replacing them
+  const unionMaxPattern = /(\w+Schema = z\.union\(\[[\s\S]*?'#text':\s*z\.string\(\)[\s\S]*?\]\))\.max\((\d+)\);/g;
+  const newContent3 = newContent2.replace(unionMaxPattern, (match, unionPart, maxValue) => {
+    const fixedUnion = unionPart.replace(/('#text':\s*z\.string\(\))/g, `'#text': z.string().max(${maxValue})`);
+    return `${fixedUnion};`;
+  });
+  
+  fixedContent = newContent3;
+  const hasChanges = fixedContent !== content;
   
   if (hasChanges) {
     fs.writeFileSync(schemaFile, fixedContent, 'utf8');
@@ -496,7 +510,8 @@ export function parseWithZod<T>(
       error: new z.ZodError([{
         code: 'custom',
         message: \`Invalid JSON: \${error instanceof Error ? error.message : 'Unknown error'}\`,
-        path: []
+        path: [],
+        input: undefined as any
       }])
     };
   }

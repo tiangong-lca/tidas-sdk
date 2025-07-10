@@ -5,21 +5,17 @@ export const CASNumberSchema = z.string().regex(/^[0-9]{2,7}-[0-9]{2}-[0-9]$/);
 
 export const FTSchema = z.string();
 
-const StringMultiLangItemSchema = z.array(
+export const StringMultiLangSchema = z.union([
+  z.array(
     z.object({
       '@xml:lang': z.string(),
       '#text': z.string().max(500),
     })
-  );
-
-const StringMultiLangItem2Schema = z.object({
+  ),
+  z.object({
     '@xml:lang': z.string(),
     '#text': z.string().max(500),
-  });
-
-export const StringMultiLangSchema = z.union([
-  StringMultiLangItemSchema,
-  StringMultiLangItem2Schema,
+  }),
 ]);
 
 export const Int1Schema = z.string().min(0).max(9);
@@ -44,21 +40,17 @@ export const STSchema = z.string().max(1000);
 
 export const StringSchema = z.string().min(1).max(500);
 
-const STMultiLangItemSchema = z.array(
+export const STMultiLangSchema = z.union([
+  z.array(
     z.object({
       '@xml:lang': z.string(),
       '#text': z.string().max(1000),
     })
-  );
-
-const STMultiLangItem2Schema = z.object({
+  ),
+  z.object({
     '@xml:lang': z.string(),
     '#text': z.string().max(1000),
-  });
-
-export const STMultiLangSchema = z.union([
-  STMultiLangItemSchema,
-  STMultiLangItem2Schema,
+  }),
 ]);
 
 export const FTMultiLangSchema = z.union([
@@ -74,27 +66,23 @@ export const FTMultiLangSchema = z.union([
   }),
 ]);
 
-const GlobalReferenceTypeItemSchema = z.object({
-  '@type': z.string(),
-  '@refObjectId': z.string(),
-  '@version': z.string(),
-  '@uri': z.string(),
-  'common:shortDescription': STMultiLangSchema,
-});
-
-const GlobalReferenceTypeItem2Schema = z.array(
+export const GlobalReferenceTypeSchema = z.union([
   z.object({
     '@type': z.string(),
     '@refObjectId': z.string(),
     '@version': z.string(),
     '@uri': z.string(),
     'common:shortDescription': STMultiLangSchema,
-  })
-);
-
-export const GlobalReferenceTypeSchema = z.union([
-  GlobalReferenceTypeItemSchema,
-  GlobalReferenceTypeItem2Schema,
+  }),
+  z.array(
+    z.object({
+      '@type': z.string(),
+      '@refObjectId': z.string(),
+      '@version': z.string(),
+      '@uri': z.string(),
+      'common:shortDescription': STMultiLangSchema,
+    })
+  ),
 ]);
 
 export const GISSchema = z
