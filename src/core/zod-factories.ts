@@ -10,7 +10,6 @@ import { createZodProxy, ZodProxyOptions } from './zod-proxy';
 
 /**
  * Basic Contact schema for demonstration
- * TODO: Replace with actual generated schemas from src/schemas/
  */
 import {
   ContactSchema,
@@ -483,6 +482,36 @@ export function createZodProcess(
   options: TidasProxyOptions = {}
 ): TidasProxyResult<ZodProcess> {
   return createTidasProxy(ProcessSchema, options);
+}
+
+export function createZodSource(
+  options: TidasProxyOptions = {}
+): TidasProxyResult<ZodSource> {
+  return createTidasProxy(SourceSchema, options);
+}
+
+export function createZodFlowProperty(
+  options: TidasProxyOptions = {}
+): TidasProxyResult<ZodFlowProperty> {
+  return createTidasProxy(FlowPropertySchema, options);
+}
+
+export function createZodUnitGroup(
+  options: TidasProxyOptions = {}
+): TidasProxyResult<ZodUnitGroup> {
+  return createTidasProxy(UnitGroupSchema, options);
+}
+
+export function createZodLCIAMethod(
+  options: TidasProxyOptions = {}
+): TidasProxyResult<ZodLCIAMethod> {
+  return createTidasProxy(LCIAMethodSchema, options);
+}
+
+export function createZodLifeCycleModel(
+  options: TidasProxyOptions = {}
+): TidasProxyResult<ZodLifeCycleModel> {
+  return createTidasProxy(LifeCycleModelSchema, options);
 }
 
 

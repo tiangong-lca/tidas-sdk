@@ -10,7 +10,7 @@
 
 import { createZodContact, createZodFlow, createZodProcess } from '../src/core/zod-factories';
 
-console.log('🚀 Zod Proxy Demo - True Property Access\n');
+console.log('🚀 Zod Proxy Demo \n');
 
 // 1. Create a Contact using Zod Proxy
 console.log('1. Creating Contact with Zod Proxy...');

@@ -34,48 +34,6 @@ export * from './types';
 // === Zod Schemas and Validation ===
 export * from './schemas';
 
-// === Utilities ===
-export * from './utils/object-utils';
-
-// === Legacy Validation (Deprecated - Use Zod validation instead) ===
-export { validate, isValid } from './validation';
-
-// === Re-export commonly used items for convenience ===
-export {
-  // Core object classes
-  TidasContact,
-  TidasProcess, 
-  TidasFlow,
-  
-  // Factory functions
-  createContact,
-  createProcess,
-  createFlow,
-  
-  // Builder pattern
-  buildContact,
-  buildProcess, 
-  buildFlow,
-  
-  // JSON conversion
-  fromJSON,
-  toJSON,
-  toJSONObject,
-  fromJSONArray,
-  toJSONArray,
-  
-  // Type definitions
-  type ValidationOptions,
-  type SerializationOptions,
-  type CloneOptions,
-  type MockOptions,
-  
-  // Utilities
-  createMultiLangText,
-  generateUUID,
-  TypeAwareHelpers
-} from './core';
-
 export {
   // Zod validation functions
   validateWithZod,
