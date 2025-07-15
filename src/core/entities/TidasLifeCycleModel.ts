@@ -1,6 +1,7 @@
 import { TidasEntity } from '../base/TidasEntity';
 import { LifeCycleModelSchema } from '../../schemas';
 import { LifeCycleModel } from '../../types';
+import { ValidationConfig } from '../config/ValidationConfig';
 
 /**
  * TIDAS LifeCycleModel entity - pure data container
@@ -8,8 +9,8 @@ import { LifeCycleModel } from '../../types';
  */
 export class TidasLifeCycleModel extends TidasEntity<LifeCycleModel> {
   
-  constructor(initialData?: Partial<LifeCycleModel>) {
-    super(LifeCycleModelSchema as any, initialData);
+  constructor(initialData?: Partial<LifeCycleModel>, validationConfig?: Partial<ValidationConfig>) {
+    super(LifeCycleModelSchema as any, initialData, validationConfig);
   }
 
   // TypeScript accessor for lifeCycleModelDataSet - enables intellisense and type checking

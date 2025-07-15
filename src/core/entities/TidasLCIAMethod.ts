@@ -1,6 +1,7 @@
 import { TidasEntity } from '../base/TidasEntity';
 import { LCIAMethodSchema } from '../../schemas';
 import { LCIAMethod } from '../../types';
+import { ValidationConfig } from '../config/ValidationConfig';
 
 /**
  * TIDAS LCIAMethod entity - pure data container
@@ -8,8 +9,8 @@ import { LCIAMethod } from '../../types';
  */
 export class TidasLCIAMethod extends TidasEntity<LCIAMethod> {
   
-  constructor(initialData?: Partial<LCIAMethod>) {
-    super(LCIAMethodSchema as any, initialData);
+  constructor(initialData?: Partial<LCIAMethod>, validationConfig?: Partial<ValidationConfig>) {
+    super(LCIAMethodSchema as any, initialData, validationConfig);
   }
 
   // TypeScript accessor for LCIAMethodDataSet - enables intellisense and type checking

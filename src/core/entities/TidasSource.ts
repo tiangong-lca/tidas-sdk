@@ -1,6 +1,7 @@
 import { TidasEntity } from '../base/TidasEntity';
 import { SourceSchema } from '../../schemas';
 import { Source } from '../../types';
+import { ValidationConfig } from '../config/ValidationConfig';
 
 /**
  * TIDAS Source entity - pure data container
@@ -8,8 +9,8 @@ import { Source } from '../../types';
  */
 export class TidasSource extends TidasEntity<Source> {
   
-  constructor(initialData?: Partial<Source>) {
-    super(SourceSchema as any, initialData);
+  constructor(initialData?: Partial<Source>, validationConfig?: Partial<ValidationConfig>) {
+    super(SourceSchema as any, initialData, validationConfig);
   }
 
   // TypeScript accessor for sourceDataSet - enables intellisense and type checking

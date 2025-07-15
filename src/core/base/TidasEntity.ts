@@ -1,7 +1,14 @@
 import { z } from 'zod';
+import { 
+  ValidationConfig, 
+  EnhancedValidationResult, 
+  ValidationUtils,
+  ValidationMode 
+} from '../config/ValidationConfig';
+import { globalConfig } from '../config/GlobalConfig';
 
 /**
- * Validation result type
+ * Legacy validation result type (maintained for backward compatibility)
  */
 export type ValidationResult<T> = {
   success: true;
@@ -19,10 +26,15 @@ export abstract class TidasEntity<T = any> {
   protected _schema: z.ZodSchema<T>;
   protected _data: Partial<T> = {};
   protected _proxy: any;
+  protected _validationConfig: ValidationConfig;
 
-  constructor(schema: z.ZodSchema<T>, initialData?: Partial<T>) {
+  constructor(schema: z.ZodSchema<T>, initialData?: Partial<T>, validationConfig?: Partial<ValidationConfig>) {
     this._schema = schema;
     this._data = initialData || {};
+    this._validationConfig = {
+      ...globalConfig.getDefaultValidationConfig(),
+      ...validationConfig
+    };
     this._proxy = this.createBasicProxy();
     this.initializeDefaults();
     return this._proxy;
@@ -162,14 +174,57 @@ export abstract class TidasEntity<T = any> {
   }
 
   /**
-   * Validate the current data against the schema
+   * Get current validation configuration
+   */
+  getValidationConfig(): ValidationConfig {
+    return { ...this._validationConfig };
+  }
+
+  /**
+   * Set validation mode
+   */
+  setValidationMode(mode: ValidationMode): void {
+    this._validationConfig.mode = mode;
+  }
+
+  /**
+   * Set validation configuration
+   */
+  setValidationConfig(config: Partial<ValidationConfig>): void {
+    this._validationConfig = {
+      ...this._validationConfig,
+      ...config
+    };
+  }
+
+  /**
+   * Enhanced validation with configurable modes
+   */
+  validateEnhanced(): EnhancedValidationResult<T> {
+    return ValidationUtils.performValidation(
+      this._schema,
+      this._data,
+      this._validationConfig
+    );
+  }
+
+  /**
+   * Legacy validation method (maintained for backward compatibility)
+   * Uses current validation configuration but returns legacy result format
    */
   validate(): ValidationResult<T> {
-    const result = this._schema.safeParse(this._data);
-    if (result.success) {
-      return { success: true, data: result.data };
+    const enhancedResult = this.validateEnhanced();
+    
+    if (enhancedResult.success) {
+      return { 
+        success: true, 
+        data: enhancedResult.data 
+      };
     } else {
-      return { success: false, error: result.error };
+      return { 
+        success: false, 
+        error: enhancedResult.error 
+      };
     }
   }
 
@@ -234,6 +289,6 @@ export abstract class TidasEntity<T = any> {
    */
   clone(): this {
     const Constructor = this.constructor as new (...args: any[]) => this;
-    return new Constructor(this._schema, structuredClone(this._data));
+    return new Constructor(this._schema, structuredClone(this._data), this._validationConfig);
   }
 }

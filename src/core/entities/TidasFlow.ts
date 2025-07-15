@@ -1,6 +1,7 @@
 import { TidasEntity } from '../base/TidasEntity';
 import { FlowSchema } from '../../schemas';
 import { Flow } from '../../types';
+import { ValidationConfig } from '../config/ValidationConfig';
 
 /**
  * TIDAS Flow entity - pure data container
@@ -8,8 +9,8 @@ import { Flow } from '../../types';
  */
 export class TidasFlow extends TidasEntity<Flow> {
   
-  constructor(initialData?: Partial<Flow>) {
-    super(FlowSchema as any, initialData);
+  constructor(initialData?: Partial<Flow>, validationConfig?: Partial<ValidationConfig>) {
+    super(FlowSchema as any, initialData, validationConfig);
   }
 
   // TypeScript accessor for flowDataSet - enables intellisense and type checking

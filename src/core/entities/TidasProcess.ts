@@ -1,6 +1,7 @@
 import { TidasEntity } from '../base/TidasEntity';
 import { ProcessSchema } from '../../schemas';
 import { Process } from '../../types';
+import { ValidationConfig } from '../config/ValidationConfig';
 
 /**
  * TIDAS Process entity - pure data container
@@ -8,8 +9,8 @@ import { Process } from '../../types';
  */
 export class TidasProcess extends TidasEntity<Process> {
   
-  constructor(initialData?: Partial<Process>) {
-    super(ProcessSchema as any, initialData);
+  constructor(initialData?: Partial<Process>, validationConfig?: Partial<ValidationConfig>) {
+    super(ProcessSchema as any, initialData, validationConfig);
   }
 
   // TypeScript accessor for processDataSet - enables intellisense and type checking

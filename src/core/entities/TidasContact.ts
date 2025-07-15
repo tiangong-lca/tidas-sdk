@@ -1,6 +1,7 @@
 import { TidasEntity } from '../base/TidasEntity';
 import { ContactSchema } from '../../schemas';
 import { Contact } from '../../types';
+import { ValidationConfig } from '../config/ValidationConfig';
 
 /**
  * TIDAS Contact entity - simplified pure data container
@@ -8,8 +9,8 @@ import { Contact } from '../../types';
  */
 export class TidasContact extends TidasEntity<Contact> {
   
-  constructor(initialData?: Partial<Contact>) {
-    super(ContactSchema, initialData);
+  constructor(initialData?: Partial<Contact>, validationConfig?: Partial<ValidationConfig>) {
+    super(ContactSchema, initialData, validationConfig);
   }
 
   // TypeScript accessor for contactDataSet - enables intellisense and type checking

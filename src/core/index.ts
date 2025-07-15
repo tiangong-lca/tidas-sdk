@@ -6,6 +6,10 @@
 // Object-oriented entities and factories (NEW)
 export * from './factories';
 
+// Validation configuration system
+export * from './config/ValidationConfig';
+export * from './config/GlobalConfig';
+
 // Zod Proxy for true property access with Schema validation
 export {
   ZodProxy,

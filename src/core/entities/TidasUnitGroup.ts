@@ -1,6 +1,7 @@
 import { TidasEntity } from '../base/TidasEntity';
 import { UnitGroupSchema } from '../../schemas';
 import { UnitGroup } from '../../types';
+import { ValidationConfig } from '../config/ValidationConfig';
 
 /**
  * TIDAS UnitGroup entity - pure data container
@@ -8,8 +9,8 @@ import { UnitGroup } from '../../types';
  */
 export class TidasUnitGroup extends TidasEntity<UnitGroup> {
   
-  constructor(initialData?: Partial<UnitGroup>) {
-    super(UnitGroupSchema as any, initialData);
+  constructor(initialData?: Partial<UnitGroup>, validationConfig?: Partial<ValidationConfig>) {
+    super(UnitGroupSchema as any, initialData, validationConfig);
   }
 
   // TypeScript accessor for unitGroupDataSet - enables intellisense and type checking
