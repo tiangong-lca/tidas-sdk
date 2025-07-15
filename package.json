@@ -1,5 +1,5 @@
 {
-  "name": "@tidas-typescript-sdk",
+  "name": "@tiangong-lca/tidas-sdk",
   "version": "0.1.0",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -66,7 +66,6 @@
     "eslint": "^9.30.1",
     "eslint-config-prettier": "^10.1.5",
     "jest": "^30.0.4",
-    "json-schema-to-typescript": "^15.0.4",
     "prettier": "^3.6.2",
     "ts-jest": "^29.4.0",
     "ts-node": "^10.9.2",
@@ -82,9 +81,7 @@
     "node": ">=14.0.0"
   },
   "dependencies": {
-    "@anatine/zod-mock": "^3.14.0",
-    "@faker-js/faker": "^9.9.0",
     "ts-to-zod": "^3.15.0",
-    "zod": "^3.25.76"
+    "zod": "^4.0.5"
   }
 }
