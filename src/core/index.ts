@@ -3,6 +3,8 @@
  * Provides unified access to all Tidas SDK functionality
  */
 
+// Object-oriented entities and factories (NEW)
+export * from './factories';
 
 // Zod Proxy for true property access with Schema validation
 export {
@@ -14,7 +16,7 @@ export {
   type ZodProxyValidationResult
 } from './zod-proxy';
 
-// TIDAS-specific Zod factories
+// TIDAS-specific Zod factories (Legacy, for backward compatibility)
 export {
   createZodContact,
   createZodFlow,
