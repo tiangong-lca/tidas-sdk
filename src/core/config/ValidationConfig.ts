@@ -79,8 +79,8 @@ export class ValidationUtils {
     // Type-specific categorization
     switch (error.code) {
       case 'invalid_type':
-        // If received is undefined/null for required field, it's critical
-        if (error.received === 'undefined' || error.received === 'null') {
+        // If input is undefined for required field, it's critical
+        if (error.input === undefined) {
           return ErrorSeverity.CRITICAL;
         }
         return ErrorSeverity.WARNING;
@@ -89,10 +89,7 @@ export class ValidationUtils {
       case 'too_big':
         return ErrorSeverity.WARNING;
       
-      case 'invalid_string':
-        return ErrorSeverity.WARNING;
-      
-      case 'invalid_enum_value':
+      case 'invalid_value':
         return ErrorSeverity.WARNING;
       
       case 'unrecognized_keys':

@@ -94,7 +94,7 @@ function getSchemaAtPath(
       }
     } else if (schema instanceof z.ZodArray) {
       // If it's an array, get element type
-      schema = schema.element;
+      schema = schema.element as unknown as z.ZodSchema;
       // Continue processing remaining path after array access
       continue;
     } else {
