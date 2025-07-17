@@ -42,3 +42,6 @@ ts-to-zod-configs/
 .claude/
 docs/
 CLAUDE.md
+
+# kiro
+.kiro/

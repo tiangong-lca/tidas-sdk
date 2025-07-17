@@ -6,6 +6,10 @@ import {
   ValidationMode,
 } from '../config/ValidationConfig';
 import { globalConfig } from '../config/GlobalConfig';
+import {
+  MultiLangArray,
+  MultiLangItemClass,
+} from '../../types/multi-lang-types';
 
 /**
  * Legacy validation result type (maintained for backward compatibility)
@@ -105,6 +109,10 @@ export abstract class TidasEntity<T = any> {
         }
 
         // 2. Top-level property setting
+        // 包装多语言字段
+        if (TidasEntity.isMultiLang(value)) {
+          value = TidasEntity.wrapMultiLang(value);
+        }
         (target._data as any)[prop] = value;
         return true;
       },
@@ -142,38 +150,29 @@ export abstract class TidasEntity<T = any> {
   }
 
   /**
-   * Helper: 包装多语言字段，添加setText方法，返回数组
+   * Helper: 包装多语言字段，返回class实例
    */
   private static wrapMultiLang(val: any): any {
-    if (Array.isArray(val)) {
-      if (!('setText' in val)) {
-        (val as any).setText = function (value: string, lang: string = 'en') {
-          const existing = this.find((item: any) => item['@xml:lang'] === lang);
-          if (existing) {
-            existing['#text'] = value;
-          } else {
-            this.push({ '@xml:lang': lang, '#text': value });
-          }
-        };
-      }
+    if (val instanceof MultiLangArray || val instanceof MultiLangItemClass) {
       return val;
+    }
+    if (Array.isArray(val)) {
+      const arr = new MultiLangArray();
+      for (const item of val) {
+        arr.push(
+          item instanceof MultiLangItemClass
+            ? item
+            : new MultiLangItemClass(item['@xml:lang'], item['#text'])
+        );
+      }
+      return arr;
     } else if (
       val &&
       typeof val === 'object' &&
       '@xml:lang' in val &&
       '#text' in val
     ) {
-      // 单对象，转为数组并包装
-      const arr = [val];
-      (arr as any).setText = function (value: string, lang: string = 'en') {
-        const existing = this.find((item: any) => item['@xml:lang'] === lang);
-        if (existing) {
-          existing['#text'] = value;
-        } else {
-          this.push({ '@xml:lang': lang, '#text': value });
-        }
-      };
-      return arr;
+      return new MultiLangItemClass(val['@xml:lang'], val['#text']);
     }
     return val;
   }
