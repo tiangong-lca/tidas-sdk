@@ -22,14 +22,11 @@ console.log('=== Example 1: Contact Creation ===');
 const contact = createContact();
 
 // Set basic contact information using direct TIDAS structure access
-contact.contactDataSet.contactInformation.dataSetInformation['common:name'] = [
-  { '@xml:lang': 'en', '#text': 'Dr. Jane Smith' },
-];
 
-contact.contactDataSet.contactInformation.dataSetInformation.setText(
-  'Dr. Jane Smith',
-  'en'
-);
+// Quick way to set multi-language text
+contact.contactDataSet.contactInformation.dataSetInformation[
+  'common:name'
+].setText('Dr. Jane Smith', 'en');
 
 contact.contactDataSet.contactInformation.dataSetInformation[
   'common:name'
