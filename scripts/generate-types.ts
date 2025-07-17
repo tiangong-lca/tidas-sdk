@@ -17,7 +17,11 @@ const OUTPUT_DIR = path.join(__dirname, '../src/types');
 // 新增：自动生成 multi-lang-types.ts
 function generateMultiLangTypesFile() {
   const multiLangPath = path.join(OUTPUT_DIR, 'multi-lang-types.ts');
-  const content = `export class MultiLangArray extends Array<{ '@xml:lang': string; '#text': string }> {
+  const content = `export interface MultiLangArrayLike extends Array<{ '@xml:lang': string; '#text': string }> {
+  setText?(value: string, lang?: string): void;
+}
+
+export class MultiLangArray extends Array<{ '@xml:lang': string; '#text': string }> implements MultiLangArrayLike {
   setText(value: string, lang: string = 'en') {
     const existing = this.find(item => item['@xml:lang'] === lang);
     if (existing) {

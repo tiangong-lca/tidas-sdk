@@ -4,7 +4,12 @@
  * and run the generation script to regenerate this file.
  */
 
-import { MultiLangArray, MultiLangItem } from './multi-lang-types';
+import {
+  MultiLangArray,
+  MultiLangArrayLike,
+  MultiLangItem,
+  MultiLangItemClass,
+} from './multi-lang-types';
 
 /**
  * CAS Number, leading zeros are requried.
@@ -16,7 +21,7 @@ export type CASNumber = string;
  * Free text with an unlimited length.
  */
 export type FT = string;
-export type StringMultiLang = MultiLangArray | MultiLangItem;
+export type StringMultiLang = MultiLangArrayLike | MultiLangItemClass;
 /**
  * 1-digit integer number
  *
@@ -75,8 +80,8 @@ export type ST = string;
  * @maxLength 500
  */
 export type String = string;
-export type STMultiLang = MultiLangArray | MultiLangItem;
-export type FTMultiLang = MultiLangArray | MultiLangItem;
+export type STMultiLang = MultiLangArrayLike | MultiLangItemClass;
+export type FTMultiLang = MultiLangArrayLike | MultiLangItemClass;
 /**
  * Represents a reference to another dataset or file. Either refObjectId and version, or uri, or both have to be specified.
  */

@@ -1,9 +1,10 @@
-export class MultiLangArray extends Array<{
-  '@xml:lang': string;
-  '#text': string;
-}> {
+export interface MultiLangArrayLike extends Array<{ '@xml:lang': string; '#text': string }> {
+  setText?(value: string, lang?: string): void;
+}
+
+export class MultiLangArray extends Array<{ '@xml:lang': string; '#text': string }> implements MultiLangArrayLike {
   setText(value: string, lang: string = 'en') {
-    const existing = this.find((item) => item['@xml:lang'] === lang);
+    const existing = this.find(item => item['@xml:lang'] === lang);
     if (existing) {
       existing['#text'] = value;
     } else {

@@ -73,9 +73,11 @@ export abstract class TidasEntity<T = any> {
 
         // 2. Direct data access
         if (prop in target._data) {
-          const value = (target._data as any)[prop];
+          let value = (target._data as any)[prop];
           if (TidasEntity.isMultiLang(value)) {
-            return TidasEntity.wrapMultiLang(value);
+            value = TidasEntity.wrapMultiLang(value);
+            // 懒包装：回写，保证下次访问直接是class实例
+            (target._data as any)[prop] = value;
           }
           return value;
         }
@@ -85,9 +87,11 @@ export abstract class TidasEntity<T = any> {
           typeof prop === 'string' &&
           (prop.includes('.') || prop.includes('['))
         ) {
-          const value = target.getNestedValue(prop);
+          let value = target.getNestedValue(prop);
           if (TidasEntity.isMultiLang(value)) {
-            return TidasEntity.wrapMultiLang(value);
+            value = TidasEntity.wrapMultiLang(value);
+            // 懒包装：回写
+            target.setNestedValue(prop, value);
           }
           return value;
         }
@@ -104,12 +108,15 @@ export abstract class TidasEntity<T = any> {
 
         // 1. Dynamic path setting (supports dot notation)
         if (prop.includes('.') || prop.includes('[')) {
+          // 懒包装：如果是多语言字段，wrap
+          if (TidasEntity.isMultiLang(value)) {
+            value = TidasEntity.wrapMultiLang(value);
+          }
           target.setNestedValue(prop, value);
           return true;
         }
 
         // 2. Top-level property setting
-        // 包装多语言字段
         if (TidasEntity.isMultiLang(value)) {
           value = TidasEntity.wrapMultiLang(value);
         }

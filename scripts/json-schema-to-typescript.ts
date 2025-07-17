@@ -127,11 +127,15 @@ class JsonSchemaToTypeScript {
 
     // 检查 typeDefinitions 是否用到 MultiLangArray 或 MultiLangItem
     const needsMultiLangImport = Array.from(this.typeDefinitions.values()).some(
-      (def) => def.includes('MultiLangArray') || def.includes('MultiLangItem')
+      (def) =>
+        def.includes('MultiLangArray') ||
+        def.includes('MultiLangItem') ||
+        def.includes('MultiLangArrayLike') ||
+        def.includes('MultiLangItemClass')
     );
     if (needsMultiLangImport) {
       result.push(
-        "import { MultiLangArray, MultiLangItem } from './multi-lang-types';\n"
+        "import { MultiLangArray, MultiLangArrayLike, MultiLangItem, MultiLangItemClass } from './multi-lang-types';\n"
       );
     }
 
@@ -162,10 +166,10 @@ class JsonSchemaToTypeScript {
 
     // 检查是否为 *MultiLang 类型
     if (name.endsWith('MultiLang')) {
-      // 直接生成 type alias 指向 MultiLangArray | MultiLangItem
+      // 直接生成 type alias 指向 MultiLangArrayLike | MultiLangItemClass
       this.typeDefinitions.set(
         name,
-        `${this.config.exportStyle} type ${name} = MultiLangArray | MultiLangItem;`
+        `${this.config.exportStyle} type ${name} = MultiLangArrayLike | MultiLangItemClass;`
       );
       return;
     }

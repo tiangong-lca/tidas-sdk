@@ -5,19 +5,6 @@ export const CASNumberSchema = z.string().regex(/^[0-9]{2,7}-[0-9]{2}-[0-9]$/);
 
 export const FTSchema = z.string();
 
-export const StringMultiLangSchema = z.union([
-  z.array(
-    z.object({
-      '@xml:lang': z.string(),
-      '#text': z.string().max(500),
-    })
-  ),
-  z.object({
-    '@xml:lang': z.string(),
-    '#text': z.string().max(500),
-  }),
-]);
-
 export const Int1Schema = z.string().min(0).max(9);
 
 export const Int5Schema = z.string().min(0).max(99999);
@@ -40,30 +27,37 @@ export const STSchema = z.string().max(1000);
 
 export const StringSchema = z.string().min(1).max(500);
 
+export const GISSchema = z
+  .string()
+  .regex(
+    /^\s*[+-]?((90(\.0+)?)|([0-8]?\d(\.\d+)?))\s*;\s*[+-]?((180(\.0+)?)|((1[0-7]\d|[0-9]?\d)(\.\d+)?))\s*$/
+  );
+
+export const UUIDSchema = z
+  .string()
+  .regex(/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/);
+
+export const YearSchema = z.number().min(1000).max(9999);
+
+export const dateTimeSchema = z.string().datetime();
+
+const MultiLangArrayLikeSchema = z.any();
+
+const MultiLangItemClassSchema = z.any();
+
+export const StringMultiLangSchema = z.union([
+  MultiLangArrayLikeSchema,
+  MultiLangItemClassSchema,
+]);
+
 export const STMultiLangSchema = z.union([
-  z.array(
-    z.object({
-      '@xml:lang': z.string(),
-      '#text': z.string().max(1000),
-    })
-  ),
-  z.object({
-    '@xml:lang': z.string(),
-    '#text': z.string().max(1000),
-  }),
+  MultiLangArrayLikeSchema,
+  MultiLangItemClassSchema,
 ]);
 
 export const FTMultiLangSchema = z.union([
-  z.array(
-    z.object({
-      '@xml:lang': z.string(),
-      '#text': z.string(),
-    })
-  ),
-  z.object({
-    '@xml:lang': z.string(),
-    '#text': z.string(),
-  }),
+  MultiLangArrayLikeSchema,
+  MultiLangItemClassSchema,
 ]);
 
 export const GlobalReferenceTypeSchema = z.union([
@@ -84,17 +78,3 @@ export const GlobalReferenceTypeSchema = z.union([
     })
   ),
 ]);
-
-export const GISSchema = z
-  .string()
-  .regex(
-    /^\s*[+-]?((90(\.0+)?)|([0-8]?\d(\.\d+)?))\s*;\s*[+-]?((180(\.0+)?)|((1[0-7]\d|[0-9]?\d)(\.\d+)?))\s*$/
-  );
-
-export const UUIDSchema = z
-  .string()
-  .regex(/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/);
-
-export const YearSchema = z.number().min(1000).max(9999);
-
-export const dateTimeSchema = z.string().datetime();
