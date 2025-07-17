@@ -40,6 +40,16 @@ contact.contactDataSet.contactInformation.dataSetInformation[
   { '@xml:lang': 'fr', '#text': 'J. Smith' },
 ];
 
+// get the text
+const enName =
+  contact.contactDataSet.contactInformation.dataSetInformation[
+    'common:name'
+  ].getText?.('en');
+const frName =
+  contact.contactDataSet.contactInformation.dataSetInformation[
+    'common:name'
+  ].getText?.('fr');
+
 contact.contactDataSet.contactInformation.dataSetInformation.email =
   'jane.smith@example.com';
 contact.contactDataSet.contactInformation.dataSetInformation.telefax =

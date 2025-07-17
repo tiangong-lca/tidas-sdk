@@ -86,9 +86,6 @@ massFlowProperty.flowPropertyDataSet.flowPropertiesInformation.quantitativeRefer
 
 // Create a CO2 flow
 const co2Flow = createFlow();
-co2Flow.flowDataSet.flowInformation.dataSetInformation['common:name'] = [
-  { '@xml:lang': 'en', '#text': 'Carbon dioxide' },
-];
 
 // Add flow property to the flow
 const flowPropertyUUID =
@@ -146,18 +143,6 @@ console.log(
   massFlowProperty.flowPropertyDataSet.flowPropertiesInformation
     .dataSetInformation['common:name']?.[0]?.['#text']
 );
-console.log(
-  '- Flow:',
-  co2Flow.flowDataSet.flowInformation.dataSetInformation['common:name']?.[0]?.[
-    '#text'
-  ]
-);
-console.log(
-  '- Process:',
-  combustionProcess.processDataSet.processInformation.dataSetInformation[
-    'common:name'
-  ]?.[0]?.['#text']
-);
 
 // Example 3: JSON Import/Export Workflow
 console.log('\n=== Example 3: JSON Import/Export Workflow ===');
@@ -183,7 +168,7 @@ const originalName =
 const importedName =
   importedContact.contactDataSet.contactInformation.dataSetInformation[
     'common:name'
-  ]?.[0]?.['#text'];
+  ]?.getText?.('en');
 
 console.log('Original contact name:', originalName);
 console.log('Imported contact name:', importedName);
@@ -209,9 +194,10 @@ if (!validationResult.success) {
 
 // Create a complete flow and validate
 const completeFlow = createFlow();
-completeFlow.flowDataSet.flowInformation.dataSetInformation['common:name'] = [
-  { '@xml:lang': 'en', '#text': 'Complete flow example' },
-];
+completeFlow.flowDataSet.flowInformation.dataSetInformation.name.baseName.setText?.(
+  'Complete flow example',
+  'en'
+);
 
 const completeValidation = completeFlow.validate();
 console.log(
@@ -239,7 +225,7 @@ clonedContact.contactDataSet.contactInformation.dataSetInformation[
 const originalContactName =
   originalContact.contactDataSet.contactInformation.dataSetInformation[
     'common:name'
-  ]?.[0]?.['#text'];
+  ]?.getText?.('en');
 const clonedContactName =
   clonedContact.contactDataSet.contactInformation.dataSetInformation[
     'common:name'
@@ -263,12 +249,14 @@ console.log('\n=== Example 6: Multi-language Support ===');
 const multiLangFlow = createFlow();
 
 // Add multi-language names
-multiLangFlow.flowDataSet.flowInformation.dataSetInformation['common:name'] = [
-  { '@xml:lang': 'en', '#text': 'Water' },
-  { '@xml:lang': 'de', '#text': 'Wasser' },
-  { '@xml:lang': 'fr', '#text': 'Eau' },
-  { '@xml:lang': 'es', '#text': 'Agua' },
-];
+multiLangFlow.flowDataSet.flowInformation.dataSetInformation.name.baseName.setText?.(
+  'Water',
+  'en'
+);
+multiLangFlow.flowDataSet.flowInformation.dataSetInformation.name.baseName.setText?.(
+  'Wasser',
+  'de'
+);
 
 // Add multi-language descriptions
 multiLangFlow.flowDataSet.flowInformation.dataSetInformation[
@@ -280,11 +268,21 @@ multiLangFlow.flowDataSet.flowInformation.dataSetInformation[
 ];
 
 console.log('Multi-language flow names:');
-multiLangFlow.flowDataSet.flowInformation.dataSetInformation[
-  'common:name'
-]?.forEach((name) => {
-  console.log(`- ${name['@xml:lang']}: ${name['#text']}`);
-});
+const enName =
+  multiLangFlow.flowDataSet.flowInformation.dataSetInformation.name.baseName.getText?.(
+    'en'
+  );
+const deName =
+  multiLangFlow.flowDataSet.flowInformation.dataSetInformation.name.baseName.getText?.(
+    'de'
+  );
+const frName =
+  multiLangFlow.flowDataSet.flowInformation.dataSetInformation.name.baseName.getText?.(
+    'fr'
+  );
+console.log(`- ${enName}`);
+console.log(`- ${deName}`);
+console.log(`- ${frName}`);
 
 // Example 7: Performance Measurement
 console.log('\n=== Example 7: Performance Measurement ===');
@@ -296,9 +294,10 @@ const manyFlows = createFlowsBatch(Array(100).fill({}));
 
 // Set basic properties on all flows
 manyFlows.forEach((flow, index) => {
-  flow.flowDataSet.flowInformation.dataSetInformation['common:name'] = [
-    { '@xml:lang': 'en', '#text': `Flow ${index + 1}` },
-  ];
+  flow.flowDataSet.flowInformation.dataSetInformation.name.baseName.setText?.(
+    `Flow ${index + 1}`,
+    'en'
+  );
 });
 
 const endTime = performance.now();

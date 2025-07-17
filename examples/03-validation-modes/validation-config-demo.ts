@@ -32,7 +32,7 @@ console.log('Current global validation mode:', getGlobalValidationMode());
 const strictContact = createContact();
 strictContact.contactDataSet.contactInformation.dataSetInformation[
   'common:name'
-] = { '@xml:lang': 'en', '#text': 'Dr. Strict Validation' };
+].setText?.('Dr. Strict Validation', 'en');
 
 const strictValidation = strictContact.validate();
 const strictEnhanced = strictContact.validateEnhanced();
