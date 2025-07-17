@@ -15,21 +15,31 @@ npm install @tiangong-lca/tidas-sdk
 ### Basic Usage
 
 ```typescript
-import { createContact, createFlow } from '@tiangong-lca/tidas-sdk/core';
-import { Contact, Flow } from '@tiangong-lca/tidas-sdk/types';
+import { createContact } from '@tiangong-lca/tidas-sdk/core';
 
-// Create a new contact
+// Create a new Contact entity
 const contact = createContact();
-contact.contactDataSet.contactInformation.dataSetInformation['common:name'] = [
-  { '@xml:lang': 'en', '#text': 'Dr. Jane Smith' }
+
+// Set multilingual name (recommended: use setText method)
+contact.contactDataSet.contactInformation.dataSetInformation['common:name'].setText?.('Dr. Jane Smith', 'en');
+contact.contactDataSet.contactInformation.dataSetInformation['common:name'].setText?.('Dr. Jane Smith', 'fr');
+
+// You can also set the multilingual array directly
+contact.contactDataSet.contactInformation.dataSetInformation['common:shortName'] = [
+  { '@xml:lang': 'en', '#text': 'J. Smith' },
+  { '@xml:lang': 'fr', '#text': 'J. Smith' },
 ];
 
-// Validate the contact
+// Get the name in a specific language
+const enName = contact.contactDataSet.contactInformation.dataSetInformation['common:name'].getText?.('en');
+
+// Validate the entity
 const validation = contact.validate();
 console.log('Valid:', validation.success);
 
-// Convert to JSON
+// Convert to JSON string
 const json = contact.toJSONString(2);
+console.log(json);
 ```
 
 ## 📦 Package Structure

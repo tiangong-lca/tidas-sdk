@@ -15,21 +15,31 @@ npm install @tiangong-lca/tidas-sdk
 ### 基本用法
 
 ```typescript
-import { createContact, createFlow } from '@tiangong-lca/tidas-sdk/core';
-import { Contact, Flow } from '@tiangong-lca/tidas-sdk/types';
+import { createContact } from '@tiangong-lca/tidas-sdk/core';
 
-// 创建新的联系人
+// 创建一个新的联系人实体
 const contact = createContact();
-contact.contactDataSet.contactInformation.dataSetInformation['common:name'] = [
-  { '@xml:lang': 'zh', '#text': '张博士' }
+
+// 设置多语言名称（推荐用 setText 方法）
+contact.contactDataSet.contactInformation.dataSetInformation['common:name'].setText?.('张博士', 'zh');
+contact.contactDataSet.contactInformation.dataSetInformation['common:name'].setText?.('Dr. Jane Smith', 'en');
+
+// 也可以直接设置多语言数组
+contact.contactDataSet.contactInformation.dataSetInformation['common:shortName'] = [
+  { '@xml:lang': 'zh', '#text': '张博士' },
+  { '@xml:lang': 'en', '#text': 'J. Smith' },
 ];
 
-// 验证联系人数据
+// 获取指定语言的名称
+const zhName = contact.contactDataSet.contactInformation.dataSetInformation['common:name'].getText?.('zh');
+
+// 校验实体
 const validation = contact.validate();
 console.log('数据有效:', validation.success);
 
-// 转换为 JSON
+// 转为 JSON 字符串
 const json = contact.toJSONString(2);
+console.log(json);
 ```
 
 ## 📦 包结构
