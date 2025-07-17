@@ -1,22 +1,28 @@
 import { z } from 'zod';
-import { 
-  ValidationConfig, 
-  EnhancedValidationResult, 
+import {
+  ValidationConfig,
+  EnhancedValidationResult,
   ValidationUtils,
-  ValidationMode 
+  ValidationMode,
 } from '../config/ValidationConfig';
 import { globalConfig } from '../config/GlobalConfig';
+import {
+  MultiLangArray,
+  MultiLangItemClass,
+} from '../../types/multi-lang-types';
 
 /**
  * Legacy validation result type (maintained for backward compatibility)
  */
-export type ValidationResult<T> = {
-  success: true;
-  data: T;
-} | {
-  success: false;
-  error: z.ZodError;
-};
+export type ValidationResult<T> =
+  | {
+      success: true;
+      data: T;
+    }
+  | {
+      success: false;
+      error: z.ZodError;
+    };
 
 /**
  * Abstract base class for all TIDAS entities
@@ -28,12 +34,16 @@ export abstract class TidasEntity<T = any> {
   protected _proxy: any;
   protected _validationConfig: ValidationConfig;
 
-  constructor(schema: z.ZodSchema<T>, initialData?: Partial<T>, validationConfig?: Partial<ValidationConfig>) {
+  constructor(
+    schema: z.ZodSchema<T>,
+    initialData?: Partial<T>,
+    validationConfig?: Partial<ValidationConfig>
+  ) {
     this._schema = schema;
     this._data = initialData || {};
     this._validationConfig = {
       ...globalConfig.getDefaultValidationConfig(),
-      ...validationConfig
+      ...validationConfig,
     };
     this._proxy = this.createBasicProxy();
     this.initializeDefaults();
@@ -63,12 +73,27 @@ export abstract class TidasEntity<T = any> {
 
         // 2. Direct data access
         if (prop in target._data) {
-          return (target._data as any)[prop];
+          let value = (target._data as any)[prop];
+          if (TidasEntity.isMultiLang(value)) {
+            value = TidasEntity.wrapMultiLang(value);
+            // 懒包装：回写，保证下次访问直接是class实例
+            (target._data as any)[prop] = value;
+          }
+          return value;
         }
 
         // 3. Dynamic path access (supports dot notation)
-        if (prop.includes('.') || prop.includes('[')) {
-          return target.getNestedValue(prop);
+        if (
+          typeof prop === 'string' &&
+          (prop.includes('.') || prop.includes('['))
+        ) {
+          let value = target.getNestedValue(prop);
+          if (TidasEntity.isMultiLang(value)) {
+            value = TidasEntity.wrapMultiLang(value);
+            // 懒包装：回写
+            target.setNestedValue(prop, value);
+          }
+          return value;
         }
 
         // 4. Other properties
@@ -83,11 +108,18 @@ export abstract class TidasEntity<T = any> {
 
         // 1. Dynamic path setting (supports dot notation)
         if (prop.includes('.') || prop.includes('[')) {
+          // 懒包装：如果是多语言字段，wrap
+          if (TidasEntity.isMultiLang(value)) {
+            value = TidasEntity.wrapMultiLang(value);
+          }
           target.setNestedValue(prop, value);
           return true;
         }
 
         // 2. Top-level property setting
+        if (TidasEntity.isMultiLang(value)) {
+          value = TidasEntity.wrapMultiLang(value);
+        }
         (target._data as any)[prop] = value;
         return true;
       },
@@ -99,17 +131,68 @@ export abstract class TidasEntity<T = any> {
       ownKeys(target) {
         return [
           ...Object.keys(target._data),
-          ...Object.getOwnPropertyNames(target)
+          ...Object.getOwnPropertyNames(target),
         ];
-      }
+      },
     });
+  }
+
+  /**
+   * Helper: 判断是否为多语言字段（数组或单对象）
+   */
+  private static isMultiLang(val: any): boolean {
+    return (
+      (Array.isArray(val) &&
+        val.length > 0 &&
+        typeof val[0] === 'object' &&
+        val[0] !== null &&
+        '@xml:lang' in val[0] &&
+        '#text' in val[0]) ||
+      (val &&
+        typeof val === 'object' &&
+        !Array.isArray(val) &&
+        '@xml:lang' in val &&
+        '#text' in val)
+    );
+  }
+
+  /**
+   * Helper: 包装多语言字段，返回class实例
+   */
+  private static wrapMultiLang(val: any): any {
+    if (val instanceof MultiLangArray || val instanceof MultiLangItemClass) {
+      return val;
+    }
+    if (Array.isArray(val)) {
+      const arr = new MultiLangArray();
+      for (const item of val) {
+        arr.push(
+          item instanceof MultiLangItemClass
+            ? item
+            : new MultiLangItemClass(item['@xml:lang'], item['#text'])
+        );
+      }
+      return arr;
+    } else if (
+      val &&
+      typeof val === 'object' &&
+      '@xml:lang' in val &&
+      '#text' in val
+    ) {
+      return new MultiLangItemClass(val['@xml:lang'], val['#text']);
+    }
+    return val;
   }
 
   /**
    * Get nested value using dot notation path
    */
   protected getNestedValue(path: string): any {
-    return this.resolvePath(this._data, path);
+    const value = this.resolvePath(this._data, path);
+    if (TidasEntity.isMultiLang(value)) {
+      return TidasEntity.wrapMultiLang(value);
+    }
+    return value;
   }
 
   /**
@@ -139,7 +222,7 @@ export abstract class TidasEntity<T = any> {
   private setPath(obj: any, path: string, value: any): void {
     const keys = path.split('.');
     const lastKey = keys.pop()!;
-    
+
     const target = keys.reduce((current, key) => {
       if (key.includes('[') && key.includes(']')) {
         const [arrayKey, indexStr] = key.split('[');
@@ -151,7 +234,7 @@ export abstract class TidasEntity<T = any> {
       if (!current[key]) current[key] = {};
       return current[key];
     }, obj);
-    
+
     if (lastKey.includes('[') && lastKey.includes(']')) {
       const [arrayKey, indexStr] = lastKey.split('[');
       const index = parseInt(indexStr.replace(']', ''));
@@ -166,7 +249,7 @@ export abstract class TidasEntity<T = any> {
    * Ensure nested structure exists
    */
   protected ensureNestedStructure(paths: string[]): void {
-    paths.forEach(path => {
+    paths.forEach((path) => {
       if (!this.getNestedValue(path)) {
         this.setNestedValue(path, {});
       }
@@ -193,7 +276,7 @@ export abstract class TidasEntity<T = any> {
   setValidationConfig(config: Partial<ValidationConfig>): void {
     this._validationConfig = {
       ...this._validationConfig,
-      ...config
+      ...config,
     };
   }
 
@@ -214,16 +297,16 @@ export abstract class TidasEntity<T = any> {
    */
   validate(): ValidationResult<T> {
     const enhancedResult = this.validateEnhanced();
-    
+
     if (enhancedResult.success) {
-      return { 
-        success: true, 
-        data: enhancedResult.data 
+      return {
+        success: true,
+        data: enhancedResult.data,
       };
     } else {
-      return { 
-        success: false, 
-        error: enhancedResult.error 
+      return {
+        success: false,
+        error: enhancedResult.error,
       };
     }
   }
@@ -253,15 +336,17 @@ export abstract class TidasEntity<T = any> {
     if (obj === null || obj === undefined) {
       return null;
     }
-    
+
     if (typeof obj === 'function') {
       return undefined;
     }
-    
+
     if (Array.isArray(obj)) {
-      return obj.map(item => this.cleanForJSON(item)).filter(item => item !== undefined);
+      return obj
+        .map((item) => this.cleanForJSON(item))
+        .filter((item) => item !== undefined);
     }
-    
+
     if (typeof obj === 'object') {
       const cleaned: any = {};
       for (const [key, value] of Object.entries(obj)) {
@@ -272,7 +357,7 @@ export abstract class TidasEntity<T = any> {
       }
       return cleaned;
     }
-    
+
     // Primitive values
     return obj;
   }
@@ -289,6 +374,10 @@ export abstract class TidasEntity<T = any> {
    */
   clone(): this {
     const Constructor = this.constructor as new (...args: any[]) => this;
-    return new Constructor(this._schema, structuredClone(this._data), this._validationConfig);
+    return new Constructor(
+      this._schema,
+      structuredClone(this._data),
+      this._validationConfig
+    );
   }
 }

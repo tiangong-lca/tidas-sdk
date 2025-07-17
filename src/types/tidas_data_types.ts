@@ -4,6 +4,13 @@
  * and run the generation script to regenerate this file.
  */
 
+import {
+  MultiLangArray,
+  MultiLangArrayLike,
+  MultiLangItem,
+  MultiLangItemClass,
+} from './multi-lang-types';
+
 /**
  * CAS Number, leading zeros are requried.
  *
@@ -14,12 +21,7 @@ export type CASNumber = string;
  * Free text with an unlimited length.
  */
 export type FT = string;
-/**
- * Multi-language string with a maximum length of 500 characters
- */
-export type StringMultiLang =
-  | { '@xml:lang': string; '#text': string }[]
-  | { '@xml:lang': string; '#text': string };
+export type StringMultiLang = MultiLangArrayLike | MultiLangItemClass;
 /**
  * 1-digit integer number
  *
@@ -78,18 +80,8 @@ export type ST = string;
  * @maxLength 500
  */
 export type String = string;
-/**
- * Multi-lang short text with a maximum length of 1000 characters.
- */
-export type STMultiLang =
-  | { '@xml:lang': string; '#text': string }[]
-  | { '@xml:lang': string; '#text': string };
-/**
- * Multi-lang free text with an unlimited length.
- */
-export type FTMultiLang =
-  | { '@xml:lang': string; '#text': string }[]
-  | { '@xml:lang': string; '#text': string };
+export type STMultiLang = MultiLangArrayLike | MultiLangItemClass;
+export type FTMultiLang = MultiLangArrayLike | MultiLangItemClass;
 /**
  * Represents a reference to another dataset or file. Either refObjectId and version, or uri, or both have to be specified.
  */

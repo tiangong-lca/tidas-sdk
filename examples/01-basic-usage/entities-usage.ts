@@ -15,20 +15,40 @@ import {
   createLCIAMethod,
   createLifeCycleModel,
   createTidasEntity,
-} from '../../src/core/factories';
+} from '@tiangong-lca/tidas-sdk/core';
 
 // Example 1: Create a Contact
 console.log('=== Example 1: Contact Creation ===');
 const contact = createContact();
 
 // Set basic contact information using direct TIDAS structure access
-contact.contactDataSet.contactInformation.dataSetInformation['common:name'] = [
-  { '@xml:lang': 'en', '#text': 'Dr. Jane Smith' },
-];
+
+// Quick way to set multi-language text
+contact.contactDataSet.contactInformation.dataSetInformation[
+  'common:name'
+].setText?.('Dr. Jane Smith', 'en');
 
 contact.contactDataSet.contactInformation.dataSetInformation[
+  'common:name'
+].setText?.('Dr. Jane Smith', 'fr');
+
+// or directly set the text
+contact.contactDataSet.contactInformation.dataSetInformation[
   'common:shortName'
-] = [{ '@xml:lang': 'en', '#text': 'J. Smith' }];
+] = [
+  { '@xml:lang': 'en', '#text': 'J. Smith' },
+  { '@xml:lang': 'fr', '#text': 'J. Smith' },
+];
+
+// get the text
+const enName =
+  contact.contactDataSet.contactInformation.dataSetInformation[
+    'common:name'
+  ].getText?.('en');
+const frName =
+  contact.contactDataSet.contactInformation.dataSetInformation[
+    'common:name'
+  ].getText?.('fr');
 
 contact.contactDataSet.contactInformation.dataSetInformation.email =
   'jane.smith@example.com';
@@ -49,12 +69,8 @@ console.log('\n=== Example 2: Flow Creation ===');
 const flow = createFlow();
 
 // Set flow information
-flow.flowDataSet.flowInformation.dataSetInformation['common:name'] = [
+flow.flowDataSet.flowInformation.dataSetInformation.name.baseName = [
   { '@xml:lang': 'en', '#text': 'Carbon dioxide' },
-];
-
-flow.flowDataSet.flowInformation.dataSetInformation['common:shortName'] = [
-  { '@xml:lang': 'en', '#text': 'CO2' },
 ];
 
 flow.flowDataSet.flowInformation.dataSetInformation['common:synonyms'] = [
@@ -65,7 +81,7 @@ flow.flowDataSet.flowInformation.dataSetInformation.CASNumber = '124-38-9';
 
 console.log(
   'Flow name:',
-  flow.flowDataSet.flowInformation.dataSetInformation['common:name']
+  flow.flowDataSet.flowInformation.dataSetInformation.name.baseName
 );
 console.log('Flow validation:', flow.validate().success ? 'PASSED' : 'FAILED');
 
@@ -74,13 +90,9 @@ console.log('\n=== Example 3: Process Creation ===');
 const process = createProcess();
 
 // Set process information
-process.processDataSet.processInformation.dataSetInformation['common:name'] = [
+process.processDataSet.processInformation.dataSetInformation.name.baseName = [
   { '@xml:lang': 'en', '#text': 'Electricity production, wind power' },
 ];
-
-process.processDataSet.processInformation.dataSetInformation[
-  'common:shortName'
-] = [{ '@xml:lang': 'en', '#text': 'Wind electricity' }];
 
 // Set technology information
 if (process.processDataSet.processInformation.technology) {
@@ -95,13 +107,12 @@ if (process.processDataSet.processInformation.technology) {
 }
 
 // Set time period
-process.processDataSet.processInformation.time['common:referenceYear'] = 2023;
-process.processDataSet.processInformation.time['common:dataSetValidUntil'] =
-  2030;
+process.processDataSet.processInformation.time.referenceYear = 2023;
+process.processDataSet.processInformation.time.dataSetValidUntil = 2030;
 
 console.log(
   'Process name:',
-  process.processDataSet.processInformation.dataSetInformation['common:name']
+  process.processDataSet.processInformation.dataSetInformation.name.baseName
 );
 console.log(
   'Process validation:',
@@ -171,11 +182,7 @@ const unitGroup = createUnitGroup();
 // Set unit group information
 unitGroup.unitGroupDataSet.unitGroupInformation.dataSetInformation[
   'common:name'
-] = [{ '@xml:lang': 'en', '#text': 'Mass units' }];
-
-unitGroup.unitGroupDataSet.unitGroupInformation.dataSetInformation[
-  'common:shortName'
-] = [{ '@xml:lang': 'en', '#text': 'kg' }];
+].setText?.('Mass units', 'en');
 
 // Add multiple units to the unit group
 unitGroup.unitGroupDataSet.units = {
@@ -223,10 +230,6 @@ lciaMethod.LCIAMethodDataSet.LCIAMethodInformation.dataSetInformation[
   'common:name'
 ] = [{ '@xml:lang': 'en', '#text': 'Climate change - GWP 100' }];
 
-lciaMethod.LCIAMethodDataSet.LCIAMethodInformation.dataSetInformation[
-  'common:shortName'
-] = [{ '@xml:lang': 'en', '#text': 'GWP100' }];
-
 lciaMethod.LCIAMethodDataSet.LCIAMethodInformation.dataSetInformation.methodology =
   'IPCC 2013 methodology for global warming potential calculation';
 
@@ -252,13 +255,11 @@ console.log('\n=== Example 8: Life Cycle Model Creation ===');
 const lifeCycleModel = createLifeCycleModel();
 
 // Set life cycle model information
-lifeCycleModel.lifeCycleModelDataSet.lifeCycleModelInformation.dataSetInformation[
-  'common:name'
-] = [{ '@xml:lang': 'en', '#text': 'Wind Power Plant Life Cycle Model' }];
+lifeCycleModel.lifeCycleModelDataSet.lifeCycleModelInformation.dataSetInformation.name.baseName =
+  [{ '@xml:lang': 'en', '#text': 'Wind Power Plant Life Cycle Model' }];
 
-lifeCycleModel.lifeCycleModelDataSet.lifeCycleModelInformation.dataSetInformation[
-  'common:shortName'
-] = [{ '@xml:lang': 'en', '#text': 'Wind LCM' }];
+lifeCycleModel.lifeCycleModelDataSet.lifeCycleModelInformation.dataSetInformation.name.treatmentStandardsRoutes =
+  [{ '@xml:lang': 'en', '#text': 'Wind LCM' }];
 
 // Set life cycle model comments
 lifeCycleModel.lifeCycleModelDataSet.lifeCycleModelInformation.dataSetInformation[
@@ -278,7 +279,7 @@ lifeCycleModel.lifeCycleModelDataSet.lifeCycleModelInformation.quantitativeRefer
 console.log(
   'Life Cycle Model name:',
   lifeCycleModel.lifeCycleModelDataSet.lifeCycleModelInformation
-    .dataSetInformation['common:name']
+    .dataSetInformation.name.baseName
 );
 console.log(
   'Life Cycle Model validation:',

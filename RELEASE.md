@@ -64,6 +64,7 @@ npm version major
 ```
 
 This will:
+
 - Update the version in `package.json`
 - Create a git commit with the new version
 - Create a git tag
@@ -106,6 +107,7 @@ For convenience, you can add these scripts to your `package.json`:
 ```
 
 Then you can simply run:
+
 ```bash
 npm run release:patch   # for patch releases
 npm run release:minor   # for minor releases
@@ -128,6 +130,7 @@ npm install @tiangong-lca/tidas-sdk
 ```
 
 Or with yarn:
+
 ```bash
 yarn add @tiangong-lca/tidas-sdk
 ```
@@ -135,6 +138,7 @@ yarn add @tiangong-lca/tidas-sdk
 ## Package Contents
 
 The published package includes:
+
 - `dist/` - Compiled JavaScript and TypeScript declaration files
 - `README.md` - Package documentation
 - `LICENSE` - MIT license file
@@ -143,16 +147,19 @@ The published package includes:
 ## Troubleshooting
 
 ### Permission denied errors
+
 - Ensure you're logged in: `npm whoami`
 - Check if you have access to the `@tiangong-lca` organization
 - Contact the organization admin for access
 
 ### Build errors before publish
+
 - Run `npm run clean` then `npm run build`
 - Check for TypeScript errors: `npm run typecheck`
 - Fix linting issues: `npm run lint:fix`
 
 ### Version conflicts
+
 - Check existing versions: `npm view @tiangong-lca/tidas-sdk versions --json`
 - Ensure you're incrementing from the latest version
 
@@ -168,6 +175,7 @@ The published package includes:
 ## Support
 
 For issues with the release process, check:
+
 - [npm documentation](https://docs.npmjs.com/)
 - [Semantic Versioning](https://semver.org/)
 - Project issues in the GitHub repository

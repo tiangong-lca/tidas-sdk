@@ -6,10 +6,64 @@
 
 import fs from 'fs';
 import path from 'path';
-import { JsonSchemaToTypeScript, createTidasConfig } from './json-schema-to-typescript.js';
+import {
+  JsonSchemaToTypeScript,
+  createTidasConfig,
+} from './json-schema-to-typescript.js';
 
 const SCHEMAS_DIR = path.join(__dirname, '../tidas/schemas');
 const OUTPUT_DIR = path.join(__dirname, '../src/types');
+
+// 新增：自动生成 multi-lang-types.ts
+function generateMultiLangTypesFile() {
+  const multiLangPath = path.join(OUTPUT_DIR, 'multi-lang-types.ts');
+  const content = `export interface MultiLangArrayLike extends Array<{ '@xml:lang': string; '#text': string }> {
+  setText?(value: string, lang?: string): void;
+  getText?(lang?: string): string | undefined;
+}
+
+export class MultiLangArray extends Array<{ '@xml:lang': string; '#text': string }> implements MultiLangArrayLike {
+  setText(value: string, lang: string = 'en') {
+    const existing = this.find(item => item['@xml:lang'] === lang);
+    if (existing) {
+      existing['#text'] = value;
+    } else {
+      this.push({ '@xml:lang': lang, '#text': value });
+    }
+  }
+  getText(lang: string = 'en'): string | undefined {
+    if (lang) {
+      const found = this.find(item => item['@xml:lang'] === lang);
+      return found ? found['#text'] : undefined;
+    }
+    return this.length > 0 ? this[0]['#text'] : undefined;
+  }
+}
+
+export class MultiLangItemClass {
+  '@xml:lang': string;
+  '#text': string;
+  constructor(lang: string, text: string) {
+    this['@xml:lang'] = lang;
+    this['#text'] = text;
+  }
+  setText(value: string, lang: string = 'en') {
+    this['@xml:lang'] = lang;
+    this['#text'] = value;
+  }
+  getText(lang: string = 'en'): string | undefined {
+    if (!lang || this['@xml:lang'] === lang) {
+      return this['#text'];
+    }
+    return undefined;
+  }
+}
+
+export type MultiLangItem = MultiLangItemClass;
+`;
+  fs.writeFileSync(multiLangPath, content, 'utf-8');
+  console.log(`✓ Generated multi-lang-types file: ${multiLangPath}`);
+}
 
 async function main() {
   // Ensure output directory exists
@@ -17,17 +71,21 @@ async function main() {
     fs.mkdirSync(OUTPUT_DIR, { recursive: true });
   }
 
+  // 新增：生成 multi-lang-types.ts
+  generateMultiLangTypesFile();
+
   // Create converter with TIDAS configuration
   const config = createTidasConfig();
   const converter = new JsonSchemaToTypeScript(config);
 
   // Find all JSON schema files
-  const schemaFiles = fs.readdirSync(SCHEMAS_DIR)
-    .filter(file => file.endsWith('.json'))
+  const schemaFiles = fs
+    .readdirSync(SCHEMAS_DIR)
+    .filter((file) => file.endsWith('.json'))
     .sort();
 
   console.log(`Found ${schemaFiles.length} schema files:`);
-  schemaFiles.forEach(file => console.log(`  - ${file}`));
+  schemaFiles.forEach((file) => console.log(`  - ${file}`));
 
   // Convert each schema file
   for (const schemaFile of schemaFiles) {
@@ -36,7 +94,7 @@ async function main() {
     const outputPath = path.join(OUTPUT_DIR, outputFile);
 
     console.log(`\nConverting ${schemaFile} -> ${outputFile}`);
-    
+
     try {
       await converter.convertFile(inputPath, outputPath);
       console.log(`✓ Successfully generated ${outputFile}`);
@@ -47,7 +105,7 @@ async function main() {
 
   // Generate index file
   generateIndexFile(schemaFiles);
-  
+
   console.log('\nType generation completed!');
 }
 
@@ -62,8 +120,8 @@ function generateIndexFile(_schemaFiles: string[]) {
 
   // Add exports for each generated file
   // for (const schemaFile of schemaFiles) {
-    // const moduleName = schemaFile.replace('.json', '');
-    // lines.push(`export * from './${moduleName}';`);
+  // const moduleName = schemaFile.replace('.json', '');
+  // lines.push(`export * from './${moduleName}';`);
   // }
 
   lines.push('');
@@ -72,10 +130,16 @@ function generateIndexFile(_schemaFiles: string[]) {
   lines.push("export { Flows as Flow } from './tidas_flows';");
   lines.push("export { Processes as Process } from './tidas_processes';");
   lines.push("export { Sources as Source } from './tidas_sources';");
-  lines.push("export { Flowproperties as FlowProperty } from './tidas_flowproperties';");
+  lines.push(
+    "export { Flowproperties as FlowProperty } from './tidas_flowproperties';"
+  );
   lines.push("export { Unitgroups as UnitGroup } from './tidas_unitgroups';");
-  lines.push("export { Lciamethods as LCIAMethod } from './tidas_lciamethods';");
-  lines.push("export { Lifecyclemodels as LifeCycleModel } from './tidas_lifecyclemodels';");
+  lines.push(
+    "export { Lciamethods as LCIAMethod } from './tidas_lciamethods';"
+  );
+  lines.push(
+    "export { Lifecyclemodels as LifeCycleModel } from './tidas_lifecyclemodels';"
+  );
   lines.push('');
   // lines.push('// Legacy aliases for backward compatibility');
   // lines.push("export { Flows as FlowDataSet } from './tidas_flows';");
@@ -87,10 +151,18 @@ function generateIndexFile(_schemaFiles: string[]) {
   lines.push("import type { Flows as Flow } from './tidas_flows';");
   lines.push("import type { Processes as Process } from './tidas_processes';");
   lines.push("import type { Sources as Source } from './tidas_sources';");
-  lines.push("import type { Flowproperties as FlowProperty } from './tidas_flowproperties';");
-  lines.push("import type { Unitgroups as UnitGroup } from './tidas_unitgroups';");
-  lines.push("import type { Lciamethods as LCIAMethod } from './tidas_lciamethods';");
-  lines.push("import type { Lifecyclemodels as LifeCycleModel } from './tidas_lifecyclemodels';");
+  lines.push(
+    "import type { Flowproperties as FlowProperty } from './tidas_flowproperties';"
+  );
+  lines.push(
+    "import type { Unitgroups as UnitGroup } from './tidas_unitgroups';"
+  );
+  lines.push(
+    "import type { Lciamethods as LCIAMethod } from './tidas_lciamethods';"
+  );
+  lines.push(
+    "import type { Lifecyclemodels as LifeCycleModel } from './tidas_lifecyclemodels';"
+  );
   lines.push('');
   lines.push('// Union type for all data sets');
   lines.push('export type DataSet = ');
