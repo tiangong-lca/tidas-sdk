@@ -12,12 +12,16 @@ contact.contactDataSet.contactInformation.dataSetInformation[
   'common:name'
 ].setText?.('测试', 'zh');
 
-// contact.contactDataSet.contactInformation.dataSetInformation['common:name'] = [
-//   { '@xml:lang': 'fr', '#text': 'test' },
-// ];
+console.log(
+  contact.contactDataSet.contactInformation.dataSetInformation[
+    'common:name'
+  ][0]['#text']
+);
 
 console.log(
-  contact.contactDataSet.contactInformation.dataSetInformation['common:name']
+  contact.contactDataSet.contactInformation.dataSetInformation[
+    'common:name'
+  ].getText?.('fr')
 );
 
 console.log(contact.toJSONString());

@@ -49,9 +49,11 @@ async function demonstrateValidationConfig() {
             'common:name': [{ '@xml:lang': 'en', '#text': 'Strict Contact' }],
             classificationInformation: {
               'common:classification': {
-                'common:class': [
-                  { '@level': '0', '@classId': 'contact', '#text': 'Contact' },
-                ],
+                'common:class': {
+                  '@level': '0',
+                  '@classId': 'contact',
+                  '#text': 'Contact',
+                },
               },
             },
           },
@@ -121,13 +123,11 @@ async function demonstrateValidationConfig() {
               ],
               classificationInformation: {
                 'common:classification': {
-                  'common:class': [
-                    {
-                      '@level': '0',
-                      '@classId': 'contact',
-                      '#text': 'Contact',
-                    },
-                  ],
+                  'common:class': {
+                    '@level': '0',
+                    '@classId': 'contact',
+                    '#text': 'Contact',
+                  },
                 },
               },
             },

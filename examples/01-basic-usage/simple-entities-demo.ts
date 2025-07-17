@@ -92,8 +92,7 @@ process.processDataSet.processInformation.dataSetInformation.name = {
 };
 
 // Set required fields
-process.processDataSet.processInformation.dataSetInformation.classificationInformation =
-  {};
+
 process.processDataSet.processInformation.dataSetInformation[
   'common:generalComment'
 ] = [

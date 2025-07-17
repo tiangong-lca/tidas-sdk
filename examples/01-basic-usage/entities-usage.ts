@@ -26,15 +26,19 @@ const contact = createContact();
 // Quick way to set multi-language text
 contact.contactDataSet.contactInformation.dataSetInformation[
   'common:name'
-].setText('Dr. Jane Smith', 'en');
+].setText?.('Dr. Jane Smith', 'en');
 
 contact.contactDataSet.contactInformation.dataSetInformation[
   'common:name'
-].setText('Dr. Jane Smith', 'en');
+].setText?.('Dr. Jane Smith', 'fr');
 
+// or directly set the text
 contact.contactDataSet.contactInformation.dataSetInformation[
   'common:shortName'
-] = [{ '@xml:lang': 'en', '#text': 'J. Smith' }];
+] = [
+  { '@xml:lang': 'en', '#text': 'J. Smith' },
+  { '@xml:lang': 'fr', '#text': 'J. Smith' },
+];
 
 contact.contactDataSet.contactInformation.dataSetInformation.email =
   'jane.smith@example.com';
@@ -168,11 +172,7 @@ const unitGroup = createUnitGroup();
 // Set unit group information
 unitGroup.unitGroupDataSet.unitGroupInformation.dataSetInformation[
   'common:name'
-] = [{ '@xml:lang': 'en', '#text': 'Mass units' }];
-
-unitGroup.unitGroupDataSet.unitGroupInformation.dataSetInformation[
-  'common:shortName'
-] = [{ '@xml:lang': 'en', '#text': 'kg' }];
+].setText?.('Mass units', 'en');
 
 // Add multiple units to the unit group
 unitGroup.unitGroupDataSet.units = {
@@ -219,10 +219,6 @@ const lciaMethod = createLCIAMethod();
 lciaMethod.LCIAMethodDataSet.LCIAMethodInformation.dataSetInformation[
   'common:name'
 ] = [{ '@xml:lang': 'en', '#text': 'Climate change - GWP 100' }];
-
-lciaMethod.LCIAMethodDataSet.LCIAMethodInformation.dataSetInformation[
-  'common:shortName'
-] = [{ '@xml:lang': 'en', '#text': 'GWP100' }];
 
 lciaMethod.LCIAMethodDataSet.LCIAMethodInformation.dataSetInformation.methodology =
   'IPCC 2013 methodology for global warming potential calculation';

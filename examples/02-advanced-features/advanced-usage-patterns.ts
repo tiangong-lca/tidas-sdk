@@ -51,7 +51,7 @@ contacts.forEach((contact, index) => {
   const name =
     contact.contactDataSet.contactInformation.dataSetInformation[
       'common:name'
-    ]?.[0]?.['#text'];
+    ].getText?.('en');
   console.log(`Contact ${index + 1}: ${name}`);
 });
 
