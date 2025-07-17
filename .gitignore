@@ -40,3 +40,8 @@ ts-to-zod-configs/
 
 # claude
 .claude/
+docs/
+CLAUDE.md
+
+# kiro
+.kiro/
