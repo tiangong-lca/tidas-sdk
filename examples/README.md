@@ -10,7 +10,7 @@ The examples use the published npm package instead of the local source code. To 
 
    ```bash
    cd examples
-   npm install
+   npm install @tiangong-lca/tidas-sdk@latest
    ```
 
 2. **Run individual examples**:
