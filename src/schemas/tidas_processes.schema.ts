@@ -88,9 +88,10 @@ export const ProcessesSchema = z.object({
         'common:other': z.string().optional(),
       }),
       time: z.object({
-        referenceYear: YearSchema,
-        dataSetValidUntil: YearSchema.optional(),
-        timeRepresentativenessDescription: FTMultiLangSchema.optional(),
+        'common:referenceYear': YearSchema,
+        'common:dataSetValidUntil': YearSchema.optional(),
+        'common:timeRepresentativenessDescription':
+          FTMultiLangSchema.optional(),
         'common:other': z.string().optional(),
       }),
       geography: z.object({
@@ -112,8 +113,7 @@ export const ProcessesSchema = z.object({
       }),
       technology: z
         .object({
-          technologyDescriptionAndIncludedProcesses:
-            FTMultiLangSchema.optional(),
+          technologyDescriptionAndIncludedProcesses: FTMultiLangSchema,
           referenceToIncludedProcesses: GlobalReferenceTypeSchema.optional(),
           technologicalApplicability: FTMultiLangSchema.optional(),
           referenceToTechnologyPictogramme:
@@ -208,7 +208,7 @@ export const ProcessesSchema = z.object({
       }),
       dataSourcesTreatmentAndRepresentativeness: z
         .object({
-          dataCutOffAndCompletenessPrinciples: FTMultiLangSchema.optional(),
+          dataCutOffAndCompletenessPrinciples: FTMultiLangSchema,
           deviationsFromCutOffAndCompletenessPrinciples:
             FTMultiLangSchema.optional(),
           dataSelectionAndCombinationPrinciples: FTMultiLangSchema.optional(),
@@ -220,7 +220,7 @@ export const ProcessesSchema = z.object({
             FTMultiLangSchema.optional(),
           referenceToDataHandlingPrinciples:
             GlobalReferenceTypeSchema.optional(),
-          referenceToDataSource: GlobalReferenceTypeSchema.optional(),
+          referenceToDataSource: GlobalReferenceTypeSchema,
           percentageSupplyOrProductionCovered: PercSchema.optional(),
           annualSupplyOrProductionVolume: StringMultiLangSchema.optional(),
           samplingProcedure: FTMultiLangSchema.optional(),
@@ -313,9 +313,7 @@ export const ProcessesSchema = z.object({
                   z.literal('Cross-check with other data set'),
                   z.literal('Expert judgement'),
                   z.literal('Mass balance'),
-                  z.literal(
-                    'Compliance with legal limitsRegulated Inputs and Outputs e.g. emission data are validated for compliance with legal limits, typically after relating and scaling the data to the regulated processes/sites etc.'
-                  ),
+                  z.literal('Compliance with legal limits'),
                   z.literal('Compliance with ISO 14040 to 14044'),
                   z.literal('Documentation'),
                   z.literal(
@@ -347,9 +345,7 @@ export const ProcessesSchema = z.object({
                     z.literal('Cross-check with other data set'),
                     z.literal('Expert judgement'),
                     z.literal('Mass balance'),
-                    z.literal(
-                      'Compliance with legal limitsRegulated Inputs and Outputs e.g. emission data are validated for compliance with legal limits, typically after relating and scaling the data to the regulated processes/sites etc.'
-                    ),
+                    z.literal('Compliance with legal limits'),
                     z.literal('Compliance with ISO 14040 to 14044'),
                     z.literal('Documentation'),
                     z.literal(
@@ -393,10 +389,11 @@ export const ProcessesSchema = z.object({
             })
             .optional(),
           reviewDetails: FTMultiLangSchema.optional(),
-          referenceToNameOfReviewerAndInstitution:
+          'common:referenceToNameOfReviewerAndInstitution':
             GlobalReferenceTypeSchema.optional(),
-          otherReviewDetails: FTMultiLangSchema.optional(),
-          referenceToCompleteReviewReport: GlobalReferenceTypeSchema.optional(),
+          'common:otherReviewDetails': FTMultiLangSchema.optional(),
+          'common:referenceToCompleteReviewReport':
+            GlobalReferenceTypeSchema.optional(),
           'common:other': z.string().optional(),
         }),
         'common:other': z.string().optional(),
@@ -461,7 +458,8 @@ export const ProcessesSchema = z.object({
           GlobalReferenceTypeSchema.optional(),
         'common:referenceToPersonOrEntityEnteringTheData':
           GlobalReferenceTypeSchema,
-        referenceToDataSetUseApproval: GlobalReferenceTypeSchema.optional(),
+        'common:referenceToDataSetUseApproval':
+          GlobalReferenceTypeSchema.optional(),
         'common:other': z.string().optional(),
       }),
       publicationAndOwnership: z.object({

@@ -71,9 +71,9 @@ export interface Processes {
         'common:other'?: string;
       };
       time: {
-        referenceYear: Year;
-        dataSetValidUntil?: Year;
-        timeRepresentativenessDescription?: FTMultiLang;
+        'common:referenceYear': Year;
+        'common:dataSetValidUntil'?: Year;
+        'common:timeRepresentativenessDescription'?: FTMultiLang;
         'common:other'?: string;
       };
       geography: {
@@ -92,7 +92,7 @@ export interface Processes {
         'common:other'?: string;
       };
       technology?: {
-        technologyDescriptionAndIncludedProcesses?: FTMultiLang;
+        technologyDescriptionAndIncludedProcesses: FTMultiLang;
         referenceToIncludedProcesses?: GlobalReferenceType;
         technologicalApplicability?: FTMultiLang;
         referenceToTechnologyPictogramme?: GlobalReferenceType;
@@ -167,14 +167,14 @@ export interface Processes {
         'common:other'?: string;
       };
       dataSourcesTreatmentAndRepresentativeness?: {
-        dataCutOffAndCompletenessPrinciples?: FTMultiLang;
+        dataCutOffAndCompletenessPrinciples: FTMultiLang;
         deviationsFromCutOffAndCompletenessPrinciples?: FTMultiLang;
         dataSelectionAndCombinationPrinciples?: FTMultiLang;
         deviationsFromSelectionAndCombinationPrinciples?: FTMultiLang;
         dataTreatmentAndExtrapolationsPrinciples?: FTMultiLang;
         deviationsFromTreatmentAndExtrapolationPrinciples?: FTMultiLang;
         referenceToDataHandlingPrinciples?: GlobalReferenceType;
-        referenceToDataSource?: GlobalReferenceType;
+        referenceToDataSource: GlobalReferenceType;
         percentageSupplyOrProductionCovered?: Perc;
         annualSupplyOrProductionVolume?: StringMultiLang;
         samplingProcedure?: FTMultiLang;
@@ -250,7 +250,7 @@ export interface Processes {
                     | 'Cross-check with other data set'
                     | 'Expert judgement'
                     | 'Mass balance'
-                    | 'Compliance with legal limitsRegulated Inputs and Outputs e.g. emission data are validated for compliance with legal limits, typically after relating and scaling the data to the regulated processes/sites etc.'
+                    | 'Compliance with legal limits'
                     | 'Compliance with ISO 14040 to 14044'
                     | 'Documentation'
                     | 'Evidence collection by means of plant visits and/or interviews';
@@ -277,7 +277,7 @@ export interface Processes {
                     | 'Cross-check with other data set'
                     | 'Expert judgement'
                     | 'Mass balance'
-                    | 'Compliance with legal limitsRegulated Inputs and Outputs e.g. emission data are validated for compliance with legal limits, typically after relating and scaling the data to the regulated processes/sites etc.'
+                    | 'Compliance with legal limits'
                     | 'Compliance with ISO 14040 to 14044'
                     | 'Documentation'
                     | 'Evidence collection by means of plant visits and/or interviews';
@@ -304,9 +304,9 @@ export interface Processes {
             };
           };
           reviewDetails?: FTMultiLang;
-          referenceToNameOfReviewerAndInstitution?: GlobalReferenceType;
-          otherReviewDetails?: FTMultiLang;
-          referenceToCompleteReviewReport?: GlobalReferenceType;
+          'common:referenceToNameOfReviewerAndInstitution'?: GlobalReferenceType;
+          'common:otherReviewDetails'?: FTMultiLang;
+          'common:referenceToCompleteReviewReport'?: GlobalReferenceType;
           'common:other'?: string;
         };
         'common:other'?: string;
@@ -360,7 +360,7 @@ export interface Processes {
         'common:referenceToDataSetFormat': GlobalReferenceType;
         'common:referenceToConvertedOriginalDataSetFrom'?: GlobalReferenceType;
         'common:referenceToPersonOrEntityEnteringTheData': GlobalReferenceType;
-        referenceToDataSetUseApproval?: GlobalReferenceType;
+        'common:referenceToDataSetUseApproval'?: GlobalReferenceType;
         'common:other'?: string;
       };
       publicationAndOwnership: {

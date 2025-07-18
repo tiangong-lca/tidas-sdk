@@ -38,6 +38,14 @@ npm whoami
 git checkout main
 git pull origin main
 
+# Update submodule to latest version
+git submodule update --init --recursive
+git submodule update --remote
+
+# Regenerate types and schemas from updated submodule
+npm run generate-types
+npm run generate-schemas
+
 # Clean install dependencies
 npm ci
 

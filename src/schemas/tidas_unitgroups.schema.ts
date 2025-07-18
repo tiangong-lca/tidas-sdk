@@ -70,7 +70,7 @@ export const UnitgroupsSchema = z.object({
         'common:dataSetVersion': z.string(),
         'common:referenceToPrecedingDataSetVersion':
           GlobalReferenceTypeSchema.optional(),
-        permanentDataSetURI: z.string().optional(),
+        'common:permanentDataSetURI': z.string().optional(),
         'common:referenceToOwnershipOfDataSet': GlobalReferenceTypeSchema,
         'common:other': z.string().optional(),
       }),

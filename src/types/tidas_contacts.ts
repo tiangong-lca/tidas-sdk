@@ -59,7 +59,7 @@ export interface Contacts {
       };
       publicationAndOwnership: {
         'common:dataSetVersion': string;
-        referenceToPrecedingDataSetVersion?: GlobalReferenceType;
+        'common:referenceToPrecedingDataSetVersion'?: GlobalReferenceType;
         'common:permanentDataSetURI'?: string;
         'common:referenceToOwnershipOfDataSet': GlobalReferenceType;
         'common:other'?: string;

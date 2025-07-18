@@ -71,7 +71,7 @@ export const ContactsSchema = z.object({
       }),
       publicationAndOwnership: z.object({
         'common:dataSetVersion': z.string(),
-        referenceToPrecedingDataSetVersion:
+        'common:referenceToPrecedingDataSetVersion':
           GlobalReferenceTypeSchema.optional(),
         'common:permanentDataSetURI': z.string().optional(),
         'common:referenceToOwnershipOfDataSet': GlobalReferenceTypeSchema,

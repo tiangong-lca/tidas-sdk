@@ -63,7 +63,7 @@ export interface Sources {
       publicationAndOwnership: {
         'common:dataSetVersion': string;
         'common:referenceToPrecedingDataSetVersion'?: GlobalReferenceType;
-        permanentDataSetURI?: string;
+        'common:permanentDataSetURI'?: string;
         'common:referenceToOwnershipOfDataSet': GlobalReferenceType;
         'common:other'?: string;
       };

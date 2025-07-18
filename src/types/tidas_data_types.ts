@@ -25,22 +25,19 @@ export type StringMultiLang = MultiLangArrayLike | MultiLangItemClass;
 /**
  * 1-digit integer number
  *
- * @minimum 0
- * @maximum 9
+ * @pattern ^[0-9]$
  */
 export type Int1 = string;
 /**
  * 5-digit integer number
  *
- * @minimum 0
- * @maximum 99999
+ * @pattern ^(0|[1-9]\d{0,4})$
  */
 export type Int5 = string;
 /**
  * 6-digit integer number
  *
- * @minimum 0
- * @maximum 999999
+ * @pattern ^(0|[1-9]\d{0,5})$
  */
 export type Int6 = string;
 /**

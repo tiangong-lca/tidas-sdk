@@ -250,7 +250,7 @@ export interface Lifecyclemodels {
         'common:permanentDataSetURI': string;
         'common:referenceToOwnershipOfDataSet': GlobalReferenceType;
         'common:copyright': 'true' | 'false';
-        referenceToEntitiesWithExclusiveAccess?: GlobalReferenceType;
+        'common:referenceToEntitiesWithExclusiveAccess'?: GlobalReferenceType;
         'common:licenseType':
           | 'Free of charge for all users and uses'
           | 'Free of charge for some user types or use types'

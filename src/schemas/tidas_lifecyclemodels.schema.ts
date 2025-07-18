@@ -410,7 +410,7 @@ export const LifecyclemodelsSchema = z.object({
         'common:permanentDataSetURI': z.string(),
         'common:referenceToOwnershipOfDataSet': GlobalReferenceTypeSchema,
         'common:copyright': z.union([z.literal('true'), z.literal('false')]),
-        referenceToEntitiesWithExclusiveAccess:
+        'common:referenceToEntitiesWithExclusiveAccess':
           GlobalReferenceTypeSchema.optional(),
         'common:licenseType': z.union([
           z.literal('Free of charge for all users and uses'),

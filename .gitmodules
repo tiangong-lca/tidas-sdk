@@ -1,0 +1,3 @@
+[submodule "tidas-tools"]
+	path = tidas-tools
+	url = https://github.com/tiangong-lca/tidas-tools.git

@@ -11,7 +11,7 @@ import {
   createTidasConfig,
 } from './json-schema-to-typescript.js';
 
-const SCHEMAS_DIR = path.join(__dirname, '../tidas/schemas');
+const SCHEMAS_DIR = path.join(__dirname, '../tidas-tools/src/tidas_tools/tidas/schemas');
 const OUTPUT_DIR = path.join(__dirname, '../src/types');
 
 // 新增：自动生成 multi-lang-types.ts

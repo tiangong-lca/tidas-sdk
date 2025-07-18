@@ -5,11 +5,11 @@ export const CASNumberSchema = z.string().regex(/^[0-9]{2,7}-[0-9]{2}-[0-9]$/);
 
 export const FTSchema = z.string();
 
-export const Int1Schema = z.string().min(0).max(9);
+export const Int1Schema = z.string().regex(/^[0-9]$/);
 
-export const Int5Schema = z.string().min(0).max(99999);
+export const Int5Schema = z.string().regex(/^(0|[1-9]\d{0,4})$/);
 
-export const Int6Schema = z.string().min(0).max(999999);
+export const Int6Schema = z.string().regex(/^(0|[1-9]\d{0,5})$/);
 
 export const LevelTypeSchema = Int1Schema;
 
