@@ -344,14 +344,14 @@ export abstract class TidasEntity<T = any> {
     if (Array.isArray(obj)) {
       return obj
         .map((item) => this.cleanForJSON(item))
-        .filter((item) => item !== undefined);
-    }
+        .filter((item) => item !== undefined && item!==null);
+    } 
 
     if (typeof obj === 'object') {
       const cleaned: any = {};
       for (const [key, value] of Object.entries(obj)) {
         const cleanedValue = this.cleanForJSON(value);
-        if (cleanedValue !== undefined) {
+        if (cleanedValue !== undefined && cleanedValue!==null) {
           cleaned[key] = cleanedValue;
         }
       }
