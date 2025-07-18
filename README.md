@@ -113,7 +113,7 @@ MIT License - see [LICENSE](LICENSE) file for details.
 
 ## 🏷️ Version
 
-Current version: 0.1.1
+Current version: 0.1.6
 
 ## 🔗 Links
 
