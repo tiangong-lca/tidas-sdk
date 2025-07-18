@@ -330,7 +330,7 @@ export abstract class TidasEntity<T = any> {
 
   /**
    * Clean data for JSON serialization
-   * Removes undefined values, functions, and ensures proper structure
+   * Removes undefined values, functions, empty objects, and ensures proper structure
    */
   private cleanForJSON(obj: any): any {
     if (obj === null || obj === undefined) {
@@ -344,16 +344,19 @@ export abstract class TidasEntity<T = any> {
     if (Array.isArray(obj)) {
       return obj
         .map((item) => this.cleanForJSON(item))
-        .filter((item) => item !== undefined && item!==null);
+        .filter((item) => item !== undefined && item !== null);
     } 
 
     if (typeof obj === 'object') {
       const cleaned: any = {};
       for (const [key, value] of Object.entries(obj)) {
         const cleanedValue = this.cleanForJSON(value);
-        if (cleanedValue !== undefined && cleanedValue!==null) {
+        if (cleanedValue !== undefined && cleanedValue !== null) {
           cleaned[key] = cleanedValue;
         }
+      }
+      if (cleaned instanceof Object) {
+        return Object.keys(cleaned).length > 0 ? cleaned : undefined;
       }
       return cleaned;
     }
