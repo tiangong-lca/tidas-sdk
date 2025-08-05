@@ -101,8 +101,8 @@ process.processDataSet.processInformation.dataSetInformation[
 
 // Set time information with correct property names
 process.processDataSet.processInformation.time = {
-  referenceYear: 2023,
-  dataSetValidUntil: 2030,
+  'common:referenceYear': 2023,
+  'common:dataSetValidUntil': 2030,
 };
 
 console.log('✓ Process created successfully');

@@ -64,6 +64,18 @@ console.log(
   contact.validate().success ? 'PASSED' : 'FAILED'
 );
 
+// Global reference
+contact.contactDataSet.contactInformation.dataSetInformation.referenceToContact =
+  {
+    '@type': 'process',
+    '@refObjectId': '0',
+    '@version': '1.0',
+    '@uri': 'http://example.com/process/0',
+    'common:shortDescription': [
+      { '@xml:lang': 'en', '#text': 'Process description' },
+    ],
+  };
+
 // Example 2: Create a Flow
 console.log('\n=== Example 2: Flow Creation ===');
 const flow = createFlow();
@@ -107,8 +119,8 @@ if (process.processDataSet.processInformation.technology) {
 }
 
 // Set time period
-process.processDataSet.processInformation.time.referenceYear = 2023;
-process.processDataSet.processInformation.time.dataSetValidUntil = 2030;
+process.processDataSet.processInformation.time['common:referenceYear'] = 2023;
+process.processDataSet.processInformation.time['common:referenceYear'] = 2030;
 
 console.log(
   'Process name:',

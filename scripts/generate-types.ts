@@ -11,7 +11,10 @@ import {
   createTidasConfig,
 } from './json-schema-to-typescript.js';
 
-const SCHEMAS_DIR = path.join(__dirname, '../tidas-tools/src/tidas_tools/tidas/schemas');
+const SCHEMAS_DIR = path.join(
+  __dirname,
+  '../tidas-tools/src/tidas_tools/tidas/schemas'
+);
 const OUTPUT_DIR = path.join(__dirname, '../src/types');
 
 // 新增：自动生成 multi-lang-types.ts
@@ -140,6 +143,7 @@ function generateIndexFile(_schemaFiles: string[]) {
   lines.push(
     "export { Lifecyclemodels as LifeCycleModel } from './tidas_lifecyclemodels';"
   );
+  lines.push("export *  from './tidas_data_types';");
   lines.push('');
   // lines.push('// Legacy aliases for backward compatibility');
   // lines.push("export { Flows as FlowDataSet } from './tidas_flows';");
