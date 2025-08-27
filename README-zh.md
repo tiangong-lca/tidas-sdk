@@ -21,17 +21,26 @@ import { createContact } from '@tiangong-lca/tidas-sdk/core';
 const contact = createContact();
 
 // 设置多语言名称（推荐用 setText 方法）
-contact.contactDataSet.contactInformation.dataSetInformation['common:name'].setText?.('张博士', 'zh');
-contact.contactDataSet.contactInformation.dataSetInformation['common:name'].setText?.('Dr. Jane Smith', 'en');
+contact.contactDataSet.contactInformation.dataSetInformation[
+  'common:name'
+].setText?.('张博士', 'zh');
+contact.contactDataSet.contactInformation.dataSetInformation[
+  'common:name'
+].setText?.('Dr. Jane Smith', 'en');
 
 // 也可以直接设置多语言数组
-contact.contactDataSet.contactInformation.dataSetInformation['common:shortName'] = [
+contact.contactDataSet.contactInformation.dataSetInformation[
+  'common:shortName'
+] = [
   { '@xml:lang': 'zh', '#text': '张博士' },
   { '@xml:lang': 'en', '#text': 'J. Smith' },
 ];
 
 // 获取指定语言的名称
-const zhName = contact.contactDataSet.contactInformation.dataSetInformation['common:name'].getText?.('zh');
+const zhName =
+  contact.contactDataSet.contactInformation.dataSetInformation[
+    'common:name'
+  ].getText?.('zh');
 
 // 校验实体
 const validation = contact.validate();
