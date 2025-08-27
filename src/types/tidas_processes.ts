@@ -215,9 +215,9 @@ export interface Processes {
             | 'Relevant flows missing'
             | 'Topic not relevant'
             | 'No statement';
-          completenessOtherProblemField?: FTMultiLang;
-          'common:other'?: string;
         };
+        completenessOtherProblemField?: FTMultiLang;
+        'common:other'?: string;
       };
       validation: {
         review: {

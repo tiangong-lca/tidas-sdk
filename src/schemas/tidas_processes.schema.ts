@@ -274,10 +274,10 @@ export const ProcessesSchema = z.object({
                   z.literal('No statement'),
                 ])
                 .optional(),
-              completenessOtherProblemField: FTMultiLangSchema.optional(),
-              'common:other': z.string().optional(),
             })
             .optional(),
+          completenessOtherProblemField: FTMultiLangSchema.optional(),
+          'common:other': z.string().optional(),
         })
         .optional(),
       validation: z.object({
