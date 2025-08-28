@@ -1,11 +1,11 @@
 /**
  * @tidas-typescript-sdk
  * TypeScript SDK for ILCD/Tidas data management
- * 
+ *
  * @example
  * ```typescript
  * import { TidasContact, createContact, validateWithZod } from '@tidas-typescript-sdk';
- * 
+ *
  * // Create a new contact
  * const contact = createContact({
  *   contactDataSet: {
@@ -16,10 +16,10 @@
  *     }
  *   }
  * });
- * 
+ *
  * // Generate mock data
  * const mockContact = TidasContact.createMock();
- * 
+ *
  * // Validate data
  * const result = validateWithZod(contact.data, ContactsSchema);
  * ```
@@ -39,7 +39,7 @@ export {
   validateWithZod,
   parseWithZod,
   validateBatch,
-  
+
   // Main schemas
   ContactSchema,
   ProcessSchema,
@@ -49,9 +49,9 @@ export {
   UnitGroupSchema,
   LCIAMethodSchema,
   LifeCycleModelSchema,
-  
+
   // Validation result type
-  type ValidationResult
+  type ValidationResult,
 } from './schemas';
 
 export {
@@ -64,7 +64,7 @@ export {
   type UnitGroup,
   type LCIAMethod,
   type LifeCycleModel,
-  type DataSet
+  type DataSet,
 } from './types';
 
 // === Services ===
@@ -74,12 +74,12 @@ export {
   batchSuggest,
   validateApiKey as validateSuggestionApiKey,
   getAvailableDataTypes,
-  
+
   // Types
   type DataType as SuggestionDataType,
   type SuggestOptions,
   type SuggestResult as ServiceSuggestResult,
-  
+
   // Deprecated (for backward compatibility)
   suggestRawData,
 } from './services';

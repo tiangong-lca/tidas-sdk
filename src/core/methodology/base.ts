@@ -4,18 +4,24 @@ import yaml from 'yaml';
 
 const TIDAS_TOOLS_DIR = path.join(
   __dirname,
-  '../../../tidas-tools/src/tidas_tools'
+  '../../../tidas-tools/src/tidas_tools/tidas/'
 );
 
 /**
  * Path to the TIDAS tools directory.
  */
-const METHODOLOGY_DIR = path.join(TIDAS_TOOLS_DIR, 'tidas/methodologies');
+let METHODOLOGY_DIR = path.join(TIDAS_TOOLS_DIR, 'methodologies');
+
+// check METHODOLOGY_DIR exists
+if (!fs.stat(METHODOLOGY_DIR)) {
+  // Use dist path
+  METHODOLOGY_DIR = path.join(__dirname, '../../methodologies');
+}
 
 /**
  * Path to the TIDAS schemas directory.
  */
-const SCHEMA_DIR = path.join(TIDAS_TOOLS_DIR, 'tidas/schemas');
+const SCHEMA_DIR = path.join(TIDAS_TOOLS_DIR, 'schemas');
 
 /**
  * Tag used to identify rules in the methodology yaml files.

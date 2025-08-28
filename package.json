@@ -32,7 +32,7 @@
     }
   },
   "scripts": {
-    "build": "tsc",
+    "build": "tsc && cp -r tidas-tools/src/tidas_tools/tidas/methodologies dist/methodologies",
     "dev": "tsc --watch",
     "clean": "rm -rf dist",
     "prebuild": "npm run clean",
