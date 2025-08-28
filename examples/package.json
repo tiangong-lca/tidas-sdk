@@ -10,10 +10,11 @@
     "run-simple": "tsx 01-basic-usage/simple-entities-demo.ts",
     "run-validation": "tsx 01-basic-usage/validation-config-demo.ts",
     "run-advanced": "tsx 02-advanced-features/advanced-usage-patterns.ts",
-    "run-validation-modes": "tsx 03-validation-modes/validation-config-demo.ts"
+    "run-validation-modes": "tsx 03-validation-modes/validation-config-demo.ts",
+    "run-ai-suggestion": "tsx 04-integration/ai-suggestion.ts"
   },
   "dependencies": {
-    "@tiangong-lca/tidas-sdk": "^0.1.10"
+    "@tiangong-lca/tidas-sdk": "^0.1.11"
   },
   "devDependencies": {
     "@types/node": "^24.0.14",

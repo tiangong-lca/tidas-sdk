@@ -27,6 +27,9 @@ The examples use the published npm package instead of the local source code. To 
 
    # Validation modes demo
    npm run run-validation-modes
+
+   # AI suggestion demo
+   npm run run-ai-suggestion
    ```
 
 ## Example Categories

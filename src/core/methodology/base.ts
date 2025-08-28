@@ -9,6 +9,7 @@ const TIDAS_TOOLS_DIR = path.join(
 );
 
 const SDK_ROOT_DIR = path.join(__dirname, '../../../');
+const DIST_DIR = path.join(SDK_ROOT_DIR, 'dist');
 
 /**
  * Path to the TIDAS tools directory.
@@ -18,7 +19,7 @@ let METHODOLOGY_DIR = path.join(TIDAS_TOOLS_DIR, 'methodologies');
 // check METHODOLOGY_DIR exists
 if (!existsSync(METHODOLOGY_DIR)) {
   // Use dist path
-  METHODOLOGY_DIR = path.join(SDK_ROOT_DIR, 'methodologies');
+  METHODOLOGY_DIR = path.join(DIST_DIR, 'methodologies');
 }
 
 /**
