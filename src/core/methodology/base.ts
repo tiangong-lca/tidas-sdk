@@ -1,4 +1,5 @@
 import fs from 'fs/promises';
+import { existsSync } from 'fs';
 import path from 'path';
 import yaml from 'yaml';
 
@@ -7,15 +8,17 @@ const TIDAS_TOOLS_DIR = path.join(
   '../../../tidas-tools/src/tidas_tools/tidas/'
 );
 
+const SDK_ROOT_DIR = path.join(__dirname, '../../../');
+
 /**
  * Path to the TIDAS tools directory.
  */
 let METHODOLOGY_DIR = path.join(TIDAS_TOOLS_DIR, 'methodologies');
 
 // check METHODOLOGY_DIR exists
-if (!fs.stat(METHODOLOGY_DIR)) {
+if (!existsSync(METHODOLOGY_DIR)) {
   // Use dist path
-  METHODOLOGY_DIR = path.join(__dirname, '../../methodologies');
+  METHODOLOGY_DIR = path.join(SDK_ROOT_DIR, 'methodologies');
 }
 
 /**

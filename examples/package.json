@@ -13,7 +13,7 @@
     "run-validation-modes": "tsx 03-validation-modes/validation-config-demo.ts"
   },
   "dependencies": {
-    "@tiangong-lca/tidas-sdk": "^0.1.8"
+    "@tiangong-lca/tidas-sdk": "^0.1.10"
   },
   "devDependencies": {
     "@types/node": "^24.0.14",
