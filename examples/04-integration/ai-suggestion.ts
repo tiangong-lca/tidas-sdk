@@ -47,7 +47,7 @@ const processEntity = createProcess({
 });
 
 (async () => {
-  const suggestResult = await suggestData(processEntity, 'process', {
+  const suggestResult = await suggestData(JSON.stringify(processEntity), 'process', {
     outputDiffSummary: true,
     outputDiffHTML: true,
     maxRetries: 1,
