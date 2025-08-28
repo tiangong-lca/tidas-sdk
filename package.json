@@ -63,6 +63,7 @@
     "@types/node": "^24.0.14",
     "@typescript-eslint/eslint-plugin": "^8.36.0",
     "@typescript-eslint/parser": "^8.36.0",
+    "dotenv": "^17.2.1",
     "eslint": "^9.30.1",
     "eslint-config-prettier": "^10.1.5",
     "jest": "^30.0.4",
@@ -81,7 +82,10 @@
     "node": ">=14.0.0"
   },
   "dependencies": {
+    "@langchain/core": "^0.3.72",
+    "langchain": "^0.3.31",
     "ts-to-zod": "^3.15.0",
+    "yaml": "^2.8.1",
     "zod": "^4.0.5"
   }
 }
