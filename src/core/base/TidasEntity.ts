@@ -196,6 +196,13 @@ export abstract class TidasEntity<T = any> {
   }
 
   /**
+   * Get value using dot notation path
+   */
+  public getValue(path: string): any {
+    return this.getNestedValue(path);
+  }
+
+  /**
    * Set nested value using dot notation path
    */
   protected setNestedValue(path: string, value: any): void {
@@ -345,7 +352,7 @@ export abstract class TidasEntity<T = any> {
       return obj
         .map((item) => this.cleanForJSON(item))
         .filter((item) => item !== undefined && item !== null);
-    } 
+    }
 
     if (typeof obj === 'object') {
       const cleaned: any = {};
