@@ -10,6 +10,9 @@ import {
   MultiLangArray,
   MultiLangItemClass,
 } from '../../types/multi-lang-types';
+import { suggestEntireObject } from '../methodology/ai';
+import type { ModelConfig } from '../methodology/ai';
+import { generateDiffHTML, generateDiffSummary } from '../../utils/diff';
 
 /**
  * Legacy validation result type (maintained for backward compatibility)
@@ -23,6 +26,15 @@ export type ValidationResult<T> =
       success: false;
       error: z.ZodError;
     };
+
+/**
+ * Result type for suggest operation with diff output
+ */
+export interface SuggestResult<T extends TidasEntity> {
+  data: T;
+  diffSummary?: string;
+  diffHTML?: string;
+}
 
 /**
  * Abstract base class for all TIDAS entities
@@ -385,9 +397,165 @@ export abstract class TidasEntity<T = any> {
   clone(): this {
     const Constructor = this.constructor as new (...args: any[]) => this;
     return new Constructor(
-      this._schema,
       structuredClone(this._data),
       this._validationConfig
     );
+  }
+
+  /**
+   * Get the methodology type based on the entity class name
+   * Maps entity class names to their corresponding methodology types
+   */
+  protected getMethodologyType(): string {
+    const className = this.constructor.name;
+    const methodologyMapping: Record<string, string> = {
+      'TidasProcess': 'processes',
+      'TidasFlow': 'flows',
+      'TidasContact': 'contacts',
+      'TidasSource': 'sources',
+      'TidasFlowProperty': 'flowproperties',
+      'TidasUnitGroup': 'unitgroups',
+      'TidasLCIAMethod': 'lciamethods',
+      'TidasLifeCycleModel': 'lifecyclemodels'
+    };
+    
+    const methodologyType = methodologyMapping[className];
+    if (!methodologyType) {
+      throw new Error(`Unknown entity type: ${className}. Cannot determine methodology type.`);
+    }
+    
+    return methodologyType;
+  }
+
+  /**
+   * Suggest improvements for the entire entity using AI-powered methodology rules
+   * 
+   * This method applies all applicable TIDAS methodology rules to improve the data quality
+   * and compliance. It always returns a unified result structure containing the improved entity
+   * and optional diff outputs.
+   * 
+   * @param options - Optional configuration for the suggestion process
+   * @param options.skipPaths - Array of dot-notation paths to skip during improvement
+   * @param options.maxRetries - Maximum number of retries per rule (default: 1)
+   * @param options.modelConfig - Optional AI model configuration
+   * @param options.outputDiffSummary - Whether to output a text diff summary (default: false)
+   * @param options.outputDiffHTML - Whether to output an HTML diff visualization (default: false)
+   * @param options.diffPaths - Specific paths to focus on in diff summary (optional)
+   * @returns Promise<SuggestResult<this>> - Result object with improved entity and optional diffs
+   * 
+   * @example
+   * ```typescript
+   * // Basic usage
+   * const process = createProcess({ ... });
+   * const result = await process.suggestEntireObject();
+   * const improvedProcess = result.data;
+   * 
+   * // With diff outputs
+   * const result = await process.suggestEntireObject({
+   *   skipPaths: ['processDataSet.administrativeInformation'],
+   *   maxRetries: 2,
+   *   outputDiffSummary: true,
+   *   outputDiffHTML: true
+   * });
+   * console.log(result.data);        // The improved entity
+   * console.log(result.diffSummary); // Text diff summary
+   * console.log(result.diffHTML);    // HTML diff viewer code
+   * ```
+   */
+  async suggestEntireObject(
+    options?: {
+      skipPaths?: string[];
+      maxRetries?: number;
+      modelConfig?: ModelConfig;
+      outputDiffSummary?: boolean;
+      outputDiffHTML?: boolean;
+      diffPaths?: string[];
+    }
+  ): Promise<SuggestResult<this>> {
+    try {
+      // Get the methodology type for this entity
+      const methodologyType = this.getMethodologyType();
+      
+      console.log(`Starting AI improvement for ${this.constructor.name}...`);
+      
+      // Store original data for diff if needed
+      const originalData = options?.outputDiffSummary || options?.outputDiffHTML 
+        ? this.toJSON() 
+        : null;
+      
+      // Apply suggestions to the current data
+      const improvedData = await suggestEntireObject(
+        this._data,
+        methodologyType,
+        {
+          skipPaths: options?.skipPaths,
+          maxRetries: options?.maxRetries
+        }
+      );
+      
+      // Create a new instance of the same type with improved data
+      const Constructor = this.constructor as new (...args: any[]) => this;
+      const improvedEntity = new Constructor(
+        improvedData,
+        this._validationConfig
+      );
+      
+      console.log(`✓ Successfully improved ${this.constructor.name}`);
+      
+      // Create unified result structure
+      const result: SuggestResult<this> = {
+        data: improvedEntity
+      };
+      
+      // Generate diff outputs if requested
+      if (options?.outputDiffSummary && originalData) {
+        result.diffSummary = generateDiffSummary(
+          originalData,
+          improvedEntity.toJSON(),
+          options.diffPaths
+        );
+        console.log('✓ Generated diff summary');
+      }
+      
+      if (options?.outputDiffHTML && originalData) {
+        result.diffHTML = generateDiffHTML(
+          originalData,
+          improvedEntity.toJSON()
+        );
+        console.log('✓ Generated diff HTML');
+      }
+      
+      return result;
+    } catch (error) {
+      console.error(`Failed to suggest improvements: ${(error as Error).message}`);
+      throw error;
+    }
+  }
+
+  /**
+   * Alias for suggestEntireObject for shorter syntax
+   * 
+   * @example
+   * ```typescript
+   * const result = await process.suggest();
+   * const improvedProcess = result.data;
+   * 
+   * // With diff outputs
+   * const result = await process.suggest({
+   *   outputDiffHTML: true
+   * });
+   * console.log(result.data);      // The improved entity
+   * console.log(result.diffHTML);  // HTML diff viewer code
+   * ```
+   */
+  async suggest(options?: {
+    skipPaths?: string[];
+    maxRetries?: number;
+    modelConfig?: ModelConfig;
+    outputDiffSummary?: boolean;
+    outputDiffHTML?: boolean;
+    diffPaths?: string[];
+  }): Promise<SuggestResult<this>> {
+    return this.suggestEntireObject(options);
   }
 }
