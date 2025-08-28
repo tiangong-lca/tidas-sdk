@@ -66,3 +66,20 @@ export {
   type LifeCycleModel,
   type DataSet
 } from './types';
+
+// === Services ===
+export {
+  // Suggestion service functions
+  suggestData,
+  batchSuggest,
+  validateApiKey as validateSuggestionApiKey,
+  getAvailableDataTypes,
+  
+  // Types
+  type DataType as SuggestionDataType,
+  type SuggestOptions,
+  type SuggestResult as ServiceSuggestResult,
+  
+  // Deprecated (for backward compatibility)
+  suggestRawData,
+} from './services';
