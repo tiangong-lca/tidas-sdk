@@ -1,5 +1,7 @@
 import { createProcess, suggestData } from '@tiangong-lca/tidas-sdk';
 import * as dotenv from 'dotenv';
+import * as path from 'path';
+import * as fs from 'fs';
 
 dotenv.config();
 
@@ -67,4 +69,9 @@ const processEntity = createProcess({
   const diffHTML = suggestResult.diffHTML;
 
   console.log('diffHTML:', diffHTML);
+
+  // save HTML to file
+  const outputPath = path.join(__dirname, 'ai-suggestion.html');
+  fs.writeFileSync(outputPath, diffHTML || '', 'utf-8');
+  console.log(`HTML diff saved to: ${outputPath}`);
 })();
