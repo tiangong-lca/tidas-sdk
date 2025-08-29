@@ -9,8 +9,9 @@ import {
 import {
   listRulePathsFromMethodology,
   getRuleFromMethodologyByPath,
-  readMethodologyFile,
-  methodologyFilesMapping,
+  getMethodologyData,
+  getAvailableMethodologyTypes,
+  availableMethodologies,
 } from './base';
 
 /**
@@ -238,7 +239,7 @@ export async function extractValidJsonWithRetry(
  * ```typescript
  * // Example 1: Improve a process name using specific rules
  * const nameData = [{ '@xml:lang': 'en', '#text': 'Process 1' }];
- * const rule = await getRuleFromMethodologyByPath(methodology, 'processDataSet.processInformation.dataSetInformation.name.baseName');
+ * const rule = getRuleFromMethodologyByPath(methodology, 'processDataSet.processInformation.dataSetInformation.name.baseName');
  * const improvedName = await suggest(nameData, rule);
  * // Returns: [{ '@xml:lang': 'en', '#text': 'Production of Product A using Technology X' }]
  *
@@ -335,7 +336,7 @@ Make sure to wrap the answer in \`\`\`json and \`\`\` tags
  * ```typescript
  * // Example 1: Review a process name against specific rules
  * const nameData = [{ '@xml:lang': 'en', '#text': 'Process 1' }];
- * const rule = await getRuleFromMethodologyByPath(methodology, 'processDataSet.processInformation.dataSetInformation.name.baseName');
+ * const rule = getRuleFromMethodologyByPath(methodology, 'processDataSet.processInformation.dataSetInformation.name.baseName');
  * const review = await reviewData(nameData, rule);
  * // Returns: {
  * //   review_comment: "The process name 'Process 1' is too generic. It should include specific information about...",
@@ -498,7 +499,7 @@ Output your answer as JSON in this exact format:
  *
  * @param data - The complete data object to improve (TidasEntity or plain object)
  * @param methodologyType - The type of methodology to use:
- *                         - A string key from methodologyFilesMapping (e.g., 'processes', 'flows')
+ *                         - A string key for available methodologies (e.g., 'processes', 'flows')
  *                         - A methodology object already loaded
  * @param options - Optional configuration:
  *                 - parallelRequests: Number of parallel AI requests (default: 1)
@@ -540,20 +541,20 @@ export async function suggestEntireObject(
   // Load methodology if string is provided
   let methodology: Record<string, any>;
   if (typeof methodologyType === 'string') {
-    const methodologyPath = methodologyFilesMapping[methodologyType];
-    if (!methodologyPath) {
+    const methodologyData = getMethodologyData(methodologyType);
+    if (!methodologyData) {
       throw new Error(
-        `Unknown methodology type: ${methodologyType}. Available types: ${Object.keys(methodologyFilesMapping).join(', ')}`
+        `Unknown methodology type: ${methodologyType}. Available types: ${availableMethodologies.join(', ')}`
       );
     }
-    methodology = await readMethodologyFile(methodologyPath);
+    methodology = methodologyData;
     console.log(`Loaded methodology: ${methodologyType}`);
   } else {
     methodology = methodologyType;
   }
 
   // Get all rule paths from the methodology
-  const allRulePaths = await listRulePathsFromMethodology(methodology);
+  const allRulePaths = listRulePathsFromMethodology(methodology);
   console.log(`Found ${allRulePaths.length} rule paths`);
 
   // Convert TidasEntity to plain object if needed
@@ -609,7 +610,7 @@ export async function suggestEntireObject(
 
     try {
       // Get rule for this path
-      const rule = await getRuleFromMethodologyByPath(methodology, path);
+      const rule = getRuleFromMethodologyByPath(methodology, path);
       if (!rule) {
         return null;
       }

@@ -32,10 +32,11 @@
     }
   },
   "scripts": {
-    "build": "tsc && cp -r tidas-tools/src/tidas_tools/tidas/methodologies dist/methodologies",
+    "build": "tsx scripts/bundle-methodologies.ts && tsc",
     "dev": "tsc --watch",
     "clean": "rm -rf dist",
     "prebuild": "npm run clean",
+    "bundle-methodologies": "tsx scripts/bundle-methodologies.ts",
     "generate-types": "tsx scripts/generate-types.ts",
     "generate-schemas": "tsx scripts/generate-zod-schemas.ts",
     "lint": "eslint .",

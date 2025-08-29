@@ -14,7 +14,7 @@
     "run-ai-suggestion": "tsx 04-integration/ai-suggestion.ts"
   },
   "dependencies": {
-    "@tiangong-lca/tidas-sdk": "^0.1.12"
+    "@tiangong-lca/tidas-sdk": "^0.1.14"
   },
   "devDependencies": {
     "@types/node": "^24.0.14",

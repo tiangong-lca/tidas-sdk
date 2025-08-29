@@ -1,31 +1,5 @@
-import { existsSync } from 'node:fs';
-import fs from 'node:fs/promises';
-import path from 'path';
-import yaml from 'yaml';
-
-const TIDAS_TOOLS_DIR = path.join(
-  __dirname,
-  '../../../tidas-tools/src/tidas_tools/tidas/'
-);
-
-const SDK_ROOT_DIR = path.join(__dirname, '../../../');
-const DIST_DIR = path.join(SDK_ROOT_DIR, 'dist');
-
-/**
- * Path to the TIDAS tools directory.
- */
-let METHODOLOGY_DIR = path.join(TIDAS_TOOLS_DIR, 'methodologies');
-
-// check METHODOLOGY_DIR exists
-if (!existsSync(METHODOLOGY_DIR)) {
-  // Use dist path
-  METHODOLOGY_DIR = path.join(DIST_DIR, 'methodologies');
-}
-
-/**
- * Path to the TIDAS schemas directory.
- */
-const SCHEMA_DIR = path.join(TIDAS_TOOLS_DIR, 'schemas');
+// Browser-compatible imports - no Node.js file system dependencies
+import bundledMethodologies from '../../data/bundled-methodologies.json';
 
 /**
  * Tag used to identify rules in the methodology yaml files.
@@ -33,55 +7,34 @@ const SCHEMA_DIR = path.join(TIDAS_TOOLS_DIR, 'schemas');
 const RULES_TAG = '<rules>';
 
 /**
- * Mapping of methodology files to their paths.
- * @type {Record<string, string>}
+ * Available methodology types based on bundled data
  */
-const methodologyFilesMapping: Record<string, string> = {
-  contacts: path.join(METHODOLOGY_DIR, 'tidas_contacts.yaml'),
-  contacts_category: path.join(METHODOLOGY_DIR, 'tidas_contacts_category.yaml'),
-  data_types: path.join(METHODOLOGY_DIR, 'tidas_data_types.yaml'),
-  flowproperties_category: path.join(
-    METHODOLOGY_DIR,
-    'tidas_flowproperties_category.yaml'
-  ),
-  flowproperties: path.join(METHODOLOGY_DIR, 'tidas_flowproperties.yaml'),
-  flows_elementary_category: path.join(
-    METHODOLOGY_DIR,
-    'tidas_flows_elementary_category.yaml'
-  ),
-  flows: path.join(METHODOLOGY_DIR, 'tidas_flows.yaml'),
-  lifecyclemodels: path.join(METHODOLOGY_DIR, 'tidas_lifecyclemodels.yaml'),
-  lciamethods: path.join(METHODOLOGY_DIR, 'tidas_lciamethods.yaml'),
-  lciamethods_category: path.join(
-    METHODOLOGY_DIR,
-    'tidas_lciamethods_category.yaml'
-  ),
-  locations_category: path.join(
-    METHODOLOGY_DIR,
-    'tidas_locations_category.yaml'
-  ),
-  processes: path.join(METHODOLOGY_DIR, 'tidas_processes.yaml'),
-  processes_category: path.join(
-    METHODOLOGY_DIR,
-    'tidas_processes_category.yaml'
-  ),
-  sources: path.join(METHODOLOGY_DIR, 'tidas_sources.yaml'),
-  sources_category: path.join(METHODOLOGY_DIR, 'tidas_sources_category.yaml'),
-  unitgroups: path.join(METHODOLOGY_DIR, 'tidas_unitgroups.yaml'),
-  unitgroups_category: path.join(
-    METHODOLOGY_DIR,
-    'tidas_unitgroups_category.yaml'
-  ),
-};
+const availableMethodologies = Object.keys(bundledMethodologies.methodologies);
 
 /**
- * Read a methodology file and return the data as a JSON object.
- * @param filePath - The path to the methodology file.
- * @returns The data from the methodology file as a JSON object.
+ * Get methodology data by type.
+ * @param methodologyType - The type of methodology to retrieve (e.g., 'processes', 'flows')
+ * @returns The methodology data object, or null if not found
  */
-async function readMethodologyFile(filePath: string) {
-  const file = await fs.readFile(filePath, 'utf8');
-  return yaml.parse(file);
+function getMethodologyData(methodologyType: string): Record<string, any> | null {
+  const data = bundledMethodologies.methodologies[methodologyType as keyof typeof bundledMethodologies.methodologies];
+  return data || null;
+}
+
+/**
+ * List all available methodology types.
+ * @returns An array of available methodology type names
+ */
+function getAvailableMethodologyTypes(): string[] {
+  return [...availableMethodologies];
+}
+
+/**
+ * Get metadata about the bundled methodologies.
+ * @returns Metadata about when the bundle was created and what it contains
+ */
+function getBundleMetadata() {
+  return bundledMethodologies._metadata;
 }
 
 /**
@@ -89,7 +42,7 @@ async function readMethodologyFile(filePath: string) {
  * This function recursively traverses the methodology object and finds all paths
  * that contain the <rules> tag.
  *
- * @param methodology - The methodology object parsed from YAML
+ * @param methodology - The methodology object
  * @returns An array of dot-notation paths to rules locations
  * @example
  * // Given a methodology object like:
@@ -108,9 +61,9 @@ async function readMethodologyFile(filePath: string) {
  * // }
  * // Returns: ['processDataSet.processInformation.dataSetInformation.name.baseName']
  */
-async function listRulePathsFromMethodology(
+function listRulePathsFromMethodology(
   methodology: Record<string, any>
-): Promise<string[]> {
+): string[] {
   const rulePaths: string[] = [];
 
   /**
@@ -162,16 +115,16 @@ async function listRulePathsFromMethodology(
 
 /**
  * Get a specific rule from methodology by its path.
- * @param methodology - The methodology object parsed from YAML
+ * @param methodology - The methodology object
  * @param path - The dot-notation path to the rule (e.g., 'processDataSet.processInformation.dataSetInformation.name.baseName')
  * @returns The rule object at the specified path, or null if not found
  */
-async function getRuleFromMethodologyByPath(
+function getRuleFromMethodologyByPath(
   methodology: Record<string, any>,
   path: string
-): Promise<any | null> {
+): any | null {
   // First, verify the path exists in the rule paths
-  const rulePaths = await listRulePathsFromMethodology(methodology);
+  const rulePaths = listRulePathsFromMethodology(methodology);
   const rulePathExists = rulePaths.includes(path);
 
   if (!rulePathExists) {
@@ -218,13 +171,51 @@ async function getRuleFromMethodologyByPath(
   return null;
 }
 
+/**
+ * Get methodology data by type - convenience wrapper.
+ * @param methodologyType - The type of methodology to retrieve
+ * @returns The methodology data object, or null if not found
+ */
+async function readMethodologyFile(methodologyType: string): Promise<Record<string, any> | null> {
+  return getMethodologyData(methodologyType);
+}
+
+/**
+ * Get all rule paths for a specific methodology type.
+ * @param methodologyType - The type of methodology (e.g., 'processes', 'flows')
+ * @returns An array of dot-notation paths to rules locations
+ */
+function getRulePathsForMethodologyType(methodologyType: string): string[] {
+  const methodologyData = getMethodologyData(methodologyType);
+  if (!methodologyData) {
+    throw new Error(`Methodology type '${methodologyType}' not found. Available types: ${availableMethodologies.join(', ')}`);
+  }
+  return listRulePathsFromMethodology(methodologyData);
+}
+
+/**
+ * Get a specific rule for a methodology type and path.
+ * @param methodologyType - The type of methodology (e.g., 'processes', 'flows')
+ * @param rulePath - The dot-notation path to the rule
+ * @returns The rule object at the specified path, or null if not found
+ */
+function getRuleForMethodologyType(methodologyType: string, rulePath: string): any | null {
+  const methodologyData = getMethodologyData(methodologyType);
+  if (!methodologyData) {
+    throw new Error(`Methodology type '${methodologyType}' not found. Available types: ${availableMethodologies.join(', ')}`);
+  }
+  return getRuleFromMethodologyByPath(methodologyData, rulePath);
+}
+
 export {
-  readMethodologyFile,
+  getMethodologyData,
+  getAvailableMethodologyTypes,
+  getBundleMetadata,
   listRulePathsFromMethodology,
   getRuleFromMethodologyByPath,
-  methodologyFilesMapping,
+  readMethodologyFile,
+  getRulePathsForMethodologyType,
+  getRuleForMethodologyType,
   RULES_TAG,
-  TIDAS_TOOLS_DIR,
-  METHODOLOGY_DIR,
-  SCHEMA_DIR,
+  availableMethodologies,
 };
