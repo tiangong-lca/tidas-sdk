@@ -1,5 +1,5 @@
-import fs from 'fs/promises';
-import { existsSync } from 'fs';
+import { existsSync } from 'node:fs';
+import fs from 'node:fs/promises';
 import path from 'path';
 import yaml from 'yaml';
 
