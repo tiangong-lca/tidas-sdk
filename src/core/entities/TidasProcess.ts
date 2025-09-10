@@ -89,53 +89,53 @@ export class TidasProcess extends TidasEntity<Process> {
       );
     }
 
-    if (
-      !this.getNestedValue(
-        'processDataSet.administrativeInformation.publicationAndOwnership.common:dataSetVersion'
-      )
-    ) {
-      this.setNestedValue(
-        'processDataSet.administrativeInformation.publicationAndOwnership.common:dataSetVersion',
-        '1.0.0'
-      );
-    }
+    // if (
+    //   !this.getNestedValue(
+    //     'processDataSet.administrativeInformation.publicationAndOwnership.common:dataSetVersion'
+    //   )
+    // ) {
+    //   this.setNestedValue(
+    //     'processDataSet.administrativeInformation.publicationAndOwnership.common:dataSetVersion',
+    //     '1.0.0'
+    //   );
+    // }
 
     // Set required reference fields with default values
-    if (
-      !this.getNestedValue(
-        'processDataSet.administrativeInformation.dataEntryBy.common:referenceToDataSetFormat'
-      )
-    ) {
-      this.setNestedValue(
-        'processDataSet.administrativeInformation.dataEntryBy.common:referenceToDataSetFormat',
-        {
-          '@type': 'source data set',
-          '@refObjectId': '00000000-0000-0000-0000-000000000000',
-          '@version': '00.00.000',
-          '@uri': '',
-          'common:shortDescription': new MultiLangArray(),
-        }
-      );
-    }
+    // if (
+    //   !this.getNestedValue(
+    //     'processDataSet.administrativeInformation.dataEntryBy.common:referenceToDataSetFormat'
+    //   )
+    // ) {
+    //   this.setNestedValue(
+    //     'processDataSet.administrativeInformation.dataEntryBy.common:referenceToDataSetFormat',
+    //     {
+    //       '@type': 'source data set',
+    //       '@refObjectId': '00000000-0000-0000-0000-000000000000',
+    //       '@version': '00.00.000',
+    //       '@uri': '',
+    //       'common:shortDescription': new MultiLangArray(),
+    //     }
+    //   );
+    // }
 
-    if (
-      !this.getNestedValue(
-        'processDataSet.administrativeInformation.publicationAndOwnership.common:referenceToOwnershipOfDataSet'
-      )
-    ) {
-      this.setNestedValue(
-        'processDataSet.administrativeInformation.publicationAndOwnership.common:referenceToOwnershipOfDataSet',
-        {
-          '@type': 'contact data set',
-          '@refObjectId': this.getNestedValue(
-            'processDataSet.processInformation.dataSetInformation.common:UUID'
-          ),
-          '@version': '00.00.000',
-          '@uri': '',
-          'common:shortDescription': new MultiLangArray(),
-        }
-      );
-    }
+    // if (
+    //   !this.getNestedValue(
+    //     'processDataSet.administrativeInformation.publicationAndOwnership.common:referenceToOwnershipOfDataSet'
+    //   )
+    // ) {
+    //   this.setNestedValue(
+    //     'processDataSet.administrativeInformation.publicationAndOwnership.common:referenceToOwnershipOfDataSet',
+    //     {
+    //       '@type': 'contact data set',
+    //       '@refObjectId': this.getNestedValue(
+    //         'processDataSet.processInformation.dataSetInformation.common:UUID'
+    //       ),
+    //       '@version': '00.00.000',
+    //       '@uri': '',
+    //       'common:shortDescription': new MultiLangArray(),
+    //     }
+    //   );
+    // }
 
     // Initialize empty arrays for multi-language text fields
     if (
@@ -183,22 +183,22 @@ export class TidasProcess extends TidasEntity<Process> {
     }
 
     // Initialize required classification structure
-    if (
-      !this.getNestedValue(
-        'processDataSet.processInformation.dataSetInformation.classificationInformation.common:classification'
-      )
-    ) {
-      this.setNestedValue(
-        'processDataSet.processInformation.dataSetInformation.classificationInformation.common:classification',
-        {
-          'common:class': {
-            '@level': '0',
-            '@classId': '00000000-0000-0000-0000-000000000000',
-            '#text': 'General process',
-          },
-        }
-      );
-    }
+    // if (
+    //   !this.getNestedValue(
+    //     'processDataSet.processInformation.dataSetInformation.classificationInformation.common:classification'
+    //   )
+    // ) {
+    //   this.setNestedValue(
+    //     'processDataSet.processInformation.dataSetInformation.classificationInformation.common:classification',
+    //     {
+    //       'common:class': {
+    //         '@level': '0',
+    //         '@classId': '00000000-0000-0000-0000-000000000000',
+    //         '#text': 'General process',
+    //       },
+    //     }
+    //   );
+    // }
 
     // Initialize exchanges array
     if (!this.getNestedValue('processDataSet.exchanges')) {
@@ -206,46 +206,46 @@ export class TidasProcess extends TidasEntity<Process> {
     }
 
     // Set default process type
-    if (
-      !this.getNestedValue(
-        'processDataSet.modellingAndValidation.LCIMethodAndAllocation.typeOfDataSet'
-      )
-    ) {
-      this.setNestedValue(
-        'processDataSet.modellingAndValidation.LCIMethodAndAllocation.typeOfDataSet',
-        'Unit process, single operation'
-      );
-    }
+    // if (
+    //   !this.getNestedValue(
+    //     'processDataSet.modellingAndValidation.LCIMethodAndAllocation.typeOfDataSet'
+    //   )
+    // ) {
+    //   this.setNestedValue(
+    //     'processDataSet.modellingAndValidation.LCIMethodAndAllocation.typeOfDataSet',
+    //     'Unit process, single operation'
+    //   );
+    // }
 
     // Set default LCI method type
-    if (
-      !this.getNestedValue(
-        'processDataSet.modellingAndValidation.LCIMethodAndAllocation.LCIMethodPrinciple'
-      )
-    ) {
-      this.setNestedValue(
-        'processDataSet.modellingAndValidation.LCIMethodAndAllocation.LCIMethodPrinciple',
-        'Attributional'
-      );
-    }
+    // if (
+    //   !this.getNestedValue(
+    //     'processDataSet.modellingAndValidation.LCIMethodAndAllocation.LCIMethodPrinciple'
+    //   )
+    // ) {
+    //   this.setNestedValue(
+    //     'processDataSet.modellingAndValidation.LCIMethodAndAllocation.LCIMethodPrinciple',
+    //     'Attributional'
+    //   );
+    // }
 
     // Initialize time period
-    if (
-      !this.getNestedValue(
-        'processDataSet.processInformation.time.common:referenceYear'
-      )
-    ) {
-      this.setNestedValue(
-        'processDataSet.processInformation.time.common:referenceYear',
-        new Date().getFullYear()
-      );
-    }
+    // if (
+    //   !this.getNestedValue(
+    //     'processDataSet.processInformation.time.common:referenceYear'
+    //   )
+    // ) {
+    //   this.setNestedValue(
+    //     'processDataSet.processInformation.time.common:referenceYear',
+    //     new Date().getFullYear()
+    //   );
+    // }
 
     // Initialize geography - ensure required location is set
-    this.setNestedValue(
-      'processDataSet.processInformation.geography.locationOfOperationSupplyOrProduction.@location',
-      'GLO'
-    );
+    // this.setNestedValue(
+    //   'processDataSet.processInformation.geography.locationOfOperationSupplyOrProduction.@location',
+    //   'GLO'
+    // );
 
     // Initialize technology
     if (
@@ -260,15 +260,15 @@ export class TidasProcess extends TidasEntity<Process> {
     }
 
     // Set default quantitative reference type
-    if (
-      !this.getNestedValue(
-        'processDataSet.processInformation.quantitativeReference.@type'
-      )
-    ) {
-      this.setNestedValue(
-        'processDataSet.processInformation.quantitativeReference.@type',
-        'Reference flow(s)'
-      );
-    }
+    // if (
+    //   !this.getNestedValue(
+    //     'processDataSet.processInformation.quantitativeReference.@type'
+    //   )
+    // ) {
+    //   this.setNestedValue(
+    //     'processDataSet.processInformation.quantitativeReference.@type',
+    //     'Reference flow(s)'
+    //   );
+    // }
   }
 }

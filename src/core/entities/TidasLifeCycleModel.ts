@@ -83,53 +83,53 @@ export class TidasLifeCycleModel extends TidasEntity<LifeCycleModel> {
       );
     }
 
-    if (
-      !this.getNestedValue(
-        'lifeCycleModelDataSet.administrativeInformation.publicationAndOwnership.common:dataSetVersion'
-      )
-    ) {
-      this.setNestedValue(
-        'lifeCycleModelDataSet.administrativeInformation.publicationAndOwnership.common:dataSetVersion',
-        '1.0.0'
-      );
-    }
+    // if (
+    //   !this.getNestedValue(
+    //     'lifeCycleModelDataSet.administrativeInformation.publicationAndOwnership.common:dataSetVersion'
+    //   )
+    // ) {
+    //   this.setNestedValue(
+    //     'lifeCycleModelDataSet.administrativeInformation.publicationAndOwnership.common:dataSetVersion',
+    //     '1.0.0'
+    //   );
+    // }
 
     // Set required reference fields with default values
-    if (
-      !this.getNestedValue(
-        'lifeCycleModelDataSet.administrativeInformation.dataEntryBy.common:referenceToDataSetFormat'
-      )
-    ) {
-      this.setNestedValue(
-        'lifeCycleModelDataSet.administrativeInformation.dataEntryBy.common:referenceToDataSetFormat',
-        {
-          '@type': 'source data set',
-          '@refObjectId': '00000000-0000-0000-0000-000000000000',
-          '@version': '00.00.000',
-          '@uri': '',
-          'common:shortDescription': new MultiLangArray(),
-        }
-      );
-    }
+    // if (
+    //   !this.getNestedValue(
+    //     'lifeCycleModelDataSet.administrativeInformation.dataEntryBy.common:referenceToDataSetFormat'
+    //   )
+    // ) {
+    //   this.setNestedValue(
+    //     'lifeCycleModelDataSet.administrativeInformation.dataEntryBy.common:referenceToDataSetFormat',
+    //     {
+    //       '@type': 'source data set',
+    //       '@refObjectId': '00000000-0000-0000-0000-000000000000',
+    //       '@version': '00.00.000',
+    //       '@uri': '',
+    //       'common:shortDescription': new MultiLangArray(),
+    //     }
+    //   );
+    // }
 
-    if (
-      !this.getNestedValue(
-        'lifeCycleModelDataSet.administrativeInformation.publicationAndOwnership.common:referenceToOwnershipOfDataSet'
-      )
-    ) {
-      this.setNestedValue(
-        'lifeCycleModelDataSet.administrativeInformation.publicationAndOwnership.common:referenceToOwnershipOfDataSet',
-        {
-          '@type': 'contact data set',
-          '@refObjectId': this.getNestedValue(
-            'lifeCycleModelDataSet.lifeCycleModelInformation.dataSetInformation.common:UUID'
-          ),
-          '@version': '00.00.000',
-          '@uri': '',
-          'common:shortDescription': new MultiLangArray(),
-        }
-      );
-    }
+    // if (
+    //   !this.getNestedValue(
+    //     'lifeCycleModelDataSet.administrativeInformation.publicationAndOwnership.common:referenceToOwnershipOfDataSet'
+    //   )
+    // ) {
+    //   this.setNestedValue(
+    //     'lifeCycleModelDataSet.administrativeInformation.publicationAndOwnership.common:referenceToOwnershipOfDataSet',
+    //     {
+    //       '@type': 'contact data set',
+    //       '@refObjectId': this.getNestedValue(
+    //         'lifeCycleModelDataSet.lifeCycleModelInformation.dataSetInformation.common:UUID'
+    //       ),
+    //       '@version': '00.00.000',
+    //       '@uri': '',
+    //       'common:shortDescription': new MultiLangArray(),
+    //     }
+    //   );
+    // }
 
     // Initialize empty arrays for multi-language text fields
     if (
@@ -177,22 +177,22 @@ export class TidasLifeCycleModel extends TidasEntity<LifeCycleModel> {
     }
 
     // Initialize required classification structure
-    if (
-      !this.getNestedValue(
-        'lifeCycleModelDataSet.lifeCycleModelInformation.dataSetInformation.classificationInformation.common:classification'
-      )
-    ) {
-      this.setNestedValue(
-        'lifeCycleModelDataSet.lifeCycleModelInformation.dataSetInformation.classificationInformation.common:classification',
-        {
-          'common:class': {
-            '@level': '0',
-            '@classId': '00000000-0000-0000-0000-000000000000',
-            '#text': 'General life cycle model',
-          },
-        }
-      );
-    }
+    // if (
+    //   !this.getNestedValue(
+    //     'lifeCycleModelDataSet.lifeCycleModelInformation.dataSetInformation.classificationInformation.common:classification'
+    //   )
+    // ) {
+    //   this.setNestedValue(
+    //     'lifeCycleModelDataSet.lifeCycleModelInformation.dataSetInformation.classificationInformation.common:classification',
+    //     {
+    //       'common:class': {
+    //         '@level': '0',
+    //         '@classId': '00000000-0000-0000-0000-000000000000',
+    //         '#text': 'General life cycle model',
+    //       },
+    //     }
+    //   );
+    // }
 
     // Initialize technology array
     if (!this.getNestedValue('lifeCycleModelDataSet.technology')) {
@@ -200,16 +200,16 @@ export class TidasLifeCycleModel extends TidasEntity<LifeCycleModel> {
     }
 
     // Set default model type
-    if (
-      !this.getNestedValue(
-        'lifeCycleModelDataSet.lifeCycleModelInformation.dataSetInformation.typeOfModel'
-      )
-    ) {
-      this.setNestedValue(
-        'lifeCycleModelDataSet.lifeCycleModelInformation.dataSetInformation.typeOfModel',
-        'Product system model'
-      );
-    }
+    // if (
+    //   !this.getNestedValue(
+    //     'lifeCycleModelDataSet.lifeCycleModelInformation.dataSetInformation.typeOfModel'
+    //   )
+    // ) {
+    //   this.setNestedValue(
+    //     'lifeCycleModelDataSet.lifeCycleModelInformation.dataSetInformation.typeOfModel',
+    //     'Product system model'
+    //   );
+    // }
 
     // Set default functional unit or other reference
     if (
@@ -224,27 +224,27 @@ export class TidasLifeCycleModel extends TidasEntity<LifeCycleModel> {
     }
 
     // Set default copyright protection
-    if (
-      !this.getNestedValue(
-        'lifeCycleModelDataSet.administrativeInformation.publicationAndOwnership.common:copyright'
-      )
-    ) {
-      this.setNestedValue(
-        'lifeCycleModelDataSet.administrativeInformation.publicationAndOwnership.common:copyright',
-        false
-      );
-    }
+    // if (
+    //   !this.getNestedValue(
+    //     'lifeCycleModelDataSet.administrativeInformation.publicationAndOwnership.common:copyright'
+    //   )
+    // ) {
+    //   this.setNestedValue(
+    //     'lifeCycleModelDataSet.administrativeInformation.publicationAndOwnership.common:copyright',
+    //     false
+    //   );
+    // }
 
     // Set default access restrictions
-    if (
-      !this.getNestedValue(
-        'lifeCycleModelDataSet.administrativeInformation.publicationAndOwnership.common:accessRestrictions'
-      )
-    ) {
-      this.setNestedValue(
-        'lifeCycleModelDataSet.administrativeInformation.publicationAndOwnership.common:accessRestrictions',
-        []
-      );
-    }
+    // if (
+    //   !this.getNestedValue(
+    //     'lifeCycleModelDataSet.administrativeInformation.publicationAndOwnership.common:accessRestrictions'
+    //   )
+    // ) {
+    //   this.setNestedValue(
+    //     'lifeCycleModelDataSet.administrativeInformation.publicationAndOwnership.common:accessRestrictions',
+    //     []
+    //   );
+    // }
   }
 }

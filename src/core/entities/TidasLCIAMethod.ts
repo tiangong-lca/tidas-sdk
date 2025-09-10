@@ -83,53 +83,53 @@ export class TidasLCIAMethod extends TidasEntity<LCIAMethod> {
       );
     }
 
-    if (
-      !this.getNestedValue(
-        'LCIAMethodDataSet.administrativeInformation.publicationAndOwnership.common:dataSetVersion'
-      )
-    ) {
-      this.setNestedValue(
-        'LCIAMethodDataSet.administrativeInformation.publicationAndOwnership.common:dataSetVersion',
-        '1.0.0'
-      );
-    }
+    // if (
+    //   !this.getNestedValue(
+    //     'LCIAMethodDataSet.administrativeInformation.publicationAndOwnership.common:dataSetVersion'
+    //   )
+    // ) {
+    //   this.setNestedValue(
+    //     'LCIAMethodDataSet.administrativeInformation.publicationAndOwnership.common:dataSetVersion',
+    //     '1.0.0'
+    //   );
+    // }
 
     // Set required reference fields with default values
-    if (
-      !this.getNestedValue(
-        'LCIAMethodDataSet.administrativeInformation.dataEntryBy.common:referenceToDataSetFormat'
-      )
-    ) {
-      this.setNestedValue(
-        'LCIAMethodDataSet.administrativeInformation.dataEntryBy.common:referenceToDataSetFormat',
-        {
-          '@type': 'source data set',
-          '@refObjectId': '00000000-0000-0000-0000-000000000000',
-          '@version': '00.00.000',
-          '@uri': '',
-          'common:shortDescription': new MultiLangArray(),
-        }
-      );
-    }
+    // if (
+    //   !this.getNestedValue(
+    //     'LCIAMethodDataSet.administrativeInformation.dataEntryBy.common:referenceToDataSetFormat'
+    //   )
+    // ) {
+    //   this.setNestedValue(
+    //     'LCIAMethodDataSet.administrativeInformation.dataEntryBy.common:referenceToDataSetFormat',
+    //     {
+    //       '@type': 'source data set',
+    //       '@refObjectId': '00000000-0000-0000-0000-000000000000',
+    //       '@version': '00.00.000',
+    //       '@uri': '',
+    //       'common:shortDescription': new MultiLangArray(),
+    //     }
+    //   );
+    // }
 
-    if (
-      !this.getNestedValue(
-        'LCIAMethodDataSet.administrativeInformation.publicationAndOwnership.common:referenceToOwnershipOfDataSet'
-      )
-    ) {
-      this.setNestedValue(
-        'LCIAMethodDataSet.administrativeInformation.publicationAndOwnership.common:referenceToOwnershipOfDataSet',
-        {
-          '@type': 'contact data set',
-          '@refObjectId': this.getNestedValue(
-            'LCIAMethodDataSet.LCIAMethodInformation.dataSetInformation.common:UUID'
-          ),
-          '@version': '00.00.000',
-          '@uri': '',
-          'common:shortDescription': new MultiLangArray(),
-        }
-      );
-    }
+    // if (
+    //   !this.getNestedValue(
+    //     'LCIAMethodDataSet.administrativeInformation.publicationAndOwnership.common:referenceToOwnershipOfDataSet'
+    //   )
+    // ) {
+    //   this.setNestedValue(
+    //     'LCIAMethodDataSet.administrativeInformation.publicationAndOwnership.common:referenceToOwnershipOfDataSet',
+    //     {
+    //       '@type': 'contact data set',
+    //       '@refObjectId': this.getNestedValue(
+    //         'LCIAMethodDataSet.LCIAMethodInformation.dataSetInformation.common:UUID'
+    //       ),
+    //       '@version': '00.00.000',
+    //       '@uri': '',
+    //       'common:shortDescription': new MultiLangArray(),
+    //     }
+    //   );
+    // }
 
     // Initialize empty arrays for multi-language text fields
     if (
@@ -177,22 +177,22 @@ export class TidasLCIAMethod extends TidasEntity<LCIAMethod> {
     }
 
     // Initialize required classification structure
-    if (
-      !this.getNestedValue(
-        'LCIAMethodDataSet.LCIAMethodInformation.dataSetInformation.classificationInformation.common:classification'
-      )
-    ) {
-      this.setNestedValue(
-        'LCIAMethodDataSet.LCIAMethodInformation.dataSetInformation.classificationInformation.common:classification',
-        {
-          'common:class': {
-            '@level': '0',
-            '@classId': '00000000-0000-0000-0000-000000000000',
-            '#text': 'General LCIA method',
-          },
-        }
-      );
-    }
+    // if (
+    //   !this.getNestedValue(
+    //     'LCIAMethodDataSet.LCIAMethodInformation.dataSetInformation.classificationInformation.common:classification'
+    //   )
+    // ) {
+    //   this.setNestedValue(
+    //     'LCIAMethodDataSet.LCIAMethodInformation.dataSetInformation.classificationInformation.common:classification',
+    //     {
+    //       'common:class': {
+    //         '@level': '0',
+    //         '@classId': '00000000-0000-0000-0000-000000000000',
+    //         '#text': 'General LCIA method',
+    //       },
+    //     }
+    //   );
+    // }
 
     // Initialize characterisation factors array
     if (!this.getNestedValue('LCIAMethodDataSet.characterisationFactors')) {
@@ -200,16 +200,16 @@ export class TidasLCIAMethod extends TidasEntity<LCIAMethod> {
     }
 
     // Set default method type
-    if (
-      !this.getNestedValue(
-        'LCIAMethodDataSet.LCIAMethodInformation.dataSetInformation.typeOfDataSet'
-      )
-    ) {
-      this.setNestedValue(
-        'LCIAMethodDataSet.LCIAMethodInformation.dataSetInformation.typeOfDataSet',
-        'Mid-point indicator'
-      );
-    }
+    // if (
+    //   !this.getNestedValue(
+    //     'LCIAMethodDataSet.LCIAMethodInformation.dataSetInformation.typeOfDataSet'
+    //   )
+    // ) {
+    //   this.setNestedValue(
+    //     'LCIAMethodDataSet.LCIAMethodInformation.dataSetInformation.typeOfDataSet',
+    //     'Mid-point indicator'
+    //   );
+    // }
 
     // Set default impact category
     if (
@@ -236,28 +236,28 @@ export class TidasLCIAMethod extends TidasEntity<LCIAMethod> {
     }
 
     // Set reference quantity
-    if (
-      !this.getNestedValue(
-        'LCIAMethodDataSet.LCIAMethodInformation.quantitativeReference.referenceQuantity'
-      )
-    ) {
-      this.setNestedValue(
-        'LCIAMethodDataSet.LCIAMethodInformation.quantitativeReference.referenceQuantity',
-        '0'
-      );
-    }
+    // if (
+    //   !this.getNestedValue(
+    //     'LCIAMethodDataSet.LCIAMethodInformation.quantitativeReference.referenceQuantity'
+    //   )
+    // ) {
+    //   this.setNestedValue(
+    //     'LCIAMethodDataSet.LCIAMethodInformation.quantitativeReference.referenceQuantity',
+    //     '0'
+    //   );
+    // }
 
     // Set default copyright protection
-    if (
-      !this.getNestedValue(
-        'LCIAMethodDataSet.administrativeInformation.publicationAndOwnership.common:copyright'
-      )
-    ) {
-      this.setNestedValue(
-        'LCIAMethodDataSet.administrativeInformation.publicationAndOwnership.common:copyright',
-        false
-      );
-    }
+    // if (
+    //   !this.getNestedValue(
+    //     'LCIAMethodDataSet.administrativeInformation.publicationAndOwnership.common:copyright'
+    //   )
+    // ) {
+    //   this.setNestedValue(
+    //     'LCIAMethodDataSet.administrativeInformation.publicationAndOwnership.common:copyright',
+    //     false
+    //   );
+    // }
 
     // Set default access restrictions
     if (

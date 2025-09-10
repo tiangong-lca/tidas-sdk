@@ -79,53 +79,53 @@ export class TidasSource extends TidasEntity<Source> {
       );
     }
 
-    if (
-      !this.getNestedValue(
-        'sourceDataSet.administrativeInformation.publicationAndOwnership.common:dataSetVersion'
-      )
-    ) {
-      this.setNestedValue(
-        'sourceDataSet.administrativeInformation.publicationAndOwnership.common:dataSetVersion',
-        '1.0.0'
-      );
-    }
+    // if (
+    //   !this.getNestedValue(
+    //     'sourceDataSet.administrativeInformation.publicationAndOwnership.common:dataSetVersion'
+    //   )
+    // ) {
+    //   this.setNestedValue(
+    //     'sourceDataSet.administrativeInformation.publicationAndOwnership.common:dataSetVersion',
+    //     '1.0.0'
+    //   );
+    // }
 
     // Set required reference fields with default values
-    if (
-      !this.getNestedValue(
-        'sourceDataSet.administrativeInformation.dataEntryBy.common:referenceToDataSetFormat'
-      )
-    ) {
-      this.setNestedValue(
-        'sourceDataSet.administrativeInformation.dataEntryBy.common:referenceToDataSetFormat',
-        {
-          '@type': 'source data set',
-          '@refObjectId': '00000000-0000-0000-0000-000000000000',
-          '@version': '00.00.000',
-          '@uri': '',
-          'common:shortDescription': new MultiLangArray(),
-        }
-      );
-    }
+    // if (
+    //   !this.getNestedValue(
+    //     'sourceDataSet.administrativeInformation.dataEntryBy.common:referenceToDataSetFormat'
+    //   )
+    // ) {
+    //   this.setNestedValue(
+    //     'sourceDataSet.administrativeInformation.dataEntryBy.common:referenceToDataSetFormat',
+    //     {
+    //       '@type': 'source data set',
+    //       '@refObjectId': '00000000-0000-0000-0000-000000000000',
+    //       '@version': '00.00.000',
+    //       '@uri': '',
+    //       'common:shortDescription': new MultiLangArray(),
+    //     }
+    //   );
+    // }
 
-    if (
-      !this.getNestedValue(
-        'sourceDataSet.administrativeInformation.publicationAndOwnership.common:referenceToOwnershipOfDataSet'
-      )
-    ) {
-      this.setNestedValue(
-        'sourceDataSet.administrativeInformation.publicationAndOwnership.common:referenceToOwnershipOfDataSet',
-        {
-          '@type': 'contact data set',
-          '@refObjectId': this.getNestedValue(
-            'sourceDataSet.sourceInformation.dataSetInformation.common:UUID'
-          ),
-          '@version': '00.00.000',
-          '@uri': '',
-          'common:shortDescription': new MultiLangArray(),
-        }
-      );
-    }
+    // if (
+    //   !this.getNestedValue(
+    //     'sourceDataSet.administrativeInformation.publicationAndOwnership.common:referenceToOwnershipOfDataSet'
+    //   )
+    // ) {
+    //   this.setNestedValue(
+    //     'sourceDataSet.administrativeInformation.publicationAndOwnership.common:referenceToOwnershipOfDataSet',
+    //     {
+    //       '@type': 'contact data set',
+    //       '@refObjectId': this.getNestedValue(
+    //         'sourceDataSet.sourceInformation.dataSetInformation.common:UUID'
+    //       ),
+    //       '@version': '00.00.000',
+    //       '@uri': '',
+    //       'common:shortDescription': new MultiLangArray(),
+    //     }
+    //   );
+    // }
 
     // Initialize empty arrays for multi-language text fields
     if (
@@ -173,45 +173,45 @@ export class TidasSource extends TidasEntity<Source> {
     }
 
     // Initialize required classification structure
-    if (
-      !this.getNestedValue(
-        'sourceDataSet.sourceInformation.dataSetInformation.classificationInformation.common:classification'
-      )
-    ) {
-      this.setNestedValue(
-        'sourceDataSet.sourceInformation.dataSetInformation.classificationInformation.common:classification',
-        {
-          'common:class': {
-            '@level': '0',
-            '@classId': '00000000-0000-0000-0000-000000000000',
-            '#text': 'General source',
-          },
-        }
-      );
-    }
+    // if (
+    //   !this.getNestedValue(
+    //     'sourceDataSet.sourceInformation.dataSetInformation.classificationInformation.common:classification'
+    //   )
+    // ) {
+    //   this.setNestedValue(
+    //     'sourceDataSet.sourceInformation.dataSetInformation.classificationInformation.common:classification',
+    //     {
+    //       'common:class': {
+    //         '@level': '0',
+    //         '@classId': '00000000-0000-0000-0000-000000000000',
+    //         '#text': 'General source',
+    //       },
+    //     }
+    //   );
+    // }
 
     // Set default copyright protection
-    if (
-      !this.getNestedValue(
-        'sourceDataSet.administrativeInformation.publicationAndOwnership.common:copyright'
-      )
-    ) {
-      this.setNestedValue(
-        'sourceDataSet.administrativeInformation.publicationAndOwnership.common:copyright',
-        false
-      );
-    }
+    // if (
+    //   !this.getNestedValue(
+    //     'sourceDataSet.administrativeInformation.publicationAndOwnership.common:copyright'
+    //   )
+    // ) {
+    //   this.setNestedValue(
+    //     'sourceDataSet.administrativeInformation.publicationAndOwnership.common:copyright',
+    //     false
+    //   );
+    // }
 
     // Set default access restrictions
-    if (
-      !this.getNestedValue(
-        'sourceDataSet.administrativeInformation.publicationAndOwnership.common:accessRestrictions'
-      )
-    ) {
-      this.setNestedValue(
-        'sourceDataSet.administrativeInformation.publicationAndOwnership.common:accessRestrictions',
-        []
-      );
-    }
+    // if (
+    //   !this.getNestedValue(
+    //     'sourceDataSet.administrativeInformation.publicationAndOwnership.common:accessRestrictions'
+    //   )
+    // ) {
+    //   this.setNestedValue(
+    //     'sourceDataSet.administrativeInformation.publicationAndOwnership.common:accessRestrictions',
+    //     []
+    //   );
+    // }
   }
 }

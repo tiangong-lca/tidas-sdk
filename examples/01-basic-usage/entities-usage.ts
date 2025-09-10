@@ -21,6 +21,8 @@ import {
 console.log('=== Example 1: Contact Creation ===');
 const contact = createContact();
 
+console.log(JSON.stringify(contact, null, 2));
+
 // Set basic contact information using direct TIDAS structure access
 
 // Quick way to set multi-language text

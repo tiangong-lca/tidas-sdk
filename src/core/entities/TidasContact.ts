@@ -79,53 +79,53 @@ export class TidasContact extends TidasEntity<Contact> {
       );
     }
 
-    if (
-      !this.getNestedValue(
-        'contactDataSet.administrativeInformation.publicationAndOwnership.common:dataSetVersion'
-      )
-    ) {
-      this.setNestedValue(
-        'contactDataSet.administrativeInformation.publicationAndOwnership.common:dataSetVersion',
-        '1.0.0'
-      );
-    }
+    // if (
+    //   !this.getNestedValue(
+    //     'contactDataSet.administrativeInformation.publicationAndOwnership.common:dataSetVersion'
+    //   )
+    // ) {
+    //   this.setNestedValue(
+    //     'contactDataSet.administrativeInformation.publicationAndOwnership.common:dataSetVersion',
+    //     '1.0.0'
+    //   );
+    // }
 
     // Set required reference fields with default values
-    if (
-      !this.getNestedValue(
-        'contactDataSet.administrativeInformation.dataEntryBy.common:referenceToDataSetFormat'
-      )
-    ) {
-      this.setNestedValue(
-        'contactDataSet.administrativeInformation.dataEntryBy.common:referenceToDataSetFormat',
-        {
-          '@type': 'source data set',
-          '@refObjectId': '00000000-0000-0000-0000-000000000000',
-          '@version': '00.00.000',
-          '@uri': '',
-          'common:shortDescription': new MultiLangArray(),
-        }
-      );
-    }
+    // if (
+    //   !this.getNestedValue(
+    //     'contactDataSet.administrativeInformation.dataEntryBy.common:referenceToDataSetFormat'
+    //   )
+    // ) {
+    //   this.setNestedValue(
+    //     'contactDataSet.administrativeInformation.dataEntryBy.common:referenceToDataSetFormat',
+    //     {
+    //       '@type': 'source data set',
+    //       '@refObjectId': '00000000-0000-0000-0000-000000000000',
+    //       '@version': '00.00.000',
+    //       '@uri': '',
+    //       'common:shortDescription': new MultiLangArray(),
+    //     }
+    //   );
+    // }
 
-    if (
-      !this.getNestedValue(
-        'contactDataSet.administrativeInformation.publicationAndOwnership.common:referenceToOwnershipOfDataSet'
-      )
-    ) {
-      this.setNestedValue(
-        'contactDataSet.administrativeInformation.publicationAndOwnership.common:referenceToOwnershipOfDataSet',
-        {
-          '@type': 'contact data set',
-          '@refObjectId': this.getNestedValue(
-            'contactDataSet.contactInformation.dataSetInformation.common:UUID'
-          ),
-          '@version': '00.00.000',
-          '@uri': '',
-          'common:shortDescription': new MultiLangArray(),
-        }
-      );
-    }
+    // if (
+    //   !this.getNestedValue(
+    //     'contactDataSet.administrativeInformation.publicationAndOwnership.common:referenceToOwnershipOfDataSet'
+    //   )
+    // ) {
+    //   this.setNestedValue(
+    //     'contactDataSet.administrativeInformation.publicationAndOwnership.common:referenceToOwnershipOfDataSet',
+    //     {
+    //       '@type': 'contact data set',
+    //       '@refObjectId': this.getNestedValue(
+    //         'contactDataSet.contactInformation.dataSetInformation.common:UUID'
+    //       ),
+    //       '@version': '00.00.000',
+    //       '@uri': '',
+    //       'common:shortDescription': new MultiLangArray(),
+    //     }
+    //   );
+    // }
 
     // Initialize empty arrays for multi-language text fields
     if (
@@ -170,21 +170,21 @@ export class TidasContact extends TidasEntity<Contact> {
     }
 
     // Initialize required classification structure
-    if (
-      !this.getNestedValue(
-        'contactDataSet.contactInformation.dataSetInformation.classificationInformation.common:classification'
-      )
-    ) {
-      this.setNestedValue(
-        'contactDataSet.contactInformation.dataSetInformation.classificationInformation.common:classification',
-        {
-          'common:class': {
-            '@level': '0',
-            '@classId': '00000000-0000-0000-0000-000000000000',
-            '#text': 'General contact',
-          },
-        }
-      );
-    }
+    // if (
+    //   !this.getNestedValue(
+    //     'contactDataSet.contactInformation.dataSetInformation.classificationInformation.common:classification'
+    //   )
+    // ) {
+    //   this.setNestedValue(
+    //     'contactDataSet.contactInformation.dataSetInformation.classificationInformation.common:classification',
+    //     {
+    //       'common:class': {
+    //         '@level': '0',
+    //         '@classId': '00000000-0000-0000-0000-000000000000',
+    //         '#text': 'General contact',
+    //       },
+    //     }
+    //   );
+    // }
   }
 }

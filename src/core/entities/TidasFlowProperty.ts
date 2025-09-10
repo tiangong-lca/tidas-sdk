@@ -82,53 +82,53 @@ export class TidasFlowProperty extends TidasEntity<FlowProperty> {
       );
     }
 
-    if (
-      !this.getNestedValue(
-        'flowPropertyDataSet.administrativeInformation.publicationAndOwnership.common:dataSetVersion'
-      )
-    ) {
-      this.setNestedValue(
-        'flowPropertyDataSet.administrativeInformation.publicationAndOwnership.common:dataSetVersion',
-        '1.0.0'
-      );
-    }
+    // if (
+    //   !this.getNestedValue(
+    //     'flowPropertyDataSet.administrativeInformation.publicationAndOwnership.common:dataSetVersion'
+    //   )
+    // ) {
+    //   this.setNestedValue(
+    //     'flowPropertyDataSet.administrativeInformation.publicationAndOwnership.common:dataSetVersion',
+    //     '1.0.0'
+    //   );
+    // }
 
     // Set required reference fields with default values
-    if (
-      !this.getNestedValue(
-        'flowPropertyDataSet.administrativeInformation.dataEntryBy.common:referenceToDataSetFormat'
-      )
-    ) {
-      this.setNestedValue(
-        'flowPropertyDataSet.administrativeInformation.dataEntryBy.common:referenceToDataSetFormat',
-        {
-          '@type': 'source data set',
-          '@refObjectId': '00000000-0000-0000-0000-000000000000',
-          '@version': '00.00.000',
-          '@uri': '',
-          'common:shortDescription': new MultiLangArray(),
-        }
-      );
-    }
+    // if (
+    //   !this.getNestedValue(
+    //     'flowPropertyDataSet.administrativeInformation.dataEntryBy.common:referenceToDataSetFormat'
+    //   )
+    // ) {
+    //   this.setNestedValue(
+    //     'flowPropertyDataSet.administrativeInformation.dataEntryBy.common:referenceToDataSetFormat',
+    //     {
+    //       '@type': 'source data set',
+    //       '@refObjectId': '00000000-0000-0000-0000-000000000000',
+    //       '@version': '00.00.000',
+    //       '@uri': '',
+    //       'common:shortDescription': new MultiLangArray(),
+    //     }
+    //   );
+    // }
 
-    if (
-      !this.getNestedValue(
-        'flowPropertyDataSet.administrativeInformation.publicationAndOwnership.common:referenceToOwnershipOfDataSet'
-      )
-    ) {
-      this.setNestedValue(
-        'flowPropertyDataSet.administrativeInformation.publicationAndOwnership.common:referenceToOwnershipOfDataSet',
-        {
-          '@type': 'contact data set',
-          '@refObjectId': this.getNestedValue(
-            'flowPropertyDataSet.flowPropertiesInformation.dataSetInformation.common:UUID'
-          ),
-          '@version': '00.00.000',
-          '@uri': '',
-          'common:shortDescription': new MultiLangArray(),
-        }
-      );
-    }
+    // if (
+    //   !this.getNestedValue(
+    //     'flowPropertyDataSet.administrativeInformation.publicationAndOwnership.common:referenceToOwnershipOfDataSet'
+    //   )
+    // ) {
+    //   this.setNestedValue(
+    //     'flowPropertyDataSet.administrativeInformation.publicationAndOwnership.common:referenceToOwnershipOfDataSet',
+    //     {
+    //       '@type': 'contact data set',
+    //       '@refObjectId': this.getNestedValue(
+    //         'flowPropertyDataSet.flowPropertiesInformation.dataSetInformation.common:UUID'
+    //       ),
+    //       '@version': '00.00.000',
+    //       '@uri': '',
+    //       'common:shortDescription': new MultiLangArray(),
+    //     }
+    //   );
+    // }
 
     // Initialize empty arrays for multi-language text fields
     if (
@@ -165,52 +165,52 @@ export class TidasFlowProperty extends TidasEntity<FlowProperty> {
     }
 
     // Initialize required classification structure
-    if (
-      !this.getNestedValue(
-        'flowPropertyDataSet.flowPropertiesInformation.dataSetInformation.classificationInformation.common:classification'
-      )
-    ) {
-      this.setNestedValue(
-        'flowPropertyDataSet.flowPropertiesInformation.dataSetInformation.classificationInformation.common:classification',
-        {
-          'common:class': {
-            '@level': '0',
-            '@classId': '00000000-0000-0000-0000-000000000000',
-            '#text': 'General flow property',
-          },
-        }
-      );
-    }
+    // if (
+    //   !this.getNestedValue(
+    //     'flowPropertyDataSet.flowPropertiesInformation.dataSetInformation.classificationInformation.common:classification'
+    //   )
+    // ) {
+    //   this.setNestedValue(
+    //     'flowPropertyDataSet.flowPropertiesInformation.dataSetInformation.classificationInformation.common:classification',
+    //     {
+    //       'common:class': {
+    //         '@level': '0',
+    //         '@classId': '00000000-0000-0000-0000-000000000000',
+    //         '#text': 'General flow property',
+    //       },
+    //     }
+    //   );
+    // }
 
     // Set required quantitative reference to unit group
-    if (
-      !this.getNestedValue(
-        'flowPropertyDataSet.flowPropertiesInformation.quantitativeReference.referenceToReferenceUnitGroup'
-      )
-    ) {
-      this.setNestedValue(
-        'flowPropertyDataSet.flowPropertiesInformation.quantitativeReference.referenceToReferenceUnitGroup',
-        {
-          '@type': 'unit group data set',
-          '@refObjectId': '00000000-0000-0000-0000-000000000000',
-          '@version': '00.00.000',
-          '@uri': '',
-          'common:shortDescription': new MultiLangArray(),
-        }
-      );
-    }
+    // if (
+    //   !this.getNestedValue(
+    //     'flowPropertyDataSet.flowPropertiesInformation.quantitativeReference.referenceToReferenceUnitGroup'
+    //   )
+    // ) {
+    //   this.setNestedValue(
+    //     'flowPropertyDataSet.flowPropertiesInformation.quantitativeReference.referenceToReferenceUnitGroup',
+    //     {
+    //       '@type': 'unit group data set',
+    //       '@refObjectId': '00000000-0000-0000-0000-000000000000',
+    //       '@version': '00.00.000',
+    //       '@uri': '',
+    //       'common:shortDescription': new MultiLangArray(),
+    //     }
+    //   );
+    // }
 
     // Set default copyright protection
-    if (
-      !this.getNestedValue(
-        'flowPropertyDataSet.administrativeInformation.publicationAndOwnership.common:copyright'
-      )
-    ) {
-      this.setNestedValue(
-        'flowPropertyDataSet.administrativeInformation.publicationAndOwnership.common:copyright',
-        false
-      );
-    }
+    // if (
+    //   !this.getNestedValue(
+    //     'flowPropertyDataSet.administrativeInformation.publicationAndOwnership.common:copyright'
+    //   )
+    // ) {
+    //   this.setNestedValue(
+    //     'flowPropertyDataSet.administrativeInformation.publicationAndOwnership.common:copyright',
+    //     false
+    //   );
+    // }
 
     // Set default access restrictions
     if (
