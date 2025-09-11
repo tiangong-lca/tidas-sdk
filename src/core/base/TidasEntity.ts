@@ -10,8 +10,8 @@ import {
   MultiLangArray,
   MultiLangItemClass,
 } from '../../types/multi-lang-types';
-import { suggestEntireObject } from '../methodology/ai';
-import type { ModelConfig } from '../methodology/ai';
+import { suggestEntireObject } from '../copilot/ai';
+import type { ModelConfig } from '../copilot/ai';
 import { generateDiffHTML, generateDiffSummary } from '../../utils/diff';
 
 /**

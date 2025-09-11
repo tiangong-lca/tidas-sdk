@@ -1,6 +1,6 @@
 /**
  * Suggestion Service
- * 
+ *
  * Provides a simple API for external modules to suggest improvements for TIDAS/ILCD data
  * using AI-powered methodology rules.
  */
@@ -15,14 +15,14 @@ import {
   createLCIAMethod,
   createLifeCycleModel,
 } from '../core/factories';
-import { suggestEntireObject } from '../core/methodology/ai';
-import type { ModelConfig } from '../core/methodology/ai';
+import { suggestEntireObject } from '../core/copilot/ai';
+import type { ModelConfig } from '../core/copilot/ai';
 import { generateDiffHTML, generateDiffSummary } from '../utils/diff';
 
 /**
  * Supported data types for suggestions
  */
-export type DataType = 
+export type DataType =
   | 'process'
   | 'processes'
   | 'flow'
@@ -120,36 +120,36 @@ const methodologyTypeMap: Record<DataType, string> = {
 
 /**
  * Suggest improvements for TIDAS/ILCD data using AI-powered methodology rules
- * 
+ *
  * This function can work in three modes:
  * 1. Entity instance: If a TIDAS entity is passed, uses its suggest method directly
  * 2. Entity mode (default): Creates proper TIDAS entities for validation and structure
  * 3. Raw mode: Directly processes data without entity creation (use `raw: true` option)
- * 
+ *
  * @param data - The data to improve (can be TIDAS entity, JSON string, or object)
  * @param dataType - The type of data (e.g., 'process', 'flow', etc.) or methodology name for raw mode
  * @param options - Optional configuration for suggestions
  * @returns Promise<SuggestResult> - The suggestion result
- * 
+ *
  * @example
  * ```typescript
  * // With TIDAS entity
  * const process = createProcess({ processDataSet: { ... } });
  * const result = await suggestData(process, 'process');
- * 
+ *
  * // Entity mode - with proper validation and structure
  * const result = await suggestData(
  *   { processDataSet: { ... } },
  *   'process'
  * );
- * 
+ *
  * // Raw mode - direct processing without entity creation
  * const result = await suggestData(
  *   { name: 'test', description: 'sample' },
  *   'processes',
  *   { raw: true }
  * );
- * 
+ *
  * // With JSON string and diff outputs
  * const result = await suggestData(
  *   '{"processDataSet": {...}}',
@@ -159,7 +159,7 @@ const methodologyTypeMap: Record<DataType, string> = {
  *     outputDiffSummary: true
  *   }
  * );
- * 
+ *
  * // Access results
  * console.log(result.data);        // Improved data
  * console.log(result.diffHTML);    // HTML diff viewer
@@ -183,10 +183,10 @@ export async function suggestData(
         outputDiffHTML: options?.outputDiffHTML,
         diffPaths: options?.diffPaths,
       });
-      
+
       // Extract the improved data
       const improvedData = result.data.toJSON();
-      
+
       return {
         success: true,
         data: improvedData,
@@ -194,20 +194,22 @@ export async function suggestData(
         diffHTML: result.diffHTML,
       };
     }
-    
+
     // Parse JSON if string is provided
     const parsedData = typeof data === 'string' ? JSON.parse(data) : data;
-    
+
     // Check if raw mode is requested
     if (options?.raw) {
       // Raw mode: directly process without entity creation
-      const methodologyType = methodologyTypeMap[dataType as DataType] || dataType;
-      
+      const methodologyType =
+        methodologyTypeMap[dataType as DataType] || dataType;
+
       // Store original data for diff if needed
-      const originalData = options?.outputDiffSummary || options?.outputDiffHTML 
-        ? JSON.parse(JSON.stringify(parsedData))
-        : null;
-      
+      const originalData =
+        options?.outputDiffSummary || options?.outputDiffHTML
+          ? JSON.parse(JSON.stringify(parsedData))
+          : null;
+
       // Apply suggestion directly
       const improvedData = await suggestEntireObject(
         parsedData,
@@ -217,11 +219,11 @@ export async function suggestData(
           maxRetries: options?.maxRetries,
         }
       );
-      
+
       // Generate diffs if requested
       let diffSummary: string | undefined;
       let diffHTML: string | undefined;
-      
+
       if (originalData) {
         if (options?.outputDiffSummary) {
           diffSummary = generateDiffSummary(
@@ -230,12 +232,12 @@ export async function suggestData(
             options.diffPaths
           );
         }
-        
+
         if (options?.outputDiffHTML) {
           diffHTML = generateDiffHTML(originalData, improvedData);
         }
       }
-      
+
       return {
         success: true,
         data: improvedData,
@@ -243,20 +245,20 @@ export async function suggestData(
         diffHTML,
       };
     }
-    
+
     // Entity mode: use proper entity creation and validation
     if (!entityFactories[dataType as DataType]) {
       return {
         success: false,
         data: parsedData,
-        error: `Unsupported data type: ${dataType}. Supported types: ${Object.keys(entityFactories).join(', ')}`
+        error: `Unsupported data type: ${dataType}. Supported types: ${Object.keys(entityFactories).join(', ')}`,
       };
     }
-    
+
     // Create entity from data
     const factory = entityFactories[dataType as DataType];
     const entity = factory(parsedData);
-    
+
     // Use entity's suggest method for improvement
     const result = await entity.suggest({
       skipPaths: options?.skipPaths,
@@ -266,10 +268,10 @@ export async function suggestData(
       outputDiffHTML: options?.outputDiffHTML,
       diffPaths: options?.diffPaths,
     });
-    
+
     // Extract the improved data
     const improvedData = result.data.toJSON();
-    
+
     return {
       success: true,
       data: improvedData,
@@ -288,15 +290,15 @@ export async function suggestData(
 
 /**
  * @deprecated Use suggestData with { raw: true } option instead
- * 
+ *
  * This function is kept for backward compatibility but will be removed in future versions.
  * Please use suggestData with the raw option:
- * 
+ *
  * @example
  * ```typescript
  * // Instead of:
  * const result = await suggestRawData(data, 'processes');
- * 
+ *
  * // Use:
  * const result = await suggestData(data, 'processes', { raw: true });
  * ```
@@ -306,17 +308,19 @@ export async function suggestRawData(
   dataType: DataType | string,
   options?: SuggestOptions
 ): Promise<SuggestResult> {
-  console.warn('suggestRawData is deprecated. Use suggestData with { raw: true } option instead.');
+  console.warn(
+    'suggestRawData is deprecated. Use suggestData with { raw: true } option instead.'
+  );
   return suggestData(data, dataType, { ...options, raw: true });
 }
 
 /**
  * Batch suggest improvements for multiple data items
- * 
+ *
  * @param items - Array of items to improve
  * @param options - Optional configuration
  * @returns Promise<SuggestResult[]> - Array of suggestion results
- * 
+ *
  * @example
  * ```typescript
  * const results = await batchSuggest([
@@ -331,7 +335,7 @@ export async function batchSuggest(
   options?: SuggestOptions
 ): Promise<SuggestResult[]> {
   const results = await Promise.all(
-    items.map(item => suggestData(item.data, item.type, options))
+    items.map((item) => suggestData(item.data, item.type, options))
   );
   return results;
 }

@@ -20,8 +20,8 @@ export {
   
   // Deprecated (for backward compatibility)
   suggestRawData,
-} from './suggestion-service';
+} from './copilot-service';
 
 // Default export
-import suggestionService from './suggestion-service';
+import suggestionService from './copilot-service';
 export default suggestionService;
