@@ -114,7 +114,7 @@ export interface Flows {
           | 'Unknown derivation';
         generalComment?: StringMultiLang;
         'common:other'?: string;
-      };
+      }[];
       'common:other'?: string;
     };
     'common:other'?: string;

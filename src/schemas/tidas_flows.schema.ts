@@ -107,33 +107,35 @@ export const FlowsSchema = z.object({
       'common:other': z.string().optional(),
     }),
     flowProperties: z.object({
-      flowProperty: z.object({
-        '@dataSetInternalID': Int5Schema,
-        referenceToFlowPropertyDataSet: GlobalReferenceTypeSchema,
-        meanValue: RealSchema,
-        minimumValue: RealSchema.optional(),
-        maximumValue: RealSchema.optional(),
-        uncertaintyDistributionType: z
-          .union([
-            z.literal('undefined'),
-            z.literal('log-normal'),
-            z.literal('normal'),
-            z.literal('triangular'),
-            z.literal('uniform'),
-          ])
-          .optional(),
-        relativeStandardDeviation95In: PercSchema.optional(),
-        dataDerivationTypeStatus: z
-          .union([
-            z.literal('Measured'),
-            z.literal('Calculated'),
-            z.literal('Estimated'),
-            z.literal('Unknown derivation'),
-          ])
-          .optional(),
-        generalComment: StringMultiLangSchema.optional(),
-        'common:other': z.string().optional(),
-      }),
+      flowProperty: z.array(
+        z.object({
+          '@dataSetInternalID': Int5Schema,
+          referenceToFlowPropertyDataSet: GlobalReferenceTypeSchema,
+          meanValue: RealSchema,
+          minimumValue: RealSchema.optional(),
+          maximumValue: RealSchema.optional(),
+          uncertaintyDistributionType: z
+            .union([
+              z.literal('undefined'),
+              z.literal('log-normal'),
+              z.literal('normal'),
+              z.literal('triangular'),
+              z.literal('uniform'),
+            ])
+            .optional(),
+          relativeStandardDeviation95In: PercSchema.optional(),
+          dataDerivationTypeStatus: z
+            .union([
+              z.literal('Measured'),
+              z.literal('Calculated'),
+              z.literal('Estimated'),
+              z.literal('Unknown derivation'),
+            ])
+            .optional(),
+          generalComment: StringMultiLangSchema.optional(),
+          'common:other': z.string().optional(),
+        })
+      ),
       'common:other': z.string().optional(),
     }),
     'common:other': z.string().optional(),
