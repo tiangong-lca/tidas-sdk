@@ -14,6 +14,7 @@ export interface BundleMetadata {
 export interface BundledMethodologies {
   _metadata: BundleMetadata;
   methodologies: {
+    flows?: any;
     processes?: any;
   };
 }

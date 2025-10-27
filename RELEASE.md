@@ -46,6 +46,9 @@ git submodule update --remote
 npm run generate-types
 npm run generate-schemas
 
+# Bundle methodologies
+npm run bundle-methodologies
+
 # Clean install dependencies
 npm ci
 
