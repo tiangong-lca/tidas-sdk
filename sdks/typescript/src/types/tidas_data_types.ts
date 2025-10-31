@@ -47,7 +47,7 @@ export type LevelType = Int1;
 /**
  * percentage amount
  *
- * @pattern ^0\.\d+$
+ * @pattern ^(100(\.0{1,3})?|([0-9]|[1-9][0-9])(\.\d{1,3})?)$
  */
 export type Perc = string;
 /**

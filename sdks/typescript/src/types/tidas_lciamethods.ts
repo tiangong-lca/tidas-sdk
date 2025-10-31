@@ -148,7 +148,7 @@ export interface Lciamethods {
             | 'Accredited third party review'
             | 'Independent review panel'
             | 'Not reviewed';
-          scope:
+          'common:scope'?:
             | {
                 '@name':
                   | 'Raw data'
@@ -160,21 +160,37 @@ export interface Lciamethods {
                   | 'Life cycle inventory methods'
                   | 'LCIA results calculation'
                   | 'Goal and scope definition';
-                method: {
-                  '@name':
-                    | 'Validation of data sources'
-                    | 'Sample tests on calculations'
-                    | 'Energy balance'
-                    | 'Element balance'
-                    | 'Cross-check with other source'
-                    | 'Cross-check with other data set'
-                    | 'Expert judgement'
-                    | 'Mass balance'
-                    | 'Compliance with legal limitsRegulated Inputs and Outputs e.g. emission data are validated for compliance with legal limits, typically after relating and scaling the data to the regulated processes/sites etc.'
-                    | 'Compliance with ISO 14040 to 14044'
-                    | 'Documentation'
-                    | 'Evidence collection by means of plant visits and/or interviews';
-                };
+                'common:method':
+                  | {
+                      '@name':
+                        | 'Validation of data sources'
+                        | 'Sample tests on calculations'
+                        | 'Energy balance'
+                        | 'Element balance'
+                        | 'Cross-check with other source'
+                        | 'Cross-check with other data set'
+                        | 'Expert judgement'
+                        | 'Mass balance'
+                        | 'Compliance with legal limitsRegulated Inputs and Outputs e.g. emission data are validated for compliance with legal limits, typically after relating and scaling the data to the regulated processes/sites etc.'
+                        | 'Compliance with ISO 14040 to 14044'
+                        | 'Documentation'
+                        | 'Evidence collection by means of plant visits and/or interviews';
+                    }
+                  | {
+                      '@name':
+                        | 'Validation of data sources'
+                        | 'Sample tests on calculations'
+                        | 'Energy balance'
+                        | 'Element balance'
+                        | 'Cross-check with other source'
+                        | 'Cross-check with other data set'
+                        | 'Expert judgement'
+                        | 'Mass balance'
+                        | 'Compliance with legal limitsRegulated Inputs and Outputs e.g. emission data are validated for compliance with legal limits, typically after relating and scaling the data to the regulated processes/sites etc.'
+                        | 'Compliance with ISO 14040 to 14044'
+                        | 'Documentation'
+                        | 'Evidence collection by means of plant visits and/or interviews';
+                    }[];
               }
             | {
                 '@name':
@@ -187,24 +203,40 @@ export interface Lciamethods {
                   | 'Life cycle inventory methods'
                   | 'LCIA results calculation'
                   | 'Goal and scope definition';
-                method: {
-                  '@name':
-                    | 'Validation of data sources'
-                    | 'Sample tests on calculations'
-                    | 'Energy balance'
-                    | 'Element balance'
-                    | 'Cross-check with other source'
-                    | 'Cross-check with other data set'
-                    | 'Expert judgement'
-                    | 'Mass balance'
-                    | 'Compliance with legal limitsRegulated Inputs and Outputs e.g. emission data are validated for compliance with legal limits, typically after relating and scaling the data to the regulated processes/sites etc.'
-                    | 'Compliance with ISO 14040 to 14044'
-                    | 'Documentation'
-                    | 'Evidence collection by means of plant visits and/or interviews';
-                };
+                'common:method':
+                  | {
+                      '@name':
+                        | 'Validation of data sources'
+                        | 'Sample tests on calculations'
+                        | 'Energy balance'
+                        | 'Element balance'
+                        | 'Cross-check with other source'
+                        | 'Cross-check with other data set'
+                        | 'Expert judgement'
+                        | 'Mass balance'
+                        | 'Compliance with legal limitsRegulated Inputs and Outputs e.g. emission data are validated for compliance with legal limits, typically after relating and scaling the data to the regulated processes/sites etc.'
+                        | 'Compliance with ISO 14040 to 14044'
+                        | 'Documentation'
+                        | 'Evidence collection by means of plant visits and/or interviews';
+                    }
+                  | {
+                      '@name':
+                        | 'Validation of data sources'
+                        | 'Sample tests on calculations'
+                        | 'Energy balance'
+                        | 'Element balance'
+                        | 'Cross-check with other source'
+                        | 'Cross-check with other data set'
+                        | 'Expert judgement'
+                        | 'Mass balance'
+                        | 'Compliance with legal limitsRegulated Inputs and Outputs e.g. emission data are validated for compliance with legal limits, typically after relating and scaling the data to the regulated processes/sites etc.'
+                        | 'Compliance with ISO 14040 to 14044'
+                        | 'Documentation'
+                        | 'Evidence collection by means of plant visits and/or interviews';
+                    }[];
               }[];
           'common:reviewDetails'?: FTMultiLang;
-          'common:referenceToNameOfReviewerAndInstitution': GlobalReferenceType;
+          'common:referenceToNameOfReviewerAndInstitution'?: GlobalReferenceType;
           'common:otherReviewDetails'?: FTMultiLang;
           'common:referenceToCompleteReviewReport'?: GlobalReferenceType;
           'common:other'?: string;
@@ -212,34 +244,63 @@ export interface Lciamethods {
         'common:other'?: string;
       };
       complianceDeclarations: {
-        compliance: {
-          'common:referenceToComplianceSystem': GlobalReferenceType;
-          'common:approvalOfOverallCompliance':
-            | 'Fully compliant'
-            | 'Not compliant'
-            | 'Not defined';
-          'common:nomenclatureCompliance':
-            | 'Fully compliant'
-            | 'Not compliant'
-            | 'Not defined';
-          'common:methodologicalCompliance':
-            | 'Fully compliant'
-            | 'Not compliant'
-            | 'Not defined';
-          'common:reviewCompliance':
-            | 'Fully compliant'
-            | 'Not compliant'
-            | 'Not defined';
-          'common:documentationCompliance':
-            | 'Fully compliant'
-            | 'Not compliant'
-            | 'Not defined';
-          'common:qualityCompliance':
-            | 'Fully compliant'
-            | 'Not compliant'
-            | 'Not defined';
-          'common:other'?: string;
-        };
+        compliance:
+          | {
+              'common:referenceToComplianceSystem': GlobalReferenceType;
+              'common:approvalOfOverallCompliance':
+                | 'Fully compliant'
+                | 'Not compliant'
+                | 'Not defined';
+              'common:nomenclatureCompliance':
+                | 'Fully compliant'
+                | 'Not compliant'
+                | 'Not defined';
+              'common:methodologicalCompliance':
+                | 'Fully compliant'
+                | 'Not compliant'
+                | 'Not defined';
+              'common:reviewCompliance':
+                | 'Fully compliant'
+                | 'Not compliant'
+                | 'Not defined';
+              'common:documentationCompliance':
+                | 'Fully compliant'
+                | 'Not compliant'
+                | 'Not defined';
+              'common:qualityCompliance':
+                | 'Fully compliant'
+                | 'Not compliant'
+                | 'Not defined';
+              'common:other'?: string;
+            }
+          | {
+              'common:referenceToComplianceSystem': GlobalReferenceType;
+              'common:approvalOfOverallCompliance':
+                | 'Fully compliant'
+                | 'Not compliant'
+                | 'Not defined';
+              'common:nomenclatureCompliance':
+                | 'Fully compliant'
+                | 'Not compliant'
+                | 'Not defined';
+              'common:methodologicalCompliance':
+                | 'Fully compliant'
+                | 'Not compliant'
+                | 'Not defined';
+              'common:reviewCompliance':
+                | 'Fully compliant'
+                | 'Not compliant'
+                | 'Not defined';
+              'common:documentationCompliance':
+                | 'Fully compliant'
+                | 'Not compliant'
+                | 'Not defined';
+              'common:qualityCompliance':
+                | 'Fully compliant'
+                | 'Not compliant'
+                | 'Not defined';
+              'common:other'?: string;
+            }[];
         'common:other'?: string;
       };
       'common:other'?: string;

@@ -4,7 +4,7 @@
  * and run the generation script to regenerate this file.
  */
 
-export type UnitgroupsCategory =
+export type UnitGroup =
   | { '@level'?: '0'; '@classId'?: '1'; '#text'?: 'Technical unit groups' }
   | {
       '@level'?: '0';

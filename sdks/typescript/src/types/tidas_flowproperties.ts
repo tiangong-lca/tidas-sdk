@@ -49,13 +49,21 @@ export interface Flowproperties {
         'common:other'?: string;
       };
       complianceDeclarations: {
-        compliance: {
-          'common:referenceToComplianceSystem': GlobalReferenceType;
-          'common:approvalOfOverallCompliance':
-            | 'Fully compliant'
-            | 'Not compliant'
-            | 'Not defined';
-        };
+        compliance:
+          | {
+              'common:referenceToComplianceSystem': GlobalReferenceType;
+              'common:approvalOfOverallCompliance':
+                | 'Fully compliant'
+                | 'Not compliant'
+                | 'Not defined';
+            }
+          | {
+              'common:referenceToComplianceSystem': GlobalReferenceType;
+              'common:approvalOfOverallCompliance':
+                | 'Fully compliant'
+                | 'Not compliant'
+                | 'Not defined';
+            }[];
         'common:other'?: string;
       };
       'common:other'?: string;

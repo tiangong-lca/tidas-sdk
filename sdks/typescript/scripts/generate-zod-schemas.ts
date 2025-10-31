@@ -28,19 +28,17 @@ const CONFIG_SAVE_DIR = 'src/schemas/ts-to-zod-configs';
 // Main types to generate schemas for - these are the primary interfaces we want to validate
 const MAIN_TYPES = [
   'tidas_contacts',
-  'tidas_processes', 
+  'tidas_processes',
   'tidas_flows',
   'tidas_sources',
   'tidas_flowproperties',
   'tidas_unitgroups',
   'tidas_lciamethods',
-  'tidas_lifecyclemodels'
+  'tidas_lifecyclemodels',
 ];
 
 // Core dependency types that other types depend on
-const CORE_DEPENDENCY_TYPES = [
-  'tidas_data_types'
-];
+const CORE_DEPENDENCY_TYPES = ['tidas_data_types'];
 
 // Category/enum types that are dependencies
 const CATEGORY_DEPENDENCY_TYPES = [
@@ -52,50 +50,58 @@ const CATEGORY_DEPENDENCY_TYPES = [
   'tidas_lciamethods_category',
   'tidas_processes_category',
   'tidas_sources_category',
-  'tidas_unitgroups_category'
+  'tidas_unitgroups_category',
 ];
 
 // All types that need to be processed (main + dependencies)
-const ALL_PROCESSABLE_TYPES = [...CORE_DEPENDENCY_TYPES, ...CATEGORY_DEPENDENCY_TYPES, ...MAIN_TYPES];
+const ALL_PROCESSABLE_TYPES = [
+  ...CORE_DEPENDENCY_TYPES,
+  ...CATEGORY_DEPENDENCY_TYPES,
+  ...MAIN_TYPES,
+];
 
 async function generateZodSchemas(): Promise<void> {
   console.log('🚀 Generating Zod schemas from TypeScript types...\n');
-  
+
   // Generate ts-to-zod configuration
   await generateTsToZodConfig();
-  
+
   // Ensure schemas directory exists
   if (!fs.existsSync(SCHEMAS_DIR)) {
     fs.mkdirSync(SCHEMAS_DIR, { recursive: true });
   }
-  
+
   // Clean existing schemas
   console.log('🧹 Cleaning existing schemas...');
-  const existingSchemas = fs.readdirSync(SCHEMAS_DIR).filter(file => file.endsWith('.schema.ts'));
+  const existingSchemas = fs
+    .readdirSync(SCHEMAS_DIR)
+    .filter((file) => file.endsWith('.schema.ts'));
   for (const schema of existingSchemas) {
     fs.unlinkSync(path.join(SCHEMAS_DIR, schema));
     console.log(`   🗑️  Removed: ${schema}`);
   }
-  
+
   // Get dependency-sorted types for processing
   const sortedTypes = await analyzeTypeDependencies();
-  const typeNames = sortedTypes.map(t => t.fileName);
-  
+  const typeNames = sortedTypes.map((t) => t.fileName);
+
   // Run ts-to-zod with configuration, processing each type in dependency order
   console.log('\n📦 Running ts-to-zod for each type in dependency order...');
-  
+
   // Process all types using standard config approach
   for (const typeName of typeNames) {
     const configName = typeName.replace('tidas_', '');
     console.log(`🔄 Processing ${typeName}...`);
-    
+
     try {
-      const { stderr } = await execAsync(`npx ts-to-zod --config=${configName} --skipValidation`);
-      
+      const { stderr } = await execAsync(
+        `npx ts-to-zod --config=${configName} --skipValidation`
+      );
+
       const outputFile = path.join(SCHEMAS_DIR, `${typeName}.schema.ts`);
       if (fs.existsSync(outputFile)) {
         console.log(`   ✅ ${typeName}.schema.ts generated successfully`);
-        
+
         // Post-process the generated schema to fix constraint placement
         await postProcessZodSchema(outputFile);
       } else {
@@ -104,38 +110,42 @@ async function generateZodSchemas(): Promise<void> {
           console.log(`   📋 Error details:`, stderr);
         }
       }
-      
     } catch (error) {
-      console.log(`   ❌ Failed to process ${typeName}:`, (error as Error).message);
-      
+      console.log(
+        `   ❌ Failed to process ${typeName}:`,
+        (error as Error).message
+      );
+
       // If ts-to-zod fails, try fallback approach
       console.log(`   🔄 Trying fallback approach for ${typeName}...`);
       await generateFallbackSchema(typeName);
     }
   }
-  
+
   // Final verification
   console.log('\n✅ Final verification of generated schemas:');
   // Need to include tidas_data_types back for verification
-  const allTypeNames = sortedTypes.map(t => t.fileName);
-  const successCount = allTypeNames.filter(typeName => {
+  const allTypeNames = sortedTypes.map((t) => t.fileName);
+  const successCount = allTypeNames.filter((typeName) => {
     const outputFile = path.join(SCHEMAS_DIR, `${typeName}.schema.ts`);
     const exists = fs.existsSync(outputFile);
     console.log(`   ${exists ? '✅' : '❌'} ${typeName}.schema.ts`);
     return exists;
   }).length;
-  
-  console.log(`\n📊 Generated ${successCount}/${allTypeNames.length} schemas successfully`)
-  
+
+  console.log(
+    `\n📊 Generated ${successCount}/${allTypeNames.length} schemas successfully`
+  );
+
   // Generate enhanced index file
   await generateSchemasIndex();
-  
+
   // Clean up config file
   if (fs.existsSync(CONFIG_FILE)) {
     fs.unlinkSync(CONFIG_FILE);
     console.log(`🧹 Cleaned up: ${CONFIG_FILE}`);
   }
-  
+
   console.log('\n🎉 Zod schema generation completed successfully!');
 }
 
@@ -144,18 +154,26 @@ async function generateZodSchemas(): Promise<void> {
  */
 function getDataSetKeyForType(typeName: string): string {
   switch (typeName) {
-    case 'tidas_contacts': return 'contactDataSet';
-    case 'tidas_processes': return 'processDataSet';  
-    case 'tidas_flows': return 'flowDataSet';
-    case 'tidas_sources': return 'sourceDataSet';
-    case 'tidas_flowproperties': return 'flowPropertyDataSet';
-    case 'tidas_unitgroups': return 'unitGroupDataSet';
-    case 'tidas_lciamethods': return 'LCIAMethodDataSet';
-    case 'tidas_lifecyclemodels': return 'lifeCycleModelDataSet';
-    default: return typeName.replace('tidas_', '') + 'DataSet';
+    case 'tidas_contacts':
+      return 'contactDataSet';
+    case 'tidas_processes':
+      return 'processDataSet';
+    case 'tidas_flows':
+      return 'flowDataSet';
+    case 'tidas_sources':
+      return 'sourceDataSet';
+    case 'tidas_flowproperties':
+      return 'flowPropertyDataSet';
+    case 'tidas_unitgroups':
+      return 'unitGroupDataSet';
+    case 'tidas_lciamethods':
+      return 'LCIAMethodDataSet';
+    case 'tidas_lifecyclemodels':
+      return 'lifeCycleModelDataSet';
+    default:
+      return typeName.replace('tidas_', '') + 'DataSet';
   }
 }
-
 
 /**
  * Post-process generated Zod schema to fix constraint placement
@@ -163,73 +181,89 @@ function getDataSetKeyForType(typeName: string): string {
 async function postProcessZodSchema(schemaFile: string): Promise<void> {
   const content = fs.readFileSync(schemaFile, 'utf8');
   let fixedContent = content;
-  
+
   // Fix complex union types that exceed TypeScript compiler limits
   // Add explicit type annotation for complex schemas
-  if (schemaFile.includes('flows_product_category') || 
-      schemaFile.includes('flows_elementary_category') ||
-      schemaFile.includes('processes_category') ||
-      schemaFile.includes('sources_category') ||
-      schemaFile.includes('unitgroups_category') ||
-      schemaFile.includes('lciamethods_category') ||
-      schemaFile.includes('flowproperties_category') ||
-      schemaFile.includes('contacts_category') ||
-      schemaFile.includes('locations_category')) {
-    
+  if (
+    schemaFile.includes('flows_product_category') ||
+    schemaFile.includes('flows_elementary_category') ||
+    schemaFile.includes('processes_category') ||
+    schemaFile.includes('sources_category') ||
+    schemaFile.includes('unitgroups_category') ||
+    schemaFile.includes('lciamethods_category') ||
+    schemaFile.includes('flowproperties_category') ||
+    schemaFile.includes('contacts_category') ||
+    schemaFile.includes('locations_category')
+  ) {
     // Find all schema exports and add explicit type annotation
     fixedContent = fixedContent.replace(
       /export const (\w+Schema) = (z\.union\(\[[\s\S]*?\]\)|z\.literal\([^)]+\)(?:\.optional\(\))?);/g,
       'export const $1: z.ZodType<any> = $2;'
     );
   }
-  
+
   // For tidas_data_types, apply specific constraint fixes
   if (schemaFile.includes('tidas_data_types')) {
     // Fix StringMultiLang schemas - should have max(500)
     fixedContent = fixedContent.replace(
       /StringMultiLangSchema = z\.union\(\[([\s\S]*?)\]\);/g,
       (_, unionContent) => {
-        const fixedUnion = unionContent.replace(/('#text':\s*z\.string\(\)),/g, "'#text': z.string().max(500),");
+        const fixedUnion = unionContent.replace(
+          /('#text':\s*z\.string\(\)),/g,
+          "'#text': z.string().max(500),"
+        );
         return `StringMultiLangSchema = z.union([${fixedUnion}]);`;
       }
     );
-    
-    // Fix STMultiLang schemas - should have max(1000)  
+
+    // Fix STMultiLang schemas - should have max(1000)
     fixedContent = fixedContent.replace(
       /STMultiLangSchema = z\.union\(\[([\s\S]*?)\]\);/g,
       (_, unionContent) => {
-        const fixedUnion = unionContent.replace(/('#text':\s*z\.string\(\)),/g, "'#text': z.string().max(1000),");
+        const fixedUnion = unionContent.replace(
+          /('#text':\s*z\.string\(\)),/g,
+          "'#text': z.string().max(1000),"
+        );
         return `STMultiLangSchema = z.union([${fixedUnion}]);`;
       }
     );
   }
-  
+
   // Apply intelligent constraint fixes for all schemas
   // Pattern 1: Fix object-level constraints and move them to #text property
   const newContent1 = fixedContent.replace(
     /('#text':\s*z\.string\(\)),(\s*\}\)\s*\.max\((\d+)\))/g,
     "'#text': z.string().max($3),\n    }))"
   );
-  
+
   // Pattern 2: Fix array-level constraints and move them to #text property within objects
   const newContent2 = newContent1.replace(
     /('#text':\s*z\.string\(\)),(\s*\}\)\s*\)\s*\.max\((\d+)\))/g,
     "'#text': z.string().max($3),\n    })\n  )"
   );
-  
+
   // Pattern 3: Fix union-level constraints by identifying and replacing them
-  const unionMaxPattern = /(\w+Schema = z\.union\(\[[\s\S]*?'#text':\s*z\.string\(\)[\s\S]*?\]\))\.max\((\d+)\);/g;
-  const newContent3 = newContent2.replace(unionMaxPattern, (_, unionPart, maxValue) => {
-    const fixedUnion = unionPart.replace(/('#text':\s*z\.string\(\))/g, `'#text': z.string().max(${maxValue})`);
-    return `${fixedUnion};`;
-  });
-  
+  const unionMaxPattern =
+    /(\w+Schema = z\.union\(\[[\s\S]*?'#text':\s*z\.string\(\)[\s\S]*?\]\))\.max\((\d+)\);/g;
+  const newContent3 = newContent2.replace(
+    unionMaxPattern,
+    (_, unionPart, maxValue) => {
+      const fixedUnion = unionPart.replace(
+        /('#text':\s*z\.string\(\))/g,
+        `'#text': z.string().max(${maxValue})`
+      );
+      return `${fixedUnion};`;
+    }
+  );
+
   fixedContent = newContent3;
   const hasChanges = fixedContent !== content;
-  
+
   if (hasChanges) {
     fs.writeFileSync(schemaFile, fixedContent, 'utf8');
-    console.log(`   🔧 Applied constraint fixes to ${path.basename(schemaFile)}`);
+    console.log(
+      `   🔧 Applied constraint fixes to ${path.basename(schemaFile)}`
+    );
   }
 }
 
@@ -239,10 +273,12 @@ async function postProcessZodSchema(schemaFile: string): Promise<void> {
 async function generateFallbackSchema(typeName: string): Promise<void> {
   const outputFile = path.join(SCHEMAS_DIR, `${typeName}.schema.ts`);
   const dataSetKey = getDataSetKeyForType(typeName);
-  const schemaName = typeName.split('_').map(part => 
-    part.charAt(0).toUpperCase() + part.slice(1)
-  ).join('') + 'Schema';
-  
+  const schemaName =
+    typeName
+      .split('_')
+      .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+      .join('') + 'Schema';
+
   // Create a basic schema that imports from data types and exports a permissive schema
   const fallbackContent = `// Generated fallback schema for ${typeName}
 import { z } from 'zod';
@@ -280,7 +316,9 @@ export const ${schemaName} = z.object({
     fs.writeFileSync(outputFile, fallbackContent, 'utf8');
     console.log(`   ✅ Generated fallback schema: ${outputFile}`);
   } catch (error) {
-    console.log(`   ❌ Failed to generate fallback schema: ${(error as Error).message}`);
+    console.log(
+      `   ❌ Failed to generate fallback schema: ${(error as Error).message}`
+    );
   }
 }
 
@@ -289,59 +327,67 @@ export const ${schemaName} = z.object({
  */
 async function analyzeTypeDependencies(): Promise<TypeFileInfo[]> {
   console.log('🔍 Analyzing TypeScript dependencies...');
-  
-  const typesFiles = fs.readdirSync(TYPES_DIR)
-    .filter(file => file.startsWith('tidas_') && file.endsWith('.ts'))
-    .map(file => file.replace('.ts', ''));
-  
+
+  const typesFiles = fs
+    .readdirSync(TYPES_DIR)
+    .filter((file) => file.startsWith('tidas_') && file.endsWith('.ts'))
+    .map((file) => file.replace('.ts', ''));
+
   console.log(`   Found ${typesFiles.length} TypeScript files`);
-  
+
   const dependencyGraph: DependencyGraph = {};
   const typeFileInfos: TypeFileInfo[] = [];
-  
+
   // Build dependency graph by parsing import statements
   for (const fileName of typesFiles) {
     const filePath = path.join(TYPES_DIR, `${fileName}.ts`);
     const content = fs.readFileSync(filePath, 'utf8');
-    
+
     const dependencies = parseImportStatements(content, fileName);
     dependencyGraph[fileName] = dependencies;
-    
+
     typeFileInfos.push({
       fileName,
       filePath,
       dependencies,
-      isMainType: ALL_PROCESSABLE_TYPES.includes(fileName)
+      isMainType: ALL_PROCESSABLE_TYPES.includes(fileName),
     });
   }
-  
+
   // Filter to only include types we want to process
-  const processableTypes = typeFileInfos.filter(info => info.isMainType);
-  
-  console.log(`   Analyzed dependencies for ${processableTypes.length} processable types`);
-  
+  const processableTypes = typeFileInfos.filter((info) => info.isMainType);
+
+  console.log(
+    `   Analyzed dependencies for ${processableTypes.length} processable types`
+  );
+
   // Sort types based on dependencies using topological sort
   const sortedTypes = topologicalSort(processableTypes, dependencyGraph);
-  
+
   // Display dependency information
   console.log('\n📊 Dependency Analysis Results:');
   sortedTypes.forEach((typeInfo, index) => {
-    const depsList = typeInfo.dependencies.length > 0 
-      ? typeInfo.dependencies.join(', ') 
-      : 'none';
+    const depsList =
+      typeInfo.dependencies.length > 0
+        ? typeInfo.dependencies.join(', ')
+        : 'none';
     console.log(`   ${index + 1}. ${typeInfo.fileName} (deps: ${depsList})`);
   });
-  
+
   return sortedTypes;
 }
 
 /**
  * Parse import statements from TypeScript file content
  */
-function parseImportStatements(content: string, currentFileName: string): string[] {
+function parseImportStatements(
+  content: string,
+  currentFileName: string
+): string[] {
   const dependencies: string[] = [];
-  const importRegex = /import\s+(?:type\s+)?{[^}]+}\s+from\s+['"]\.\/([^'"]+)['"]/g;
-  
+  const importRegex =
+    /import\s+(?:type\s+)?{[^}]+}\s+from\s+['"]\.\/([^'"]+)['"]/g;
+
   let match: RegExpExecArray | null;
   while ((match = importRegex.exec(content)) !== null) {
     const importedFile = match[1];
@@ -350,29 +396,32 @@ function parseImportStatements(content: string, currentFileName: string): string
       dependencies.push(importedFile);
     }
   }
-  
+
   return [...new Set(dependencies)]; // Remove duplicates
 }
 
 /**
  * Topological sort to determine correct processing order
  */
-function topologicalSort(types: TypeFileInfo[], dependencyGraph: DependencyGraph): TypeFileInfo[] {
+function topologicalSort(
+  types: TypeFileInfo[],
+  dependencyGraph: DependencyGraph
+): TypeFileInfo[] {
   const visited = new Set<string>();
   const visiting = new Set<string>();
   const result: TypeFileInfo[] = [];
-  const typeMap = new Map(types.map(t => [t.fileName, t]));
-  
+  const typeMap = new Map(types.map((t) => [t.fileName, t]));
+
   function visit(fileName: string): void {
     if (visited.has(fileName)) return;
-    
+
     if (visiting.has(fileName)) {
       console.log(`   ⚠️  Circular dependency detected involving ${fileName}`);
       return;
     }
-    
+
     visiting.add(fileName);
-    
+
     // Visit dependencies first
     const dependencies = dependencyGraph[fileName] || [];
     for (const dep of dependencies) {
@@ -381,21 +430,21 @@ function topologicalSort(types: TypeFileInfo[], dependencyGraph: DependencyGraph
         visit(dep);
       }
     }
-    
+
     visiting.delete(fileName);
     visited.add(fileName);
-    
+
     const typeInfo = typeMap.get(fileName);
     if (typeInfo) {
       result.push(typeInfo);
     }
   }
-  
+
   // Visit all types
   for (const typeInfo of types) {
     visit(typeInfo.fileName);
   }
-  
+
   return result;
 }
 
@@ -403,28 +452,32 @@ function topologicalSort(types: TypeFileInfo[], dependencyGraph: DependencyGraph
  * Generate ts-to-zod configuration file using dependency analysis
  */
 async function generateTsToZodConfig(): Promise<void> {
-  console.log('⚙️  Generating ts-to-zod configuration with dependency analysis...');
-  
+  console.log(
+    '⚙️  Generating ts-to-zod configuration with dependency analysis...'
+  );
+
   // Analyze dependencies to get correct processing order
   const sortedTypes = await analyzeTypeDependencies();
-  
-  const configs = sortedTypes.map(typeInfo => ({
+
+  const configs = sortedTypes.map((typeInfo) => ({
     name: typeInfo.fileName.replace('tidas_', ''),
     input: `${TYPES_DIR}/${typeInfo.fileName}.ts`,
     output: `${SCHEMAS_DIR}/${typeInfo.fileName}.schema.ts`,
     getSchemaName: '(id) => `${id}Schema`',
     skipValidation: true,
     keepComments: false,
-    skipParseJSDoc: false // Enable JSDoc parsing for constraint extraction
+    skipParseJSDoc: false, // Enable JSDoc parsing for constraint extraction
   }));
-  
+
   const configContent = `/**
  * ts-to-zod configuration - Auto-generated with dependency analysis
  * Processing order determined by import dependencies
  * @type {import("ts-to-zod").TsToZodConfig}
  */
 module.exports = [
-${configs.map(config => `  {
+${configs
+  .map(
+    (config) => `  {
     name: "${config.name}",
     input: "${config.input}",
     output: "${config.output}",
@@ -432,29 +485,38 @@ ${configs.map(config => `  {
     skipValidation: ${config.skipValidation},
     keepComments: ${config.keepComments},
     skipParseJSDoc: ${config.skipParseJSDoc}
-  }`).join(',\n')}
+  }`
+  )
+  .join(',\n')}
 ];`;
 
   fs.writeFileSync(CONFIG_FILE, configContent, 'utf8');
-  
+
   // Save configuration files for debugging
   if (!fs.existsSync(CONFIG_SAVE_DIR)) {
     fs.mkdirSync(CONFIG_SAVE_DIR, { recursive: true });
   }
   const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
-  const savedConfigFile = path.join(CONFIG_SAVE_DIR, `ts-to-zod.config.${timestamp}.js`);
+  const savedConfigFile = path.join(
+    CONFIG_SAVE_DIR,
+    `ts-to-zod.config.${timestamp}.js`
+  );
   fs.writeFileSync(savedConfigFile, configContent, 'utf8');
-  
-  console.log(`   ✅ Generated configuration for ${configs.length} types in dependency order`);
+
+  console.log(
+    `   ✅ Generated configuration for ${configs.length} types in dependency order`
+  );
   console.log(`   📁 Configuration saved to: ${savedConfigFile}`);
 }
 
 async function generateSchemasIndex(): Promise<void> {
   console.log('📋 Generating enhanced schemas index file...');
-  
+
   // Get all generated schemas
-  const _allGeneratedTypes = (await analyzeTypeDependencies()).map(t => t.fileName);
-  
+  const _allGeneratedTypes = (await analyzeTypeDependencies()).map(
+    (t) => t.fileName
+  );
+
   const indexContent = `/**
  * Automatically generated index file for all Zod schemas
  * Generated with dependency analysis
@@ -474,14 +536,14 @@ export { ProcessesSchema as ProcessSchema } from './tidas_processes.schema';
 
 // Export category/enum types (if schemas exist)
 export { LocationsCategorySchema as LocationCategorySchema } from './tidas_locations_category.schema';
-export { ContactsCategorySchema as ContactCategorySchema } from './tidas_contacts_category.schema';
-export { FlowpropertiesCategorySchema as FlowPropertyCategorySchema } from './tidas_flowproperties_category.schema';
+export { ContactSchema as ContactCategorySchema } from './tidas_contacts_category.schema';
+export { FlowPropertySchema as FlowPropertyCategorySchema } from './tidas_flowproperties_category.schema';
 export { FlowsElementaryCategorySchema as FlowElementaryCategorySchema } from './tidas_flows_elementary_category.schema';
 export { FlowsProductCategorySchema as FlowProductCategorySchema } from './tidas_flows_product_category.schema';
-export { LciamethodsCategorySchema as LCIAMethodCategorySchema } from './tidas_lciamethods_category.schema';
+export { LCIAMethodSchema as LCIAMethodCategorySchema } from './tidas_lciamethods_category.schema';
 export { ProcessesCategorySchema as ProcessCategorySchema } from './tidas_processes_category.schema';
-export { SourcesCategorySchema as SourceCategorySchema } from './tidas_sources_category.schema';
-export { UnitgroupsCategorySchema as UnitGroupCategorySchema } from './tidas_unitgroups_category.schema';
+export { SourceSchema as SourceCategorySchema } from './tidas_sources_category.schema';
+export { UnitGroupSchema as UnitGroupCategorySchema } from './tidas_unitgroups_category.schema';
 
 // Export validation helper functions
 import { z } from 'zod';
@@ -565,7 +627,7 @@ export function createStaticValidationMethod<T>(schema: z.ZodSchema<T>) {
   };
 }
 `;
-  
+
   const indexFile = path.join(SCHEMAS_DIR, 'index.ts');
   fs.writeFileSync(indexFile, indexContent, 'utf8');
   console.log(`   ✅ Generated: ${indexFile}`);

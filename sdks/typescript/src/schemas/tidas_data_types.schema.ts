@@ -13,7 +13,9 @@ export const Int6Schema = z.string().regex(/^(0|[1-9]\d{0,5})$/);
 
 export const LevelTypeSchema = Int1Schema;
 
-export const PercSchema = z.string().regex(/^0\.\d+$/);
+export const PercSchema = z
+  .string()
+  .regex(/^(100(\.0{1,3})?|([0-9]|[1-9][0-9])(\.\d{1,3})?)$/);
 
 export const MatRSchema = z.string();
 

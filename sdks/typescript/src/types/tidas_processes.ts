@@ -228,7 +228,7 @@ export interface Processes {
             | 'Accredited third party review'
             | 'Independent review panel'
             | 'Not reviewed';
-          scope:
+          'common:scope'?:
             | {
                 '@name':
                   | 'Raw data'
@@ -240,21 +240,37 @@ export interface Processes {
                   | 'Life cycle inventory methods'
                   | 'LCIA results calculation'
                   | 'Goal and scope definition';
-                method: {
-                  '@name':
-                    | 'Validation of data sources'
-                    | 'Sample tests on calculations'
-                    | 'Energy balance'
-                    | 'Element balance'
-                    | 'Cross-check with other source'
-                    | 'Cross-check with other data set'
-                    | 'Expert judgement'
-                    | 'Mass balance'
-                    | 'Compliance with legal limits'
-                    | 'Compliance with ISO 14040 to 14044'
-                    | 'Documentation'
-                    | 'Evidence collection by means of plant visits and/or interviews';
-                };
+                'common:method':
+                  | {
+                      '@name':
+                        | 'Validation of data sources'
+                        | 'Sample tests on calculations'
+                        | 'Energy balance'
+                        | 'Element balance'
+                        | 'Cross-check with other source'
+                        | 'Cross-check with other data set'
+                        | 'Expert judgement'
+                        | 'Mass balance'
+                        | 'Compliance with legal limits'
+                        | 'Compliance with ISO 14040 to 14044'
+                        | 'Documentation'
+                        | 'Evidence collection by means of plant visits and/or interviews';
+                    }
+                  | {
+                      '@name':
+                        | 'Validation of data sources'
+                        | 'Sample tests on calculations'
+                        | 'Energy balance'
+                        | 'Element balance'
+                        | 'Cross-check with other source'
+                        | 'Cross-check with other data set'
+                        | 'Expert judgement'
+                        | 'Mass balance'
+                        | 'Compliance with legal limits'
+                        | 'Compliance with ISO 14040 to 14044'
+                        | 'Documentation'
+                        | 'Evidence collection by means of plant visits and/or interviews';
+                    }[];
               }
             | {
                 '@name':
@@ -267,43 +283,78 @@ export interface Processes {
                   | 'Life cycle inventory methods'
                   | 'LCIA results calculation'
                   | 'Goal and scope definition';
-                method: {
-                  '@name':
-                    | 'Validation of data sources'
-                    | 'Sample tests on calculations'
-                    | 'Energy balance'
-                    | 'Element balance'
-                    | 'Cross-check with other source'
-                    | 'Cross-check with other data set'
-                    | 'Expert judgement'
-                    | 'Mass balance'
-                    | 'Compliance with legal limits'
-                    | 'Compliance with ISO 14040 to 14044'
-                    | 'Documentation'
-                    | 'Evidence collection by means of plant visits and/or interviews';
-                };
+                'common:method':
+                  | {
+                      '@name':
+                        | 'Validation of data sources'
+                        | 'Sample tests on calculations'
+                        | 'Energy balance'
+                        | 'Element balance'
+                        | 'Cross-check with other source'
+                        | 'Cross-check with other data set'
+                        | 'Expert judgement'
+                        | 'Mass balance'
+                        | 'Compliance with legal limits'
+                        | 'Compliance with ISO 14040 to 14044'
+                        | 'Documentation'
+                        | 'Evidence collection by means of plant visits and/or interviews';
+                    }
+                  | {
+                      '@name':
+                        | 'Validation of data sources'
+                        | 'Sample tests on calculations'
+                        | 'Energy balance'
+                        | 'Element balance'
+                        | 'Cross-check with other source'
+                        | 'Cross-check with other data set'
+                        | 'Expert judgement'
+                        | 'Mass balance'
+                        | 'Compliance with legal limits'
+                        | 'Compliance with ISO 14040 to 14044'
+                        | 'Documentation'
+                        | 'Evidence collection by means of plant visits and/or interviews';
+                    }[];
               }[];
-          dataQualityIndicators?: {
-            dataQualityIndicator?: {
-              '@name'?:
-                | 'Technological representativeness'
-                | 'Time representativeness'
-                | 'Geographical representativeness'
-                | 'Completeness'
-                | 'Precision'
-                | 'Methodological appropriateness and consistency'
-                | 'Overall quality';
-              '@value'?:
-                | 'Very good'
-                | 'Good'
-                | 'Fair'
-                | 'Poor'
-                | 'Very poor'
-                | 'Not evaluated / unknown'
-                | 'Not applicable';
-            };
+          'common:dataQualityIndicators'?: {
+            'common:dataQualityIndicator':
+              | {
+                  '@name':
+                    | 'Technological representativeness'
+                    | 'Time representativeness'
+                    | 'Geographical representativeness'
+                    | 'Completeness'
+                    | 'Precision'
+                    | 'Methodological appropriateness and consistency'
+                    | 'Overall quality';
+                  '@value':
+                    | 'Very good'
+                    | 'Good'
+                    | 'Fair'
+                    | 'Poor'
+                    | 'Very poor'
+                    | 'Not evaluated / unknown'
+                    | 'Not applicable';
+                }
+              | {
+                  '@name':
+                    | 'Technological representativeness'
+                    | 'Time representativeness'
+                    | 'Geographical representativeness'
+                    | 'Completeness'
+                    | 'Precision'
+                    | 'Methodological appropriateness and consistency'
+                    | 'Overall quality';
+                  '@value':
+                    | 'Very good'
+                    | 'Good'
+                    | 'Fair'
+                    | 'Poor'
+                    | 'Very poor'
+                    | 'Not evaluated / unknown'
+                    | 'Not applicable';
+                }[];
           };
-          reviewDetails?: FTMultiLang;
+          'common:reviewDetails'?: FTMultiLang;
           'common:referenceToNameOfReviewerAndInstitution'?: GlobalReferenceType;
           'common:otherReviewDetails'?: FTMultiLang;
           'common:referenceToCompleteReviewReport'?: GlobalReferenceType;
@@ -312,34 +363,63 @@ export interface Processes {
         'common:other'?: string;
       };
       complianceDeclarations: {
-        compliance: {
-          'common:referenceToComplianceSystem': GlobalReferenceType;
-          'common:approvalOfOverallCompliance':
-            | 'Fully compliant'
-            | 'Not compliant'
-            | 'Not defined';
-          'common:nomenclatureCompliance':
-            | 'Fully compliant'
-            | 'Not compliant'
-            | 'Not defined';
-          'common:methodologicalCompliance':
-            | 'Fully compliant'
-            | 'Not compliant'
-            | 'Not defined';
-          'common:reviewCompliance':
-            | 'Fully compliant'
-            | 'Not compliant'
-            | 'Not defined';
-          'common:documentationCompliance':
-            | 'Fully compliant'
-            | 'Not compliant'
-            | 'Not defined';
-          'common:qualityCompliance':
-            | 'Fully compliant'
-            | 'Not compliant'
-            | 'Not defined';
-          'common:other'?: string;
-        };
+        compliance:
+          | {
+              'common:referenceToComplianceSystem': GlobalReferenceType;
+              'common:approvalOfOverallCompliance':
+                | 'Fully compliant'
+                | 'Not compliant'
+                | 'Not defined';
+              'common:nomenclatureCompliance':
+                | 'Fully compliant'
+                | 'Not compliant'
+                | 'Not defined';
+              'common:methodologicalCompliance':
+                | 'Fully compliant'
+                | 'Not compliant'
+                | 'Not defined';
+              'common:reviewCompliance':
+                | 'Fully compliant'
+                | 'Not compliant'
+                | 'Not defined';
+              'common:documentationCompliance':
+                | 'Fully compliant'
+                | 'Not compliant'
+                | 'Not defined';
+              'common:qualityCompliance':
+                | 'Fully compliant'
+                | 'Not compliant'
+                | 'Not defined';
+              'common:other'?: string;
+            }
+          | {
+              'common:referenceToComplianceSystem': GlobalReferenceType;
+              'common:approvalOfOverallCompliance':
+                | 'Fully compliant'
+                | 'Not compliant'
+                | 'Not defined';
+              'common:nomenclatureCompliance':
+                | 'Fully compliant'
+                | 'Not compliant'
+                | 'Not defined';
+              'common:methodologicalCompliance':
+                | 'Fully compliant'
+                | 'Not compliant'
+                | 'Not defined';
+              'common:reviewCompliance':
+                | 'Fully compliant'
+                | 'Not compliant'
+                | 'Not defined';
+              'common:documentationCompliance':
+                | 'Fully compliant'
+                | 'Not compliant'
+                | 'Not defined';
+              'common:qualityCompliance':
+                | 'Fully compliant'
+                | 'Not compliant'
+                | 'Not defined';
+              'common:other'?: string;
+            }[];
         'common:other'?: string;
       };
       'common:other'?: string;
@@ -443,8 +523,8 @@ export interface Processes {
       }[];
       'common:other'?: string;
     };
-    LCIAResults: {
-      LCIAResult: {
+    LCIAResults?: {
+      LCIAResult?: {
         referenceToLCIAMethodDataSet?: GlobalReferenceType;
         meanAmount: Real;
         uncertaintyDistributionType?:

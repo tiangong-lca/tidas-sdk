@@ -65,14 +65,23 @@ export interface Flows {
         'common:other'?: string;
       };
       complianceDeclarations: {
-        compliance: {
-          'common:referenceToComplianceSystem': GlobalReferenceType;
-          'common:approvalOfOverallCompliance':
-            | 'Fully compliant'
-            | 'Not compliant'
-            | 'Not defined';
-          'common:other'?: string;
-        };
+        compliance:
+          | {
+              'common:referenceToComplianceSystem': GlobalReferenceType;
+              'common:approvalOfOverallCompliance':
+                | 'Fully compliant'
+                | 'Not compliant'
+                | 'Not defined';
+              'common:other'?: string;
+            }
+          | {
+              'common:referenceToComplianceSystem': GlobalReferenceType;
+              'common:approvalOfOverallCompliance':
+                | 'Fully compliant'
+                | 'Not compliant'
+                | 'Not defined';
+              'common:other'?: string;
+            }[];
         'common:other'?: string;
       };
       'common:other'?: string;
@@ -94,27 +103,49 @@ export interface Flows {
       'common:other'?: string;
     };
     flowProperties: {
-      flowProperty: {
-        '@dataSetInternalID': Int5;
-        referenceToFlowPropertyDataSet: GlobalReferenceType;
-        meanValue: Real;
-        minimumValue?: Real;
-        maximumValue?: Real;
-        uncertaintyDistributionType?:
-          | 'undefined'
-          | 'log-normal'
-          | 'normal'
-          | 'triangular'
-          | 'uniform';
-        relativeStandardDeviation95In?: Perc;
-        dataDerivationTypeStatus?:
-          | 'Measured'
-          | 'Calculated'
-          | 'Estimated'
-          | 'Unknown derivation';
-        generalComment?: StringMultiLang;
-        'common:other'?: string;
-      }[];
+      flowProperty:
+        | {
+            '@dataSetInternalID': Int5;
+            referenceToFlowPropertyDataSet: GlobalReferenceType;
+            meanValue: Real;
+            minimumValue?: Real;
+            maximumValue?: Real;
+            uncertaintyDistributionType?:
+              | 'undefined'
+              | 'log-normal'
+              | 'normal'
+              | 'triangular'
+              | 'uniform';
+            relativeStandardDeviation95In?: Perc;
+            dataDerivationTypeStatus?:
+              | 'Measured'
+              | 'Calculated'
+              | 'Estimated'
+              | 'Unknown derivation';
+            generalComment?: StringMultiLang;
+            'common:other'?: string;
+          }
+        | {
+            '@dataSetInternalID': Int5;
+            referenceToFlowPropertyDataSet: GlobalReferenceType;
+            meanValue: Real;
+            minimumValue?: Real;
+            maximumValue?: Real;
+            uncertaintyDistributionType?:
+              | 'undefined'
+              | 'log-normal'
+              | 'normal'
+              | 'triangular'
+              | 'uniform';
+            relativeStandardDeviation95In?: Perc;
+            dataDerivationTypeStatus?:
+              | 'Measured'
+              | 'Calculated'
+              | 'Estimated'
+              | 'Unknown derivation';
+            generalComment?: StringMultiLang;
+            'common:other'?: string;
+          }[];
       'common:other'?: string;
     };
     'common:other'?: string;

@@ -195,34 +195,63 @@ export interface Lifecyclemodels {
         'common:other'?: string;
       };
       complianceDeclarations: {
-        compliance: {
-          'common:referenceToComplianceSystem': GlobalReferenceType;
-          'common:approvalOfOverallCompliance':
-            | 'Fully compliant'
-            | 'Not compliant'
-            | 'Not defined';
-          'common:nomenclatureCompliance':
-            | 'Fully compliant'
-            | 'Not compliant'
-            | 'Not defined';
-          'common:methodologicalCompliance':
-            | 'Fully compliant'
-            | 'Not compliant'
-            | 'Not defined';
-          'common:reviewCompliance':
-            | 'Fully compliant'
-            | 'Not compliant'
-            | 'Not defined';
-          'common:documentationCompliance':
-            | 'Fully compliant'
-            | 'Not compliant'
-            | 'Not defined';
-          'common:qualityCompliance':
-            | 'Fully compliant'
-            | 'Not compliant'
-            | 'Not defined';
-          'common:other'?: string;
-        };
+        compliance:
+          | {
+              'common:referenceToComplianceSystem': GlobalReferenceType;
+              'common:approvalOfOverallCompliance':
+                | 'Fully compliant'
+                | 'Not compliant'
+                | 'Not defined';
+              'common:nomenclatureCompliance':
+                | 'Fully compliant'
+                | 'Not compliant'
+                | 'Not defined';
+              'common:methodologicalCompliance':
+                | 'Fully compliant'
+                | 'Not compliant'
+                | 'Not defined';
+              'common:reviewCompliance':
+                | 'Fully compliant'
+                | 'Not compliant'
+                | 'Not defined';
+              'common:documentationCompliance':
+                | 'Fully compliant'
+                | 'Not compliant'
+                | 'Not defined';
+              'common:qualityCompliance':
+                | 'Fully compliant'
+                | 'Not compliant'
+                | 'Not defined';
+              'common:other'?: string;
+            }
+          | {
+              'common:referenceToComplianceSystem': GlobalReferenceType;
+              'common:approvalOfOverallCompliance':
+                | 'Fully compliant'
+                | 'Not compliant'
+                | 'Not defined';
+              'common:nomenclatureCompliance':
+                | 'Fully compliant'
+                | 'Not compliant'
+                | 'Not defined';
+              'common:methodologicalCompliance':
+                | 'Fully compliant'
+                | 'Not compliant'
+                | 'Not defined';
+              'common:reviewCompliance':
+                | 'Fully compliant'
+                | 'Not compliant'
+                | 'Not defined';
+              'common:documentationCompliance':
+                | 'Fully compliant'
+                | 'Not compliant'
+                | 'Not defined';
+              'common:qualityCompliance':
+                | 'Fully compliant'
+                | 'Not compliant'
+                | 'Not defined';
+              'common:other'?: string;
+            }[];
         'common:other'?: string;
       };
       'common:other'?: string;

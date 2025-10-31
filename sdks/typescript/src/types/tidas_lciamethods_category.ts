@@ -4,7 +4,7 @@
  * and run the generation script to regenerate this file.
  */
 
-export type LciamethodsCategory =
+export type LCIAMethod =
   | { '@level'?: '0'; '@classId'?: '1'; '#text'?: 'Damage level LCIA methods' }
   | {
       '@level'?: '1';
