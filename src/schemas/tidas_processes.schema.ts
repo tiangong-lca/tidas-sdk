@@ -290,39 +290,8 @@ export const ProcessesSchema = z.object({
             z.literal('Independent review panel'),
             z.literal('Not reviewed'),
           ]),
-          scope: z.union([
-            z.object({
-              '@name': z.union([
-                z.literal('Raw data'),
-                z.literal('Unit process(es), single operation'),
-                z.literal('Unit process(es), black box'),
-                z.literal('LCI results or Partly terminated system'),
-                z.literal('LCIA results'),
-                z.literal('Documentation'),
-                z.literal('Life cycle inventory methods'),
-                z.literal('LCIA results calculation'),
-                z.literal('Goal and scope definition'),
-              ]),
-              method: z.object({
-                '@name': z.union([
-                  z.literal('Validation of data sources'),
-                  z.literal('Sample tests on calculations'),
-                  z.literal('Energy balance'),
-                  z.literal('Element balance'),
-                  z.literal('Cross-check with other source'),
-                  z.literal('Cross-check with other data set'),
-                  z.literal('Expert judgement'),
-                  z.literal('Mass balance'),
-                  z.literal('Compliance with legal limits'),
-                  z.literal('Compliance with ISO 14040 to 14044'),
-                  z.literal('Documentation'),
-                  z.literal(
-                    'Evidence collection by means of plant visits and/or interviews'
-                  ),
-                ]),
-              }),
-            }),
-            z.array(
+          'common:scope': z
+            .union([
               z.object({
                 '@name': z.union([
                   z.literal('Raw data'),
@@ -335,33 +304,130 @@ export const ProcessesSchema = z.object({
                   z.literal('LCIA results calculation'),
                   z.literal('Goal and scope definition'),
                 ]),
-                method: z.object({
+                'common:method': z.union([
+                  z.object({
+                    '@name': z.union([
+                      z.literal('Validation of data sources'),
+                      z.literal('Sample tests on calculations'),
+                      z.literal('Energy balance'),
+                      z.literal('Element balance'),
+                      z.literal('Cross-check with other source'),
+                      z.literal('Cross-check with other data set'),
+                      z.literal('Expert judgement'),
+                      z.literal('Mass balance'),
+                      z.literal('Compliance with legal limits'),
+                      z.literal('Compliance with ISO 14040 to 14044'),
+                      z.literal('Documentation'),
+                      z.literal(
+                        'Evidence collection by means of plant visits and/or interviews'
+                      ),
+                    ]),
+                  }),
+                  z.array(
+                    z.object({
+                      '@name': z.union([
+                        z.literal('Validation of data sources'),
+                        z.literal('Sample tests on calculations'),
+                        z.literal('Energy balance'),
+                        z.literal('Element balance'),
+                        z.literal('Cross-check with other source'),
+                        z.literal('Cross-check with other data set'),
+                        z.literal('Expert judgement'),
+                        z.literal('Mass balance'),
+                        z.literal('Compliance with legal limits'),
+                        z.literal('Compliance with ISO 14040 to 14044'),
+                        z.literal('Documentation'),
+                        z.literal(
+                          'Evidence collection by means of plant visits and/or interviews'
+                        ),
+                      ]),
+                    })
+                  ),
+                ]),
+              }),
+              z.array(
+                z.object({
                   '@name': z.union([
-                    z.literal('Validation of data sources'),
-                    z.literal('Sample tests on calculations'),
-                    z.literal('Energy balance'),
-                    z.literal('Element balance'),
-                    z.literal('Cross-check with other source'),
-                    z.literal('Cross-check with other data set'),
-                    z.literal('Expert judgement'),
-                    z.literal('Mass balance'),
-                    z.literal('Compliance with legal limits'),
-                    z.literal('Compliance with ISO 14040 to 14044'),
+                    z.literal('Raw data'),
+                    z.literal('Unit process(es), single operation'),
+                    z.literal('Unit process(es), black box'),
+                    z.literal('LCI results or Partly terminated system'),
+                    z.literal('LCIA results'),
                     z.literal('Documentation'),
-                    z.literal(
-                      'Evidence collection by means of plant visits and/or interviews'
+                    z.literal('Life cycle inventory methods'),
+                    z.literal('LCIA results calculation'),
+                    z.literal('Goal and scope definition'),
+                  ]),
+                  'common:method': z.union([
+                    z.object({
+                      '@name': z.union([
+                        z.literal('Validation of data sources'),
+                        z.literal('Sample tests on calculations'),
+                        z.literal('Energy balance'),
+                        z.literal('Element balance'),
+                        z.literal('Cross-check with other source'),
+                        z.literal('Cross-check with other data set'),
+                        z.literal('Expert judgement'),
+                        z.literal('Mass balance'),
+                        z.literal('Compliance with legal limits'),
+                        z.literal('Compliance with ISO 14040 to 14044'),
+                        z.literal('Documentation'),
+                        z.literal(
+                          'Evidence collection by means of plant visits and/or interviews'
+                        ),
+                      ]),
+                    }),
+                    z.array(
+                      z.object({
+                        '@name': z.union([
+                          z.literal('Validation of data sources'),
+                          z.literal('Sample tests on calculations'),
+                          z.literal('Energy balance'),
+                          z.literal('Element balance'),
+                          z.literal('Cross-check with other source'),
+                          z.literal('Cross-check with other data set'),
+                          z.literal('Expert judgement'),
+                          z.literal('Mass balance'),
+                          z.literal('Compliance with legal limits'),
+                          z.literal('Compliance with ISO 14040 to 14044'),
+                          z.literal('Documentation'),
+                          z.literal(
+                            'Evidence collection by means of plant visits and/or interviews'
+                          ),
+                        ]),
+                      })
                     ),
                   ]),
-                }),
-              })
-            ),
-          ]),
-          dataQualityIndicators: z
+                })
+              ),
+            ])
+            .optional(),
+          'common:dataQualityIndicators': z
             .object({
-              dataQualityIndicator: z
-                .object({
-                  '@name': z
-                    .union([
+              'common:dataQualityIndicator': z.union([
+                z.object({
+                  '@name': z.union([
+                    z.literal('Technological representativeness'),
+                    z.literal('Time representativeness'),
+                    z.literal('Geographical representativeness'),
+                    z.literal('Completeness'),
+                    z.literal('Precision'),
+                    z.literal('Methodological appropriateness and consistency'),
+                    z.literal('Overall quality'),
+                  ]),
+                  '@value': z.union([
+                    z.literal('Very good'),
+                    z.literal('Good'),
+                    z.literal('Fair'),
+                    z.literal('Poor'),
+                    z.literal('Very poor'),
+                    z.literal('Not evaluated / unknown'),
+                    z.literal('Not applicable'),
+                  ]),
+                }),
+                z.array(
+                  z.object({
+                    '@name': z.union([
                       z.literal('Technological representativeness'),
                       z.literal('Time representativeness'),
                       z.literal('Geographical representativeness'),
@@ -371,10 +437,8 @@ export const ProcessesSchema = z.object({
                         'Methodological appropriateness and consistency'
                       ),
                       z.literal('Overall quality'),
-                    ])
-                    .optional(),
-                  '@value': z
-                    .union([
+                    ]),
+                    '@value': z.union([
                       z.literal('Very good'),
                       z.literal('Good'),
                       z.literal('Fair'),
@@ -382,13 +446,13 @@ export const ProcessesSchema = z.object({
                       z.literal('Very poor'),
                       z.literal('Not evaluated / unknown'),
                       z.literal('Not applicable'),
-                    ])
-                    .optional(),
-                })
-                .optional(),
+                    ]),
+                  })
+                ),
+              ]),
             })
             .optional(),
-          reviewDetails: FTMultiLangSchema.optional(),
+          'common:reviewDetails': FTMultiLangSchema.optional(),
           'common:referenceToNameOfReviewerAndInstitution':
             GlobalReferenceTypeSchema.optional(),
           'common:otherReviewDetails': FTMultiLangSchema.optional(),
@@ -399,40 +463,78 @@ export const ProcessesSchema = z.object({
         'common:other': z.string().optional(),
       }),
       complianceDeclarations: z.object({
-        compliance: z.object({
-          'common:referenceToComplianceSystem': GlobalReferenceTypeSchema,
-          'common:approvalOfOverallCompliance': z.union([
-            z.literal('Fully compliant'),
-            z.literal('Not compliant'),
-            z.literal('Not defined'),
-          ]),
-          'common:nomenclatureCompliance': z.union([
-            z.literal('Fully compliant'),
-            z.literal('Not compliant'),
-            z.literal('Not defined'),
-          ]),
-          'common:methodologicalCompliance': z.union([
-            z.literal('Fully compliant'),
-            z.literal('Not compliant'),
-            z.literal('Not defined'),
-          ]),
-          'common:reviewCompliance': z.union([
-            z.literal('Fully compliant'),
-            z.literal('Not compliant'),
-            z.literal('Not defined'),
-          ]),
-          'common:documentationCompliance': z.union([
-            z.literal('Fully compliant'),
-            z.literal('Not compliant'),
-            z.literal('Not defined'),
-          ]),
-          'common:qualityCompliance': z.union([
-            z.literal('Fully compliant'),
-            z.literal('Not compliant'),
-            z.literal('Not defined'),
-          ]),
-          'common:other': z.string().optional(),
-        }),
+        compliance: z.union([
+          z.object({
+            'common:referenceToComplianceSystem': GlobalReferenceTypeSchema,
+            'common:approvalOfOverallCompliance': z.union([
+              z.literal('Fully compliant'),
+              z.literal('Not compliant'),
+              z.literal('Not defined'),
+            ]),
+            'common:nomenclatureCompliance': z.union([
+              z.literal('Fully compliant'),
+              z.literal('Not compliant'),
+              z.literal('Not defined'),
+            ]),
+            'common:methodologicalCompliance': z.union([
+              z.literal('Fully compliant'),
+              z.literal('Not compliant'),
+              z.literal('Not defined'),
+            ]),
+            'common:reviewCompliance': z.union([
+              z.literal('Fully compliant'),
+              z.literal('Not compliant'),
+              z.literal('Not defined'),
+            ]),
+            'common:documentationCompliance': z.union([
+              z.literal('Fully compliant'),
+              z.literal('Not compliant'),
+              z.literal('Not defined'),
+            ]),
+            'common:qualityCompliance': z.union([
+              z.literal('Fully compliant'),
+              z.literal('Not compliant'),
+              z.literal('Not defined'),
+            ]),
+            'common:other': z.string().optional(),
+          }),
+          z.array(
+            z.object({
+              'common:referenceToComplianceSystem': GlobalReferenceTypeSchema,
+              'common:approvalOfOverallCompliance': z.union([
+                z.literal('Fully compliant'),
+                z.literal('Not compliant'),
+                z.literal('Not defined'),
+              ]),
+              'common:nomenclatureCompliance': z.union([
+                z.literal('Fully compliant'),
+                z.literal('Not compliant'),
+                z.literal('Not defined'),
+              ]),
+              'common:methodologicalCompliance': z.union([
+                z.literal('Fully compliant'),
+                z.literal('Not compliant'),
+                z.literal('Not defined'),
+              ]),
+              'common:reviewCompliance': z.union([
+                z.literal('Fully compliant'),
+                z.literal('Not compliant'),
+                z.literal('Not defined'),
+              ]),
+              'common:documentationCompliance': z.union([
+                z.literal('Fully compliant'),
+                z.literal('Not compliant'),
+                z.literal('Not defined'),
+              ]),
+              'common:qualityCompliance': z.union([
+                z.literal('Fully compliant'),
+                z.literal('Not compliant'),
+                z.literal('Not defined'),
+              ]),
+              'common:other': z.string().optional(),
+            })
+          ),
+        ]),
         'common:other': z.string().optional(),
       }),
       'common:other': z.string().optional(),
@@ -568,25 +670,29 @@ export const ProcessesSchema = z.object({
       ),
       'common:other': z.string().optional(),
     }),
-    LCIAResults: z.object({
-      LCIAResult: z.object({
-        referenceToLCIAMethodDataSet: GlobalReferenceTypeSchema.optional(),
-        meanAmount: RealSchema,
-        uncertaintyDistributionType: z
-          .union([
-            z.literal('undefined'),
-            z.literal('log-normal'),
-            z.literal('normal'),
-            z.literal('triangular'),
-            z.literal('uniform'),
-          ])
+    LCIAResults: z
+      .object({
+        LCIAResult: z
+          .object({
+            referenceToLCIAMethodDataSet: GlobalReferenceTypeSchema.optional(),
+            meanAmount: RealSchema,
+            uncertaintyDistributionType: z
+              .union([
+                z.literal('undefined'),
+                z.literal('log-normal'),
+                z.literal('normal'),
+                z.literal('triangular'),
+                z.literal('uniform'),
+              ])
+              .optional(),
+            relativeStandardDeviation95In: PercSchema.optional(),
+            generalComment: StringMultiLangSchema.optional(),
+            'common:other': z.string().optional(),
+          })
           .optional(),
-        relativeStandardDeviation95In: PercSchema.optional(),
-        generalComment: StringMultiLangSchema.optional(),
         'common:other': z.string().optional(),
-      }),
-      'common:other': z.string().optional(),
-    }),
+      })
+      .optional(),
     'common:other': z.string().optional(),
   }),
 });

@@ -10,7 +10,7 @@ import {
   listRulePathsFromMethodology,
   getRuleFromMethodologyByPath,
   getMethodologyData,
-  getAvailableMethodologyTypes,
+  // getAvailableMethodologyTypes,
   availableMethodologies,
 } from './base';
 

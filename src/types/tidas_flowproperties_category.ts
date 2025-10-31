@@ -4,7 +4,7 @@
  * and run the generation script to regenerate this file.
  */
 
-export type FlowpropertiesCategory =
+export type FlowProperty =
   | { '@level'?: '0'; '@classId'?: '1'; '#text'?: 'Technical flow properties' }
   | {
       '@level'?: '0';

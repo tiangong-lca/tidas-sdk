@@ -344,40 +344,78 @@ export const LifecyclemodelsSchema = z.object({
         'common:other': z.string().optional(),
       }),
       complianceDeclarations: z.object({
-        compliance: z.object({
-          'common:referenceToComplianceSystem': GlobalReferenceTypeSchema,
-          'common:approvalOfOverallCompliance': z.union([
-            z.literal('Fully compliant'),
-            z.literal('Not compliant'),
-            z.literal('Not defined'),
-          ]),
-          'common:nomenclatureCompliance': z.union([
-            z.literal('Fully compliant'),
-            z.literal('Not compliant'),
-            z.literal('Not defined'),
-          ]),
-          'common:methodologicalCompliance': z.union([
-            z.literal('Fully compliant'),
-            z.literal('Not compliant'),
-            z.literal('Not defined'),
-          ]),
-          'common:reviewCompliance': z.union([
-            z.literal('Fully compliant'),
-            z.literal('Not compliant'),
-            z.literal('Not defined'),
-          ]),
-          'common:documentationCompliance': z.union([
-            z.literal('Fully compliant'),
-            z.literal('Not compliant'),
-            z.literal('Not defined'),
-          ]),
-          'common:qualityCompliance': z.union([
-            z.literal('Fully compliant'),
-            z.literal('Not compliant'),
-            z.literal('Not defined'),
-          ]),
-          'common:other': z.string().optional(),
-        }),
+        compliance: z.union([
+          z.object({
+            'common:referenceToComplianceSystem': GlobalReferenceTypeSchema,
+            'common:approvalOfOverallCompliance': z.union([
+              z.literal('Fully compliant'),
+              z.literal('Not compliant'),
+              z.literal('Not defined'),
+            ]),
+            'common:nomenclatureCompliance': z.union([
+              z.literal('Fully compliant'),
+              z.literal('Not compliant'),
+              z.literal('Not defined'),
+            ]),
+            'common:methodologicalCompliance': z.union([
+              z.literal('Fully compliant'),
+              z.literal('Not compliant'),
+              z.literal('Not defined'),
+            ]),
+            'common:reviewCompliance': z.union([
+              z.literal('Fully compliant'),
+              z.literal('Not compliant'),
+              z.literal('Not defined'),
+            ]),
+            'common:documentationCompliance': z.union([
+              z.literal('Fully compliant'),
+              z.literal('Not compliant'),
+              z.literal('Not defined'),
+            ]),
+            'common:qualityCompliance': z.union([
+              z.literal('Fully compliant'),
+              z.literal('Not compliant'),
+              z.literal('Not defined'),
+            ]),
+            'common:other': z.string().optional(),
+          }),
+          z.array(
+            z.object({
+              'common:referenceToComplianceSystem': GlobalReferenceTypeSchema,
+              'common:approvalOfOverallCompliance': z.union([
+                z.literal('Fully compliant'),
+                z.literal('Not compliant'),
+                z.literal('Not defined'),
+              ]),
+              'common:nomenclatureCompliance': z.union([
+                z.literal('Fully compliant'),
+                z.literal('Not compliant'),
+                z.literal('Not defined'),
+              ]),
+              'common:methodologicalCompliance': z.union([
+                z.literal('Fully compliant'),
+                z.literal('Not compliant'),
+                z.literal('Not defined'),
+              ]),
+              'common:reviewCompliance': z.union([
+                z.literal('Fully compliant'),
+                z.literal('Not compliant'),
+                z.literal('Not defined'),
+              ]),
+              'common:documentationCompliance': z.union([
+                z.literal('Fully compliant'),
+                z.literal('Not compliant'),
+                z.literal('Not defined'),
+              ]),
+              'common:qualityCompliance': z.union([
+                z.literal('Fully compliant'),
+                z.literal('Not compliant'),
+                z.literal('Not defined'),
+              ]),
+              'common:other': z.string().optional(),
+            })
+          ),
+        ]),
         'common:other': z.string().optional(),
       }),
       'common:other': z.string().optional(),

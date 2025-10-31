@@ -4,7 +4,7 @@
  * and run the generation script to regenerate this file.
  */
 
-export type ContactsCategory =
+export type Contact =
   | {
       '@level'?: '0';
       '@classId'?: '1';

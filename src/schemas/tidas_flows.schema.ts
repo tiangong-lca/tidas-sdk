@@ -75,15 +75,28 @@ export const FlowsSchema = z.object({
         'common:other': z.string().optional(),
       }),
       complianceDeclarations: z.object({
-        compliance: z.object({
-          'common:referenceToComplianceSystem': GlobalReferenceTypeSchema,
-          'common:approvalOfOverallCompliance': z.union([
-            z.literal('Fully compliant'),
-            z.literal('Not compliant'),
-            z.literal('Not defined'),
-          ]),
-          'common:other': z.string().optional(),
-        }),
+        compliance: z.union([
+          z.object({
+            'common:referenceToComplianceSystem': GlobalReferenceTypeSchema,
+            'common:approvalOfOverallCompliance': z.union([
+              z.literal('Fully compliant'),
+              z.literal('Not compliant'),
+              z.literal('Not defined'),
+            ]),
+            'common:other': z.string().optional(),
+          }),
+          z.array(
+            z.object({
+              'common:referenceToComplianceSystem': GlobalReferenceTypeSchema,
+              'common:approvalOfOverallCompliance': z.union([
+                z.literal('Fully compliant'),
+                z.literal('Not compliant'),
+                z.literal('Not defined'),
+              ]),
+              'common:other': z.string().optional(),
+            })
+          ),
+        ]),
         'common:other': z.string().optional(),
       }),
       'common:other': z.string().optional(),
@@ -107,7 +120,7 @@ export const FlowsSchema = z.object({
       'common:other': z.string().optional(),
     }),
     flowProperties: z.object({
-      flowProperty: z.array(
+      flowProperty: z.union([
         z.object({
           '@dataSetInternalID': Int5Schema,
           referenceToFlowPropertyDataSet: GlobalReferenceTypeSchema,
@@ -134,8 +147,37 @@ export const FlowsSchema = z.object({
             .optional(),
           generalComment: StringMultiLangSchema.optional(),
           'common:other': z.string().optional(),
-        })
-      ),
+        }),
+        z.array(
+          z.object({
+            '@dataSetInternalID': Int5Schema,
+            referenceToFlowPropertyDataSet: GlobalReferenceTypeSchema,
+            meanValue: RealSchema,
+            minimumValue: RealSchema.optional(),
+            maximumValue: RealSchema.optional(),
+            uncertaintyDistributionType: z
+              .union([
+                z.literal('undefined'),
+                z.literal('log-normal'),
+                z.literal('normal'),
+                z.literal('triangular'),
+                z.literal('uniform'),
+              ])
+              .optional(),
+            relativeStandardDeviation95In: PercSchema.optional(),
+            dataDerivationTypeStatus: z
+              .union([
+                z.literal('Measured'),
+                z.literal('Calculated'),
+                z.literal('Estimated'),
+                z.literal('Unknown derivation'),
+              ])
+              .optional(),
+            generalComment: StringMultiLangSchema.optional(),
+            'common:other': z.string().optional(),
+          })
+        ),
+      ]),
       'common:other': z.string().optional(),
     }),
     'common:other': z.string().optional(),

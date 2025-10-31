@@ -4,7 +4,7 @@
  * and run the generation script to regenerate this file.
  */
 
-export type SourcesCategory =
+export type Source =
   | { '@level'?: '0'; '@classId'?: '0'; '#text'?: 'Images' }
   | { '@level'?: '0'; '@classId'?: '1'; '#text'?: 'Data set formats' }
   | { '@level'?: '0'; '@classId'?: '2'; '#text'?: 'Databases' }
