@@ -50,4 +50,8 @@ CLAUDE.md
 test/
 output/
 
+# package lock file
 package-lock.json
+
+# uv lock file
+uv.lock
