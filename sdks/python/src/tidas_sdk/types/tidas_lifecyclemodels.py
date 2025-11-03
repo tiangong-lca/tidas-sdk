@@ -233,111 +233,12 @@ class CommonLicenseType(Enum):
     Other = 'Other'
 
 
-class MultiLangItemString(BaseModel):
-    field_xml_lang: str = Field(..., alias='@xml:lang')
-    text: str = Field(..., alias='#text', max_length=500)
-
-
-class StringMultiLang(RootModel[list[MultiLangItemString]]):
-    root: list[MultiLangItemString] = Field(
-        ..., description='Multi-language string with a maximum length of 500 characters'
-    )
-
-
-class StringMultiLang(BaseModel):
-    """
-    Multi-language string with a maximum length of 500 characters
-    """
-
-    field_xml_lang: str = Field(..., alias='@xml:lang')
-    text: str = Field(..., alias='#text', max_length=500)
-
-
 class String(RootModel[str]):
     root: str = Field(
         ...,
         description='String with a maximum length of 500 characters. Must have a minimum length of 1.',
         max_length=500,
         min_length=1,
-    )
-
-
-class MultiLangItemST(BaseModel):
-    field_xml_lang: str = Field(..., alias='@xml:lang')
-    text: str = Field(..., alias='#text', max_length=1000)
-
-
-class STMultiLang(RootModel[list[MultiLangItemST]]):
-    root: list[MultiLangItemST] = Field(
-        ...,
-        description='Multi-lang short text with a maximum length of 1000 characters.',
-    )
-
-
-class STMultiLang(BaseModel):
-    """
-    Multi-lang short text with a maximum length of 1000 characters.
-    """
-
-    field_xml_lang: str = Field(..., alias='@xml:lang')
-    text: str = Field(..., alias='#text', max_length=1000)
-
-
-class MultiLangItem(BaseModel):
-    field_xml_lang: str = Field(..., alias='@xml:lang')
-    text: str = Field(..., alias='#text')
-
-
-class FTMultiLang(RootModel[list[MultiLangItem]]):
-    root: list[MultiLangItem] = Field(
-        ..., description='Multi-lang free text with an unlimited length.'
-    )
-
-
-class FTMultiLang(BaseModel):
-    """
-    Multi-lang free text with an unlimited length.
-    """
-
-    field_xml_lang: str = Field(..., alias='@xml:lang')
-    text: str = Field(..., alias='#text')
-
-
-class GlobalReferenceType(BaseModel):
-    """
-    Represents a reference to another dataset or file. Either refObjectId and version, or uri, or both have to be specified.
-    """
-
-    field_type: str = Field(..., alias='@type')
-    field_refObjectId: str = Field(
-        ...,
-        alias='@refObjectId',
-        pattern='^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$',
-    )
-    field_version: str = Field(..., alias='@version')
-    field_uri: str = Field(..., alias='@uri')
-    common_shortDescription: STMultiLang | STMultiLang = Field(
-        ...,
-        alias='common:shortDescription',
-        description='Multi-lang short text with a maximum length of 1000 characters.',
-        union_mode='smart',
-    )
-
-
-class GlobalReferenceType(BaseModel):
-    field_type: str = Field(..., alias='@type')
-    field_refObjectId: str = Field(
-        ...,
-        alias='@refObjectId',
-        pattern='^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$',
-    )
-    field_version: str = Field(..., alias='@version')
-    field_uri: str = Field(..., alias='@uri')
-    common_shortDescription: STMultiLang | STMultiLang = Field(
-        ...,
-        alias='common:shortDescription',
-        description='Multi-lang short text with a maximum length of 1000 characters.',
-        union_mode='smart',
     )
 
 
@@ -358,22 +259,22 @@ class Name(BaseModel):
     General descriptive, specifying, structured name of the Life cycle model data set. Note: Ensure proper name structuring and observe restriction to 100 characters for each of the four name fields.
     """
 
-    baseName: StringMultiLang | StringMultiLang = Field(
+    baseName: StringMultiLang = Field(
         ...,
         description='General descriptive name of the life cycle model and/or its main good(s), service(s) and/or functions delivered.',
         union_mode='smart',
     )
-    treatmentStandardsRoutes: StringMultiLang | StringMultiLang = Field(
+    treatmentStandardsRoutes: StringMultiLang = Field(
         ...,
         description='Specifying information on the good, service, or function delivered by the life cycle model in technical term(s): treatment received, standard fulfilled, product quality, use information, production route name, educt name, primary / secondary etc. Separated by commata.',
         union_mode='smart',
     )
-    mixAndLocationTypes: StringMultiLang | StringMultiLang = Field(
+    mixAndLocationTypes: StringMultiLang = Field(
         ...,
         description='Specifying information on the good, service, or function, whether being a production mix or consumption mix, location type of availability (such as e.g. "to consumer" or "at plant"). Separated by commata. May include information of excluded life cycle stages, if any.',
         union_mode='smart',
     )
-    functionalUnitFlowProperties: StringMultiLang | StringMultiLang | None = Field(
+    functionalUnitFlowProperties: StringMultiLang | None = Field(
         None,
         description='Further, quantitative specifying information on the good, service or function in technical term(s): qualifying constituent(s)-content and / or energy-content per unit etc. as appropriate. Separated by commata. (Note: non-qualifying flow properties, CAS No, Synonyms, Chemical formulas etc. are to be documented exclusively in the "Flow data set" of the reference flow of this life cycle model.)',
         union_mode='smart',
@@ -407,7 +308,7 @@ class DataSetInformation(BaseModel):
         description='Reference to the LCI result or partly terminated system process data set(s) that is/are generated from this model.',
         union_mode='smart',
     )
-    common_generalComment: FTMultiLang | FTMultiLang | None = Field(
+    common_generalComment: FTMultiLang | None = Field(
         None,
         alias='common:generalComment',
         description='General information about the data set.',
@@ -429,7 +330,7 @@ class Group(BaseModel):
     """
 
     field_id: str | None = Field(None, alias='@id', pattern='^-?\\d+$')
-    groupName: StringMultiLang | StringMultiLang | None = Field(
+    groupName: StringMultiLang | None = Field(
         None,
         description='Multi-language string with a maximum length of 500 characters',
         union_mode='smart',
@@ -438,7 +339,7 @@ class Group(BaseModel):
 
 class GroupItem(BaseModel):
     field_id: str | None = Field(None, alias='@id', pattern='^-?\\d+$')
-    groupName: StringMultiLang | StringMultiLang | None = Field(
+    groupName: StringMultiLang | None = Field(
         None,
         description='Multi-language string with a maximum length of 500 characters',
         union_mode='smart',
@@ -828,7 +729,7 @@ class DataSourcesTreatmentEtc(BaseModel):
     Data selection, completeness, and treatment principles and procedures, data sources and market coverage information.
     """
 
-    useAdviceForDataSet: FTMultiLang | FTMultiLang | None = Field(
+    useAdviceForDataSet: FTMultiLang | None = Field(
         None,
         description='Specific methodological advice for data set users that requires attention. E.g. on inclusion/exclusion of whole life cycle stages, specific use phase behavior to be modelled, and other methodological advices.',
         union_mode='smart',
@@ -849,7 +750,7 @@ class Review(BaseModel):
         description='"Contact data set" of reviewer. The full name of reviewer(s) and institution(s) as well as a contact address and/or email should be provided in that contact data set.',
         union_mode='smart',
     )
-    common_otherReviewDetails: FTMultiLang | FTMultiLang | None = Field(
+    common_otherReviewDetails: FTMultiLang | None = Field(
         None,
         alias='common:otherReviewDetails',
         description='Further information from the review process, especially comments received from third parties once the data set has been published or additional reviewer comments from an additional external review.',
@@ -875,7 +776,7 @@ class ReviewItem(BaseModel):
         description='"Contact data set" of reviewer. The full name of reviewer(s) and institution(s) as well as a contact address and/or email should be provided in that contact data set.',
         union_mode='smart',
     )
-    common_otherReviewDetails: FTMultiLang | FTMultiLang | None = Field(
+    common_otherReviewDetails: FTMultiLang | None = Field(
         None,
         alias='common:otherReviewDetails',
         description='Further information from the review process, especially comments received from third parties once the data set has been published or additional reviewer comments from an additional external review.',
@@ -1046,13 +947,13 @@ class CommonCommissionerAndGoal(BaseModel):
         description='"Contact data set" of the commissioner / financing party of the data collection / compilation and of the data set modelling. For groups of commissioners, each single organisation should be named. For data set updates and for direct use of data from formerly commissioned studies, also the original commissioner should be named.',
         union_mode='smart',
     )
-    common_project: StringMultiLang | StringMultiLang | None = Field(
+    common_project: StringMultiLang | None = Field(
         None,
         alias='common:project',
         description='Project within which the data set was modelled in its present version. [Note: If the project was published e.g. as a report, this can be referenced in the "Publication of data set in:" field in the "Publication and ownership" sub-section.',
         union_mode='smart',
     )
-    common_intendedApplications: FTMultiLang | FTMultiLang | None = Field(
+    common_intendedApplications: FTMultiLang | None = Field(
         None,
         alias='common:intendedApplications',
         description='Documentation of the intended application(s) of data collection and data set modelling. This indicates / includes information on the level of detail, the specifidity, and the quality ambition in the effort.',
@@ -1155,7 +1056,7 @@ class PublicationAndOwnership(BaseModel):
         alias='common:licenseType',
         description='Type of license that applies to the access and use of this data set.',
     )
-    common_accessRestrictions: FTMultiLang | FTMultiLang | None = Field(
+    common_accessRestrictions: FTMultiLang | None = Field(
         None,
         alias='common:accessRestrictions',
         description='Access restrictions / use conditions for this data set as free text or referring to e.g. license conditions. In case of no restrictions "None" is entered.',

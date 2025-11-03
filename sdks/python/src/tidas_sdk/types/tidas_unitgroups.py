@@ -81,105 +81,6 @@ class CommonApprovalOfOverallCompliance(Enum):
     Not_defined = 'Not defined'
 
 
-class MultiLangItemString(BaseModel):
-    field_xml_lang: str = Field(..., alias='@xml:lang')
-    text: str = Field(..., alias='#text', max_length=500)
-
-
-class StringMultiLang(RootModel[list[MultiLangItemString]]):
-    root: list[MultiLangItemString] = Field(
-        ..., description='Multi-language string with a maximum length of 500 characters'
-    )
-
-
-class StringMultiLang(BaseModel):
-    """
-    Multi-language string with a maximum length of 500 characters
-    """
-
-    field_xml_lang: str = Field(..., alias='@xml:lang')
-    text: str = Field(..., alias='#text', max_length=500)
-
-
-class MultiLangItemST(BaseModel):
-    field_xml_lang: str = Field(..., alias='@xml:lang')
-    text: str = Field(..., alias='#text', max_length=1000)
-
-
-class STMultiLang(RootModel[list[MultiLangItemST]]):
-    root: list[MultiLangItemST] = Field(
-        ...,
-        description='Multi-lang short text with a maximum length of 1000 characters.',
-    )
-
-
-class STMultiLang(BaseModel):
-    """
-    Multi-lang short text with a maximum length of 1000 characters.
-    """
-
-    field_xml_lang: str = Field(..., alias='@xml:lang')
-    text: str = Field(..., alias='#text', max_length=1000)
-
-
-class MultiLangItem(BaseModel):
-    field_xml_lang: str = Field(..., alias='@xml:lang')
-    text: str = Field(..., alias='#text')
-
-
-class FTMultiLang(RootModel[list[MultiLangItem]]):
-    root: list[MultiLangItem] = Field(
-        ..., description='Multi-lang free text with an unlimited length.'
-    )
-
-
-class FTMultiLang(BaseModel):
-    """
-    Multi-lang free text with an unlimited length.
-    """
-
-    field_xml_lang: str = Field(..., alias='@xml:lang')
-    text: str = Field(..., alias='#text')
-
-
-class GlobalReferenceType(BaseModel):
-    """
-    Represents a reference to another dataset or file. Either refObjectId and version, or uri, or both have to be specified.
-    """
-
-    field_type: str = Field(..., alias='@type')
-    field_refObjectId: str = Field(
-        ...,
-        alias='@refObjectId',
-        pattern='^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$',
-    )
-    field_version: str = Field(..., alias='@version')
-    field_uri: str = Field(..., alias='@uri')
-    common_shortDescription: STMultiLang | STMultiLang = Field(
-        ...,
-        alias='common:shortDescription',
-        description='Multi-lang short text with a maximum length of 1000 characters.',
-        union_mode='smart',
-    )
-
-
-class GlobalReferenceType(BaseModel):
-    field_type: str = Field(..., alias='@type')
-    field_refObjectId: str = Field(
-        ...,
-        alias='@refObjectId',
-        pattern='^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$',
-    )
-    field_version: str = Field(..., alias='@version')
-    field_uri: str = Field(..., alias='@uri')
-    common_shortDescription: STMultiLang | STMultiLang = Field(
-        ...,
-        alias='common:shortDescription',
-        description='Multi-lang short text with a maximum length of 1000 characters.',
-        union_mode='smart',
-    )
-
-
 class GIS(RootModel[str]):
     root: str = Field(
         ...,
@@ -199,7 +100,7 @@ class DataSetInformation(BaseModel):
         description='Automatically generated Universally Unique Identifier of this data set. Together with the "Data set version", the UUID uniquely identifies each data set.',
         pattern='^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$',
     )
-    common_name: StringMultiLang | StringMultiLang = Field(
+    common_name: StringMultiLang = Field(
         ...,
         alias='common:name',
         description='Name of the unit group, typically indicating for which flow property or group of flow properties it is used. The individual units are named in the "Units" section of the "Unit group data set"',
@@ -209,7 +110,7 @@ class DataSetInformation(BaseModel):
         ...,
         description='Hierachical classification of the Unit groups; foreseen to be used to structure the Unit group content of the database. (Note: This entry is NOT required for the identification of the Unit group data set. It should nevertheless be avoided to use identical names for Unit groups in the same class.',
     )
-    common_generalComment: FTMultiLang | FTMultiLang | None = Field(
+    common_generalComment: FTMultiLang | None = Field(
         None,
         alias='common:generalComment',
         description='Free text for general information about the data set. E.g. coverage of different unit systems, information sources used, etc.',
@@ -358,7 +259,7 @@ class Unit(BaseModel):
         description='38-digit real number',
         pattern='[+-]?(\\d+(\\.\\d*)?|\\.\\d+)([Ee][+-]?\\d+)?$',
     )
-    generalComment: StringMultiLang | StringMultiLang | None = Field(
+    generalComment: StringMultiLang | None = Field(
         None,
         description='General comment on each single unit, typically giving the long name and unit system from which this unit stems, and (if necessary) referring to specifc data sources used, or for workflow purposes about status of "finalisation" of an entry etc.',
         union_mode='smart',
@@ -384,7 +285,7 @@ class UnitItem(BaseModel):
         description='38-digit real number',
         pattern='[+-]?(\\d+(\\.\\d*)?|\\.\\d+)([Ee][+-]?\\d+)?$',
     )
-    generalComment: StringMultiLang | StringMultiLang | None = Field(
+    generalComment: StringMultiLang | None = Field(
         None,
         description='General comment on each single unit, typically giving the long name and unit system from which this unit stems, and (if necessary) referring to specifc data sources used, or for workflow purposes about status of "finalisation" of an entry etc.',
         union_mode='smart',

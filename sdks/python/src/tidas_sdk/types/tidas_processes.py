@@ -490,126 +490,27 @@ class DataDerivationTypeStatus(Enum):
     Missing_unimportant = 'Missing unimportant'
 
 
-class MultiLangItemString(BaseModel):
-    field_xml_lang: str = Field(..., alias='@xml:lang')
-    text: str = Field(..., alias='#text', max_length=500)
-
-
-class StringMultiLang(RootModel[list[MultiLangItemString]]):
-    root: list[MultiLangItemString] = Field(
-        ..., description='Multi-language string with a maximum length of 500 characters'
-    )
-
-
-class StringMultiLang(BaseModel):
-    """
-    Multi-language string with a maximum length of 500 characters
-    """
-
-    field_xml_lang: str = Field(..., alias='@xml:lang')
-    text: str = Field(..., alias='#text', max_length=500)
-
-
-class MultiLangItemST(BaseModel):
-    field_xml_lang: str = Field(..., alias='@xml:lang')
-    text: str = Field(..., alias='#text', max_length=1000)
-
-
-class STMultiLang(RootModel[list[MultiLangItemST]]):
-    root: list[MultiLangItemST] = Field(
-        ...,
-        description='Multi-lang short text with a maximum length of 1000 characters.',
-    )
-
-
-class STMultiLang(BaseModel):
-    """
-    Multi-lang short text with a maximum length of 1000 characters.
-    """
-
-    field_xml_lang: str = Field(..., alias='@xml:lang')
-    text: str = Field(..., alias='#text', max_length=1000)
-
-
-class MultiLangItem(BaseModel):
-    field_xml_lang: str = Field(..., alias='@xml:lang')
-    text: str = Field(..., alias='#text')
-
-
-class FTMultiLang(RootModel[list[MultiLangItem]]):
-    root: list[MultiLangItem] = Field(
-        ..., description='Multi-lang free text with an unlimited length.'
-    )
-
-
-class FTMultiLang(BaseModel):
-    """
-    Multi-lang free text with an unlimited length.
-    """
-
-    field_xml_lang: str = Field(..., alias='@xml:lang')
-    text: str = Field(..., alias='#text')
-
-
-class GlobalReferenceType(BaseModel):
-    """
-    Represents a reference to another dataset or file. Either refObjectId and version, or uri, or both have to be specified.
-    """
-
-    field_type: str = Field(..., alias='@type')
-    field_refObjectId: str = Field(
-        ...,
-        alias='@refObjectId',
-        pattern='^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$',
-    )
-    field_version: str = Field(..., alias='@version')
-    field_uri: str = Field(..., alias='@uri')
-    common_shortDescription: STMultiLang | STMultiLang = Field(
-        ...,
-        alias='common:shortDescription',
-        description='Multi-lang short text with a maximum length of 1000 characters.',
-        union_mode='smart',
-    )
-
-
-class GlobalReferenceType(BaseModel):
-    field_type: str = Field(..., alias='@type')
-    field_refObjectId: str = Field(
-        ...,
-        alias='@refObjectId',
-        pattern='^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$',
-    )
-    field_version: str = Field(..., alias='@version')
-    field_uri: str = Field(..., alias='@uri')
-    common_shortDescription: STMultiLang | STMultiLang = Field(
-        ...,
-        alias='common:shortDescription',
-        description='Multi-lang short text with a maximum length of 1000 characters.',
-        union_mode='smart',
-    )
-
-
 class Name(BaseModel):
     """
     General descriptive and specifying name of the process.
     """
 
-    baseName: StringMultiLang | StringMultiLang = Field(
+    baseName: StringMultiLang = Field(
         ...,
         description='Multi-language string with a maximum length of 500 characters',
         union_mode='smart',
     )
-    treatmentStandardsRoutes: StringMultiLang | StringMultiLang = Field(
+    treatmentStandardsRoutes: StringMultiLang = Field(
         ...,
         description='Multi-language string with a maximum length of 500 characters',
         union_mode='smart',
     )
-    mixAndLocationTypes: StringMultiLang | StringMultiLang = Field(
+    mixAndLocationTypes: StringMultiLang = Field(
         ...,
         description='Multi-language string with a maximum length of 500 characters',
         union_mode='smart',
     )
-    functionalUnitFlowProperties: StringMultiLang | StringMultiLang | None = Field(
+    functionalUnitFlowProperties: StringMultiLang | None = Field(
         None,
         description='Multi-language string with a maximum length of 500 characters',
         union_mode='smart',
@@ -647,7 +548,7 @@ class DataSetInformation(BaseModel):
         max_length=500,
         min_length=1,
     )
-    common_synonyms: FTMultiLang | FTMultiLang | None = Field(
+    common_synonyms: FTMultiLang | None = Field(
         None,
         alias='common:synonyms',
         description='Synonyms / alternative names / brands of the good, service, or process. Separated by semicolon.',
@@ -658,7 +559,7 @@ class DataSetInformation(BaseModel):
         ...,
         description='Hierarchical or flat classification of the good, service or function that is provided by this life cycle model; typically used to structure database contents in LCA software, among other purposes. (Note: This entry is NOT required for the identification of a Life cycle model, but it should nevertheless be avoided to use identical names for Life cycle model data sets in the same class. The ILCD classifications are defined in the ILCDClassifications.xml file, for common use.)',
     )
-    common_generalComment: FTMultiLang | FTMultiLang = Field(
+    common_generalComment: FTMultiLang = Field(
         ...,
         alias='common:generalComment',
         description='Free text for general information about the Flow data set. It may contain information about e.g. the use of the substance, good, service or process in a specific technology or industry-context, information sources used, data selection principles etc.',
@@ -683,7 +584,7 @@ class QuantitativeReference(BaseModel):
     referenceToReferenceFlow: str = Field(
         ..., description='6-digit integer number', pattern='^(0|[1-9]\\d{0,5})$'
     )
-    functionalUnitOrOther: StringMultiLang | StringMultiLang | None = Field(
+    functionalUnitOrOther: StringMultiLang | None = Field(
         None,
         description='Multi-language string with a maximum length of 500 characters',
         union_mode='smart',
@@ -706,7 +607,7 @@ class Time(BaseModel):
         ge=1000,
         le=9999,
     )
-    common_timeRepresentativenessDescription: FTMultiLang | FTMultiLang | None = (
+    common_timeRepresentativenessDescription: FTMultiLang | None = (
         Field(
             None,
             alias='common:timeRepresentativenessDescription',
@@ -729,7 +630,7 @@ class LocationOfOperationSupplyOrProduction(BaseModel):
         description='Geographical latitude and longitude reference of "Location" / "Sub-location". For area-type locations (e.g. countries, continents) the field is empty.',
         pattern='^\\s*[+-]?((90(\\.0+)?)|([0-8]?\\d(\\.\\d+)?))\\s*;\\s*[+-]?((180(\\.0+)?)|((1[0-7]\\d|[0-9]?\\d)(\\.\\d+)?))\\s*$',
     )
-    descriptionOfRestrictions: FTMultiLang | FTMultiLang | None = Field(
+    descriptionOfRestrictions: FTMultiLang | None = Field(
         None,
         description='Further explanations about additional aspects of the location: e.g. a company and/or site description and address, whether for certain sub-areas within the "Location" the data set is not valid, whether data is only valid for certain regions within the location indicated, or whether certain elementary flows or intermediate product flows are extrapolated from another geographical area.',
         union_mode='smart',
@@ -751,7 +652,7 @@ class SubLocationOfOperationSupplyOrProduction(BaseModel):
         description='Geographical latitude and longitude reference of "Location" / "Sub-location". For area-type locations (e.g. countries, continents) the field is empty.',
         pattern='^\\s*[+-]?((90(\\.0+)?)|([0-8]?\\d(\\.\\d+)?))\\s*;\\s*[+-]?((180(\\.0+)?)|((1[0-7]\\d|[0-9]?\\d)(\\.\\d+)?))\\s*$',
     )
-    descriptionOfRestrictions: FTMultiLang | FTMultiLang | None = Field(
+    descriptionOfRestrictions: FTMultiLang | None = Field(
         None,
         description='Further explanations about additional aspects of the location: e.g. a company and/or site description and address, whether for certain sub-areas within the "Location" the data set is not valid, whether data is only valid for certain regions within the location indicated, or whether certain elementary flows or intermediate product flows are extrapolated from another geographical area.',
         union_mode='smart',
@@ -776,7 +677,7 @@ class Geography(BaseModel):
 
 
 class Technology(BaseModel):
-    technologyDescriptionAndIncludedProcesses: FTMultiLang | FTMultiLang = Field(
+    technologyDescriptionAndIncludedProcesses: FTMultiLang = Field(
         ...,
         description='Description of the technological characteristics including operating conditions of the process or product system. For the latter this includes the relevant upstream and downstream processes included in the data set. Professional terminology should be used.',
         union_mode='smart',
@@ -788,7 +689,7 @@ class Technology(BaseModel):
         description='"Process data set(s)" included in this data set, if any and available as separate data set(s).',
         union_mode='smart',
     )
-    technologicalApplicability: FTMultiLang | FTMultiLang | None = Field(
+    technologicalApplicability: FTMultiLang | None = Field(
         None,
         description='Description of the intended / possible applications of the good, service, or process. E.g. for which type of products the material, represented by this data set, is used. Examples: "This high purity chemical is used for analytical laboratories only." or "This technical quality bulk chemical is used for large scale synthesis in chemical industry.". Or: "This truck is used only for long-distance transport of liquid bulk chemicals".',
         union_mode='smart',
@@ -843,7 +744,7 @@ class VariableParameter(BaseModel):
         description='percentage amount',
         pattern='^(100(\\.0{1,3})?|([0-9]|[1-9][0-9])(\\.\\d{1,3})?)$',
     )
-    comment: StringMultiLang | StringMultiLang | None = Field(
+    comment: StringMultiLang | None = Field(
         None,
         description='Multi-language string with a maximum length of 500 characters',
         union_mode='smart',
@@ -852,7 +753,7 @@ class VariableParameter(BaseModel):
 
 
 class MathematicalRelations(BaseModel):
-    modelDescription: FTMultiLang | FTMultiLang | None = Field(
+    modelDescription: FTMultiLang | None = Field(
         None,
         description='Description of the model(s) represented in this section of mathematical relations. Can cover information on restrictions, model strenghts and weaknesses, etc. (Note: Also see information provided on the level of the individual formula in field "Comment" and in the general process description in the fields in section "Technology".)',
         union_mode='smart',
@@ -891,7 +792,7 @@ class LCIMethodAndAllocation(BaseModel):
         alias='LCIMethodPrinciple',
         description='LCI method principle followed in the product system modelling, i.e. regarding using average data (= attributional = non-marginal) or modelling effects in a change-oriented way (= consequential = marginal).',
     )
-    deviationsFromLCIMethodPrinciple: FTMultiLang | FTMultiLang | None = Field(
+    deviationsFromLCIMethodPrinciple: FTMultiLang | None = Field(
         None,
         description='Short description of any deviations from the general "LCI method principles" and additional explanations. Refers especially to specific processes/cases where the stated "attributional" or "consequential" approach was not applied. Or where deviations were made from any specific rules for applying the "Consequential with attributional components" approach. A reference to the "Intended application" of the data collection can be made here, too. Allocated co-products may be reported here as well. In case of no (quantitatively relevant) deviations from the LCI method principle, "none" should be stated.',
         union_mode='smart',
@@ -901,17 +802,17 @@ class LCIMethodAndAllocation(BaseModel):
         alias='LCIMethodApproaches',
         description='Names briefly the specific approach(es) used in LCI modeling, e.g. allocation, substitution etc. In case of LCI results and Partly terminated system data sets this also covers those applied in the included background system.',
     )
-    deviationsFromLCIMethodApproaches: FTMultiLang | FTMultiLang | None = Field(
+    deviationsFromLCIMethodApproaches: FTMultiLang | None = Field(
         None,
         description='Description of relevant deviations from the applied approaches as well as of the relevant specific approaches that were applied, including in an possibly included background system. Further explanations and details of the allocation, substitution and other consequential approaches applied for relevant processes, e.g. how the marginal substitute was identified, year and region of which market prices were used in market allocation, i.e. method, procedure, data/information details. In case of no (result relevant) deviations from the before stated LCI method approaches, and in case of no need for further explanations, "none" is entered.',
         union_mode='smart',
     )
-    modellingConstants: FTMultiLang | FTMultiLang | None = Field(
+    modellingConstants: FTMultiLang | None = Field(
         None,
         description='Short identification and description of constants applied in LCI modelling other than allocation / substitution, e.g. systematic setting of recycling quota, use of gross or net calorific value, etc.',
         union_mode='smart',
     )
-    deviationsFromModellingConstants: FTMultiLang | FTMultiLang | None = Field(
+    deviationsFromModellingConstants: FTMultiLang | None = Field(
         None,
         description='Short description of data set specific deviations from the "Modelling constants" if any, including in the possibly included background system.',
         union_mode='smart',
@@ -927,31 +828,31 @@ class LCIMethodAndAllocation(BaseModel):
 
 
 class DataSourcesTreatmentAndRepresentativeness(BaseModel):
-    dataCutOffAndCompletenessPrinciples: FTMultiLang | FTMultiLang = Field(
+    dataCutOffAndCompletenessPrinciples: FTMultiLang = Field(
         ...,
         description='Principles applied in data collection regarding completeness of (also intermediate) product and waste flows and of elementary flows. Examples are: cut-off rules, systematic exclusion of infrastructure, services or auxiliaries, etc. systematic exclusion of air in incineration processes, coling water, etc.',
         union_mode='smart',
     )
     deviationsFromCutOffAndCompletenessPrinciples: (
-        FTMultiLang | FTMultiLang | None
+        FTMultiLang | None
     ) = Field(
         None,
         description='Short description of any deviations from the "Data completeness principles". In case of no (result relevant) deviations, "none" is entered.',
         union_mode='smart',
     )
-    dataSelectionAndCombinationPrinciples: FTMultiLang | FTMultiLang | None = Field(
+    dataSelectionAndCombinationPrinciples: FTMultiLang | None = Field(
         None,
         description='Principles applied in data selection and in combination of data from different sources. Includes brief discussion of consistency of data sources regarding data itself, modelling, appropriateness. In case of averaging: Principles and data selection applied in horizontal and / or vertical averaging.',
         union_mode='smart',
     )
     deviationsFromSelectionAndCombinationPrinciples: (
-        FTMultiLang | FTMultiLang | None
+        FTMultiLang | None
     ) = Field(
         None,
         description='Short description of any deviations from the "Data selection and combination principles". In case of no (result relevant) deviations, "none" is entered.',
         union_mode='smart',
     )
-    dataTreatmentAndExtrapolationsPrinciples: FTMultiLang | FTMultiLang | None = (
+    dataTreatmentAndExtrapolationsPrinciples: FTMultiLang | None = (
         Field(
             None,
             description='Principles applied regarding methods, sources, and assumptions done in data adjustment including extrapolations of data from another time period, another geographical area, or another technology.',
@@ -959,7 +860,7 @@ class DataSourcesTreatmentAndRepresentativeness(BaseModel):
         )
     )
     deviationsFromTreatmentAndExtrapolationPrinciples: (
-        FTMultiLang | FTMultiLang | None
+        FTMultiLang | None
     ) = Field(
         None,
         description='Short description of any deviations from the " Data treatment and extrapolations principles". In case of no (result relevant) deviations, "none" is entered. (Note: If data representative for one "Location" is used for another "Location", its original representativity can be indicated here; see field "Percentage supply or production covered".)',
@@ -982,27 +883,27 @@ class DataSourcesTreatmentAndRepresentativeness(BaseModel):
         description='Percentage of the overall supply, consumption, or production of the specific good, service, or technology represented by this data set, in the region/market of the stated "Location". For multi-functional processes the market share of the specific technology is stated. If data that is representative for a process operated in one "Location" is used for another "Location", the entry is \'0\'. The representativity for the original "Location" is documented in the field "Deviation from data treatment and extrapolation principles, explanations".',
         pattern='^(100(\\.0{1,3})?|([0-9]|[1-9][0-9])(\\.\\d{1,3})?)$',
     )
-    annualSupplyOrProductionVolume: StringMultiLang | StringMultiLang | None = Field(
+    annualSupplyOrProductionVolume: StringMultiLang | None = Field(
         None,
         description='Supply / consumption or production volume of the specific good, service, or technology in the region/market of the stated "Location". The market volume is given in absolute numbers per year, in common units, for the stated "Reference year". For multi-fucntional processes the data should be given for all co-functions (good and services).',
         union_mode='smart',
     )
-    samplingProcedure: FTMultiLang | FTMultiLang | None = Field(
+    samplingProcedure: FTMultiLang | None = Field(
         None,
         description='Sampling procedure used for quantifying the amounts of Inputs and Outputs. Possible problems in combining different sampling procedures should be mentioned.',
         union_mode='smart',
     )
-    dataCollectionPeriod: StringMultiLang | StringMultiLang | None = Field(
+    dataCollectionPeriod: StringMultiLang | None = Field(
         None,
         description='Date(s) or time period(s) when the data was collected. Note that this does NOT refer to e.g. the publication dates of papers or books from which the data may stem, but to the original data collection period.',
         union_mode='smart',
     )
-    uncertaintyAdjustments: FTMultiLang | FTMultiLang | None = Field(
+    uncertaintyAdjustments: FTMultiLang | None = Field(
         None,
         description='Description of methods, sources, and assumptions made in uncertainty adjustment. [Note: For data sets where the additional uncertainty due to lacking representativeness has been included in the quantified uncertainty values, this field also reports the original representativeness, the additional uncertainty, and the procedure by which the overall uncertainty was assessed or calculated.]',
         union_mode='smart',
     )
-    useAdviceForDataSet: FTMultiLang | FTMultiLang | None = Field(
+    useAdviceForDataSet: FTMultiLang | None = Field(
         None,
         description='Specific methodological advice for data set users that requires attention. E.g. on inclusion/exclusion of recycling e.g. in material data sets, specific use phase behavior to be modelled, and other methodological advices. See also field "Technological applicability".',
         union_mode='smart',
@@ -1026,7 +927,7 @@ class Completeness(BaseModel):
         None,
         description='Completeness of the elementary flows in the Inputs and Outputs section of this data set from impact perspective, regarding addressing the individual mid-point problem field / impact category given. The completeness refers to the state-of-the-art of scientific knowledge whether or not an individual elementary flow contributes to the respective mid-point topic in a relevant way, which is e.g. the basis for the ILCD reference elementary flows. [Note: The "Completeness" statement does not automatically mean that related LCIA methods exist or reference the elementary flows of this data set. Hence for direct applicability of existing LCIA methods, check the field "Supported LCIA method data sets".]',
     )
-    completenessOtherProblemField: FTMultiLang | FTMultiLang | None = Field(
+    completenessOtherProblemField: FTMultiLang | None = Field(
         None,
         description='Completeness of coverage of elementary flows that contribute to other problem fields that are named here as free text, preferably using the same terminology as for the specified environmental problems.',
         union_mode='smart',
@@ -1051,7 +952,7 @@ class Review(BaseModel):
         alias='common:dataQualityIndicators',
         description='Data quality indicators serve to provide the reviewed key information on the data set in a defined, computer-readable (and hence searchable) form. This serves to support LCA practitioners to identify/select the highest quality and most appropriate data sets.',
     )
-    common_reviewDetails: FTMultiLang | FTMultiLang | None = Field(
+    common_reviewDetails: FTMultiLang | None = Field(
         None,
         alias='common:reviewDetails',
         description='Summary of the review. All the following items should be explicitly addressed: Representativeness, completeness, and precision of Inputs and Outputs for the process in its documented location, technology and time i.e. both completeness of technical model (product, waste, and elementary flows) and completeness of coverage of the relevant problem fields (environmental, human health, resource use) for this specific good, service, or process. Plausibility of data. Correctness and appropriateness of the data set documentation. Appropriateness of system boundaries, cut-off rules, LCI modelling choices such as e.g. allocation, consistency of included processes and of LCI methodology. If the data set comprises pre-calculated LCIA results, the correspondence of the Input and Output elementary flows (including their geographical validity) with the applied LCIA method(s) should be addressed by the reviewer. An overall quality statement on the data set may be included here.',
@@ -1065,7 +966,7 @@ class Review(BaseModel):
         description='"Contact data set" of reviewer. The full name of reviewer(s) and institution(s) as well as a contact address and/or email should be provided in that contact data set.',
         union_mode='smart',
     )
-    common_otherReviewDetails: FTMultiLang | FTMultiLang | None = Field(
+    common_otherReviewDetails: FTMultiLang | None = Field(
         None,
         alias='common:otherReviewDetails',
         description='Further information from the review process, especially comments received from third parties once the data set has been published or additional reviewer comments from an additional external review.',
@@ -1234,13 +1135,13 @@ class CommonCommissionerAndGoal(BaseModel):
         description='"Contact data set" of the commissioner / financing party of the data collection / compilation and of the data set modelling. For groups of commissioners, each single organisation should be named. For data set updates and for direct use of data from formerly commissioned studies, also the original commissioner should be named.',
         union_mode='smart',
     )
-    common_project: StringMultiLang | StringMultiLang | None = Field(
+    common_project: StringMultiLang | None = Field(
         None,
         alias='common:project',
         description='Extract of the information items linked to goal and scope of LCIA method modeling.',
         union_mode='smart',
     )
-    common_intendedApplications: FTMultiLang | FTMultiLang = Field(
+    common_intendedApplications: FTMultiLang = Field(
         ...,
         alias='common:intendedApplications',
         description='Documentation of the intended application(s) of data collection and data set modelling. This indicates / includes information on the level of detail, the specifidity, and the quality ambition in the effort.',
@@ -1394,7 +1295,7 @@ class PublicationAndOwnership(BaseModel):
         alias='common:licenseType',
         description='Type of license that applies to the access and use of this data set.',
     )
-    common_accessRestrictions: FTMultiLang | FTMultiLang | None = Field(
+    common_accessRestrictions: FTMultiLang | None = Field(
         None,
         alias='common:accessRestrictions',
         description='Access restrictions / use conditions for this data set as free text or referring to e.g. license conditions. In case of no restrictions "None" is entered.',
@@ -1537,7 +1438,7 @@ class ExchangeItem(BaseModel):
         None,
         description='"Source data set" of data source(s) used for the value of this specific Input or Output, especially if differing from the general data source used for this data set.',
     )
-    generalComment: StringMultiLang | StringMultiLang | None = Field(
+    generalComment: StringMultiLang | None = Field(
         None,
         description='General comment on this specific Input or Output, e.g. commenting on the data sources used and their specific representatuveness etc., on the status of "finalisation" of an entry as workflow information, etc.',
         union_mode='smart',
@@ -1569,7 +1470,7 @@ class LCIAResult(BaseModel):
         description='The resulting overall uncertainty of the calculated variable value considering uncertainty of measurements, modelling, appropriateness etc. [Notes: For log-normal distribution the square of the geometric standard deviation (SDg^2) is stated. Mean value times SDg^2 equals the 97.5% value (= Maximum value), Mean value divided by SDg^2 equals the 2.5% value (= Minimum value). For normal distribution the doubled standard deviation value (2*SD) is entered. Mean value plus 2*SD equals 97.5% value (= Maximum value), Mean value minus 2*SD equals 2.5% value (= Minimum value). This data field remains empty when uniform or triangular uncertainty distribution is applied.]',
         pattern='^(100(\\.0{1,3})?|([0-9]|[1-9][0-9])(\\.\\d{1,3})?)$',
     )
-    generalComment: StringMultiLang | StringMultiLang | None = Field(
+    generalComment: StringMultiLang | None = Field(
         None,
         description='General comment on this specific Input or Output, e.g. commenting on the data sources used and their specific representatuveness etc., on the status of "finalisation" of an entry as workflow information, etc.',
         union_mode='smart',
