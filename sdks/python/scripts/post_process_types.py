@@ -996,26 +996,8 @@ def post_process_file(file_path: Path, dry_run: bool = False) -> dict:
     # Track which types are actually used in this file
     used_import_types = set()
 
-    # Step 1: Replace type references first (before removing classes)
-    # Build replacement map from CLASS_REMOVALS
-    for old_name, new_name in CLASS_REMOVALS.items():
-        if old_name in content:
-            logger.debug(f"  Replacing type reference: {old_name} -> {new_name}")
-            if not dry_run:
-                content = replace_type_references(content, old_name, new_name)
-            stats["types_replaced"] += 1
-            used_import_types.add(new_name)
-
-            # For multi-language types, also need the item types
-            if new_name in ["StringMultiLang", "STMultiLang", "FTMultiLang"]:
-                if new_name == "StringMultiLang":
-                    used_import_types.add("MultiLangItemString")
-                elif new_name == "STMultiLang":
-                    used_import_types.add("MultiLangItemST")
-                elif new_name == "FTMultiLang":
-                    used_import_types.add("MultiLangItem")
-
-    # Step 2: Find and remove duplicate class definitions (after references are replaced)
+    # Step 1: Find and remove duplicate class definitions (before replacing references)
+    # This must happen first, while class names are still in their original form
     classes_to_remove = find_classes_to_remove(content)
 
     if classes_to_remove and not dry_run:
@@ -1061,6 +1043,38 @@ def post_process_file(file_path: Path, dry_run: bool = False) -> dict:
                     used_import_types.add("MultiLangItemST")
                 elif replacement == "FTMultiLang":
                     used_import_types.add("MultiLangItem")
+
+    # Step 2: Replace type references (after removing class definitions)
+    # Now it's safe to replace references without affecting class names
+    for old_name, new_name in CLASS_REMOVALS.items():
+        if old_name in content:
+            logger.debug(f"  Replacing type reference: {old_name} -> {new_name}")
+            if not dry_run:
+                content = replace_type_references(content, old_name, new_name)
+            stats["types_replaced"] += 1
+            used_import_types.add(new_name)
+
+            # For multi-language types, also need the item types
+            if new_name in ["StringMultiLang", "STMultiLang", "FTMultiLang"]:
+                if new_name == "StringMultiLang":
+                    used_import_types.add("MultiLangItemString")
+                elif new_name == "STMultiLang":
+                    used_import_types.add("MultiLangItemST")
+                elif new_name == "FTMultiLang":
+                    used_import_types.add("MultiLangItem")
+
+    # Step 2.5: Clean up duplicate union types (e.g., "Type | Type" -> "Type")
+    if not dry_run:
+        import re
+        original_before_cleanup = content
+        # Match and remove adjacent duplicate types in unions
+        content = re.sub(
+            r'\b(\w+)\s*\|\s*\1\b',  # Match "TypeName | TypeName"
+            r'\1',  # Replace with just "TypeName"
+            content
+        )
+        if content != original_before_cleanup:
+            logger.debug("  Cleaned up duplicate union types")
 
     # Step 3: Detect category imports needed (auto-detected from schemas)
     category_imports = []
