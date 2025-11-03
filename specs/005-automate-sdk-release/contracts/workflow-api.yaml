@@ -1,0 +1,425 @@
+# GitHub Actions 工作流 API 契约
+# 日期: 2025-11-03
+# 描述: 定义自动化 SDK 发布流水线的输入/输出契约
+
+---
+# 1. 主发布工作流（自动触发）
+workflow_name: SDK Release (Auto)
+workflow_file: .github/workflows/sdk-release.yml
+
+triggers:
+  push:
+    branches:
+      - main
+    paths:
+      - tidas-tools  # Submodule 路径
+
+  # 备用: 定期检查（可选）
+  schedule:
+    - cron: "0 0 * * *"  # 每天 UTC 00:00
+
+inputs: null  # 自动触发无输入参数
+
+outputs:
+  published_versions:
+    description: 发布的 SDK 版本列表
+    type: object
+    schema:
+      properties:
+        python:
+          type: string
+          example: "0.1.6"
+        typescript:
+          type: string
+          example: "0.1.19"
+
+  publication_urls:
+    description: 发布的包 URLs
+    type: object
+    schema:
+      properties:
+        python:
+          type: string
+          example: "https://pypi.org/project/tidas-sdk/0.1.6/"
+        typescript:
+          type: string
+          example: "https://www.npmjs.com/package/@tiangong-lca/tidas-sdk/v/0.1.19"
+
+  pipeline_status:
+    description: 流水线最终状态
+    type: string
+    enum: [success, failure, cancelled]
+
+---
+# 2. 手动触发工作流
+workflow_name: SDK Release (Manual)
+workflow_file: .github/workflows/sdk-release-manual.yml
+
+triggers:
+  workflow_dispatch:
+    inputs:
+      sdk_selection:
+        description: 选择要构建的 SDK
+        required: true
+        type: choice
+        options:
+          - all
+          - python
+          - typescript
+        default: all
+
+      version_bump_python:
+        description: Python SDK 版本递增类型
+        required: false
+        type: choice
+        options:
+          - patch
+          - minor
+          - major
+        default: patch
+
+      version_bump_typescript:
+        description: TypeScript SDK 版本递增类型
+        required: false
+        type: choice
+        options:
+          - patch
+          - minor
+          - major
+        default: patch
+
+      skip_tests:
+        description: 跳过测试（仅调试用，强制 dry-run）
+        required: false
+        type: boolean
+        default: false
+
+      dry_run:
+        description: 演习模式（不实际发布）
+        required: false
+        type: boolean
+        default: false
+
+outputs:
+  # 同自动触发工作流
+
+---
+# 3. 可重用验证工作流
+workflow_name: SDK Validation
+workflow_file: .github/workflows/sdk-validation.yml
+
+triggers:
+  workflow_call:
+    inputs:
+      sdk_language:
+        description: SDK 语言
+        required: true
+        type: string
+        # 有效值: python, typescript
+
+      sdk_path:
+        description: SDK 根目录路径
+        required: true
+        type: string
+        # 示例: sdks/python, sdks/typescript
+
+      skip_tests:
+        description: 是否跳过测试
+        required: false
+        type: boolean
+        default: false
+
+    outputs:
+      validation_passed:
+        description: 验证是否通过
+        value: ${{ jobs.validate.outputs.passed }}
+        type: boolean
+
+      lint_status:
+        description: 代码检查状态
+        value: ${{ jobs.validate.outputs.lint_status }}
+        type: string
+
+      test_status:
+        description: 测试状态
+        value: ${{ jobs.validate.outputs.test_status }}
+        type: string
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    outputs:
+      passed: ${{ steps.check.outputs.passed }}
+      lint_status: ${{ steps.lint.outputs.status }}
+      test_status: ${{ steps.test.outputs.status }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup environment
+        # 根据 sdk_language 设置 Python 或 Node.js 环境
+
+      - name: Install dependencies
+        # Python: pip install -e ".[dev]"
+        # TypeScript: npm ci
+
+      - name: Run linter
+        id: lint
+        # Python: ruff check . && mypy src
+        # TypeScript: npm run lint && npm run typecheck
+
+      - name: Run tests
+        id: test
+        if: ${{ !inputs.skip_tests }}
+        # Python: pytest
+        # TypeScript: npm test
+
+      - name: Check overall status
+        id: check
+        run: |
+          if [[ "${{ steps.lint.outputs.status }}" == "success" ]] && \
+             [[ "${{ steps.test.outputs.status }}" == "success" || "${{ inputs.skip_tests }}" == "true" ]]; then
+            echo "passed=true" >> $GITHUB_OUTPUT
+          else
+            echo "passed=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Upload validation report
+        uses: actions/upload-artifact@v4
+        with:
+          name: validation-report-${{ inputs.sdk_language }}
+          path: |
+            **/lint-report.json
+            **/test-results.xml
+            **/coverage.xml
+
+---
+# 4. 脚本接口契约
+
+## 4.1 检测 Submodule 变更脚本
+script_path: scripts/ci/detect-submodule-changes.sh
+
+usage: |
+  ./scripts/ci/detect-submodule-changes.sh [OPTIONS]
+
+options:
+  --ref-before <commit>   # 比较的起始 commit（默认 HEAD^）
+  --ref-after <commit>    # 比较的结束 commit（默认 HEAD）
+  --submodule <path>      # Submodule 路径（默认 tidas-tools）
+
+outputs:
+  exit_code:
+    - 0: Submodule 有变更
+    - 1: Submodule 无变更
+    - 2: 错误
+
+  stdout: |
+    # JSON 格式
+    {
+      "changed": true,
+      "old_commit": "abc123",
+      "new_commit": "def456",
+      "submodule_path": "tidas-tools"
+    }
+
+---
+## 4.2 生成 Python SDK 脚本
+script_path: scripts/ci/generate-python-sdk.sh
+
+usage: |
+  ./scripts/ci/generate-python-sdk.sh
+
+environment_variables:
+  TIDAS_TOOLS_PATH: tidas-tools submodule 的路径（默认 ./tidas-tools）
+  OUTPUT_DIR: 输出目录（默认 ./sdks/python/src/tidas_sdk）
+
+outputs:
+  exit_code:
+    - 0: 生成成功
+    - 1: 生成失败
+
+  stdout: |
+    生成的文件列表和摘要信息
+
+  generated_files:
+    - sdks/python/src/tidas_sdk/models/*.py
+    - sdks/python/src/tidas_sdk/schemas/*.py
+
+---
+## 4.3 生成 TypeScript SDK 脚本
+script_path: scripts/ci/generate-typescript-sdk.sh
+
+usage: |
+  ./scripts/ci/generate-typescript-sdk.sh
+
+environment_variables:
+  TIDAS_TOOLS_PATH: tidas-tools submodule 的路径（默认 ./tidas-tools）
+  OUTPUT_DIR: 输出目录（默认 ./sdks/typescript/src）
+
+outputs:
+  exit_code:
+    - 0: 生成成功
+    - 1: 生成失败
+
+  stdout: |
+    生成的文件列表和摘要信息
+
+  generated_files:
+    - sdks/typescript/src/types/*.ts
+    - sdks/typescript/src/schemas/*.ts
+
+---
+## 4.4 版本递增脚本
+script_path: scripts/ci/bump-version.sh
+
+usage: |
+  ./scripts/ci/bump-version.sh --language <python|typescript> --type <major|minor|patch>
+
+options:
+  --language <lang>       # SDK 语言（必需）
+  --type <bump_type>      # 版本递增类型（必需）
+  --dry-run               # 演习模式，不实际修改文件
+
+outputs:
+  exit_code:
+    - 0: 成功
+    - 1: 失败
+
+  stdout: |
+    # JSON 格式
+    {
+      "language": "python",
+      "old_version": "0.1.5",
+      "new_version": "0.1.6",
+      "bump_type": "patch",
+      "updated_files": ["sdks/python/pyproject.toml"]
+    }
+
+modified_files:
+  python: sdks/python/pyproject.toml
+  typescript: sdks/typescript/package.json
+
+---
+## 4.5 发布脚本
+script_path: scripts/ci/publish-sdk.sh
+
+usage: |
+  ./scripts/ci/publish-sdk.sh --language <python|typescript> [OPTIONS]
+
+options:
+  --language <lang>       # SDK 语言（必需）
+  --dry-run               # 演习模式，不实际发布
+
+environment_variables:
+  # Python
+  PYPI_API_TOKEN: PyPI API token（从 GitHub Secrets）
+
+  # TypeScript
+  NPM_TOKEN: npm authentication token（从 GitHub Secrets）
+
+outputs:
+  exit_code:
+    - 0: 发布成功
+    - 1: 发布失败
+
+  stdout: |
+    # JSON 格式
+    {
+      "language": "python",
+      "version": "0.1.6",
+      "package_url": "https://pypi.org/project/tidas-sdk/0.1.6/",
+      "published_at": "2025-11-03T10:30:00Z"
+    }
+
+---
+# 5. 并发控制契约
+
+concurrency:
+  group: sdk-release-${{ github.ref }}
+  cancel-in-progress: false  # 排队而非取消
+
+description: |
+  - 同时只允许一个发布流水线运行
+  - 并发请求会排队等待
+  - 使用 git ref 作为并发组标识，确保同一分支的发布串行执行
+
+---
+# 6. 密钥使用契约
+
+secrets:
+  PYPI_API_TOKEN:
+    description: PyPI API token for publishing Python SDK
+    required: true
+    scope: repository
+    permissions: write
+
+  NPM_TOKEN:
+    description: npm authentication token for publishing TypeScript SDK
+    required: true
+    scope: repository
+    permissions: write
+
+  GITHUB_TOKEN:
+    description: GitHub token (auto-provided)
+    required: true
+    scope: workflow
+    permissions:
+      contents: write  # 用于创建 Git tags
+      actions: read    # 用于读取工作流状态
+
+---
+# 7. 错误处理契约
+
+error_scenarios:
+  - scenario: Submodule commit 未变更
+    action: Skip pipeline execution
+    exit_code: 0
+    message: "No submodule changes detected, skipping SDK regeneration"
+
+  - scenario: SDK 生成失败
+    action: Fail pipeline immediately
+    exit_code: 1
+    message: "SDK generation failed: {error_details}"
+    notification: Create GitHub issue (可选)
+
+  - scenario: 验证失败（lint 或 test）
+    action: Fail pipeline, do not publish
+    exit_code: 1
+    message: "Validation failed: {validation_report}"
+    artifacts: Upload validation report
+
+  - scenario: 版本已存在于注册表
+    action: Skip publication, mark as success
+    exit_code: 0
+    message: "Version {version} already published, skipping"
+
+  - scenario: 发布失败（网络错误）
+    action: Retry 3 times, then fail
+    exit_code: 1
+    message: "Publication failed after 3 retries: {error}"
+
+  - scenario: 并发冲突（罕见）
+    action: Queue and wait
+    message: "Pipeline queued, waiting for previous execution to complete"
+
+---
+# 8. 性能和资源约束
+
+resource_limits:
+  max_execution_time: 15 minutes
+  max_concurrent_jobs: 2  # Python 和 TypeScript 并行验证
+  cache_strategy:
+    - python_dependencies:
+        key: ${{ runner.os }}-pip-${{ hashFiles('**/pyproject.toml') }}
+        path: ~/.cache/pip
+    - typescript_dependencies:
+        key: ${{ runner.os }}-npm-${{ hashFiles('**/package-lock.json') }}
+        path: ~/.npm
+
+  runners:
+    os: ubuntu-latest
+    required_tools:
+      - git
+      - python >= 3.8
+      - node >= 14
