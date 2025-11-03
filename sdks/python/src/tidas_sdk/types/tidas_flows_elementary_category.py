@@ -76,6 +76,66 @@ FlowsElementary = Literal[
 ]
 
 
+# Type-safe union of all flowselementary category text values
+TidasFlowsElementaryText = Literal[
+    'Emissions',
+    'Emissions to agricultural soil',
+    'Emissions to air',
+    'Emissions to air, unspecified',
+    'Emissions to air, unspecified (long-term)',
+    'Emissions to fresh water',
+    'Emissions to lower stratosphere and upper troposphere',
+    'Emissions to non-agricultural soil',
+    'Emissions to non-urban air or from high stacks',
+    'Emissions to sea water',
+    'Emissions to soil',
+    'Emissions to soil, unspecified',
+    'Emissions to soil, unspecified (long-term)',
+    'Emissions to urban air close to ground',
+    'Emissions to water',
+    'Emissions to water, unspecified',
+    'Emissions to water, unspecified (long-term)',
+    'Land occupation',
+    'Land transformation',
+    'Land use',
+    'Non-renewable element resources from air',
+    'Non-renewable element resources from ground',
+    'Non-renewable element resources from water',
+    'Non-renewable energy resources from air',
+    'Non-renewable energy resources from ground',
+    'Non-renewable energy resources from water',
+    'Non-renewable material resources from air',
+    'Non-renewable material resources from ground',
+    'Non-renewable material resources from water',
+    'Non-renewable resources from air, unspecified',
+    'Non-renewable resources from ground, unspecified',
+    'Non-renewable resources from water, unspecified',
+    'Other elementary flows',
+    'Renewable element resources from air',
+    'Renewable element resources from biosphere',
+    'Renewable element resources from ground',
+    'Renewable element resources from water',
+    'Renewable energy resources from air',
+    'Renewable energy resources from biosphere',
+    'Renewable energy resources from ground',
+    'Renewable energy resources from water',
+    'Renewable genetic resources from biosphere',
+    'Renewable material resources from air',
+    'Renewable material resources from biosphere',
+    'Renewable material resources from ground',
+    'Renewable material resources from water',
+    'Renewable resources from air, unspecified',
+    'Renewable resources from biosphere, unspecified',
+    'Renewable resources from ground, unspecified',
+    'Renewable resources from water, unspecified',
+    'Resources',
+    'Resources from air',
+    'Resources from biosphere',
+    'Resources from ground',
+    'Resources from water',
+]
+
+
 # Runtime metadata for lookups
 FLOWS_ELEMENTARY_CATEGORIES: dict[str, FlowsElementaryCategoryData] = {
     '1': {
@@ -356,4 +416,4 @@ FLOWS_ELEMENTARY_CATEGORIES: dict[str, FlowsElementaryCategoryData] = {
 }
 
 
-__all__ = ['FlowsElementary', 'FlowsElementaryCategoryData', 'FLOWS_ELEMENTARY_CATEGORIES']
+__all__ = ['FlowsElementary', 'TidasFlowsElementaryText', 'FlowsElementaryCategoryData', 'FLOWS_ELEMENTARY_CATEGORIES']

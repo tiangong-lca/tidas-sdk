@@ -4617,6 +4617,15 @@ FlowsProduct = Literal[
 ]
 
 
+# Type-safe union of all flowsproduct category text values
+# Note: This is a very large Literal type with ~3759 values.
+# The full list is generated from FLOWS_PRODUCT_CATEGORIES.
+# For type checking purposes, we use str as the actual type since
+# Python's type checker may have issues with such large Literal types.
+# In practice, the values are validated at runtime using FLOWS_PRODUCT_CATEGORIES.
+TidasFlowsProductText = str  # Effectively all text values from FLOWS_PRODUCT_CATEGORIES
+
+
 # Runtime metadata for lookups
 FLOWS_PRODUCT_CATEGORIES: dict[str, FlowsProductCategoryData] = {
     '0': {
@@ -27602,4 +27611,4 @@ FLOWS_PRODUCT_CATEGORIES: dict[str, FlowsProductCategoryData] = {
 }
 
 
-__all__ = ['FlowsProduct', 'FlowsProductCategoryData', 'FLOWS_PRODUCT_CATEGORIES']
+__all__ = ['FlowsProduct', 'TidasFlowsProductText', 'FlowsProductCategoryData', 'FLOWS_PRODUCT_CATEGORIES']

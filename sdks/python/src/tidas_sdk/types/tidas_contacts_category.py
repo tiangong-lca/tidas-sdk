@@ -30,6 +30,20 @@ Contacts = Literal[
 ]
 
 
+# Type-safe union of all contacts category text values
+TidasContactsText = Literal[
+    'Governmental organisations',
+    'Group of organisations, project',
+    'Non-governmental organisations',
+    'Organisations',
+    'Other',
+    'Other organisations',
+    'Persons',
+    'Private companies',
+    'Working groups within organisation',
+]
+
+
 # Runtime metadata for lookups
 CONTACTS_CATEGORIES: dict[str, ContactsCategoryData] = {
     '1': {
@@ -80,4 +94,4 @@ CONTACTS_CATEGORIES: dict[str, ContactsCategoryData] = {
 }
 
 
-__all__ = ['Contacts', 'ContactsCategoryData', 'CONTACTS_CATEGORIES']
+__all__ = ['Contacts', 'TidasContactsText', 'ContactsCategoryData', 'CONTACTS_CATEGORIES']

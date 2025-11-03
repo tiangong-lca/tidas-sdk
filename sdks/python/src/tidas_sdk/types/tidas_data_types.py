@@ -10,27 +10,35 @@ from __future__ import annotations
 from typing import Annotated
 
 from pydantic import BaseModel, Field, RootModel
+from tidas_sdk.types.tidas_data_types import (
+    CASNumber,
+    FT,
+    FTMultiLang,
+    GIS,
+    GlobalReferenceType,
+    GlobalReferenceTypeOrArray,
+    Int1,
+    Int5,
+    Int6,
+    LevelType,
+    MatR,
+    MatV,
+    MultiLangItem,
+    MultiLangItemST,
+    MultiLangItemString,
+    Perc,
+    Real,
+    ST,
+    STMultiLang,
+    String,
+    StringMultiLang,
+    UUID,
+    Year
+)
+
 
 
 # ========== String Types ==========
-
-class CASNumber(RootModel[str]):
-    """CAS Number, leading zeros are required."""
-
-    root: Annotated[str, Field(pattern=r'^[0-9]{2,7}-[0-9]{2}-[0-9]$')]
-
-
-class FT(RootModel[str]):
-    """Free text with unlimited length."""
-
-    root: str
-
-
-class ST(RootModel[str]):
-    """Short text with max 1000 characters."""
-
-    root: Annotated[str, Field(max_length=1000)]
-
 
 class String(RootModel[str]):
     """String with max 500 characters, min 1 character."""
@@ -78,55 +86,11 @@ class Int1(RootModel[str]):
     root: Annotated[str, Field(pattern=r'^[0-9]$')]
 
 
-class Int5(RootModel[str]):
-    """5-digit integer number."""
-
-    root: Annotated[str, Field(pattern=r'^(0|[1-9]\d{0,4})$')]
-
-
-class Int6(RootModel[str]):
-    """6-digit integer number."""
-
-    root: Annotated[str, Field(pattern=r'^(0|[1-9]\d{0,5})$')]
-
-
 LevelType = Int1
 """1-digit integer, must be >= 0."""
 
 
 # ========== Numeric Types ==========
-
-class Perc(RootModel[str]):
-    """Percentage amount."""
-
-    root: Annotated[str, Field(pattern=r'^(100(\.0{1,3})?|([0-9]|[1-9][0-9])(\.\d{1,3})?)$')]
-
-
-class Real(RootModel[str]):
-    """38-digit real number."""
-
-    root: Annotated[str, Field(pattern=r'[+-]?(\d+(\.\d*)?|\.\d+)([Ee][+-]?\d+)?$')]
-
-
-class MatR(RootModel[str]):
-    """Mathematical rule."""
-
-    root: str
-
-
-class MatV(RootModel[str]):
-    """Mathematical variable or parameter."""
-
-    root: str
-
-
-# ========== Reference Types ==========
-
-class UUID(RootModel[str]):
-    """Unique Universal Identifier, 16-byte hex number."""
-
-    root: Annotated[str, Field(pattern=r'^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$')]
-
 
 class GlobalReferenceType(BaseModel):
     """Reference to another dataset or file."""

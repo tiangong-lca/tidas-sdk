@@ -25,6 +25,15 @@ Flowproperties = Literal[
 ]
 
 
+# Type-safe union of all flowproperties category text values
+TidasFlowpropertiesText = Literal[
+    'Chemical composition of flows',
+    'Economic flow properties',
+    'Other flow properties',
+    'Technical flow properties',
+]
+
+
 # Runtime metadata for lookups
 FLOWPROPERTIES_CATEGORIES: dict[str, FlowpropertiesCategoryData] = {
     '1': {
@@ -50,4 +59,4 @@ FLOWPROPERTIES_CATEGORIES: dict[str, FlowpropertiesCategoryData] = {
 }
 
 
-__all__ = ['Flowproperties', 'FlowpropertiesCategoryData', 'FLOWPROPERTIES_CATEGORIES']
+__all__ = ['Flowproperties', 'TidasFlowpropertiesText', 'FlowpropertiesCategoryData', 'FLOWPROPERTIES_CATEGORIES']
