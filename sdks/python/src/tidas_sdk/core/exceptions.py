@@ -2,13 +2,11 @@
 Exception classes for TIDAS SDK.
 """
 
-from typing import Any, Optional
+from typing import Any
 
 
 class TidasException(Exception):
     """Base exception for all TIDAS SDK errors."""
-
-    pass
 
 
 class ValidationError(TidasException):
@@ -60,5 +58,3 @@ class SchemaGenerationError(TidasException):
 
 class ConfigurationError(TidasException):
     """Raised when SDK configuration is invalid."""
-
-    pass

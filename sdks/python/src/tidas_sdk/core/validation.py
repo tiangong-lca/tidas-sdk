@@ -3,7 +3,7 @@ Validation configuration and data structures for TIDAS SDK.
 """
 
 from dataclasses import dataclass
-from typing import Any, Literal, Optional
+from typing import Any, Literal
 
 ValidationMode = Literal["strict", "weak", "ignore"]
 

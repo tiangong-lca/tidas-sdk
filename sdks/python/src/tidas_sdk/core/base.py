@@ -70,21 +70,21 @@ class TidasEntity(ABC):
             if self._validation_config.mode == "strict":
                 # Convert to our exception type and raise
                 raise ValidationError.from_pydantic(e)
-            else:  # weak mode
-                # Collect as warnings
-                self._validation_warnings.clear()
-                for error in e.errors():
-                    warning = ValidationWarning(
-                        field_path=".".join(str(p) for p in error["loc"]),
-                        message=error["msg"],
-                        expected=error["type"],
-                        actual=error.get("input"),
+
+            # weak mode - collect as warnings
+            self._validation_warnings.clear()
+            for error in e.errors():
+                warning = ValidationWarning(
+                    field_path=".".join(str(p) for p in error["loc"]),
+                    message=error["msg"],
+                    expected=error["type"],
+                    actual=error.get("input"),
+                )
+                self._validation_warnings.append(warning)
+                if self._validation_config.include_warnings:
+                    logger.warning(
+                        f"Validation warning: {warning.field_path} - {warning.message}"
                     )
-                    self._validation_warnings.append(warning)
-                    if self._validation_config.include_warnings:
-                        logger.warning(
-                            f"Validation warning: {warning.field_path} - {warning.message}"
-                        )
 
     def get_validation_warnings(self) -> List[ValidationWarning]:
         """Return list of validation warnings from weak mode.
