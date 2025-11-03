@@ -10,31 +10,6 @@ from __future__ import annotations
 from typing import Annotated
 
 from pydantic import BaseModel, Field, RootModel
-from tidas_sdk.types.tidas_data_types import (
-    CASNumber,
-    FT,
-    FTMultiLang,
-    GIS,
-    GlobalReferenceType,
-    GlobalReferenceTypeOrArray,
-    Int1,
-    Int5,
-    Int6,
-    LevelType,
-    MatR,
-    MatV,
-    MultiLangItem,
-    MultiLangItemST,
-    MultiLangItemString,
-    Perc,
-    Real,
-    ST,
-    STMultiLang,
-    String,
-    StringMultiLang,
-    UUID,
-    Year
-)
 
 
 
