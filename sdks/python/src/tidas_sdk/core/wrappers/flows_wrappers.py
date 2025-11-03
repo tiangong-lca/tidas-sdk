@@ -10,6 +10,7 @@ from typing import Optional
 from tidas_sdk.core.typed_access import BaseWrapper, MultiLangText
 
 
+
 class FlowPropertiesWrapper(BaseWrapper):
     """Auto-generated wrapper for FlowPropertiesWrapper."""
 
@@ -82,7 +83,7 @@ class PublicationAndOwnershipWrapper(BaseWrapper):
 
     @property
     def reference_to_ownership_of_data_set(self) -> str:
-        """ "Contact data set" of the person or entity who owns this data set. (Note: this is not necessarily the publisher of the data set.)"""
+        """"Contact data set" of the person or entity who owns this data set. (Note: this is not necessarily the publisher of the data set.)"""
         return self._data.get("common:referenceToOwnershipOfDataSet")
 
     @reference_to_ownership_of_data_set.setter
@@ -121,7 +122,7 @@ class DataEntryByWrapper(BaseWrapper):
 
     @property
     def reference_to_data_set_format(self) -> str:
-        """ "Source data set" of the used version of the ILCD format. If additional data format fields have been integrated into the data set file, using the "namespace" option, the used format namespace(s) are to be given. This is the case if the data sets carries additional information as specified by other, particular LCA formats, e.g. of other database networks or LCA softwares."""
+        """"Source data set" of the used version of the ILCD format. If additional data format fields have been integrated into the data set file, using the "namespace" option, the used format namespace(s) are to be given. This is the case if the data sets carries additional information as specified by other, particular LCA formats, e.g. of other database networks or LCA softwares."""
         return self._data.get("common:referenceToDataSetFormat")
 
     @reference_to_data_set_format.setter
@@ -131,13 +132,11 @@ class DataEntryByWrapper(BaseWrapper):
 
     @property
     def reference_to_person_or_entity_entering_the_data(self) -> Optional[str]:
-        """ "Contact data set" of the responsible person or entity that has documented this data set, i.e. entered the data and the descriptive information."""
+        """"Contact data set" of the responsible person or entity that has documented this data set, i.e. entered the data and the descriptive information."""
         return self._data.get("common:referenceToPersonOrEntityEnteringTheData")
 
     @reference_to_person_or_entity_entering_the_data.setter
-    def reference_to_person_or_entity_entering_the_data(
-        self, value: Optional[str]
-    ) -> None:
+    def reference_to_person_or_entity_entering_the_data(self, value: Optional[str]) -> None:
         """Set common:referenceToPersonOrEntityEnteringTheData."""
         if value is None:
             self._data.pop("common:referenceToPersonOrEntityEnteringTheData", None)
@@ -173,9 +172,7 @@ class AdministrativeInformationWrapper(BaseWrapper):
     def publication_and_ownership(self) -> PublicationAndOwnershipWrapper:
         """Access publicationAndOwnership nested object"""
         self._ensure_field("publicationAndOwnership")
-        return PublicationAndOwnershipWrapper(
-            self._entity, self._data["publicationAndOwnership"]
-        )
+        return PublicationAndOwnershipWrapper(self._entity, self._data["publicationAndOwnership"])
 
     @property
     def other(self) -> Optional[str]:
@@ -264,9 +261,7 @@ class ModellingAndValidationWrapper(BaseWrapper):
     def compliance_declarations(self) -> ComplianceDeclarationsWrapper:
         """Access complianceDeclarations nested object"""
         self._ensure_field("complianceDeclarations")
-        return ComplianceDeclarationsWrapper(
-            self._entity, self._data["complianceDeclarations"]
-        )
+        return ComplianceDeclarationsWrapper(self._entity, self._data["complianceDeclarations"])
 
     @property
     def other(self) -> Optional[str]:
@@ -294,7 +289,7 @@ class TechnologyWrapper(BaseWrapper):
 
     @property
     def reference_to_technical_specification(self) -> Optional[str]:
-        """ "Source data set(s)" of the product's or waste's technical specification, waste data sheet, safety data sheet, etc."""
+        """"Source data set(s)" of the product's or waste's technical specification, waste data sheet, safety data sheet, etc."""
         return self._data.get("referenceToTechnicalSpecification")
 
     @reference_to_technical_specification.setter
@@ -447,9 +442,7 @@ class ClassificationInformationWrapper(BaseWrapper):
     def elementary_flow_categorization(self) -> ElementaryFlowCategorizationWrapper:
         """Access common:elementaryFlowCategorization nested object"""
         self._ensure_field("common:elementaryFlowCategorization")
-        return ElementaryFlowCategorizationWrapper(
-            self._entity, self._data["common:elementaryFlowCategorization"]
-        )
+        return ElementaryFlowCategorizationWrapper(self._entity, self._data["common:elementaryFlowCategorization"])
 
     @property
     def classification(self) -> ClassificationWrapper:
@@ -527,9 +520,7 @@ class DataSetInformationWrapper(BaseWrapper):
     def classification_information(self) -> ClassificationInformationWrapper:
         """Hierachical classification of the Flow property foreseen to be used to structure the Flow property content of the database. (Note: This entry is NOT required for the identification of the Flow property data set. It should nevertheless be avoided to use identical names for Flow properties in the same class."""
         self._ensure_field("classificationInformation")
-        return ClassificationInformationWrapper(
-            self._entity, self._data["classificationInformation"]
-        )
+        return ClassificationInformationWrapper(self._entity, self._data["classificationInformation"])
 
     @property
     def cas_number(self) -> Optional[str]:
@@ -591,9 +582,7 @@ class FlowInformationWrapper(BaseWrapper):
     def quantitative_reference(self) -> QuantitativeReferenceWrapper:
         """Access quantitativeReference nested object"""
         self._ensure_field("quantitativeReference")
-        return QuantitativeReferenceWrapper(
-            self._entity, self._data["quantitativeReference"]
-        )
+        return QuantitativeReferenceWrapper(self._entity, self._data["quantitativeReference"])
 
     @property
     def geography(self) -> GeographyWrapper:
@@ -666,17 +655,13 @@ class FlowsDataSetWrapper(BaseWrapper):
     def modelling_and_validation(self) -> ModellingAndValidationWrapper:
         """Access modellingAndValidation nested object"""
         self._ensure_field("modellingAndValidation")
-        return ModellingAndValidationWrapper(
-            self._entity, self._data["modellingAndValidation"]
-        )
+        return ModellingAndValidationWrapper(self._entity, self._data["modellingAndValidation"])
 
     @property
     def administrative_information(self) -> AdministrativeInformationWrapper:
         """Access administrativeInformation nested object"""
         self._ensure_field("administrativeInformation")
-        return AdministrativeInformationWrapper(
-            self._entity, self._data["administrativeInformation"]
-        )
+        return AdministrativeInformationWrapper(self._entity, self._data["administrativeInformation"])
 
     @property
     def flow_properties(self) -> FlowPropertiesWrapper:

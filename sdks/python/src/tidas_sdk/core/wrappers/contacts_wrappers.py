@@ -10,6 +10,7 @@ from typing import Optional
 from tidas_sdk.core.typed_access import BaseWrapper, MultiLangText
 
 
+
 class PublicationAndOwnershipWrapper(BaseWrapper):
     """Auto-generated wrapper for PublicationAndOwnershipWrapper."""
 
@@ -53,7 +54,7 @@ class PublicationAndOwnershipWrapper(BaseWrapper):
 
     @property
     def reference_to_ownership_of_data_set(self) -> str:
-        """ "Contact data set" of the person or entity who owns this data set. (Note: this is not necessarily the publisher of the data set.)"""
+        """"Contact data set" of the person or entity who owns this data set. (Note: this is not necessarily the publisher of the data set.)"""
         return self._data.get("common:referenceToOwnershipOfDataSet")
 
     @reference_to_ownership_of_data_set.setter
@@ -92,7 +93,7 @@ class DataEntryByWrapper(BaseWrapper):
 
     @property
     def reference_to_data_set_format(self) -> str:
-        """ "Source data set" of the used version of the ILCD format. If additional data format fields have been integrated into the data set file, using the "namespace" option, the used format namespace(s) are to be given. This is the case if the data sets carries additional information as specified by other, particular LCA formats, e.g. of other database networks or LCA softwares."""
+        """"Source data set" of the used version of the ILCD format. If additional data format fields have been integrated into the data set file, using the "namespace" option, the used format namespace(s) are to be given. This is the case if the data sets carries additional information as specified by other, particular LCA formats, e.g. of other database networks or LCA softwares."""
         return self._data.get("common:referenceToDataSetFormat")
 
     @reference_to_data_set_format.setter
@@ -129,9 +130,7 @@ class AdministrativeInformationWrapper(BaseWrapper):
     def publication_and_ownership(self) -> PublicationAndOwnershipWrapper:
         """Access publicationAndOwnership nested object"""
         self._ensure_field("publicationAndOwnership")
-        return PublicationAndOwnershipWrapper(
-            self._entity, self._data["publicationAndOwnership"]
-        )
+        return PublicationAndOwnershipWrapper(self._entity, self._data["publicationAndOwnership"])
 
     @property
     def other(self) -> Optional[str]:
@@ -217,9 +216,7 @@ class DataSetInformationWrapper(BaseWrapper):
     def classification_information(self) -> ClassificationInformationWrapper:
         """Hierachical classification of the contact foreseen to be used to structure the contact content of the database. (Note: This entry is NOT required for the identification of the contact data set. It should nevertheless be avoided to use identical names for contacts in the same class."""
         self._ensure_field("classificationInformation")
-        return ClassificationInformationWrapper(
-            self._entity, self._data["classificationInformation"]
-        )
+        return ClassificationInformationWrapper(self._entity, self._data["classificationInformation"])
 
     @property
     def contact_address(self) -> MultiLangText:
@@ -290,7 +287,7 @@ class DataSetInformationWrapper(BaseWrapper):
 
     @property
     def reference_to_contact(self) -> Optional[str]:
-        """ "Contact data set"s of working groups, organisations or database networks to which EITHER this person or entity OR this database, data set format, or compliance system belongs. [Note: This does not necessarily imply a legally binding relationship, but may also be a voluntary membership.]"""
+        """"Contact data set"s of working groups, organisations or database networks to which EITHER this person or entity OR this database, data set format, or compliance system belongs. [Note: This does not necessarily imply a legally binding relationship, but may also be a voluntary membership.]"""
         return self._data.get("referenceToContact")
 
     @reference_to_contact.setter
@@ -303,7 +300,7 @@ class DataSetInformationWrapper(BaseWrapper):
 
     @property
     def reference_to_logo(self) -> Optional[str]:
-        """ "Source data set" of the logo of the organisation or source to be used in reports etc."""
+        """"Source data set" of the logo of the organisation or source to be used in reports etc."""
         return self._data.get("referenceToLogo")
 
     @reference_to_logo.setter
@@ -388,9 +385,7 @@ class ContactsDataSetWrapper(BaseWrapper):
     def administrative_information(self) -> AdministrativeInformationWrapper:
         """Access administrativeInformation nested object"""
         self._ensure_field("administrativeInformation")
-        return AdministrativeInformationWrapper(
-            self._entity, self._data["administrativeInformation"]
-        )
+        return AdministrativeInformationWrapper(self._entity, self._data["administrativeInformation"])
 
     @property
     def other(self) -> Optional[str]:
