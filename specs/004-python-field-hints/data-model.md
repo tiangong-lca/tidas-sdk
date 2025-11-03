@@ -369,14 +369,14 @@ email = contact.contact_data_set.contact_information.data_set_information.email
 
 ### Phase 3: Integration ✅ COMPLETED
 
-- ✅ Integrated into `scripts/generate_types_v2.py` pipeline
+- ✅ Integrated into `scripts/generate_types.py` pipeline
 - ✅ Modified `models/contact.py` to use generated wrapper
 - ✅ Created `examples/05_typed_access.py` demonstration
 - ✅ Tested with real schemas - all working
 
 ### Maintenance
 
-**Schema updates**: Simply run `python scripts/generate_types_v2.py` to regenerate all wrappers automatically.
+**Schema updates**: Simply run `python scripts/generate_types.py` to regenerate all wrappers automatically.
 
 ---
 
@@ -494,7 +494,7 @@ email = contact.contact_data_set.contact_information.data_set_information.email
 | `models/lcia_method.py` | TidasLCIAMethod typed properties | MODIFY (TODO) |
 | `models/life_cycle_model.py` | TidasLifeCycleModel typed properties | MODIFY (TODO) |
 | `scripts/generate_wrappers.py` | Wrapper generation script | ✅ CREATED |
-| `scripts/generate_types_v2.py` | Type generation pipeline | ✅ MODIFIED |
+| `scripts/generate_types.py` | Type generation pipeline | ✅ MODIFIED |
 | `types/` | Pydantic models (generated) | READ ONLY |
 | `py.typed` | PEP 561 marker | ✅ CREATED |
 | `examples/05_typed_access.py` | Demonstration example | ✅ CREATED |
@@ -607,7 +607,7 @@ def uuid(self, value: str) -> None:
 
 ### Integration with Type Generation
 
-Modified `scripts/generate_types_v2.py`:
+Modified `scripts/generate_types.py`:
 ```python
 # After generating Pydantic models
 wrapper_script = Path(__file__).parent / "generate_wrappers.py"
@@ -618,7 +618,7 @@ result = subprocess.run([sys.executable, str(wrapper_script)])
 
 ```bash
 # Full regeneration (Pydantic models + wrappers)
-python scripts/generate_types_v2.py
+python scripts/generate_types.py
 
 # Wrappers only
 export TIDAS_TOOLS_PATH=/path/to/tidas-tools

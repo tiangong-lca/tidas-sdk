@@ -27,7 +27,7 @@ Successfully generated all 18 Pydantic v2 models from TIDAS JSON schemas using `
 
 ### Files Created
 
-**Generation Script**: `scripts/generate_types_v2.py` (262 lines)
+**Generation Script**: `scripts/generate_types.py` (262 lines)
 - Uses `datamodel-code-generator` subprocess calls
 - CLI interface matching original specification
 - Progress logging and error handling
@@ -113,7 +113,7 @@ class ContactDataSet(BaseModel):
 
 ```bash
 # Regenerate all types
-uv run python scripts/generate_types_v2.py --force --verbose
+uv run python scripts/generate_types.py --force --verbose
 
 # Import and use
 from tidas_sdk.types.tidas_contacts import Model as Contacts

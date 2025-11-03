@@ -41,7 +41,7 @@ Initial auto-generation using `datamodel-code-generator` produced code with qual
 
 #### 1. Optimized Generation Parameters ✅
 
-Updated `scripts/generate_types_v2.py` with:
+Updated `scripts/generate_types.py` with:
 ```python
 cmd = [
     "datamodel-codegen",
@@ -215,7 +215,7 @@ from .tidas_data_types import StringMultiLang, STMultiLang, UUID, GlobalReferenc
 
 ```bash
 # Generate only main entity schemas (skips categories and data_types)
-uv run python scripts/generate_types_v2.py --force
+uv run python scripts/generate_types.py --force
 
 # Manually created files won't be overwritten:
 # - src/tidas_sdk/types/tidas_data_types.py
@@ -225,7 +225,7 @@ uv run python scripts/generate_types_v2.py --force
 ### Adding New Manual Types
 
 1. Create file in `src/tidas_sdk/types/`
-2. Add to skip list in `generate_types_v2.py` if needed
+2. Add to skip list in `generate_types.py` if needed
 3. Export in `__init__.py`
 
 ### Validation

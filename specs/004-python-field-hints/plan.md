@@ -113,7 +113,7 @@ sdks/python/
 │   └── 05_typed_access.py          # CREATED - Demonstrate typed field access
 │
 ├── scripts/
-│   ├── generate_types_v2.py        # MODIFIED - Added wrapper generation call
+│   ├── generate_types.py        # MODIFIED - Added wrapper generation call
 │   └── generate_wrappers.py        # CREATED - Auto-generate wrapper classes from schemas
 │
 └── pyproject.toml                   # MODIFIED - Add py.typed to package-data
@@ -121,7 +121,7 @@ sdks/python/
 
 **Structure Decision**: Extend existing SDK structure in `sdks/python/` monorepo. This is an enhancement to the current implementation, not a new project. Key changes:
 - **Auto-generation approach**: Created `scripts/generate_wrappers.py` that generates wrapper classes from JSON schemas
-- **Integration**: Wrapper generation integrated into existing `generate_types_v2.py` pipeline
+- **Integration**: Wrapper generation integrated into existing `generate_types.py` pipeline
 - **Base classes**: `core/typed_access.py` contains `MultiLangText` and `BaseWrapper` base classes
 - **Generated wrappers**: All wrapper classes auto-generated in `core/wrappers/` directory
 - **Entity modifications**: Each entity class gets a single property that returns the generated wrapper

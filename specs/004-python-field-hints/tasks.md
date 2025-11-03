@@ -88,7 +88,7 @@ All paths relative to `/Users/biao/Code/tidas-sdk/sdks/python/`
 - [x] T010g Implement nested property generation (generate_nested_property with recursive wrappers)
 - [x] T010h Implement wrapper class generation (generate_wrapper_class with __slots__)
 - [x] T010i Implement batch generation (generate_all_wrappers for all 8 entities)
-- [x] T010j Integrate into scripts/generate_types_v2.py pipeline (add subprocess call after Pydantic generation)
+- [x] T010j Integrate into scripts/generate_types.py pipeline (add subprocess call after Pydantic generation)
 - [x] T010k Test generation for all entities - verify no syntax errors and proper Python naming
 
 **Checkpoint**: Auto-generation working, all 8 entity wrappers generated ✅

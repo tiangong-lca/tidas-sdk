@@ -1,24 +1,17 @@
 #!/usr/bin/env python3
 """
-Main script to generate Pydantic models from TIDAS JSON schemas.
+Generate Pydantic models from TIDAS JSON schemas using datamodel-code-generator.
 
-Usage:
-    python scripts/generate_types.py
-    python scripts/generate_types.py --schema-dir /path/to/schemas
-    python scripts/generate_types.py --output-dir src/tidas_sdk/types
-    python scripts/generate_types.py --force
+This script replaces the custom AST-based code generator with a battle-tested library.
 """
 
 import argparse
+import subprocess
 import sys
 import time
 from pathlib import Path
 
 from loguru import logger
-
-from schema_parser import SchemaParser
-from code_generator import CodeGenerator
-from type_mapper import TypeMapper
 
 
 def parse_args() -> argparse.Namespace:
@@ -66,95 +59,116 @@ def setup_logging(verbose: bool) -> None:
         logger.add(sys.stderr, level="INFO")
 
 
-def generate_all_schemas(
-    parser: SchemaParser,
-    generator: CodeGenerator,
-    output_dir: Path,
-    force: bool
-) -> dict:
-    """Generate all schema files.
+def find_schema_dir(provided_dir: str | None) -> Path:
+    """Find the TIDAS schemas directory.
 
     Args:
-        parser: Schema parser instance
-        generator: Code generator instance
-        output_dir: Output directory path
-        force: Overwrite existing files
+        provided_dir: User-provided directory path or None
 
     Returns:
-        Dictionary with generation statistics
+        Path to schemas directory
+
+    Raises:
+        FileNotFoundError: If schemas directory not found
     """
-    stats = {
-        "generated": 0,
-        "skipped": 0,
-        "errors": 0,
-        "schemas": [],
-        "schema_to_model": {},  # Map schema names to model names
-    }
+    if provided_dir:
+        schema_dir = Path(provided_dir)
+        if not schema_dir.exists():
+            raise FileNotFoundError(f"Schema directory not found: {schema_dir}")
+        return schema_dir
 
-    # Get generation order (topologically sorted)
-    generation_order = parser.topological_sort()
-    logger.info(f"Will generate {len(generation_order)} schemas")
+    # Try to find tidas-tools
+    current = Path.cwd()
+    for _ in range(5):  # Search up to 5 levels
+        tidas_tools = current / "tidas-tools" / "src" / "tidas_tools" / "tidas" / "schemas"
+        if tidas_tools.exists():
+            return tidas_tools
+        current = current.parent
 
-    # Generate each schema
-    for schema_name in generation_order:
-        output_file = output_dir / f"{schema_name}.py"
-
-        # Check if file exists
-        if output_file.exists() and not force:
-            logger.warning(f"Skipping {schema_name} (file exists, use --force to overwrite)")
-            stats["skipped"] += 1
-            continue
-
-        try:
-            # Parse schema
-            schema = parser.parse_schema(schema_name)
-            logger.debug(f"Parsing {schema_name}...")
-
-            model_name = schema["title"]
-
-            # Generate code
-            code = generator.generate_model(
-                model_name=model_name,
-                properties=schema["properties"],
-                required=schema["required"],
-                description=schema.get("description", "")
-            )
-
-            # Add file header
-            header = generator.generate_file_header(schema_name)
-            full_code = header + code
-
-            # Write to file
-            output_file.write_text(full_code, encoding="utf-8")
-
-            logger.info(f"✅ Generated {schema_name}.py")
-            stats["generated"] += 1
-            stats["schemas"].append(schema_name)
-            stats["schema_to_model"][schema_name] = model_name
-
-        except Exception as e:
-            logger.error(f"❌ Failed to generate {schema_name}: {e}")
-            stats["errors"] += 1
-
-    return stats
+    raise FileNotFoundError(
+        "Could not find TIDAS schemas directory. "
+        "Please specify with --schema-dir or ensure tidas-tools is in parent directories."
+    )
 
 
-def generate_init_file(output_dir: Path, schema_to_model: dict) -> None:
+def generate_schema(
+    schema_file: Path,
+    output_dir: Path,
+    force: bool
+) -> tuple[bool, str]:
+    """Generate Pydantic model for a single schema file.
+
+    Args:
+        schema_file: Path to JSON schema file
+        output_dir: Output directory
+        force: Whether to overwrite existing files
+
+    Returns:
+        Tuple of (success: bool, error_message: str)
+    """
+    output_file = output_dir / schema_file.name.replace(".json", ".py")
+
+    # Check if file exists
+    if output_file.exists() and not force:
+        return False, f"File exists (use --force to overwrite)"
+
+    # Run datamodel-codegen with optimization flags
+    cmd = [
+        "datamodel-codegen",
+        "--input", str(schema_file),
+        "--input-file-type", "jsonschema",
+        "--output", str(output_file),
+        "--output-model-type", "pydantic_v2.BaseModel",
+        # Code quality improvements
+        "--use-standard-collections",  # Use list instead of List
+        "--use-union-operator",  # Use | instead of Union
+        "--target-python-version", "3.12",
+        "--field-constraints",  # Use Field() with constraints
+        # Deduplication and cleanup (reduces numbered suffixes)
+        "--reuse-model",  # Reuse models with identical content
+        "--collapse-root-models",  # Merge RootModel wrappers
+        "--union-mode", "smart",  # Intelligent union handling
+        # Better naming
+        "--use-title-as-name",  # Use schema title as class name
+        "--use-schema-description",  # Add docstrings from descriptions
+        "--disable-timestamp",  # Remove generation timestamp
+    ]
+
+    try:
+        result = subprocess.run(
+            cmd,
+            capture_output=True,
+            text=True,
+            check=True
+        )
+        logger.debug(f"Generated {output_file.name}")
+        if result.stdout:
+            logger.debug(f"stdout: {result.stdout}")
+        return True, ""
+    except subprocess.CalledProcessError as e:
+        error_msg = f"Failed: {e.stderr if e.stderr else str(e)}"
+        logger.error(f"{schema_file.name}: {error_msg}")
+        return False, error_msg
+
+
+def generate_init_file(output_dir: Path, generated_files: list[str]) -> None:
     """Generate __init__.py with exports.
 
     Args:
         output_dir: Output directory path
-        schema_to_model: Dictionary mapping schema names to model class names
+        generated_files: List of generated Python file names
     """
     init_file = output_dir / "__init__.py"
 
-    # Create imports and exports
+    # Extract model names (use 'Model' which is the top-level class)
     imports = []
     exports = []
 
-    for schema_name, model_name in sorted(schema_to_model.items()):
-        imports.append(f"from .{schema_name} import {model_name}")
-        exports.append(f'    "{model_name}",')
+    for file_name in sorted(generated_files):
+        module_name = file_name.replace(".py", "")
+        # Import the Model class from each module
+        imports.append(f"from .{module_name} import Model as {module_name.title().replace('_', '')}")
+        exports.append(f'    "{module_name.title().replace("_", "")}",')
 
     # Create init file content
     content = '''"""Generated Pydantic types from TIDAS schemas."""
@@ -200,43 +214,104 @@ def main() -> int:
     args = parse_args()
     setup_logging(args.verbose)
 
+    # Find schema directory
+    try:
+        schema_dir = find_schema_dir(args.schema_dir)
+        logger.info(f"Schema directory: {schema_dir}")
+    except FileNotFoundError as e:
+        logger.error(str(e))
+        return 1
+
     # Create output directory
     output_dir = Path(args.output_dir)
     output_dir.mkdir(parents=True, exist_ok=True)
     logger.info(f"Output directory: {output_dir}")
 
-    # Initialize parser
-    try:
-        parser = SchemaParser(args.schema_dir)
-        parser.load_all_schemas()
-        logger.info(f"Loaded {len(parser.schemas)} schemas")
-    except FileNotFoundError as e:
-        logger.error(str(e))
+    # Find all schema files
+    all_schema_files = sorted(schema_dir.glob("tidas_*.json"))
+    if not all_schema_files:
+        logger.error(f"No schema files found in {schema_dir}")
         return 1
 
-    # Initialize generator
-    generator = CodeGenerator()
+    # Skip category files (will be generated by separate clean generator)
+    # Also skip data_types (manually maintained for better multi-lang support)
+    skip_patterns = ['_category.json', 'data_types.json']
+    schema_files = [
+        f for f in all_schema_files
+        if not any(pattern in f.name for pattern in skip_patterns)
+    ]
+
+    logger.info(f"Found {len(all_schema_files)} schemas total")
+    logger.info(f"Skipping {len(all_schema_files) - len(schema_files)} category/base schemas (manually created)")
+    logger.info(f"Will generate {len(schema_files)} entity schemas")
 
     # Generate all schemas
     logger.info("Starting code generation...")
     start_time = time.perf_counter()
 
-    stats = generate_all_schemas(parser, generator, output_dir, args.force)
+    stats = {
+        "generated": 0,
+        "skipped": 0,
+        "errors": 0,
+        "files": [],
+    }
+
+    for schema_file in schema_files:
+        success, error = generate_schema(schema_file, output_dir, args.force)
+
+        if success:
+            logger.info(f"✅ Generated {schema_file.name}")
+            stats["generated"] += 1
+            stats["files"].append(schema_file.name.replace(".json", ".py"))
+        elif error.startswith("File exists"):
+            logger.warning(f"⏭️  Skipped {schema_file.name}: {error}")
+            stats["skipped"] += 1
+        else:
+            stats["errors"] += 1
 
     duration = time.perf_counter() - start_time
 
     # Generate __init__.py
     if stats["generated"] > 0:
-        generate_init_file(output_dir, stats["schema_to_model"])
+        generate_init_file(output_dir, stats["files"])
 
     # Print summary
     print_summary(stats, duration)
 
-    # Return exit code
-    if stats["errors"] > 0:
-        return 1
+    # Generate clean category files (Issue 2 fix)
+    print("\n" + "=" * 60)
+    print("GENERATING CLEAN CATEGORY FILES")
+    print("=" * 60)
+    category_script = Path(__file__).parent / "generate_category_types.py"
+    if category_script.exists():
+        result = subprocess.run(
+            [sys.executable, str(category_script)],
+            capture_output=False,
+            check=False
+        )
+        if result.returncode != 0:
+            print("⚠️  Category generation had warnings/errors")
     else:
-        return 0
+        print("⚠️  Category generator script not found")
+
+    # Generate typed wrappers (Feature 004)
+    print("\n" + "=" * 60)
+    print("GENERATING TYPED WRAPPERS")
+    print("=" * 60)
+    wrapper_script = Path(__file__).parent / "generate_wrappers.py"
+    if wrapper_script.exists():
+        result = subprocess.run(
+            [sys.executable, str(wrapper_script)],
+            capture_output=False,
+            check=False
+        )
+        if result.returncode != 0:
+            print("⚠️  Wrapper generation had warnings/errors")
+    else:
+        print("⚠️  Wrapper generator script not found")
+
+    # Return exit code
+    return 1 if stats["errors"] > 0 else 0
 
 
 if __name__ == "__main__":

@@ -236,7 +236,7 @@ pyright src/tidas_sdk
 **Implementation Approach**:
 1. Created `scripts/generate_wrappers.py` that parses JSON schemas directly
 2. Generates wrapper classes alongside Pydantic models
-3. Integrated into `generate_types_v2.py` pipeline
+3. Integrated into `generate_types.py` pipeline
 4. Handles special cases:
    - Python keywords (e.g., `class` → `class_`)
    - Complex naming (e.g., `WWWAddress` → `www_address`)

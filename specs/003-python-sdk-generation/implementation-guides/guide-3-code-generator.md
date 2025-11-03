@@ -484,7 +484,7 @@ Instead of implementing a custom AST-based code generator, this functionality is
 - ✅ Modern Python 3.12 syntax (e.g., `str | None` instead of `Optional[str]`)
 
 **Generation Scripts**:
-- Main script: `/Users/biao/Code/tidas-sdk/sdks/python/scripts/generate_types_v2.py`
+- Main script: `/Users/biao/Code/tidas-sdk/sdks/python/scripts/generate_types.py`
 - Uses `datamodel-codegen` command-line tool
 - Generation time: <0.1 seconds for all 18 schemas
 

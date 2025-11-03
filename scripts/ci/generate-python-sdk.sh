@@ -123,7 +123,7 @@ generate_sdk() {
     fi
 
     # 检查生成脚本是否存在
-    local gen_script="scripts/generate_types_v2.py"
+    local gen_script="scripts/generate_types.py"
     if [ ! -f "$gen_script" ]; then
         log_error "Generation script not found: $gen_script"
         exit 1

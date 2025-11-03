@@ -82,7 +82,7 @@ All core generation and entity wrappers complete. Factory functions remain:
 - All files can be imported and instantiated
 
 **Location**: `/Users/biao/Code/tidas-sdk/sdks/python/src/tidas_sdk/types/`
-**Generation Script**: `/Users/biao/Code/tidas-sdk/sdks/python/scripts/generate_types_v2.py`
+**Generation Script**: `/Users/biao/Code/tidas-sdk/sdks/python/scripts/generate_types.py`
 
 #### ✅ Script Enhancements (Tasks T085-T087 - 3 tasks)
 - CLI with --schema-dir, --output-dir, --force, --verbose

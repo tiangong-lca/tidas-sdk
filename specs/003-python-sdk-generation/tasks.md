@@ -130,7 +130,7 @@ This document provides a detailed, dependency-ordered task breakdown for impleme
 
 ### Code Generation Engine
 
-- [X] T043 [US3] Implement generate_types.py main script orchestrating generation in sdks/python/scripts/generate_types.py (Replaced with generate_types_v2.py using datamodel-code-generator)
+- [X] T043 [US3] Implement generate_types.py main script orchestrating generation in sdks/python/scripts/generate_types.py (Replaced with generate_types.py using datamodel-code-generator)
 - [X] T044 [US3] Add JSON schema to Python type mapping (string→str, integer→int, object→BaseModel, etc.) in sdks/python/scripts/type_mapper.py
 - [X] T045 [US3] Implement AST node generation for Pydantic Field() with constraints (max_length, pattern, etc.) in sdks/python/scripts/code_generator.py
 - [X] T046 [US3] Add black formatting to generated code in sdks/python/scripts/code_generator.py
