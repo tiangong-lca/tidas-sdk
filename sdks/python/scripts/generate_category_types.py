@@ -23,7 +23,7 @@ class CategoryGenerator:
 
     def load_schema(self) -> Dict[str, Any]:
         """Load JSON schema."""
-        with open(self.schema_path, encoding='utf-8') as f:
+        with open(self.schema_path, encoding="utf-8") as f:
             return json.load(f)
 
     def extract_categories(self) -> List[Dict[str, str]]:
@@ -31,56 +31,72 @@ class CategoryGenerator:
         categories = []
 
         # Navigate to category definitions (usually in oneOf within $defs)
-        if '$defs' in self.schema:
-            for def_name, def_schema in self.schema['$defs'].items():
-                if 'oneOf' in def_schema:
-                    for option in def_schema['oneOf']:
+        if "$defs" in self.schema:
+            for def_name, def_schema in self.schema["$defs"].items():
+                if "oneOf" in def_schema:
+                    for option in def_schema["oneOf"]:
                         category = self.extract_category_from_option(option)
                         if category:
                             categories.append(category)
 
         # Also check top-level oneOf
-        if 'oneOf' in self.schema:
-            for option in self.schema['oneOf']:
+        if "oneOf" in self.schema:
+            for option in self.schema["oneOf"]:
                 category = self.extract_category_from_option(option)
                 if category:
                     categories.append(category)
 
         return categories
 
-    def extract_category_from_option(self, option: Dict[str, Any]) -> Dict[str, str] | None:
-        """Extract category info from a oneOf option."""
-        if 'properties' not in option:
-            return None
+    def extract_category_from_option(
+        self, option: Dict[str, Any]
+    ) -> Dict[str, str] | None:
+        """Extract category info from a oneOf option.
 
-        props = option['properties']
+        Supports two formats:
+        1. Standard format with properties: {properties: {@level, @classId, #text}}
+        2. Simple const format: {const: "...", description: "..."}
+        """
         result = {}
 
+        # Handle simple const + description format (e.g., tidas_locations_category.json)
+        if "const" in option and "description" in option:
+            result["level"] = "0"  # Locations don't have hierarchy levels
+            result["classId"] = str(option["const"])
+            result["text"] = str(option["description"])
+            return result
+
+        # Handle standard properties format
+        if "properties" not in option:
+            return None
+
+        props = option["properties"]
+
         # Extract @level
-        if '@level' in props:
-            if 'const' in props['@level']:
-                result['level'] = props['@level']['const']
-            elif 'enum' in props['@level'] and props['@level']['enum']:
-                result['level'] = props['@level']['enum'][0]
+        if "@level" in props:
+            if "const" in props["@level"]:
+                result["level"] = props["@level"]["const"]
+            elif "enum" in props["@level"] and props["@level"]["enum"]:
+                result["level"] = props["@level"]["enum"][0]
 
         # Extract @classId or @catId
-        for key in ['@classId', '@catId']:
+        for key in ["@classId", "@catId"]:
             if key in props:
-                if 'const' in props[key]:
-                    result['classId'] = props[key]['const']
-                elif 'enum' in props[key] and props[key]['enum']:
-                    result['classId'] = props[key]['enum'][0]
+                if "const" in props[key]:
+                    result["classId"] = props[key]["const"]
+                elif "enum" in props[key] and props[key]["enum"]:
+                    result["classId"] = props[key]["enum"][0]
                 break
 
         # Extract #text
-        if '#text' in props:
-            if 'const' in props['#text']:
-                result['text'] = props['#text']['const']
-            elif 'enum' in props['#text'] and props['#text']['enum']:
-                result['text'] = props['#text']['enum'][0]
+        if "#text" in props:
+            if "const" in props["#text"]:
+                result["text"] = props["#text"]["const"]
+            elif "enum" in props["#text"] and props["#text"]["enum"]:
+                result["text"] = props["#text"]["enum"][0]
 
         # Only return if we have all required fields
-        if 'level' in result and 'classId' in result and 'text' in result:
+        if "level" in result and "classId" in result and "text" in result:
             return result
 
         return None
@@ -90,11 +106,11 @@ class CategoryGenerator:
         # e.g., tidas_contacts_category.json -> Contact
         # e.g., tidas_flows_elementary_category.json -> FlowElementary
         name = self.schema_path.stem
-        name = name.replace('tidas_', '').replace('_category', '')
+        name = name.replace("tidas_", "").replace("_category", "")
 
         # Convert snake_case to PascalCase
-        parts = name.split('_')
-        return ''.join(word.capitalize() for word in parts)
+        parts = name.split("_")
+        return "".join(word.capitalize() for word in parts)
 
     def get_variable_name(self) -> str:
         """Get variable name from type name."""
@@ -102,14 +118,15 @@ class CategoryGenerator:
         # e.g., FlowElementary -> FLOW_ELEMENTARY
         # Insert underscore before capital letters and convert to uppercase
         import re
-        name = re.sub('([a-z0-9])([A-Z])', r'\1_\2', type_name)
+
+        name = re.sub("([a-z0-9])([A-Z])", r"\1_\2", type_name)
         return name.upper()
 
     def get_max_level(self) -> int:
         """Get maximum level value."""
         if not self.categories:
             return 0
-        levels = [int(cat['level']) for cat in self.categories]
+        levels = [int(cat["level"]) for cat in self.categories]
         return max(levels)
 
     def generate(self) -> str:
@@ -120,38 +137,38 @@ class CategoryGenerator:
 
         lines = [
             '"""',
-            f'{type_name} classification categories.',
-            '',
-            'Clean implementation using Literal types (matches TypeScript SDK pattern).',
-            'DO NOT auto-generate - regenerate using generate_category_types.py',
+            f"{type_name} classification categories.",
+            "",
+            "Clean implementation using Literal types (matches TypeScript SDK pattern).",
+            "DO NOT auto-generate - regenerate using generate_category_types.py",
             '"""',
-            '',
-            'from typing import Literal, TypedDict',
-            '',
-            '',
-            f'class {type_name}CategoryData(TypedDict):',
+            "",
+            "from typing import Literal, TypedDict",
+            "",
+            "",
+            f"class {type_name}CategoryData(TypedDict):",
             f'    """{type_name} category metadata."""',
-            '',
+            "",
             f"    level: Literal[{', '.join(repr(str(i)) for i in range(max_level + 1))}]",
-            '    classId: str',
-            '    text: str',
-            '',
-            '',
-            f'# Type-safe union of all {type_name.lower()} category IDs',
-            f'{type_name} = Literal[',
+            "    classId: str",
+            "    text: str",
+            "",
+            "",
+            f"# Type-safe union of all {type_name.lower()} category IDs",
+            f"{type_name} = Literal[",
         ]
 
         # Add category IDs with comments
         for cat in self.categories:
-            class_id = cat['classId']
-            text = cat['text']
+            class_id = cat["classId"]
+            text = cat["text"]
             lines.append(f"    '{class_id}',  # {text}")
 
-        lines.append(']')
-        lines.append('')
-        lines.append('')
-        lines.append('# Runtime metadata for lookups')
-        lines.append(f'{var_name}_CATEGORIES: dict[str, {type_name}CategoryData] = {{')
+        lines.append("]")
+        lines.append("")
+        lines.append("")
+        lines.append("# Runtime metadata for lookups")
+        lines.append(f"{var_name}_CATEGORIES: dict[str, {type_name}CategoryData] = {{")
 
         # Add runtime metadata
         for cat in self.categories:
@@ -159,17 +176,19 @@ class CategoryGenerator:
             lines.append(f"        'level': '{cat['level']}',")
             lines.append(f"        'classId': '{cat['classId']}',")
             # Escape single quotes in text
-            text = cat['text'].replace("'", "\\'")
+            text = cat["text"].replace("'", "\\'")
             lines.append(f"        'text': '{text}',")
-            lines.append('    },')
+            lines.append("    },")
 
-        lines.append('}')
-        lines.append('')
-        lines.append('')
-        lines.append(f"__all__ = ['{type_name}', '{type_name}CategoryData', '{var_name}_CATEGORIES']")
-        lines.append('')
+        lines.append("}")
+        lines.append("")
+        lines.append("")
+        lines.append(
+            f"__all__ = ['{type_name}', '{type_name}CategoryData', '{var_name}_CATEGORIES']"
+        )
+        lines.append("")
 
-        return '\n'.join(lines)
+        return "\n".join(lines)
 
     def save(self) -> None:
         """Generate and save category file."""
@@ -178,7 +197,7 @@ class CategoryGenerator:
             return
 
         content = self.generate()
-        self.output_path.write_text(content, encoding='utf-8')
+        self.output_path.write_text(content, encoding="utf-8")
         print(f"✓ Generated {self.output_path.name}")
         print(f"  - Type: {self.get_type_name()}")
         print(f"  - Categories: {len(self.categories)}")
@@ -190,7 +209,7 @@ def main():
     # Find tidas-tools directory
     tidas_tools_schemas = None
     for parent in [script_dir.parent.parent.parent, script_dir.parent.parent]:
-        candidate = parent / 'tidas-tools' / 'src' / 'tidas_tools' / 'tidas' / 'schemas'
+        candidate = parent / "tidas-tools" / "src" / "tidas_tools" / "tidas" / "schemas"
         if candidate.exists():
             tidas_tools_schemas = candidate
             break
@@ -199,18 +218,18 @@ def main():
         print("❌ Could not find tidas-tools schemas directory")
         return 1
 
-    output_dir = script_dir.parent / 'src' / 'tidas_sdk' / 'types'
+    output_dir = script_dir.parent / "src" / "tidas_sdk" / "types"
 
     category_files = [
-        'tidas_contacts_category.json',
-        'tidas_flows_elementary_category.json',
-        'tidas_flows_product_category.json',
-        'tidas_processes_category.json',
-        'tidas_flowproperties_category.json',
-        'tidas_lciamethods_category.json',
-        'tidas_locations_category.json',
-        'tidas_sources_category.json',
-        'tidas_unitgroups_category.json',
+        "tidas_contacts_category.json",
+        "tidas_flows_elementary_category.json",
+        "tidas_flows_product_category.json",
+        "tidas_processes_category.json",
+        "tidas_flowproperties_category.json",
+        "tidas_lciamethods_category.json",
+        "tidas_locations_category.json",
+        "tidas_sources_category.json",
+        "tidas_unitgroups_category.json",
     ]
 
     print("=" * 60)
@@ -225,7 +244,7 @@ def main():
 
     for filename in category_files:
         schema_path = tidas_tools_schemas / filename
-        output_path = output_dir / filename.replace('.json', '.py')
+        output_path = output_dir / filename.replace(".json", ".py")
 
         if schema_path.exists():
             try:
@@ -236,6 +255,7 @@ def main():
             except Exception as e:
                 print(f"✗ Error generating {filename}: {e}")
                 import traceback
+
                 traceback.print_exc()
                 error_count += 1
                 print()
@@ -254,5 +274,5 @@ def main():
     return 0 if error_count == 0 else 1
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     sys.exit(main())
