@@ -117,5 +117,4 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for development guidelines.
 ## Links
 
 - Homepage: https://github.com/tiangong-lca/tidas-sdk
-- Documentation: https://tidas-sdk.readthedocs.io
 - Issues: https://github.com/tiangong-lca/tidas-sdk/issues

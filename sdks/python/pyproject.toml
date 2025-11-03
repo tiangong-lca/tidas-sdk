@@ -21,11 +21,11 @@ dev = [
     "ruff>=0.1.0",
     "black>=23.0",
     "pydocstyle>=6.0",
+    "datamodel-code-generator>=0.25.0",  # For generating Pydantic models from JSON schemas
 ]
 
 [project.urls]
 Homepage = "https://github.com/tiangong-lca/tidas-sdk"
-Documentation = "https://tidas-sdk.readthedocs.io"
 Repository = "https://github.com/tiangong-lca/tidas-sdk"
 
 [build-system]
