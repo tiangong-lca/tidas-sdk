@@ -294,6 +294,22 @@ def main() -> int:
     else:
         print("⚠️  Category generator script not found")
 
+    # Generate typed wrappers (Feature 004)
+    print("\n" + "=" * 60)
+    print("GENERATING TYPED WRAPPERS")
+    print("=" * 60)
+    wrapper_script = Path(__file__).parent / "generate_wrappers.py"
+    if wrapper_script.exists():
+        result = subprocess.run(
+            [sys.executable, str(wrapper_script)],
+            capture_output=False,
+            check=False
+        )
+        if result.returncode != 0:
+            print("⚠️  Wrapper generation had warnings/errors")
+    else:
+        print("⚠️  Wrapper generator script not found")
+
     # Return exit code
     return 1 if stats["errors"] > 0 else 0
 
