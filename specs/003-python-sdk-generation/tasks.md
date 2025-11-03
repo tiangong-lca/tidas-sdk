@@ -157,17 +157,17 @@ This document provides a detailed, dependency-ordered task breakdown for impleme
 - [X] T064 [P] [US3] Generate Pydantic model for tidas_locations_category.json in src/tidas_sdk/types/tidas_locations_category.py
 - [X] T065 [US3] Generate **init**.py exports for types module in src/tidas_sdk/types/**init**.py
 
-### Entity Wrapper Classes (All 8 Entities)
+### Entity Wrapper Classes (All 8 Entities) - ✅ COMPLETE
 
-- [X] T066 [P] [US3] Implement TidasContact wrapper class in src/tidas_sdk/models/contact.py
-- [X] T067 [P] [US3] Implement TidasFlow wrapper class in src/tidas_sdk/models/flow.py
-- [X] T068 [P] [US3] Implement TidasProcess wrapper class in src/tidas_sdk/models/process.py
-- [X] T069 [P] [US3] Implement TidasSource wrapper class in src/tidas_sdk/models/source.py
-- [X] T070 [P] [US3] Implement TidasFlowProperty wrapper class in src/tidas_sdk/models/flow_property.py
-- [X] T071 [P] [US3] Implement TidasUnitGroup wrapper class in src/tidas_sdk/models/unit_group.py
-- [X] T072 [P] [US3] Implement TidasLCIAMethod wrapper class in src/tidas_sdk/models/lcia_method.py
-- [X] T073 [P] [US3] Implement TidasLifeCycleModel wrapper class in src/tidas_sdk/models/life_cycle_model.py
-- [X] T074 [US3] Update models/__init__.py with all entity class exports in src/tidas_sdk/models/__init__.py
+- [X] T066 [P] [US3] Implement TidasContact wrapper class in src/tidas_sdk/models/contact.py ✅
+- [X] T067 [P] [US3] Implement TidasFlow wrapper class in src/tidas_sdk/models/flow.py ✅
+- [X] T068 [P] [US3] Implement TidasProcess wrapper class in src/tidas_sdk/models/process.py ✅
+- [X] T069 [P] [US3] Implement TidasSource wrapper class in src/tidas_sdk/models/source.py ✅
+- [X] T070 [P] [US3] Implement TidasFlowProperty wrapper class in src/tidas_sdk/models/flow_property.py ✅
+- [X] T071 [P] [US3] Implement TidasUnitGroup wrapper class in src/tidas_sdk/models/unit_group.py ✅
+- [X] T072 [P] [US3] Implement TidasLCIAMethod wrapper class in src/tidas_sdk/models/lcia_method.py ✅
+- [X] T073 [P] [US3] Implement TidasLifeCycleModel wrapper class in src/tidas_sdk/models/life_cycle_model.py ✅
+- [X] T074 [US3] Update models/__init__.py with all entity class exports in src/tidas_sdk/models/__init__.py ✅
 
 ### Factory Functions (All 8 Entities + Batch)
 
@@ -190,16 +190,16 @@ This document provides a detailed, dependency-ordered task breakdown for impleme
 
 ### Verification & Integration
 
-- [ ] T088 [US3] Export all factory functions from main **init**.py in src/tidas_sdk/**init**.py
-- [ ] T089 [US3] Run mypy on all generated code and verify strict mode passes
+- [ ] T088 [US3] Export all factory functions from main __init__.py in src/tidas_sdk/__init__.py
+- [X] T089 [US3] Run mypy on all generated code and verify strict mode passes ✅
 - [ ] T090 [US3] Run pylint on generated code and verify score >9.0
-- [ ] T091 [US3] Verify generation script completes in <30 seconds for all 18 schemas
+- [X] T091 [US3] Verify generation script completes in <30 seconds for all 18 schemas ✅
 
 **Story Completion Criteria**:
 - ✅ All 18 JSON schemas generate valid Python code
 - ✅ Generated code passes mypy strict type checking
-- ✅ Generated code passes pylint with score >9.0
-- ✅ All 8 entity types have working factory functions
+- ⏳ Generated code passes pylint with score >9.0 (pending)
+- ⏳ All 8 entity types have working factory functions (pending)
 - ✅ Generation completes in <30 seconds
 - ✅ Running `uv run scripts/generate_types.py` succeeds without errors
 
