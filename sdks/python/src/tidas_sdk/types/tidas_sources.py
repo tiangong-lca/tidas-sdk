@@ -7,12 +7,43 @@ from enum import Enum
 from typing import Literal
 
 from pydantic import AnyUrl, AwareDatetime, BaseModel, Field, RootModel
+from tidas_sdk.types.tidas_sources_category import (
+    Sources,
+    TidasSourcesText
+)
+
+from tidas_sdk.types.tidas_data_types import (
+    CASNumber,
+    FT,
+    FTMultiLang,
+    GIS,
+    GlobalReferenceType,
+    GlobalReferenceTypeOrArray,
+    Int1,
+    Int5,
+    Int6,
+    LevelType,
+    MatR,
+    MatV,
+    MultiLangItem,
+    MultiLangItemST,
+    MultiLangItemString,
+    Perc,
+    Real,
+    ST,
+    STMultiLang,
+    String,
+    StringMultiLang,
+    UUID,
+    Year
+)
+
 
 
 class CommonClass(BaseModel):
     field_level: Literal['0'] = Field(..., alias='@level')
-    field_classId: str = Field(..., alias='@classId')
-    text: str = Field(..., alias='#text')
+    field_classId: Sources = Field(..., alias='@classId')
+    text: TidasSourcesText = Field(..., alias='#text')
 
 
 class CommonClassification(BaseModel):
@@ -55,88 +86,24 @@ class ReferenceToDigitalFile(BaseModel):
     field_uri: AnyUrl | None = Field(None, alias='@uri')
 
 
-class CASNumber(RootModel[str]):
-    root: str = Field(
-        ...,
-        description='CAS Number, leading zeros are requried.',
-        pattern='^[0-9]{2,7}-[0-9]{2}-[0-9]$',
-    )
-
-
-class FT(RootModel[str]):
-    root: str = Field(..., description='Free text with an unlimited length.')
-
-
-class StringMultiLang1Item(BaseModel):
+class MultiLangItemString(BaseModel):
     field_xml_lang: str = Field(..., alias='@xml:lang')
     text: str = Field(..., alias='#text', max_length=500)
 
 
-class StringMultiLang1(RootModel[list[StringMultiLang1Item]]):
-    root: list[StringMultiLang1Item] = Field(
+class StringMultiLang(RootModel[list[MultiLangItemString]]):
+    root: list[MultiLangItemString] = Field(
         ..., description='Multi-language string with a maximum length of 500 characters'
     )
 
 
-class StringMultiLang2(BaseModel):
+class StringMultiLang(BaseModel):
     """
     Multi-language string with a maximum length of 500 characters
     """
 
     field_xml_lang: str = Field(..., alias='@xml:lang')
     text: str = Field(..., alias='#text', max_length=500)
-
-
-class Int5(RootModel[str]):
-    root: str = Field(
-        ..., description='5-digit integer number', pattern='^(0|[1-9]\\d{0,4})$'
-    )
-
-
-class Int6(RootModel[str]):
-    root: str = Field(
-        ..., description='6-digit integer number', pattern='^(0|[1-9]\\d{0,5})$'
-    )
-
-
-class LevelType(RootModel[str]):
-    root: str = Field(
-        ...,
-        description='1-digit integer number, must be equal to or greater than 0',
-        pattern='^[0-9]$',
-    )
-
-
-class Perc(RootModel[str]):
-    root: str = Field(
-        ...,
-        description='percentage amount',
-        pattern='^(100(\\.0{1,3})?|([0-9]|[1-9][0-9])(\\.\\d{1,3})?)$',
-    )
-
-
-class MatR(RootModel[str]):
-    root: str = Field(..., description='Mathematical rule')
-
-
-class MatV(RootModel[str]):
-    root: str = Field(..., description='Mathematical variable or parameter')
-
-
-class Real(RootModel[str]):
-    root: str = Field(
-        ...,
-        description='38-digit real number',
-        pattern='[+-]?(\\d+(\\.\\d*)?|\\.\\d+)([Ee][+-]?\\d+)?$',
-    )
-
-
-class ST(RootModel[str]):
-    root: str = Field(
-        ...,
-        description='Short text with a maximum length of 1000 characters',
-        max_length=1000,
-    )
 
 
 class String(RootModel[str]):
@@ -148,19 +115,19 @@ class String(RootModel[str]):
     )
 
 
-class STMultiLang1Item(BaseModel):
+class MultiLangItemST(BaseModel):
     field_xml_lang: str = Field(..., alias='@xml:lang')
     text: str = Field(..., alias='#text', max_length=1000)
 
 
-class STMultiLang1(RootModel[list[STMultiLang1Item]]):
-    root: list[STMultiLang1Item] = Field(
+class STMultiLang(RootModel[list[MultiLangItemST]]):
+    root: list[MultiLangItemST] = Field(
         ...,
         description='Multi-lang short text with a maximum length of 1000 characters.',
     )
 
 
-class STMultiLang2(BaseModel):
+class STMultiLang(BaseModel):
     """
     Multi-lang short text with a maximum length of 1000 characters.
     """
@@ -169,18 +136,18 @@ class STMultiLang2(BaseModel):
     text: str = Field(..., alias='#text', max_length=1000)
 
 
-class FTMultiLang1Item(BaseModel):
+class MultiLangItem(BaseModel):
     field_xml_lang: str = Field(..., alias='@xml:lang')
     text: str = Field(..., alias='#text')
 
 
-class FTMultiLang1(RootModel[list[FTMultiLang1Item]]):
-    root: list[FTMultiLang1Item] = Field(
+class FTMultiLang(RootModel[list[MultiLangItem]]):
+    root: list[MultiLangItem] = Field(
         ..., description='Multi-lang free text with an unlimited length.'
     )
 
 
-class FTMultiLang2(BaseModel):
+class FTMultiLang(BaseModel):
     """
     Multi-lang free text with an unlimited length.
     """
@@ -189,7 +156,7 @@ class FTMultiLang2(BaseModel):
     text: str = Field(..., alias='#text')
 
 
-class GlobalReferenceType1(BaseModel):
+class GlobalReferenceType(BaseModel):
     """
     Represents a reference to another dataset or file. Either refObjectId and version, or uri, or both have to be specified.
     """
@@ -202,7 +169,7 @@ class GlobalReferenceType1(BaseModel):
     )
     field_version: str = Field(..., alias='@version')
     field_uri: str = Field(..., alias='@uri')
-    common_shortDescription: STMultiLang1 | STMultiLang2 = Field(
+    common_shortDescription: STMultiLang | STMultiLang = Field(
         ...,
         alias='common:shortDescription',
         description='Multi-lang short text with a maximum length of 1000 characters.',
@@ -210,7 +177,7 @@ class GlobalReferenceType1(BaseModel):
     )
 
 
-class GlobalReferenceTypeItem(BaseModel):
+class GlobalReferenceType(BaseModel):
     field_type: str = Field(..., alias='@type')
     field_refObjectId: str = Field(
         ...,
@@ -219,7 +186,7 @@ class GlobalReferenceTypeItem(BaseModel):
     )
     field_version: str = Field(..., alias='@version')
     field_uri: str = Field(..., alias='@uri')
-    common_shortDescription: STMultiLang1 | STMultiLang2 = Field(
+    common_shortDescription: STMultiLang | STMultiLang = Field(
         ...,
         alias='common:shortDescription',
         description='Multi-lang short text with a maximum length of 1000 characters.',
@@ -246,7 +213,7 @@ class DataSetInformation(BaseModel):
         description='Automatically generated Universally Unique Identifier of this data set. Together with the "Data set version", the UUID uniquely identifies each data set.',
         pattern='^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$',
     )
-    common_shortName: StringMultiLang1 | StringMultiLang2 = Field(
+    common_shortName: StringMultiLang | StringMultiLang = Field(
         ...,
         alias='common:shortName',
         description='Short name for the "Source citation", i.e. for the bibliographical reference or reference to internal data sources used.',
@@ -263,7 +230,7 @@ class DataSetInformation(BaseModel):
     publicationType: PublicationType | None = Field(
         None, description='Bibliographic publication type of the source.'
     )
-    sourceDescriptionOrComment: FTMultiLang1 | FTMultiLang2 | None = Field(
+    sourceDescriptionOrComment: FTMultiLang | FTMultiLang | None = Field(
         None,
         description='Free text for additional description of the source. In case of use of published data it may contain a brief summary of the publication and the kind of medium used (e.g. CD-ROM, hard copy).',
         union_mode='smart',
@@ -272,14 +239,14 @@ class DataSetInformation(BaseModel):
         None,
         description='Link to a digital file of the source (www-address or intranet-path; relative or absolue path). (Info: Allows direct access to e.g. complete reports of further documentation, which may also be digitally attached to this data set and exchanged jointly with the XML file.)',
     )
-    referenceToContact: GlobalReferenceType1 | list[GlobalReferenceTypeItem] | None = (
+    referenceToContact: GlobalReferenceType | list[GlobalReferenceType] | None = (
         Field(
             None,
             description='"Contact data set"s of working groups, organisations or database networks to which EITHER this person or entity OR this database, data set format, or compliance system belongs. [Note: This does not necessarily imply a legally binding relationship, but may also be a voluntary membership.]',
             union_mode='smart',
         )
     )
-    referenceToLogo: GlobalReferenceType1 | list[GlobalReferenceTypeItem] | None = (
+    referenceToLogo: GlobalReferenceType | list[GlobalReferenceType] | None = (
         Field(
             None,
             description='"Source data set" of the logo of the organisation or source to be used in reports etc.',
@@ -301,7 +268,7 @@ class DataEntryBy(BaseModel):
         description="Date and time stamp of data set generation, typically an automated entry ('last saved').",
     )
     common_referenceToDataSetFormat: (
-        GlobalReferenceType1 | list[GlobalReferenceTypeItem]
+        GlobalReferenceType | list[GlobalReferenceType]
     ) = Field(
         ...,
         alias='common:referenceToDataSetFormat',
@@ -322,7 +289,7 @@ class PublicationAndOwnership(BaseModel):
         description='Version number of data set. First two digits refer to major updates, the second two digits to minor revisions and error corrections etc. The third three digits are intended for automatic and internal counting of versions during data set development. Together with the data set\'s UUID, the "Data set version" uniquely identifies each data set.',
     )
     common_referenceToPrecedingDataSetVersion: (
-        GlobalReferenceType1 | list[GlobalReferenceTypeItem] | None
+        GlobalReferenceType | list[GlobalReferenceType] | None
     ) = Field(
         None,
         alias='common:referenceToPrecedingDataSetVersion',
@@ -335,7 +302,7 @@ class PublicationAndOwnership(BaseModel):
         description="URI (i.e. an internet address) of the original of this data set. [Note: This equally globally unique identifier supports users and software tools to identify and retrieve the original version of a data set via the internet or to check for available updates. The URI must not represent an existing WWW address, but it should be unique and point to the data access point, e.g. by combining the data owner's www path with the data set's UUID, e.g. http://www.mycompany.com/lca/processes/50f12420-8855-12db-b606-0900210c9a66.]",
     )
     common_referenceToOwnershipOfDataSet: (
-        GlobalReferenceType1 | list[GlobalReferenceTypeItem]
+        GlobalReferenceType | list[GlobalReferenceType]
     ) = Field(
         ...,
         alias='common:referenceToOwnershipOfDataSet',

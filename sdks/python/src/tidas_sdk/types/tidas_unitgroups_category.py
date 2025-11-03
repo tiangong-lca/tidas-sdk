@@ -25,6 +25,15 @@ Unitgroups = Literal[
 ]
 
 
+# Type-safe union of all unitgroups category text values
+TidasUnitgroupsText = Literal[
+    'Chemical composition unit groups',
+    'Economic unit groups',
+    'Other unit groups',
+    'Technical unit groups',
+]
+
+
 # Runtime metadata for lookups
 UNITGROUPS_CATEGORIES: dict[str, UnitgroupsCategoryData] = {
     '1': {
@@ -50,4 +59,4 @@ UNITGROUPS_CATEGORIES: dict[str, UnitgroupsCategoryData] = {
 }
 
 
-__all__ = ['Unitgroups', 'UnitgroupsCategoryData', 'UNITGROUPS_CATEGORIES']
+__all__ = ['Unitgroups', 'TidasUnitgroupsText', 'UnitgroupsCategoryData', 'UNITGROUPS_CATEGORIES']

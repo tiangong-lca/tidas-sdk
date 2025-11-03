@@ -28,6 +28,18 @@ Sources = Literal[
 ]
 
 
+# Type-safe union of all sources category text values
+TidasSourcesText = Literal[
+    'Compliance systems',
+    'Data set formats',
+    'Databases',
+    'Images',
+    'Other source types',
+    'Publications and communications',
+    'Statistical classifications',
+]
+
+
 # Runtime metadata for lookups
 SOURCES_CATEGORIES: dict[str, SourcesCategoryData] = {
     '0': {
@@ -68,4 +80,4 @@ SOURCES_CATEGORIES: dict[str, SourcesCategoryData] = {
 }
 
 
-__all__ = ['Sources', 'SourcesCategoryData', 'SOURCES_CATEGORIES']
+__all__ = ['Sources', 'TidasSourcesText', 'SourcesCategoryData', 'SOURCES_CATEGORIES']
