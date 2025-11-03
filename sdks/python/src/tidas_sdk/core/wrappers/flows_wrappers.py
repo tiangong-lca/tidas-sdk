@@ -11,135 +11,20 @@ from tidas_sdk.core.typed_access import BaseWrapper, MultiLangText
 
 
 
-class FlowPropertyWrapper(BaseWrapper):
-    """Auto-generated wrapper for FlowPropertyWrapper."""
-
-    __slots__ = ()
-
-    @property
-    def data_set_internal_id(self) -> str:
-        """Automated entry: internal ID, used in the "Quantitative reference" section to identify the reference flow property."""
-        return self._data.get("@dataSetInternalID")
-
-    @data_set_internal_id.setter
-    def data_set_internal_id(self, value: str) -> None:
-        """Set @dataSetInternalID."""
-        self._data["@dataSetInternalID"] = value
-
-    @property
-    def reference_to_flow_property_data_set(self) -> str:
-        """Access referenceToFlowPropertyDataSet field"""
-        return self._data.get("referenceToFlowPropertyDataSet")
-
-    @reference_to_flow_property_data_set.setter
-    def reference_to_flow_property_data_set(self, value: str) -> None:
-        """Set referenceToFlowPropertyDataSet."""
-        self._data["referenceToFlowPropertyDataSet"] = value
-
-    @property
-    def mean_value(self) -> str:
-        """Value for the flow expressed in this flow property in relationship to the the value of the flow expressed in its reference flow property (see field "Reference to reference flow property" in the "Quantitative reference" section). [Notes and examples: If the product flow "Diesel" is expressed by default in "Mass" (= reference flow property) and "kg" (= corresponding reference unit), the value that would be stated here for an additional flow property e.g. "Net calorific value" would be "42.5", as this flow property has the reference unit "MJ" and Diesel has a net calorific value of 42.5 MJ per 1 kg. It is recommended to report only significant digits of the value.]"""
-        return self._data.get("meanValue")
-
-    @mean_value.setter
-    def mean_value(self, value: str) -> None:
-        """Set meanValue."""
-        self._data["meanValue"] = value
-
-    @property
-    def minimum_value(self) -> Optional[str]:
-        """Minimum value of this flow property in case uncertainty distribution is uniform or triangular."""
-        return self._data.get("minimumValue")
-
-    @minimum_value.setter
-    def minimum_value(self, value: Optional[str]) -> None:
-        """Set minimumValue."""
-        if value is None:
-            self._data.pop("minimumValue", None)
-        else:
-            self._data["minimumValue"] = value
-
-    @property
-    def maximum_value(self) -> Optional[str]:
-        """Maximum value of this flow property in case uncertainty distribution is uniform or triangular."""
-        return self._data.get("maximumValue")
-
-    @maximum_value.setter
-    def maximum_value(self, value: Optional[str]) -> None:
-        """Set maximumValue."""
-        if value is None:
-            self._data.pop("maximumValue", None)
-        else:
-            self._data["maximumValue"] = value
-
-    @property
-    def uncertainty_distribution_type(self) -> Optional[str]:
-        """Access uncertaintyDistributionType field"""
-        return self._data.get("uncertaintyDistributionType")
-
-    @uncertainty_distribution_type.setter
-    def uncertainty_distribution_type(self, value: Optional[str]) -> None:
-        """Set uncertaintyDistributionType."""
-        if value is None:
-            self._data.pop("uncertaintyDistributionType", None)
-        else:
-            self._data["uncertaintyDistributionType"] = value
-
-    @property
-    def relative_standard_deviation95_in(self) -> Optional[str]:
-        """The resulting overall uncertainty of the calculated variable value considering uncertainty of measurements, modelling, appropriateness etc. [Notes: For log-normal distribution the square of the geometric standard deviation (SDg^2) is stated. Mean value times SDg^2 equals the 97.5% value (= Maximum value), Mean value divided by SDg^2 equals the 2.5% value (= Minimum value). For normal distribution the doubled standard deviation value (2*SD) is entered. Mean value plus 2*SD equals 97.5% value (= Maximum value), Mean value minus 2*SD equals 2.5% value (= Minimum value). This data field remains empty when uniform or triangular uncertainty distribution is applied.]"""
-        return self._data.get("relativeStandardDeviation95In")
-
-    @relative_standard_deviation95_in.setter
-    def relative_standard_deviation95_in(self, value: Optional[str]) -> None:
-        """Set relativeStandardDeviation95In."""
-        if value is None:
-            self._data.pop("relativeStandardDeviation95In", None)
-        else:
-            self._data["relativeStandardDeviation95In"] = value
-
-    @property
-    def data_derivation_type_status(self) -> Optional[str]:
-        """Access dataDerivationTypeStatus field"""
-        return self._data.get("dataDerivationTypeStatus")
-
-    @data_derivation_type_status.setter
-    def data_derivation_type_status(self, value: Optional[str]) -> None:
-        """Set dataDerivationTypeStatus."""
-        if value is None:
-            self._data.pop("dataDerivationTypeStatus", None)
-        else:
-            self._data["dataDerivationTypeStatus"] = value
-
-    @property
-    def general_comment(self) -> MultiLangText:
-        """Access generalComment multi-language field"""
-        return self._get_multi_lang("generalComment")
-
-    @property
-    def other(self) -> Optional[str]:
-        """Access common:other field"""
-        return self._data.get("common:other")
-
-    @other.setter
-    def other(self, value: Optional[str]) -> None:
-        """Set common:other."""
-        if value is None:
-            self._data.pop("common:other", None)
-        else:
-            self._data["common:other"] = value
-
-
 class FlowPropertiesWrapper(BaseWrapper):
     """Auto-generated wrapper for FlowPropertiesWrapper."""
 
     __slots__ = ()
 
     @property
-    def flow_property(self) -> FlowPropertyWrapper:
-        """Access flowProperty nested object"""
-        self._ensure_field("flowProperty")
-        return FlowPropertyWrapper(self._entity, self._data["flowProperty"])
+    def flow_property(self) -> str:
+        """Access flowProperty field"""
+        return self._data.get("flowProperty")
+
+    @flow_property.setter
+    def flow_property(self, value: str) -> None:
+        """Set flowProperty."""
+        self._data["flowProperty"] = value
 
     @property
     def other(self) -> Optional[str]:
@@ -303,55 +188,20 @@ class AdministrativeInformationWrapper(BaseWrapper):
             self._data["common:other"] = value
 
 
-class ComplianceWrapper(BaseWrapper):
-    """Auto-generated wrapper for ComplianceWrapper."""
-
-    __slots__ = ()
-
-    @property
-    def reference_to_compliance_system(self) -> str:
-        """Access common:referenceToComplianceSystem field"""
-        return self._data.get("common:referenceToComplianceSystem")
-
-    @reference_to_compliance_system.setter
-    def reference_to_compliance_system(self, value: str) -> None:
-        """Set common:referenceToComplianceSystem."""
-        self._data["common:referenceToComplianceSystem"] = value
-
-    @property
-    def approval_of_overall_compliance(self) -> str:
-        """Access common:approvalOfOverallCompliance field"""
-        return self._data.get("common:approvalOfOverallCompliance")
-
-    @approval_of_overall_compliance.setter
-    def approval_of_overall_compliance(self, value: str) -> None:
-        """Set common:approvalOfOverallCompliance."""
-        self._data["common:approvalOfOverallCompliance"] = value
-
-    @property
-    def other(self) -> Optional[str]:
-        """Access common:other field"""
-        return self._data.get("common:other")
-
-    @other.setter
-    def other(self, value: Optional[str]) -> None:
-        """Set common:other."""
-        if value is None:
-            self._data.pop("common:other", None)
-        else:
-            self._data["common:other"] = value
-
-
 class ComplianceDeclarationsWrapper(BaseWrapper):
     """Auto-generated wrapper for ComplianceDeclarationsWrapper."""
 
     __slots__ = ()
 
     @property
-    def compliance(self) -> ComplianceWrapper:
-        """Access compliance nested object"""
-        self._ensure_field("compliance")
-        return ComplianceWrapper(self._entity, self._data["compliance"])
+    def compliance(self) -> str:
+        """One compliance declaration. Multiple declarations may be provided."""
+        return self._data.get("compliance")
+
+    @compliance.setter
+    def compliance(self, value: str) -> None:
+        """Set compliance."""
+        self._data["compliance"] = value
 
     @property
     def other(self) -> Optional[str]:

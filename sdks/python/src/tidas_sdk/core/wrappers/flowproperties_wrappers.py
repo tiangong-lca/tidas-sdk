@@ -148,42 +148,20 @@ class AdministrativeInformationWrapper(BaseWrapper):
             self._data["common:other"] = value
 
 
-class ComplianceWrapper(BaseWrapper):
-    """Auto-generated wrapper for ComplianceWrapper."""
-
-    __slots__ = ()
-
-    @property
-    def reference_to_compliance_system(self) -> str:
-        """"Source data set" of the "Compliance system" that is declared to be met by the data set."""
-        return self._data.get("common:referenceToComplianceSystem")
-
-    @reference_to_compliance_system.setter
-    def reference_to_compliance_system(self, value: str) -> None:
-        """Set common:referenceToComplianceSystem."""
-        self._data["common:referenceToComplianceSystem"] = value
-
-    @property
-    def approval_of_overall_compliance(self) -> str:
-        """Official approval whether or not and in how far the data set meets all the requirements of the "Compliance system" refered to. This approval should be issued/confirmed by the owner of that compliance system, who is identified via the respective "Contact data set"."""
-        return self._data.get("common:approvalOfOverallCompliance")
-
-    @approval_of_overall_compliance.setter
-    def approval_of_overall_compliance(self, value: str) -> None:
-        """Set common:approvalOfOverallCompliance."""
-        self._data["common:approvalOfOverallCompliance"] = value
-
-
 class ComplianceDeclarationsWrapper(BaseWrapper):
     """Auto-generated wrapper for ComplianceDeclarationsWrapper."""
 
     __slots__ = ()
 
     @property
-    def compliance(self) -> ComplianceWrapper:
-        """one compliance declaration"""
-        self._ensure_field("compliance")
-        return ComplianceWrapper(self._entity, self._data["compliance"])
+    def compliance(self) -> str:
+        """One compliance declaration. Multiple declarations may be provided."""
+        return self._data.get("compliance")
+
+    @compliance.setter
+    def compliance(self, value: str) -> None:
+        """Set compliance."""
+        self._data["compliance"] = value
 
     @property
     def other(self) -> Optional[str]:

@@ -186,7 +186,7 @@ class RecommendationByWrapper(BaseWrapper):
 
     @property
     def meaning(self) -> MultiLangText:
-        """Specific meaning of the declared recommendation level of this LCIA method / methodology and the characterisation factors, as defined in the guidance document referenced in in the field "Compliance system"."""
+        """Specific meaning of the declared recommendation level of this LCIA method / methodology and the characterisation factors, as defined in the guidance document referenced in in the field "Compliance system""""
         return self._get_multi_lang("meaning")
 
 
@@ -375,105 +375,20 @@ class AdministrativeInformationWrapper(BaseWrapper):
             self._data["common:other"] = value
 
 
-class ComplianceWrapper(BaseWrapper):
-    """Auto-generated wrapper for ComplianceWrapper."""
-
-    __slots__ = ()
-
-    @property
-    def reference_to_compliance_system(self) -> str:
-        """"Source data set" of the "Compliance system" that is declared to be met by the data set."""
-        return self._data.get("common:referenceToComplianceSystem")
-
-    @reference_to_compliance_system.setter
-    def reference_to_compliance_system(self, value: str) -> None:
-        """Set common:referenceToComplianceSystem."""
-        self._data["common:referenceToComplianceSystem"] = value
-
-    @property
-    def approval_of_overall_compliance(self) -> str:
-        """Official approval whether or not and in how far the data set meets all the requirements of the "Compliance system" refered to. This approval should be issued/confirmed by the owner of that compliance system, who is identified via the respective "Contact data set"."""
-        return self._data.get("common:approvalOfOverallCompliance")
-
-    @approval_of_overall_compliance.setter
-    def approval_of_overall_compliance(self, value: str) -> None:
-        """Set common:approvalOfOverallCompliance."""
-        self._data["common:approvalOfOverallCompliance"] = value
-
-    @property
-    def nomenclature_compliance(self) -> str:
-        """Nomenclature compliance of this data set with the respective requirements set by the "compliance system" refered to."""
-        return self._data.get("common:nomenclatureCompliance")
-
-    @nomenclature_compliance.setter
-    def nomenclature_compliance(self, value: str) -> None:
-        """Set common:nomenclatureCompliance."""
-        self._data["common:nomenclatureCompliance"] = value
-
-    @property
-    def methodological_compliance(self) -> str:
-        """Methodological compliance of this data set with the respective requirements set by the "compliance system" refered to."""
-        return self._data.get("common:methodologicalCompliance")
-
-    @methodological_compliance.setter
-    def methodological_compliance(self, value: str) -> None:
-        """Set common:methodologicalCompliance."""
-        self._data["common:methodologicalCompliance"] = value
-
-    @property
-    def review_compliance(self) -> str:
-        """Review/Verification compliance of this data set with the respective requirements set by the "compliance system" refered to."""
-        return self._data.get("common:reviewCompliance")
-
-    @review_compliance.setter
-    def review_compliance(self, value: str) -> None:
-        """Set common:reviewCompliance."""
-        self._data["common:reviewCompliance"] = value
-
-    @property
-    def documentation_compliance(self) -> str:
-        """Documentation/Reporting compliance of this data set with the respective requirements set by the "compliance system" refered to."""
-        return self._data.get("common:documentationCompliance")
-
-    @documentation_compliance.setter
-    def documentation_compliance(self, value: str) -> None:
-        """Set common:documentationCompliance."""
-        self._data["common:documentationCompliance"] = value
-
-    @property
-    def quality_compliance(self) -> str:
-        """Quality compliance of this data set with the respective requirements set by the "compliance system" refered to."""
-        return self._data.get("common:qualityCompliance")
-
-    @quality_compliance.setter
-    def quality_compliance(self, value: str) -> None:
-        """Set common:qualityCompliance."""
-        self._data["common:qualityCompliance"] = value
-
-    @property
-    def other(self) -> Optional[str]:
-        """Access common:other field"""
-        return self._data.get("common:other")
-
-    @other.setter
-    def other(self, value: Optional[str]) -> None:
-        """Set common:other."""
-        if value is None:
-            self._data.pop("common:other", None)
-        else:
-            self._data["common:other"] = value
-
-
 class ComplianceDeclarationsWrapper(BaseWrapper):
     """Auto-generated wrapper for ComplianceDeclarationsWrapper."""
 
     __slots__ = ()
 
     @property
-    def compliance(self) -> ComplianceWrapper:
-        """Access compliance nested object"""
-        self._ensure_field("compliance")
-        return ComplianceWrapper(self._entity, self._data["compliance"])
+    def compliance(self) -> str:
+        """One compliance declaration. Multiple declarations may be provided."""
+        return self._data.get("compliance")
+
+    @compliance.setter
+    def compliance(self, value: str) -> None:
+        """Set compliance."""
+        self._data["compliance"] = value
 
     @property
     def other(self) -> Optional[str]:
@@ -505,14 +420,17 @@ class ReviewWrapper(BaseWrapper):
         self._data["@type"] = value
 
     @property
-    def scope(self) -> str:
+    def scope(self) -> Optional[str]:
         """Scope of review regarding which aspects and components of the data set was reviewed or verified. In case of aggregated e.g. LCI results also and on which level of detail (e.g. LCI results only, included unit processes, ...) the review / verification was performed."""
-        return self._data.get("scope")
+        return self._data.get("common:scope")
 
     @scope.setter
-    def scope(self, value: str) -> None:
-        """Set scope."""
-        self._data["scope"] = value
+    def scope(self, value: Optional[str]) -> None:
+        """Set common:scope."""
+        if value is None:
+            self._data.pop("common:scope", None)
+        else:
+            self._data["common:scope"] = value
 
     @property
     def review_details(self) -> MultiLangText:
@@ -520,14 +438,17 @@ class ReviewWrapper(BaseWrapper):
         return self._get_multi_lang("common:reviewDetails")
 
     @property
-    def reference_to_name_of_reviewer_and_institution(self) -> str:
+    def reference_to_name_of_reviewer_and_institution(self) -> Optional[str]:
         """"Contact data set" of reviewer. The full name of reviewer(s) and institution(s) as well as a contact address and/or email should be provided in that contact data set."""
         return self._data.get("common:referenceToNameOfReviewerAndInstitution")
 
     @reference_to_name_of_reviewer_and_institution.setter
-    def reference_to_name_of_reviewer_and_institution(self, value: str) -> None:
+    def reference_to_name_of_reviewer_and_institution(self, value: Optional[str]) -> None:
         """Set common:referenceToNameOfReviewerAndInstitution."""
-        self._data["common:referenceToNameOfReviewerAndInstitution"] = value
+        if value is None:
+            self._data.pop("common:referenceToNameOfReviewerAndInstitution", None)
+        else:
+            self._data["common:referenceToNameOfReviewerAndInstitution"] = value
 
     @property
     def other_review_details(self) -> MultiLangText:
@@ -1082,7 +1003,7 @@ class DataSetInformationWrapper(BaseWrapper):
 
     @property
     def name(self) -> MultiLangText:
-        """Name of the data set. Composed as follows "LCIA methodology short name; Impact category/ies; midpoint/endpoint; Impact indicator; Source short name". Not applicable components are left out. Examples: "Impacts2007+; Climate change; midpoint; Global Warming Potential; IPCC 2001"; "ABC 2006; Acidification; endpoint; Species diversity loss; John Doe 2006"; "My-indicator2009; combined; endpoint; Ecopoints; various"."""
+        """Name of the data set. Composed as follows "LCIA methodology short name; Impact category/ies; midpoint/endpoint; Impact indicator; Source short name". Not applicable components are left out. Examples: "Impacts2007+; Climate change; midpoint; Global Warming Potential; IPCC 2001"; "ABC 2006; Acidification; endpoint; Species diversity loss; John Doe 2006"; "My-indicator2009; combined; endpoint; Ecopoints; various""""
         return self._get_multi_lang("common:name")
 
     @property

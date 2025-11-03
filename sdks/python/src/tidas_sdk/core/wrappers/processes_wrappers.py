@@ -492,105 +492,20 @@ class AdministrativeInformationWrapper(BaseWrapper):
             self._data["common:other"] = value
 
 
-class ComplianceWrapper(BaseWrapper):
-    """Auto-generated wrapper for ComplianceWrapper."""
-
-    __slots__ = ()
-
-    @property
-    def reference_to_compliance_system(self) -> str:
-        """"Source data set" of the "Compliance system" that is declared to be met by the data set."""
-        return self._data.get("common:referenceToComplianceSystem")
-
-    @reference_to_compliance_system.setter
-    def reference_to_compliance_system(self, value: str) -> None:
-        """Set common:referenceToComplianceSystem."""
-        self._data["common:referenceToComplianceSystem"] = value
-
-    @property
-    def approval_of_overall_compliance(self) -> str:
-        """Official approval whether or not and in how far the data set meets all the requirements of the "Compliance system" refered to. This approval should be issued/confirmed by the owner of that compliance system, who is identified via the respective "Contact data set"."""
-        return self._data.get("common:approvalOfOverallCompliance")
-
-    @approval_of_overall_compliance.setter
-    def approval_of_overall_compliance(self, value: str) -> None:
-        """Set common:approvalOfOverallCompliance."""
-        self._data["common:approvalOfOverallCompliance"] = value
-
-    @property
-    def nomenclature_compliance(self) -> str:
-        """Nomenclature compliance of this data set with the respective requirements set by the "compliance system" refered to."""
-        return self._data.get("common:nomenclatureCompliance")
-
-    @nomenclature_compliance.setter
-    def nomenclature_compliance(self, value: str) -> None:
-        """Set common:nomenclatureCompliance."""
-        self._data["common:nomenclatureCompliance"] = value
-
-    @property
-    def methodological_compliance(self) -> str:
-        """Methodological compliance of this data set with the respective requirements set by the "compliance system" refered to."""
-        return self._data.get("common:methodologicalCompliance")
-
-    @methodological_compliance.setter
-    def methodological_compliance(self, value: str) -> None:
-        """Set common:methodologicalCompliance."""
-        self._data["common:methodologicalCompliance"] = value
-
-    @property
-    def review_compliance(self) -> str:
-        """Review/Verification compliance of this data set with the respective requirements set by the "compliance system" refered to."""
-        return self._data.get("common:reviewCompliance")
-
-    @review_compliance.setter
-    def review_compliance(self, value: str) -> None:
-        """Set common:reviewCompliance."""
-        self._data["common:reviewCompliance"] = value
-
-    @property
-    def documentation_compliance(self) -> str:
-        """Documentation/Reporting compliance of this data set with the respective requirements set by the "compliance system" refered to."""
-        return self._data.get("common:documentationCompliance")
-
-    @documentation_compliance.setter
-    def documentation_compliance(self, value: str) -> None:
-        """Set common:documentationCompliance."""
-        self._data["common:documentationCompliance"] = value
-
-    @property
-    def quality_compliance(self) -> str:
-        """Quality compliance of this data set with the respective requirements set by the "compliance system" refered to."""
-        return self._data.get("common:qualityCompliance")
-
-    @quality_compliance.setter
-    def quality_compliance(self, value: str) -> None:
-        """Set common:qualityCompliance."""
-        self._data["common:qualityCompliance"] = value
-
-    @property
-    def other(self) -> Optional[str]:
-        """Access common:other field"""
-        return self._data.get("common:other")
-
-    @other.setter
-    def other(self, value: Optional[str]) -> None:
-        """Set common:other."""
-        if value is None:
-            self._data.pop("common:other", None)
-        else:
-            self._data["common:other"] = value
-
-
 class ComplianceDeclarationsWrapper(BaseWrapper):
     """Auto-generated wrapper for ComplianceDeclarationsWrapper."""
 
     __slots__ = ()
 
     @property
-    def compliance(self) -> ComplianceWrapper:
-        """Access compliance nested object"""
-        self._ensure_field("compliance")
-        return ComplianceWrapper(self._entity, self._data["compliance"])
+    def compliance(self) -> str:
+        """One compliance declaration. Multiple declarations may be provided."""
+        return self._data.get("compliance")
+
+    @compliance.setter
+    def compliance(self, value: str) -> None:
+        """Set compliance."""
+        self._data["compliance"] = value
 
     @property
     def other(self) -> Optional[str]:
@@ -604,38 +519,6 @@ class ComplianceDeclarationsWrapper(BaseWrapper):
             self._data.pop("common:other", None)
         else:
             self._data["common:other"] = value
-
-
-class DataQualityIndicatorWrapper(BaseWrapper):
-    """Auto-generated wrapper for DataQualityIndicatorWrapper."""
-
-    __slots__ = ()
-
-    @property
-    def name(self) -> Optional[str]:
-        """Access @name field"""
-        return self._data.get("@name")
-
-    @name.setter
-    def name(self, value: Optional[str]) -> None:
-        """Set @name."""
-        if value is None:
-            self._data.pop("@name", None)
-        else:
-            self._data["@name"] = value
-
-    @property
-    def value(self) -> Optional[str]:
-        """Access @value field"""
-        return self._data.get("@value")
-
-    @value.setter
-    def value(self, value: Optional[str]) -> None:
-        """Set @value."""
-        if value is None:
-            self._data.pop("@value", None)
-        else:
-            self._data["@value"] = value
 
 
 class DataQualityIndicatorsWrapper(BaseWrapper):
@@ -644,10 +527,14 @@ class DataQualityIndicatorsWrapper(BaseWrapper):
     __slots__ = ()
 
     @property
-    def data_quality_indicator(self) -> DataQualityIndicatorWrapper:
+    def data_quality_indicator(self) -> str:
         """Data quality indicators serve to provide the reviewed key information on the data set in a defined, computer-readable (and hence searchable) form. This serves to support LCA practitioners to identify/select the highest quality and most appropriate data sets."""
-        self._ensure_field("dataQualityIndicator")
-        return DataQualityIndicatorWrapper(self._entity, self._data["dataQualityIndicator"])
+        return self._data.get("common:dataQualityIndicator")
+
+    @data_quality_indicator.setter
+    def data_quality_indicator(self, value: str) -> None:
+        """Set common:dataQualityIndicator."""
+        self._data["common:dataQualityIndicator"] = value
 
 
 class ReviewWrapper(BaseWrapper):
@@ -666,25 +553,28 @@ class ReviewWrapper(BaseWrapper):
         self._data["@type"] = value
 
     @property
-    def scope(self) -> str:
+    def scope(self) -> Optional[str]:
         """Scope of review regarding which aspects and components of the data set was reviewed or verified. In case of aggregated e.g. LCI results also and on which level of detail (e.g. LCI results only, included unit processes, ...) the review / verification was performed."""
-        return self._data.get("scope")
+        return self._data.get("common:scope")
 
     @scope.setter
-    def scope(self, value: str) -> None:
-        """Set scope."""
-        self._data["scope"] = value
+    def scope(self, value: Optional[str]) -> None:
+        """Set common:scope."""
+        if value is None:
+            self._data.pop("common:scope", None)
+        else:
+            self._data["common:scope"] = value
 
     @property
     def data_quality_indicators(self) -> DataQualityIndicatorsWrapper:
         """Data quality indicators serve to provide the reviewed key information on the data set in a defined, computer-readable (and hence searchable) form. This serves to support LCA practitioners to identify/select the highest quality and most appropriate data sets."""
-        self._ensure_field("dataQualityIndicators")
-        return DataQualityIndicatorsWrapper(self._entity, self._data["dataQualityIndicators"])
+        self._ensure_field("common:dataQualityIndicators")
+        return DataQualityIndicatorsWrapper(self._entity, self._data["common:dataQualityIndicators"])
 
     @property
     def review_details(self) -> MultiLangText:
         """Summary of the review. All the following items should be explicitly addressed: Representativeness, completeness, and precision of Inputs and Outputs for the process in its documented location, technology and time i.e. both completeness of technical model (product, waste, and elementary flows) and completeness of coverage of the relevant problem fields (environmental, human health, resource use) for this specific good, service, or process. Plausibility of data. Correctness and appropriateness of the data set documentation. Appropriateness of system boundaries, cut-off rules, LCI modelling choices such as e.g. allocation, consistency of included processes and of LCI methodology. If the data set comprises pre-calculated LCIA results, the correspondence of the Input and Output elementary flows (including their geographical validity) with the applied LCIA method(s) should be addressed by the reviewer. An overall quality statement on the data set may be included here."""
-        return self._get_multi_lang("reviewDetails")
+        return self._get_multi_lang("common:reviewDetails")
 
     @property
     def reference_to_name_of_reviewer_and_institution(self) -> Optional[str]:

@@ -178,55 +178,20 @@ class AdministrativeInformationWrapper(BaseWrapper):
             self._data["common:other"] = value
 
 
-class ComplianceWrapper(BaseWrapper):
-    """Auto-generated wrapper for ComplianceWrapper."""
-
-    __slots__ = ()
-
-    @property
-    def reference_to_compliance_system(self) -> str:
-        """Access common:referenceToComplianceSystem field"""
-        return self._data.get("common:referenceToComplianceSystem")
-
-    @reference_to_compliance_system.setter
-    def reference_to_compliance_system(self, value: str) -> None:
-        """Set common:referenceToComplianceSystem."""
-        self._data["common:referenceToComplianceSystem"] = value
-
-    @property
-    def approval_of_overall_compliance(self) -> str:
-        """Access common:approvalOfOverallCompliance field"""
-        return self._data.get("common:approvalOfOverallCompliance")
-
-    @approval_of_overall_compliance.setter
-    def approval_of_overall_compliance(self, value: str) -> None:
-        """Set common:approvalOfOverallCompliance."""
-        self._data["common:approvalOfOverallCompliance"] = value
-
-    @property
-    def other(self) -> Optional[str]:
-        """Access common:other field"""
-        return self._data.get("common:other")
-
-    @other.setter
-    def other(self, value: Optional[str]) -> None:
-        """Set common:other."""
-        if value is None:
-            self._data.pop("common:other", None)
-        else:
-            self._data["common:other"] = value
-
-
 class ComplianceDeclarationsWrapper(BaseWrapper):
     """Auto-generated wrapper for ComplianceDeclarationsWrapper."""
 
     __slots__ = ()
 
     @property
-    def compliance(self) -> ComplianceWrapper:
-        """Access compliance nested object"""
-        self._ensure_field("compliance")
-        return ComplianceWrapper(self._entity, self._data["compliance"])
+    def compliance(self) -> str:
+        """One compliance declaration. Multiple declarations may be provided."""
+        return self._data.get("compliance")
+
+    @compliance.setter
+    def compliance(self, value: str) -> None:
+        """Set compliance."""
+        self._data["compliance"] = value
 
     @property
     def other(self) -> Optional[str]:
@@ -386,7 +351,7 @@ class DataSetInformationWrapper(BaseWrapper):
 
     @property
     def name(self) -> MultiLangText:
-        """Name of the unit group, typically indicating for which flow property or group of flow properties it is used. The individual units are named in the "Units" section of the "Unit group data set"."""
+        """Name of the unit group, typically indicating for which flow property or group of flow properties it is used. The individual units are named in the "Units" section of the "Unit group data set""""
         return self._get_multi_lang("common:name")
 
     @property

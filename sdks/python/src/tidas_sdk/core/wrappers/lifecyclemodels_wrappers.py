@@ -284,7 +284,7 @@ class ComplianceDeclarationsWrapper(BaseWrapper):
 
     @property
     def compliance(self) -> str:
-        """Access compliance field"""
+        """One compliance declaration. Multiple declarations may be provided."""
         return self._data.get("compliance")
 
     @compliance.setter
