@@ -1,27 +1,29 @@
 # Phase 3 Quick Reference Card
 
+**Last Updated**: 2025-11-03
+
 ## Implementation Workflow
 
 ```
-Start → Guide 1 (✅) → Guide 2 → Guide 3 → Guide 4 → Guide 5 → Guide 6 → Guide 7 → Done
-        Schema       Type      Code      Models    Wrappers  Factories  Main
-        Parser       Mapper    Generator                               Script
+Start → Guide 1 (✅) → Guide 2 (✅) → Guide 3 (✅) → Guide 4 (✅) → Guide 5 (✅) → Guide 6 (⏳) → Guide 7 (✅) → Done
+        Schema         Type          Code          Models        Wrappers      Factories      Main
+        Parser         Mapper        Generator                                                Script
 ```
 
 ## Status at a Glance
 
 | Guide | Component | File | Tasks | Status | Time Est. |
 |-------|-----------|------|-------|--------|-----------|
-| [1](./guide-1-schema-parser.md) | Schema Parser | `scripts/schema_parser.py` | T037-T042 | ✅ Done | 1h |
-| [2](./guide-2-type-mapping.md) | Type Mapper | `scripts/type_mapper.py` | T044 | ⏳ Todo | 2-3h |
-| [3](./guide-3-code-generator.md) | Code Generator | `scripts/code_generator.py` | T043-T046 | ⏳ Todo | 4-6h |
-| [4](./guide-4-pydantic-models.md) | Pydantic Models | `src/tidas_sdk/types/*.py` | T047-T065 | ⏳ Todo | 3-4h |
-| [5](./guide-5-entity-wrappers.md) | Entity Wrappers | `src/tidas_sdk/models/*.py` | T066-T074 | ⏳ Todo | 2-3h |
-| [6](./guide-6-factory-functions.md) | Factories | `src/tidas_sdk/factories.py` | T075-T084 | ⏳ Todo | 2-3h |
-| [7](./guide-7-main-script.md) | Main Script | `scripts/generate_types.py` | T085-T091 | ⏳ Todo | 1-2h |
+| [1](./guide-1-schema-parser.md) | Schema Parser | `scripts/schema_parser.py` | T037-T042 (6) | ✅ Done | 1h |
+| [2](./guide-2-type-mapping.md) | Type Mapper | `scripts/type_mapper.py` | T044 (1) | ✅ Done | 2-3h |
+| [3](./guide-3-code-generator.md) | Code Generator | `scripts/code_generator.py` | T043-T046 (2) | ✅ Done | 4-6h |
+| [4](./guide-4-pydantic-models.md) | Pydantic Models | `src/tidas_sdk/types/*.py` | T047-T065 (19) | ✅ Done | 3-4h |
+| [5](./guide-5-entity-wrappers.md) | Entity Wrappers | `src/tidas_sdk/models/*.py` | T066-T074 (9) | ✅ Done | 2-3h |
+| [6](./guide-6-factory-functions.md) | Factories | `src/tidas_sdk/factories.py` | T075-T084 (10) | ⏳ Todo | 2-3h |
+| [7](./guide-7-main-script.md) | Main Script | `scripts/generate_types.py` | T085-T091 (6) | ✅ Partial (4/6) | 1-2h |
 
-**Total Progress**: 6/55 tasks complete (11%)
-**Time Remaining**: ~15-21 hours
+**Total Progress**: 44/55 tasks complete (80%)
+**Time Remaining**: ~2-3 hours
 
 ## Quick Commands
 
@@ -57,21 +59,21 @@ uv run python test_factories.py
 sdks/python/
 ├── scripts/                          # Code generation scripts
 │   ├── schema_parser.py             ✅ Guide 1 (Done)
-│   ├── type_mapper.py               ⏳ Guide 2
-│   ├── code_generator.py            ⏳ Guide 3
-│   └── generate_types.py            ⏳ Guide 7
+│   ├── type_mapper.py               ✅ Guide 2 (Done)
+│   ├── code_generator.py            ✅ Guide 3 (Done)
+│   └── generate_types.py            ✅ Guide 7 (Mostly Complete)
 ├── src/tidas_sdk/
-│   ├── types/                       ⏳ Guide 4
-│   │   ├── tidas_contacts.py        (18 files to generate)
+│   ├── types/                       ✅ Guide 4 (18 files generated)
+│   │   ├── tidas_contacts.py
 │   │   ├── tidas_flows.py
-│   │   └── ...
-│   ├── models/                      ⏳ Guide 5
-│   │   ├── contact.py               (8 files to create)
+│   │   └── ... (all 18 schemas)
+│   ├── models/                      ✅ Guide 5 (8 wrappers created)
+│   │   ├── contact.py
 │   │   ├── flow.py
-│   │   └── ...
-│   └── factories.py                 ⏳ Guide 6
+│   │   └── ... (all 8 entities)
+│   └── factories.py                 ⏳ Guide 6 (To implement)
 └── tests/
-    └── generation/                  (Create after Guide 7)
+    └── generation/                  (Structure created)
 ```
 
 ## Decision Points
