@@ -5,6 +5,7 @@ LifeCycleModel entity wrapper class for TIDAS SDK.
 from typing import Any, Dict, Optional
 
 from ..core.base import TidasEntity
+from ..core.wrappers.lifecyclemodels_wrappers import LifecyclemodelsDataSetWrapper
 from ..core.validation import ValidationConfig
 from ..types.tidas_lifecyclemodels import Model as LifeCycleModelModel
 
@@ -47,3 +48,23 @@ class TidasLifeCycleModel(TidasEntity):
                     "administrativeInformation": {}
                 }
             }
+
+    @property
+    def life_cycle_model_data_set(self) -> LifecyclemodelsDataSetWrapper:
+        """Access lifeCycleModelDataSet field with IDE autocomplete and type hints.
+
+        This property provides typed access to the life cycle model dataset, enabling
+        IDE autocomplete for all nested fields.
+
+        Example:
+            >>> life_cycle_model = TidasLifeCycleModel()
+            >>> # IDE shows autocomplete as you type:
+            >>> life_cycle_model.life_cycle_model_data_set.life_cycle_model_information.data_set_information.uuid = "..."
+            >>> life_cycle_model.life_cycle_model_data_set.life_cycle_model_information.data_set_information.name.set_text(
+            ...     "Cradle-to-Gate", "en"
+            ... )
+
+        Returns:
+            Auto-generated typed wrapper for the lifeCycleModelDataSet field
+        """
+        return self._get_typed_field("lifeCycleModelDataSet", LifecyclemodelsDataSetWrapper)

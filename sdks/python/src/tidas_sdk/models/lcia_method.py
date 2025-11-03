@@ -5,6 +5,7 @@ LCIAMethod entity wrapper class for TIDAS SDK.
 from typing import Any, Dict, Optional
 
 from ..core.base import TidasEntity
+from ..core.wrappers.lciamethods_wrappers import LciamethodsDataSetWrapper
 from ..core.validation import ValidationConfig
 from ..types.tidas_lciamethods import Model as LCIAMethodModel
 
@@ -48,3 +49,23 @@ class TidasLCIAMethod(TidasEntity):
                     "characterisationFactors": {}
                 }
             }
+
+    @property
+    def lcia_method_data_set(self) -> LciamethodsDataSetWrapper:
+        """Access LCIAMethodDataSet field with IDE autocomplete and type hints.
+
+        This property provides typed access to the LCIA method dataset, enabling
+        IDE autocomplete for all nested fields.
+
+        Example:
+            >>> lcia_method = TidasLCIAMethod()
+            >>> # IDE shows autocomplete as you type:
+            >>> lcia_method.lcia_method_data_set.lcia_method_information.data_set_information.uuid = "..."
+            >>> lcia_method.lcia_method_data_set.lcia_method_information.data_set_information.name.set_text(
+            ...     "ReCiPe 2016", "en"
+            ... )
+
+        Returns:
+            Auto-generated typed wrapper for the LCIAMethodDataSet field
+        """
+        return self._get_typed_field("LCIAMethodDataSet", LciamethodsDataSetWrapper)

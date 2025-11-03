@@ -5,6 +5,7 @@ UnitGroup entity wrapper class for TIDAS SDK.
 from typing import Any, Dict, Optional
 
 from ..core.base import TidasEntity
+from ..core.wrappers.unitgroups_wrappers import UnitgroupsDataSetWrapper
 from ..core.validation import ValidationConfig
 from ..types.tidas_unitgroups import Model as UnitGroupModel
 
@@ -48,3 +49,23 @@ class TidasUnitGroup(TidasEntity):
                     "units": {}
                 }
             }
+
+    @property
+    def unit_group_data_set(self) -> UnitgroupsDataSetWrapper:
+        """Access unitGroupDataSet field with IDE autocomplete and type hints.
+
+        This property provides typed access to the unit group dataset, enabling
+        IDE autocomplete for all nested fields.
+
+        Example:
+            >>> unit_group = TidasUnitGroup()
+            >>> # IDE shows autocomplete as you type:
+            >>> unit_group.unit_group_data_set.unit_group_information.data_set_information.uuid = "..."
+            >>> unit_group.unit_group_data_set.unit_group_information.data_set_information.name.set_text(
+            ...     "Mass units", "en"
+            ... )
+
+        Returns:
+            Auto-generated typed wrapper for the unitGroupDataSet field
+        """
+        return self._get_typed_field("unitGroupDataSet", UnitgroupsDataSetWrapper)

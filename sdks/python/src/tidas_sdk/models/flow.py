@@ -5,6 +5,7 @@ Flow entity wrapper class for TIDAS SDK.
 from typing import Any, Dict, Optional
 
 from ..core.base import TidasEntity
+from ..core.wrappers.flows_wrappers import FlowsDataSetWrapper
 from ..core.validation import ValidationConfig
 from ..types.tidas_flows import Model as FlowModel
 
@@ -47,3 +48,23 @@ class TidasFlow(TidasEntity):
                     "administrativeInformation": {}
                 }
             }
+
+    @property
+    def flow_data_set(self) -> FlowsDataSetWrapper:
+        """Access flowDataSet field with IDE autocomplete and type hints.
+
+        This property provides typed access to the flow dataset, enabling
+        IDE autocomplete for all nested fields.
+
+        Example:
+            >>> flow = TidasFlow()
+            >>> # IDE shows autocomplete as you type:
+            >>> flow.flow_data_set.flow_information.data_set_information.uuid = "..."
+            >>> flow.flow_data_set.flow_information.data_set_information.name.base_name.set_text(
+            ...     "Carbon dioxide", "en"
+            ... )
+
+        Returns:
+            Auto-generated typed wrapper for the flowDataSet field
+        """
+        return self._get_typed_field("flowDataSet", FlowsDataSetWrapper)

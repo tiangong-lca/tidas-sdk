@@ -5,6 +5,7 @@ Process entity wrapper class for TIDAS SDK.
 from typing import Any, Dict, Optional
 
 from ..core.base import TidasEntity
+from ..core.wrappers.processes_wrappers import ProcessesDataSetWrapper
 from ..core.validation import ValidationConfig
 from ..types.tidas_processes import Model as ProcessModel
 
@@ -48,3 +49,23 @@ class TidasProcess(TidasEntity):
                     "exchanges": {}
                 }
             }
+
+    @property
+    def process_data_set(self) -> ProcessesDataSetWrapper:
+        """Access processDataSet field with IDE autocomplete and type hints.
+
+        This property provides typed access to the process dataset, enabling
+        IDE autocomplete for all nested fields.
+
+        Example:
+            >>> process = TidasProcess()
+            >>> # IDE shows autocomplete as you type:
+            >>> process.process_data_set.process_information.data_set_information.uuid = "..."
+            >>> process.process_data_set.process_information.data_set_information.name.base_name.set_text(
+            ...     "Electricity production, photovoltaic", "en"
+            ... )
+
+        Returns:
+            Auto-generated typed wrapper for the processDataSet field
+        """
+        return self._get_typed_field("processDataSet", ProcessesDataSetWrapper)
