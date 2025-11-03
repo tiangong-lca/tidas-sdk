@@ -85,109 +85,10 @@ class ClassificationInformation(BaseModel):
     common_other: str | None = Field(None, alias='common:other')
 
 
-class MultiLangItemString(BaseModel):
-    field_xml_lang: str = Field(..., alias='@xml:lang')
-    text: str = Field(..., alias='#text', max_length=500)
-
-
-class StringMultiLang(RootModel[list[MultiLangItemString]]):
-    root: list[MultiLangItemString] = Field(
-        ..., description='Multi-language string with a maximum length of 500 characters'
-    )
-
-
-class StringMultiLang(BaseModel):
-    """
-    Multi-language string with a maximum length of 500 characters
-    """
-
-    field_xml_lang: str = Field(..., alias='@xml:lang')
-    text: str = Field(..., alias='#text', max_length=500)
-
-
-class MultiLangItemST(BaseModel):
-    field_xml_lang: str = Field(..., alias='@xml:lang')
-    text: str = Field(..., alias='#text', max_length=1000)
-
-
-class STMultiLang(RootModel[list[MultiLangItemST]]):
-    root: list[MultiLangItemST] = Field(
-        ...,
-        description='Multi-lang short text with a maximum length of 1000 characters.',
-    )
-
-
-class STMultiLang(BaseModel):
-    """
-    Multi-lang short text with a maximum length of 1000 characters.
-    """
-
-    field_xml_lang: str = Field(..., alias='@xml:lang')
-    text: str = Field(..., alias='#text', max_length=1000)
-
-
-class MultiLangItem(BaseModel):
-    field_xml_lang: str = Field(..., alias='@xml:lang')
-    text: str = Field(..., alias='#text')
-
-
-class FTMultiLang(RootModel[list[MultiLangItem]]):
-    root: list[MultiLangItem] = Field(
-        ..., description='Multi-lang free text with an unlimited length.'
-    )
-
-
-class FTMultiLang(BaseModel):
-    """
-    Multi-lang free text with an unlimited length.
-    """
-
-    field_xml_lang: str = Field(..., alias='@xml:lang')
-    text: str = Field(..., alias='#text')
-
-
-class FTMultiLang(RootModel[FTMultiLang | FTMultiLang]):
-    root: FTMultiLang | FTMultiLang = Field(
+class FTMultiLang(RootModel[FTMultiLang]):
+    root: FTMultiLang = Field(
         ...,
         description='Multi-lang free text with an unlimited length.',
-        union_mode='smart',
-    )
-
-
-class GlobalReferenceType(BaseModel):
-    """
-    Represents a reference to another dataset or file. Either refObjectId and version, or uri, or both have to be specified.
-    """
-
-    field_type: str = Field(..., alias='@type')
-    field_refObjectId: str = Field(
-        ...,
-        alias='@refObjectId',
-        pattern='^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$',
-    )
-    field_version: str = Field(..., alias='@version')
-    field_uri: str = Field(..., alias='@uri')
-    common_shortDescription: STMultiLang | STMultiLang = Field(
-        ...,
-        alias='common:shortDescription',
-        description='Multi-lang short text with a maximum length of 1000 characters.',
-        union_mode='smart',
-    )
-
-
-class GlobalReferenceType(BaseModel):
-    field_type: str = Field(..., alias='@type')
-    field_refObjectId: str = Field(
-        ...,
-        alias='@refObjectId',
-        pattern='^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$',
-    )
-    field_version: str = Field(..., alias='@version')
-    field_uri: str = Field(..., alias='@uri')
-    common_shortDescription: STMultiLang | STMultiLang = Field(
-        ...,
-        alias='common:shortDescription',
-        description='Multi-lang short text with a maximum length of 1000 characters.',
         union_mode='smart',
     )
 
@@ -211,13 +112,13 @@ class DataSetInformation(BaseModel):
         description="Automatically generated Universally Unique Identifier of this data set. Together with the 'Data set version', the UUID uniquely identifies each data set.",
         pattern='^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$',
     )
-    common_shortName: StringMultiLang | StringMultiLang = Field(
+    common_shortName: StringMultiLang = Field(
         ...,
         alias='common:shortName',
         description="Short name for the contact, that is used for display e.g. of links to this data set (especially in case the full name of the contact is rather long, e.g. 'FAO' for 'Food and Agriculture Organization').",
         union_mode='smart',
     )
-    common_name: StringMultiLang | StringMultiLang = Field(
+    common_name: StringMultiLang = Field(
         ...,
         alias='common:name',
         description='Name of the person, working group, organisation, or database network, which is represented by this contact data set.',
@@ -227,7 +128,7 @@ class DataSetInformation(BaseModel):
         ...,
         description='Hierachical classification of the contact foreseen to be used to structure the contact content of the database. (Note: This entry is NOT required for the identification of the contact data set. It should nevertheless be avoided to use identical names for contacts in the same class.',
     )
-    contactAddress: STMultiLang | STMultiLang | None = Field(
+    contactAddress: STMultiLang | None = Field(
         None,
         description="Mail address of the contact; specific for the person, working group, or department. [Note: A general contact point to the organisation is to be given in 'General contact point'.]",
         union_mode='smart',
@@ -255,12 +156,12 @@ class DataSetInformation(BaseModel):
         description='Web-address of the person, working group, organisation or database network.',
         max_length=1000,
     )
-    centralContactPoint: STMultiLang | STMultiLang | None = Field(
+    centralContactPoint: STMultiLang | None = Field(
         None,
         description='Alternative address / contact details for the contact. Provides contact information in case e.g. the person or group represented by this contact has left the organisation or changed office/telephone. This alternative contact point can hence contain also a central telephone number, e-mail, www-address etc. of the organisation.',
         union_mode='smart',
     )
-    contactDescriptionOrComment: STMultiLang | STMultiLang | None = Field(
+    contactDescriptionOrComment: STMultiLang | None = Field(
         None,
         description='Free text for additional description of the organisation or person of the contact, such as organisational profile, person responsibilities, etc.',
         union_mode='smart',

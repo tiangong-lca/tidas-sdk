@@ -384,105 +384,6 @@ class DeviatingRecommendation(Enum):
     Not_recommended = 'Not recommended'
 
 
-class MultiLangItemString(BaseModel):
-    field_xml_lang: str = Field(..., alias='@xml:lang')
-    text: str = Field(..., alias='#text', max_length=500)
-
-
-class StringMultiLang(RootModel[list[MultiLangItemString]]):
-    root: list[MultiLangItemString] = Field(
-        ..., description='Multi-language string with a maximum length of 500 characters'
-    )
-
-
-class StringMultiLang(BaseModel):
-    """
-    Multi-language string with a maximum length of 500 characters
-    """
-
-    field_xml_lang: str = Field(..., alias='@xml:lang')
-    text: str = Field(..., alias='#text', max_length=500)
-
-
-class MultiLangItemST(BaseModel):
-    field_xml_lang: str = Field(..., alias='@xml:lang')
-    text: str = Field(..., alias='#text', max_length=1000)
-
-
-class STMultiLang(RootModel[list[MultiLangItemST]]):
-    root: list[MultiLangItemST] = Field(
-        ...,
-        description='Multi-lang short text with a maximum length of 1000 characters.',
-    )
-
-
-class STMultiLang(BaseModel):
-    """
-    Multi-lang short text with a maximum length of 1000 characters.
-    """
-
-    field_xml_lang: str = Field(..., alias='@xml:lang')
-    text: str = Field(..., alias='#text', max_length=1000)
-
-
-class MultiLangItem(BaseModel):
-    field_xml_lang: str = Field(..., alias='@xml:lang')
-    text: str = Field(..., alias='#text')
-
-
-class FTMultiLang(RootModel[list[MultiLangItem]]):
-    root: list[MultiLangItem] = Field(
-        ..., description='Multi-lang free text with an unlimited length.'
-    )
-
-
-class FTMultiLang(BaseModel):
-    """
-    Multi-lang free text with an unlimited length.
-    """
-
-    field_xml_lang: str = Field(..., alias='@xml:lang')
-    text: str = Field(..., alias='#text')
-
-
-class GlobalReferenceType(BaseModel):
-    """
-    Represents a reference to another dataset or file. Either refObjectId and version, or uri, or both have to be specified.
-    """
-
-    field_type: str = Field(..., alias='@type')
-    field_refObjectId: str = Field(
-        ...,
-        alias='@refObjectId',
-        pattern='^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$',
-    )
-    field_version: str = Field(..., alias='@version')
-    field_uri: str = Field(..., alias='@uri')
-    common_shortDescription: STMultiLang | STMultiLang = Field(
-        ...,
-        alias='common:shortDescription',
-        description='Multi-lang short text with a maximum length of 1000 characters.',
-        union_mode='smart',
-    )
-
-
-class GlobalReferenceType(BaseModel):
-    field_type: str = Field(..., alias='@type')
-    field_refObjectId: str = Field(
-        ...,
-        alias='@refObjectId',
-        pattern='^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$',
-    )
-    field_version: str = Field(..., alias='@version')
-    field_uri: str = Field(..., alias='@uri')
-    common_shortDescription: STMultiLang | STMultiLang = Field(
-        ...,
-        alias='common:shortDescription',
-        description='Multi-lang short text with a maximum length of 1000 characters.',
-        union_mode='smart',
-    )
-
-
 class Year(RootModel[int]):
     root: int = Field(..., description='4-digit year', ge=1000, le=9999)
 
@@ -494,7 +395,7 @@ class DataSetInformation(BaseModel):
         description='Unique identifier of the data set. The UUID is a 128-bit number represented as a hexadecimal string of the form: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx. The UUID is used to uniquely identify the data set in the ILCD database.',
         pattern='^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$',
     )
-    common_name: StringMultiLang | StringMultiLang = Field(
+    common_name: StringMultiLang = Field(
         ...,
         alias='common:name',
         description='Name of the data set. Composed as follows "LCIA methodology short name; Impact category/ies; midpoint/endpoint; Impact indicator; Source short name". Not applicable components are left out. Examples: "Impacts2007+; Climate change; midpoint; Global Warming Potential; IPCC 2001"; "ABC 2006; Acidification; endpoint; Species diversity loss; John Doe 2006"; "My-indicator2009; combined; endpoint; Ecopoints; various"',
@@ -519,7 +420,7 @@ class DataSetInformation(BaseModel):
         max_length=500,
         min_length=1,
     )
-    common_generalComment: FTMultiLang | FTMultiLang | None = Field(
+    common_generalComment: FTMultiLang | None = Field(
         None,
         alias='common:generalComment',
         description='General information about the data set, including e.g. general (internal, not reviewed) quality statements as well as information sources used. (Note: Please also check the more specific fields e.g. on "Intended application", "Advice on data set use" and the fields in the "Modelling and validation" section to avoid overlapping entries.)',
@@ -549,17 +450,17 @@ class QuantitativeReference(BaseModel):
 
 
 class Time(BaseModel):
-    referenceYear: STMultiLang | STMultiLang = Field(
+    referenceYear: STMultiLang = Field(
         ...,
         description='Reference year when the emission is assumed to take place, i.e. the start year of the time period for which the impact is modelled. For time-independent models "time independent" should be stated.',
         union_mode='smart',
     )
-    duration: STMultiLang | STMultiLang = Field(
+    duration: STMultiLang = Field(
         ...,
         description='Time period for which the impact is modelled.',
         union_mode='smart',
     )
-    timeRepresentativenessDescription: FTMultiLang | FTMultiLang = Field(
+    timeRepresentativenessDescription: FTMultiLang = Field(
         ...,
         description='Description of the valid time span of the data set including information on limited usability within sub-time spans, if any.',
         union_mode='smart',
@@ -625,7 +526,7 @@ class Geography(BaseModel):
         description='Location or region where the impact is modelled to take place. [Note: Entry can be of type "two-letter ISO 3166 country code" for countries, "seven-letter regional codes" for regions or continents, or "market areas and market organisations", as predefined for the ILCD. Also a name for e.g. a specific catchment etc. can be given here, user defined).]',
         union_mode='smart',
     )
-    geographicalRepresentativenessDescription: FTMultiLang | FTMultiLang | None = (
+    geographicalRepresentativenessDescription: FTMultiLang | None = (
         Field(
             None,
             description='Further explanation on additional aspects of the location, both regarding the intervention and the impact: whether certain areas are exempted from the location, whether data is only valid for certain sub-locations within the location indicated, or whether impact indicator values for certain elementary flows are extrapolated from another geographical area than indicated. Information on the use of generic intervention and/or impact locations, and other restrictions.',
@@ -645,7 +546,7 @@ class ImpactModel(BaseModel):
         description='Name(s) of the model(s) used for calculating the LCIA impact indicator values (if any)',
         max_length=1000,
     )
-    modelDescription: FTMultiLang | FTMultiLang = Field(
+    modelDescription: FTMultiLang = Field(
         ...,
         description='Description of the model used for calculating the LCIA impact indicator values, including underlying substance property data sources, background concentrations, etc. If an LCIA methodology comprises several LCIA methods, these are explicitly included in the description. Professional nomenclature is used for the description. Note that eventually included Normalisation and Weighting factors are described in the dedicated separate fields.',
         union_mode='smart',
@@ -664,7 +565,7 @@ class ImpactModel(BaseModel):
         description='"LCIA method data set(s)" of LCIA characterisation methods included in this data set or used to derive this LCIA methodology',
         union_mode='smart',
     )
-    consideredMechanisms: STMultiLang | STMultiLang | None = Field(
+    consideredMechanisms: STMultiLang | None = Field(
         None,
         description='Description of the environmental or other mechanisms included in the explicitly considered part of the impact chain. Can relate to (ilustrative): For emissions e.g.: transport, conversion / degradation, exposure, effect(s), damage(s) on humans and the natural environment. For material and energy resources: scarcity or other impact concept. For land use: soil, area, biocoenosis related meachanisms, effect(s), damage(s).',
         union_mode='smart',
@@ -708,7 +609,7 @@ class LCIAMethodNormalisationAndWeighting(BaseModel):
         alias='LCIAMethodPrinciple',
         description='LCIA method principle(s) followed to derive the impact factors.',
     )
-    deviationsFromLCIAMethodPrinciple: FTMultiLang | FTMultiLang | None = Field(
+    deviationsFromLCIAMethodPrinciple: FTMultiLang | None = Field(
         None,
         description='Short description of possible data set specific deviations from "LCIA method principle(s)". Refers especially to explanations on the combination of LCIA methods with different principles in a single LCIA methodology.',
         union_mode='smart',
@@ -724,7 +625,7 @@ class LCIAMethodNormalisationAndWeighting(BaseModel):
         description='"Normalisation data sets" that can be used together with the impact factors of this data set.',
         union_mode='smart',
     )
-    normalisationDescription: STMultiLang | STMultiLang | None = Field(
+    normalisationDescription: STMultiLang | None = Field(
         None,
         description='Short description of the included normalisation, if any.',
         union_mode='smart',
@@ -747,7 +648,7 @@ class LCIAMethodNormalisationAndWeighting(BaseModel):
         description='"Weighting data set(s)", that can be used together with the impact factors of this data set.',
         union_mode='smart',
     )
-    weightingDescription: STMultiLang | STMultiLang | None = Field(
+    weightingDescription: STMultiLang | None = Field(
         None,
         description='Short description of the included weighting, if any.',
         union_mode='smart',
@@ -799,7 +700,7 @@ class Review(BaseModel):
         description='Scope of review regarding which aspects and components of the data set was reviewed or verified. In case of aggregated e.g. LCI results also and on which level of detail (e.g. LCI results only, included unit processes, ...) the review / verification was performed.',
         union_mode='smart',
     )
-    common_reviewDetails: FTMultiLang | FTMultiLang | None = Field(
+    common_reviewDetails: FTMultiLang | None = Field(
         None,
         alias='common:reviewDetails',
         description='Summary of the review. All the following items should be explicitly addressed: completeness and appropriateness of the model, geographical and temporal coverage and differentiation, correctness and precision of substance data or other underlying data; appropriateness and coherence of application of normalisation and/or weighting schemes, if included; correctness, appropriateness, comprehensibility, and completeness of the data set documentation; stakeholder aceptance of LCIA method. Optional: Comment of the reviewer on characterisation factors for single elementary flows or groups of elementary flows. Relevant restrictions to the review due to lack of transparency or documentation should be named. An overall quality statement may be included here.',
@@ -813,7 +714,7 @@ class Review(BaseModel):
         description='"Contact data set" of reviewer. The full name of reviewer(s) and institution(s) as well as a contact address and/or email should be provided in that contact data set.',
         union_mode='smart',
     )
-    common_otherReviewDetails: FTMultiLang | FTMultiLang | None = Field(
+    common_otherReviewDetails: FTMultiLang | None = Field(
         None,
         alias='common:otherReviewDetails',
         description='Further information from the review process, especially comments received from third parties once the data set has been published or additional reviewer comments from an additional external review.',
@@ -956,7 +857,7 @@ class ModellingAndValidation(BaseModel):
     Covers the five sub-sections 1) LCIA method, normalisation, weighting 2) Data sources 3) Completeness, 4) Validation, and 5) Compliance declarations.
     """
 
-    useAdviceForDataSet: STMultiLang | STMultiLang | None = Field(
+    useAdviceForDataSet: STMultiLang | None = Field(
         None,
         description='Methodological advice for the use and application of this data set, such as limits in applicability or representativeness as well as recommendations to use it together with others from the same LCIA methodology to ensure consistency.',
         union_mode='smart',
@@ -994,13 +895,13 @@ class CommonCommissionerAndGoal(BaseModel):
         description='"Contact data set" of the commissioner / financing party of the data collection / compilation and of the data set modelling. For groups of commissioners, each single organisation should be named. For data set updates and for direct use of data from formerly commissioned studies, also the original commissioner should be named.',
         union_mode='smart',
     )
-    common_project: StringMultiLang | StringMultiLang | None = Field(
+    common_project: StringMultiLang | None = Field(
         None,
         alias='common:project',
         description='Extract of the information items linked to goal and scope of LCIA method modeling.',
         union_mode='smart',
     )
-    common_intendedApplications: FTMultiLang | FTMultiLang | None = Field(
+    common_intendedApplications: FTMultiLang | None = Field(
         None,
         alias='common:intendedApplications',
         description='Documentation of the intended application(s) of data collection and data set modelling. This indicates / includes information on the level of detail, the specifidity, and the quality ambition in the effort.',
@@ -1035,7 +936,7 @@ class RecommendationBy(BaseModel):
         ...,
         description='Level of recommendation given to this data set by the recommending governmental body. Note that the recommendation level of individual elementary flows can be different (lower) from the general level; this is documented as "Deviating recommendation" in the section "Characterisation factors" directly for each affected elementary flow.',
     )
-    meaning: FTMultiLang | FTMultiLang = Field(
+    meaning: FTMultiLang = Field(
         ...,
         description='Specific meaning of the declared recommendation level of this LCIA method / methodology and the characterisation factors, as defined in the guidance document referenced in in the field "Compliance system"',
         union_mode='smart',
@@ -1136,7 +1037,7 @@ class PublicationAndOwnership(BaseModel):
         alias='common:copyright',
         description='Indicates whether or not a copyright on the data set exists. Decided upon by the "Owner of data set". [Note: See also field "Access and use restrictions".]',
     )
-    common_accessRestrictions: FTMultiLang | FTMultiLang | None = Field(
+    common_accessRestrictions: FTMultiLang | None = Field(
         None,
         alias='common:accessRestrictions',
         description='Access restrictions / use conditions for this data set as free text or referring to e.g. license conditions. In case of no restrictions "None" is entered.',
@@ -1225,7 +1126,7 @@ class Factor(BaseModel):
         description='Reference to "UUID of source"(s) in the "Source data set" of data source(s) used for modelling the value of this single LCIA factor e.g. a specific paper, questionnaire, monography etc. If, as typical, more than one data source was used, more than one source can be referenced.',
         union_mode='smart',
     )
-    generalComment: StringMultiLang | StringMultiLang | None = Field(
+    generalComment: StringMultiLang | None = Field(
         None,
         description='General information about the data set, including e.g. general (internal, not reviewed) quality statements as well as information sources used. (Note: Please also check the more specific fields e.g. on "Intended application", "Advice on data set use" and the fields in the "Modelling and validation" section to avoid overlapping entries.)',
         union_mode='smart',
@@ -1292,7 +1193,7 @@ class FactorItem(BaseModel):
         description='Deviating (downgraded) recommendation level for this exchange, in reference to the recommendation level of the LCIA method data set as a whole (see field "Official recommendation of data set by governmental body:").',
     )
     referenceToDataSource: ReferenceToDataSource | None = None
-    generalComment: StringMultiLang | StringMultiLang | None = Field(
+    generalComment: StringMultiLang | None = Field(
         None,
         description='General information about the data set, including e.g. general (internal, not reviewed) quality statements as well as information sources used. (Note: Please also check the more specific fields e.g. on "Intended application", "Advice on data set use" and the fields in the "Modelling and validation" section to avoid overlapping entries.)',
         union_mode='smart',

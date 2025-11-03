@@ -216,109 +216,10 @@ class DataDerivationTypeStatus(Enum):
     Unknown_derivation = 'Unknown derivation'
 
 
-class MultiLangItemString(BaseModel):
-    field_xml_lang: str = Field(..., alias='@xml:lang')
-    text: str = Field(..., alias='#text', max_length=500)
-
-
-class StringMultiLang(RootModel[list[MultiLangItemString]]):
-    root: list[MultiLangItemString] = Field(
-        ..., description='Multi-language string with a maximum length of 500 characters'
-    )
-
-
-class StringMultiLang(BaseModel):
-    """
-    Multi-language string with a maximum length of 500 characters
-    """
-
-    field_xml_lang: str = Field(..., alias='@xml:lang')
-    text: str = Field(..., alias='#text', max_length=500)
-
-
-class StringMultiLang(RootModel[StringMultiLang | StringMultiLang]):
-    root: StringMultiLang | StringMultiLang = Field(
+class StringMultiLang(RootModel[StringMultiLang]):
+    root: StringMultiLang = Field(
         ...,
         description='Multi-language string with a maximum length of 500 characters',
-        union_mode='smart',
-    )
-
-
-class MultiLangItemST(BaseModel):
-    field_xml_lang: str = Field(..., alias='@xml:lang')
-    text: str = Field(..., alias='#text', max_length=1000)
-
-
-class STMultiLang(RootModel[list[MultiLangItemST]]):
-    root: list[MultiLangItemST] = Field(
-        ...,
-        description='Multi-lang short text with a maximum length of 1000 characters.',
-    )
-
-
-class STMultiLang(BaseModel):
-    """
-    Multi-lang short text with a maximum length of 1000 characters.
-    """
-
-    field_xml_lang: str = Field(..., alias='@xml:lang')
-    text: str = Field(..., alias='#text', max_length=1000)
-
-
-class MultiLangItem(BaseModel):
-    field_xml_lang: str = Field(..., alias='@xml:lang')
-    text: str = Field(..., alias='#text')
-
-
-class FTMultiLang(RootModel[list[MultiLangItem]]):
-    root: list[MultiLangItem] = Field(
-        ..., description='Multi-lang free text with an unlimited length.'
-    )
-
-
-class FTMultiLang(BaseModel):
-    """
-    Multi-lang free text with an unlimited length.
-    """
-
-    field_xml_lang: str = Field(..., alias='@xml:lang')
-    text: str = Field(..., alias='#text')
-
-
-class GlobalReferenceType(BaseModel):
-    """
-    Represents a reference to another dataset or file. Either refObjectId and version, or uri, or both have to be specified.
-    """
-
-    field_type: str = Field(..., alias='@type')
-    field_refObjectId: str = Field(
-        ...,
-        alias='@refObjectId',
-        pattern='^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$',
-    )
-    field_version: str = Field(..., alias='@version')
-    field_uri: str = Field(..., alias='@uri')
-    common_shortDescription: STMultiLang | STMultiLang = Field(
-        ...,
-        alias='common:shortDescription',
-        description='Multi-lang short text with a maximum length of 1000 characters.',
-        union_mode='smart',
-    )
-
-
-class GlobalReferenceType(BaseModel):
-    field_type: str = Field(..., alias='@type')
-    field_refObjectId: str = Field(
-        ...,
-        alias='@refObjectId',
-        pattern='^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$',
-    )
-    field_version: str = Field(..., alias='@version')
-    field_uri: str = Field(..., alias='@uri')
-    common_shortDescription: STMultiLang | STMultiLang = Field(
-        ...,
-        alias='common:shortDescription',
-        description='Multi-lang short text with a maximum length of 1000 characters.',
         union_mode='smart',
     )
 
@@ -346,22 +247,22 @@ class Year(RootModel[int]):
 
 
 class Name(BaseModel):
-    baseName: StringMultiLang | StringMultiLang = Field(
+    baseName: StringMultiLang = Field(
         ...,
         description='Multi-language string with a maximum length of 500 characters',
         union_mode='smart',
     )
-    treatmentStandardsRoutes: StringMultiLang | StringMultiLang = Field(
+    treatmentStandardsRoutes: StringMultiLang = Field(
         ...,
         description='Multi-language string with a maximum length of 500 characters',
         union_mode='smart',
     )
-    mixAndLocationTypes: StringMultiLang | StringMultiLang = Field(
+    mixAndLocationTypes: StringMultiLang = Field(
         ...,
         description='Multi-language string with a maximum length of 500 characters',
         union_mode='smart',
     )
-    flowProperties: StringMultiLang | StringMultiLang | None = Field(
+    flowProperties: StringMultiLang | None = Field(
         None,
         description='Multi-language string with a maximum length of 500 characters',
         union_mode='smart',
@@ -377,7 +278,7 @@ class DataSetInformation(BaseModel):
         pattern='^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$',
     )
     name: Name
-    common_synonyms: FTMultiLang | FTMultiLang | None = Field(
+    common_synonyms: FTMultiLang | None = Field(
         None,
         alias='common:synonyms',
         description='Synonyms / alternative names / brands of the good, service, or process. Separated by semicolon.',
@@ -401,7 +302,7 @@ class DataSetInformation(BaseModel):
         max_length=500,
         min_length=1,
     )
-    common_generalComment: FTMultiLang | FTMultiLang | None = Field(
+    common_generalComment: FTMultiLang | None = Field(
         None,
         alias='common:generalComment',
         description='Free text for general information about the Flow data set. It may contain information about e.g. the use of the substance, good, service or process in a specific technology or industry-context, information sources used, data selection principles etc.',
@@ -423,7 +324,7 @@ class Geography(BaseModel):
 
 
 class Technology(BaseModel):
-    technologicalApplicability: FTMultiLang | FTMultiLang | None = Field(
+    technologicalApplicability: FTMultiLang | None = Field(
         None,
         description='Description of the intended / possible applications of the good or service, or waste. E.g. for which type of products the material, represented by this data set, is used. Examples: "This high purity chemical is used for analytical laboratories only." or "This technical quality bulk chemical is used for large scale synthesis in chemical industry.". Or: "This type of biowaste is typically composted or biodigested as the water content is too high for efficient combustion".',
         union_mode='smart',
@@ -600,7 +501,7 @@ class FlowProperty(BaseModel):
         pattern='^(100(\\.0{1,3})?|([0-9]|[1-9][0-9])(\\.\\d{1,3})?)$',
     )
     dataDerivationTypeStatus: DataDerivationTypeStatus | None = None
-    generalComment: StringMultiLang | StringMultiLang | None = Field(
+    generalComment: StringMultiLang | None = Field(
         None,
         description='Multi-language string with a maximum length of 500 characters',
         union_mode='smart',
