@@ -161,8 +161,7 @@ class GlobalReferenceType1(BaseModel):
     common_shortDescription: STMultiLang1 | STMultiLang2 = Field(
         ...,
         alias='common:shortDescription',
-        description='Multi-lang short text with a maximum length of 1000 characters.',
-        union_mode='smart',
+        description='Multi-lang short text with a maximum length of 1000 characters.'
     )
 
 
@@ -178,8 +177,7 @@ class GlobalReferenceTypeItem(BaseModel):
     common_shortDescription: STMultiLang1 | STMultiLang2 = Field(
         ...,
         alias='common:shortDescription',
-        description='Multi-lang short text with a maximum length of 1000 characters.',
-        union_mode='smart',
+        description='Multi-lang short text with a maximum length of 1000 characters.'
     )
 
 
@@ -243,14 +241,12 @@ class DataSetInformation(BaseModel):
     common_name: StringMultiLang1 | StringMultiLang2 = Field(
         ...,
         alias='common:name',
-        description='Name of flow property.',
-        union_mode='smart',
+        description='Name of flow property.'
     )
     common_synonyms: FTMultiLang1 | FTMultiLang2 | None = Field(
         None,
         alias='common:synonyms',
-        description='Synonyms are alternative names for the "Name" of the Flow property.',
-        union_mode='smart',
+        description='Synonyms are alternative names for the "Name" of the Flow property.'
     )
     classificationInformation: ClassificationInformation = Field(
         ...,
@@ -259,8 +255,7 @@ class DataSetInformation(BaseModel):
     common_generalComment: FTMultiLang1 | FTMultiLang2 | None = Field(
         None,
         alias='common:generalComment',
-        description='Free text for general information about the data set. It may contain comments on e.g. information sources used as well as general (internal, not reviewed) quality statements.',
-        union_mode='smart',
+        description='Free text for general information about the data set. It may contain comments on e.g. information sources used as well as general (internal, not reviewed) quality statements.'
     )
     common_other: str | None = Field(None, alias='common:other')
 
@@ -274,8 +269,7 @@ class QuantitativeReference(BaseModel):
         GlobalReferenceType1 | list[GlobalReferenceTypeItem]
     ) = Field(
         ...,
-        description='"Unit group data set" and its reference unit, in which the Flow property is measured.',
-        union_mode='smart',
+        description='"Unit group data set" and its reference unit, in which the Flow property is measured.'
     )
     common_other: str | None = Field(None, alias='common:other')
 
@@ -294,8 +288,7 @@ class DataSourcesTreatmentAndRepresentativeness(BaseModel):
         GlobalReferenceType1 | list[GlobalReferenceTypeItem] | None
     ) = Field(
         None,
-        description='"Source data set" of data source(s) used for the data set e.g. a paper, a questionnaire, a monography etc. The main raw data sources should be named, too. [Note: relevant especially for market price data.]',
-        union_mode='smart',
+        description='"Source data set" of data source(s) used for the data set e.g. a paper, a questionnaire, a monography etc. The main raw data sources should be named, too. [Note: relevant especially for market price data.]'
     )
     common_other: str | None = Field(None, alias='common:other')
 
@@ -310,8 +303,7 @@ class Compliance(BaseModel):
     ) = Field(
         ...,
         alias='common:referenceToComplianceSystem',
-        description='"Source data set" of the "Compliance system" that is declared to be met by the data set.',
-        union_mode='smart',
+        description='"Source data set" of the "Compliance system" that is declared to be met by the data set.'
     )
     common_approvalOfOverallCompliance: CommonApprovalOfOverallCompliance = Field(
         ...,
@@ -326,8 +318,7 @@ class Compliance1Item(BaseModel):
     ) = Field(
         ...,
         alias='common:referenceToComplianceSystem',
-        description='"Source data set" of the "Compliance system" that is declared to be met by the data set.',
-        union_mode='smart',
+        description='"Source data set" of the "Compliance system" that is declared to be met by the data set.'
     )
     common_approvalOfOverallCompliance: CommonApprovalOfOverallCompliance = Field(
         ...,
@@ -351,8 +342,7 @@ class ComplianceDeclarations(BaseModel):
 
     compliance: Compliance | Compliance1 = Field(
         ...,
-        description='One compliance declaration. Multiple declarations may be provided.',
-        union_mode='smart',
+        description='One compliance declaration. Multiple declarations may be provided.'
     )
     common_other: str | None = Field(None, alias='common:other')
 
@@ -387,8 +377,7 @@ class DataEntryBy(BaseModel):
     ) = Field(
         ...,
         alias='common:referenceToDataSetFormat',
-        description='"Source data set" of the used version of the ILCD format. If additional data format fields have been integrated into the data set file, using the "namespace" option, the used format namespace(s) are to be given. This is the case if the data sets carries additional information as specified by other, particular LCA formats, e.g. of other database networks or LCA softwares.',
-        union_mode='smart',
+        description='"Source data set" of the used version of the ILCD format. If additional data format fields have been integrated into the data set file, using the "namespace" option, the used format namespace(s) are to be given. This is the case if the data sets carries additional information as specified by other, particular LCA formats, e.g. of other database networks or LCA softwares.'
     )
     common_other: str | None = Field(None, alias='common:other')
 
@@ -408,8 +397,7 @@ class PublicationAndOwnership(BaseModel):
     ) = Field(
         None,
         alias='common:referenceToPrecedingDataSetVersion',
-        description='Last preceding data set, which was replaced by this version. Either a URI of that data set (i.e. an internet address) or its UUID plus version number is given (or both).',
-        union_mode='smart',
+        description='Last preceding data set, which was replaced by this version. Either a URI of that data set (i.e. an internet address) or its UUID plus version number is given (or both).'
     )
     common_permanentDataSetURI: AnyUrl | None = Field(
         None,
@@ -421,8 +409,7 @@ class PublicationAndOwnership(BaseModel):
     ) = Field(
         ...,
         alias='common:referenceToOwnershipOfDataSet',
-        description='"Contact data set" of the person or entity who owns this data set. (Note: this is not necessarily the publisher of the data set.)',
-        union_mode='smart',
+        description='"Contact data set" of the person or entity who owns this data set. (Note: this is not necessarily the publisher of the data set.)'
     )
     common_other: str | None = Field(None, alias='common:other')
 
