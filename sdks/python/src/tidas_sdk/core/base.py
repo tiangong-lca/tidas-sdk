@@ -5,13 +5,15 @@ Base entity class for all TIDAS entities.
 import copy
 import json
 from abc import ABC
-from typing import Any, Dict, List, Optional, Type
+from typing import Any, Dict, List, Optional, Type, TypeVar, cast
 
 from loguru import logger
 from pydantic import BaseModel, ValidationError as PydanticValidationError
 
 from .exceptions import ValidationError
 from .validation import ValidationConfig, ValidationWarning, get_default_validation_config
+
+T = TypeVar('T')
 
 
 class TidasEntity(ABC):
@@ -39,6 +41,7 @@ class TidasEntity(ABC):
             else get_default_validation_config()
         )
         self._validation_warnings: List[ValidationWarning] = []
+        self._wrappers_cache: Dict[str, Any] = {}
 
         # Subclasses must set this to their Pydantic model class
         self._pydantic_model: Optional[Type[BaseModel]] = None
@@ -166,3 +169,50 @@ class TidasEntity(ABC):
                 return None
 
         return value
+
+    def _get_typed_field(
+        self,
+        field_name: str,
+        wrapper_type: Type[T],
+        *,
+        cache: bool = True
+    ) -> T:
+        """Get a typed wrapper for a field.
+
+        This method enables IDE autocomplete and type checking by returning
+        typed wrapper objects instead of raw dictionaries.
+
+        Args:
+            field_name: Name of the field in the entity data
+            wrapper_type: Wrapper class to instantiate
+            cache: Whether to cache the wrapper instance (default: True)
+
+        Returns:
+            Typed wrapper instance for the field
+        """
+        cache_key = f"{field_name}_{wrapper_type.__name__}"
+
+        if cache and cache_key in self._wrappers_cache:
+            return cast(T, self._wrappers_cache[cache_key])
+
+        # Ensure field exists in data
+        self._ensure_field_exists(field_name)
+
+        # Create wrapper instance - wrapper_type is a callable that returns T
+        wrapper = cast(T, wrapper_type(self, self._data[field_name]))  # type: ignore[call-arg,redundant-cast]
+
+        if cache:
+            self._wrappers_cache[cache_key] = wrapper
+
+        return wrapper
+
+    def _ensure_field_exists(self, field_name: str) -> None:
+        """Ensure a field exists in the entity data.
+
+        Creates the field with an empty dict if it doesn't exist.
+
+        Args:
+            field_name: Name of the field to ensure exists
+        """
+        if field_name not in self._data:
+            self._data[field_name] = {}
