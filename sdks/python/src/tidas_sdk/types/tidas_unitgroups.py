@@ -177,8 +177,7 @@ class GlobalReferenceType1(BaseModel):
     common_shortDescription: STMultiLang1 | STMultiLang2 = Field(
         ...,
         alias='common:shortDescription',
-        description='Multi-lang short text with a maximum length of 1000 characters.',
-        union_mode='smart',
+        description='Multi-lang short text with a maximum length of 1000 characters.'
     )
 
 
@@ -194,8 +193,7 @@ class GlobalReferenceTypeItem(BaseModel):
     common_shortDescription: STMultiLang1 | STMultiLang2 = Field(
         ...,
         alias='common:shortDescription',
-        description='Multi-lang short text with a maximum length of 1000 characters.',
-        union_mode='smart',
+        description='Multi-lang short text with a maximum length of 1000 characters.'
     )
 
 
@@ -221,8 +219,7 @@ class DataSetInformation(BaseModel):
     common_name: StringMultiLang1 | StringMultiLang2 = Field(
         ...,
         alias='common:name',
-        description='Name of the unit group, typically indicating for which flow property or group of flow properties it is used. The individual units are named in the "Units" section of the "Unit group data set"',
-        union_mode='smart',
+        description='Name of the unit group, typically indicating for which flow property or group of flow properties it is used. The individual units are named in the "Units" section of the "Unit group data set"'
     )
     classificationInformation: ClassificationInformation = Field(
         ...,
@@ -231,8 +228,7 @@ class DataSetInformation(BaseModel):
     common_generalComment: FTMultiLang1 | FTMultiLang2 | None = Field(
         None,
         alias='common:generalComment',
-        description='Free text for general information about the data set. E.g. coverage of different unit systems, information sources used, etc.',
-        union_mode='smart',
+        description='Free text for general information about the data set. E.g. coverage of different unit systems, information sources used, etc.'
     )
     common_other: str | None = Field(None, alias='common:other')
 
@@ -260,8 +256,7 @@ class Compliance(BaseModel):
     ) = Field(
         ...,
         alias='common:referenceToComplianceSystem',
-        description='Represents a reference to another dataset or file. Either refObjectId and version, or uri, or both have to be specified.',
-        union_mode='smart',
+        description='Represents a reference to another dataset or file. Either refObjectId and version, or uri, or both have to be specified.'
     )
     common_approvalOfOverallCompliance: CommonApprovalOfOverallCompliance = Field(
         ..., alias='common:approvalOfOverallCompliance'
@@ -275,8 +270,7 @@ class Compliance1Item(BaseModel):
     ) = Field(
         ...,
         alias='common:referenceToComplianceSystem',
-        description='Represents a reference to another dataset or file. Either refObjectId and version, or uri, or both have to be specified.',
-        union_mode='smart',
+        description='Represents a reference to another dataset or file. Either refObjectId and version, or uri, or both have to be specified.'
     )
     common_approvalOfOverallCompliance: CommonApprovalOfOverallCompliance = Field(
         ..., alias='common:approvalOfOverallCompliance'
@@ -295,8 +289,7 @@ class Compliance1(RootModel[list[Compliance1Item]]):
 class ComplianceDeclarations(BaseModel):
     compliance: Compliance | Compliance1 = Field(
         ...,
-        description='One compliance declaration. Multiple declarations may be provided.',
-        union_mode='smart',
+        description='One compliance declaration. Multiple declarations may be provided.'
     )
     common_other: str | None = Field(None, alias='common:other')
 
@@ -317,8 +310,7 @@ class DataEntryBy(BaseModel):
     ) = Field(
         ...,
         alias='common:referenceToDataSetFormat',
-        description='"Source data set" of the used version of the ILCD format. If additional data format fields have been integrated into the data set file, using the "namespace" option, the used format namespace(s) are to be given. This is the case if the data sets carries additional information as specified by other, particular LCA formats, e.g. of other database networks or LCA softwares.',
-        union_mode='smart',
+        description='"Source data set" of the used version of the ILCD format. If additional data format fields have been integrated into the data set file, using the "namespace" option, the used format namespace(s) are to be given. This is the case if the data sets carries additional information as specified by other, particular LCA formats, e.g. of other database networks or LCA softwares.'
     )
     common_other: str | None = Field(None, alias='common:other')
 
@@ -334,8 +326,7 @@ class PublicationAndOwnership(BaseModel):
     ) = Field(
         None,
         alias='common:referenceToPrecedingDataSetVersion',
-        description='Last preceding data set, which was replaced by this version. Either a URI of that data set (i.e. an internet address) or its UUID plus version number is given (or both).',
-        union_mode='smart',
+        description='Last preceding data set, which was replaced by this version. Either a URI of that data set (i.e. an internet address) or its UUID plus version number is given (or both).'
     )
     common_permanentDataSetURI: AnyUrl | None = Field(
         None,
@@ -347,8 +338,7 @@ class PublicationAndOwnership(BaseModel):
     ) = Field(
         ...,
         alias='common:referenceToOwnershipOfDataSet',
-        description='"Contact data set" of the person or entity who owns this data set. (Note: this is not necessarily the publisher of the data set.)',
-        union_mode='smart',
+        description='"Contact data set" of the person or entity who owns this data set. (Note: this is not necessarily the publisher of the data set.)'
     )
     common_other: str | None = Field(None, alias='common:other')
 
@@ -379,8 +369,7 @@ class Unit(BaseModel):
     )
     generalComment: StringMultiLang1 | StringMultiLang2 | None = Field(
         None,
-        description='General comment on each single unit, typically giving the long name and unit system from which this unit stems, and (if necessary) referring to specifc data sources used, or for workflow purposes about status of "finalisation" of an entry etc.',
-        union_mode='smart',
+        description='General comment on each single unit, typically giving the long name and unit system from which this unit stems, and (if necessary) referring to specifc data sources used, or for workflow purposes about status of "finalisation" of an entry etc.'
     )
     common_other: str | None = Field(None, alias='common:other')
 
@@ -405,13 +394,12 @@ class UnitItem(BaseModel):
     )
     generalComment: StringMultiLang1 | StringMultiLang2 | None = Field(
         None,
-        description='General comment on each single unit, typically giving the long name and unit system from which this unit stems, and (if necessary) referring to specifc data sources used, or for workflow purposes about status of "finalisation" of an entry etc.',
-        union_mode='smart',
+        description='General comment on each single unit, typically giving the long name and unit system from which this unit stems, and (if necessary) referring to specifc data sources used, or for workflow purposes about status of "finalisation" of an entry etc.'
     )
 
 
 class Units(BaseModel):
-    unit: Unit | list[UnitItem] | None = Field(None, union_mode='smart')
+    unit: Unit | list[UnitItem] | None = Field(None)
     common_other: str | None = Field(None, alias='common:other')
 
 

@@ -7,4 +7,4 @@ from pydantic import Field, RootModel
 
 
 class Model(RootModel[str]):
-    root: str = Field(..., union_mode='smart')
+    root: str = Field(...)

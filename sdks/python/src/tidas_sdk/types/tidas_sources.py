@@ -205,8 +205,7 @@ class GlobalReferenceType1(BaseModel):
     common_shortDescription: STMultiLang1 | STMultiLang2 = Field(
         ...,
         alias='common:shortDescription',
-        description='Multi-lang short text with a maximum length of 1000 characters.',
-        union_mode='smart',
+        description='Multi-lang short text with a maximum length of 1000 characters.'
     )
 
 
@@ -222,8 +221,7 @@ class GlobalReferenceTypeItem(BaseModel):
     common_shortDescription: STMultiLang1 | STMultiLang2 = Field(
         ...,
         alias='common:shortDescription',
-        description='Multi-lang short text with a maximum length of 1000 characters.',
-        union_mode='smart',
+        description='Multi-lang short text with a maximum length of 1000 characters.'
     )
 
 
@@ -249,8 +247,7 @@ class DataSetInformation(BaseModel):
     common_shortName: StringMultiLang1 | StringMultiLang2 = Field(
         ...,
         alias='common:shortName',
-        description='Short name for the "Source citation", i.e. for the bibliographical reference or reference to internal data sources used.',
-        union_mode='smart',
+        description='Short name for the "Source citation", i.e. for the bibliographical reference or reference to internal data sources used.'
     )
     classificationInformation: ClassificationInformation = Field(
         ...,
@@ -265,8 +262,7 @@ class DataSetInformation(BaseModel):
     )
     sourceDescriptionOrComment: FTMultiLang1 | FTMultiLang2 | None = Field(
         None,
-        description='Free text for additional description of the source. In case of use of published data it may contain a brief summary of the publication and the kind of medium used (e.g. CD-ROM, hard copy).',
-        union_mode='smart',
+        description='Free text for additional description of the source. In case of use of published data it may contain a brief summary of the publication and the kind of medium used (e.g. CD-ROM, hard copy).'
     )
     referenceToDigitalFile: ReferenceToDigitalFile | None = Field(
         None,
@@ -275,15 +271,13 @@ class DataSetInformation(BaseModel):
     referenceToContact: GlobalReferenceType1 | list[GlobalReferenceTypeItem] | None = (
         Field(
             None,
-            description='"Contact data set"s of working groups, organisations or database networks to which EITHER this person or entity OR this database, data set format, or compliance system belongs. [Note: This does not necessarily imply a legally binding relationship, but may also be a voluntary membership.]',
-            union_mode='smart',
+            description='"Contact data set"s of working groups, organisations or database networks to which EITHER this person or entity OR this database, data set format, or compliance system belongs. [Note: This does not necessarily imply a legally binding relationship, but may also be a voluntary membership.]'
         )
     )
     referenceToLogo: GlobalReferenceType1 | list[GlobalReferenceTypeItem] | None = (
         Field(
             None,
-            description='"Source data set" of the logo of the organisation or source to be used in reports etc.',
-            union_mode='smart',
+            description='"Source data set" of the logo of the organisation or source to be used in reports etc.'
         )
     )
     common_other: str | None = Field(None, alias='common:other')
@@ -305,8 +299,7 @@ class DataEntryBy(BaseModel):
     ) = Field(
         ...,
         alias='common:referenceToDataSetFormat',
-        description='"Source data set" of the used version of the ILCD format. If additional data format fields have been integrated into the data set file, using the "namespace" option, the used format namespace(s) are to be given. This is the case if the data sets carries additional information as specified by other, particular LCA formats, e.g. of other database networks or LCA softwares.',
-        union_mode='smart',
+        description='"Source data set" of the used version of the ILCD format. If additional data format fields have been integrated into the data set file, using the "namespace" option, the used format namespace(s) are to be given. This is the case if the data sets carries additional information as specified by other, particular LCA formats, e.g. of other database networks or LCA softwares.'
     )
     common_other: str | None = Field(None, alias='common:other')
 
@@ -326,8 +319,7 @@ class PublicationAndOwnership(BaseModel):
     ) = Field(
         None,
         alias='common:referenceToPrecedingDataSetVersion',
-        description='Last preceding data set, which was replaced by this version. Either a URI of that data set (i.e. an internet address) or its UUID plus version number is given (or both).',
-        union_mode='smart',
+        description='Last preceding data set, which was replaced by this version. Either a URI of that data set (i.e. an internet address) or its UUID plus version number is given (or both).'
     )
     common_permanentDataSetURI: AnyUrl | None = Field(
         None,
@@ -339,8 +331,7 @@ class PublicationAndOwnership(BaseModel):
     ) = Field(
         ...,
         alias='common:referenceToOwnershipOfDataSet',
-        description='"Contact data set" of the person or entity who owns this data set. (Note: this is not necessarily the publisher of the data set.)',
-        union_mode='smart',
+        description='"Contact data set" of the person or entity who owns this data set. (Note: this is not necessarily the publisher of the data set.)'
     )
     common_other: str | None = Field(None, alias='common:other')
 
