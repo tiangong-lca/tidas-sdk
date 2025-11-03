@@ -6,12 +6,32 @@ This script replaces the custom AST-based code generator with a battle-tested li
 """
 
 import argparse
+import importlib.util
 import subprocess
 import sys
 import time
 from pathlib import Path
 
 from loguru import logger
+
+# Import post-processing functions
+try:
+    # Try relative import first (same directory)
+    post_process_path = Path(__file__).parent / "post_process_types.py"
+    if post_process_path.exists():
+        spec = importlib.util.spec_from_file_location(
+            "post_process_types", post_process_path
+        )
+        post_process_module = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(post_process_module)
+        post_process_file = post_process_module.post_process_file
+        POST_PROCESS_AVAILABLE = True
+    else:
+        POST_PROCESS_AVAILABLE = False
+        logger.warning("Post-processing module not found.")
+except Exception as e:
+    POST_PROCESS_AVAILABLE = False
+    logger.debug(f"Post-processing module not available: {e}")
 
 
 def parse_args() -> argparse.Namespace:
@@ -44,6 +64,12 @@ def parse_args() -> argparse.Namespace:
         "-v",
         action="store_true",
         help="Enable verbose logging",
+    )
+
+    parser.add_argument(
+        "--skip-post-process",
+        action="store_true",
+        help="Skip post-processing step (fix cross-file references)",
     )
 
     return parser.parse_args()
@@ -80,7 +106,9 @@ def find_schema_dir(provided_dir: str | None) -> Path:
     # Try to find tidas-tools
     current = Path.cwd()
     for _ in range(5):  # Search up to 5 levels
-        tidas_tools = current / "tidas-tools" / "src" / "tidas_tools" / "tidas" / "schemas"
+        tidas_tools = (
+            current / "tidas-tools" / "src" / "tidas_tools" / "tidas" / "schemas"
+        )
         if tidas_tools.exists():
             return tidas_tools
         current = current.parent
@@ -92,9 +120,7 @@ def find_schema_dir(provided_dir: str | None) -> Path:
 
 
 def generate_schema(
-    schema_file: Path,
-    output_dir: Path,
-    force: bool
+    schema_file: Path, output_dir: Path, force: bool
 ) -> tuple[bool, str]:
     """Generate Pydantic model for a single schema file.
 
@@ -115,19 +141,25 @@ def generate_schema(
     # Run datamodel-codegen with optimization flags
     cmd = [
         "datamodel-codegen",
-        "--input", str(schema_file),
-        "--input-file-type", "jsonschema",
-        "--output", str(output_file),
-        "--output-model-type", "pydantic_v2.BaseModel",
+        "--input",
+        str(schema_file),
+        "--input-file-type",
+        "jsonschema",
+        "--output",
+        str(output_file),
+        "--output-model-type",
+        "pydantic_v2.BaseModel",
         # Code quality improvements
         "--use-standard-collections",  # Use list instead of List
         "--use-union-operator",  # Use | instead of Union
-        "--target-python-version", "3.12",
+        "--target-python-version",
+        "3.12",
         "--field-constraints",  # Use Field() with constraints
         # Deduplication and cleanup (reduces numbered suffixes)
         "--reuse-model",  # Reuse models with identical content
         "--collapse-root-models",  # Merge RootModel wrappers
-        "--union-mode", "smart",  # Intelligent union handling
+        "--union-mode",
+        "smart",  # Intelligent union handling
         # Better naming
         "--use-title-as-name",  # Use schema title as class name
         "--use-schema-description",  # Add docstrings from descriptions
@@ -135,12 +167,7 @@ def generate_schema(
     ]
 
     try:
-        result = subprocess.run(
-            cmd,
-            capture_output=True,
-            text=True,
-            check=True
-        )
+        result = subprocess.run(cmd, capture_output=True, text=True, check=True)
         logger.debug(f"Generated {output_file.name}")
         if result.stdout:
             logger.debug(f"stdout: {result.stdout}")
@@ -167,18 +194,26 @@ def generate_init_file(output_dir: Path, generated_files: list[str]) -> None:
     for file_name in sorted(generated_files):
         module_name = file_name.replace(".py", "")
         # Import the Model class from each module
-        imports.append(f"from .{module_name} import Model as {module_name.title().replace('_', '')}")
+        imports.append(
+            f"from .{module_name} import Model as {module_name.title().replace('_', '')}"
+        )
         exports.append(f'    "{module_name.title().replace("_", "")}",')
 
     # Create init file content
-    content = '''"""Generated Pydantic types from TIDAS schemas."""
+    content = (
+        '''"""Generated Pydantic types from TIDAS schemas."""
 
-''' + "\n".join(imports) + '''
+'''
+        + "\n".join(imports)
+        + """
 
 __all__ = [
-''' + "\n".join(exports) + '''
+"""
+        + "\n".join(exports)
+        + """
 ]
-'''
+"""
+    )
 
     init_file.write_text(content, encoding="utf-8")
     logger.info(f"✅ Generated __init__.py with {len(exports)} exports")
@@ -235,14 +270,17 @@ def main() -> int:
 
     # Skip category files (will be generated by separate clean generator)
     # Also skip data_types (manually maintained for better multi-lang support)
-    skip_patterns = ['_category.json', 'data_types.json']
+    skip_patterns = ["_category.json", "data_types.json"]
     schema_files = [
-        f for f in all_schema_files
+        f
+        for f in all_schema_files
         if not any(pattern in f.name for pattern in skip_patterns)
     ]
 
     logger.info(f"Found {len(all_schema_files)} schemas total")
-    logger.info(f"Skipping {len(all_schema_files) - len(schema_files)} category/base schemas (manually created)")
+    logger.info(
+        f"Skipping {len(all_schema_files) - len(schema_files)} category/base schemas (manually created)"
+    )
     logger.info(f"Will generate {len(schema_files)} entity schemas")
 
     # Generate all schemas
@@ -278,21 +316,74 @@ def main() -> int:
     # Print summary
     print_summary(stats, duration)
 
-    # Generate clean category files (Issue 2 fix)
+    # Generate clean category files FIRST (Issue 2 fix)
+    # This must happen BEFORE post-processing, as post-processing needs Text types
     print("\n" + "=" * 60)
     print("GENERATING CLEAN CATEGORY FILES")
     print("=" * 60)
     category_script = Path(__file__).parent / "generate_category_types.py"
     if category_script.exists():
         result = subprocess.run(
-            [sys.executable, str(category_script)],
-            capture_output=False,
-            check=False
+            [sys.executable, str(category_script)], capture_output=False, check=False
         )
         if result.returncode != 0:
             print("⚠️  Category generation had warnings/errors")
     else:
         print("⚠️  Category generator script not found")
+
+    # Post-process generated files to fix cross-file references
+    # This runs AFTER category files are generated, so Text types are available
+    if not args.skip_post_process and POST_PROCESS_AVAILABLE and stats["generated"] > 0:
+        print("\n" + "=" * 60)
+        print("POST-PROCESSING GENERATED TYPES")
+        print("=" * 60)
+
+        post_process_start_time = time.perf_counter()
+        post_process_stats = {
+            "files_processed": 0,
+            "files_modified": 0,
+            "total_classes_removed": 0,
+            "total_types_replaced": 0,
+        }
+
+        # Only process files that were just generated
+        for generated_file in stats["files"]:
+            type_file = output_dir / generated_file
+            if type_file.exists():
+                try:
+                    file_stats = post_process_file(type_file, dry_run=False)
+                    post_process_stats["files_processed"] += 1
+                    if (
+                        file_stats["classes_removed"] > 0
+                        or file_stats["types_replaced"] > 0
+                        or file_stats["import_added"]
+                    ):
+                        post_process_stats["files_modified"] += 1
+                    post_process_stats["total_classes_removed"] += file_stats[
+                        "classes_removed"
+                    ]
+                    post_process_stats["total_types_replaced"] += file_stats[
+                        "types_replaced"
+                    ]
+                except Exception as e:
+                    logger.error(f"Error post-processing {generated_file}: {e}")
+                    if args.verbose:
+                        import traceback
+
+                        traceback.print_exc()
+
+        post_process_duration = time.perf_counter() - post_process_start_time
+
+        print(f"Files processed:    {post_process_stats['files_processed']}")
+        print(f"Files modified:     {post_process_stats['files_modified']}")
+        print(f"Classes removed:    {post_process_stats['total_classes_removed']}")
+        print(f"Type references replaced: {post_process_stats['total_types_replaced']}")
+        print(f"Duration:          {post_process_duration:.2f} seconds")
+        print("=" * 60)
+    elif args.skip_post_process:
+        logger.info("⏭️  Skipping post-processing (--skip-post-process flag set)")
+    elif not POST_PROCESS_AVAILABLE:
+        logger.warning("⏭️  Skipping post-processing (module not available)")
 
     # Generate typed wrappers (Feature 004)
     print("\n" + "=" * 60)
@@ -301,9 +392,7 @@ def main() -> int:
     wrapper_script = Path(__file__).parent / "generate_wrappers.py"
     if wrapper_script.exists():
         result = subprocess.run(
-            [sys.executable, str(wrapper_script)],
-            capture_output=False,
-            check=False
+            [sys.executable, str(wrapper_script)], capture_output=False, check=False
         )
         if result.returncode != 0:
             print("⚠️  Wrapper generation had warnings/errors")

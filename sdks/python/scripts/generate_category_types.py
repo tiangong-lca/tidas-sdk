@@ -167,6 +167,49 @@ class CategoryGenerator:
         lines.append("]")
         lines.append("")
         lines.append("")
+
+        # Generate Text Literal type (all unique text values)
+        text_type_name = f"Tidas{type_name}Text"
+        unique_texts = sorted(set(cat["text"] for cat in self.categories))
+
+        # For very large Text types (e.g., FlowsProduct with 3751 values),
+        # use str type with a comment instead of Literal to avoid type checker issues
+        if len(unique_texts) > 200:
+            lines.append(
+                f"# Type-safe union of all {type_name.lower()} category text values"
+            )
+            lines.append(
+                f"# Note: This is a very large Literal type with ~{len(unique_texts)} values."
+            )
+            lines.append(f"# The full list is generated from {var_name}_CATEGORIES.")
+            lines.append(
+                f"# For type checking purposes, we use str as the actual type since"
+            )
+            lines.append(
+                f"# Python's type checker may have issues with such large Literal types."
+            )
+            lines.append(
+                f"# In practice, the values are validated at runtime using {var_name}_CATEGORIES."
+            )
+            lines.append(
+                f"{text_type_name} = str  # Effectively all text values from {var_name}_CATEGORIES"
+            )
+        else:
+            lines.append(
+                f"# Type-safe union of all {type_name.lower()} category text values"
+            )
+            lines.append(f"{text_type_name} = Literal[")
+
+            # Add text values
+            for text in unique_texts:
+                # Escape single quotes in text
+                escaped_text = text.replace("'", "\\'")
+                lines.append(f"    '{escaped_text}',")
+
+            lines.append("]")
+
+        lines.append("")
+        lines.append("")
         lines.append("# Runtime metadata for lookups")
         lines.append(f"{var_name}_CATEGORIES: dict[str, {type_name}CategoryData] = {{")
 
@@ -183,9 +226,15 @@ class CategoryGenerator:
         lines.append("}")
         lines.append("")
         lines.append("")
-        lines.append(
-            f"__all__ = ['{type_name}', '{type_name}CategoryData', '{var_name}_CATEGORIES']"
-        )
+        # Add Text type to __all__ if it was generated as Literal
+        if len(unique_texts) <= 200:
+            lines.append(
+                f"__all__ = ['{type_name}', '{text_type_name}', '{type_name}CategoryData', '{var_name}_CATEGORIES']"
+            )
+        else:
+            lines.append(
+                f"__all__ = ['{type_name}', '{text_type_name}', '{type_name}CategoryData', '{var_name}_CATEGORIES']"
+            )
         lines.append("")
 
         return "\n".join(lines)
