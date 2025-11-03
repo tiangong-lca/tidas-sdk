@@ -35,6 +35,9 @@ build-backend = "setuptools.build_meta"
 [tool.setuptools.packages.find]
 where = ["src"]
 
+[tool.setuptools.package-data]
+tidas_sdk = ["py.typed"]
+
 [tool.ruff]
 line-length = 100
 target-version = "py38"
