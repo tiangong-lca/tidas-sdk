@@ -73,6 +73,63 @@ Lciamethods = Literal[
 ]
 
 
+# Type-safe union of all lciamethods category text values
+TidasLciamethodsText = Literal[
+    'Acidification',
+    'Climate change',
+    'Combined methods',
+    'Damage level LCIA methods',
+    'Ecotoxicity',
+    'Eutrophication',
+    'Human health',
+    'Human health, climate change',
+    'Human health, ionising radiation',
+    'Human health, other',
+    'Human health, ozone depletion',
+    'Human health, photooxidant creation',
+    'Human health, toxicity',
+    'Human toxicity',
+    'Land use',
+    'Man-made environment',
+    'Man-made environment, acidification',
+    'Man-made environment, climate change',
+    'Man-made environment, eutrophication',
+    'Man-made environment, other',
+    'Midpoint level LCIA methods',
+    'Natural environment',
+    'Natural environment, acidification',
+    'Natural environment, climate change',
+    'Natural environment, eutrophication',
+    'Natural environment, freshwater ecotoxicity',
+    'Natural environment, ionising radiation',
+    'Natural environment, land use',
+    'Natural environment, other',
+    'Natural environment, ozone depletion',
+    'Natural environment, photooxidant creation',
+    'Natural environment, seawater ecotoxicity',
+    'Natural environment, terrestric ecotoxicity',
+    'Noise',
+    'Nuclear radiation',
+    'Other midpoint categories',
+    'Ozone depletion',
+    'Photooxidant creation',
+    'Resource availability',
+    'Resource depletion',
+    'Resource depletion, land use',
+    'Resource depletion, minerals and metals',
+    'Resource depletion, non-renewable energy resourcess',
+    'Resource depletion, other',
+    'Resource depletion, renewable energy resources',
+    'Resource depletion, renewable non-energy resources',
+    'Respiratory effects',
+    'Total human health, combined',
+    'Total impact across areas of protection',
+    'Total man-made environment, combined',
+    'Total natural environment, combined',
+    'Total resource depletion, combined',
+]
+
+
 # Runtime metadata for lookups
 LCIAMETHODS_CATEGORIES: dict[str, LciamethodsCategoryData] = {
     '1': {
@@ -338,4 +395,4 @@ LCIAMETHODS_CATEGORIES: dict[str, LciamethodsCategoryData] = {
 }
 
 
-__all__ = ['Lciamethods', 'LciamethodsCategoryData', 'LCIAMETHODS_CATEGORIES']
+__all__ = ['Lciamethods', 'TidasLciamethodsText', 'LciamethodsCategoryData', 'LCIAMETHODS_CATEGORIES']

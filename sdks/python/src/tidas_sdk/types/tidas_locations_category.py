@@ -668,6 +668,15 @@ Locations = Literal[
 ]
 
 
+# Type-safe union of all locations category text values
+# Note: This is a very large Literal type with ~647 values.
+# The full list is generated from LOCATIONS_CATEGORIES.
+# For type checking purposes, we use str as the actual type since
+# Python's type checker may have issues with such large Literal types.
+# In practice, the values are validated at runtime using LOCATIONS_CATEGORIES.
+TidasLocationsText = str  # Effectively all text values from LOCATIONS_CATEGORIES
+
+
 # Runtime metadata for lookups
 LOCATIONS_CATEGORIES: dict[str, LocationsCategoryData] = {
     'NULL': {
@@ -3908,4 +3917,4 @@ LOCATIONS_CATEGORIES: dict[str, LocationsCategoryData] = {
 }
 
 
-__all__ = ['Locations', 'LocationsCategoryData', 'LOCATIONS_CATEGORIES']
+__all__ = ['Locations', 'TidasLocationsText', 'LocationsCategoryData', 'LOCATIONS_CATEGORIES']

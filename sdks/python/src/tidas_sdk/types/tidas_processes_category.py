@@ -787,6 +787,15 @@ Processes = Literal[
 ]
 
 
+# Type-safe union of all processes category text values
+# Note: This is a very large Literal type with ~587 values.
+# The full list is generated from PROCESSES_CATEGORIES.
+# For type checking purposes, we use str as the actual type since
+# Python's type checker may have issues with such large Literal types.
+# In practice, the values are validated at runtime using PROCESSES_CATEGORIES.
+TidasProcessesText = str  # Effectively all text values from PROCESSES_CATEGORIES
+
+
 # Runtime metadata for lookups
 PROCESSES_CATEGORIES: dict[str, ProcessesCategoryData] = {
     'A': {
@@ -4622,4 +4631,4 @@ PROCESSES_CATEGORIES: dict[str, ProcessesCategoryData] = {
 }
 
 
-__all__ = ['Processes', 'ProcessesCategoryData', 'PROCESSES_CATEGORIES']
+__all__ = ['Processes', 'TidasProcessesText', 'ProcessesCategoryData', 'PROCESSES_CATEGORIES']

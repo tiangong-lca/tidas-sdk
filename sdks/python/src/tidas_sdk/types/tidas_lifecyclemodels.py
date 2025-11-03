@@ -7,30 +7,61 @@ from enum import Enum
 from typing import Literal
 
 from pydantic import AnyUrl, AwareDatetime, BaseModel, Field, RootModel
+from tidas_sdk.types.tidas_processes_category import (
+    Processes,
+    TidasProcessesText
+)
+
+from tidas_sdk.types.tidas_data_types import (
+    CASNumber,
+    FT,
+    FTMultiLang,
+    GIS,
+    GlobalReferenceType,
+    GlobalReferenceTypeOrArray,
+    Int1,
+    Int5,
+    Int6,
+    LevelType,
+    MatR,
+    MatV,
+    MultiLangItem,
+    MultiLangItemST,
+    MultiLangItemString,
+    Perc,
+    Real,
+    ST,
+    STMultiLang,
+    String,
+    StringMultiLang,
+    UUID,
+    Year
+)
+
 
 
 class CommonClas(BaseModel):
     field_level: Literal['0'] = Field(..., alias='@level')
-    field_classId: str = Field(..., alias='@classId')
-    text: str = Field(..., alias='#text')
+    field_classId: Processes = Field(..., alias='@classId')
+    text: TidasProcessesText = Field(..., alias='#text')
 
 
 class CommonClas1(BaseModel):
     field_level: Literal['1'] = Field(..., alias='@level')
-    field_classId: str = Field(..., alias='@classId')
-    text: str = Field(..., alias='#text')
+    field_classId: Processes = Field(..., alias='@classId')
+    text: TidasProcessesText = Field(..., alias='#text')
 
 
 class CommonClas2(BaseModel):
     field_level: Literal['2'] = Field(..., alias='@level')
-    field_classId: str = Field(..., alias='@classId')
-    text: str = Field(..., alias='#text')
+    field_classId: Processes = Field(..., alias='@classId')
+    text: TidasProcessesText = Field(..., alias='#text')
 
 
 class CommonClas3(BaseModel):
     field_level: Literal['3'] = Field(..., alias='@level')
-    field_classId: str = Field(..., alias='@classId')
-    text: str = Field(..., alias='#text')
+    field_classId: Processes = Field(..., alias='@classId')
+    text: TidasProcessesText = Field(..., alias='#text')
 
 
 class CommonClass(BaseModel):
@@ -202,84 +233,24 @@ class CommonLicenseType(Enum):
     Other = 'Other'
 
 
-class UUID(RootModel[str]):
-    root: str = Field(
-        ...,
-        description='Unique Universal Identifier, 16-byte hex number',
-        pattern='^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$',
-    )
-
-
-class CASNumber(RootModel[str]):
-    root: str = Field(
-        ...,
-        description='CAS Number, leading zeros are requried.',
-        pattern='^[0-9]{2,7}-[0-9]{2}-[0-9]$',
-    )
-
-
-class FT(RootModel[str]):
-    root: str = Field(..., description='Free text with an unlimited length.')
-
-
-class StringMultiLang1Item(BaseModel):
+class MultiLangItemString(BaseModel):
     field_xml_lang: str = Field(..., alias='@xml:lang')
     text: str = Field(..., alias='#text', max_length=500)
 
 
-class StringMultiLang1(RootModel[list[StringMultiLang1Item]]):
-    root: list[StringMultiLang1Item] = Field(
+class StringMultiLang(RootModel[list[MultiLangItemString]]):
+    root: list[MultiLangItemString] = Field(
         ..., description='Multi-language string with a maximum length of 500 characters'
     )
 
 
-class StringMultiLang2(BaseModel):
+class StringMultiLang(BaseModel):
     """
     Multi-language string with a maximum length of 500 characters
     """
 
     field_xml_lang: str = Field(..., alias='@xml:lang')
     text: str = Field(..., alias='#text', max_length=500)
-
-
-class Int5(RootModel[str]):
-    root: str = Field(
-        ..., description='5-digit integer number', pattern='^(0|[1-9]\\d{0,4})$'
-    )
-
-
-class Int6(RootModel[str]):
-    root: str = Field(
-        ..., description='6-digit integer number', pattern='^(0|[1-9]\\d{0,5})$'
-    )
-
-
-class LevelType(RootModel[str]):
-    root: str = Field(
-        ...,
-        description='1-digit integer number, must be equal to or greater than 0',
-        pattern='^[0-9]$',
-    )
-
-
-class Perc(RootModel[str]):
-    root: str = Field(
-        ...,
-        description='percentage amount',
-        pattern='^(100(\\.0{1,3})?|([0-9]|[1-9][0-9])(\\.\\d{1,3})?)$',
-    )
-
-
-class MatR(RootModel[str]):
-    root: str = Field(..., description='Mathematical rule')
-
-
-class ST(RootModel[str]):
-    root: str = Field(
-        ...,
-        description='Short text with a maximum length of 1000 characters',
-        max_length=1000,
-    )
 
 
 class String(RootModel[str]):
@@ -291,19 +262,19 @@ class String(RootModel[str]):
     )
 
 
-class STMultiLang1Item(BaseModel):
+class MultiLangItemST(BaseModel):
     field_xml_lang: str = Field(..., alias='@xml:lang')
     text: str = Field(..., alias='#text', max_length=1000)
 
 
-class STMultiLang1(RootModel[list[STMultiLang1Item]]):
-    root: list[STMultiLang1Item] = Field(
+class STMultiLang(RootModel[list[MultiLangItemST]]):
+    root: list[MultiLangItemST] = Field(
         ...,
         description='Multi-lang short text with a maximum length of 1000 characters.',
     )
 
 
-class STMultiLang2(BaseModel):
+class STMultiLang(BaseModel):
     """
     Multi-lang short text with a maximum length of 1000 characters.
     """
@@ -312,18 +283,18 @@ class STMultiLang2(BaseModel):
     text: str = Field(..., alias='#text', max_length=1000)
 
 
-class FTMultiLang1Item(BaseModel):
+class MultiLangItem(BaseModel):
     field_xml_lang: str = Field(..., alias='@xml:lang')
     text: str = Field(..., alias='#text')
 
 
-class FTMultiLang1(RootModel[list[FTMultiLang1Item]]):
-    root: list[FTMultiLang1Item] = Field(
+class FTMultiLang(RootModel[list[MultiLangItem]]):
+    root: list[MultiLangItem] = Field(
         ..., description='Multi-lang free text with an unlimited length.'
     )
 
 
-class FTMultiLang2(BaseModel):
+class FTMultiLang(BaseModel):
     """
     Multi-lang free text with an unlimited length.
     """
@@ -332,7 +303,7 @@ class FTMultiLang2(BaseModel):
     text: str = Field(..., alias='#text')
 
 
-class GlobalReferenceType1(BaseModel):
+class GlobalReferenceType(BaseModel):
     """
     Represents a reference to another dataset or file. Either refObjectId and version, or uri, or both have to be specified.
     """
@@ -345,7 +316,7 @@ class GlobalReferenceType1(BaseModel):
     )
     field_version: str = Field(..., alias='@version')
     field_uri: str = Field(..., alias='@uri')
-    common_shortDescription: STMultiLang1 | STMultiLang2 = Field(
+    common_shortDescription: STMultiLang | STMultiLang = Field(
         ...,
         alias='common:shortDescription',
         description='Multi-lang short text with a maximum length of 1000 characters.',
@@ -353,7 +324,7 @@ class GlobalReferenceType1(BaseModel):
     )
 
 
-class GlobalReferenceTypeItem(BaseModel):
+class GlobalReferenceType(BaseModel):
     field_type: str = Field(..., alias='@type')
     field_refObjectId: str = Field(
         ...,
@@ -362,7 +333,7 @@ class GlobalReferenceTypeItem(BaseModel):
     )
     field_version: str = Field(..., alias='@version')
     field_uri: str = Field(..., alias='@uri')
-    common_shortDescription: STMultiLang1 | STMultiLang2 = Field(
+    common_shortDescription: STMultiLang | STMultiLang = Field(
         ...,
         alias='common:shortDescription',
         description='Multi-lang short text with a maximum length of 1000 characters.',
@@ -387,22 +358,22 @@ class Name(BaseModel):
     General descriptive, specifying, structured name of the Life cycle model data set. Note: Ensure proper name structuring and observe restriction to 100 characters for each of the four name fields.
     """
 
-    baseName: StringMultiLang1 | StringMultiLang2 = Field(
+    baseName: StringMultiLang | StringMultiLang = Field(
         ...,
         description='General descriptive name of the life cycle model and/or its main good(s), service(s) and/or functions delivered.',
         union_mode='smart',
     )
-    treatmentStandardsRoutes: StringMultiLang1 | StringMultiLang2 = Field(
+    treatmentStandardsRoutes: StringMultiLang | StringMultiLang = Field(
         ...,
         description='Specifying information on the good, service, or function delivered by the life cycle model in technical term(s): treatment received, standard fulfilled, product quality, use information, production route name, educt name, primary / secondary etc. Separated by commata.',
         union_mode='smart',
     )
-    mixAndLocationTypes: StringMultiLang1 | StringMultiLang2 = Field(
+    mixAndLocationTypes: StringMultiLang | StringMultiLang = Field(
         ...,
         description='Specifying information on the good, service, or function, whether being a production mix or consumption mix, location type of availability (such as e.g. "to consumer" or "at plant"). Separated by commata. May include information of excluded life cycle stages, if any.',
         union_mode='smart',
     )
-    functionalUnitFlowProperties: StringMultiLang1 | StringMultiLang2 | None = Field(
+    functionalUnitFlowProperties: StringMultiLang | StringMultiLang | None = Field(
         None,
         description='Further, quantitative specifying information on the good, service or function in technical term(s): qualifying constituent(s)-content and / or energy-content per unit etc. as appropriate. Separated by commata. (Note: non-qualifying flow properties, CAS No, Synonyms, Chemical formulas etc. are to be documented exclusively in the "Flow data set" of the reference flow of this life cycle model.)',
         union_mode='smart',
@@ -430,20 +401,20 @@ class DataSetInformation(BaseModel):
         description='Hierarchical or flat classification of the good, service or function that is provided by this life cycle model; typically used to structure database contents in LCA software, among other purposes. (Note: This entry is NOT required for the identification of a Life cycle model, but it should nevertheless be avoided to use identical names for Life cycle model data sets in the same class. The ILCD classifications are defined in the ILCDClassifications.xml file, for common use.)',
     )
     referenceToResultingProcess: (
-        GlobalReferenceType1 | list[GlobalReferenceTypeItem] | None
+        GlobalReferenceType | list[GlobalReferenceType] | None
     ) = Field(
         None,
         description='Reference to the LCI result or partly terminated system process data set(s) that is/are generated from this model.',
         union_mode='smart',
     )
-    common_generalComment: FTMultiLang1 | FTMultiLang2 | None = Field(
+    common_generalComment: FTMultiLang | FTMultiLang | None = Field(
         None,
         alias='common:generalComment',
         description='General information about the data set.',
         union_mode='smart',
     )
     referenceToExternalDocumentation: (
-        GlobalReferenceType1 | list[GlobalReferenceTypeItem] | None
+        GlobalReferenceType | list[GlobalReferenceType] | None
     ) = Field(
         None,
         description='"Source data set(s)" of detailed LCI or LCA study or other study on the process or product represented by this data set, as well as documents / files with overarching documentative information on technology, geographical and / or time aspects etc. on the level of the life cycle model. (Note: can indirectly reference to electronic and online files.)',
@@ -458,7 +429,7 @@ class Group(BaseModel):
     """
 
     field_id: str | None = Field(None, alias='@id', pattern='^-?\\d+$')
-    groupName: StringMultiLang1 | StringMultiLang2 | None = Field(
+    groupName: StringMultiLang | StringMultiLang | None = Field(
         None,
         description='Multi-language string with a maximum length of 500 characters',
         union_mode='smart',
@@ -467,7 +438,7 @@ class Group(BaseModel):
 
 class GroupItem(BaseModel):
     field_id: str | None = Field(None, alias='@id', pattern='^-?\\d+$')
-    groupName: StringMultiLang1 | StringMultiLang2 | None = Field(
+    groupName: StringMultiLang | StringMultiLang | None = Field(
         None,
         description='Multi-language string with a maximum length of 500 characters',
         union_mode='smart',
@@ -634,7 +605,7 @@ class ProcessInstanceItem(BaseModel):
         description='The multiplication factor corresponds to the amount of output product from the process instance that is needed over the full life cycle. In practice, the Life Cycle Inventory of a specific process instance shall be multiplied by the multiplication factor to calculate the exact amount needed over the full life cycle.',
         pattern='^-?\\d+(\\.\\d+)?([eE][-+]?\\d+)?$',
     )
-    referenceToProcess: GlobalReferenceType1 | list[GlobalReferenceTypeItem] = Field(
+    referenceToProcess: GlobalReferenceType | list[GlobalReferenceType] = Field(
         ...,
         description='Reference to the process data set and (optional) identifying its version, that is included in the eILCD archive of the Life cycle model and/or accessible at a remote location, i.e. an URI or URL.',
         union_mode='smart',
@@ -774,7 +745,7 @@ class ProcessInstance(BaseModel):
         description='The multiplication factor corresponds to the amount of output product from the process instance that is needed over the full life cycle. In practice, the Life Cycle Inventory of a specific process instance shall be multiplied by the multiplication factor to calculate the exact amount needed over the full life cycle.',
         pattern='^-?\\d+(\\.\\d+)?([eE][-+]?\\d+)?$',
     )
-    referenceToProcess: GlobalReferenceType1 | list[GlobalReferenceTypeItem] = Field(
+    referenceToProcess: GlobalReferenceType | list[GlobalReferenceType] = Field(
         ...,
         description='Reference to the process data set and (optional) identifying its version, that is included in the eILCD archive of the Life cycle model and/or accessible at a remote location, i.e. an URI or URL.',
         union_mode='smart',
@@ -823,7 +794,7 @@ class Technology(BaseModel):
         ...,
         description='"Process data set(s)" included in this life cycle model as separate data set(s).',
     )
-    referenceToDiagram: GlobalReferenceType1 | list[GlobalReferenceTypeItem] | None = (
+    referenceToDiagram: GlobalReferenceType | list[GlobalReferenceType] | None = (
         Field(
             None,
             description='"Source data set" of the flow diagramm(s), and/or screenshot(s) of the life cycle model represented by this data set. For clearer illustration and documentation of the model. Note: The source data set references the actual picture as jpd or png file or as e.g. pdf file with several pictures.',
@@ -857,7 +828,7 @@ class DataSourcesTreatmentEtc(BaseModel):
     Data selection, completeness, and treatment principles and procedures, data sources and market coverage information.
     """
 
-    useAdviceForDataSet: FTMultiLang1 | FTMultiLang2 | None = Field(
+    useAdviceForDataSet: FTMultiLang | FTMultiLang | None = Field(
         None,
         description='Specific methodological advice for data set users that requires attention. E.g. on inclusion/exclusion of whole life cycle stages, specific use phase behavior to be modelled, and other methodological advices.',
         union_mode='smart',
@@ -871,21 +842,21 @@ class Review(BaseModel):
     """
 
     common_referenceToNameOfReviewerAndInstitution: (
-        GlobalReferenceType1 | list[GlobalReferenceTypeItem]
+        GlobalReferenceType | list[GlobalReferenceType]
     ) = Field(
         ...,
         alias='common:referenceToNameOfReviewerAndInstitution',
         description='"Contact data set" of reviewer. The full name of reviewer(s) and institution(s) as well as a contact address and/or email should be provided in that contact data set.',
         union_mode='smart',
     )
-    common_otherReviewDetails: FTMultiLang1 | FTMultiLang2 | None = Field(
+    common_otherReviewDetails: FTMultiLang | FTMultiLang | None = Field(
         None,
         alias='common:otherReviewDetails',
         description='Further information from the review process, especially comments received from third parties once the data set has been published or additional reviewer comments from an additional external review.',
         union_mode='smart',
     )
     common_referenceToCompleteReviewReport: (
-        GlobalReferenceType1 | list[GlobalReferenceTypeItem] | None
+        GlobalReferenceType | list[GlobalReferenceType] | None
     ) = Field(
         None,
         alias='common:referenceToCompleteReviewReport',
@@ -897,21 +868,21 @@ class Review(BaseModel):
 
 class ReviewItem(BaseModel):
     common_referenceToNameOfReviewerAndInstitution: (
-        GlobalReferenceType1 | list[GlobalReferenceTypeItem]
+        GlobalReferenceType | list[GlobalReferenceType]
     ) = Field(
         ...,
         alias='common:referenceToNameOfReviewerAndInstitution',
         description='"Contact data set" of reviewer. The full name of reviewer(s) and institution(s) as well as a contact address and/or email should be provided in that contact data set.',
         union_mode='smart',
     )
-    common_otherReviewDetails: FTMultiLang1 | FTMultiLang2 | None = Field(
+    common_otherReviewDetails: FTMultiLang | FTMultiLang | None = Field(
         None,
         alias='common:otherReviewDetails',
         description='Further information from the review process, especially comments received from third parties once the data set has been published or additional reviewer comments from an additional external review.',
         union_mode='smart',
     )
     common_referenceToCompleteReviewReport: (
-        GlobalReferenceType1 | list[GlobalReferenceTypeItem] | None
+        GlobalReferenceType | list[GlobalReferenceType] | None
     ) = Field(
         None,
         alias='common:referenceToCompleteReviewReport',
@@ -940,7 +911,7 @@ class Compliance(BaseModel):
     """
 
     common_referenceToComplianceSystem: (
-        GlobalReferenceType1 | list[GlobalReferenceTypeItem]
+        GlobalReferenceType | list[GlobalReferenceType]
     ) = Field(
         ...,
         alias='common:referenceToComplianceSystem',
@@ -982,7 +953,7 @@ class Compliance(BaseModel):
 
 class Compliance1Item(BaseModel):
     common_referenceToComplianceSystem: (
-        GlobalReferenceType1 | list[GlobalReferenceTypeItem]
+        GlobalReferenceType | list[GlobalReferenceType]
     ) = Field(
         ...,
         alias='common:referenceToComplianceSystem',
@@ -1068,20 +1039,20 @@ class CommonCommissionerAndGoal(BaseModel):
     """
 
     common_referenceToCommissioner: (
-        GlobalReferenceType1 | list[GlobalReferenceTypeItem]
+        GlobalReferenceType | list[GlobalReferenceType]
     ) = Field(
         ...,
         alias='common:referenceToCommissioner',
         description='"Contact data set" of the commissioner / financing party of the data collection / compilation and of the data set modelling. For groups of commissioners, each single organisation should be named. For data set updates and for direct use of data from formerly commissioned studies, also the original commissioner should be named.',
         union_mode='smart',
     )
-    common_project: StringMultiLang1 | StringMultiLang2 | None = Field(
+    common_project: StringMultiLang | StringMultiLang | None = Field(
         None,
         alias='common:project',
         description='Project within which the data set was modelled in its present version. [Note: If the project was published e.g. as a report, this can be referenced in the "Publication of data set in:" field in the "Publication and ownership" sub-section.',
         union_mode='smart',
     )
-    common_intendedApplications: FTMultiLang1 | FTMultiLang2 | None = Field(
+    common_intendedApplications: FTMultiLang | FTMultiLang | None = Field(
         None,
         alias='common:intendedApplications',
         description='Documentation of the intended application(s) of data collection and data set modelling. This indicates / includes information on the level of detail, the specifidity, and the quality ambition in the effort.',
@@ -1096,7 +1067,7 @@ class DataGenerator(BaseModel):
     """
 
     common_referenceToPersonOrEntityGeneratingTheDataSet: (
-        GlobalReferenceType1 | list[GlobalReferenceTypeItem] | None
+        GlobalReferenceType | list[GlobalReferenceType] | None
     ) = Field(
         None,
         alias='common:referenceToPersonOrEntityGeneratingTheDataSet',
@@ -1117,7 +1088,7 @@ class DataEntryBy(BaseModel):
         description='Date and time stamp of data set generation, typically an automated entry ("last saved").',
     )
     common_referenceToDataSetFormat: (
-        GlobalReferenceType1 | list[GlobalReferenceTypeItem]
+        GlobalReferenceType | list[GlobalReferenceType]
     ) = Field(
         ...,
         alias='common:referenceToDataSetFormat',
@@ -1125,7 +1096,7 @@ class DataEntryBy(BaseModel):
         union_mode='smart',
     )
     common_referenceToPersonOrEntityEnteringTheData: (
-        GlobalReferenceType1 | list[GlobalReferenceTypeItem] | None
+        GlobalReferenceType | list[GlobalReferenceType] | None
     ) = Field(
         None,
         alias='common:referenceToPersonOrEntityEnteringTheData',
@@ -1146,7 +1117,7 @@ class PublicationAndOwnership(BaseModel):
         description='Version number of data set. First two digits refer to major updates, the second two digits to minor revisions and error corrections etc. The third three digits are intended for automatic and internal counting of versions during data set development. Together with the data set\'s UUID, the "Data set version" uniquely identifies each data set.',
     )
     common_referenceToPrecedingDataSetVersion: (
-        GlobalReferenceType1 | list[GlobalReferenceTypeItem] | None
+        GlobalReferenceType | list[GlobalReferenceType] | None
     ) = Field(
         None,
         alias='common:referenceToPrecedingDataSetVersion',
@@ -1159,7 +1130,7 @@ class PublicationAndOwnership(BaseModel):
         description="URI (i.e. an internet address) of the original of this data set. [Note: This equally globally unique identifier supports users and software tools to identify and retrieve the original version of a data set via the internet or to check for available updates. The URI must not represent an existing WWW address, but it should be unique and point to the data access point, e.g. by combining the data owner's www path with the data set's UUID, e.g. http://www.mycompany.com/lca/processes/50f12420-8855-12db-b606-0900210c9a66.]",
     )
     common_referenceToOwnershipOfDataSet: (
-        GlobalReferenceType1 | list[GlobalReferenceTypeItem]
+        GlobalReferenceType | list[GlobalReferenceType]
     ) = Field(
         ...,
         alias='common:referenceToOwnershipOfDataSet',
@@ -1172,7 +1143,7 @@ class PublicationAndOwnership(BaseModel):
         description='Indicates whether or not a copyright on the data set exists. Decided upon by the "Owner of data set". [Note: See also field "Access and use restrictions".]',
     )
     common_referenceToEntitiesWithExclusiveAccess: (
-        GlobalReferenceType1 | list[GlobalReferenceTypeItem] | None
+        GlobalReferenceType | list[GlobalReferenceType] | None
     ) = Field(
         None,
         alias='common:referenceToEntitiesWithExclusiveAccess',
@@ -1184,7 +1155,7 @@ class PublicationAndOwnership(BaseModel):
         alias='common:licenseType',
         description='Type of license that applies to the access and use of this data set.',
     )
-    common_accessRestrictions: FTMultiLang1 | FTMultiLang2 | None = Field(
+    common_accessRestrictions: FTMultiLang | FTMultiLang | None = Field(
         None,
         alias='common:accessRestrictions',
         description='Access restrictions / use conditions for this data set as free text or referring to e.g. license conditions. In case of no restrictions "None" is entered.',
