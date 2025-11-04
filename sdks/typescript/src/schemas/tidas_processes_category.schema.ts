@@ -154,7 +154,7 @@ export const ProcessesCategorySchema: z.ZodType<any> = z.union([
   z.object({
     '@level': z.literal('3').optional(),
     '@classId': z.literal('0145').optional(),
-    '#text': z.literal('Raising of swine/pigs').optional(),
+    '#text': z.literal('Raising of swine and pigs').optional(),
   }),
   z.object({
     '@level': z.literal('3').optional(),
@@ -298,6 +298,20 @@ export const ProcessesCategorySchema: z.ZodType<any> = z.union([
     '@level': z.literal('3').optional(),
     '@classId': z.literal('0322').optional(),
     '#text': z.literal('Freshwater aquaculture').optional(),
+  }),
+  z.object({
+    '@level': z.literal('2').optional(),
+    '@classId': z.literal('033').optional(),
+    '#text': z
+      .literal('Support activities for fishing and aquaculture')
+      .optional(),
+  }),
+  z.object({
+    '@level': z.literal('3').optional(),
+    '@classId': z.literal('0330').optional(),
+    '#text': z
+      .literal('Support activities for fishing and aquaculture')
+      .optional(),
   }),
   z.object({
     '@level': z.literal('0').optional(),
@@ -590,6 +604,11 @@ export const ProcessesCategorySchema: z.ZodType<any> = z.union([
   }),
   z.object({
     '@level': z.literal('3').optional(),
+    '@classId': z.literal('1076').optional(),
+    '#text': z.literal('Processing of coffee and tea').optional(),
+  }),
+  z.object({
+    '@level': z.literal('3').optional(),
     '@classId': z.literal('1079').optional(),
     '#text': z.literal('Manufacture of other food products n.e.c.').optional(),
   }),
@@ -628,11 +647,16 @@ export const ProcessesCategorySchema: z.ZodType<any> = z.union([
   z.object({
     '@level': z.literal('3').optional(),
     '@classId': z.literal('1103').optional(),
-    '#text': z.literal('Manufacture of malt liquors and malt').optional(),
+    '#text': z.literal('Manufacture of beer').optional(),
   }),
   z.object({
     '@level': z.literal('3').optional(),
     '@classId': z.literal('1104').optional(),
+    '#text': z.literal('Manufacture of malt').optional(),
+  }),
+  z.object({
+    '@level': z.literal('3').optional(),
+    '@classId': z.literal('1105').optional(),
     '#text': z
       .literal(
         'Manufacture of soft drinks; production of mineral waters and other bottled waters'
@@ -772,7 +796,7 @@ export const ProcessesCategorySchema: z.ZodType<any> = z.union([
     '@classId': z.literal('151').optional(),
     '#text': z
       .literal(
-        'Tanning and dressing of leather; manufacture of luggage, handbags, saddlery and harness; dressing and dyeing of fur'
+        'Tanning, dyeing, dressing of leather and fur; manufacture of luggage, handbags, saddlery and harness'
       )
       .optional(),
   }),
@@ -788,7 +812,7 @@ export const ProcessesCategorySchema: z.ZodType<any> = z.union([
     '@classId': z.literal('1512').optional(),
     '#text': z
       .literal(
-        'Manufacture of luggage, handbags and the like, saddlery and harness'
+        'Manufacture of luggage, handbags and the like, saddlery and harness of any material'
       )
       .optional(),
   }),
@@ -943,12 +967,20 @@ export const ProcessesCategorySchema: z.ZodType<any> = z.union([
   z.object({
     '@level': z.literal('2').optional(),
     '@classId': z.literal('192').optional(),
-    '#text': z.literal('Manufacture of refined petroleum products').optional(),
+    '#text': z
+      .literal(
+        'Manufacture of refined petroleum products; manufacture of fossil fuel products'
+      )
+      .optional(),
   }),
   z.object({
     '@level': z.literal('3').optional(),
     '@classId': z.literal('1920').optional(),
-    '#text': z.literal('Manufacture of refined petroleum products').optional(),
+    '#text': z
+      .literal(
+        'Manufacture of refined petroleum products; manufacture of fossil fuel products'
+      )
+      .optional(),
   }),
   z.object({
     '@level': z.literal('1').optional(),
@@ -1062,9 +1094,7 @@ export const ProcessesCategorySchema: z.ZodType<any> = z.union([
   z.object({
     '@level': z.literal('1').optional(),
     '@classId': z.literal('22').optional(),
-    '#text': z
-      .literal('Manufacture of rubber and plastics products')
-      .optional(),
+    '#text': z.literal('Manufacture of rubber and plastic products').optional(),
   }),
   z.object({
     '@level': z.literal('2').optional(),
@@ -1306,9 +1336,18 @@ export const ProcessesCategorySchema: z.ZodType<any> = z.union([
   }),
   z.object({
     '@level': z.literal('3').optional(),
-    '@classId': z.literal('2610').optional(),
+    '@classId': z.literal('2611').optional(),
     '#text': z
-      .literal('Manufacture of electronic components and boards')
+      .literal(
+        'Manufacture of solar cells, solar panels and photovoltaic inverters'
+      )
+      .optional(),
+  }),
+  z.object({
+    '@level': z.literal('3').optional(),
+    '@classId': z.literal('2619').optional(),
+    '#text': z
+      .literal('Manufacture of other electronic components and boards')
       .optional(),
   }),
   z.object({
@@ -1468,12 +1507,12 @@ export const ProcessesCategorySchema: z.ZodType<any> = z.union([
   z.object({
     '@level': z.literal('2').optional(),
     '@classId': z.literal('274').optional(),
-    '#text': z.literal('Manufacture of electric lighting equipment').optional(),
+    '#text': z.literal('Manufacture of lighting equipment').optional(),
   }),
   z.object({
     '@level': z.literal('3').optional(),
     '@classId': z.literal('2740').optional(),
-    '#text': z.literal('Manufacture of electric lighting equipment').optional(),
+    '#text': z.literal('Manufacture of lighting equipment').optional(),
   }),
   z.object({
     '@level': z.literal('2').optional(),
@@ -1539,7 +1578,9 @@ export const ProcessesCategorySchema: z.ZodType<any> = z.union([
     '@level': z.literal('3').optional(),
     '@classId': z.literal('2815').optional(),
     '#text': z
-      .literal('Manufacture of ovens, furnaces and furnace burners')
+      .literal(
+        'Manufacture of ovens, furnaces and permanent household heating equipment'
+      )
       .optional(),
   }),
   z.object({
@@ -1771,8 +1812,13 @@ export const ProcessesCategorySchema: z.ZodType<any> = z.union([
   }),
   z.object({
     '@level': z.literal('3').optional(),
-    '@classId': z.literal('3100').optional(),
-    '#text': z.literal('Manufacture of furniture').optional(),
+    '@classId': z.literal('3101').optional(),
+    '#text': z.literal('Manufacture of wooden furniture').optional(),
+  }),
+  z.object({
+    '@level': z.literal('3').optional(),
+    '@classId': z.literal('3102').optional(),
+    '#text': z.literal('Manufacture of other furniture').optional(),
   }),
   z.object({
     '@level': z.literal('1').optional(),
@@ -1858,47 +1904,59 @@ export const ProcessesCategorySchema: z.ZodType<any> = z.union([
     '@level': z.literal('1').optional(),
     '@classId': z.literal('33').optional(),
     '#text': z
-      .literal('Repair and installation of machinery and equipment')
+      .literal(
+        'Repair, maintenance and installation of machinery and equipment'
+      )
       .optional(),
   }),
   z.object({
     '@level': z.literal('2').optional(),
     '@classId': z.literal('331').optional(),
     '#text': z
-      .literal('Repair of fabricated metal products, machinery and equipment')
+      .literal(
+        'Repair and maintenance of fabricated metal products, machinery and equipment'
+      )
       .optional(),
   }),
   z.object({
     '@level': z.literal('3').optional(),
     '@classId': z.literal('3311').optional(),
-    '#text': z.literal('Repair of fabricated metal products').optional(),
+    '#text': z
+      .literal('Repair and maintenance of fabricated metal products')
+      .optional(),
   }),
   z.object({
     '@level': z.literal('3').optional(),
     '@classId': z.literal('3312').optional(),
-    '#text': z.literal('Repair of machinery').optional(),
+    '#text': z.literal('Repair and maintenance of machinery').optional(),
   }),
   z.object({
     '@level': z.literal('3').optional(),
     '@classId': z.literal('3313').optional(),
-    '#text': z.literal('Repair of electronic and optical equipment').optional(),
+    '#text': z
+      .literal('Repair and maintenance of electronic and optical equipment')
+      .optional(),
   }),
   z.object({
     '@level': z.literal('3').optional(),
     '@classId': z.literal('3314').optional(),
-    '#text': z.literal('Repair of electrical equipment').optional(),
+    '#text': z
+      .literal('Repair and maintenance of electrical equipment')
+      .optional(),
   }),
   z.object({
     '@level': z.literal('3').optional(),
     '@classId': z.literal('3315').optional(),
     '#text': z
-      .literal('Repair of transport equipment, except motor vehicles')
+      .literal(
+        'Repair and maintenance of transport equipment, except motor vehicles'
+      )
       .optional(),
   }),
   z.object({
     '@level': z.literal('3').optional(),
     '@classId': z.literal('3319').optional(),
-    '#text': z.literal('Repair of other equipment').optional(),
+    '#text': z.literal('Repair and maintenance of other equipment').optional(),
   }),
   z.object({
     '@level': z.literal('2').optional(),
@@ -1932,14 +1990,32 @@ export const ProcessesCategorySchema: z.ZodType<any> = z.union([
     '@level': z.literal('2').optional(),
     '@classId': z.literal('351').optional(),
     '#text': z
-      .literal('Electric power generation, transmission and distribution')
+      .literal(
+        'Electric power generation, transmission and distribution activities'
+      )
       .optional(),
   }),
   z.object({
     '@level': z.literal('3').optional(),
-    '@classId': z.literal('3510').optional(),
+    '@classId': z.literal('3511').optional(),
     '#text': z
-      .literal('Electric power generation, transmission and distribution')
+      .literal(
+        'Electric power generation activities from non-renewable sources'
+      )
+      .optional(),
+  }),
+  z.object({
+    '@level': z.literal('3').optional(),
+    '@classId': z.literal('3512').optional(),
+    '#text': z
+      .literal('Electric power generation activities from renewable sources')
+      .optional(),
+  }),
+  z.object({
+    '@level': z.literal('3').optional(),
+    '@classId': z.literal('3513').optional(),
+    '#text': z
+      .literal('Electric power transmission and distribution activities')
       .optional(),
   }),
   z.object({
@@ -1969,6 +2045,24 @@ export const ProcessesCategorySchema: z.ZodType<any> = z.union([
     '@level': z.literal('3').optional(),
     '@classId': z.literal('3530').optional(),
     '#text': z.literal('Steam and air conditioning supply').optional(),
+  }),
+  z.object({
+    '@level': z.literal('2').optional(),
+    '@classId': z.literal('354').optional(),
+    '#text': z
+      .literal(
+        'Activities of brokers and agents for electric power and natural gas'
+      )
+      .optional(),
+  }),
+  z.object({
+    '@level': z.literal('3').optional(),
+    '@classId': z.literal('3540').optional(),
+    '#text': z
+      .literal(
+        'Activities of brokers and agents for electric power and natural gas'
+      )
+      .optional(),
   }),
   z.object({
     '@level': z.literal('0').optional(),
@@ -2014,14 +2108,14 @@ export const ProcessesCategorySchema: z.ZodType<any> = z.union([
     '@classId': z.literal('38').optional(),
     '#text': z
       .literal(
-        'Waste collection, treatment and disposal activities; materials recovery'
+        'Waste collection, treatment and disposal, and recovery activities'
       )
       .optional(),
   }),
   z.object({
     '@level': z.literal('2').optional(),
     '@classId': z.literal('381').optional(),
-    '#text': z.literal('Waste collection').optional(),
+    '#text': z.literal('Waste collection activities').optional(),
   }),
   z.object({
     '@level': z.literal('3').optional(),
@@ -2053,32 +2147,32 @@ export const ProcessesCategorySchema: z.ZodType<any> = z.union([
   z.object({
     '@level': z.literal('2').optional(),
     '@classId': z.literal('383').optional(),
-    '#text': z.literal('Materials recovery').optional(),
+    '#text': z.literal('Materials and other waste recovery').optional(),
   }),
   z.object({
     '@level': z.literal('3').optional(),
     '@classId': z.literal('3830').optional(),
-    '#text': z.literal('Materials recovery').optional(),
+    '#text': z.literal('Materials and other waste recovery').optional(),
   }),
   z.object({
     '@level': z.literal('1').optional(),
     '@classId': z.literal('39').optional(),
     '#text': z
-      .literal('Remediation activities and other waste management services')
+      .literal('Remediation and other waste management service activities')
       .optional(),
   }),
   z.object({
     '@level': z.literal('2').optional(),
     '@classId': z.literal('390').optional(),
     '#text': z
-      .literal('Remediation activities and other waste management services')
+      .literal('Remediation and other waste management service activities')
       .optional(),
   }),
   z.object({
     '@level': z.literal('3').optional(),
     '@classId': z.literal('3900').optional(),
     '#text': z
-      .literal('Remediation activities and other waste management services')
+      .literal('Remediation and other waste management service activities')
       .optional(),
   }),
   z.object({
@@ -2089,17 +2183,23 @@ export const ProcessesCategorySchema: z.ZodType<any> = z.union([
   z.object({
     '@level': z.literal('1').optional(),
     '@classId': z.literal('41').optional(),
-    '#text': z.literal('Construction of buildings').optional(),
+    '#text': z
+      .literal('Construction of residential and non-residential buildings')
+      .optional(),
   }),
   z.object({
     '@level': z.literal('2').optional(),
     '@classId': z.literal('410').optional(),
-    '#text': z.literal('Construction of buildings').optional(),
+    '#text': z
+      .literal('Construction of residential and non-residential buildings')
+      .optional(),
   }),
   z.object({
     '@level': z.literal('3').optional(),
     '@classId': z.literal('4100').optional(),
-    '#text': z.literal('Construction of buildings').optional(),
+    '#text': z
+      .literal('Construction of residential and non-residential buildings')
+      .optional(),
   }),
   z.object({
     '@level': z.literal('1').optional(),
@@ -2198,6 +2298,24 @@ export const ProcessesCategorySchema: z.ZodType<any> = z.union([
   }),
   z.object({
     '@level': z.literal('2').optional(),
+    '@classId': z.literal('434').optional(),
+    '#text': z
+      .literal(
+        'Intermediation service activities for specialized construction services'
+      )
+      .optional(),
+  }),
+  z.object({
+    '@level': z.literal('3').optional(),
+    '@classId': z.literal('4340').optional(),
+    '#text': z
+      .literal(
+        'Intermediation service activities for specialized construction services'
+      )
+      .optional(),
+  }),
+  z.object({
+    '@level': z.literal('2').optional(),
     '@classId': z.literal('439').optional(),
     '#text': z.literal('Other specialized construction activities').optional(),
   }),
@@ -2209,79 +2327,12 @@ export const ProcessesCategorySchema: z.ZodType<any> = z.union([
   z.object({
     '@level': z.literal('0').optional(),
     '@classId': z.literal('G').optional(),
-    '#text': z
-      .literal(
-        'Wholesale and retail trade; repair of motor vehicles and motorcycles'
-      )
-      .optional(),
-  }),
-  z.object({
-    '@level': z.literal('1').optional(),
-    '@classId': z.literal('45').optional(),
-    '#text': z
-      .literal(
-        'Wholesale and retail trade and repair of motor vehicles and motorcycles'
-      )
-      .optional(),
-  }),
-  z.object({
-    '@level': z.literal('2').optional(),
-    '@classId': z.literal('451').optional(),
-    '#text': z.literal('Sale of motor vehicles').optional(),
-  }),
-  z.object({
-    '@level': z.literal('3').optional(),
-    '@classId': z.literal('4510').optional(),
-    '#text': z.literal('Sale of motor vehicles').optional(),
-  }),
-  z.object({
-    '@level': z.literal('2').optional(),
-    '@classId': z.literal('452').optional(),
-    '#text': z.literal('Maintenance and repair of motor vehicles').optional(),
-  }),
-  z.object({
-    '@level': z.literal('3').optional(),
-    '@classId': z.literal('4520').optional(),
-    '#text': z.literal('Maintenance and repair of motor vehicles').optional(),
-  }),
-  z.object({
-    '@level': z.literal('2').optional(),
-    '@classId': z.literal('453').optional(),
-    '#text': z
-      .literal('Sale of motor vehicle parts and accessories')
-      .optional(),
-  }),
-  z.object({
-    '@level': z.literal('3').optional(),
-    '@classId': z.literal('4530').optional(),
-    '#text': z
-      .literal('Sale of motor vehicle parts and accessories')
-      .optional(),
-  }),
-  z.object({
-    '@level': z.literal('2').optional(),
-    '@classId': z.literal('454').optional(),
-    '#text': z
-      .literal(
-        'Sale, maintenance and repair of motorcycles and related parts and accessories'
-      )
-      .optional(),
-  }),
-  z.object({
-    '@level': z.literal('3').optional(),
-    '@classId': z.literal('4540').optional(),
-    '#text': z
-      .literal(
-        'Sale, maintenance and repair of motorcycles and related parts and accessories'
-      )
-      .optional(),
+    '#text': z.literal('Wholesale and retail trade').optional(),
   }),
   z.object({
     '@level': z.literal('1').optional(),
     '@classId': z.literal('46').optional(),
-    '#text': z
-      .literal('Wholesale trade, except of motor vehicles and motorcycles')
-      .optional(),
+    '#text': z.literal('Wholesale trade').optional(),
   }),
   z.object({
     '@level': z.literal('2').optional(),
@@ -2331,6 +2382,15 @@ export const ProcessesCategorySchema: z.ZodType<any> = z.union([
   }),
   z.object({
     '@level': z.literal('3').optional(),
+    '@classId': z.literal('4642').optional(),
+    '#text': z
+      .literal(
+        'Wholesale of household, office and shop furniture, carpets and lighting equipment'
+      )
+      .optional(),
+  }),
+  z.object({
+    '@level': z.literal('3').optional(),
     '@classId': z.literal('4649').optional(),
     '#text': z.literal('Wholesale of other household goods').optional(),
   }),
@@ -2374,11 +2434,39 @@ export const ProcessesCategorySchema: z.ZodType<any> = z.union([
   z.object({
     '@level': z.literal('2').optional(),
     '@classId': z.literal('466').optional(),
-    '#text': z.literal('Other specialized wholesale').optional(),
+    '#text': z
+      .literal(
+        'Wholesale of motor vehicles, motorcycles and related parts and accessories'
+      )
+      .optional(),
   }),
   z.object({
     '@level': z.literal('3').optional(),
     '@classId': z.literal('4661').optional(),
+    '#text': z.literal('Wholesale of motor vehicles').optional(),
+  }),
+  z.object({
+    '@level': z.literal('3').optional(),
+    '@classId': z.literal('4662').optional(),
+    '#text': z
+      .literal('Wholesale of motor vehicle parts and accessories')
+      .optional(),
+  }),
+  z.object({
+    '@level': z.literal('3').optional(),
+    '@classId': z.literal('4663').optional(),
+    '#text': z
+      .literal('Wholesale of motorcycles, motorcycle parts and accessories')
+      .optional(),
+  }),
+  z.object({
+    '@level': z.literal('2').optional(),
+    '@classId': z.literal('467').optional(),
+    '#text': z.literal('Other specialized wholesale').optional(),
+  }),
+  z.object({
+    '@level': z.literal('3').optional(),
+    '@classId': z.literal('4671').optional(),
     '#text': z
       .literal(
         'Wholesale of solid, liquid and gaseous fuels and related products'
@@ -2387,12 +2475,12 @@ export const ProcessesCategorySchema: z.ZodType<any> = z.union([
   }),
   z.object({
     '@level': z.literal('3').optional(),
-    '@classId': z.literal('4662').optional(),
+    '@classId': z.literal('4672').optional(),
     '#text': z.literal('Wholesale of metals and metal ores').optional(),
   }),
   z.object({
     '@level': z.literal('3').optional(),
-    '@classId': z.literal('4663').optional(),
+    '@classId': z.literal('4673').optional(),
     '#text': z
       .literal(
         'Wholesale of construction materials, hardware, plumbing and heating equipment and supplies'
@@ -2401,9 +2489,11 @@ export const ProcessesCategorySchema: z.ZodType<any> = z.union([
   }),
   z.object({
     '@level': z.literal('3').optional(),
-    '@classId': z.literal('4669').optional(),
+    '@classId': z.literal('4679').optional(),
     '#text': z
-      .literal('Wholesale of waste and scrap and other products n.e.c.')
+      .literal(
+        'Wholesale of chemicals, waste and scrap and other products n.e.c.'
+      )
       .optional(),
   }),
   z.object({
@@ -2419,128 +2509,93 @@ export const ProcessesCategorySchema: z.ZodType<any> = z.union([
   z.object({
     '@level': z.literal('1').optional(),
     '@classId': z.literal('47').optional(),
-    '#text': z
-      .literal('Retail trade, except of motor vehicles and motorcycles')
-      .optional(),
+    '#text': z.literal('Retail trade').optional(),
   }),
   z.object({
     '@level': z.literal('2').optional(),
     '@classId': z.literal('471').optional(),
-    '#text': z.literal('Retail sale in non-specialized stores').optional(),
+    '#text': z.literal('Non-specialized retail sale').optional(),
   }),
   z.object({
     '@level': z.literal('3').optional(),
     '@classId': z.literal('4711').optional(),
     '#text': z
       .literal(
-        'Retail sale in non-specialized stores with food, beverages or tobacco predominating'
+        'Non-specialized retail sale with food, beverages or tobacco predominating'
       )
       .optional(),
   }),
   z.object({
     '@level': z.literal('3').optional(),
     '@classId': z.literal('4719').optional(),
-    '#text': z
-      .literal('Other retail sale in non-specialized stores')
-      .optional(),
+    '#text': z.literal('Other non-specialized retail sale').optional(),
   }),
   z.object({
     '@level': z.literal('2').optional(),
     '@classId': z.literal('472').optional(),
-    '#text': z
-      .literal(
-        'Retail sale of food, beverages and tobacco in specialized stores'
-      )
-      .optional(),
+    '#text': z.literal('Retail sale of food, beverages and tobacco').optional(),
   }),
   z.object({
     '@level': z.literal('3').optional(),
     '@classId': z.literal('4721').optional(),
-    '#text': z.literal('Retail sale of food in specialized stores').optional(),
+    '#text': z.literal('Retail sale of food').optional(),
   }),
   z.object({
     '@level': z.literal('3').optional(),
     '@classId': z.literal('4722').optional(),
-    '#text': z
-      .literal('Retail sale of beverages in specialized stores')
-      .optional(),
+    '#text': z.literal('Retail sale of beverages').optional(),
   }),
   z.object({
     '@level': z.literal('3').optional(),
     '@classId': z.literal('4723').optional(),
-    '#text': z
-      .literal('Retail sale of tobacco products in specialized stores')
-      .optional(),
+    '#text': z.literal('Retail sale of tobacco products').optional(),
   }),
   z.object({
     '@level': z.literal('2').optional(),
     '@classId': z.literal('473').optional(),
-    '#text': z
-      .literal('Retail sale of automotive fuel in specialized stores')
-      .optional(),
+    '#text': z.literal('Retail sale of automotive fuel').optional(),
   }),
   z.object({
     '@level': z.literal('3').optional(),
     '@classId': z.literal('4730').optional(),
-    '#text': z
-      .literal('Retail sale of automotive fuel in specialized stores')
-      .optional(),
+    '#text': z.literal('Retail sale of automotive fuel').optional(),
   }),
   z.object({
     '@level': z.literal('2').optional(),
     '@classId': z.literal('474').optional(),
     '#text': z
-      .literal(
-        'Retail sale of information and communications equipment in specialized stores'
-      )
+      .literal('Retail sale of information and communication equipment')
       .optional(),
   }),
   z.object({
     '@level': z.literal('3').optional(),
-    '@classId': z.literal('4741').optional(),
+    '@classId': z.literal('4740').optional(),
     '#text': z
-      .literal(
-        'Retail sale of computers, peripheral units, software and telecommunications equipment in specialized stores'
-      )
-      .optional(),
-  }),
-  z.object({
-    '@level': z.literal('3').optional(),
-    '@classId': z.literal('4742').optional(),
-    '#text': z
-      .literal('Retail sale of audio and video equipment in specialized stores')
+      .literal('Retail sale of information and communication equipment')
       .optional(),
   }),
   z.object({
     '@level': z.literal('2').optional(),
     '@classId': z.literal('475').optional(),
-    '#text': z
-      .literal('Retail sale of other household equipment in specialized stores')
-      .optional(),
+    '#text': z.literal('Retail sale of other household equipment').optional(),
   }),
   z.object({
     '@level': z.literal('3').optional(),
     '@classId': z.literal('4751').optional(),
-    '#text': z
-      .literal('Retail sale of textiles in specialized stores')
-      .optional(),
+    '#text': z.literal('Retail sale of textiles').optional(),
   }),
   z.object({
     '@level': z.literal('3').optional(),
     '@classId': z.literal('4752').optional(),
     '#text': z
-      .literal(
-        'Retail sale of hardware, paints and glass in specialized stores'
-      )
+      .literal('Retail sale of hardware, building materials, paints and glass')
       .optional(),
   }),
   z.object({
     '@level': z.literal('3').optional(),
     '@classId': z.literal('4753').optional(),
     '#text': z
-      .literal(
-        'Retail sale of carpets, rugs, wall and floor coverings in specialized stores'
-      )
+      .literal('Retail sale of carpets, rugs, wall and floor coverings')
       .optional(),
   }),
   z.object({
@@ -2548,7 +2603,7 @@ export const ProcessesCategorySchema: z.ZodType<any> = z.union([
     '@classId': z.literal('4759').optional(),
     '#text': z
       .literal(
-        'Retail sale of electrical household appliances, furniture, lighting equipment and other household articles in specialized stores'
+        'Retail sale of electrical household appliances, furniture, lighting equipment and other household articles'
       )
       .optional(),
   }),
@@ -2556,9 +2611,7 @@ export const ProcessesCategorySchema: z.ZodType<any> = z.union([
     '@level': z.literal('2').optional(),
     '@classId': z.literal('476').optional(),
     '#text': z
-      .literal(
-        'Retail sale of cultural and recreation goods in specialized stores'
-      )
+      .literal('Retail sale of cultural and recreational goods')
       .optional(),
   }),
   z.object({
@@ -2566,47 +2619,41 @@ export const ProcessesCategorySchema: z.ZodType<any> = z.union([
     '@classId': z.literal('4761').optional(),
     '#text': z
       .literal(
-        'Retail sale of books, newspapers and stationary in specialized stores'
+        'Retail sale of books, newspapers, stationery and office supplies'
       )
       .optional(),
   }),
   z.object({
     '@level': z.literal('3').optional(),
     '@classId': z.literal('4762').optional(),
-    '#text': z
-      .literal(
-        'Retail sale of music and video recordings in specialized stores'
-      )
-      .optional(),
+    '#text': z.literal('Retail sale of sporting equipment').optional(),
   }),
   z.object({
     '@level': z.literal('3').optional(),
     '@classId': z.literal('4763').optional(),
-    '#text': z
-      .literal('Retail sale of sporting equipment in specialized stores')
-      .optional(),
+    '#text': z.literal('Retail sale of games and toys').optional(),
   }),
   z.object({
     '@level': z.literal('3').optional(),
-    '@classId': z.literal('4764').optional(),
+    '@classId': z.literal('4769').optional(),
     '#text': z
-      .literal('Retail sale of games and toys in specialized stores')
+      .literal('Retail sale of cultural and recreational goods n.e.c.')
       .optional(),
   }),
   z.object({
     '@level': z.literal('2').optional(),
     '@classId': z.literal('477').optional(),
     '#text': z
-      .literal('Retail sale of other goods in specialized stores')
+      .literal(
+        'Retail sale of other goods, except motor vehicles and motorcycles'
+      )
       .optional(),
   }),
   z.object({
     '@level': z.literal('3').optional(),
     '@classId': z.literal('4771').optional(),
     '#text': z
-      .literal(
-        'Retail sale of clothing, footwear and leather articles in specialized stores'
-      )
+      .literal('Retail sale of clothing, footwear and leather articles')
       .optional(),
   }),
   z.object({
@@ -2614,16 +2661,14 @@ export const ProcessesCategorySchema: z.ZodType<any> = z.union([
     '@classId': z.literal('4772').optional(),
     '#text': z
       .literal(
-        'Retail sale of pharmaceutical and medical goods, cosmetic and toilet articles in specialized stores'
+        'Retail sale of pharmaceutical and medical goods, cosmetic and toilet articles'
       )
       .optional(),
   }),
   z.object({
     '@level': z.literal('3').optional(),
     '@classId': z.literal('4773').optional(),
-    '#text': z
-      .literal('Other retail sale of new goods in specialized stores')
-      .optional(),
+    '#text': z.literal('Retail sale of other new goods n.e.c.').optional(),
   }),
   z.object({
     '@level': z.literal('3').optional(),
@@ -2633,52 +2678,43 @@ export const ProcessesCategorySchema: z.ZodType<any> = z.union([
   z.object({
     '@level': z.literal('2').optional(),
     '@classId': z.literal('478').optional(),
-    '#text': z.literal('Retail sale via stalls and markets').optional(),
+    '#text': z
+      .literal(
+        'Retail sale of motor vehicles, motorcycles and related parts and accessories'
+      )
+      .optional(),
   }),
   z.object({
     '@level': z.literal('3').optional(),
     '@classId': z.literal('4781').optional(),
-    '#text': z
-      .literal(
-        'Retail sale via stalls and markets of food, beverages and tobacco products'
-      )
-      .optional(),
+    '#text': z.literal('Retail sale of motor vehicles').optional(),
   }),
   z.object({
     '@level': z.literal('3').optional(),
     '@classId': z.literal('4782').optional(),
     '#text': z
-      .literal(
-        'Retail sale via stalls and markets of textiles, clothing and footwear'
-      )
+      .literal('Retail sale of motor vehicle parts and accessories')
       .optional(),
   }),
   z.object({
     '@level': z.literal('3').optional(),
-    '@classId': z.literal('4789').optional(),
+    '@classId': z.literal('4783').optional(),
     '#text': z
-      .literal('Retail sale via stalls and markets of other goods')
+      .literal('Retail sale of motorcycles, motorcycles parts and accessories')
       .optional(),
   }),
   z.object({
     '@level': z.literal('2').optional(),
     '@classId': z.literal('479').optional(),
     '#text': z
-      .literal('Retail trade not in stores, stalls or markets')
+      .literal('Intermediation service activities for retail sale')
       .optional(),
   }),
   z.object({
     '@level': z.literal('3').optional(),
-    '@classId': z.literal('4791').optional(),
+    '@classId': z.literal('4790').optional(),
     '#text': z
-      .literal('Retail sale via mail order houses or via Internet')
-      .optional(),
-  }),
-  z.object({
-    '@level': z.literal('3').optional(),
-    '@classId': z.literal('4799').optional(),
-    '#text': z
-      .literal('Other retail sale not in stores, stalls or markets')
+      .literal('Intermediation service activities for retail sale')
       .optional(),
   }),
   z.object({
@@ -2849,7 +2885,30 @@ export const ProcessesCategorySchema: z.ZodType<any> = z.union([
   z.object({
     '@level': z.literal('3').optional(),
     '@classId': z.literal('5229').optional(),
-    '#text': z.literal('Other transportation support activities').optional(),
+    '#text': z
+      .literal('Other support activities for transportation')
+      .optional(),
+  }),
+  z.object({
+    '@level': z.literal('2').optional(),
+    '@classId': z.literal('523').optional(),
+    '#text': z
+      .literal('Intermediation service activities for transportation')
+      .optional(),
+  }),
+  z.object({
+    '@level': z.literal('3').optional(),
+    '@classId': z.literal('5231').optional(),
+    '#text': z
+      .literal('Intermediation service activities for freight transportation')
+      .optional(),
+  }),
+  z.object({
+    '@level': z.literal('3').optional(),
+    '@classId': z.literal('5232').optional(),
+    '#text': z
+      .literal('Intermediation service activities for passenger transportation')
+      .optional(),
   }),
   z.object({
     '@level': z.literal('1').optional(),
@@ -2877,6 +2936,24 @@ export const ProcessesCategorySchema: z.ZodType<any> = z.union([
     '#text': z.literal('Courier activities').optional(),
   }),
   z.object({
+    '@level': z.literal('2').optional(),
+    '@classId': z.literal('533').optional(),
+    '#text': z
+      .literal(
+        'Intermediation service activities for postal and courier activities'
+      )
+      .optional(),
+  }),
+  z.object({
+    '@level': z.literal('3').optional(),
+    '@classId': z.literal('5330').optional(),
+    '#text': z
+      .literal(
+        'Intermediation service activities for postal and courier activities'
+      )
+      .optional(),
+  }),
+  z.object({
     '@level': z.literal('0').optional(),
     '@classId': z.literal('I').optional(),
     '#text': z.literal('Accommodation and food service activities').optional(),
@@ -2889,36 +2966,64 @@ export const ProcessesCategorySchema: z.ZodType<any> = z.union([
   z.object({
     '@level': z.literal('2').optional(),
     '@classId': z.literal('551').optional(),
-    '#text': z.literal('Short term accommodation activities').optional(),
+    '#text': z
+      .literal('Hotels and similar accommodation activities')
+      .optional(),
   }),
   z.object({
     '@level': z.literal('3').optional(),
     '@classId': z.literal('5510').optional(),
-    '#text': z.literal('Short term accommodation activities').optional(),
+    '#text': z
+      .literal('Hotels and similar accommodation activities')
+      .optional(),
   }),
   z.object({
     '@level': z.literal('2').optional(),
     '@classId': z.literal('552').optional(),
+    '#text': z.literal('Other short term accommodation activities').optional(),
+  }),
+  z.object({
+    '@level': z.literal('3').optional(),
+    '@classId': z.literal('5520').optional(),
+    '#text': z.literal('Other short term accommodation activities').optional(),
+  }),
+  z.object({
+    '@level': z.literal('2').optional(),
+    '@classId': z.literal('553').optional(),
     '#text': z
       .literal('Camping grounds, recreational vehicle parks and trailer parks')
       .optional(),
   }),
   z.object({
     '@level': z.literal('3').optional(),
-    '@classId': z.literal('5520').optional(),
+    '@classId': z.literal('5530').optional(),
     '#text': z
       .literal('Camping grounds, recreational vehicle parks and trailer parks')
+      .optional(),
+  }),
+  z.object({
+    '@level': z.literal('2').optional(),
+    '@classId': z.literal('554').optional(),
+    '#text': z
+      .literal('Intermediation service activities for accommodation')
+      .optional(),
+  }),
+  z.object({
+    '@level': z.literal('3').optional(),
+    '@classId': z.literal('5540').optional(),
+    '#text': z
+      .literal('Intermediation service activities for accommodation')
       .optional(),
   }),
   z.object({
     '@level': z.literal('2').optional(),
     '@classId': z.literal('559').optional(),
-    '#text': z.literal('Other accommodation').optional(),
+    '#text': z.literal('Other accommodation n.e.c.').optional(),
   }),
   z.object({
     '@level': z.literal('3').optional(),
     '@classId': z.literal('5590').optional(),
-    '#text': z.literal('Other accommodation').optional(),
+    '#text': z.literal('Other accommodation n.e.c.').optional(),
   }),
   z.object({
     '@level': z.literal('1').optional(),
@@ -2949,7 +3054,7 @@ export const ProcessesCategorySchema: z.ZodType<any> = z.union([
   z.object({
     '@level': z.literal('3').optional(),
     '@classId': z.literal('5621').optional(),
-    '#text': z.literal('Event catering').optional(),
+    '#text': z.literal('Event catering activities').optional(),
   }),
   z.object({
     '@level': z.literal('3').optional(),
@@ -2967,9 +3072,31 @@ export const ProcessesCategorySchema: z.ZodType<any> = z.union([
     '#text': z.literal('Beverage serving activities').optional(),
   }),
   z.object({
+    '@level': z.literal('2').optional(),
+    '@classId': z.literal('564').optional(),
+    '#text': z
+      .literal(
+        'Intermediation service activities for food and beverage services activities'
+      )
+      .optional(),
+  }),
+  z.object({
+    '@level': z.literal('3').optional(),
+    '@classId': z.literal('5640').optional(),
+    '#text': z
+      .literal(
+        'Intermediation service activities for food and beverage services activities'
+      )
+      .optional(),
+  }),
+  z.object({
     '@level': z.literal('0').optional(),
     '@classId': z.literal('J').optional(),
-    '#text': z.literal('Information and communication').optional(),
+    '#text': z
+      .literal(
+        'Publishing, broadcasting, and content production and distribution activities'
+      )
+      .optional(),
   }),
   z.object({
     '@level': z.literal('1').optional(),
@@ -2981,28 +3108,24 @@ export const ProcessesCategorySchema: z.ZodType<any> = z.union([
     '@classId': z.literal('581').optional(),
     '#text': z
       .literal(
-        'Publishing of books, periodicals and other publishing activities'
+        'Publishing of books, newspapers, periodicals and other publishing activities'
       )
       .optional(),
   }),
   z.object({
     '@level': z.literal('3').optional(),
     '@classId': z.literal('5811').optional(),
-    '#text': z.literal('Book publishing').optional(),
+    '#text': z.literal('Publishing of books').optional(),
   }),
   z.object({
     '@level': z.literal('3').optional(),
     '@classId': z.literal('5812').optional(),
-    '#text': z
-      .literal('Publishing of directories and mailing lists')
-      .optional(),
+    '#text': z.literal('Publishing of newspapers').optional(),
   }),
   z.object({
     '@level': z.literal('3').optional(),
     '@classId': z.literal('5813').optional(),
-    '#text': z
-      .literal('Publishing of newspapers, journals and periodicals')
-      .optional(),
+    '#text': z.literal('Publishing of journals and periodicals').optional(),
   }),
   z.object({
     '@level': z.literal('3').optional(),
@@ -3016,8 +3139,13 @@ export const ProcessesCategorySchema: z.ZodType<any> = z.union([
   }),
   z.object({
     '@level': z.literal('3').optional(),
-    '@classId': z.literal('5820').optional(),
-    '#text': z.literal('Software publishing').optional(),
+    '@classId': z.literal('5821').optional(),
+    '#text': z.literal('Publishing of video games').optional(),
+  }),
+  z.object({
+    '@level': z.literal('3').optional(),
+    '@classId': z.literal('5829').optional(),
+    '#text': z.literal('Other software publishing').optional(),
   }),
   z.object({
     '@level': z.literal('1').optional(),
@@ -3084,30 +3212,70 @@ export const ProcessesCategorySchema: z.ZodType<any> = z.union([
   z.object({
     '@level': z.literal('1').optional(),
     '@classId': z.literal('60').optional(),
-    '#text': z.literal('Programming and broadcasting activities').optional(),
+    '#text': z
+      .literal(
+        'Programming, broadcasting, news agency and other content distribution activities'
+      )
+      .optional(),
   }),
   z.object({
     '@level': z.literal('2').optional(),
     '@classId': z.literal('601').optional(),
-    '#text': z.literal('Radio broadcasting').optional(),
+    '#text': z
+      .literal('Radio broadcasting and audio distribution activities')
+      .optional(),
   }),
   z.object({
     '@level': z.literal('3').optional(),
     '@classId': z.literal('6010').optional(),
-    '#text': z.literal('Radio broadcasting').optional(),
+    '#text': z
+      .literal('Radio broadcasting and audio distribution activities')
+      .optional(),
   }),
   z.object({
     '@level': z.literal('2').optional(),
     '@classId': z.literal('602').optional(),
     '#text': z
-      .literal('Television programming and broadcasting activities')
+      .literal(
+        'Television programming, broadcasting and video distribution activities'
+      )
       .optional(),
   }),
   z.object({
     '@level': z.literal('3').optional(),
     '@classId': z.literal('6020').optional(),
     '#text': z
-      .literal('Television programming and broadcasting activities')
+      .literal(
+        'Television programming, broadcasting and video distribution activities'
+      )
+      .optional(),
+  }),
+  z.object({
+    '@level': z.literal('2').optional(),
+    '@classId': z.literal('603').optional(),
+    '#text': z
+      .literal('News agency and other content distribution activities')
+      .optional(),
+  }),
+  z.object({
+    '@level': z.literal('3').optional(),
+    '@classId': z.literal('6031').optional(),
+    '#text': z.literal('News agency activities').optional(),
+  }),
+  z.object({
+    '@level': z.literal('3').optional(),
+    '@classId': z.literal('6039').optional(),
+    '#text': z
+      .literal('Social network sites and other content distribution activities')
+      .optional(),
+  }),
+  z.object({
+    '@level': z.literal('0').optional(),
+    '@classId': z.literal('K').optional(),
+    '#text': z
+      .literal(
+        'Telecommunications, computer programming, consultancy, computing infrastructure, and other information service activities'
+      )
       .optional(),
   }),
   z.object({
@@ -3118,42 +3286,44 @@ export const ProcessesCategorySchema: z.ZodType<any> = z.union([
   z.object({
     '@level': z.literal('2').optional(),
     '@classId': z.literal('611').optional(),
-    '#text': z.literal('Wired telecommunications activities').optional(),
+    '#text': z
+      .literal('Wired, wireless, and satellite telecommunication activities')
+      .optional(),
   }),
   z.object({
     '@level': z.literal('3').optional(),
     '@classId': z.literal('6110').optional(),
-    '#text': z.literal('Wired telecommunications activities').optional(),
+    '#text': z
+      .literal('Wired, wireless, and satellite telecommunication activities')
+      .optional(),
   }),
   z.object({
     '@level': z.literal('2').optional(),
     '@classId': z.literal('612').optional(),
-    '#text': z.literal('Wireless telecommunications activities').optional(),
+    '#text': z
+      .literal(
+        'Telecommunication reselling\u00A0activities\u00A0and intermediation service\u00A0activities\u00A0for telecommunication'
+      )
+      .optional(),
   }),
   z.object({
     '@level': z.literal('3').optional(),
     '@classId': z.literal('6120').optional(),
-    '#text': z.literal('Wireless telecommunications activities').optional(),
-  }),
-  z.object({
-    '@level': z.literal('2').optional(),
-    '@classId': z.literal('613').optional(),
-    '#text': z.literal('Satellite telecommunications activities').optional(),
-  }),
-  z.object({
-    '@level': z.literal('3').optional(),
-    '@classId': z.literal('6130').optional(),
-    '#text': z.literal('Satellite telecommunications activities').optional(),
+    '#text': z
+      .literal(
+        'Telecommunication reselling\u00A0activities\u00A0and intermediation service\u00A0activities\u00A0for telecommunication'
+      )
+      .optional(),
   }),
   z.object({
     '@level': z.literal('2').optional(),
     '@classId': z.literal('619').optional(),
-    '#text': z.literal('Other telecommunications activities').optional(),
+    '#text': z.literal('Other telecommunication activities').optional(),
   }),
   z.object({
     '@level': z.literal('3').optional(),
     '@classId': z.literal('6190').optional(),
-    '#text': z.literal('Other telecommunications activities').optional(),
+    '#text': z.literal('Other telecommunication activities').optional(),
   }),
   z.object({
     '@level': z.literal('1').optional(),
@@ -3164,19 +3334,26 @@ export const ProcessesCategorySchema: z.ZodType<any> = z.union([
   }),
   z.object({
     '@level': z.literal('2').optional(),
-    '@classId': z.literal('620').optional(),
-    '#text': z
-      .literal('Computer programming, consultancy and related activities')
-      .optional(),
-  }),
-  z.object({
-    '@level': z.literal('3').optional(),
-    '@classId': z.literal('6201').optional(),
+    '@classId': z.literal('621').optional(),
     '#text': z.literal('Computer programming activities').optional(),
   }),
   z.object({
     '@level': z.literal('3').optional(),
-    '@classId': z.literal('6202').optional(),
+    '@classId': z.literal('6211').optional(),
+    '#text': z
+      .literal(
+        'Development of video games, video game software, and video game software tools'
+      )
+      .optional(),
+  }),
+  z.object({
+    '@level': z.literal('3').optional(),
+    '@classId': z.literal('6219').optional(),
+    '#text': z.literal('Other computer programming activities').optional(),
+  }),
+  z.object({
+    '@level': z.literal('2').optional(),
+    '@classId': z.literal('622').optional(),
     '#text': z
       .literal(
         'Computer consultancy and computer facilities management activities'
@@ -3185,7 +3362,23 @@ export const ProcessesCategorySchema: z.ZodType<any> = z.union([
   }),
   z.object({
     '@level': z.literal('3').optional(),
-    '@classId': z.literal('6209').optional(),
+    '@classId': z.literal('6220').optional(),
+    '#text': z
+      .literal(
+        'Computer consultancy and computer facilities management activities'
+      )
+      .optional(),
+  }),
+  z.object({
+    '@level': z.literal('2').optional(),
+    '@classId': z.literal('629').optional(),
+    '#text': z
+      .literal('Other information technology and computer service activities')
+      .optional(),
+  }),
+  z.object({
+    '@level': z.literal('3').optional(),
+    '@classId': z.literal('6290').optional(),
     '#text': z
       .literal('Other information technology and computer service activities')
       .optional(),
@@ -3193,47 +3386,51 @@ export const ProcessesCategorySchema: z.ZodType<any> = z.union([
   z.object({
     '@level': z.literal('1').optional(),
     '@classId': z.literal('63').optional(),
-    '#text': z.literal('Information service activities').optional(),
+    '#text': z
+      .literal(
+        'Computing infrastructure, data processing, hosting, and other information service activities'
+      )
+      .optional(),
   }),
   z.object({
     '@level': z.literal('2').optional(),
     '@classId': z.literal('631').optional(),
     '#text': z
-      .literal('Data processing, hosting and related activities; web portals')
+      .literal(
+        'Computing infrastructure, data processing, hosting and related activities'
+      )
       .optional(),
   }),
   z.object({
     '@level': z.literal('3').optional(),
-    '@classId': z.literal('6311').optional(),
+    '@classId': z.literal('6310').optional(),
     '#text': z
-      .literal('Data processing, hosting and related activities')
+      .literal(
+        'Computing infrastructure, data processing, hosting and related activities'
+      )
       .optional(),
-  }),
-  z.object({
-    '@level': z.literal('3').optional(),
-    '@classId': z.literal('6312').optional(),
-    '#text': z.literal('Web portals').optional(),
   }),
   z.object({
     '@level': z.literal('2').optional(),
     '@classId': z.literal('639').optional(),
-    '#text': z.literal('Other information service activities').optional(),
-  }),
-  z.object({
-    '@level': z.literal('3').optional(),
-    '@classId': z.literal('6391').optional(),
-    '#text': z.literal('News agency activities').optional(),
-  }),
-  z.object({
-    '@level': z.literal('3').optional(),
-    '@classId': z.literal('6399').optional(),
     '#text': z
-      .literal('Other information service activities n.e.c.')
+      .literal(
+        'Web search portals activities and other information service activities'
+      )
+      .optional(),
+  }),
+  z.object({
+    '@level': z.literal('3').optional(),
+    '@classId': z.literal('6390').optional(),
+    '#text': z
+      .literal(
+        'Web search portals activities and other information service activities'
+      )
       .optional(),
   }),
   z.object({
     '@level': z.literal('0').optional(),
-    '@classId': z.literal('K').optional(),
+    '@classId': z.literal('L').optional(),
     '#text': z.literal('Financial and insurance activities').optional(),
   }),
   z.object({
@@ -3263,25 +3460,44 @@ export const ProcessesCategorySchema: z.ZodType<any> = z.union([
   z.object({
     '@level': z.literal('2').optional(),
     '@classId': z.literal('642').optional(),
+    '#text': z
+      .literal('Activities of holding companies and financing conduits')
+      .optional(),
+  }),
+  z.object({
+    '@level': z.literal('3').optional(),
+    '@classId': z.literal('6421').optional(),
     '#text': z.literal('Activities of holding companies').optional(),
   }),
   z.object({
     '@level': z.literal('3').optional(),
-    '@classId': z.literal('6420').optional(),
-    '#text': z.literal('Activities of holding companies').optional(),
+    '@classId': z.literal('6422').optional(),
+    '#text': z.literal('Activities of financing conduits').optional(),
   }),
   z.object({
     '@level': z.literal('2').optional(),
     '@classId': z.literal('643').optional(),
     '#text': z
-      .literal('Trusts, funds and similar financial entities')
+      .literal('Activities of trusts, funds and similar financial entities')
       .optional(),
   }),
   z.object({
     '@level': z.literal('3').optional(),
-    '@classId': z.literal('6430').optional(),
+    '@classId': z.literal('6431').optional(),
+    '#text': z.literal('Activities of money market funds').optional(),
+  }),
+  z.object({
+    '@level': z.literal('3').optional(),
+    '@classId': z.literal('6432').optional(),
     '#text': z
-      .literal('Trusts, funds and similar financial entities')
+      .literal('Activities of non-money market investments funds')
+      .optional(),
+  }),
+  z.object({
+    '@level': z.literal('3').optional(),
+    '@classId': z.literal('6433').optional(),
+    '#text': z
+      .literal('Activities of trust, estate and agency accounts')
       .optional(),
   }),
   z.object({
@@ -3296,19 +3512,34 @@ export const ProcessesCategorySchema: z.ZodType<any> = z.union([
   z.object({
     '@level': z.literal('3').optional(),
     '@classId': z.literal('6491').optional(),
-    '#text': z.literal('Financial leasing').optional(),
+    '#text': z.literal('Financial leasing activities').optional(),
   }),
   z.object({
     '@level': z.literal('3').optional(),
     '@classId': z.literal('6492').optional(),
-    '#text': z.literal('Other credit granting').optional(),
+    '#text': z.literal('International trade financing activities').optional(),
+  }),
+  z.object({
+    '@level': z.literal('3').optional(),
+    '@classId': z.literal('6493').optional(),
+    '#text': z.literal('Factoring activities').optional(),
+  }),
+  z.object({
+    '@level': z.literal('3').optional(),
+    '@classId': z.literal('6494').optional(),
+    '#text': z.literal('Securitisation activities').optional(),
+  }),
+  z.object({
+    '@level': z.literal('3').optional(),
+    '@classId': z.literal('6495').optional(),
+    '#text': z.literal('Other credit granting activities').optional(),
   }),
   z.object({
     '@level': z.literal('3').optional(),
     '@classId': z.literal('6499').optional(),
     '#text': z
       .literal(
-        'Other financial service activities, except insurance and pension funding activities, n.e.c.'
+        'Other financial service activities n.e.c., except insurance and pension funding activities'
       )
       .optional(),
   }),
@@ -3370,7 +3601,7 @@ export const ProcessesCategorySchema: z.ZodType<any> = z.union([
     '@classId': z.literal('661').optional(),
     '#text': z
       .literal(
-        'Activities auxiliary to financial service activities, except insurance and pension funding'
+        'Activities auxiliary to financial services, except insurance and pension funding'
       )
       .optional(),
   }),
@@ -3388,7 +3619,9 @@ export const ProcessesCategorySchema: z.ZodType<any> = z.union([
     '@level': z.literal('3').optional(),
     '@classId': z.literal('6619').optional(),
     '#text': z
-      .literal('Other activities auxiliary to financial service activities')
+      .literal(
+        'Other activities auxiliary to financial service activities, except insurance and pension funding'
+      )
       .optional(),
   }),
   z.object({
@@ -3427,7 +3660,7 @@ export const ProcessesCategorySchema: z.ZodType<any> = z.union([
   }),
   z.object({
     '@level': z.literal('0').optional(),
-    '@classId': z.literal('L').optional(),
+    '@classId': z.literal('M').optional(),
     '#text': z.literal('Real estate activities').optional(),
   }),
   z.object({
@@ -3458,14 +3691,21 @@ export const ProcessesCategorySchema: z.ZodType<any> = z.union([
   }),
   z.object({
     '@level': z.literal('3').optional(),
-    '@classId': z.literal('6820').optional(),
+    '@classId': z.literal('6821').optional(),
     '#text': z
-      .literal('Real estate activities on a fee or contract basis')
+      .literal('Intermediation service activities for real estate')
+      .optional(),
+  }),
+  z.object({
+    '@level': z.literal('3').optional(),
+    '@classId': z.literal('6829').optional(),
+    '#text': z
+      .literal('Other real estate activities on a fee or contract basis')
       .optional(),
   }),
   z.object({
     '@level': z.literal('0').optional(),
-    '@classId': z.literal('M').optional(),
+    '@classId': z.literal('N').optional(),
     '#text': z
       .literal('Professional, scientific and technical activities')
       .optional(),
@@ -3523,12 +3763,16 @@ export const ProcessesCategorySchema: z.ZodType<any> = z.union([
   z.object({
     '@level': z.literal('2').optional(),
     '@classId': z.literal('702').optional(),
-    '#text': z.literal('Management consultancy activities').optional(),
+    '#text': z
+      .literal('Business and other management consultancy activities')
+      .optional(),
   }),
   z.object({
     '@level': z.literal('3').optional(),
     '@classId': z.literal('7020').optional(),
-    '#text': z.literal('Management consultancy activities').optional(),
+    '#text': z
+      .literal('Business and other management consultancy activities')
+      .optional(),
   }),
   z.object({
     '@level': z.literal('1').optional(),
@@ -3544,7 +3788,7 @@ export const ProcessesCategorySchema: z.ZodType<any> = z.union([
     '@classId': z.literal('711').optional(),
     '#text': z
       .literal(
-        'Architectural and engineering activities and related technical consultancy'
+        'Architectural and engineering, and related technical consultancy activities'
       )
       .optional(),
   }),
@@ -3553,7 +3797,7 @@ export const ProcessesCategorySchema: z.ZodType<any> = z.union([
     '@classId': z.literal('7110').optional(),
     '#text': z
       .literal(
-        'Architectural and engineering activities and related technical consultancy'
+        'Architectural and engineering, and related technical consultancy activities'
       )
       .optional(),
   }),
@@ -3611,27 +3855,45 @@ export const ProcessesCategorySchema: z.ZodType<any> = z.union([
   z.object({
     '@level': z.literal('1').optional(),
     '@classId': z.literal('73').optional(),
-    '#text': z.literal('Advertising and market research').optional(),
+    '#text': z
+      .literal(
+        'Activities of advertising, market research and public relations'
+      )
+      .optional(),
   }),
   z.object({
     '@level': z.literal('2').optional(),
     '@classId': z.literal('731').optional(),
-    '#text': z.literal('Advertising').optional(),
+    '#text': z.literal('Advertising activities').optional(),
   }),
   z.object({
     '@level': z.literal('3').optional(),
     '@classId': z.literal('7310').optional(),
-    '#text': z.literal('Advertising').optional(),
+    '#text': z.literal('Advertising activities').optional(),
   }),
   z.object({
     '@level': z.literal('2').optional(),
     '@classId': z.literal('732').optional(),
-    '#text': z.literal('Market research and public opinion polling').optional(),
+    '#text': z
+      .literal('Market research and public opinion polling activities')
+      .optional(),
   }),
   z.object({
     '@level': z.literal('3').optional(),
     '@classId': z.literal('7320').optional(),
-    '#text': z.literal('Market research and public opinion polling').optional(),
+    '#text': z
+      .literal('Market research and public opinion polling activities')
+      .optional(),
+  }),
+  z.object({
+    '@level': z.literal('2').optional(),
+    '@classId': z.literal('733').optional(),
+    '#text': z.literal('Public relations activities').optional(),
+  }),
+  z.object({
+    '@level': z.literal('3').optional(),
+    '@classId': z.literal('7330').optional(),
+    '#text': z.literal('Public relations activities').optional(),
   }),
   z.object({
     '@level': z.literal('1').optional(),
@@ -3662,6 +3924,16 @@ export const ProcessesCategorySchema: z.ZodType<any> = z.union([
   }),
   z.object({
     '@level': z.literal('2').optional(),
+    '@classId': z.literal('743').optional(),
+    '#text': z.literal('Translation and interpretation activities').optional(),
+  }),
+  z.object({
+    '@level': z.literal('3').optional(),
+    '@classId': z.literal('7430').optional(),
+    '#text': z.literal('Translation and interpretation activities').optional(),
+  }),
+  z.object({
+    '@level': z.literal('2').optional(),
     '@classId': z.literal('749').optional(),
     '#text': z
       .literal('Other professional, scientific and technical activities n.e.c.')
@@ -3669,9 +3941,18 @@ export const ProcessesCategorySchema: z.ZodType<any> = z.union([
   }),
   z.object({
     '@level': z.literal('3').optional(),
-    '@classId': z.literal('7490').optional(),
+    '@classId': z.literal('7491').optional(),
     '#text': z
-      .literal('Other professional, scientific and technical activities n.e.c.')
+      .literal('Patent brokering and marketing service activities')
+      .optional(),
+  }),
+  z.object({
+    '@level': z.literal('3').optional(),
+    '@classId': z.literal('7499').optional(),
+    '#text': z
+      .literal(
+        'All other professional, scientific and technical activities n.e.c.'
+      )
       .optional(),
   }),
   z.object({
@@ -3691,7 +3972,7 @@ export const ProcessesCategorySchema: z.ZodType<any> = z.union([
   }),
   z.object({
     '@level': z.literal('0').optional(),
-    '@classId': z.literal('N').optional(),
+    '@classId': z.literal('O').optional(),
     '#text': z
       .literal('Administrative and support service activities')
       .optional(),
@@ -3704,37 +3985,32 @@ export const ProcessesCategorySchema: z.ZodType<any> = z.union([
   z.object({
     '@level': z.literal('2').optional(),
     '@classId': z.literal('771').optional(),
-    '#text': z.literal('Renting and leasing of motor vehicles').optional(),
+    '#text': z.literal('Rental and leasing of motor vehicles').optional(),
   }),
   z.object({
     '@level': z.literal('3').optional(),
     '@classId': z.literal('7710').optional(),
-    '#text': z.literal('Renting and leasing of motor vehicles').optional(),
+    '#text': z.literal('Rental and leasing of motor vehicles').optional(),
   }),
   z.object({
     '@level': z.literal('2').optional(),
     '@classId': z.literal('772').optional(),
     '#text': z
-      .literal('Renting and leasing of personal and household goods')
+      .literal('Rental and leasing of personal and household goods')
       .optional(),
   }),
   z.object({
     '@level': z.literal('3').optional(),
     '@classId': z.literal('7721').optional(),
     '#text': z
-      .literal('Renting and leasing of recreational and sports goods')
+      .literal('Rental and leasing of recreational and sports goods')
       .optional(),
-  }),
-  z.object({
-    '@level': z.literal('3').optional(),
-    '@classId': z.literal('7722').optional(),
-    '#text': z.literal('Renting of video tapes and disks').optional(),
   }),
   z.object({
     '@level': z.literal('3').optional(),
     '@classId': z.literal('7729').optional(),
     '#text': z
-      .literal('Renting and leasing of other personal and household goods')
+      .literal('Rental and leasing of other personal and household goods')
       .optional(),
   }),
   z.object({
@@ -3742,7 +4018,7 @@ export const ProcessesCategorySchema: z.ZodType<any> = z.union([
     '@classId': z.literal('773').optional(),
     '#text': z
       .literal(
-        'Renting and leasing of other machinery, equipment and tangible goods'
+        'Rental and leasing of other machinery, equipment and tangible goods'
       )
       .optional(),
   }),
@@ -3751,7 +4027,7 @@ export const ProcessesCategorySchema: z.ZodType<any> = z.union([
     '@classId': z.literal('7730').optional(),
     '#text': z
       .literal(
-        'Renting and leasing of other machinery, equipment and tangible goods'
+        'Rental and leasing of other machinery, equipment and tangible goods'
       )
       .optional(),
   }),
@@ -3770,6 +4046,33 @@ export const ProcessesCategorySchema: z.ZodType<any> = z.union([
     '#text': z
       .literal(
         'Leasing of intellectual property and similar products, except copyrighted works'
+      )
+      .optional(),
+  }),
+  z.object({
+    '@level': z.literal('2').optional(),
+    '@classId': z.literal('775').optional(),
+    '#text': z
+      .literal(
+        'Intermediation service activities for rental and leasing of tangible goods and non-financial intangible assets'
+      )
+      .optional(),
+  }),
+  z.object({
+    '@level': z.literal('3').optional(),
+    '@classId': z.literal('7751').optional(),
+    '#text': z
+      .literal(
+        'Intermediation service activities for rental and leasing of cars, motorhomes and trailers'
+      )
+      .optional(),
+  }),
+  z.object({
+    '@level': z.literal('3').optional(),
+    '@classId': z.literal('7752').optional(),
+    '#text': z
+      .literal(
+        'Intermediation service activities for rental and leasing of other tangible goods and non-financial intangible assets'
       )
       .optional(),
   }),
@@ -3795,29 +4098,27 @@ export const ProcessesCategorySchema: z.ZodType<any> = z.union([
   z.object({
     '@level': z.literal('2').optional(),
     '@classId': z.literal('782').optional(),
-    '#text': z.literal('Temporary employment agency activities').optional(),
+    '#text': z
+      .literal(
+        'Temporary employment agency activities and other human resource provisions'
+      )
+      .optional(),
   }),
   z.object({
     '@level': z.literal('3').optional(),
     '@classId': z.literal('7820').optional(),
-    '#text': z.literal('Temporary employment agency activities').optional(),
-  }),
-  z.object({
-    '@level': z.literal('2').optional(),
-    '@classId': z.literal('783').optional(),
-    '#text': z.literal('Other human resources provision').optional(),
-  }),
-  z.object({
-    '@level': z.literal('3').optional(),
-    '@classId': z.literal('7830').optional(),
-    '#text': z.literal('Other human resources provision').optional(),
+    '#text': z
+      .literal(
+        'Temporary employment agency activities and other human resource provisions'
+      )
+      .optional(),
   }),
   z.object({
     '@level': z.literal('1').optional(),
     '@classId': z.literal('79').optional(),
     '#text': z
       .literal(
-        'Travel agency, tour operator, reservation service and related activities'
+        'Travel agency, tour operator, and other travel related activities'
       )
       .optional(),
   }),
@@ -3839,51 +4140,34 @@ export const ProcessesCategorySchema: z.ZodType<any> = z.union([
   z.object({
     '@level': z.literal('2').optional(),
     '@classId': z.literal('799').optional(),
-    '#text': z
-      .literal('Other reservation service and related activities')
-      .optional(),
+    '#text': z.literal('Other travel related activities').optional(),
   }),
   z.object({
     '@level': z.literal('3').optional(),
     '@classId': z.literal('7990').optional(),
-    '#text': z
-      .literal('Other reservation service and related activities')
-      .optional(),
+    '#text': z.literal('Other travel related activities').optional(),
   }),
   z.object({
     '@level': z.literal('1').optional(),
     '@classId': z.literal('80').optional(),
-    '#text': z.literal('Security and investigation activities').optional(),
+    '#text': z.literal('Investigation and security activities').optional(),
   }),
   z.object({
     '@level': z.literal('2').optional(),
     '@classId': z.literal('801').optional(),
-    '#text': z.literal('Private security activities').optional(),
+    '#text': z.literal('Investigation and security activities').optional(),
   }),
   z.object({
     '@level': z.literal('3').optional(),
-    '@classId': z.literal('8010').optional(),
-    '#text': z.literal('Private security activities').optional(),
-  }),
-  z.object({
-    '@level': z.literal('2').optional(),
-    '@classId': z.literal('802').optional(),
-    '#text': z.literal('Security systems service activities').optional(),
+    '@classId': z.literal('8011').optional(),
+    '#text': z
+      .literal('Investigation and private security activities')
+      .optional(),
   }),
   z.object({
     '@level': z.literal('3').optional(),
-    '@classId': z.literal('8020').optional(),
-    '#text': z.literal('Security systems service activities').optional(),
-  }),
-  z.object({
-    '@level': z.literal('2').optional(),
-    '@classId': z.literal('803').optional(),
-    '#text': z.literal('Investigation activities').optional(),
-  }),
-  z.object({
-    '@level': z.literal('3').optional(),
-    '@classId': z.literal('8030').optional(),
-    '#text': z.literal('Investigation activities').optional(),
+    '@classId': z.literal('8019').optional(),
+    '#text': z.literal('Security activities n.e.c.').optional(),
   }),
   z.object({
     '@level': z.literal('1').optional(),
@@ -3915,23 +4199,17 @@ export const ProcessesCategorySchema: z.ZodType<any> = z.union([
   z.object({
     '@level': z.literal('3').optional(),
     '@classId': z.literal('8129').optional(),
-    '#text': z
-      .literal('Other building and industrial cleaning activities')
-      .optional(),
+    '#text': z.literal('Other cleaning activities').optional(),
   }),
   z.object({
     '@level': z.literal('2').optional(),
     '@classId': z.literal('813').optional(),
-    '#text': z
-      .literal('Landscape care and maintenance service activities')
-      .optional(),
+    '#text': z.literal('Landscape service activities').optional(),
   }),
   z.object({
     '@level': z.literal('3').optional(),
     '@classId': z.literal('8130').optional(),
-    '#text': z
-      .literal('Landscape care and maintenance service activities')
-      .optional(),
+    '#text': z.literal('Landscape service activities').optional(),
   }),
   z.object({
     '@level': z.literal('1').optional(),
@@ -3951,18 +4229,9 @@ export const ProcessesCategorySchema: z.ZodType<any> = z.union([
   }),
   z.object({
     '@level': z.literal('3').optional(),
-    '@classId': z.literal('8211').optional(),
+    '@classId': z.literal('8210').optional(),
     '#text': z
-      .literal('Combined office administrative service activities')
-      .optional(),
-  }),
-  z.object({
-    '@level': z.literal('3').optional(),
-    '@classId': z.literal('8219').optional(),
-    '#text': z
-      .literal(
-        'Photocopying, document preparation and other specialized office support activities'
-      )
+      .literal('Office administrative and support activities')
       .optional(),
   }),
   z.object({
@@ -3991,6 +4260,24 @@ export const ProcessesCategorySchema: z.ZodType<any> = z.union([
   }),
   z.object({
     '@level': z.literal('2').optional(),
+    '@classId': z.literal('824').optional(),
+    '#text': z
+      .literal(
+        'Intermediation service activities for business support activities n.e.c., except financial intermediation'
+      )
+      .optional(),
+  }),
+  z.object({
+    '@level': z.literal('3').optional(),
+    '@classId': z.literal('8240').optional(),
+    '#text': z
+      .literal(
+        'Intermediation service activities for business support activities n.e.c., except financial intermediation'
+      )
+      .optional(),
+  }),
+  z.object({
+    '@level': z.literal('2').optional(),
     '@classId': z.literal('829').optional(),
     '#text': z.literal('Business support service activities n.e.c.').optional(),
   }),
@@ -4015,7 +4302,7 @@ export const ProcessesCategorySchema: z.ZodType<any> = z.union([
   }),
   z.object({
     '@level': z.literal('0').optional(),
-    '@classId': z.literal('O').optional(),
+    '@classId': z.literal('P').optional(),
     '#text': z
       .literal('Public administration and defence; compulsory social security')
       .optional(),
@@ -4032,7 +4319,7 @@ export const ProcessesCategorySchema: z.ZodType<any> = z.union([
     '@classId': z.literal('841').optional(),
     '#text': z
       .literal(
-        'Administration of the State and the economic and social policy of the community'
+        'Administration of the State and the economic, social and environmental policies of the community'
       )
       .optional(),
   }),
@@ -4046,13 +4333,22 @@ export const ProcessesCategorySchema: z.ZodType<any> = z.union([
     '@classId': z.literal('8412').optional(),
     '#text': z
       .literal(
-        'Regulation of the activities of providing health care, education, cultural services and other social services, excluding social security'
+        'Regulation of the activities of providing health care, education, cultural services and other social services, excluding social security and environment'
       )
       .optional(),
   }),
   z.object({
     '@level': z.literal('3').optional(),
     '@classId': z.literal('8413').optional(),
+    '#text': z
+      .literal(
+        'Regulation of the activities of providing environmental services'
+      )
+      .optional(),
+  }),
+  z.object({
+    '@level': z.literal('3').optional(),
+    '@classId': z.literal('8414').optional(),
     '#text': z
       .literal(
         'Regulation of and contribution to more efficient operation of businesses'
@@ -4093,7 +4389,7 @@ export const ProcessesCategorySchema: z.ZodType<any> = z.union([
   }),
   z.object({
     '@level': z.literal('0').optional(),
-    '@classId': z.literal('P').optional(),
+    '@classId': z.literal('Q').optional(),
     '#text': z.literal('Education').optional(),
   }),
   z.object({
@@ -4104,73 +4400,100 @@ export const ProcessesCategorySchema: z.ZodType<any> = z.union([
   z.object({
     '@level': z.literal('2').optional(),
     '@classId': z.literal('851').optional(),
-    '#text': z.literal('Pre-primary and primary education').optional(),
+    '#text': z.literal('Pre-primary education').optional(),
   }),
   z.object({
     '@level': z.literal('3').optional(),
     '@classId': z.literal('8510').optional(),
-    '#text': z.literal('Pre-primary and primary education').optional(),
+    '#text': z.literal('Pre-primary education').optional(),
   }),
   z.object({
     '@level': z.literal('2').optional(),
     '@classId': z.literal('852').optional(),
-    '#text': z.literal('Secondary education').optional(),
+    '#text': z.literal('Primary education').optional(),
   }),
   z.object({
     '@level': z.literal('3').optional(),
-    '@classId': z.literal('8521').optional(),
-    '#text': z.literal('General secondary education').optional(),
-  }),
-  z.object({
-    '@level': z.literal('3').optional(),
-    '@classId': z.literal('8522').optional(),
-    '#text': z
-      .literal('Technical and vocational secondary education')
-      .optional(),
+    '@classId': z.literal('8520').optional(),
+    '#text': z.literal('Primary education').optional(),
   }),
   z.object({
     '@level': z.literal('2').optional(),
     '@classId': z.literal('853').optional(),
-    '#text': z.literal('Higher education').optional(),
+    '#text': z
+      .literal('Secondary and post-secondary non-tertiary education')
+      .optional(),
   }),
   z.object({
     '@level': z.literal('3').optional(),
-    '@classId': z.literal('8530').optional(),
-    '#text': z.literal('Higher education').optional(),
+    '@classId': z.literal('8531').optional(),
+    '#text': z.literal('General secondary education').optional(),
+  }),
+  z.object({
+    '@level': z.literal('3').optional(),
+    '@classId': z.literal('8532').optional(),
+    '#text': z.literal('Vocational secondary education').optional(),
+  }),
+  z.object({
+    '@level': z.literal('3').optional(),
+    '@classId': z.literal('8533').optional(),
+    '#text': z.literal('Post-secondary non-tertiary education').optional(),
   }),
   z.object({
     '@level': z.literal('2').optional(),
     '@classId': z.literal('854').optional(),
-    '#text': z.literal('Other education').optional(),
+    '#text': z.literal('Tertiary education').optional(),
   }),
   z.object({
     '@level': z.literal('3').optional(),
-    '@classId': z.literal('8541').optional(),
-    '#text': z.literal('Sports and recreation education').optional(),
-  }),
-  z.object({
-    '@level': z.literal('3').optional(),
-    '@classId': z.literal('8542').optional(),
-    '#text': z.literal('Cultural education').optional(),
-  }),
-  z.object({
-    '@level': z.literal('3').optional(),
-    '@classId': z.literal('8549').optional(),
-    '#text': z.literal('Other education n.e.c.').optional(),
+    '@classId': z.literal('8540').optional(),
+    '#text': z.literal('Tertiary education').optional(),
   }),
   z.object({
     '@level': z.literal('2').optional(),
     '@classId': z.literal('855').optional(),
+    '#text': z.literal('Other education').optional(),
+  }),
+  z.object({
+    '@level': z.literal('3').optional(),
+    '@classId': z.literal('8551').optional(),
+    '#text': z.literal('Sports and recreation education').optional(),
+  }),
+  z.object({
+    '@level': z.literal('3').optional(),
+    '@classId': z.literal('8552').optional(),
+    '#text': z.literal('Cultural education').optional(),
+  }),
+  z.object({
+    '@level': z.literal('3').optional(),
+    '@classId': z.literal('8553').optional(),
+    '#text': z.literal('Driving school activities').optional(),
+  }),
+  z.object({
+    '@level': z.literal('3').optional(),
+    '@classId': z.literal('8559').optional(),
+    '#text': z.literal('Other education n.e.c.').optional(),
+  }),
+  z.object({
+    '@level': z.literal('2').optional(),
+    '@classId': z.literal('856').optional(),
     '#text': z.literal('Educational support activities').optional(),
   }),
   z.object({
     '@level': z.literal('3').optional(),
-    '@classId': z.literal('8550').optional(),
-    '#text': z.literal('Educational support activities').optional(),
+    '@classId': z.literal('8561').optional(),
+    '#text': z
+      .literal('Intermediation service activities for courses and tutors')
+      .optional(),
+  }),
+  z.object({
+    '@level': z.literal('3').optional(),
+    '@classId': z.literal('8569').optional(),
+    '#text': z.literal('Other educational support activities').optional(),
   }),
   z.object({
     '@level': z.literal('0').optional(),
-    '@classId': z.literal('Q').optional(),
+    '@classId': z.literal('R').optional(),
     '#text': z.literal('Human health and social work activities').optional(),
   }),
   z.object({
@@ -4205,8 +4528,17 @@ export const ProcessesCategorySchema: z.ZodType<any> = z.union([
   }),
   z.object({
     '@level': z.literal('3').optional(),
-    '@classId': z.literal('8690').optional(),
-    '#text': z.literal('Other human health activities').optional(),
+    '@classId': z.literal('8691').optional(),
+    '#text': z
+      .literal(
+        'Intermediation service activities for medical, dental, and other human health services'
+      )
+      .optional(),
+  }),
+  z.object({
+    '@level': z.literal('3').optional(),
+    '@classId': z.literal('8699').optional(),
+    '#text': z.literal('Other human health activities n.e.c').optional(),
   }),
   z.object({
     '@level': z.literal('1').optional(),
@@ -4216,19 +4548,19 @@ export const ProcessesCategorySchema: z.ZodType<any> = z.union([
   z.object({
     '@level': z.literal('2').optional(),
     '@classId': z.literal('871').optional(),
-    '#text': z.literal('Residential nursing care facilities').optional(),
+    '#text': z.literal('Residential nursing care activities').optional(),
   }),
   z.object({
     '@level': z.literal('3').optional(),
     '@classId': z.literal('8710').optional(),
-    '#text': z.literal('Residential nursing care facilities').optional(),
+    '#text': z.literal('Residential nursing care activities').optional(),
   }),
   z.object({
     '@level': z.literal('2').optional(),
     '@classId': z.literal('872').optional(),
     '#text': z
       .literal(
-        'Residential care activities for mental retardation, mental health and substance abuse'
+        'Residential care activities for persons living with or having a diagnosis of a mental illness or substance abuse'
       )
       .optional(),
   }),
@@ -4237,7 +4569,7 @@ export const ProcessesCategorySchema: z.ZodType<any> = z.union([
     '@classId': z.literal('8720').optional(),
     '#text': z
       .literal(
-        'Residential care activities for mental retardation, mental health and substance abuse'
+        'Residential care activities for persons living with or having a diagnosis of a mental illness or substance abuse'
       )
       .optional(),
   }),
@@ -4245,14 +4577,18 @@ export const ProcessesCategorySchema: z.ZodType<any> = z.union([
     '@level': z.literal('2').optional(),
     '@classId': z.literal('873').optional(),
     '#text': z
-      .literal('Residential care activities for the elderly and disabled')
+      .literal(
+        'Residential care activities for older persons or persons with physical disabilities'
+      )
       .optional(),
   }),
   z.object({
     '@level': z.literal('3').optional(),
     '@classId': z.literal('8730').optional(),
     '#text': z
-      .literal('Residential care activities for the elderly and disabled')
+      .literal(
+        'Residential care activities for older persons or persons with physical disabilities'
+      )
       .optional(),
   }),
   z.object({
@@ -4262,8 +4598,17 @@ export const ProcessesCategorySchema: z.ZodType<any> = z.union([
   }),
   z.object({
     '@level': z.literal('3').optional(),
-    '@classId': z.literal('8790').optional(),
-    '#text': z.literal('Other residential care activities').optional(),
+    '@classId': z.literal('8791').optional(),
+    '#text': z
+      .literal(
+        'Intermediation service activities for residential care activities'
+      )
+      .optional(),
+  }),
+  z.object({
+    '@level': z.literal('3').optional(),
+    '@classId': z.literal('8799').optional(),
+    '#text': z.literal('Other residential care activities n.e.c.').optional(),
   }),
   z.object({
     '@level': z.literal('1').optional(),
@@ -4277,7 +4622,7 @@ export const ProcessesCategorySchema: z.ZodType<any> = z.union([
     '@classId': z.literal('881').optional(),
     '#text': z
       .literal(
-        'Social work activities without accommodation for the elderly and disabled'
+        'Social work activities without accommodation for older persons or persons with disabilities'
       )
       .optional(),
   }),
@@ -4286,7 +4631,7 @@ export const ProcessesCategorySchema: z.ZodType<any> = z.union([
     '@classId': z.literal('8810').optional(),
     '#text': z
       .literal(
-        'Social work activities without accommodation for the elderly and disabled'
+        'Social work activities without accommodation for older persons or persons with disabilities'
       )
       .optional(),
   }),
@@ -4306,66 +4651,140 @@ export const ProcessesCategorySchema: z.ZodType<any> = z.union([
   }),
   z.object({
     '@level': z.literal('0').optional(),
-    '@classId': z.literal('R').optional(),
-    '#text': z.literal('Arts, entertainment and recreation').optional(),
+    '@classId': z.literal('S').optional(),
+    '#text': z.literal('Arts, sports and recreation').optional(),
   }),
   z.object({
     '@level': z.literal('1').optional(),
     '@classId': z.literal('90').optional(),
     '#text': z
-      .literal('Creative, arts and entertainment activities')
+      .literal('Arts creation and performing arts activities')
       .optional(),
   }),
   z.object({
     '@level': z.literal('2').optional(),
-    '@classId': z.literal('900').optional(),
+    '@classId': z.literal('901').optional(),
+    '#text': z.literal('Arts creation activities').optional(),
+  }),
+  z.object({
+    '@level': z.literal('3').optional(),
+    '@classId': z.literal('9011').optional(),
     '#text': z
-      .literal('Creative, arts and entertainment activities')
+      .literal('Literary creation and musical composition activities')
       .optional(),
   }),
   z.object({
     '@level': z.literal('3').optional(),
-    '@classId': z.literal('9000').optional(),
+    '@classId': z.literal('9012').optional(),
+    '#text': z.literal('Visual arts creation activities').optional(),
+  }),
+  z.object({
+    '@level': z.literal('3').optional(),
+    '@classId': z.literal('9013').optional(),
+    '#text': z.literal('Other arts creation activities').optional(),
+  }),
+  z.object({
+    '@level': z.literal('2').optional(),
+    '@classId': z.literal('902').optional(),
+    '#text': z.literal('Activities of performing arts').optional(),
+  }),
+  z.object({
+    '@level': z.literal('3').optional(),
+    '@classId': z.literal('9020').optional(),
+    '#text': z.literal('Activities of performing arts').optional(),
+  }),
+  z.object({
+    '@level': z.literal('2').optional(),
+    '@classId': z.literal('903').optional(),
     '#text': z
-      .literal('Creative, arts and entertainment activities')
+      .literal('Support activities to arts creation and performing arts')
+      .optional(),
+  }),
+  z.object({
+    '@level': z.literal('3').optional(),
+    '@classId': z.literal('9031').optional(),
+    '#text': z.literal('Operation of arts facilities and sites').optional(),
+  }),
+  z.object({
+    '@level': z.literal('3').optional(),
+    '@classId': z.literal('9039').optional(),
+    '#text': z
+      .literal('Other support activities to arts creation and performing arts')
       .optional(),
   }),
   z.object({
     '@level': z.literal('1').optional(),
     '@classId': z.literal('91').optional(),
     '#text': z
-      .literal('Libraries, archives, museums and other cultural activities')
+      .literal('Library, archives, museum and other cultural activities')
       .optional(),
   }),
   z.object({
     '@level': z.literal('2').optional(),
-    '@classId': z.literal('910').optional(),
+    '@classId': z.literal('911').optional(),
+    '#text': z.literal('Library and archive activities').optional(),
+  }),
+  z.object({
+    '@level': z.literal('3').optional(),
+    '@classId': z.literal('9111').optional(),
+    '#text': z.literal('Library activities').optional(),
+  }),
+  z.object({
+    '@level': z.literal('3').optional(),
+    '@classId': z.literal('9112').optional(),
+    '#text': z.literal('Archive activities').optional(),
+  }),
+  z.object({
+    '@level': z.literal('2').optional(),
+    '@classId': z.literal('912').optional(),
     '#text': z
-      .literal('Libraries, archives, museums and other cultural activities')
+      .literal('Museum, collection, historical site and monument activities')
       .optional(),
   }),
   z.object({
     '@level': z.literal('3').optional(),
-    '@classId': z.literal('9101').optional(),
-    '#text': z.literal('Library and archives activities').optional(),
+    '@classId': z.literal('9121').optional(),
+    '#text': z.literal('Museum and collection activities').optional(),
   }),
   z.object({
     '@level': z.literal('3').optional(),
-    '@classId': z.literal('9102').optional(),
+    '@classId': z.literal('9122').optional(),
+    '#text': z.literal('Historical site and monument activities').optional(),
+  }),
+  z.object({
+    '@level': z.literal('2').optional(),
+    '@classId': z.literal('913').optional(),
     '#text': z
       .literal(
-        'Museums activities and operation of historical sites and buildings'
+        'Conservation, restoration and other support activities for cultural heritage'
       )
       .optional(),
   }),
   z.object({
     '@level': z.literal('3').optional(),
-    '@classId': z.literal('9103').optional(),
+    '@classId': z.literal('9130').optional(),
     '#text': z
       .literal(
-        'Botanical and zoological gardens and nature reserves activities'
+        'Conservation, restoration and other support activities for cultural heritage'
       )
       .optional(),
+  }),
+  z.object({
+    '@level': z.literal('2').optional(),
+    '@classId': z.literal('914').optional(),
+    '#text': z
+      .literal('Botanical and zoological garden and nature reserve activities')
+      .optional(),
+  }),
+  z.object({
+    '@level': z.literal('3').optional(),
+    '@classId': z.literal('9141').optional(),
+    '#text': z.literal('Botanical and zoological garden activities').optional(),
+  }),
+  z.object({
+    '@level': z.literal('3').optional(),
+    '@classId': z.literal('9142').optional(),
+    '#text': z.literal('Nature reserve activities').optional(),
   }),
   z.object({
     '@level': z.literal('1').optional(),
@@ -4412,7 +4831,7 @@ export const ProcessesCategorySchema: z.ZodType<any> = z.union([
   z.object({
     '@level': z.literal('2').optional(),
     '@classId': z.literal('932').optional(),
-    '#text': z.literal('Other amusement and recreation activities').optional(),
+    '#text': z.literal('Amusement and recreation activities').optional(),
   }),
   z.object({
     '@level': z.literal('3').optional(),
@@ -4424,13 +4843,11 @@ export const ProcessesCategorySchema: z.ZodType<any> = z.union([
   z.object({
     '@level': z.literal('3').optional(),
     '@classId': z.literal('9329').optional(),
-    '#text': z
-      .literal('Other amusement and recreation activities n.e.c.')
-      .optional(),
+    '#text': z.literal('Other amusement and recreation activities').optional(),
   }),
   z.object({
     '@level': z.literal('0').optional(),
-    '@classId': z.literal('S').optional(),
+    '@classId': z.literal('T').optional(),
     '#text': z.literal('Other service activities').optional(),
   }),
   z.object({
@@ -4499,97 +4916,188 @@ export const ProcessesCategorySchema: z.ZodType<any> = z.union([
     '@level': z.literal('1').optional(),
     '@classId': z.literal('95').optional(),
     '#text': z
-      .literal('Repair of computers and personal and household goods')
+      .literal(
+        'Repair and maintenance of computers, personal and household goods, and motor vehicles and motorcycles'
+      )
       .optional(),
   }),
   z.object({
     '@level': z.literal('2').optional(),
     '@classId': z.literal('951').optional(),
     '#text': z
-      .literal('Repair of computers and communication equipment')
+      .literal(
+        'Repair and maintenance of computers and communication equipment'
+      )
       .optional(),
   }),
   z.object({
     '@level': z.literal('3').optional(),
-    '@classId': z.literal('9511').optional(),
+    '@classId': z.literal('9510').optional(),
     '#text': z
-      .literal('Repair of computers and peripheral equipment')
+      .literal(
+        'Repair and maintenance of computers and communication equipment'
+      )
       .optional(),
-  }),
-  z.object({
-    '@level': z.literal('3').optional(),
-    '@classId': z.literal('9512').optional(),
-    '#text': z.literal('Repair of communication equipment').optional(),
   }),
   z.object({
     '@level': z.literal('2').optional(),
     '@classId': z.literal('952').optional(),
-    '#text': z.literal('Repair of personal and household goods').optional(),
+    '#text': z
+      .literal('Repair and maintenance of personal and household goods')
+      .optional(),
   }),
   z.object({
     '@level': z.literal('3').optional(),
     '@classId': z.literal('9521').optional(),
-    '#text': z.literal('Repair of consumer electronics').optional(),
+    '#text': z
+      .literal('Repair and maintenance of consumer electronics')
+      .optional(),
   }),
   z.object({
     '@level': z.literal('3').optional(),
     '@classId': z.literal('9522').optional(),
     '#text': z
-      .literal('Repair of household appliances and home and garden equipment')
+      .literal(
+        'Repair and maintenance of household appliances and home and garden equipment'
+      )
       .optional(),
   }),
   z.object({
     '@level': z.literal('3').optional(),
     '@classId': z.literal('9523').optional(),
-    '#text': z.literal('Repair of footwear and leather goods').optional(),
+    '#text': z
+      .literal('Repair and maintenance of footwear and leather goods')
+      .optional(),
   }),
   z.object({
     '@level': z.literal('3').optional(),
     '@classId': z.literal('9524').optional(),
-    '#text': z.literal('Repair of furniture and home furnishings').optional(),
+    '#text': z
+      .literal('Repair and maintenance of furniture and home furnishings')
+      .optional(),
   }),
   z.object({
     '@level': z.literal('3').optional(),
     '@classId': z.literal('9529').optional(),
     '#text': z
-      .literal('Repair of other personal and household goods')
+      .literal('Repair and maintenance of other personal and household goods')
+      .optional(),
+  }),
+  z.object({
+    '@level': z.literal('2').optional(),
+    '@classId': z.literal('953').optional(),
+    '#text': z
+      .literal('Repair and maintenance of motor vehicles and motorcycles')
+      .optional(),
+  }),
+  z.object({
+    '@level': z.literal('3').optional(),
+    '@classId': z.literal('9531').optional(),
+    '#text': z.literal('Repair and maintenance of motor vehicles').optional(),
+  }),
+  z.object({
+    '@level': z.literal('3').optional(),
+    '@classId': z.literal('9532').optional(),
+    '#text': z.literal('Repair and maintenance of motorcycles').optional(),
+  }),
+  z.object({
+    '@level': z.literal('2').optional(),
+    '@classId': z.literal('954').optional(),
+    '#text': z
+      .literal(
+        'Intermediation service activities for repair and maintenance of computers, personal and household goods, and motor vehicles and motorcycles'
+      )
+      .optional(),
+  }),
+  z.object({
+    '@level': z.literal('3').optional(),
+    '@classId': z.literal('9540').optional(),
+    '#text': z
+      .literal(
+        'Intermediation service activities for repair and maintenance of computers, personal and household goods, and motor vehicles and motorcycles'
+      )
       .optional(),
   }),
   z.object({
     '@level': z.literal('1').optional(),
     '@classId': z.literal('96').optional(),
-    '#text': z.literal('Other personal service activities').optional(),
+    '#text': z.literal('Personal service activities').optional(),
   }),
   z.object({
     '@level': z.literal('2').optional(),
-    '@classId': z.literal('960').optional(),
-    '#text': z.literal('Other personal service activities').optional(),
-  }),
-  z.object({
-    '@level': z.literal('3').optional(),
-    '@classId': z.literal('9601').optional(),
+    '@classId': z.literal('961').optional(),
     '#text': z
-      .literal('Washing and (dry-) cleaning of textile and fur products')
+      .literal('Washing and cleaning of textile and fur products')
       .optional(),
   }),
   z.object({
     '@level': z.literal('3').optional(),
-    '@classId': z.literal('9602').optional(),
-    '#text': z.literal('Hairdressing and other beauty treatment').optional(),
+    '@classId': z.literal('9610').optional(),
+    '#text': z
+      .literal('Washing and cleaning of textile and fur products')
+      .optional(),
+  }),
+  z.object({
+    '@level': z.literal('2').optional(),
+    '@classId': z.literal('962').optional(),
+    '#text': z
+      .literal('Hairdressing, beauty treatment, day spa and similar activities')
+      .optional(),
   }),
   z.object({
     '@level': z.literal('3').optional(),
-    '@classId': z.literal('9603').optional(),
+    '@classId': z.literal('9621').optional(),
+    '#text': z.literal('Hairdressing and barber activities').optional(),
+  }),
+  z.object({
+    '@level': z.literal('3').optional(),
+    '@classId': z.literal('9622').optional(),
+    '#text': z
+      .literal('Beauty care and other beauty treatment activities')
+      .optional(),
+  }),
+  z.object({
+    '@level': z.literal('3').optional(),
+    '@classId': z.literal('9623').optional(),
+    '#text': z.literal('Day spa, sauna and steam bath activities').optional(),
+  }),
+  z.object({
+    '@level': z.literal('2').optional(),
+    '@classId': z.literal('963').optional(),
     '#text': z.literal('Funeral and related activities').optional(),
   }),
   z.object({
     '@level': z.literal('3').optional(),
-    '@classId': z.literal('9609').optional(),
+    '@classId': z.literal('9630').optional(),
+    '#text': z.literal('Funeral and related activities').optional(),
+  }),
+  z.object({
+    '@level': z.literal('2').optional(),
+    '@classId': z.literal('964').optional(),
+    '#text': z
+      .literal('Intermediation service activities for personal services')
+      .optional(),
+  }),
+  z.object({
+    '@level': z.literal('3').optional(),
+    '@classId': z.literal('9640').optional(),
+    '#text': z
+      .literal('Intermediation service activities for personal services')
+      .optional(),
+  }),
+  z.object({
+    '@level': z.literal('2').optional(),
+    '@classId': z.literal('969').optional(),
+    '#text': z.literal('Other personal service activities n.e.c.').optional(),
+  }),
+  z.object({
+    '@level': z.literal('3').optional(),
+    '@classId': z.literal('9690').optional(),
     '#text': z.literal('Other personal service activities n.e.c.').optional(),
   }),
   z.object({
     '@level': z.literal('0').optional(),
-    '@classId': z.literal('T').optional(),
+    '@classId': z.literal('U').optional(),
     '#text': z
       .literal(
         'Activities of households as employers; undifferentiated goods- and services-producing activities of households for own use'
@@ -4664,7 +5172,7 @@ export const ProcessesCategorySchema: z.ZodType<any> = z.union([
   }),
   z.object({
     '@level': z.literal('0').optional(),
-    '@classId': z.literal('U').optional(),
+    '@classId': z.literal('V').optional(),
     '#text': z
       .literal('Activities of extraterritorial organizations and bodies')
       .optional(),

@@ -91,3 +91,6 @@ htmlcov/
 nosetests.xml
 coverage.xml
 *.cover
+
+# codex
+.codex/

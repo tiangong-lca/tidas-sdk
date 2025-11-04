@@ -524,19 +524,33 @@ export interface Processes {
       'common:other'?: string;
     };
     LCIAResults?: {
-      LCIAResult?: {
-        referenceToLCIAMethodDataSet?: GlobalReferenceType;
-        meanAmount: Real;
-        uncertaintyDistributionType?:
-          | 'undefined'
-          | 'log-normal'
-          | 'normal'
-          | 'triangular'
-          | 'uniform';
-        relativeStandardDeviation95In?: Perc;
-        generalComment?: StringMultiLang;
-        'common:other'?: string;
-      };
+      LCIAResult?:
+        | {
+            referenceToLCIAMethodDataSet?: GlobalReferenceType;
+            meanAmount: Real;
+            uncertaintyDistributionType?:
+              | 'undefined'
+              | 'log-normal'
+              | 'normal'
+              | 'triangular'
+              | 'uniform';
+            relativeStandardDeviation95In?: Perc;
+            generalComment?: StringMultiLang;
+            'common:other'?: string;
+          }
+        | {
+            referenceToLCIAMethodDataSet?: GlobalReferenceType;
+            meanAmount: Real;
+            uncertaintyDistributionType?:
+              | 'undefined'
+              | 'log-normal'
+              | 'normal'
+              | 'triangular'
+              | 'uniform';
+            relativeStandardDeviation95In?: Perc;
+            generalComment?: StringMultiLang;
+            'common:other'?: string;
+          }[];
       'common:other'?: string;
     };
     'common:other'?: string;
