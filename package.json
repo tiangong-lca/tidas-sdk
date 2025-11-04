@@ -8,6 +8,7 @@
   "scripts": {
     "bootstrap": "npm install --workspaces",
     "build:typescript": "npm --workspace @tiangong-lca/tidas-sdk run build",
-    "test:typescript": "npm --workspace @tiangong-lca/tidas-sdk run test"
+    "test:typescript": "npm --workspace @tiangong-lca/tidas-sdk run test",
+    "release:patch:typescript": "npm --workspace @tiangong-lca/tidas-sdk run release:patch"
   }
 }

@@ -46,7 +46,10 @@
     "typecheck": "tsc --noEmit",
     "test": "jest --passWithNoTests",
     "test:watch": "jest --watch",
-    "test:coverage": "jest --coverage"
+    "test:coverage": "jest --coverage",
+    "release:patch": "npm version patch && npm publish --access public && git push origin main --tags",
+    "release:minor": "npm version minor && npm publish --access public && git push origin main --tags",
+    "release:major": "npm version major && npm publish --access public && git push origin main --tags"
   },
   "keywords": [
     "tidas",
