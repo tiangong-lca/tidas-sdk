@@ -120,11 +120,13 @@ class DataSetInformation(BaseModel):
         ...,
         alias='common:name',
         description='Name of flow property.',
+        union_mode='smart',
     )
     common_synonyms: FTMultiLang | None = Field(
         None,
         alias='common:synonyms',
         description='Synonyms are alternative names for the "Name" of the Flow property.',
+        union_mode='smart',
     )
     classificationInformation: ClassificationInformation = Field(
         ...,
@@ -134,6 +136,7 @@ class DataSetInformation(BaseModel):
         None,
         alias='common:generalComment',
         description='Free text for general information about the data set. It may contain comments on e.g. information sources used as well as general (internal, not reviewed) quality statements.',
+        union_mode='smart',
     )
     common_other: str | None = Field(None, alias='common:other')
 
@@ -148,6 +151,7 @@ class QuantitativeReference(BaseModel):
     ) = Field(
         ...,
         description='"Unit group data set" and its reference unit, in which the Flow property is measured.',
+        union_mode='smart',
     )
     common_other: str | None = Field(None, alias='common:other')
 
@@ -167,6 +171,7 @@ class DataSourcesTreatmentAndRepresentativeness(BaseModel):
     ) = Field(
         None,
         description='"Source data set" of data source(s) used for the data set e.g. a paper, a questionnaire, a monography etc. The main raw data sources should be named, too. [Note: relevant especially for market price data.]',
+        union_mode='smart',
     )
     common_other: str | None = Field(None, alias='common:other')
 
@@ -182,6 +187,7 @@ class Compliance(BaseModel):
         ...,
         alias='common:referenceToComplianceSystem',
         description='"Source data set" of the "Compliance system" that is declared to be met by the data set.',
+        union_mode='smart',
     )
     common_approvalOfOverallCompliance: CommonApprovalOfOverallCompliance = Field(
         ...,
@@ -197,6 +203,7 @@ class Compliance1Item(BaseModel):
         ...,
         alias='common:referenceToComplianceSystem',
         description='"Source data set" of the "Compliance system" that is declared to be met by the data set.',
+        union_mode='smart',
     )
     common_approvalOfOverallCompliance: CommonApprovalOfOverallCompliance = Field(
         ...,
@@ -221,6 +228,7 @@ class ComplianceDeclarations(BaseModel):
     compliance: Compliance | Compliance1 = Field(
         ...,
         description='One compliance declaration. Multiple declarations may be provided.',
+        union_mode='smart',
     )
     common_other: str | None = Field(None, alias='common:other')
 
@@ -256,6 +264,7 @@ class DataEntryBy(BaseModel):
         ...,
         alias='common:referenceToDataSetFormat',
         description='"Source data set" of the used version of the ILCD format. If additional data format fields have been integrated into the data set file, using the "namespace" option, the used format namespace(s) are to be given. This is the case if the data sets carries additional information as specified by other, particular LCA formats, e.g. of other database networks or LCA softwares.',
+        union_mode='smart',
     )
     common_other: str | None = Field(None, alias='common:other')
 
@@ -276,6 +285,7 @@ class PublicationAndOwnership(BaseModel):
         None,
         alias='common:referenceToPrecedingDataSetVersion',
         description='Last preceding data set, which was replaced by this version. Either a URI of that data set (i.e. an internet address) or its UUID plus version number is given (or both).',
+        union_mode='smart',
     )
     common_permanentDataSetURI: AnyUrl | None = Field(
         None,
@@ -288,6 +298,7 @@ class PublicationAndOwnership(BaseModel):
         ...,
         alias='common:referenceToOwnershipOfDataSet',
         description='"Contact data set" of the person or entity who owns this data set. (Note: this is not necessarily the publisher of the data set.)',
+        union_mode='smart',
     )
     common_other: str | None = Field(None, alias='common:other')
 

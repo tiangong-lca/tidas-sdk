@@ -599,6 +599,25 @@ class EntityModelGenerator:
         init_file = output_dir / "__init__.py"
         with open(init_file, "w", encoding="utf-8") as f:
             f.write('"""Entity model classes for TIDAS SDK."""\n')
+            f.write("from .contacts import TidasContacts\n")
+            f.write("from .flows import TidasFlows\n")
+            f.write("from .processes import TidasProcesses\n")
+            f.write("from .sources import TidasSources\n")
+            f.write("from .flowproperties import TidasFlowproperties\n")
+            f.write("from .unitgroups import TidasUnitgroups\n")
+            f.write("from .lciamethods import TidasLciamethods\n")
+            f.write("from .lifecyclemodels import TidasLifecyclemodels\n")
+            f.write("\n")
+            f.write("__all__ = [\n")
+            f.write("    'TidasContacts',\n")
+            f.write("    'TidasFlows',\n")
+            f.write("    'TidasProcesses',\n")
+            f.write("    'TidasSources',\n")
+            f.write("    'TidasFlowproperties',\n")
+            f.write("    'TidasUnitgroups',\n")
+            f.write("    'TidasLciamethods',\n")
+            f.write("    'TidasLifecyclemodels',\n")
+            f.write("]\n")
         logger.info(f"  ✓ Generated {init_file}")
 
 

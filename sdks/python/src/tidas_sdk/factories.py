@@ -27,7 +27,9 @@ from .models import (
 TEntity = TypeVar("TEntity")
 
 
-def _generate_uuid_if_needed(data: Dict[str, Any], uuid_path: List[str]) -> Dict[str, Any]:
+def _generate_uuid_if_needed(
+    data: Dict[str, Any], uuid_path: List[str]
+) -> Dict[str, Any]:
     """Generate UUID for entity if not provided in data.
 
     Args:
@@ -54,7 +56,9 @@ def _generate_uuid_if_needed(data: Dict[str, Any], uuid_path: List[str]) -> Dict
 
 
 def _create_batch(
-    factory_func: Callable[[Optional[Dict[str, Any]], Optional[ValidationConfig]], TEntity],
+    factory_func: Callable[
+        [Optional[Dict[str, Any]], Optional[ValidationConfig]], TEntity
+    ],
     data_list: List[Dict[str, Any]],
     validation_config: Optional[ValidationConfig] = None,
 ) -> List[TEntity]:
@@ -106,7 +110,12 @@ def create_contact(
         data = {}
 
     # Auto-generate UUID if not provided
-    uuid_path = ["contactDataSet", "contactInformation", "dataSetInformation", "common:UUID"]
+    uuid_path = [
+        "contactDataSet",
+        "contactInformation",
+        "dataSetInformation",
+        "common:UUID",
+    ]
     data = _generate_uuid_if_needed(data, uuid_path)
 
     return TidasContacts(data=data, validation_config=validation_config)
@@ -215,7 +224,12 @@ def create_process(
         data = {}
 
     # Auto-generate UUID if not provided
-    uuid_path = ["processDataSet", "processInformation", "dataSetInformation", "common:UUID"]
+    uuid_path = [
+        "processDataSet",
+        "processInformation",
+        "dataSetInformation",
+        "common:UUID",
+    ]
     data = _generate_uuid_if_needed(data, uuid_path)
 
     return TidasProcesses(data=data, validation_config=validation_config)
@@ -267,7 +281,12 @@ def create_source(
         data = {}
 
     # Auto-generate UUID if not provided
-    uuid_path = ["sourceDataSet", "sourceInformation", "dataSetInformation", "common:UUID"]
+    uuid_path = [
+        "sourceDataSet",
+        "sourceInformation",
+        "dataSetInformation",
+        "common:UUID",
+    ]
     data = _generate_uuid_if_needed(data, uuid_path)
 
     return TidasSources(data=data, validation_config=validation_config)

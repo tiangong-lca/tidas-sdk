@@ -220,6 +220,7 @@ class CommonScope(BaseModel):
         ...,
         alias='common:method',
         description='Validation method(s) used in the respective "Scope of review".',
+        union_mode='smart',
     )
 
 
@@ -235,6 +236,7 @@ class CommonScopeItem(BaseModel):
         ...,
         alias='common:method',
         description='Validation method(s) used in the respective "Scope of review".',
+        union_mode='smart',
     )
 
 
@@ -397,6 +399,7 @@ class DataSetInformation(BaseModel):
         ...,
         alias='common:name',
         description='Name of the data set. Composed as follows "LCIA methodology short name; Impact category/ies; midpoint/endpoint; Impact indicator; Source short name". Not applicable components are left out. Examples: "Impacts2007+; Climate change; midpoint; Global Warming Potential; IPCC 2001"; "ABC 2006; Acidification; endpoint; Species diversity loss; John Doe 2006"; "My-indicator2009; combined; endpoint; Ecopoints; various"',
+        union_mode='smart',
     )
     methodology: str | None = Field(
         None,
@@ -421,12 +424,14 @@ class DataSetInformation(BaseModel):
         None,
         alias='common:generalComment',
         description='General information about the data set, including e.g. general (internal, not reviewed) quality statements as well as information sources used. (Note: Please also check the more specific fields e.g. on "Intended application", "Advice on data set use" and the fields in the "Modelling and validation" section to avoid overlapping entries.)',
+        union_mode='smart',
     )
     referenceToExternalDocumentation: (
         GlobalReferenceType | list[GlobalReferenceType] | None
     ) = Field(
         None,
         description='"Source data set(s)" of external documents / files with further documentative information on the data set including on underlying data sources (e.g. time, geographical coverage, impact models, characterisation factors, substance property databases employed, etc.). (Note: can indirectly reference to digital file.)',
+        union_mode='smart',
     )
     common_other: str | None = Field(None, alias='common:other')
 
@@ -439,6 +444,7 @@ class QuantitativeReference(BaseModel):
     referenceQuantity: GlobalReferenceType | list[GlobalReferenceType] = Field(
         ...,
         description='"Flow property data set" of the reference quantity (flow property), in which the impact indicator values are measured.',
+        union_mode='smart',
     )
     common_other: str | None = Field(None, alias='common:other')
 
@@ -447,14 +453,17 @@ class Time(BaseModel):
     referenceYear: STMultiLang = Field(
         ...,
         description='Reference year when the emission is assumed to take place, i.e. the start year of the time period for which the impact is modelled. For time-independent models "time independent" should be stated.',
+        union_mode='smart',
     )
     duration: STMultiLang = Field(
         ...,
         description='Time period for which the impact is modelled.',
+        union_mode='smart',
     )
     timeRepresentativenessDescription: FTMultiLang = Field(
         ...,
         description='Description of the valid time span of the data set including information on limited usability within sub-time spans, if any.',
+        union_mode='smart',
     )
     common_other: str | None = Field(None, alias='common:other')
 
@@ -505,19 +514,23 @@ class Geography(BaseModel):
     interventionLocation: InterventionLocation | str | None = Field(
         None,
         description='Specific, country, or region of the elementary flows\' / exchanges\' occurence for which the LCIA method(ology) is valid / modelled. [Note: Entry can be of type "two-letter ISO 3166 country code" for countries, "seven-letter regional codes" for regions or continents, or "market areas and market organisations", as predefined for the ILCD. Also a name for e.g. a specific plant etc. can be given here (e.g. "FR, Lyon, XY Company, Z Site"; user defined). ]',
+        union_mode='smart',
     )
     intervensionSubLocation: IntervensionSubLocation | str | None = Field(
         None,
         description='Geographical sub-unit(s) of "Intervention location(s)" that further specify the specifically modelled sub-locations. Such sub-locations can be e.g. sites of a company, specific catchments modleled, countries of a continent, or locations in a country. Information on limited representativeness should be provided if applicable.',
+        union_mode='smart',
     )
     impactLocation: ImpactLocation | str | None = Field(
         None,
         description='Location or region where the impact is modelled to take place. [Note: Entry can be of type "two-letter ISO 3166 country code" for countries, "seven-letter regional codes" for regions or continents, or "market areas and market organisations", as predefined for the ILCD. Also a name for e.g. a specific catchment etc. can be given here, user defined).]',
+        union_mode='smart',
     )
     geographicalRepresentativenessDescription: FTMultiLang | None = (
         Field(
             None,
             description='Further explanation on additional aspects of the location, both regarding the intervention and the impact: whether certain areas are exempted from the location, whether data is only valid for certain sub-locations within the location indicated, or whether impact indicator values for certain elementary flows are extrapolated from another geographical area than indicated. Information on the use of generic intervention and/or impact locations, and other restrictions.',
+            union_mode='smart',
         )
     )
     common_other: str | None = Field(None, alias='common:other')
@@ -536,28 +549,33 @@ class ImpactModel(BaseModel):
     modelDescription: FTMultiLang = Field(
         ...,
         description='Description of the model used for calculating the LCIA impact indicator values, including underlying substance property data sources, background concentrations, etc. If an LCIA methodology comprises several LCIA methods, these are explicitly included in the description. Professional nomenclature is used for the description. Note that eventually included Normalisation and Weighting factors are described in the dedicated separate fields.',
+        union_mode='smart',
     )
     referenceToModelSource: (
         GlobalReferenceType | list[GlobalReferenceType] | None
     ) = Field(
         None,
         description='"Source data set(s)" of data sources concerning the characterisation model (guidelines, supporting documentation etc)',
+        union_mode='smart',
     )
     referenceToIncludedMethods: (
         GlobalReferenceType | list[GlobalReferenceType] | None
     ) = Field(
         None,
         description='"LCIA method data set(s)" of LCIA characterisation methods included in this data set or used to derive this LCIA methodology',
+        union_mode='smart',
     )
     consideredMechanisms: STMultiLang | None = Field(
         None,
         description='Description of the environmental or other mechanisms included in the explicitly considered part of the impact chain. Can relate to (ilustrative): For emissions e.g.: transport, conversion / degradation, exposure, effect(s), damage(s) on humans and the natural environment. For material and energy resources: scarcity or other impact concept. For land use: soil, area, biocoenosis related meachanisms, effect(s), damage(s).',
+        union_mode='smart',
     )
     referenceToMethodologyFlowChart: (
         GlobalReferenceType | list[GlobalReferenceType] | None
     ) = Field(
         None,
         description='"Source data set(s)" of flowchart(s) and/or pictures depicting the LCIA method(ology).',
+        union_mode='smart',
     )
     common_other: str | None = Field(None, alias='common:other')
 
@@ -594,6 +612,7 @@ class LCIAMethodNormalisationAndWeighting(BaseModel):
     deviationsFromLCIAMethodPrinciple: FTMultiLang | None = Field(
         None,
         description='Short description of possible data set specific deviations from "LCIA method principle(s)". Refers especially to explanations on the combination of LCIA methods with different principles in a single LCIA methodology.',
+        union_mode='smart',
     )
     normalisation: Normalisation | None = Field(
         None,
@@ -604,16 +623,19 @@ class LCIAMethodNormalisationAndWeighting(BaseModel):
     ) = Field(
         None,
         description='"Normalisation data sets" that can be used together with the impact factors of this data set.',
+        union_mode='smart',
     )
     normalisationDescription: STMultiLang | None = Field(
         None,
         description='Short description of the included normalisation, if any.',
+        union_mode='smart',
     )
     referenceToIncludedNormalisationDataSets: (
         GlobalReferenceType | list[GlobalReferenceType] | None
     ) = Field(
         None,
         description='"Normalisation data set(s)" that was/were used to calculate the normalised impact factors of this data set, if any.',
+        union_mode='smart',
     )
     weighting: Weighting | None = Field(
         None,
@@ -624,16 +646,19 @@ class LCIAMethodNormalisationAndWeighting(BaseModel):
     ) = Field(
         None,
         description='"Weighting data set(s)", that can be used together with the impact factors of this data set.',
+        union_mode='smart',
     )
     weightingDescription: STMultiLang | None = Field(
         None,
         description='Short description of the included weighting, if any.',
+        union_mode='smart',
     )
     referenceToIncludedWeightingDataSets: (
         GlobalReferenceType | list[GlobalReferenceType] | None
     ) = Field(
         None,
         description='"Weighting data set" that was used to calculate the weighted impact factors of this data set, if any.',
+        union_mode='smart',
     )
 
 
@@ -645,6 +670,7 @@ class DataSources(BaseModel):
     referenceToDataSource: GlobalReferenceType | list[GlobalReferenceType] = Field(
         ...,
         description='"Source data set(s)" of the data source(s) used for the data set e.g. paper, questionnaire, monography etc. The main data sources e.g. for underlying substance properties are named, too.',
+        union_mode='smart',
     )
     common_other: str | None = Field(None, alias='common:other')
 
@@ -672,11 +698,13 @@ class Review(BaseModel):
         None,
         alias='common:scope',
         description='Scope of review regarding which aspects and components of the data set was reviewed or verified. In case of aggregated e.g. LCI results also and on which level of detail (e.g. LCI results only, included unit processes, ...) the review / verification was performed.',
+        union_mode='smart',
     )
     common_reviewDetails: FTMultiLang | None = Field(
         None,
         alias='common:reviewDetails',
         description='Summary of the review. All the following items should be explicitly addressed: completeness and appropriateness of the model, geographical and temporal coverage and differentiation, correctness and precision of substance data or other underlying data; appropriateness and coherence of application of normalisation and/or weighting schemes, if included; correctness, appropriateness, comprehensibility, and completeness of the data set documentation; stakeholder aceptance of LCIA method. Optional: Comment of the reviewer on characterisation factors for single elementary flows or groups of elementary flows. Relevant restrictions to the review due to lack of transparency or documentation should be named. An overall quality statement may be included here.',
+        union_mode='smart',
     )
     common_referenceToNameOfReviewerAndInstitution: (
         GlobalReferenceType | list[GlobalReferenceType] | None
@@ -684,11 +712,13 @@ class Review(BaseModel):
         None,
         alias='common:referenceToNameOfReviewerAndInstitution',
         description='"Contact data set" of reviewer. The full name of reviewer(s) and institution(s) as well as a contact address and/or email should be provided in that contact data set.',
+        union_mode='smart',
     )
     common_otherReviewDetails: FTMultiLang | None = Field(
         None,
         alias='common:otherReviewDetails',
         description='Further information from the review process, especially comments received from third parties once the data set has been published or additional reviewer comments from an additional external review.',
+        union_mode='smart',
     )
     common_referenceToCompleteReviewReport: (
         GlobalReferenceType | list[GlobalReferenceType] | None
@@ -696,6 +726,7 @@ class Review(BaseModel):
         None,
         alias='common:referenceToCompleteReviewReport',
         description='"Source data set" of the complete review report.',
+        union_mode='smart',
     )
     common_other: str | None = Field(None, alias='common:other')
 
@@ -723,6 +754,7 @@ class Compliance(BaseModel):
         ...,
         alias='common:referenceToComplianceSystem',
         description='"Source data set" of the "Compliance system" that is declared to be met by the data set.',
+        union_mode='smart',
     )
     common_approvalOfOverallCompliance: CommonApprovalOfOverallCompliance = Field(
         ...,
@@ -764,6 +796,7 @@ class Compliance1Item(BaseModel):
         ...,
         alias='common:referenceToComplianceSystem',
         description='"Source data set" of the "Compliance system" that is declared to be met by the data set.',
+        union_mode='smart',
     )
     common_approvalOfOverallCompliance: CommonApprovalOfOverallCompliance = Field(
         ...,
@@ -814,6 +847,7 @@ class ComplianceDeclarations(BaseModel):
     compliance: Compliance | Compliance1 = Field(
         ...,
         description='One compliance declaration. Multiple declarations may be provided.',
+        union_mode='smart',
     )
     common_other: str | None = Field(None, alias='common:other')
 
@@ -826,6 +860,7 @@ class ModellingAndValidation(BaseModel):
     useAdviceForDataSet: STMultiLang | None = Field(
         None,
         description='Methodological advice for the use and application of this data set, such as limits in applicability or representativeness as well as recommendations to use it together with others from the same LCIA methodology to ensure consistency.',
+        union_mode='smart',
     )
     LCIAMethodNormalisationAndWeighting_1: LCIAMethodNormalisationAndWeighting = Field(
         ...,
@@ -858,16 +893,19 @@ class CommonCommissionerAndGoal(BaseModel):
         None,
         alias='common:referenceToCommissioner',
         description='"Contact data set" of the commissioner / financing party of the data collection / compilation and of the data set modelling. For groups of commissioners, each single organisation should be named. For data set updates and for direct use of data from formerly commissioned studies, also the original commissioner should be named.',
+        union_mode='smart',
     )
     common_project: StringMultiLang | None = Field(
         None,
         alias='common:project',
         description='Extract of the information items linked to goal and scope of LCIA method modeling.',
+        union_mode='smart',
     )
     common_intendedApplications: FTMultiLang | None = Field(
         None,
         alias='common:intendedApplications',
         description='Documentation of the intended application(s) of data collection and data set modelling. This indicates / includes information on the level of detail, the specifidity, and the quality ambition in the effort.',
+        union_mode='smart',
     )
     common_other: str | None = Field(None, alias='common:other')
 
@@ -883,6 +921,7 @@ class DataGenerator(BaseModel):
         ...,
         alias='common:referenceToPersonOrEntityGeneratingTheDataSet',
         description='"Contact data set" of the person(s), working group(s), organisation(s) or database network, that generated the data set, i.e. being responsible for its correctness regarding methods, inventory, and documentation.',
+        union_mode='smart',
     )
     common_other: str | None = Field(None, alias='common:other')
 
@@ -891,6 +930,7 @@ class RecommendationBy(BaseModel):
     referenceToEntity: GlobalReferenceType | list[GlobalReferenceType] = Field(
         ...,
         description='"Contact data set(s)" of the governmental body/ies that has/ve officially recommended this LCIA method data set and its impact factors for use within the documented scope. Eventually deviating (downgraded) recommendations for individual exchanges are documented in the "Inputs and Outputs" section of the data set.',
+        union_mode='smart',
     )
     level: Level = Field(
         ...,
@@ -899,6 +939,7 @@ class RecommendationBy(BaseModel):
     meaning: FTMultiLang = Field(
         ...,
         description='Specific meaning of the declared recommendation level of this LCIA method / methodology and the characterisation factors, as defined in the guidance document referenced in in the field "Compliance system"',
+        union_mode='smart',
     )
 
 
@@ -918,6 +959,7 @@ class DataEntryBy(BaseModel):
         ...,
         alias='common:referenceToDataSetFormat',
         description='"Source data set" of the used version of the ILCD format. If additional data format fields have been integrated into the data set file, using the "namespace" option, the used format namespace(s) are to be given. This is the case if the data sets carries additional information as specified by other, particular LCA formats, e.g. of other database networks or LCA softwares.',
+        union_mode='smart',
     )
     common_referenceToConvertedOriginalDataSetFrom: (
         GlobalReferenceType | list[GlobalReferenceType] | None
@@ -925,6 +967,7 @@ class DataEntryBy(BaseModel):
         None,
         alias='common:referenceToConvertedOriginalDataSetFrom',
         description='"Source data set" of the database or data set publication from which this data set has been obtained by conversion. This can cover e.g. conversion to a different format, applying a different nomenclature, mapping of flow names, conversion of units, etc. This may however not have changed or re-modeled the Inputs and Outputs, i.e. obtaining the same LCIA results. This entry is required for converted data sets stemming originally from other LCA databases (e.g. when re-publishing data from IISI, ILCD etc. databases). [Note: Identically re-published data sets are identied in the field "Unchanged re-publication of:" in the section "Publication and Ownership".]',
+        union_mode='smart',
     )
     common_referenceToPersonOrEntityEnteringTheData: (
         GlobalReferenceType | list[GlobalReferenceType] | None
@@ -932,6 +975,7 @@ class DataEntryBy(BaseModel):
         None,
         alias='common:referenceToPersonOrEntityEnteringTheData',
         description='"Contact data set" of the responsible person or entity that has documented this data set, i.e. entered the data and the descriptive information.',
+        union_mode='smart',
     )
     recommendationBy: RecommendationBy
     common_other: str | None = Field(None, alias='common:other')
@@ -958,6 +1002,7 @@ class PublicationAndOwnership(BaseModel):
         None,
         alias='common:referenceToPrecedingDataSetVersion',
         description='Last preceding data set, which was replaced by this version. Either a URI of that data set (i.e. an internet address) or its UUID plus version number is given (or both).',
+        union_mode='smart',
     )
     common_permanentDataSetURI: AnyUrl | None = Field(
         None,
@@ -977,6 +1022,7 @@ class PublicationAndOwnership(BaseModel):
         None,
         alias='common:referenceToUnchangedRepublication',
         description='"Source data set" of the publication, in which this data set was published for the first time. [Note: This refers to exactly this data set as it is, without any format conversion, adjustments, flow name mapping, etc. In case this data set was modified/converted, the original source is documented in "Converted original data set from:" in section "Data entry by".]',
+        union_mode='smart',
     )
     common_referenceToOwnershipOfDataSet: (
         GlobalReferenceType | list[GlobalReferenceType]
@@ -984,6 +1030,7 @@ class PublicationAndOwnership(BaseModel):
         ...,
         alias='common:referenceToOwnershipOfDataSet',
         description='"Contact data set" of the person or entity who owns this data set. (Note: this is not necessarily the publisher of the data set.)',
+        union_mode='smart',
     )
     common_copyright: CommonCopyright | None = Field(
         None,
@@ -994,6 +1041,7 @@ class PublicationAndOwnership(BaseModel):
         None,
         alias='common:accessRestrictions',
         description='Access restrictions / use conditions for this data set as free text or referring to e.g. license conditions. In case of no restrictions "None" is entered.',
+        union_mode='smart',
     )
     common_other: str | None = Field(None, alias='common:other')
 
@@ -1028,6 +1076,7 @@ class Factor(BaseModel):
         Field(
             ...,
             description='Reference to "UUID of flow" of "Flow data set" to link the particular impact factor in the "LCIA data set" to the respective "Flow data set". Please be aware, that for location-specific LCIA methods, there may be multiple references to the same Flow data set.',
+            union_mode='smart',
         )
     )
     location: str | None = Field(
@@ -1075,10 +1124,12 @@ class Factor(BaseModel):
     ) = Field(
         None,
         description='Reference to "UUID of source"(s) in the "Source data set" of data source(s) used for modelling the value of this single LCIA factor e.g. a specific paper, questionnaire, monography etc. If, as typical, more than one data source was used, more than one source can be referenced.',
+        union_mode='smart',
     )
     generalComment: StringMultiLang | None = Field(
         None,
         description='General information about the data set, including e.g. general (internal, not reviewed) quality statements as well as information sources used. (Note: Please also check the more specific fields e.g. on "Intended application", "Advice on data set use" and the fields in the "Modelling and validation" section to avoid overlapping entries.)',
+        union_mode='smart',
     )
     common_other: str | None = Field(None, alias='common:other')
 
@@ -1089,6 +1140,7 @@ class ReferenceToDataSource(BaseModel):
     ) = Field(
         None,
         description='Reference to "UUID of source"(s) in the "Source data set" of data source(s) used for modelling the value of this single LCIA factor e.g. a specific paper, questionnaire, monography etc. If, as typical, more than one data source was used, more than one source can be referenced.',
+        union_mode='smart',
     )
 
 
@@ -1097,6 +1149,7 @@ class FactorItem(BaseModel):
         Field(
             ...,
             description='Reference to "UUID of flow" of "Flow data set" to link the particular impact factor in the "LCIA data set" to the respective "Flow data set". Please be aware, that for location-specific LCIA methods, there may be multiple references to the same Flow data set.',
+            union_mode='smart',
         )
     )
     location: str | None = Field(
@@ -1143,6 +1196,7 @@ class FactorItem(BaseModel):
     generalComment: StringMultiLang | None = Field(
         None,
         description='General information about the data set, including e.g. general (internal, not reviewed) quality statements as well as information sources used. (Note: Please also check the more specific fields e.g. on "Intended application", "Advice on data set use" and the fields in the "Modelling and validation" section to avoid overlapping entries.)',
+        union_mode='smart',
     )
 
 
@@ -1151,7 +1205,7 @@ class CharacterisationFactors(BaseModel):
     Flow / Exchanges list with corresponding impact factors according to the respective LCIA method.
     """
 
-    factor: Factor | list[FactorItem] = Field(...)
+    factor: Factor | list[FactorItem] = Field(..., union_mode='smart')
     common_other: str | None = Field(None, alias='common:other')
 
 

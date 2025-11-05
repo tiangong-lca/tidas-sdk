@@ -514,7 +514,6 @@ export function createZodLifeCycleModel(
   return createTidasProxy(LifeCycleModelSchema, options);
 }
 
-
 /**
  * Utility function to create a proxy from any schema
  */

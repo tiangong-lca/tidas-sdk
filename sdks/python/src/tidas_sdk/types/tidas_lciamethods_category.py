@@ -54,7 +54,7 @@ Lciamethods = Literal[
     '1.5.4',  # Resource depletion, land use
     '1.5.5',  # Resource depletion, renewable energy resources
     '1.5.6',  # Resource depletion, renewable non-energy resources
-    '1.5.7',  # Resource depletion, other
+    '1.5.6',  # Resource depletion, other
     '2',  # Midpoint level LCIA methods
     '2.1',  # Combined methods
     '2.2',  # Climate change
@@ -312,9 +312,9 @@ LCIAMETHODS_CATEGORIES: dict[str, LciamethodsCategoryData] = {
         'classId': '1.5.6',
         'text': 'Resource depletion, renewable non-energy resources',
     },
-    '1.5.7': {
+    '1.5.6': {
         'level': '2',
-        'classId': '1.5.7',
+        'classId': '1.5.6',
         'text': 'Resource depletion, other',
     },
     '2': {

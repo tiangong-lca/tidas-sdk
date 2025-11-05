@@ -56,7 +56,7 @@ class CommonClass1(BaseModel):
 
 
 class CommonClass(RootModel[list[CommonClas | CommonClas1] | CommonClass1]):
-    root: list[CommonClas | CommonClas1] | CommonClass1 = Field(...)
+    root: list[CommonClas | CommonClas1] | CommonClass1 = Field(..., union_mode='smart')
 
 
 CommonClass2 = CommonClas
@@ -68,7 +68,7 @@ class CommonClassification(BaseModel):
     """
 
     common_class: CommonClass | CommonClass2 = Field(
-        ..., alias='common:class'
+        ..., alias='common:class', union_mode='smart'
     )
 
 
@@ -89,6 +89,7 @@ class FTMultiLang(RootModel[FTMultiLang]):
     root: FTMultiLang = Field(
         ...,
         description='Multi-lang free text with an unlimited length.',
+        union_mode='smart',
     )
 
 
@@ -115,11 +116,13 @@ class DataSetInformation(BaseModel):
         ...,
         alias='common:shortName',
         description="Short name for the contact, that is used for display e.g. of links to this data set (especially in case the full name of the contact is rather long, e.g. 'FAO' for 'Food and Agriculture Organization').",
+        union_mode='smart',
     )
     common_name: StringMultiLang = Field(
         ...,
         alias='common:name',
         description='Name of the person, working group, organisation, or database network, which is represented by this contact data set.',
+        union_mode='smart',
     )
     classificationInformation: ClassificationInformation = Field(
         ...,
@@ -128,6 +131,7 @@ class DataSetInformation(BaseModel):
     contactAddress: STMultiLang | None = Field(
         None,
         description="Mail address of the contact; specific for the person, working group, or department. [Note: A general contact point to the organisation is to be given in 'General contact point'.]",
+        union_mode='smart',
     )
     email: str | None = Field(
         None,
@@ -155,21 +159,25 @@ class DataSetInformation(BaseModel):
     centralContactPoint: STMultiLang | None = Field(
         None,
         description='Alternative address / contact details for the contact. Provides contact information in case e.g. the person or group represented by this contact has left the organisation or changed office/telephone. This alternative contact point can hence contain also a central telephone number, e-mail, www-address etc. of the organisation.',
+        union_mode='smart',
     )
     contactDescriptionOrComment: STMultiLang | None = Field(
         None,
         description='Free text for additional description of the organisation or person of the contact, such as organisational profile, person responsibilities, etc.',
+        union_mode='smart',
     )
     referenceToContact: GlobalReferenceType | list[GlobalReferenceType] | None = (
         Field(
             None,
             description='"Contact data set"s of working groups, organisations or database networks to which EITHER this person or entity OR this database, data set format, or compliance system belongs. [Note: This does not necessarily imply a legally binding relationship, but may also be a voluntary membership.]',
+            union_mode='smart',
         )
     )
     referenceToLogo: GlobalReferenceType | list[GlobalReferenceType] | None = (
         Field(
             None,
             description='"Source data set" of the logo of the organisation or source to be used in reports etc.',
+            union_mode='smart',
         )
     )
     common_other: str | None = Field(None, alias='common:other')
@@ -192,6 +200,7 @@ class DataEntryBy(BaseModel):
         ...,
         alias='common:referenceToDataSetFormat',
         description='"Source data set" of the used version of the ILCD format. If additional data format fields have been integrated into the data set file, using the "namespace" option, the used format namespace(s) are to be given. This is the case if the data sets carries additional information as specified by other, particular LCA formats, e.g. of other database networks or LCA softwares.',
+        union_mode='smart',
     )
     common_other: str | None = Field(None, alias='common:other')
 
@@ -208,6 +217,7 @@ class PublicationAndOwnership(BaseModel):
         None,
         alias='common:referenceToPrecedingDataSetVersion',
         description='Last preceding data set, which was replaced by this version. Either a URI of that data set (i.e. an internet address) or its UUID plus version number is given (or both).',
+        union_mode='smart',
     )
     common_permanentDataSetURI: AnyUrl | None = Field(
         None,
@@ -220,6 +230,7 @@ class PublicationAndOwnership(BaseModel):
         ...,
         alias='common:referenceToOwnershipOfDataSet',
         description='"Contact data set" of the person or entity who owns this data set. (Note: this is not necessarily the publisher of the data set.)',
+        union_mode='smart',
     )
     common_other: str | None = Field(None, alias='common:other')
 
