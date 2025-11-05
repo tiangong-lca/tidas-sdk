@@ -13,14 +13,14 @@ from loguru import logger
 
 from .core.validation import ValidationConfig
 from .models import (
-    TidasContact,
-    TidasFlow,
-    TidasFlowProperty,
-    TidasLCIAMethod,
-    TidasLifeCycleModel,
-    TidasProcess,
-    TidasSource,
-    TidasUnitGroup,
+    TidasContacts,
+    TidasFlows,
+    TidasFlowproperties,
+    TidasLciamethods,
+    TidasLifecyclemodels,
+    TidasProcesses,
+    TidasSources,
+    TidasUnitgroups,
 )
 
 # Type variable for generic entity types
@@ -83,7 +83,7 @@ def _create_batch(
 def create_contact(
     data: Optional[Dict[str, Any]] = None,
     validation_config: Optional[ValidationConfig] = None,
-) -> TidasContact:
+) -> TidasContacts:
     """Create a Contact entity.
 
     If data is provided without a UUID, a UUID will be automatically generated.
@@ -109,13 +109,13 @@ def create_contact(
     uuid_path = ["contactDataSet", "contactInformation", "dataSetInformation", "common:UUID"]
     data = _generate_uuid_if_needed(data, uuid_path)
 
-    return TidasContact(data=data, validation_config=validation_config)
+    return TidasContacts(data=data, validation_config=validation_config)
 
 
 def create_contacts_batch(
     data_list: List[Dict[str, Any]],
     validation_config: Optional[ValidationConfig] = None,
-) -> List[TidasContact]:
+) -> List[TidasContacts]:
     """Create multiple Contact entities in batch.
 
     UUIDs will be automatically generated for any contacts without UUIDs.
@@ -141,7 +141,7 @@ def create_contacts_batch(
 def create_flow(
     data: Optional[Dict[str, Any]] = None,
     validation_config: Optional[ValidationConfig] = None,
-) -> TidasFlow:
+) -> TidasFlows:
     """Create a Flow entity.
 
     If data is provided without a UUID, a UUID will be automatically generated.
@@ -166,13 +166,13 @@ def create_flow(
     uuid_path = ["flowDataSet", "flowInformation", "dataSetInformation", "common:UUID"]
     data = _generate_uuid_if_needed(data, uuid_path)
 
-    return TidasFlow(data=data, validation_config=validation_config)
+    return TidasFlows(data=data, validation_config=validation_config)
 
 
 def create_flows_batch(
     data_list: List[Dict[str, Any]],
     validation_config: Optional[ValidationConfig] = None,
-) -> List[TidasFlow]:
+) -> List[TidasFlows]:
     """Create multiple Flow entities in batch.
 
     UUIDs will be automatically generated for any flows without UUIDs.
@@ -193,7 +193,7 @@ def create_flows_batch(
 def create_process(
     data: Optional[Dict[str, Any]] = None,
     validation_config: Optional[ValidationConfig] = None,
-) -> TidasProcess:
+) -> TidasProcesses:
     """Create a Process entity.
 
     If data is provided without a UUID, a UUID will be automatically generated.
@@ -218,13 +218,13 @@ def create_process(
     uuid_path = ["processDataSet", "processInformation", "dataSetInformation", "common:UUID"]
     data = _generate_uuid_if_needed(data, uuid_path)
 
-    return TidasProcess(data=data, validation_config=validation_config)
+    return TidasProcesses(data=data, validation_config=validation_config)
 
 
 def create_processes_batch(
     data_list: List[Dict[str, Any]],
     validation_config: Optional[ValidationConfig] = None,
-) -> List[TidasProcess]:
+) -> List[TidasProcesses]:
     """Create multiple Process entities in batch.
 
     UUIDs will be automatically generated for any processes without UUIDs.
@@ -245,7 +245,7 @@ def create_processes_batch(
 def create_source(
     data: Optional[Dict[str, Any]] = None,
     validation_config: Optional[ValidationConfig] = None,
-) -> TidasSource:
+) -> TidasSources:
     """Create a Source entity.
 
     If data is provided without a UUID, a UUID will be automatically generated.
@@ -270,13 +270,13 @@ def create_source(
     uuid_path = ["sourceDataSet", "sourceInformation", "dataSetInformation", "common:UUID"]
     data = _generate_uuid_if_needed(data, uuid_path)
 
-    return TidasSource(data=data, validation_config=validation_config)
+    return TidasSources(data=data, validation_config=validation_config)
 
 
 def create_sources_batch(
     data_list: List[Dict[str, Any]],
     validation_config: Optional[ValidationConfig] = None,
-) -> List[TidasSource]:
+) -> List[TidasSources]:
     """Create multiple Source entities in batch.
 
     UUIDs will be automatically generated for any sources without UUIDs.
@@ -297,7 +297,7 @@ def create_sources_batch(
 def create_flow_property(
     data: Optional[Dict[str, Any]] = None,
     validation_config: Optional[ValidationConfig] = None,
-) -> TidasFlowProperty:
+) -> TidasFlowproperties:
     """Create a FlowProperty entity.
 
     If data is provided without a UUID, a UUID will be automatically generated.
@@ -327,13 +327,13 @@ def create_flow_property(
     ]
     data = _generate_uuid_if_needed(data, uuid_path)
 
-    return TidasFlowProperty(data=data, validation_config=validation_config)
+    return TidasFlowproperties(data=data, validation_config=validation_config)
 
 
 def create_flow_properties_batch(
     data_list: List[Dict[str, Any]],
     validation_config: Optional[ValidationConfig] = None,
-) -> List[TidasFlowProperty]:
+) -> List[TidasFlowproperties]:
     """Create multiple FlowProperty entities in batch.
 
     UUIDs will be automatically generated for any flow properties without UUIDs.
@@ -354,7 +354,7 @@ def create_flow_properties_batch(
 def create_unit_group(
     data: Optional[Dict[str, Any]] = None,
     validation_config: Optional[ValidationConfig] = None,
-) -> TidasUnitGroup:
+) -> TidasUnitgroups:
     """Create a UnitGroup entity.
 
     If data is provided without a UUID, a UUID will be automatically generated.
@@ -384,13 +384,13 @@ def create_unit_group(
     ]
     data = _generate_uuid_if_needed(data, uuid_path)
 
-    return TidasUnitGroup(data=data, validation_config=validation_config)
+    return TidasUnitgroups(data=data, validation_config=validation_config)
 
 
 def create_unit_groups_batch(
     data_list: List[Dict[str, Any]],
     validation_config: Optional[ValidationConfig] = None,
-) -> List[TidasUnitGroup]:
+) -> List[TidasUnitgroups]:
     """Create multiple UnitGroup entities in batch.
 
     UUIDs will be automatically generated for any unit groups without UUIDs.
@@ -411,7 +411,7 @@ def create_unit_groups_batch(
 def create_lcia_method(
     data: Optional[Dict[str, Any]] = None,
     validation_config: Optional[ValidationConfig] = None,
-) -> TidasLCIAMethod:
+) -> TidasLciamethods:
     """Create an LCIAMethod entity.
 
     If data is provided without a UUID, a UUID will be automatically generated.
@@ -441,13 +441,13 @@ def create_lcia_method(
     ]
     data = _generate_uuid_if_needed(data, uuid_path)
 
-    return TidasLCIAMethod(data=data, validation_config=validation_config)
+    return TidasLciamethods(data=data, validation_config=validation_config)
 
 
 def create_lcia_methods_batch(
     data_list: List[Dict[str, Any]],
     validation_config: Optional[ValidationConfig] = None,
-) -> List[TidasLCIAMethod]:
+) -> List[TidasLciamethods]:
     """Create multiple LCIAMethod entities in batch.
 
     UUIDs will be automatically generated for any LCIA methods without UUIDs.
@@ -468,7 +468,7 @@ def create_lcia_methods_batch(
 def create_life_cycle_model(
     data: Optional[Dict[str, Any]] = None,
     validation_config: Optional[ValidationConfig] = None,
-) -> TidasLifeCycleModel:
+) -> TidasLifecyclemodels:
     """Create a LifeCycleModel entity.
 
     If data is provided without a UUID, a UUID will be automatically generated.
@@ -498,13 +498,13 @@ def create_life_cycle_model(
     ]
     data = _generate_uuid_if_needed(data, uuid_path)
 
-    return TidasLifeCycleModel(data=data, validation_config=validation_config)
+    return TidasLifecyclemodels(data=data, validation_config=validation_config)
 
 
 def create_life_cycle_models_batch(
     data_list: List[Dict[str, Any]],
     validation_config: Optional[ValidationConfig] = None,
-) -> List[TidasLifeCycleModel]:
+) -> List[TidasLifecyclemodels]:
     """Create multiple LifeCycleModel entities in batch.
 
     UUIDs will be automatically generated for any life cycle models without UUIDs.

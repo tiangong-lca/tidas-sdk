@@ -399,6 +399,24 @@ def main() -> int:
     else:
         print("⚠️  Wrapper generator script not found")
 
+    # Generate entity models with default values
+    print("\n" + "=" * 60)
+    print("GENERATING ENTITY MODELS WITH DEFAULT VALUES")
+    print("=" * 60)
+    entity_model_script = Path(__file__).parent / "generate_entity_models.py"
+    if entity_model_script.exists():
+        result = subprocess.run(
+            [sys.executable, str(entity_model_script)],
+            capture_output=False,
+            check=False,
+        )
+        if result.returncode != 0:
+            print("⚠️  Entity model generation had warnings/errors")
+        else:
+            print("✅ Entity model generation completed successfully")
+    else:
+        print("⚠️  Entity model generator script not found")
+
     # Return exit code
     return 1 if stats["errors"] > 0 else 0
 

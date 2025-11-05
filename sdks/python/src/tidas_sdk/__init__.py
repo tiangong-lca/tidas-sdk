@@ -24,14 +24,14 @@ from .core.exceptions import (
 
 # Entity model imports
 from .models import (
-    TidasContact,
-    TidasFlow,
-    TidasFlowProperty,
-    TidasLCIAMethod,
-    TidasLifeCycleModel,
-    TidasProcess,
-    TidasSource,
-    TidasUnitGroup,
+    TidasContacts,
+    TidasFlows,
+    TidasFlowproperties,
+    TidasLciamethods,
+    TidasLifecyclemodels,
+    TidasProcesses,
+    TidasSources,
+    TidasUnitgroups,
 )
 
 # Factory function imports

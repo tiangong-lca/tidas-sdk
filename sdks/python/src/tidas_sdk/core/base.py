@@ -45,6 +45,65 @@ class TidasEntity(ABC):
 
         # Subclasses must set this to their Pydantic model class
         self._pydantic_model: Optional[Type[BaseModel]] = None
+        
+        # Initialize default values and structure
+        self.initialize_defaults()
+
+    def initialize_defaults(self) -> None:
+        """Initialize default values and ensure required structure.
+        
+        This method should be implemented by subclasses to set up
+        required namespace attributes and default field values.
+        """
+        pass
+
+    def set_nested_value(self, path: str, value: Any) -> None:
+        """Set a nested value using dot notation path.
+        
+        Args:
+            path: Dot-separated path to field (e.g., 'processDataSet.@xmlns')
+            value: Value to set
+        """
+        keys = path.split('.')
+        current = self._data
+        
+        # Navigate to the parent of the target field
+        for key in keys[:-1]:
+            if key not in current:
+                current[key] = {}
+            current = current[key]
+        
+        # Set the value
+        current[keys[-1]] = value
+
+    def ensure_nested_structure(self, paths: List[str]) -> None:
+        """Ensure nested structure exists for the given paths.
+        
+        Args:
+            paths: List of dot-separated paths to ensure exist
+        """
+        for path in paths:
+            self.set_nested_value(path, {})
+
+    def get_nested_value(self, path: str) -> Any:
+        """Get a nested value using dot notation path.
+        
+        Args:
+            path: Dot-separated path to field
+            
+        Returns:
+            Value at the specified path, or None if not found
+        """
+        keys = path.split('.')
+        current = self._data
+        
+        for key in keys:
+            if isinstance(current, dict) and key in current:
+                current = current[key]
+            else:
+                return None
+        
+        return current
 
     def validate(self) -> None:
         """Validate entity data according to current mode.
