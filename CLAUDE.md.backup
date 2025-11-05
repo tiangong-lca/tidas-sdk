@@ -1,0 +1,34 @@
+# tidas-sdk Development Guidelines
+
+Auto-generated from all feature plans. Last updated: 2025-10-29
+
+## Active Technologies
+- Python 3.12+, TypeScript 5.8+ (002-align-python-typescript-sdk)
+- File-based (JSON) - TIDAS/ILCD data interchange forma (002-align-python-typescript-sdk)
+- Python 3.8+ (targeting 3.8 for widest compatibility, optimized for 3.12) + Pydantic v2 (already in use), typing/typing_extensions, datamodel-code-generator (code gen) (004-python-field-hints)
+- N/A (SDK library, no persistent storage) (004-python-field-hints)
+
+- Multi-language project - TypeScript 5.8+, Python 3.8+, Java 11+ (001-multi-language-sdk)
+
+## Project Structure
+
+```text
+src/
+tests/
+```
+
+## Commands
+
+cd src [ONLY COMMANDS FOR ACTIVE TECHNOLOGIES][ONLY COMMANDS FOR ACTIVE TECHNOLOGIES] pytest [ONLY COMMANDS FOR ACTIVE TECHNOLOGIES][ONLY COMMANDS FOR ACTIVE TECHNOLOGIES] ruff check .
+
+## Code Style
+
+Multi-language project - TypeScript 5.8+, Python 3.8+, Java 11+: Follow standard conventions
+
+## Recent Changes
+- 004-python-field-hints: Added Python 3.8+ (targeting 3.8 for widest compatibility, optimized for 3.12) + Pydantic v2 (already in use), typing/typing_extensions, datamodel-code-generator (code gen)
+- 002-align-python-typescript-sdk: Added Python 3.12+, TypeScript 5.8+
+
+
+<!-- MANUAL ADDITIONS START -->
+<!-- MANUAL ADDITIONS END -->

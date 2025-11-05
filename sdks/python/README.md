@@ -1,120 +1,138 @@
 # TIDAS Python SDK
 
-Python SDK for TIDAS/ILCD Life Cycle Assessment (LCA) data format.
+Python SDK for TIDAS (TianGong Life Cycle Assessment data format) providing type-safe data manipulation and validation.
 
-## Features
+## 🚧 Status
 
-- Type-safe operations for all 8 TIDAS entity types
-- Multi-language text field support
-- Flexible validation modes (strict, weak, ignore)
-- High-performance batch operations
-- JSON import/export
-- Full IDE autocomplete support
+**Version**: 0.1.0 (Development)
 
-## Installation
+This SDK is currently under development. For production use of TIDAS data utilities, consider using the [tidas-tools](https://pypi.org/project/tidas-tools/) package.
 
-```bash
-pip install tidas-sdk
-```
+## 📋 Features
 
-Or with uv (faster):
+### Planned Features
+- [x] Pydantic-based data models from JSON schemas
+- [x] Type-safe data manipulation
+- [ ] TIDAS data validation
+- [ ] JSON to object conversion
+- [ ] Property access utilities
+- [ ] Factory functions for entity creation
 
-```bash
-uv pip install tidas-sdk
-```
+### Current Implementation
+- Basic project structure
+- Pydantic dependencies configured
+- Type system planning
+- Development environment setup
 
-## Quick Start
+## 🔧 Development Setup
 
-```python
-from tidas_sdk import create_contact
-
-# Create a new contact
-contact = create_contact()
-
-# Set name with multi-language support
-contact.contact_data_set.contact_information.data_set_information.name.set_text(
-    "Dr. Jane Smith", "en"
-)
-contact.contact_data_set.contact_information.data_set_information.email = "jane@example.com"
-
-# Validate and export
-contact.validate()
-json_str = contact.to_json_string(indent=2)
-print(json_str)
-```
-
-## Documentation
-
-- [Quick Start Guide](docs/quickstart.md)
-- [API Reference](docs/api_reference.md)
-- [Migration Guide](docs/migration_guide.md) (from TypeScript SDK)
-- [Examples](examples/)
-
-## Development Setup
-
-### Requirements
-
+### Prerequisites
 - Python 3.8+
 - uv (recommended) or pip
 
-### Setup
-
+### Installation
 ```bash
-cd sdks/python
+# Clone the repository
+git clone https://github.com/tiangong-lca/tidas-sdk.git
+cd tidas-sdk/sdks/python
 
-# Create virtual environment
-uv venv
-source .venv/bin/activate  # or .venv\Scripts\activate on Windows
+# Install dependencies
+uv sync
 
-# Install development dependencies
-uv pip install -e ".[dev]"
+# Or using pip
+pip install -e .
 ```
 
-### Running Tests
+### Development Commands
+```bash
+# Install development dependencies
+uv sync --dev
+
+# Run tests
+uv run pytest
+
+# Run linting
+uv run ruff check
+
+# Type checking
+uv run mypy .
+
+# Format code
+uv run black .
+
+# Run tests with coverage
+uv run pytest --cov=src/tidas_sdk --cov-report=html
+```
+
+## 📚 Usage
+
+### Basic Usage (Planned)
+
+```python
+from tidas_sdk import TidasContact
+
+# Create a contact
+contact = TidasContact(
+    name="Example Organization",
+    email="contact@example.com"
+)
+
+# Validate the contact
+contact.validate()
+
+# Convert to JSON
+contact_json = contact.model_dump_json()
+```
+
+### Current Development
+
+The SDK is currently under development. The API will evolve as we implement features.
+
+## 🏗️ Project Structure
+
+```
+sdks/python/
+├── src/
+│   └── tidas_sdk/          # Main package
+├── tests/                  # Test suite
+├── examples/               # Usage examples
+├── scripts/                # Development scripts
+├── pyproject.toml          # Project configuration
+└── README.md               # This file
+```
+
+## 🧪 Testing
 
 ```bash
 # Run all tests
 uv run pytest
 
 # Run with coverage
-uv run pytest --cov
+uv run pytest --cov=src/tidas_sdk --cov-report=term-missing
 
-# Run type checking
-uv run mypy src/tidas_sdk
-
-# Run linting
-uv run ruff check src/
+# Run specific test
+uv run pytest tests/test_example.py
 ```
 
-### Code Generation
+## 📖 Documentation
 
-The SDK includes a code generation system that creates Pydantic models from TIDAS JSON schemas:
+- **Development Guidelines**: [../../CLAUDE.md](../../CLAUDE.md)
+- **Project Progress**: [../../docs/development-progress.md](../../docs/development-progress.md)
+- **Requirements**: [../../docs/requirement-design.md](../../docs/requirement-design.md)
 
-```bash
-# Generate types from schemas
-uv run python scripts/generate_types.py
-```
+## 🤝 Contributing
 
-## Supported Entity Types
+We welcome contributions! Please:
+1. Follow the development guidelines in the main repository
+2. Add tests for new functionality
+3. Ensure code passes linting and type checking
+4. Update documentation as needed
 
-- Contact
-- Flow
-- Process
-- Source
-- Flow Property
-- Unit Group
-- LCIA Method
-- Life Cycle Model
+## 📄 License
 
-## License
+MIT License - see [LICENSE](../LICENSE) file for details.
 
-MIT License - see [LICENSE](LICENSE) file for details.
+## 🔗 Related Packages
 
-## Contributing
-
-See [CONTRIBUTING.md](CONTRIBUTING.md) for development guidelines.
-
-## Links
-
-- Homepage: https://github.com/tiangong-lca/tidas-sdk
-- Issues: https://github.com/tiangong-lca/tidas-sdk/issues
+- [tidas-tools](https://pypi.org/project/tidas-tools/): Production-ready utilities for TIDAS data
+- [@tiangong-lca/tidas-sdk](https://www.npmjs.com/package/@tiangong-lca/tidas-sdk): TypeScript SDK

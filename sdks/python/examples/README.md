@@ -1,103 +1,140 @@
-# TIDAS SDK Examples
+# TIDAS Python SDK Examples
 
-This directory contains example scripts demonstrating how to use the TIDAS Python SDK.
+This directory contains usage examples for the TIDAS Python SDK.
 
-## Running the Examples
+## 📋 Examples
+
+### Basic Usage
+Examples demonstrating fundamental SDK usage patterns:
+
+- [create-contact.py](./create-contact.py) - Create and validate a TIDAS contact
+- [basic-validation.py](./basic-validation.py) - Basic data validation examples
+
+### Advanced Usage
+More complex examples showing advanced features:
+
+- [complex-workflows.py](./complex-workflows.py) - Complete LCA data workflows
+- [custom-validation.py](./custom-validation.py) - Custom validation rules
+
+## 🚀 Running Examples
 
 ### Prerequisites
 
-Make sure you're in the `sdks/python` directory and have dependencies installed:
-
+1. Install the development SDK:
 ```bash
-cd /Users/biao/Code/tidas-sdk/sdks/python
-uv pip install -e ".[dev]"
+cd ../..
+uv sync
 ```
 
-### Running Examples
-
-**Option 1: Using the run script (recommended)**
-
+2. Set up environment:
 ```bash
-./examples/run_example.sh 01_basic_usage.py
+source .venv/bin/activate  # or use uv run
 ```
 
-**Option 2: Using uv run**
+### Running Individual Examples
 
 ```bash
-uv run python examples/01_basic_usage.py
+# Run from the examples directory
+uv run python create-contact.py
+
+# Or run from the project root
+uv run python sdks/python/examples/create-contact.py
 ```
 
-**Option 3: With activated virtual environment**
+### Running All Examples
 
 ```bash
-source .venv/bin/activate
-python examples/01_basic_usage.py
+# From examples directory
+for file in *.py; do echo "Running $file"; uv run python "$file"; done
 ```
 
-## Available Examples
+## 📝 Example Categories
 
-### 01_basic_usage.py ✅
+### 1. Object Creation
+Examples showing how to create TIDAS objects:
 
-Demonstrates:
-- Creating a Contact entity
-- Setting multi-language text fields
-- Validating entities in strict mode
-- Exporting to JSON format
-- JSON round-trip preservation
+```python
+from tidas_sdk import create_contact
 
-**Output**: Creates `output/contact.json`
-
-### 02_batch_operations.py ✅
-
-Demonstrates:
-- Creating 1000+ entities in batch (48,000+ entities/second)
-- Performance optimization with validation modes
-- Bulk JSON export strategies
-- Validation warning collection
-- Mixed entity type processing
-
-**Output**: Creates `output/contacts_batch.json`, `output/mixed_entities_batch.json`
-
-### 03_validation_modes.py ✅
-
-Demonstrates:
-- Strict mode (raise errors immediately)
-- Weak mode (collect all warnings)
-- Ignore mode (skip validation for speed)
-- When to use each mode
-- Performance comparison
-- Runtime mode switching
-- Global configuration
-
-### 04_relationships.py ✅
-
-Demonstrates:
-- Entity references (Flow → FlowProperty → UnitGroup)
-- Building complete relationship graphs
-- Reference format and structure
-- Dependency ordering for export
-- Referential integrity considerations
-
-**Output**: Creates `output/relationship_graph.json`
-
-## Example Output
-
-All examples create output files in the `examples/output/` directory. This directory is created automatically and is ignored by git.
-
-## Troubleshooting
-
-### ModuleNotFoundError: No module named 'tidas_sdk'
-
-This means you're not running from the virtual environment. Use one of the methods above.
-
-### Import errors or type errors
-
-Make sure you've installed the package in development mode:
-
-```bash
-uv pip install -e ".[dev]"
+contact = create_contact({
+    "name": "Example Organization",
+    "email": "contact@example.com"
+})
 ```
 
-### Validation errors
+### 2. Data Validation
+Examples demonstrating validation capabilities:
 
-The examples intentionally demonstrate validation errors to show how the SDK handles invalid data. Check the comments in each example for explanation.
+```python
+from tidas_sdk import validate_contact
+
+result = validate_contact(contact_data)
+if result.success:
+    print("Data is valid")
+else:
+    print("Validation errors:", result.errors)
+```
+
+### 3. JSON Conversion
+Examples showing serialization/deserialization:
+
+```python
+from tidas_sdk import TidasContact
+
+# From JSON
+contact = TidasContact.model_validate_json(json_string)
+
+# To JSON
+json_data = contact.model_dump_json()
+```
+
+## 🛠️ Development Notes
+
+### Status
+
+⚠️ **Note**: The Python SDK is currently in development. These examples will evolve as the SDK matures.
+
+### Contributing
+
+When adding new examples:
+
+1. Follow the existing naming convention
+2. Add clear documentation and comments
+3. Include error handling where appropriate
+4. Update this README with the new example
+5. Test the example works with the current SDK version
+
+### Example Structure
+
+Each example should:
+
+- Be self-contained and runnable
+- Include necessary imports
+- Demonstrate a specific feature or pattern
+- Have clear output or result demonstration
+- Include error handling
+- Be well-documented with comments
+
+## 🔗 Related Documentation
+
+- **Python SDK README**: [../README.md](../README.md)
+- **Development Guidelines**: [../../../CLAUDE.md](../../../CLAUDE.md)
+- **Project Progress**: [../../../docs/development-progress.md](../../../docs/development-progress.md)
+
+## 🚧 Current Limitations
+
+Since the Python SDK is under development:
+
+- Some examples may use placeholder implementations
+- API may change between versions
+- Not all TypeScript SDK features are available yet
+- Documentation may be incomplete
+
+## 📞 Getting Help
+
+If you have issues with the examples:
+
+1. Check the development progress documentation
+2. Review the main project documentation
+3. Open an issue on the GitHub repository
+4. Check if you're using the correct development version
