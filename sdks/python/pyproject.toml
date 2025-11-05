@@ -44,7 +44,7 @@ target-version = "py38"
 
 [tool.ruff.lint]
 select = ["E", "F", "I", "N", "W"]
-ignore = ["N815", "E501","F811","F401","I001","F822","F841","F541","N818"]
+ignore = ["N815","N816", "E501","F811","F401","I001","F822","F841","F541","N818"]
 
 [tool.mypy]
 python_version = "3.12"
