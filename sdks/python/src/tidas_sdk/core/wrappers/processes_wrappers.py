@@ -11,93 +11,27 @@ from tidas_sdk.core.typed_access import BaseWrapper, MultiLangText
 
 
 
-class LciaResultWrapper(BaseWrapper):
-    """Auto-generated wrapper for LciaResultWrapper."""
-
-    __slots__ = ()
-
-    @property
-    def reference_to_lcia_method_data_set(self) -> Optional[str]:
-        """"LCIA method data set" applied to calculate the LCIA results."""
-        return self._data.get("referenceToLCIAMethodDataSet")
-
-    @reference_to_lcia_method_data_set.setter
-    def reference_to_lcia_method_data_set(self, value: Optional[str]) -> None:
-        """Set referenceToLCIAMethodDataSet."""
-        if value is None:
-            self._data.pop("referenceToLCIAMethodDataSet", None)
-        else:
-            self._data["referenceToLCIAMethodDataSet"] = value
-
-    @property
-    def mean_amount(self) -> str:
-        """Mean amount of the Input or Output. Only significant digits of the amount should be stated."""
-        return self._data.get("meanAmount")
-
-    @mean_amount.setter
-    def mean_amount(self, value: str) -> None:
-        """Set meanAmount."""
-        self._data["meanAmount"] = value
-
-    @property
-    def uncertainty_distribution_type(self) -> Optional[str]:
-        """Access uncertaintyDistributionType field"""
-        return self._data.get("uncertaintyDistributionType")
-
-    @uncertainty_distribution_type.setter
-    def uncertainty_distribution_type(self, value: Optional[str]) -> None:
-        """Set uncertaintyDistributionType."""
-        if value is None:
-            self._data.pop("uncertaintyDistributionType", None)
-        else:
-            self._data["uncertaintyDistributionType"] = value
-
-    @property
-    def relative_standard_deviation95_in(self) -> Optional[str]:
-        """The resulting overall uncertainty of the calculated variable value considering uncertainty of measurements, modelling, appropriateness etc. [Notes: For log-normal distribution the square of the geometric standard deviation (SDg^2) is stated. Mean value times SDg^2 equals the 97.5% value (= Maximum value), Mean value divided by SDg^2 equals the 2.5% value (= Minimum value). For normal distribution the doubled standard deviation value (2*SD) is entered. Mean value plus 2*SD equals 97.5% value (= Maximum value), Mean value minus 2*SD equals 2.5% value (= Minimum value). This data field remains empty when uniform or triangular uncertainty distribution is applied.]"""
-        return self._data.get("relativeStandardDeviation95In")
-
-    @relative_standard_deviation95_in.setter
-    def relative_standard_deviation95_in(self, value: Optional[str]) -> None:
-        """Set relativeStandardDeviation95In."""
-        if value is None:
-            self._data.pop("relativeStandardDeviation95In", None)
-        else:
-            self._data["relativeStandardDeviation95In"] = value
-
-    @property
-    def general_comment(self) -> MultiLangText:
-        """General comment on this specific Input or Output, e.g. commenting on the data sources used and their specific representatuveness etc., on the status of "finalisation" of an entry as workflow information, etc."""
-        return self._get_multi_lang("generalComment")
-
-    @property
-    def other(self) -> Optional[str]:
-        """Access common:other field"""
-        return self._data.get("common:other")
-
-    @other.setter
-    def other(self, value: Optional[str]) -> None:
-        """Set common:other."""
-        if value is None:
-            self._data.pop("common:other", None)
-        else:
-            self._data["common:other"] = value
-
-
 class LciaResultsWrapper(BaseWrapper):
     """Auto-generated wrapper for LciaResultsWrapper."""
 
     __slots__ = ()
 
     @property
-    def lcia_result(self) -> LciaResultWrapper:
-        """Access LCIAResult nested object"""
-        self._ensure_field("LCIAResult")
-        return LciaResultWrapper(self._entity, self._data["LCIAResult"])
+    def lcia_result(self) -> Optional[str]:
+        """ Access LCIAResult field """
+        return self._data.get("LCIAResult")
+
+    @lcia_result.setter
+    def lcia_result(self, value: Optional[str]) -> None:
+        """Set LCIAResult."""
+        if value is None:
+            self._data.pop("LCIAResult", None)
+        else:
+            self._data["LCIAResult"] = value
 
     @property
     def other(self) -> Optional[str]:
-        """Access common:other field"""
+        """ Access common:other field """
         return self._data.get("common:other")
 
     @other.setter
@@ -116,7 +50,7 @@ class ExchangesWrapper(BaseWrapper):
 
     @property
     def exchange(self) -> str:
-        """Access exchange field"""
+        """ Access exchange field """
         return self._data.get("exchange")
 
     @exchange.setter
@@ -126,7 +60,7 @@ class ExchangesWrapper(BaseWrapper):
 
     @property
     def other(self) -> Optional[str]:
-        """Access common:other field"""
+        """ Access common:other field """
         return self._data.get("common:other")
 
     @other.setter
@@ -145,7 +79,7 @@ class PublicationAndOwnershipWrapper(BaseWrapper):
 
     @property
     def date_of_last_revision(self) -> Optional[str]:
-        """Date when the data set was revised for the last time, typically manually set."""
+        """ Date when the data set was revised for the last time, typically manually set. """
         return self._data.get("common:dateOfLastRevision")
 
     @date_of_last_revision.setter
@@ -158,7 +92,7 @@ class PublicationAndOwnershipWrapper(BaseWrapper):
 
     @property
     def data_set_version(self) -> str:
-        """Version number of data set. First two digits refer to major updates, the second two digits to minor revisions and error corrections etc. The third three digits are intended for automatic and internal counting of versions during data set development. Together with the data set's UUID, the "Data set version" uniquely identifies each data set."""
+        """ Version number of data set. First two digits refer to major updates, the second two digits to minor revisions and error corrections etc. The third three digits are intended for automatic and internal counting of versions during data set development. Together with the data set's UUID, the "Data set version" uniquely identifies each data set. """
         return self._data.get("common:dataSetVersion")
 
     @data_set_version.setter
@@ -168,7 +102,7 @@ class PublicationAndOwnershipWrapper(BaseWrapper):
 
     @property
     def reference_to_preceding_data_set_version(self) -> Optional[str]:
-        """Last preceding data set, which was replaced by this version. Either a URI of that data set (i.e. an internet address) or its UUID plus version number is given (or both)."""
+        """ Last preceding data set, which was replaced by this version. Either a URI of that data set (i.e. an internet address) or its UUID plus version number is given (or both). """
         return self._data.get("common:referenceToPrecedingDataSetVersion")
 
     @reference_to_preceding_data_set_version.setter
@@ -181,7 +115,7 @@ class PublicationAndOwnershipWrapper(BaseWrapper):
 
     @property
     def permanent_data_set_uri(self) -> str:
-        """URI (i.e. an internet address) of the original of this data set. [Note: This equally globally unique identifier supports users and software tools to identify and retrieve the original version of a data set via the internet or to check for available updates. The URI must not represent an existing WWW address, but it should be unique and point to the data access point, e.g. by combining the data owner's www path with the data set's UUID, e.g. http://www.mycompany.com/lca/processes/50f12420-8855-12db-b606-0900210c9a66.]"""
+        """ URI (i.e. an internet address) of the original of this data set. [Note: This equally globally unique identifier supports users and software tools to identify and retrieve the original version of a data set via the internet or to check for available updates. The URI must not represent an existing WWW address, but it should be unique and point to the data access point, e.g. by combining the data owner's www path with the data set's UUID, e.g. http://www.mycompany.com/lca/processes/50f12420-8855-12db-b606-0900210c9a66.] """
         return self._data.get("common:permanentDataSetURI")
 
     @permanent_data_set_uri.setter
@@ -191,7 +125,7 @@ class PublicationAndOwnershipWrapper(BaseWrapper):
 
     @property
     def workflow_and_publication_status(self) -> Optional[str]:
-        """Workflow or publication status of data set. Details e.g. of foreseen publication dates should be provided on request by the "Data set owner"."""
+        """ Workflow or publication status of data set. Details e.g. of foreseen publication dates should be provided on request by the "Data set owner". """
         return self._data.get("common:workflowAndPublicationStatus")
 
     @workflow_and_publication_status.setter
@@ -204,7 +138,7 @@ class PublicationAndOwnershipWrapper(BaseWrapper):
 
     @property
     def reference_to_unchanged_republication(self) -> Optional[str]:
-        """"Source data set" of the publication, in which this data set was published for the first time. [Note: This refers to exactly this data set as it is, without any format conversion, adjustments, flow name mapping, etc. In case this data set was modified/converted, the original source is documented in "Converted original data set from:" in section "Data entry by".]"""
+        """ "Source data set" of the publication, in which this data set was published for the first time. [Note: This refers to exactly this data set as it is, without any format conversion, adjustments, flow name mapping, etc. In case this data set was modified/converted, the original source is documented in "Converted original data set from:" in section "Data entry by".] """
         return self._data.get("common:referenceToUnchangedRepublication")
 
     @reference_to_unchanged_republication.setter
@@ -217,7 +151,7 @@ class PublicationAndOwnershipWrapper(BaseWrapper):
 
     @property
     def reference_to_registration_authority(self) -> Optional[str]:
-        """"Contact data set" of the authority that has registered this data set."""
+        """ "Contact data set" of the authority that has registered this data set. """
         return self._data.get("common:referenceToRegistrationAuthority")
 
     @reference_to_registration_authority.setter
@@ -230,7 +164,7 @@ class PublicationAndOwnershipWrapper(BaseWrapper):
 
     @property
     def registration_number(self) -> Optional[str]:
-        """A unique identifying number for this data set issued by the registration authority."""
+        """ A unique identifying number for this data set issued by the registration authority. """
         return self._data.get("common:registrationNumber")
 
     @registration_number.setter
@@ -243,7 +177,7 @@ class PublicationAndOwnershipWrapper(BaseWrapper):
 
     @property
     def reference_to_ownership_of_data_set(self) -> str:
-        """"Contact data set" of the person or entity who owns this data set. (Note: this is not necessarily the publisher of the data set.)"""
+        """ "Contact data set" of the person or entity who owns this data set. (Note: this is not necessarily the publisher of the data set.) """
         return self._data.get("common:referenceToOwnershipOfDataSet")
 
     @reference_to_ownership_of_data_set.setter
@@ -253,7 +187,7 @@ class PublicationAndOwnershipWrapper(BaseWrapper):
 
     @property
     def copyright(self) -> str:
-        """Indicates whether or not a copyright on the data set exists. Decided upon by the "Owner of data set". [Note: See also field "Access and use restrictions".]"""
+        """ Indicates whether or not a copyright on the data set exists. Decided upon by the "Owner of data set". [Note: See also field "Access and use restrictions".] """
         return self._data.get("common:copyright")
 
     @copyright.setter
@@ -263,7 +197,7 @@ class PublicationAndOwnershipWrapper(BaseWrapper):
 
     @property
     def reference_to_entities_with_exclusive_access(self) -> Optional[str]:
-        """"Contact data set" of those entities or persons (or groups of these), to which an exclusive access to this data set is granted. Mainly intended to be used in confidentiality management in projects. [Note: See also field "Access and use restrictions".]"""
+        """ "Contact data set" of those entities or persons (or groups of these), to which an exclusive access to this data set is granted. Mainly intended to be used in confidentiality management in projects. [Note: See also field "Access and use restrictions".] """
         return self._data.get("common:referenceToEntitiesWithExclusiveAccess")
 
     @reference_to_entities_with_exclusive_access.setter
@@ -276,7 +210,7 @@ class PublicationAndOwnershipWrapper(BaseWrapper):
 
     @property
     def license_type(self) -> str:
-        """Type of license that applies to the access and use of this data set."""
+        """ Type of license that applies to the access and use of this data set. """
         return self._data.get("common:licenseType")
 
     @license_type.setter
@@ -286,12 +220,12 @@ class PublicationAndOwnershipWrapper(BaseWrapper):
 
     @property
     def access_restrictions(self) -> MultiLangText:
-        """Access restrictions / use conditions for this data set as free text or referring to e.g. license conditions. In case of no restrictions "None" is entered."""
+        """ Access restrictions / use conditions for this data set as free text or referring to e.g. license conditions. In case of no restrictions "None" is entered. """
         return self._get_multi_lang("common:accessRestrictions")
 
     @property
     def other(self) -> Optional[str]:
-        """Access common:other field"""
+        """ Access common:other field """
         return self._data.get("common:other")
 
     @other.setter
@@ -310,7 +244,7 @@ class DataEntryByWrapper(BaseWrapper):
 
     @property
     def time_stamp(self) -> str:
-        """Access common:timeStamp field"""
+        """ Access common:timeStamp field """
         return self._data.get("common:timeStamp")
 
     @time_stamp.setter
@@ -320,7 +254,7 @@ class DataEntryByWrapper(BaseWrapper):
 
     @property
     def reference_to_data_set_format(self) -> str:
-        """"Source data set" of the used version of the ILCD format. If additional data format fields have been integrated into the data set file, using the "namespace" option, the used format namespace(s) are to be given. This is the case if the data sets carries additional information as specified by other, particular LCA formats, e.g. of other database networks or LCA softwares."""
+        """ "Source data set" of the used version of the ILCD format. If additional data format fields have been integrated into the data set file, using the "namespace" option, the used format namespace(s) are to be given. This is the case if the data sets carries additional information as specified by other, particular LCA formats, e.g. of other database networks or LCA softwares. """
         return self._data.get("common:referenceToDataSetFormat")
 
     @reference_to_data_set_format.setter
@@ -330,7 +264,7 @@ class DataEntryByWrapper(BaseWrapper):
 
     @property
     def reference_to_converted_original_data_set_from(self) -> Optional[str]:
-        """"Source data set" of the database or data set publication from which this data set has been obtained by conversion. This can cover e.g. conversion to a different format, applying a different nomenclature, mapping of flow names, conversion of units, etc. This may however not have changed or re-modeled the Inputs and Outputs, i.e. obtaining the same LCIA results. This entry is required for converted data sets stemming originally from other LCA databases (e.g. when re-publishing data from IISI, ILCD etc. databases). [Note: Identically re-published data sets are identied in the field "Unchanged re-publication of:" in the section "Publication and Ownership".]"""
+        """ "Source data set" of the database or data set publication from which this data set has been obtained by conversion. This can cover e.g. conversion to a different format, applying a different nomenclature, mapping of flow names, conversion of units, etc. This may however not have changed or re-modeled the Inputs and Outputs, i.e. obtaining the same LCIA results. This entry is required for converted data sets stemming originally from other LCA databases (e.g. when re-publishing data from IISI, ILCD etc. databases). [Note: Identically re-published data sets are identied in the field "Unchanged re-publication of:" in the section "Publication and Ownership".] """
         return self._data.get("common:referenceToConvertedOriginalDataSetFrom")
 
     @reference_to_converted_original_data_set_from.setter
@@ -343,7 +277,7 @@ class DataEntryByWrapper(BaseWrapper):
 
     @property
     def reference_to_person_or_entity_entering_the_data(self) -> str:
-        """"Contact data set" of the responsible person or entity that has documented this data set, i.e. entered the data and the descriptive information."""
+        """ "Contact data set" of the responsible person or entity that has documented this data set, i.e. entered the data and the descriptive information. """
         return self._data.get("common:referenceToPersonOrEntityEnteringTheData")
 
     @reference_to_person_or_entity_entering_the_data.setter
@@ -353,7 +287,7 @@ class DataEntryByWrapper(BaseWrapper):
 
     @property
     def reference_to_data_set_use_approval(self) -> Optional[str]:
-        """"Source data set": Names exclusively the producer or operator of the good, service or technology represented by this data set, which officially has approved this data set in all its parts. In case of nationally or internationally averaged data sets, this will be the respective business association. If no official approval has been given, the entry "No official approval by producer or operator" is to be entered and the reference will point to an empty "Contact data set". [Notes: The producer or operator may only be named here, if a written approval of this data set was given. A recognition of this data set by any other organisation then the producer/operator of the good, service, or process is not to be stated here, but as a "review" in the validation section.]"""
+        """ "Source data set": Names exclusively the producer or operator of the good, service or technology represented by this data set, which officially has approved this data set in all its parts. In case of nationally or internationally averaged data sets, this will be the respective business association. If no official approval has been given, the entry "No official approval by producer or operator" is to be entered and the reference will point to an empty "Contact data set". [Notes: The producer or operator may only be named here, if a written approval of this data set was given. A recognition of this data set by any other organisation then the producer/operator of the good, service, or process is not to be stated here, but as a "review" in the validation section.] """
         return self._data.get("common:referenceToDataSetUseApproval")
 
     @reference_to_data_set_use_approval.setter
@@ -366,7 +300,7 @@ class DataEntryByWrapper(BaseWrapper):
 
     @property
     def other(self) -> Optional[str]:
-        """Access common:other field"""
+        """ Access common:other field """
         return self._data.get("common:other")
 
     @other.setter
@@ -385,7 +319,7 @@ class DataGeneratorWrapper(BaseWrapper):
 
     @property
     def reference_to_person_or_entity_generating_the_data_set(self) -> Optional[str]:
-        """"Contact data set" of the person(s), working group(s), organisation(s) or database network, that generated the data set, i.e. being responsible for its correctness regarding methods, inventory, and documentation."""
+        """ "Contact data set" of the person(s), working group(s), organisation(s) or database network, that generated the data set, i.e. being responsible for its correctness regarding methods, inventory, and documentation. """
         return self._data.get("common:referenceToPersonOrEntityGeneratingTheDataSet")
 
     @reference_to_person_or_entity_generating_the_data_set.setter
@@ -398,7 +332,7 @@ class DataGeneratorWrapper(BaseWrapper):
 
     @property
     def other(self) -> Optional[str]:
-        """Access common:other field"""
+        """ Access common:other field """
         return self._data.get("common:other")
 
     @other.setter
@@ -417,7 +351,7 @@ class CommissionerAndGoalWrapper(BaseWrapper):
 
     @property
     def reference_to_commissioner(self) -> str:
-        """"Contact data set" of the commissioner / financing party of the data collection / compilation and of the data set modelling. For groups of commissioners, each single organisation should be named. For data set updates and for direct use of data from formerly commissioned studies, also the original commissioner should be named."""
+        """ "Contact data set" of the commissioner / financing party of the data collection / compilation and of the data set modelling. For groups of commissioners, each single organisation should be named. For data set updates and for direct use of data from formerly commissioned studies, also the original commissioner should be named. """
         return self._data.get("common:referenceToCommissioner")
 
     @reference_to_commissioner.setter
@@ -427,17 +361,17 @@ class CommissionerAndGoalWrapper(BaseWrapper):
 
     @property
     def project(self) -> MultiLangText:
-        """Extract of the information items linked to goal and scope of LCIA method modeling."""
+        """ Extract of the information items linked to goal and scope of LCIA method modeling. """
         return self._get_multi_lang("common:project")
 
     @property
     def intended_applications(self) -> MultiLangText:
-        """Documentation of the intended application(s) of data collection and data set modelling. This indicates / includes information on the level of detail, the specifidity, and the quality ambition in the effort."""
+        """ Documentation of the intended application(s) of data collection and data set modelling. This indicates / includes information on the level of detail, the specifidity, and the quality ambition in the effort. """
         return self._get_multi_lang("common:intendedApplications")
 
     @property
     def other(self) -> Optional[str]:
-        """Access common:other field"""
+        """ Access common:other field """
         return self._data.get("common:other")
 
     @other.setter
@@ -456,31 +390,31 @@ class AdministrativeInformationWrapper(BaseWrapper):
 
     @property
     def commissioner_and_goal(self) -> CommissionerAndGoalWrapper:
-        """Basic information about goal and scope of the data set."""
+        """ Basic information about goal and scope of the data set. """
         self._ensure_field("common:commissionerAndGoal")
         return CommissionerAndGoalWrapper(self._entity, self._data["common:commissionerAndGoal"])
 
     @property
     def data_generator(self) -> DataGeneratorWrapper:
-        """Expert(s), that compiled and modelled the data set as well as internal administrative information linked to the data generation activity."""
+        """ Expert(s), that compiled and modelled the data set as well as internal administrative information linked to the data generation activity. """
         self._ensure_field("dataGenerator")
         return DataGeneratorWrapper(self._entity, self._data["dataGenerator"])
 
     @property
     def data_entry_by(self) -> DataEntryByWrapper:
-        """Staff or entity, that documented the generated data set, entering the information into the database; plus administrative information linked to the data entry activity."""
+        """ Staff or entity, that documented the generated data set, entering the information into the database; plus administrative information linked to the data entry activity. """
         self._ensure_field("dataEntryBy")
         return DataEntryByWrapper(self._entity, self._data["dataEntryBy"])
 
     @property
     def publication_and_ownership(self) -> PublicationAndOwnershipWrapper:
-        """Information related to publication and version management of the data set including copyright and access restrictions."""
+        """ Information related to publication and version management of the data set including copyright and access restrictions. """
         self._ensure_field("publicationAndOwnership")
         return PublicationAndOwnershipWrapper(self._entity, self._data["publicationAndOwnership"])
 
     @property
     def other(self) -> Optional[str]:
-        """Access common:other field"""
+        """ Access common:other field """
         return self._data.get("common:other")
 
     @other.setter
@@ -499,7 +433,7 @@ class ComplianceDeclarationsWrapper(BaseWrapper):
 
     @property
     def compliance(self) -> str:
-        """One compliance declaration. Multiple declarations may be provided."""
+        """ One compliance declaration. Multiple declarations may be provided. """
         return self._data.get("compliance")
 
     @compliance.setter
@@ -509,7 +443,7 @@ class ComplianceDeclarationsWrapper(BaseWrapper):
 
     @property
     def other(self) -> Optional[str]:
-        """Access common:other field"""
+        """ Access common:other field """
         return self._data.get("common:other")
 
     @other.setter
@@ -528,7 +462,7 @@ class DataQualityIndicatorsWrapper(BaseWrapper):
 
     @property
     def data_quality_indicator(self) -> str:
-        """Data quality indicators serve to provide the reviewed key information on the data set in a defined, computer-readable (and hence searchable) form. This serves to support LCA practitioners to identify/select the highest quality and most appropriate data sets."""
+        """ Data quality indicators serve to provide the reviewed key information on the data set in a defined, computer-readable (and hence searchable) form. This serves to support LCA practitioners to identify/select the highest quality and most appropriate data sets. """
         return self._data.get("common:dataQualityIndicator")
 
     @data_quality_indicator.setter
@@ -544,7 +478,7 @@ class ReviewWrapper(BaseWrapper):
 
     @property
     def type(self) -> str:
-        """Access @type field"""
+        """ Access @type field """
         return self._data.get("@type")
 
     @type.setter
@@ -554,7 +488,7 @@ class ReviewWrapper(BaseWrapper):
 
     @property
     def scope(self) -> Optional[str]:
-        """Scope of review regarding which aspects and components of the data set was reviewed or verified. In case of aggregated e.g. LCI results also and on which level of detail (e.g. LCI results only, included unit processes, ...) the review / verification was performed."""
+        """ Scope of review regarding which aspects and components of the data set was reviewed or verified. In case of aggregated e.g. LCI results also and on which level of detail (e.g. LCI results only, included unit processes, ...) the review / verification was performed. """
         return self._data.get("common:scope")
 
     @scope.setter
@@ -567,18 +501,18 @@ class ReviewWrapper(BaseWrapper):
 
     @property
     def data_quality_indicators(self) -> DataQualityIndicatorsWrapper:
-        """Data quality indicators serve to provide the reviewed key information on the data set in a defined, computer-readable (and hence searchable) form. This serves to support LCA practitioners to identify/select the highest quality and most appropriate data sets."""
+        """ Data quality indicators serve to provide the reviewed key information on the data set in a defined, computer-readable (and hence searchable) form. This serves to support LCA practitioners to identify/select the highest quality and most appropriate data sets. """
         self._ensure_field("common:dataQualityIndicators")
         return DataQualityIndicatorsWrapper(self._entity, self._data["common:dataQualityIndicators"])
 
     @property
     def review_details(self) -> MultiLangText:
-        """Summary of the review. All the following items should be explicitly addressed: Representativeness, completeness, and precision of Inputs and Outputs for the process in its documented location, technology and time i.e. both completeness of technical model (product, waste, and elementary flows) and completeness of coverage of the relevant problem fields (environmental, human health, resource use) for this specific good, service, or process. Plausibility of data. Correctness and appropriateness of the data set documentation. Appropriateness of system boundaries, cut-off rules, LCI modelling choices such as e.g. allocation, consistency of included processes and of LCI methodology. If the data set comprises pre-calculated LCIA results, the correspondence of the Input and Output elementary flows (including their geographical validity) with the applied LCIA method(s) should be addressed by the reviewer. An overall quality statement on the data set may be included here."""
+        """ Summary of the review. All the following items should be explicitly addressed: Representativeness, completeness, and precision of Inputs and Outputs for the process in its documented location, technology and time i.e. both completeness of technical model (product, waste, and elementary flows) and completeness of coverage of the relevant problem fields (environmental, human health, resource use) for this specific good, service, or process. Plausibility of data. Correctness and appropriateness of the data set documentation. Appropriateness of system boundaries, cut-off rules, LCI modelling choices such as e.g. allocation, consistency of included processes and of LCI methodology. If the data set comprises pre-calculated LCIA results, the correspondence of the Input and Output elementary flows (including their geographical validity) with the applied LCIA method(s) should be addressed by the reviewer. An overall quality statement on the data set may be included here. """
         return self._get_multi_lang("common:reviewDetails")
 
     @property
     def reference_to_name_of_reviewer_and_institution(self) -> Optional[str]:
-        """"Contact data set" of reviewer. The full name of reviewer(s) and institution(s) as well as a contact address and/or email should be provided in that contact data set."""
+        """ "Contact data set" of reviewer. The full name of reviewer(s) and institution(s) as well as a contact address and/or email should be provided in that contact data set. """
         return self._data.get("common:referenceToNameOfReviewerAndInstitution")
 
     @reference_to_name_of_reviewer_and_institution.setter
@@ -591,12 +525,12 @@ class ReviewWrapper(BaseWrapper):
 
     @property
     def other_review_details(self) -> MultiLangText:
-        """Further information from the review process, especially comments received from third parties once the data set has been published or additional reviewer comments from an additional external review."""
+        """ Further information from the review process, especially comments received from third parties once the data set has been published or additional reviewer comments from an additional external review. """
         return self._get_multi_lang("common:otherReviewDetails")
 
     @property
     def reference_to_complete_review_report(self) -> Optional[str]:
-        """"Source data set" of the complete review report."""
+        """ "Source data set" of the complete review report. """
         return self._data.get("common:referenceToCompleteReviewReport")
 
     @reference_to_complete_review_report.setter
@@ -609,7 +543,7 @@ class ReviewWrapper(BaseWrapper):
 
     @property
     def other(self) -> Optional[str]:
-        """Access common:other field"""
+        """ Access common:other field """
         return self._data.get("common:other")
 
     @other.setter
@@ -628,13 +562,13 @@ class ValidationWrapper(BaseWrapper):
 
     @property
     def review(self) -> ReviewWrapper:
-        """Type of review that has been performed regarding independency and type of review process."""
+        """ Type of review that has been performed regarding independency and type of review process. """
         self._ensure_field("review")
         return ReviewWrapper(self._entity, self._data["review"])
 
     @property
     def other(self) -> Optional[str]:
-        """Access common:other field"""
+        """ Access common:other field """
         return self._data.get("common:other")
 
     @other.setter
@@ -653,7 +587,7 @@ class CompletenessElementaryFlowsWrapper(BaseWrapper):
 
     @property
     def type(self) -> Optional[str]:
-        """Access @type field"""
+        """ Access @type field """
         return self._data.get("@type")
 
     @type.setter
@@ -666,7 +600,7 @@ class CompletenessElementaryFlowsWrapper(BaseWrapper):
 
     @property
     def value(self) -> Optional[str]:
-        """Access @value field"""
+        """ Access @value field """
         return self._data.get("@value")
 
     @value.setter
@@ -685,7 +619,7 @@ class CompletenessWrapper(BaseWrapper):
 
     @property
     def completeness_product_model(self) -> Optional[str]:
-        """Completeness of coverage of relevant product, waste and elementary flows. [Notes: For LCI results and Partly terminated systems this means throughout the underlying product system model. "Relevant" refers to the overall environmental relevance, i.e. for unit processes including the upstream and downstream burdens of product and waste flows.]"""
+        """ Completeness of coverage of relevant product, waste and elementary flows. [Notes: For LCI results and Partly terminated systems this means throughout the underlying product system model. "Relevant" refers to the overall environmental relevance, i.e. for unit processes including the upstream and downstream burdens of product and waste flows.] """
         return self._data.get("completenessProductModel")
 
     @completeness_product_model.setter
@@ -698,7 +632,7 @@ class CompletenessWrapper(BaseWrapper):
 
     @property
     def reference_to_supported_impact_assessment_methods(self) -> Optional[str]:
-        """"LCIA methods data sets" that can be applied to the elementary flows in the Inputs and Outputs section, i.e. ALL these flows are referenced by the respective LCIA method data set (if they are of environmental relevance and a characterisation factor is defined for the respective flow). [Note: Applicability is not given if the inventoty contains some elementary flows with the same meaning as referenced in the LCIA method data set but in a different nomenclature (and hence carry no characterisation factor), or if the flows are sum indicators or flow groups that are addressed differently in the LCIA method data set.]"""
+        """ "LCIA methods data sets" that can be applied to the elementary flows in the Inputs and Outputs section, i.e. ALL these flows are referenced by the respective LCIA method data set (if they are of environmental relevance and a characterisation factor is defined for the respective flow). [Note: Applicability is not given if the inventoty contains some elementary flows with the same meaning as referenced in the LCIA method data set but in a different nomenclature (and hence carry no characterisation factor), or if the flows are sum indicators or flow groups that are addressed differently in the LCIA method data set.] """
         return self._data.get("referenceToSupportedImpactAssessmentMethods")
 
     @reference_to_supported_impact_assessment_methods.setter
@@ -711,18 +645,18 @@ class CompletenessWrapper(BaseWrapper):
 
     @property
     def completeness_elementary_flows(self) -> CompletenessElementaryFlowsWrapper:
-        """Completeness of the elementary flows in the Inputs and Outputs section of this data set from impact perspective, regarding addressing the individual mid-point problem field / impact category given. The completeness refers to the state-of-the-art of scientific knowledge whether or not an individual elementary flow contributes to the respective mid-point topic in a relevant way, which is e.g. the basis for the ILCD reference elementary flows. [Note: The "Completeness" statement does not automatically mean that related LCIA methods exist or reference the elementary flows of this data set. Hence for direct applicability of existing LCIA methods, check the field "Supported LCIA method data sets".]"""
+        """ Completeness of the elementary flows in the Inputs and Outputs section of this data set from impact perspective, regarding addressing the individual mid-point problem field / impact category given. The completeness refers to the state-of-the-art of scientific knowledge whether or not an individual elementary flow contributes to the respective mid-point topic in a relevant way, which is e.g. the basis for the ILCD reference elementary flows. [Note: The "Completeness" statement does not automatically mean that related LCIA methods exist or reference the elementary flows of this data set. Hence for direct applicability of existing LCIA methods, check the field "Supported LCIA method data sets".] """
         self._ensure_field("completenessElementaryFlows")
         return CompletenessElementaryFlowsWrapper(self._entity, self._data["completenessElementaryFlows"])
 
     @property
     def completeness_other_problem_field(self) -> MultiLangText:
-        """Completeness of coverage of elementary flows that contribute to other problem fields that are named here as free text, preferably using the same terminology as for the specified environmental problems."""
+        """ Completeness of coverage of elementary flows that contribute to other problem fields that are named here as free text, preferably using the same terminology as for the specified environmental problems. """
         return self._get_multi_lang("completenessOtherProblemField")
 
     @property
     def other(self) -> Optional[str]:
-        """Access common:other field"""
+        """ Access common:other field """
         return self._data.get("common:other")
 
     @other.setter
@@ -741,37 +675,37 @@ class DataSourcesTreatmentAndRepresentativenessWrapper(BaseWrapper):
 
     @property
     def data_cut_off_and_completeness_principles(self) -> MultiLangText:
-        """Principles applied in data collection regarding completeness of (also intermediate) product and waste flows and of elementary flows. Examples are: cut-off rules, systematic exclusion of infrastructure, services or auxiliaries, etc. systematic exclusion of air in incineration processes, coling water, etc."""
+        """ Principles applied in data collection regarding completeness of (also intermediate) product and waste flows and of elementary flows. Examples are: cut-off rules, systematic exclusion of infrastructure, services or auxiliaries, etc. systematic exclusion of air in incineration processes, coling water, etc. """
         return self._get_multi_lang("dataCutOffAndCompletenessPrinciples")
 
     @property
     def deviations_from_cut_off_and_completeness_principles(self) -> MultiLangText:
-        """Short description of any deviations from the "Data completeness principles". In case of no (result relevant) deviations, "none" is entered."""
+        """ Short description of any deviations from the "Data completeness principles". In case of no (result relevant) deviations, "none" is entered. """
         return self._get_multi_lang("deviationsFromCutOffAndCompletenessPrinciples")
 
     @property
     def data_selection_and_combination_principles(self) -> MultiLangText:
-        """Principles applied in data selection and in combination of data from different sources. Includes brief discussion of consistency of data sources regarding data itself, modelling, appropriateness. In case of averaging: Principles and data selection applied in horizontal and / or vertical averaging."""
+        """ Principles applied in data selection and in combination of data from different sources. Includes brief discussion of consistency of data sources regarding data itself, modelling, appropriateness. In case of averaging: Principles and data selection applied in horizontal and / or vertical averaging. """
         return self._get_multi_lang("dataSelectionAndCombinationPrinciples")
 
     @property
     def deviations_from_selection_and_combination_principles(self) -> MultiLangText:
-        """Short description of any deviations from the "Data selection and combination principles". In case of no (result relevant) deviations, "none" is entered."""
+        """ Short description of any deviations from the "Data selection and combination principles". In case of no (result relevant) deviations, "none" is entered. """
         return self._get_multi_lang("deviationsFromSelectionAndCombinationPrinciples")
 
     @property
     def data_treatment_and_extrapolations_principles(self) -> MultiLangText:
-        """Principles applied regarding methods, sources, and assumptions done in data adjustment including extrapolations of data from another time period, another geographical area, or another technology."""
+        """ Principles applied regarding methods, sources, and assumptions done in data adjustment including extrapolations of data from another time period, another geographical area, or another technology. """
         return self._get_multi_lang("dataTreatmentAndExtrapolationsPrinciples")
 
     @property
     def deviations_from_treatment_and_extrapolation_principles(self) -> MultiLangText:
-        """Short description of any deviations from the " Data treatment and extrapolations principles". In case of no (result relevant) deviations, "none" is entered. (Note: If data representative for one "Location" is used for another "Location", its original representativity can be indicated here; see field "Percentage supply or production covered".)"""
+        """ Short description of any deviations from the " Data treatment and extrapolations principles". In case of no (result relevant) deviations, "none" is entered. (Note: If data representative for one "Location" is used for another "Location", its original representativity can be indicated here; see field "Percentage supply or production covered".) """
         return self._get_multi_lang("deviationsFromTreatmentAndExtrapolationPrinciples")
 
     @property
     def reference_to_data_handling_principles(self) -> Optional[str]:
-        """"Source data set"(s) of the source(s) in which the data completeness, selection, combination, treatment, and extrapolations principles' details are described"""
+        """ "Source data set"(s) of the source(s) in which the data completeness, selection, combination, treatment, and extrapolations principles' details are described """
         return self._data.get("referenceToDataHandlingPrinciples")
 
     @reference_to_data_handling_principles.setter
@@ -784,7 +718,7 @@ class DataSourcesTreatmentAndRepresentativenessWrapper(BaseWrapper):
 
     @property
     def reference_to_data_source(self) -> str:
-        """"Source data set"(s) of the source(s) used for deriving/compiling the inventory of this data set e.g. questionnaires, monographies, plant operation protocols, etc. For LCI results and Partly terminated systems the sources for relevant background system data are to be given, too. For parameterised data sets the sources used for the parameterisation / mathematical relations in the section "Mathematical model" are referenced here as well. [Note: If the data set stems from another database or data set publication and is only re-published: identify the origin of a converted data set in "Converted original data set from:" field in section "Data entry by" and its unchanged re-publication in "Unchanged re-publication of:" in the section "Publication and ownership". The data sources used to model a converted or re-published data set are nevertheless to be given here in this field, for transparency reasons.]"""
+        """ "Source data set"(s) of the source(s) used for deriving/compiling the inventory of this data set e.g. questionnaires, monographies, plant operation protocols, etc. For LCI results and Partly terminated systems the sources for relevant background system data are to be given, too. For parameterised data sets the sources used for the parameterisation / mathematical relations in the section "Mathematical model" are referenced here as well. [Note: If the data set stems from another database or data set publication and is only re-published: identify the origin of a converted data set in "Converted original data set from:" field in section "Data entry by" and its unchanged re-publication in "Unchanged re-publication of:" in the section "Publication and ownership". The data sources used to model a converted or re-published data set are nevertheless to be given here in this field, for transparency reasons.] """
         return self._data.get("referenceToDataSource")
 
     @reference_to_data_source.setter
@@ -794,7 +728,7 @@ class DataSourcesTreatmentAndRepresentativenessWrapper(BaseWrapper):
 
     @property
     def percentage_supply_or_production_covered(self) -> Optional[str]:
-        """Percentage of the overall supply, consumption, or production of the specific good, service, or technology represented by this data set, in the region/market of the stated "Location". For multi-functional processes the market share of the specific technology is stated. If data that is representative for a process operated in one "Location" is used for another "Location", the entry is '0'. The representativity for the original "Location" is documented in the field "Deviation from data treatment and extrapolation principles, explanations"."""
+        """ Percentage of the overall supply, consumption, or production of the specific good, service, or technology represented by this data set, in the region/market of the stated "Location". For multi-functional processes the market share of the specific technology is stated. If data that is representative for a process operated in one "Location" is used for another "Location", the entry is '0'. The representativity for the original "Location" is documented in the field "Deviation from data treatment and extrapolation principles, explanations". """
         return self._data.get("percentageSupplyOrProductionCovered")
 
     @percentage_supply_or_production_covered.setter
@@ -807,32 +741,32 @@ class DataSourcesTreatmentAndRepresentativenessWrapper(BaseWrapper):
 
     @property
     def annual_supply_or_production_volume(self) -> MultiLangText:
-        """Supply / consumption or production volume of the specific good, service, or technology in the region/market of the stated "Location". The market volume is given in absolute numbers per year, in common units, for the stated "Reference year". For multi-fucntional processes the data should be given for all co-functions (good and services)."""
+        """ Supply / consumption or production volume of the specific good, service, or technology in the region/market of the stated "Location". The market volume is given in absolute numbers per year, in common units, for the stated "Reference year". For multi-fucntional processes the data should be given for all co-functions (good and services). """
         return self._get_multi_lang("annualSupplyOrProductionVolume")
 
     @property
     def sampling_procedure(self) -> MultiLangText:
-        """Sampling procedure used for quantifying the amounts of Inputs and Outputs. Possible problems in combining different sampling procedures should be mentioned."""
+        """ Sampling procedure used for quantifying the amounts of Inputs and Outputs. Possible problems in combining different sampling procedures should be mentioned. """
         return self._get_multi_lang("samplingProcedure")
 
     @property
     def data_collection_period(self) -> MultiLangText:
-        """Date(s) or time period(s) when the data was collected. Note that this does NOT refer to e.g. the publication dates of papers or books from which the data may stem, but to the original data collection period."""
+        """ Date(s) or time period(s) when the data was collected. Note that this does NOT refer to e.g. the publication dates of papers or books from which the data may stem, but to the original data collection period. """
         return self._get_multi_lang("dataCollectionPeriod")
 
     @property
     def uncertainty_adjustments(self) -> MultiLangText:
-        """Description of methods, sources, and assumptions made in uncertainty adjustment. [Note: For data sets where the additional uncertainty due to lacking representativeness has been included in the quantified uncertainty values, this field also reports the original representativeness, the additional uncertainty, and the procedure by which the overall uncertainty was assessed or calculated.]"""
+        """ Description of methods, sources, and assumptions made in uncertainty adjustment. [Note: For data sets where the additional uncertainty due to lacking representativeness has been included in the quantified uncertainty values, this field also reports the original representativeness, the additional uncertainty, and the procedure by which the overall uncertainty was assessed or calculated.] """
         return self._get_multi_lang("uncertaintyAdjustments")
 
     @property
     def use_advice_for_data_set(self) -> MultiLangText:
-        """Specific methodological advice for data set users that requires attention. E.g. on inclusion/exclusion of recycling e.g. in material data sets, specific use phase behavior to be modelled, and other methodological advices. See also field "Technological applicability"."""
+        """ Specific methodological advice for data set users that requires attention. E.g. on inclusion/exclusion of recycling e.g. in material data sets, specific use phase behavior to be modelled, and other methodological advices. See also field "Technological applicability". """
         return self._get_multi_lang("useAdviceForDataSet")
 
     @property
     def other(self) -> Optional[str]:
-        """Access common:other field"""
+        """ Access common:other field """
         return self._data.get("common:other")
 
     @other.setter
@@ -851,7 +785,7 @@ class LciMethodAndAllocationWrapper(BaseWrapper):
 
     @property
     def type_of_data_set(self) -> str:
-        """Type of the data set regarding systematic inclusion/exclusion of upstream or downstream processes, transparency and internal (hidden) multi-functionality, and the completeness of modelling."""
+        """ Type of the data set regarding systematic inclusion/exclusion of upstream or downstream processes, transparency and internal (hidden) multi-functionality, and the completeness of modelling. """
         return self._data.get("typeOfDataSet")
 
     @type_of_data_set.setter
@@ -861,7 +795,7 @@ class LciMethodAndAllocationWrapper(BaseWrapper):
 
     @property
     def lci_method_principle(self) -> Optional[str]:
-        """LCI method principle followed in the product system modelling, i.e. regarding using average data (= attributional = non-marginal) or modelling effects in a change-oriented way (= consequential = marginal)."""
+        """ LCI method principle followed in the product system modelling, i.e. regarding using average data (= attributional = non-marginal) or modelling effects in a change-oriented way (= consequential = marginal). """
         return self._data.get("LCIMethodPrinciple")
 
     @lci_method_principle.setter
@@ -874,12 +808,12 @@ class LciMethodAndAllocationWrapper(BaseWrapper):
 
     @property
     def deviations_from_lci_method_principle(self) -> MultiLangText:
-        """Short description of any deviations from the general "LCI method principles" and additional explanations. Refers especially to specific processes/cases where the stated "attributional" or "consequential" approach was not applied. Or where deviations were made from any specific rules for applying the "Consequential with attributional components" approach. A reference to the "Intended application" of the data collection can be made here, too. Allocated co-products may be reported here as well. In case of no (quantitatively relevant) deviations from the LCI method principle, "none" should be stated."""
+        """ Short description of any deviations from the general "LCI method principles" and additional explanations. Refers especially to specific processes/cases where the stated "attributional" or "consequential" approach was not applied. Or where deviations were made from any specific rules for applying the "Consequential with attributional components" approach. A reference to the "Intended application" of the data collection can be made here, too. Allocated co-products may be reported here as well. In case of no (quantitatively relevant) deviations from the LCI method principle, "none" should be stated. """
         return self._get_multi_lang("deviationsFromLCIMethodPrinciple")
 
     @property
     def lci_method_approaches(self) -> Optional[str]:
-        """Names briefly the specific approach(es) used in LCI modeling, e.g. allocation, substitution etc. In case of LCI results and Partly terminated system data sets this also covers those applied in the included background system."""
+        """ Names briefly the specific approach(es) used in LCI modeling, e.g. allocation, substitution etc. In case of LCI results and Partly terminated system data sets this also covers those applied in the included background system. """
         return self._data.get("LCIMethodApproaches")
 
     @lci_method_approaches.setter
@@ -892,22 +826,22 @@ class LciMethodAndAllocationWrapper(BaseWrapper):
 
     @property
     def deviations_from_lci_method_approaches(self) -> MultiLangText:
-        """Description of relevant deviations from the applied approaches as well as of the relevant specific approaches that were applied, including in an possibly included background system. Further explanations and details of the allocation, substitution and other consequential approaches applied for relevant processes, e.g. how the marginal substitute was identified, year and region of which market prices were used in market allocation, i.e. method, procedure, data/information details. In case of no (result relevant) deviations from the before stated LCI method approaches, and in case of no need for further explanations, "none" is entered."""
+        """ Description of relevant deviations from the applied approaches as well as of the relevant specific approaches that were applied, including in an possibly included background system. Further explanations and details of the allocation, substitution and other consequential approaches applied for relevant processes, e.g. how the marginal substitute was identified, year and region of which market prices were used in market allocation, i.e. method, procedure, data/information details. In case of no (result relevant) deviations from the before stated LCI method approaches, and in case of no need for further explanations, "none" is entered. """
         return self._get_multi_lang("deviationsFromLCIMethodApproaches")
 
     @property
     def modelling_constants(self) -> MultiLangText:
-        """Short identification and description of constants applied in LCI modelling other than allocation / substitution, e.g. systematic setting of recycling quota, use of gross or net calorific value, etc."""
+        """ Short identification and description of constants applied in LCI modelling other than allocation / substitution, e.g. systematic setting of recycling quota, use of gross or net calorific value, etc. """
         return self._get_multi_lang("modellingConstants")
 
     @property
     def deviations_from_modelling_constants(self) -> MultiLangText:
-        """Short description of data set specific deviations from the "Modelling constants" if any, including in the possibly included background system."""
+        """ Short description of data set specific deviations from the "Modelling constants" if any, including in the possibly included background system. """
         return self._get_multi_lang("deviationsFromModellingConstants")
 
     @property
     def reference_to_lca_method_details(self) -> Optional[str]:
-        """"Source data set"(s) where the generally used LCA methods including the LCI method principles and specific approaches, the modelling constants details, as well as any other applied methodological conventions are described."""
+        """ "Source data set"(s) where the generally used LCA methods including the LCI method principles and specific approaches, the modelling constants details, as well as any other applied methodological conventions are described. """
         return self._data.get("referenceToLCAMethodDetails")
 
     @reference_to_lca_method_details.setter
@@ -920,7 +854,7 @@ class LciMethodAndAllocationWrapper(BaseWrapper):
 
     @property
     def other(self) -> Optional[str]:
-        """Access common:other field"""
+        """ Access common:other field """
         return self._data.get("common:other")
 
     @other.setter
@@ -939,37 +873,37 @@ class ModellingAndValidationWrapper(BaseWrapper):
 
     @property
     def lci_method_and_allocation(self) -> LciMethodAndAllocationWrapper:
-        """Access LCIMethodAndAllocation nested object"""
+        """ Access LCIMethodAndAllocation nested object """
         self._ensure_field("LCIMethodAndAllocation")
         return LciMethodAndAllocationWrapper(self._entity, self._data["LCIMethodAndAllocation"])
 
     @property
     def data_sources_treatment_and_representativeness(self) -> DataSourcesTreatmentAndRepresentativenessWrapper:
-        """Access dataSourcesTreatmentAndRepresentativeness nested object"""
+        """ Access dataSourcesTreatmentAndRepresentativeness nested object """
         self._ensure_field("dataSourcesTreatmentAndRepresentativeness")
         return DataSourcesTreatmentAndRepresentativenessWrapper(self._entity, self._data["dataSourcesTreatmentAndRepresentativeness"])
 
     @property
     def completeness(self) -> CompletenessWrapper:
-        """Access completeness nested object"""
+        """ Access completeness nested object """
         self._ensure_field("completeness")
         return CompletenessWrapper(self._entity, self._data["completeness"])
 
     @property
     def validation(self) -> ValidationWrapper:
-        """Review information on LCIA method."""
+        """ Review information on LCIA method. """
         self._ensure_field("validation")
         return ValidationWrapper(self._entity, self._data["validation"])
 
     @property
     def compliance_declarations(self) -> ComplianceDeclarationsWrapper:
-        """Statements on compliance of several data set aspects with compliance requirements as defined by the referenced compliance system (e.g. an EPD scheme, handbook of a national or international data network such as the ILCD, etc.)."""
+        """ Statements on compliance of several data set aspects with compliance requirements as defined by the referenced compliance system (e.g. an EPD scheme, handbook of a national or international data network such as the ILCD, etc.). """
         self._ensure_field("complianceDeclarations")
         return ComplianceDeclarationsWrapper(self._entity, self._data["complianceDeclarations"])
 
     @property
     def other(self) -> Optional[str]:
-        """Access common:other field"""
+        """ Access common:other field """
         return self._data.get("common:other")
 
     @other.setter
@@ -988,7 +922,7 @@ class VariableParameterWrapper(BaseWrapper):
 
     @property
     def name(self) -> Optional[str]:
-        """Name of the variable parameter in the mathematical model."""
+        """ Name of the variable parameter in the mathematical model. """
         return self._data.get("@name")
 
     @name.setter
@@ -1001,7 +935,7 @@ class VariableParameterWrapper(BaseWrapper):
 
     @property
     def formula(self) -> Optional[str]:
-        """Formula of the variable parameter in the mathematical model."""
+        """ Formula of the variable parameter in the mathematical model. """
         return self._data.get("formula")
 
     @formula.setter
@@ -1014,7 +948,7 @@ class VariableParameterWrapper(BaseWrapper):
 
     @property
     def mean_value(self) -> Optional[str]:
-        """Comment on the variable parameter in the mathematical model."""
+        """ Comment on the variable parameter in the mathematical model. """
         return self._data.get("meanValue")
 
     @mean_value.setter
@@ -1027,7 +961,7 @@ class VariableParameterWrapper(BaseWrapper):
 
     @property
     def minimum_value(self) -> Optional[str]:
-        """Comment on the variable parameter in the mathematical model."""
+        """ Comment on the variable parameter in the mathematical model. """
         return self._data.get("minimumValue")
 
     @minimum_value.setter
@@ -1040,7 +974,7 @@ class VariableParameterWrapper(BaseWrapper):
 
     @property
     def maximum_value(self) -> Optional[str]:
-        """Comment on the variable parameter in the mathematical model."""
+        """ Comment on the variable parameter in the mathematical model. """
         return self._data.get("maximumValue")
 
     @maximum_value.setter
@@ -1053,7 +987,7 @@ class VariableParameterWrapper(BaseWrapper):
 
     @property
     def uncertainty_distribution_type(self) -> Optional[str]:
-        """Defines the kind of uncertainty distribution that is valid for this particular object or parameter."""
+        """ Defines the kind of uncertainty distribution that is valid for this particular object or parameter. """
         return self._data.get("uncertaintyDistributionType")
 
     @uncertainty_distribution_type.setter
@@ -1066,7 +1000,7 @@ class VariableParameterWrapper(BaseWrapper):
 
     @property
     def relative_standard_deviation95_in(self) -> Optional[str]:
-        """Access relativeStandardDeviation95In field"""
+        """ Access relativeStandardDeviation95In field """
         return self._data.get("relativeStandardDeviation95In")
 
     @relative_standard_deviation95_in.setter
@@ -1079,12 +1013,12 @@ class VariableParameterWrapper(BaseWrapper):
 
     @property
     def comment(self) -> MultiLangText:
-        """Access comment multi-language field"""
+        """ Access comment multi-language field """
         return self._get_multi_lang("comment")
 
     @property
     def other(self) -> Optional[str]:
-        """Access common:other field"""
+        """ Access common:other field """
         return self._data.get("common:other")
 
     @other.setter
@@ -1103,18 +1037,18 @@ class MathematicalRelationsWrapper(BaseWrapper):
 
     @property
     def model_description(self) -> MultiLangText:
-        """Description of the model(s) represented in this section of mathematical relations. Can cover information on restrictions, model strenghts and weaknesses, etc. (Note: Also see information provided on the level of the individual formula in field "Comment" and in the general process description in the fields in section "Technology".)"""
+        """ Description of the model(s) represented in this section of mathematical relations. Can cover information on restrictions, model strenghts and weaknesses, etc. (Note: Also see information provided on the level of the individual formula in field "Comment" and in the general process description in the fields in section "Technology".) """
         return self._get_multi_lang("modelDescription")
 
     @property
     def variable_parameter(self) -> VariableParameterWrapper:
-        """Access variableParameter nested object"""
+        """ Access variableParameter nested object """
         self._ensure_field("variableParameter")
         return VariableParameterWrapper(self._entity, self._data["variableParameter"])
 
     @property
     def other(self) -> Optional[str]:
-        """Access common:other field"""
+        """ Access common:other field """
         return self._data.get("common:other")
 
     @other.setter
@@ -1133,12 +1067,12 @@ class TechnologyWrapper(BaseWrapper):
 
     @property
     def technology_description_and_included_processes(self) -> MultiLangText:
-        """Description of the technological characteristics including operating conditions of the process or product system. For the latter this includes the relevant upstream and downstream processes included in the data set. Professional terminology should be used."""
+        """ Description of the technological characteristics including operating conditions of the process or product system. For the latter this includes the relevant upstream and downstream processes included in the data set. Professional terminology should be used. """
         return self._get_multi_lang("technologyDescriptionAndIncludedProcesses")
 
     @property
     def reference_to_included_processes(self) -> Optional[str]:
-        """"Process data set(s)" included in this data set, if any and available as separate data set(s)."""
+        """ "Process data set(s)" included in this data set, if any and available as separate data set(s). """
         return self._data.get("referenceToIncludedProcesses")
 
     @reference_to_included_processes.setter
@@ -1151,12 +1085,12 @@ class TechnologyWrapper(BaseWrapper):
 
     @property
     def technological_applicability(self) -> MultiLangText:
-        """Description of the intended / possible applications of the good, service, or process. E.g. for which type of products the material, represented by this data set, is used. Examples: "This high purity chemical is used for analytical laboratories only." or "This technical quality bulk chemical is used for large scale synthesis in chemical industry.". Or: "This truck is used only for long-distance transport of liquid bulk chemicals"."""
+        """ Description of the intended / possible applications of the good, service, or process. E.g. for which type of products the material, represented by this data set, is used. Examples: "This high purity chemical is used for analytical laboratories only." or "This technical quality bulk chemical is used for large scale synthesis in chemical industry.". Or: "This truck is used only for long-distance transport of liquid bulk chemicals". """
         return self._get_multi_lang("technologicalApplicability")
 
     @property
     def reference_to_technology_pictogramme(self) -> Optional[str]:
-        """"Source data set" of the pictogramme of the good, service, technogy, plant etc. represented by this data set. For use in graphical user interfaces of LCA software."""
+        """ "Source data set" of the pictogramme of the good, service, technogy, plant etc. represented by this data set. For use in graphical user interfaces of LCA software. """
         return self._data.get("referenceToTechnologyPictogramme")
 
     @reference_to_technology_pictogramme.setter
@@ -1169,7 +1103,7 @@ class TechnologyWrapper(BaseWrapper):
 
     @property
     def reference_to_technology_flow_diagramm_or_picture(self) -> Optional[str]:
-        """"Source data set" of the flow diagramm(s) and/or photo(s) of the good, service, technology, plant etc represented by this data set. For clearer illustration and documentation of data set."""
+        """ "Source data set" of the flow diagramm(s) and/or photo(s) of the good, service, technology, plant etc represented by this data set. For clearer illustration and documentation of data set. """
         return self._data.get("referenceToTechnologyFlowDiagrammOrPicture")
 
     @reference_to_technology_flow_diagramm_or_picture.setter
@@ -1182,7 +1116,7 @@ class TechnologyWrapper(BaseWrapper):
 
     @property
     def other(self) -> Optional[str]:
-        """Access common:other field"""
+        """ Access common:other field """
         return self._data.get("common:other")
 
     @other.setter
@@ -1201,7 +1135,7 @@ class SubLocationOfOperationSupplyOrProductionWrapper(BaseWrapper):
 
     @property
     def sub_location(self) -> Optional[str]:
-        """Access @subLocation field"""
+        """ Access @subLocation field """
         return self._data.get("@subLocation")
 
     @sub_location.setter
@@ -1214,7 +1148,7 @@ class SubLocationOfOperationSupplyOrProductionWrapper(BaseWrapper):
 
     @property
     def latitude_and_longitude(self) -> Optional[str]:
-        """Geographical latitude and longitude reference of "Location" / "Sub-location". For area-type locations (e.g. countries, continents) the field is empty."""
+        """ Geographical latitude and longitude reference of "Location" / "Sub-location". For area-type locations (e.g. countries, continents) the field is empty. """
         return self._data.get("@latitudeAndLongitude")
 
     @latitude_and_longitude.setter
@@ -1227,12 +1161,12 @@ class SubLocationOfOperationSupplyOrProductionWrapper(BaseWrapper):
 
     @property
     def description_of_restrictions(self) -> MultiLangText:
-        """Further explanations about additional aspects of the location: e.g. a company and/or site description and address, whether for certain sub-areas within the "Location" the data set is not valid, whether data is only valid for certain regions within the location indicated, or whether certain elementary flows or intermediate product flows are extrapolated from another geographical area."""
+        """ Further explanations about additional aspects of the location: e.g. a company and/or site description and address, whether for certain sub-areas within the "Location" the data set is not valid, whether data is only valid for certain regions within the location indicated, or whether certain elementary flows or intermediate product flows are extrapolated from another geographical area. """
         return self._get_multi_lang("descriptionOfRestrictions")
 
     @property
     def other(self) -> Optional[str]:
-        """Access common:other field"""
+        """ Access common:other field """
         return self._data.get("common:other")
 
     @other.setter
@@ -1251,7 +1185,7 @@ class LocationOfOperationSupplyOrProductionWrapper(BaseWrapper):
 
     @property
     def location(self) -> str:
-        """Access @location field"""
+        """ Access @location field """
         return self._data.get("@location")
 
     @location.setter
@@ -1261,7 +1195,7 @@ class LocationOfOperationSupplyOrProductionWrapper(BaseWrapper):
 
     @property
     def latitude_and_longitude(self) -> Optional[str]:
-        """Geographical latitude and longitude reference of "Location" / "Sub-location". For area-type locations (e.g. countries, continents) the field is empty."""
+        """ Geographical latitude and longitude reference of "Location" / "Sub-location". For area-type locations (e.g. countries, continents) the field is empty. """
         return self._data.get("@latitudeAndLongitude")
 
     @latitude_and_longitude.setter
@@ -1274,12 +1208,12 @@ class LocationOfOperationSupplyOrProductionWrapper(BaseWrapper):
 
     @property
     def description_of_restrictions(self) -> MultiLangText:
-        """Further explanations about additional aspects of the location: e.g. a company and/or site description and address, whether for certain sub-areas within the "Location" the data set is not valid, whether data is only valid for certain regions within the location indicated, or whether certain elementary flows or intermediate product flows are extrapolated from another geographical area."""
+        """ Further explanations about additional aspects of the location: e.g. a company and/or site description and address, whether for certain sub-areas within the "Location" the data set is not valid, whether data is only valid for certain regions within the location indicated, or whether certain elementary flows or intermediate product flows are extrapolated from another geographical area. """
         return self._get_multi_lang("descriptionOfRestrictions")
 
     @property
     def other(self) -> Optional[str]:
-        """Access common:other field"""
+        """ Access common:other field """
         return self._data.get("common:other")
 
     @other.setter
@@ -1298,19 +1232,19 @@ class GeographyWrapper(BaseWrapper):
 
     @property
     def location_of_operation_supply_or_production(self) -> LocationOfOperationSupplyOrProductionWrapper:
-        """Location, country or region the data set represents. [Note 1: This field does not refer to e.g. the country in which a specific site is located that is represented by this data set but to the actually represented country, region, or site. Note 2: Entry can be of type "two-letter ISO 3166 country code" for countries, "seven-letter regional codes" for regions or continents, or "market areas and market organisations", as predefined for the ILCD. Also a name for e.g. a specific plant etc. can be given here (e.g. "FR, Lyon, XY Company, Z Site"; user defined). Note 3: The fact whether the entry refers to production or to consumption / supply has to be stated in the name-field "Mix and location types" e.g. as "Production mix".]"""
+        """ Location, country or region the data set represents. [Note 1: This field does not refer to e.g. the country in which a specific site is located that is represented by this data set but to the actually represented country, region, or site. Note 2: Entry can be of type "two-letter ISO 3166 country code" for countries, "seven-letter regional codes" for regions or continents, or "market areas and market organisations", as predefined for the ILCD. Also a name for e.g. a specific plant etc. can be given here (e.g. "FR, Lyon, XY Company, Z Site"; user defined). Note 3: The fact whether the entry refers to production or to consumption / supply has to be stated in the name-field "Mix and location types" e.g. as "Production mix".] """
         self._ensure_field("locationOfOperationSupplyOrProduction")
         return LocationOfOperationSupplyOrProductionWrapper(self._entity, self._data["locationOfOperationSupplyOrProduction"])
 
     @property
     def sub_location_of_operation_supply_or_production(self) -> SubLocationOfOperationSupplyOrProductionWrapper:
-        """One or more geographical sub-unit(s) of the stated "Location". Such sub-units can be e.g. the sampling sites of a company-average data set, the countries of a region-average data set, or specific sites in a country-average data set. [Note: For single site data sets this field is empty and the site is named in the "Location" field.]"""
+        """ One or more geographical sub-unit(s) of the stated "Location". Such sub-units can be e.g. the sampling sites of a company-average data set, the countries of a region-average data set, or specific sites in a country-average data set. [Note: For single site data sets this field is empty and the site is named in the "Location" field.] """
         self._ensure_field("subLocationOfOperationSupplyOrProduction")
         return SubLocationOfOperationSupplyOrProductionWrapper(self._entity, self._data["subLocationOfOperationSupplyOrProduction"])
 
     @property
     def other(self) -> Optional[str]:
-        """Access common:other field"""
+        """ Access common:other field """
         return self._data.get("common:other")
 
     @other.setter
@@ -1329,7 +1263,7 @@ class TimeWrapper(BaseWrapper):
 
     @property
     def reference_year(self) -> str:
-        """Reference year when the emission is assumed to take place, i.e. the start year of the time period for which the impact is modelled. For time-independent models "time independent" should be stated."""
+        """ Reference year when the emission is assumed to take place, i.e. the start year of the time period for which the impact is modelled. For time-independent models "time independent" should be stated. """
         return self._data.get("common:referenceYear")
 
     @reference_year.setter
@@ -1339,7 +1273,7 @@ class TimeWrapper(BaseWrapper):
 
     @property
     def data_set_valid_until(self) -> Optional[str]:
-        """End year of the time period for which the data set is still valid / sufficiently representative. This date also determines when a data set revision / remodelling is required or recommended due to expected relevant changes in environmentally or technically relevant inventory values, including in the background system."""
+        """ End year of the time period for which the data set is still valid / sufficiently representative. This date also determines when a data set revision / remodelling is required or recommended due to expected relevant changes in environmentally or technically relevant inventory values, including in the background system. """
         return self._data.get("common:dataSetValidUntil")
 
     @data_set_valid_until.setter
@@ -1352,12 +1286,12 @@ class TimeWrapper(BaseWrapper):
 
     @property
     def time_representativeness_description(self) -> MultiLangText:
-        """Description of the valid time span of the data set including information on limited usability within sub-time spans, if any."""
+        """ Description of the valid time span of the data set including information on limited usability within sub-time spans, if any. """
         return self._get_multi_lang("common:timeRepresentativenessDescription")
 
     @property
     def other(self) -> Optional[str]:
-        """Access common:other field"""
+        """ Access common:other field """
         return self._data.get("common:other")
 
     @other.setter
@@ -1376,7 +1310,7 @@ class QuantitativeReferenceWrapper(BaseWrapper):
 
     @property
     def type(self) -> str:
-        """Access @type field"""
+        """ Access @type field """
         return self._data.get("@type")
 
     @type.setter
@@ -1386,7 +1320,7 @@ class QuantitativeReferenceWrapper(BaseWrapper):
 
     @property
     def reference_to_reference_flow(self) -> str:
-        """Access referenceToReferenceFlow field"""
+        """ Access referenceToReferenceFlow field """
         return self._data.get("referenceToReferenceFlow")
 
     @reference_to_reference_flow.setter
@@ -1396,12 +1330,12 @@ class QuantitativeReferenceWrapper(BaseWrapper):
 
     @property
     def functional_unit_or_other(self) -> MultiLangText:
-        """Access functionalUnitOrOther multi-language field"""
+        """ Access functionalUnitOrOther multi-language field """
         return self._get_multi_lang("functionalUnitOrOther")
 
     @property
     def other(self) -> Optional[str]:
-        """Access common:other field"""
+        """ Access common:other field """
         return self._data.get("common:other")
 
     @other.setter
@@ -1420,7 +1354,7 @@ class ClassificationWrapper(BaseWrapper):
 
     @property
     def class_(self) -> str:
-        """Access common:class field"""
+        """ Access common:class field """
         return self._data.get("common:class")
 
     @class_.setter
@@ -1430,7 +1364,7 @@ class ClassificationWrapper(BaseWrapper):
 
     @property
     def other(self) -> Optional[str]:
-        """Access common:other field"""
+        """ Access common:other field """
         return self._data.get("common:other")
 
     @other.setter
@@ -1449,7 +1383,7 @@ class ClassificationInformationWrapper(BaseWrapper):
 
     @property
     def classification(self) -> ClassificationWrapper:
-        """Optional statistical or other classification of the data set. Typically also used for structuring LCA databases."""
+        """ Optional statistical or other classification of the data set. Typically also used for structuring LCA databases. """
         self._ensure_field("common:classification")
         return ClassificationWrapper(self._entity, self._data["common:classification"])
 
@@ -1461,7 +1395,7 @@ class ComplementingProcessesWrapper(BaseWrapper):
 
     @property
     def reference_to_complementing_process(self) -> Optional[str]:
-        """Access referenceToComplementingProcess field"""
+        """ Access referenceToComplementingProcess field """
         return self._data.get("referenceToComplementingProcess")
 
     @reference_to_complementing_process.setter
@@ -1480,27 +1414,27 @@ class NameWrapper(BaseWrapper):
 
     @property
     def base_name(self) -> MultiLangText:
-        """Access baseName multi-language field"""
+        """ Access baseName multi-language field """
         return self._get_multi_lang("baseName")
 
     @property
     def treatment_standards_routes(self) -> MultiLangText:
-        """Access treatmentStandardsRoutes multi-language field"""
+        """ Access treatmentStandardsRoutes multi-language field """
         return self._get_multi_lang("treatmentStandardsRoutes")
 
     @property
     def mix_and_location_types(self) -> MultiLangText:
-        """Access mixAndLocationTypes multi-language field"""
+        """ Access mixAndLocationTypes multi-language field """
         return self._get_multi_lang("mixAndLocationTypes")
 
     @property
     def functional_unit_flow_properties(self) -> MultiLangText:
-        """Access functionalUnitFlowProperties multi-language field"""
+        """ Access functionalUnitFlowProperties multi-language field """
         return self._get_multi_lang("functionalUnitFlowProperties")
 
     @property
     def other(self) -> Optional[str]:
-        """Access common:other field"""
+        """ Access common:other field """
         return self._data.get("common:other")
 
     @other.setter
@@ -1519,7 +1453,7 @@ class DataSetInformationWrapper(BaseWrapper):
 
     @property
     def uuid(self) -> str:
-        """Automatically generated Universally Unique Identifier of this data set. Together with the "Data set version", the UUID uniquely identifies each data set."""
+        """ Automatically generated Universally Unique Identifier of this data set. Together with the "Data set version", the UUID uniquely identifies each data set. """
         return self._data.get("common:UUID")
 
     @uuid.setter
@@ -1529,13 +1463,13 @@ class DataSetInformationWrapper(BaseWrapper):
 
     @property
     def name(self) -> NameWrapper:
-        """General descriptive and specifying name of the process."""
+        """ General descriptive and specifying name of the process. """
         self._ensure_field("name")
         return NameWrapper(self._entity, self._data["name"])
 
     @property
     def identifier_of_sub_data_set(self) -> Optional[str]:
-        """Identifier of a sub-set of a complete process data set. This can be the life cycle stage that a data set covers (such as used in EPDs for modular LCI reporting, with the inventory split up into "resource extraction stage", "production stage", "use stage" and "end-of-life stage"). Or it can be e.g. the type of emission source from which the elementary flows of the Inputs and Outputs stems (e.g. "incineration-related", "transport-related", etc.). Together with the field "Complementing processes" this allows to split up a process data set into a number of clearly identified data sets, each carrying only a part of the inventory and that together represent the complete inventory. Care has to be taken when naming the reference flow, to avoid misinterpretation."""
+        """ Identifier of a sub-set of a complete process data set. This can be the life cycle stage that a data set covers (such as used in EPDs for modular LCI reporting, with the inventory split up into "resource extraction stage", "production stage", "use stage" and "end-of-life stage"). Or it can be e.g. the type of emission source from which the elementary flows of the Inputs and Outputs stems (e.g. "incineration-related", "transport-related", etc.). Together with the field "Complementing processes" this allows to split up a process data set into a number of clearly identified data sets, each carrying only a part of the inventory and that together represent the complete inventory. Care has to be taken when naming the reference flow, to avoid misinterpretation. """
         return self._data.get("identifierOfSubDataSet")
 
     @identifier_of_sub_data_set.setter
@@ -1548,29 +1482,29 @@ class DataSetInformationWrapper(BaseWrapper):
 
     @property
     def synonyms(self) -> MultiLangText:
-        """Synonyms / alternative names / brands of the good, service, or process. Separated by semicolon."""
+        """ Synonyms / alternative names / brands of the good, service, or process. Separated by semicolon. """
         return self._get_multi_lang("common:synonyms")
 
     @property
     def complementing_processes(self) -> ComplementingProcessesWrapper:
-        """Access complementingProcesses nested object"""
+        """ Access complementingProcesses nested object """
         self._ensure_field("complementingProcesses")
         return ComplementingProcessesWrapper(self._entity, self._data["complementingProcesses"])
 
     @property
     def classification_information(self) -> ClassificationInformationWrapper:
-        """Hierarchical or flat classification of the good, service or function that is provided by this life cycle model; typically used to structure database contents in LCA software, among other purposes. (Note: This entry is NOT required for the identification of a Life cycle model, but it should nevertheless be avoided to use identical names for Life cycle model data sets in the same class. The ILCD classifications are defined in the ILCDClassifications.xml file, for common use.)"""
+        """ Hierarchical or flat classification of the good, service or function that is provided by this life cycle model; typically used to structure database contents in LCA software, among other purposes. (Note: This entry is NOT required for the identification of a Life cycle model, but it should nevertheless be avoided to use identical names for Life cycle model data sets in the same class. The ILCD classifications are defined in the ILCDClassifications.xml file, for common use.) """
         self._ensure_field("classificationInformation")
         return ClassificationInformationWrapper(self._entity, self._data["classificationInformation"])
 
     @property
     def general_comment(self) -> MultiLangText:
-        """Free text for general information about the Flow data set. It may contain information about e.g. the use of the substance, good, service or process in a specific technology or industry-context, information sources used, data selection principles etc."""
+        """ Free text for general information about the Flow data set. It may contain information about e.g. the use of the substance, good, service or process in a specific technology or industry-context, information sources used, data selection principles etc. """
         return self._get_multi_lang("common:generalComment")
 
     @property
     def reference_to_external_documentation(self) -> Optional[str]:
-        """"Source data set(s)" of detailed LCA study on the process or product represented by this data set, as well as documents / files with overarching documentative information on technology, geographical and / or time aspects etc. (e.g. basic engineering studies, process simulation results, patents, plant documentation, model behind the parameterisation of the "Mathematical model" section, etc.) (Note: can indirectly reference to digital file.)"""
+        """ "Source data set(s)" of detailed LCA study on the process or product represented by this data set, as well as documents / files with overarching documentative information on technology, geographical and / or time aspects etc. (e.g. basic engineering studies, process simulation results, patents, plant documentation, model behind the parameterisation of the "Mathematical model" section, etc.) (Note: can indirectly reference to digital file.) """
         return self._data.get("referenceToExternalDocumentation")
 
     @reference_to_external_documentation.setter
@@ -1583,7 +1517,7 @@ class DataSetInformationWrapper(BaseWrapper):
 
     @property
     def other(self) -> Optional[str]:
-        """Access common:other field"""
+        """ Access common:other field """
         return self._data.get("common:other")
 
     @other.setter
@@ -1602,43 +1536,43 @@ class ProcessInformationWrapper(BaseWrapper):
 
     @property
     def data_set_information(self) -> DataSetInformationWrapper:
-        """General data set information. Section covers all single fields in the ISO/TS 14048 "Process description", which are not part of the other sub-sections. In ISO/TS 14048 no own sub-section is foreseen for these entries."""
+        """ General data set information. Section covers all single fields in the ISO/TS 14048 "Process description", which are not part of the other sub-sections. In ISO/TS 14048 no own sub-section is foreseen for these entries. """
         self._ensure_field("dataSetInformation")
         return DataSetInformationWrapper(self._entity, self._data["dataSetInformation"])
 
     @property
     def quantitative_reference(self) -> QuantitativeReferenceWrapper:
-        """This section names the quantitative reference used for this data set, i.e. the reference to which the inputs and outputs quantiatively relate."""
+        """ This section names the quantitative reference used for this data set, i.e. the reference to which the inputs and outputs quantiatively relate. """
         self._ensure_field("quantitativeReference")
         return QuantitativeReferenceWrapper(self._entity, self._data["quantitativeReference"])
 
     @property
     def time(self) -> TimeWrapper:
-        """Access time nested object"""
+        """ Access time nested object """
         self._ensure_field("time")
         return TimeWrapper(self._entity, self._data["time"])
 
     @property
     def geography(self) -> GeographyWrapper:
-        """Access geography nested object"""
+        """ Access geography nested object """
         self._ensure_field("geography")
         return GeographyWrapper(self._entity, self._data["geography"])
 
     @property
     def technology(self) -> TechnologyWrapper:
-        """Access technology nested object"""
+        """ Access technology nested object """
         self._ensure_field("technology")
         return TechnologyWrapper(self._entity, self._data["technology"])
 
     @property
     def mathematical_relations(self) -> MathematicalRelationsWrapper:
-        """Access mathematicalRelations nested object"""
+        """ Access mathematicalRelations nested object """
         self._ensure_field("mathematicalRelations")
         return MathematicalRelationsWrapper(self._entity, self._data["mathematicalRelations"])
 
     @property
     def other(self) -> Optional[str]:
-        """Access common:other field"""
+        """ Access common:other field """
         return self._data.get("common:other")
 
     @other.setter
@@ -1657,7 +1591,7 @@ class ProcessesDataSetWrapper(BaseWrapper):
 
     @property
     def version(self) -> str:
-        """Access @version field"""
+        """ Access @version field """
         return self._data.get("@version")
 
     @version.setter
@@ -1667,7 +1601,7 @@ class ProcessesDataSetWrapper(BaseWrapper):
 
     @property
     def locations(self) -> str:
-        """Access @locations field"""
+        """ Access @locations field """
         return self._data.get("@locations")
 
     @locations.setter
@@ -1677,7 +1611,7 @@ class ProcessesDataSetWrapper(BaseWrapper):
 
     @property
     def schema_location(self) -> str:
-        """http://lca.jrc.it/ILCD/Process ../../schemas/ILCD_ProcessDataSet.xsd"""
+        """ http://lca.jrc.it/ILCD/Process ../../schemas/ILCD_ProcessDataSet.xsd """
         return self._data.get("@xsi:schemaLocation")
 
     @schema_location.setter
@@ -1687,37 +1621,37 @@ class ProcessesDataSetWrapper(BaseWrapper):
 
     @property
     def process_information(self) -> ProcessInformationWrapper:
-        """Corresponds to the ISO/TS 14048 section "Process description". It comprises the following six sub-sections: 1) "Data set information" for data set identification and overarching information items, 2) "Quantitative reference", 3) "Time", 4) "Geography", 5) "Technology" and 6) "Mathematical relations"."""
+        """ Corresponds to the ISO/TS 14048 section "Process description". It comprises the following six sub-sections: 1) "Data set information" for data set identification and overarching information items, 2) "Quantitative reference", 3) "Time", 4) "Geography", 5) "Technology" and 6) "Mathematical relations". """
         self._ensure_field("processInformation")
         return ProcessInformationWrapper(self._entity, self._data["processInformation"])
 
     @property
     def modelling_and_validation(self) -> ModellingAndValidationWrapper:
-        """Access modellingAndValidation nested object"""
+        """ Access modellingAndValidation nested object """
         self._ensure_field("modellingAndValidation")
         return ModellingAndValidationWrapper(self._entity, self._data["modellingAndValidation"])
 
     @property
     def administrative_information(self) -> AdministrativeInformationWrapper:
-        """Information on data set management and administration."""
+        """ Information on data set management and administration. """
         self._ensure_field("administrativeInformation")
         return AdministrativeInformationWrapper(self._entity, self._data["administrativeInformation"])
 
     @property
     def exchanges(self) -> ExchangesWrapper:
-        """Access exchanges nested object"""
+        """ Access exchanges nested object """
         self._ensure_field("exchanges")
         return ExchangesWrapper(self._entity, self._data["exchanges"])
 
     @property
     def lcia_results(self) -> LciaResultsWrapper:
-        """Access LCIAResults nested object"""
+        """ Access LCIAResults nested object """
         self._ensure_field("LCIAResults")
         return LciaResultsWrapper(self._entity, self._data["LCIAResults"])
 
     @property
     def other(self) -> Optional[str]:
-        """Access common:other field"""
+        """ Access common:other field """
         return self._data.get("common:other")
 
     @other.setter

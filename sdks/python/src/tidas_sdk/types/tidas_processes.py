@@ -490,6 +490,24 @@ class DataDerivationTypeStatus(Enum):
     Missing_unimportant = 'Missing unimportant'
 
 
+class StringMultiLang(RootModel[StringMultiLang]):
+    root: StringMultiLang = Field(
+        ...,
+        description='Multi-language string with a maximum length of 500 characters',
+        union_mode='smart',
+    )
+
+
+class GlobalReferenceType(
+    RootModel[GlobalReferenceType | list[GlobalReferenceType]]
+):
+    root: GlobalReferenceType | list[GlobalReferenceType] = Field(
+        ...,
+        description='Represents a reference to another dataset or file. Either refObjectId and version, or uri, or both have to be specified.',
+        union_mode='smart',
+    )
+
+
 class Name(BaseModel):
     """
     General descriptive and specifying name of the process.
@@ -1478,8 +1496,17 @@ class LCIAResult(BaseModel):
     common_other: str | None = Field(None, alias='common:other')
 
 
+LCIAResult1Item = LCIAResult
+
+
+class LCIAResult1(RootModel[list[LCIAResult1Item]]):
+    root: list[LCIAResult1Item] = Field(..., min_length=1)
+
+
 class LCIAResults(BaseModel):
-    LCIAResult_1: LCIAResult | None = Field(None, alias='LCIAResult')
+    LCIAResult_1: LCIAResult | LCIAResult1 | None = Field(
+        None, alias='LCIAResult', union_mode='smart'
+    )
     common_other: str | None = Field(None, alias='common:other')
 
 

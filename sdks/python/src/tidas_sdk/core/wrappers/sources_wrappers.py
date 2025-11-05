@@ -18,7 +18,7 @@ class PublicationAndOwnershipWrapper(BaseWrapper):
 
     @property
     def data_set_version(self) -> str:
-        """Version number of data set. First two digits refer to major updates, the second two digits to minor revisions and error corrections etc. The third three digits are intended for automatic and internal counting of versions during data set development. Together with the data set's UUID, the "Data set version" uniquely identifies each data set."""
+        """ Version number of data set. First two digits refer to major updates, the second two digits to minor revisions and error corrections etc. The third three digits are intended for automatic and internal counting of versions during data set development. Together with the data set's UUID, the "Data set version" uniquely identifies each data set. """
         return self._data.get("common:dataSetVersion")
 
     @data_set_version.setter
@@ -28,7 +28,7 @@ class PublicationAndOwnershipWrapper(BaseWrapper):
 
     @property
     def reference_to_preceding_data_set_version(self) -> Optional[str]:
-        """Last preceding data set, which was replaced by this version. Either a URI of that data set (i.e. an internet address) or its UUID plus version number is given (or both)."""
+        """ Last preceding data set, which was replaced by this version. Either a URI of that data set (i.e. an internet address) or its UUID plus version number is given (or both). """
         return self._data.get("common:referenceToPrecedingDataSetVersion")
 
     @reference_to_preceding_data_set_version.setter
@@ -41,7 +41,7 @@ class PublicationAndOwnershipWrapper(BaseWrapper):
 
     @property
     def permanent_data_set_uri(self) -> Optional[str]:
-        """URI (i.e. an internet address) of the original of this data set. [Note: This equally globally unique identifier supports users and software tools to identify and retrieve the original version of a data set via the internet or to check for available updates. The URI must not represent an existing WWW address, but it should be unique and point to the data access point, e.g. by combining the data owner's www path with the data set's UUID, e.g. http://www.mycompany.com/lca/processes/50f12420-8855-12db-b606-0900210c9a66.]"""
+        """ URI (i.e. an internet address) of the original of this data set. [Note: This equally globally unique identifier supports users and software tools to identify and retrieve the original version of a data set via the internet or to check for available updates. The URI must not represent an existing WWW address, but it should be unique and point to the data access point, e.g. by combining the data owner's www path with the data set's UUID, e.g. http://www.mycompany.com/lca/processes/50f12420-8855-12db-b606-0900210c9a66.] """
         return self._data.get("common:permanentDataSetURI")
 
     @permanent_data_set_uri.setter
@@ -54,7 +54,7 @@ class PublicationAndOwnershipWrapper(BaseWrapper):
 
     @property
     def reference_to_ownership_of_data_set(self) -> str:
-        """"Contact data set" of the person or entity who owns this data set. (Note: this is not necessarily the publisher of the data set.)"""
+        """ "Contact data set" of the person or entity who owns this data set. (Note: this is not necessarily the publisher of the data set.) """
         return self._data.get("common:referenceToOwnershipOfDataSet")
 
     @reference_to_ownership_of_data_set.setter
@@ -64,7 +64,7 @@ class PublicationAndOwnershipWrapper(BaseWrapper):
 
     @property
     def other(self) -> Optional[str]:
-        """Access common:other field"""
+        """ Access common:other field """
         return self._data.get("common:other")
 
     @other.setter
@@ -83,7 +83,7 @@ class DataEntryByWrapper(BaseWrapper):
 
     @property
     def time_stamp(self) -> str:
-        """Date and time stamp of data set generation, typically an automated entry ('last saved')."""
+        """ Date and time stamp of data set generation, typically an automated entry ('last saved'). """
         return self._data.get("common:timeStamp")
 
     @time_stamp.setter
@@ -93,7 +93,7 @@ class DataEntryByWrapper(BaseWrapper):
 
     @property
     def reference_to_data_set_format(self) -> str:
-        """"Source data set" of the used version of the ILCD format. If additional data format fields have been integrated into the data set file, using the "namespace" option, the used format namespace(s) are to be given. This is the case if the data sets carries additional information as specified by other, particular LCA formats, e.g. of other database networks or LCA softwares."""
+        """ "Source data set" of the used version of the ILCD format. If additional data format fields have been integrated into the data set file, using the "namespace" option, the used format namespace(s) are to be given. This is the case if the data sets carries additional information as specified by other, particular LCA formats, e.g. of other database networks or LCA softwares. """
         return self._data.get("common:referenceToDataSetFormat")
 
     @reference_to_data_set_format.setter
@@ -103,7 +103,7 @@ class DataEntryByWrapper(BaseWrapper):
 
     @property
     def other(self) -> Optional[str]:
-        """Access common:other field"""
+        """ Access common:other field """
         return self._data.get("common:other")
 
     @other.setter
@@ -122,19 +122,19 @@ class AdministrativeInformationWrapper(BaseWrapper):
 
     @property
     def data_entry_by(self) -> DataEntryByWrapper:
-        """Access dataEntryBy nested object"""
+        """ Access dataEntryBy nested object """
         self._ensure_field("dataEntryBy")
         return DataEntryByWrapper(self._entity, self._data["dataEntryBy"])
 
     @property
     def publication_and_ownership(self) -> PublicationAndOwnershipWrapper:
-        """Information related to publication and version management of the data set including copyright and access restrictions."""
+        """ Information related to publication and version management of the data set including copyright and access restrictions. """
         self._ensure_field("publicationAndOwnership")
         return PublicationAndOwnershipWrapper(self._entity, self._data["publicationAndOwnership"])
 
     @property
     def other(self) -> Optional[str]:
-        """Access common:other field"""
+        """ Access common:other field """
         return self._data.get("common:other")
 
     @other.setter
@@ -153,7 +153,7 @@ class ReferenceToDigitalFileWrapper(BaseWrapper):
 
     @property
     def uri(self) -> Optional[str]:
-        """Access @uri field"""
+        """ Access @uri field """
         return self._data.get("@uri")
 
     @uri.setter
@@ -172,7 +172,7 @@ class ClassWrapper(BaseWrapper):
 
     @property
     def level(self) -> str:
-        """Access @level field"""
+        """ Access @level field """
         return self._data.get("@level")
 
     @level.setter
@@ -182,7 +182,7 @@ class ClassWrapper(BaseWrapper):
 
     @property
     def class_id(self) -> str:
-        """Access @classId field"""
+        """ Access @classId field """
         return self._data.get("@classId")
 
     @class_id.setter
@@ -192,7 +192,7 @@ class ClassWrapper(BaseWrapper):
 
     @property
     def text(self) -> str:
-        """Access #text field"""
+        """ Access #text field """
         return self._data.get("#text")
 
     @text.setter
@@ -208,13 +208,13 @@ class ClassificationWrapper(BaseWrapper):
 
     @property
     def class_(self) -> ClassWrapper:
-        """Access common:class nested object"""
+        """ Access common:class nested object """
         self._ensure_field("common:class")
         return ClassWrapper(self._entity, self._data["common:class"])
 
     @property
     def other(self) -> Optional[str]:
-        """Access common:other field"""
+        """ Access common:other field """
         return self._data.get("common:other")
 
     @other.setter
@@ -233,7 +233,7 @@ class ClassificationInformationWrapper(BaseWrapper):
 
     @property
     def classification(self) -> ClassificationWrapper:
-        """Access common:classification nested object"""
+        """ Access common:classification nested object """
         self._ensure_field("common:classification")
         return ClassificationWrapper(self._entity, self._data["common:classification"])
 
@@ -245,7 +245,7 @@ class DataSetInformationWrapper(BaseWrapper):
 
     @property
     def uuid(self) -> str:
-        """Automatically generated Universally Unique Identifier of this data set. Together with the "Data set version", the UUID uniquely identifies each data set."""
+        """ Automatically generated Universally Unique Identifier of this data set. Together with the "Data set version", the UUID uniquely identifies each data set. """
         return self._data.get("common:UUID")
 
     @uuid.setter
@@ -255,18 +255,18 @@ class DataSetInformationWrapper(BaseWrapper):
 
     @property
     def short_name(self) -> MultiLangText:
-        """Short name for the "Source citation", i.e. for the bibliographical reference or reference to internal data sources used."""
+        """ Short name for the "Source citation", i.e. for the bibliographical reference or reference to internal data sources used. """
         return self._get_multi_lang("common:shortName")
 
     @property
     def classification_information(self) -> ClassificationInformationWrapper:
-        """Hierachical classification of the Source foreseen to be used to structure the Source content of the database. (Note: This entry is NOT required for the identification of a Source. It should nevertheless be avoided to use identical names for Source in the same class."""
+        """ Hierachical classification of the Source foreseen to be used to structure the Source content of the database. (Note: This entry is NOT required for the identification of a Source. It should nevertheless be avoided to use identical names for Source in the same class. """
         self._ensure_field("classificationInformation")
         return ClassificationInformationWrapper(self._entity, self._data["classificationInformation"])
 
     @property
     def source_citation(self) -> Optional[str]:
-        """Bibliographical reference or reference to internal data source. Also used in order to reference to databases and tools, data set formats, conformity systems, pictures etc.."""
+        """ Bibliographical reference or reference to internal data source. Also used in order to reference to databases and tools, data set formats, conformity systems, pictures etc.. """
         return self._data.get("sourceCitation")
 
     @source_citation.setter
@@ -279,7 +279,7 @@ class DataSetInformationWrapper(BaseWrapper):
 
     @property
     def publication_type(self) -> Optional[str]:
-        """Bibliographic publication type of the source."""
+        """ Bibliographic publication type of the source. """
         return self._data.get("publicationType")
 
     @publication_type.setter
@@ -292,18 +292,18 @@ class DataSetInformationWrapper(BaseWrapper):
 
     @property
     def source_description_or_comment(self) -> MultiLangText:
-        """Free text for additional description of the source. In case of use of published data it may contain a brief summary of the publication and the kind of medium used (e.g. CD-ROM, hard copy)."""
+        """ Free text for additional description of the source. In case of use of published data it may contain a brief summary of the publication and the kind of medium used (e.g. CD-ROM, hard copy). """
         return self._get_multi_lang("sourceDescriptionOrComment")
 
     @property
     def reference_to_digital_file(self) -> ReferenceToDigitalFileWrapper:
-        """Link to a digital file of the source (www-address or intranet-path; relative or absolue path). (Info: Allows direct access to e.g. complete reports of further documentation, which may also be digitally attached to this data set and exchanged jointly with the XML file.)"""
+        """ Link to a digital file of the source (www-address or intranet-path; relative or absolue path). (Info: Allows direct access to e.g. complete reports of further documentation, which may also be digitally attached to this data set and exchanged jointly with the XML file.) """
         self._ensure_field("referenceToDigitalFile")
         return ReferenceToDigitalFileWrapper(self._entity, self._data["referenceToDigitalFile"])
 
     @property
     def reference_to_contact(self) -> Optional[str]:
-        """"Contact data set"s of working groups, organisations or database networks to which EITHER this person or entity OR this database, data set format, or compliance system belongs. [Note: This does not necessarily imply a legally binding relationship, but may also be a voluntary membership.]"""
+        """ "Contact data set"s of working groups, organisations or database networks to which EITHER this person or entity OR this database, data set format, or compliance system belongs. [Note: This does not necessarily imply a legally binding relationship, but may also be a voluntary membership.] """
         return self._data.get("referenceToContact")
 
     @reference_to_contact.setter
@@ -316,7 +316,7 @@ class DataSetInformationWrapper(BaseWrapper):
 
     @property
     def reference_to_logo(self) -> Optional[str]:
-        """"Source data set" of the logo of the organisation or source to be used in reports etc."""
+        """ "Source data set" of the logo of the organisation or source to be used in reports etc. """
         return self._data.get("referenceToLogo")
 
     @reference_to_logo.setter
@@ -329,7 +329,7 @@ class DataSetInformationWrapper(BaseWrapper):
 
     @property
     def other(self) -> Optional[str]:
-        """Access common:other field"""
+        """ Access common:other field """
         return self._data.get("common:other")
 
     @other.setter
@@ -348,13 +348,13 @@ class SourceInformationWrapper(BaseWrapper):
 
     @property
     def data_set_information(self) -> DataSetInformationWrapper:
-        """Access dataSetInformation nested object"""
+        """ Access dataSetInformation nested object """
         self._ensure_field("dataSetInformation")
         return DataSetInformationWrapper(self._entity, self._data["dataSetInformation"])
 
     @property
     def other(self) -> Optional[str]:
-        """Access common:other field"""
+        """ Access common:other field """
         return self._data.get("common:other")
 
     @other.setter
@@ -373,7 +373,7 @@ class SourcesDataSetWrapper(BaseWrapper):
 
     @property
     def version(self) -> str:
-        """Access @version field"""
+        """ Access @version field """
         return self._data.get("@version")
 
     @version.setter
@@ -383,7 +383,7 @@ class SourcesDataSetWrapper(BaseWrapper):
 
     @property
     def schema_location(self) -> str:
-        """Access @xsi:schemaLocation field"""
+        """ Access @xsi:schemaLocation field """
         return self._data.get("@xsi:schemaLocation")
 
     @schema_location.setter
@@ -393,19 +393,19 @@ class SourcesDataSetWrapper(BaseWrapper):
 
     @property
     def source_information(self) -> SourceInformationWrapper:
-        """Access sourceInformation nested object"""
+        """ Access sourceInformation nested object """
         self._ensure_field("sourceInformation")
         return SourceInformationWrapper(self._entity, self._data["sourceInformation"])
 
     @property
     def administrative_information(self) -> AdministrativeInformationWrapper:
-        """Information on data set management and administration."""
+        """ Information on data set management and administration. """
         self._ensure_field("administrativeInformation")
         return AdministrativeInformationWrapper(self._entity, self._data["administrativeInformation"])
 
     @property
     def other(self) -> Optional[str]:
-        """Access common:other field"""
+        """ Access common:other field """
         return self._data.get("common:other")
 
     @other.setter

@@ -230,7 +230,7 @@ class WrapperGenerator:
         lines = [
             f"    @property",
             f"    def {python_name}(self) -> {py_type}:",
-            f'        """{description}"""',
+            f'        """ {description} """',
             f'        return self._data.get("{field_name}")',
             f"",
             f"    @{python_name}.setter",
@@ -273,7 +273,7 @@ class WrapperGenerator:
         return [
             f"    @property",
             f"    def {python_name}(self) -> MultiLangText:",
-            f'        """{description}"""',
+            f'        """ {description} """',
             f'        return self._get_multi_lang("{field_name}")',
             f"",
         ]
@@ -303,7 +303,7 @@ class WrapperGenerator:
         return [
             f"    @property",
             f"    def {python_name}(self) -> {wrapper_class_name}:",
-            f'        """{description}"""',
+            f'        """ {description} """',
             f'        self._ensure_field("{field_name}")',
             f'        return {wrapper_class_name}(self._entity, self._data["{field_name}"])',
             f"",

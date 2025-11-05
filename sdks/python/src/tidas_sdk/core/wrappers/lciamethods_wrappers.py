@@ -18,7 +18,7 @@ class CharacterisationFactorsWrapper(BaseWrapper):
 
     @property
     def factor(self) -> str:
-        """Access factor field"""
+        """ Access factor field """
         return self._data.get("factor")
 
     @factor.setter
@@ -28,7 +28,7 @@ class CharacterisationFactorsWrapper(BaseWrapper):
 
     @property
     def other(self) -> Optional[str]:
-        """Access common:other field"""
+        """ Access common:other field """
         return self._data.get("common:other")
 
     @other.setter
@@ -47,7 +47,7 @@ class PublicationAndOwnershipWrapper(BaseWrapper):
 
     @property
     def date_of_last_revision(self) -> str:
-        """Date when the data set was revised for the last time, typically manually set."""
+        """ Date when the data set was revised for the last time, typically manually set. """
         return self._data.get("common:dateOfLastRevision")
 
     @date_of_last_revision.setter
@@ -57,7 +57,7 @@ class PublicationAndOwnershipWrapper(BaseWrapper):
 
     @property
     def data_set_version(self) -> str:
-        """Version number of data set. First two digits refer to major updates, the second two digits to minor revisions and error corrections etc. The third three digits are intended for automatic and internal counting of versions during data set development. Together with the data set's UUID, the "Data set version" uniquely identifies each data set."""
+        """ Version number of data set. First two digits refer to major updates, the second two digits to minor revisions and error corrections etc. The third three digits are intended for automatic and internal counting of versions during data set development. Together with the data set's UUID, the "Data set version" uniquely identifies each data set. """
         return self._data.get("common:dataSetVersion")
 
     @data_set_version.setter
@@ -67,7 +67,7 @@ class PublicationAndOwnershipWrapper(BaseWrapper):
 
     @property
     def reference_to_preceding_data_set_version(self) -> Optional[str]:
-        """Last preceding data set, which was replaced by this version. Either a URI of that data set (i.e. an internet address) or its UUID plus version number is given (or both)."""
+        """ Last preceding data set, which was replaced by this version. Either a URI of that data set (i.e. an internet address) or its UUID plus version number is given (or both). """
         return self._data.get("common:referenceToPrecedingDataSetVersion")
 
     @reference_to_preceding_data_set_version.setter
@@ -80,7 +80,7 @@ class PublicationAndOwnershipWrapper(BaseWrapper):
 
     @property
     def permanent_data_set_uri(self) -> Optional[str]:
-        """URI (i.e. an internet address) of the original of this data set. [Note: This equally globally unique identifier supports users and software tools to identify and retrieve the original version of a data set via the internet or to check for available updates. The URI must not represent an existing WWW address, but it should be unique and point to the data access point, e.g. by combining the data owner's www path with the data set's UUID, e.g. http://www.mycompany.com/lca/processes/50f12420-8855-12db-b606-0900210c9a66.]"""
+        """ URI (i.e. an internet address) of the original of this data set. [Note: This equally globally unique identifier supports users and software tools to identify and retrieve the original version of a data set via the internet or to check for available updates. The URI must not represent an existing WWW address, but it should be unique and point to the data access point, e.g. by combining the data owner's www path with the data set's UUID, e.g. http://www.mycompany.com/lca/processes/50f12420-8855-12db-b606-0900210c9a66.] """
         return self._data.get("common:permanentDataSetURI")
 
     @permanent_data_set_uri.setter
@@ -93,7 +93,7 @@ class PublicationAndOwnershipWrapper(BaseWrapper):
 
     @property
     def workflow_and_publication_status(self) -> Optional[str]:
-        """Workflow or publication status of data set. Details e.g. of foreseen publication dates should be provided on request by the "Data set owner"."""
+        """ Workflow or publication status of data set. Details e.g. of foreseen publication dates should be provided on request by the "Data set owner". """
         return self._data.get("common:workflowAndPublicationStatus")
 
     @workflow_and_publication_status.setter
@@ -106,7 +106,7 @@ class PublicationAndOwnershipWrapper(BaseWrapper):
 
     @property
     def reference_to_unchanged_republication(self) -> Optional[str]:
-        """"Source data set" of the publication, in which this data set was published for the first time. [Note: This refers to exactly this data set as it is, without any format conversion, adjustments, flow name mapping, etc. In case this data set was modified/converted, the original source is documented in "Converted original data set from:" in section "Data entry by".]"""
+        """ "Source data set" of the publication, in which this data set was published for the first time. [Note: This refers to exactly this data set as it is, without any format conversion, adjustments, flow name mapping, etc. In case this data set was modified/converted, the original source is documented in "Converted original data set from:" in section "Data entry by".] """
         return self._data.get("common:referenceToUnchangedRepublication")
 
     @reference_to_unchanged_republication.setter
@@ -119,7 +119,7 @@ class PublicationAndOwnershipWrapper(BaseWrapper):
 
     @property
     def reference_to_ownership_of_data_set(self) -> str:
-        """"Contact data set" of the person or entity who owns this data set. (Note: this is not necessarily the publisher of the data set.)"""
+        """ "Contact data set" of the person or entity who owns this data set. (Note: this is not necessarily the publisher of the data set.) """
         return self._data.get("common:referenceToOwnershipOfDataSet")
 
     @reference_to_ownership_of_data_set.setter
@@ -129,7 +129,7 @@ class PublicationAndOwnershipWrapper(BaseWrapper):
 
     @property
     def copyright(self) -> Optional[str]:
-        """Indicates whether or not a copyright on the data set exists. Decided upon by the "Owner of data set". [Note: See also field "Access and use restrictions".]"""
+        """ Indicates whether or not a copyright on the data set exists. Decided upon by the "Owner of data set". [Note: See also field "Access and use restrictions".] """
         return self._data.get("common:copyright")
 
     @copyright.setter
@@ -142,12 +142,12 @@ class PublicationAndOwnershipWrapper(BaseWrapper):
 
     @property
     def access_restrictions(self) -> MultiLangText:
-        """Access restrictions / use conditions for this data set as free text or referring to e.g. license conditions. In case of no restrictions "None" is entered."""
+        """ Access restrictions / use conditions for this data set as free text or referring to e.g. license conditions. In case of no restrictions "None" is entered. """
         return self._get_multi_lang("common:accessRestrictions")
 
     @property
     def other(self) -> Optional[str]:
-        """Access common:other field"""
+        """ Access common:other field """
         return self._data.get("common:other")
 
     @other.setter
@@ -166,7 +166,7 @@ class RecommendationByWrapper(BaseWrapper):
 
     @property
     def reference_to_entity(self) -> str:
-        """"Contact data set(s)" of the governmental body/ies that has/ve officially recommended this LCIA method data set and its impact factors for use within the documented scope. Eventually deviating (downgraded) recommendations for individual exchanges are documented in the "Inputs and Outputs" section of the data set."""
+        """ "Contact data set(s)" of the governmental body/ies that has/ve officially recommended this LCIA method data set and its impact factors for use within the documented scope. Eventually deviating (downgraded) recommendations for individual exchanges are documented in the "Inputs and Outputs" section of the data set. """
         return self._data.get("referenceToEntity")
 
     @reference_to_entity.setter
@@ -176,7 +176,7 @@ class RecommendationByWrapper(BaseWrapper):
 
     @property
     def level(self) -> str:
-        """Level of recommendation given to this data set by the recommending governmental body. Note that the recommendation level of individual elementary flows can be different (lower) from the general level; this is documented as "Deviating recommendation" in the section "Characterisation factors" directly for each affected elementary flow."""
+        """ Level of recommendation given to this data set by the recommending governmental body. Note that the recommendation level of individual elementary flows can be different (lower) from the general level; this is documented as "Deviating recommendation" in the section "Characterisation factors" directly for each affected elementary flow. """
         return self._data.get("level")
 
     @level.setter
@@ -186,7 +186,7 @@ class RecommendationByWrapper(BaseWrapper):
 
     @property
     def meaning(self) -> MultiLangText:
-        """Specific meaning of the declared recommendation level of this LCIA method / methodology and the characterisation factors, as defined in the guidance document referenced in in the field "Compliance system""""
+        """ Specific meaning of the declared recommendation level of this LCIA method / methodology and the characterisation factors, as defined in the guidance document referenced in in the field "Compliance system" """
         return self._get_multi_lang("meaning")
 
 
@@ -197,7 +197,7 @@ class DataEntryByWrapper(BaseWrapper):
 
     @property
     def time_stamp(self) -> str:
-        """Date and time stamp of data set generation, typically an automated entry ("last saved")."""
+        """ Date and time stamp of data set generation, typically an automated entry ("last saved"). """
         return self._data.get("common:timeStamp")
 
     @time_stamp.setter
@@ -207,7 +207,7 @@ class DataEntryByWrapper(BaseWrapper):
 
     @property
     def reference_to_data_set_format(self) -> str:
-        """"Source data set" of the used version of the ILCD format. If additional data format fields have been integrated into the data set file, using the "namespace" option, the used format namespace(s) are to be given. This is the case if the data sets carries additional information as specified by other, particular LCA formats, e.g. of other database networks or LCA softwares."""
+        """ "Source data set" of the used version of the ILCD format. If additional data format fields have been integrated into the data set file, using the "namespace" option, the used format namespace(s) are to be given. This is the case if the data sets carries additional information as specified by other, particular LCA formats, e.g. of other database networks or LCA softwares. """
         return self._data.get("common:referenceToDataSetFormat")
 
     @reference_to_data_set_format.setter
@@ -217,7 +217,7 @@ class DataEntryByWrapper(BaseWrapper):
 
     @property
     def reference_to_converted_original_data_set_from(self) -> Optional[str]:
-        """"Source data set" of the database or data set publication from which this data set has been obtained by conversion. This can cover e.g. conversion to a different format, applying a different nomenclature, mapping of flow names, conversion of units, etc. This may however not have changed or re-modeled the Inputs and Outputs, i.e. obtaining the same LCIA results. This entry is required for converted data sets stemming originally from other LCA databases (e.g. when re-publishing data from IISI, ILCD etc. databases). [Note: Identically re-published data sets are identied in the field "Unchanged re-publication of:" in the section "Publication and Ownership".]"""
+        """ "Source data set" of the database or data set publication from which this data set has been obtained by conversion. This can cover e.g. conversion to a different format, applying a different nomenclature, mapping of flow names, conversion of units, etc. This may however not have changed or re-modeled the Inputs and Outputs, i.e. obtaining the same LCIA results. This entry is required for converted data sets stemming originally from other LCA databases (e.g. when re-publishing data from IISI, ILCD etc. databases). [Note: Identically re-published data sets are identied in the field "Unchanged re-publication of:" in the section "Publication and Ownership".] """
         return self._data.get("common:referenceToConvertedOriginalDataSetFrom")
 
     @reference_to_converted_original_data_set_from.setter
@@ -230,7 +230,7 @@ class DataEntryByWrapper(BaseWrapper):
 
     @property
     def reference_to_person_or_entity_entering_the_data(self) -> Optional[str]:
-        """"Contact data set" of the responsible person or entity that has documented this data set, i.e. entered the data and the descriptive information."""
+        """ "Contact data set" of the responsible person or entity that has documented this data set, i.e. entered the data and the descriptive information. """
         return self._data.get("common:referenceToPersonOrEntityEnteringTheData")
 
     @reference_to_person_or_entity_entering_the_data.setter
@@ -243,13 +243,13 @@ class DataEntryByWrapper(BaseWrapper):
 
     @property
     def recommendation_by(self) -> RecommendationByWrapper:
-        """Access recommendationBy nested object"""
+        """ Access recommendationBy nested object """
         self._ensure_field("recommendationBy")
         return RecommendationByWrapper(self._entity, self._data["recommendationBy"])
 
     @property
     def other(self) -> Optional[str]:
-        """Access common:other field"""
+        """ Access common:other field """
         return self._data.get("common:other")
 
     @other.setter
@@ -268,7 +268,7 @@ class DataGeneratorWrapper(BaseWrapper):
 
     @property
     def reference_to_person_or_entity_generating_the_data_set(self) -> str:
-        """"Contact data set" of the person(s), working group(s), organisation(s) or database network, that generated the data set, i.e. being responsible for its correctness regarding methods, inventory, and documentation."""
+        """ "Contact data set" of the person(s), working group(s), organisation(s) or database network, that generated the data set, i.e. being responsible for its correctness regarding methods, inventory, and documentation. """
         return self._data.get("common:referenceToPersonOrEntityGeneratingTheDataSet")
 
     @reference_to_person_or_entity_generating_the_data_set.setter
@@ -278,7 +278,7 @@ class DataGeneratorWrapper(BaseWrapper):
 
     @property
     def other(self) -> Optional[str]:
-        """Access common:other field"""
+        """ Access common:other field """
         return self._data.get("common:other")
 
     @other.setter
@@ -297,7 +297,7 @@ class CommissionerAndGoalWrapper(BaseWrapper):
 
     @property
     def reference_to_commissioner(self) -> Optional[str]:
-        """"Contact data set" of the commissioner / financing party of the data collection / compilation and of the data set modelling. For groups of commissioners, each single organisation should be named. For data set updates and for direct use of data from formerly commissioned studies, also the original commissioner should be named."""
+        """ "Contact data set" of the commissioner / financing party of the data collection / compilation and of the data set modelling. For groups of commissioners, each single organisation should be named. For data set updates and for direct use of data from formerly commissioned studies, also the original commissioner should be named. """
         return self._data.get("common:referenceToCommissioner")
 
     @reference_to_commissioner.setter
@@ -310,17 +310,17 @@ class CommissionerAndGoalWrapper(BaseWrapper):
 
     @property
     def project(self) -> MultiLangText:
-        """Extract of the information items linked to goal and scope of LCIA method modeling."""
+        """ Extract of the information items linked to goal and scope of LCIA method modeling. """
         return self._get_multi_lang("common:project")
 
     @property
     def intended_applications(self) -> MultiLangText:
-        """Documentation of the intended application(s) of data collection and data set modelling. This indicates / includes information on the level of detail, the specifidity, and the quality ambition in the effort."""
+        """ Documentation of the intended application(s) of data collection and data set modelling. This indicates / includes information on the level of detail, the specifidity, and the quality ambition in the effort. """
         return self._get_multi_lang("common:intendedApplications")
 
     @property
     def other(self) -> Optional[str]:
-        """Access common:other field"""
+        """ Access common:other field """
         return self._data.get("common:other")
 
     @other.setter
@@ -339,31 +339,31 @@ class AdministrativeInformationWrapper(BaseWrapper):
 
     @property
     def commissioner_and_goal(self) -> CommissionerAndGoalWrapper:
-        """Extract of the information items linked to goal and scope of LCIA method modeling."""
+        """ Extract of the information items linked to goal and scope of LCIA method modeling. """
         self._ensure_field("common:commissionerAndGoal")
         return CommissionerAndGoalWrapper(self._entity, self._data["common:commissionerAndGoal"])
 
     @property
     def data_generator(self) -> DataGeneratorWrapper:
-        """Expert(s), that compiled and modelled the data set as well as internal administrative information linked to the data generation activity."""
+        """ Expert(s), that compiled and modelled the data set as well as internal administrative information linked to the data generation activity. """
         self._ensure_field("dataGenerator")
         return DataGeneratorWrapper(self._entity, self._data["dataGenerator"])
 
     @property
     def data_entry_by(self) -> DataEntryByWrapper:
-        """Staff or entity, that documented the generated data set, entering the information into the database; plus administrative information linked to the data entry activity."""
+        """ Staff or entity, that documented the generated data set, entering the information into the database; plus administrative information linked to the data entry activity. """
         self._ensure_field("dataEntryBy")
         return DataEntryByWrapper(self._entity, self._data["dataEntryBy"])
 
     @property
     def publication_and_ownership(self) -> PublicationAndOwnershipWrapper:
-        """Information related to publication and version management of the data set including copyright and access restrictions."""
+        """ Information related to publication and version management of the data set including copyright and access restrictions. """
         self._ensure_field("publicationAndOwnership")
         return PublicationAndOwnershipWrapper(self._entity, self._data["publicationAndOwnership"])
 
     @property
     def other(self) -> Optional[str]:
-        """Access common:other field"""
+        """ Access common:other field """
         return self._data.get("common:other")
 
     @other.setter
@@ -382,7 +382,7 @@ class ComplianceDeclarationsWrapper(BaseWrapper):
 
     @property
     def compliance(self) -> str:
-        """One compliance declaration. Multiple declarations may be provided."""
+        """ One compliance declaration. Multiple declarations may be provided. """
         return self._data.get("compliance")
 
     @compliance.setter
@@ -392,7 +392,7 @@ class ComplianceDeclarationsWrapper(BaseWrapper):
 
     @property
     def other(self) -> Optional[str]:
-        """Access common:other field"""
+        """ Access common:other field """
         return self._data.get("common:other")
 
     @other.setter
@@ -411,7 +411,7 @@ class ReviewWrapper(BaseWrapper):
 
     @property
     def type(self) -> str:
-        """Access @type field"""
+        """ Access @type field """
         return self._data.get("@type")
 
     @type.setter
@@ -421,7 +421,7 @@ class ReviewWrapper(BaseWrapper):
 
     @property
     def scope(self) -> Optional[str]:
-        """Scope of review regarding which aspects and components of the data set was reviewed or verified. In case of aggregated e.g. LCI results also and on which level of detail (e.g. LCI results only, included unit processes, ...) the review / verification was performed."""
+        """ Scope of review regarding which aspects and components of the data set was reviewed or verified. In case of aggregated e.g. LCI results also and on which level of detail (e.g. LCI results only, included unit processes, ...) the review / verification was performed. """
         return self._data.get("common:scope")
 
     @scope.setter
@@ -434,12 +434,12 @@ class ReviewWrapper(BaseWrapper):
 
     @property
     def review_details(self) -> MultiLangText:
-        """Summary of the review. All the following items should be explicitly addressed: completeness and appropriateness of the model, geographical and temporal coverage and differentiation, correctness and precision of substance data or other underlying data; appropriateness and coherence of application of normalisation and/or weighting schemes, if included; correctness, appropriateness, comprehensibility, and completeness of the data set documentation; stakeholder aceptance of LCIA method. Optional: Comment of the reviewer on characterisation factors for single elementary flows or groups of elementary flows. Relevant restrictions to the review due to lack of transparency or documentation should be named. An overall quality statement may be included here."""
+        """ Summary of the review. All the following items should be explicitly addressed: completeness and appropriateness of the model, geographical and temporal coverage and differentiation, correctness and precision of substance data or other underlying data; appropriateness and coherence of application of normalisation and/or weighting schemes, if included; correctness, appropriateness, comprehensibility, and completeness of the data set documentation; stakeholder aceptance of LCIA method. Optional: Comment of the reviewer on characterisation factors for single elementary flows or groups of elementary flows. Relevant restrictions to the review due to lack of transparency or documentation should be named. An overall quality statement may be included here. """
         return self._get_multi_lang("common:reviewDetails")
 
     @property
     def reference_to_name_of_reviewer_and_institution(self) -> Optional[str]:
-        """"Contact data set" of reviewer. The full name of reviewer(s) and institution(s) as well as a contact address and/or email should be provided in that contact data set."""
+        """ "Contact data set" of reviewer. The full name of reviewer(s) and institution(s) as well as a contact address and/or email should be provided in that contact data set. """
         return self._data.get("common:referenceToNameOfReviewerAndInstitution")
 
     @reference_to_name_of_reviewer_and_institution.setter
@@ -452,12 +452,12 @@ class ReviewWrapper(BaseWrapper):
 
     @property
     def other_review_details(self) -> MultiLangText:
-        """Further information from the review process, especially comments received from third parties once the data set has been published or additional reviewer comments from an additional external review."""
+        """ Further information from the review process, especially comments received from third parties once the data set has been published or additional reviewer comments from an additional external review. """
         return self._get_multi_lang("common:otherReviewDetails")
 
     @property
     def reference_to_complete_review_report(self) -> Optional[str]:
-        """"Source data set" of the complete review report."""
+        """ "Source data set" of the complete review report. """
         return self._data.get("common:referenceToCompleteReviewReport")
 
     @reference_to_complete_review_report.setter
@@ -470,7 +470,7 @@ class ReviewWrapper(BaseWrapper):
 
     @property
     def other(self) -> Optional[str]:
-        """Access common:other field"""
+        """ Access common:other field """
         return self._data.get("common:other")
 
     @other.setter
@@ -489,13 +489,13 @@ class ValidationWrapper(BaseWrapper):
 
     @property
     def review(self) -> ReviewWrapper:
-        """Type of review that has been performed regarding independency and type of review process."""
+        """ Type of review that has been performed regarding independency and type of review process. """
         self._ensure_field("review")
         return ReviewWrapper(self._entity, self._data["review"])
 
     @property
     def other(self) -> Optional[str]:
-        """Access common:other field"""
+        """ Access common:other field """
         return self._data.get("common:other")
 
     @other.setter
@@ -514,7 +514,7 @@ class CompletenessWrapper(BaseWrapper):
 
     @property
     def completeness_impact_coverage(self) -> Optional[str]:
-        """Estimate of the completeness of coverage of impact(s), as identified in the fields "Impact category/ies" or - only for LCIA methodologies with Damage indicator or Combined single-point indicators - "Area(s) of Protection". Expressed by the quantitative extent of coverage of the scientifically recognized, impact. Note that this information is typically highly uncertain."""
+        """ Estimate of the completeness of coverage of impact(s), as identified in the fields "Impact category/ies" or - only for LCIA methodologies with Damage indicator or Combined single-point indicators - "Area(s) of Protection". Expressed by the quantitative extent of coverage of the scientifically recognized, impact. Note that this information is typically highly uncertain. """
         return self._data.get("completenessImpactCoverage")
 
     @completeness_impact_coverage.setter
@@ -527,7 +527,7 @@ class CompletenessWrapper(BaseWrapper):
 
     @property
     def inventory_items(self) -> Optional[str]:
-        """Number of chemical substances/substance groups, chemical elements, or types covered, without considering variants by environmental emission or source compartment, geographical location, time, or other."""
+        """ Number of chemical substances/substance groups, chemical elements, or types covered, without considering variants by environmental emission or source compartment, geographical location, time, or other. """
         return self._data.get("inventoryItems")
 
     @inventory_items.setter
@@ -546,7 +546,7 @@ class DataSourcesWrapper(BaseWrapper):
 
     @property
     def reference_to_data_source(self) -> str:
-        """"Source data set(s)" of the data source(s) used for the data set e.g. paper, questionnaire, monography etc. The main data sources e.g. for underlying substance properties are named, too."""
+        """ "Source data set(s)" of the data source(s) used for the data set e.g. paper, questionnaire, monography etc. The main data sources e.g. for underlying substance properties are named, too. """
         return self._data.get("referenceToDataSource")
 
     @reference_to_data_source.setter
@@ -556,7 +556,7 @@ class DataSourcesWrapper(BaseWrapper):
 
     @property
     def other(self) -> Optional[str]:
-        """Access common:other field"""
+        """ Access common:other field """
         return self._data.get("common:other")
 
     @other.setter
@@ -575,7 +575,7 @@ class LciaMethodNormalisationAndWeightingWrapper(BaseWrapper):
 
     @property
     def type_of_data_set(self) -> str:
-        """Type of data set regarding the extent of the impact chain that is covered."""
+        """ Type of data set regarding the extent of the impact chain that is covered. """
         return self._data.get("typeOfDataSet")
 
     @type_of_data_set.setter
@@ -585,7 +585,7 @@ class LciaMethodNormalisationAndWeightingWrapper(BaseWrapper):
 
     @property
     def lcia_method_principle(self) -> str:
-        """LCIA method principle(s) followed to derive the impact factors."""
+        """ LCIA method principle(s) followed to derive the impact factors. """
         return self._data.get("LCIAMethodPrinciple")
 
     @lcia_method_principle.setter
@@ -595,12 +595,12 @@ class LciaMethodNormalisationAndWeightingWrapper(BaseWrapper):
 
     @property
     def deviations_from_lcia_method_principle(self) -> MultiLangText:
-        """Short description of possible data set specific deviations from "LCIA method principle(s)". Refers especially to explanations on the combination of LCIA methods with different principles in a single LCIA methodology."""
+        """ Short description of possible data set specific deviations from "LCIA method principle(s)". Refers especially to explanations on the combination of LCIA methods with different principles in a single LCIA methodology. """
         return self._get_multi_lang("deviationsFromLCIAMethodPrinciple")
 
     @property
     def normalisation(self) -> Optional[str]:
-        """Indication whether or not a normalisation step was included in the resulting impact factors."""
+        """ Indication whether or not a normalisation step was included in the resulting impact factors. """
         return self._data.get("normalisation")
 
     @normalisation.setter
@@ -613,7 +613,7 @@ class LciaMethodNormalisationAndWeightingWrapper(BaseWrapper):
 
     @property
     def reference_to_usable_normalisation_data_sets(self) -> Optional[str]:
-        """"Normalisation data sets" that can be used together with the impact factors of this data set."""
+        """ "Normalisation data sets" that can be used together with the impact factors of this data set. """
         return self._data.get("referenceToUsableNormalisationDataSets")
 
     @reference_to_usable_normalisation_data_sets.setter
@@ -626,12 +626,12 @@ class LciaMethodNormalisationAndWeightingWrapper(BaseWrapper):
 
     @property
     def normalisation_description(self) -> MultiLangText:
-        """Short description of the included normalisation, if any."""
+        """ Short description of the included normalisation, if any. """
         return self._get_multi_lang("normalisationDescription")
 
     @property
     def reference_to_included_normalisation_data_sets(self) -> Optional[str]:
-        """"Normalisation data set(s)" that was/were used to calculate the normalised impact factors of this data set, if any."""
+        """ "Normalisation data set(s)" that was/were used to calculate the normalised impact factors of this data set, if any. """
         return self._data.get("referenceToIncludedNormalisationDataSets")
 
     @reference_to_included_normalisation_data_sets.setter
@@ -644,7 +644,7 @@ class LciaMethodNormalisationAndWeightingWrapper(BaseWrapper):
 
     @property
     def weighting(self) -> Optional[str]:
-        """Indication whether or not a weighting-step was included in the resulting impact factors."""
+        """ Indication whether or not a weighting-step was included in the resulting impact factors. """
         return self._data.get("weighting")
 
     @weighting.setter
@@ -657,7 +657,7 @@ class LciaMethodNormalisationAndWeightingWrapper(BaseWrapper):
 
     @property
     def reference_to_usable_weighting_data_sets(self) -> Optional[str]:
-        """"Weighting data set(s)", that can be used together with the impact factors of this data set."""
+        """ "Weighting data set(s)", that can be used together with the impact factors of this data set. """
         return self._data.get("referenceToUsableWeightingDataSets")
 
     @reference_to_usable_weighting_data_sets.setter
@@ -670,12 +670,12 @@ class LciaMethodNormalisationAndWeightingWrapper(BaseWrapper):
 
     @property
     def weighting_description(self) -> MultiLangText:
-        """Short description of the included weighting, if any."""
+        """ Short description of the included weighting, if any. """
         return self._get_multi_lang("weightingDescription")
 
     @property
     def reference_to_included_weighting_data_sets(self) -> Optional[str]:
-        """"Weighting data set" that was used to calculate the weighted impact factors of this data set, if any."""
+        """ "Weighting data set" that was used to calculate the weighted impact factors of this data set, if any. """
         return self._data.get("referenceToIncludedWeightingDataSets")
 
     @reference_to_included_weighting_data_sets.setter
@@ -694,42 +694,42 @@ class ModellingAndValidationWrapper(BaseWrapper):
 
     @property
     def use_advice_for_data_set(self) -> MultiLangText:
-        """Methodological advice for the use and application of this data set, such as limits in applicability or representativeness as well as recommendations to use it together with others from the same LCIA methodology to ensure consistency."""
+        """ Methodological advice for the use and application of this data set, such as limits in applicability or representativeness as well as recommendations to use it together with others from the same LCIA methodology to ensure consistency. """
         return self._get_multi_lang("useAdviceForDataSet")
 
     @property
     def lcia_method_normalisation_and_weighting(self) -> LciaMethodNormalisationAndWeightingWrapper:
-        """LCIA methodological modelling aspects"""
+        """ LCIA methodological modelling aspects """
         self._ensure_field("LCIAMethodNormalisationAndWeighting")
         return LciaMethodNormalisationAndWeightingWrapper(self._entity, self._data["LCIAMethodNormalisationAndWeighting"])
 
     @property
     def data_sources(self) -> DataSourcesWrapper:
-        """Data sources used for the model and the underlying substance and other data."""
+        """ Data sources used for the model and the underlying substance and other data. """
         self._ensure_field("dataSources")
         return DataSourcesWrapper(self._entity, self._data["dataSources"])
 
     @property
     def completeness(self) -> CompletenessWrapper:
-        """Access completeness nested object"""
+        """ Access completeness nested object """
         self._ensure_field("completeness")
         return CompletenessWrapper(self._entity, self._data["completeness"])
 
     @property
     def validation(self) -> ValidationWrapper:
-        """Review information on LCIA method."""
+        """ Review information on LCIA method. """
         self._ensure_field("validation")
         return ValidationWrapper(self._entity, self._data["validation"])
 
     @property
     def compliance_declarations(self) -> ComplianceDeclarationsWrapper:
-        """Statements on compliance of several data set aspects with compliance requirements as defined by the referenced compliance system (e.g. an EPD scheme, handbook of a national or international data network such as the ILCD, etc.)."""
+        """ Statements on compliance of several data set aspects with compliance requirements as defined by the referenced compliance system (e.g. an EPD scheme, handbook of a national or international data network such as the ILCD, etc.). """
         self._ensure_field("complianceDeclarations")
         return ComplianceDeclarationsWrapper(self._entity, self._data["complianceDeclarations"])
 
     @property
     def other(self) -> Optional[str]:
-        """Access common:other field"""
+        """ Access common:other field """
         return self._data.get("common:other")
 
     @other.setter
@@ -748,7 +748,7 @@ class ImpactModelWrapper(BaseWrapper):
 
     @property
     def model_name(self) -> str:
-        """Name(s) of the model(s) used for calculating the LCIA impact indicator values (if any)"""
+        """ Name(s) of the model(s) used for calculating the LCIA impact indicator values (if any) """
         return self._data.get("modelName")
 
     @model_name.setter
@@ -758,12 +758,12 @@ class ImpactModelWrapper(BaseWrapper):
 
     @property
     def model_description(self) -> MultiLangText:
-        """Description of the model used for calculating the LCIA impact indicator values, including underlying substance property data sources, background concentrations, etc. If an LCIA methodology comprises several LCIA methods, these are explicitly included in the description. Professional nomenclature is used for the description. Note that eventually included Normalisation and Weighting factors are described in the dedicated separate fields."""
+        """ Description of the model used for calculating the LCIA impact indicator values, including underlying substance property data sources, background concentrations, etc. If an LCIA methodology comprises several LCIA methods, these are explicitly included in the description. Professional nomenclature is used for the description. Note that eventually included Normalisation and Weighting factors are described in the dedicated separate fields. """
         return self._get_multi_lang("modelDescription")
 
     @property
     def reference_to_model_source(self) -> Optional[str]:
-        """"Source data set(s)" of data sources concerning the characterisation model (guidelines, supporting documentation etc)"""
+        """ "Source data set(s)" of data sources concerning the characterisation model (guidelines, supporting documentation etc) """
         return self._data.get("referenceToModelSource")
 
     @reference_to_model_source.setter
@@ -776,7 +776,7 @@ class ImpactModelWrapper(BaseWrapper):
 
     @property
     def reference_to_included_methods(self) -> Optional[str]:
-        """"LCIA method data set(s)" of LCIA characterisation methods included in this data set or used to derive this LCIA methodology"""
+        """ "LCIA method data set(s)" of LCIA characterisation methods included in this data set or used to derive this LCIA methodology """
         return self._data.get("referenceToIncludedMethods")
 
     @reference_to_included_methods.setter
@@ -789,12 +789,12 @@ class ImpactModelWrapper(BaseWrapper):
 
     @property
     def considered_mechanisms(self) -> MultiLangText:
-        """Description of the environmental or other mechanisms included in the explicitly considered part of the impact chain. Can relate to (ilustrative): For emissions e.g.: transport, conversion / degradation, exposure, effect(s), damage(s) on humans and the natural environment. For material and energy resources: scarcity or other impact concept. For land use: soil, area, biocoenosis related meachanisms, effect(s), damage(s)."""
+        """ Description of the environmental or other mechanisms included in the explicitly considered part of the impact chain. Can relate to (ilustrative): For emissions e.g.: transport, conversion / degradation, exposure, effect(s), damage(s) on humans and the natural environment. For material and energy resources: scarcity or other impact concept. For land use: soil, area, biocoenosis related meachanisms, effect(s), damage(s). """
         return self._get_multi_lang("consideredMechanisms")
 
     @property
     def reference_to_methodology_flow_chart(self) -> Optional[str]:
-        """"Source data set(s)" of flowchart(s) and/or pictures depicting the LCIA method(ology)."""
+        """ "Source data set(s)" of flowchart(s) and/or pictures depicting the LCIA method(ology). """
         return self._data.get("referenceToMethodologyFlowChart")
 
     @reference_to_methodology_flow_chart.setter
@@ -807,7 +807,7 @@ class ImpactModelWrapper(BaseWrapper):
 
     @property
     def other(self) -> Optional[str]:
-        """Access common:other field"""
+        """ Access common:other field """
         return self._data.get("common:other")
 
     @other.setter
@@ -826,7 +826,7 @@ class GeographyWrapper(BaseWrapper):
 
     @property
     def intervention_location(self) -> Optional[str]:
-        """Specific, country, or region of the elementary flows' / exchanges' occurence for which the LCIA method(ology) is valid / modelled. [Note: Entry can be of type "two-letter ISO 3166 country code" for countries, "seven-letter regional codes" for regions or continents, or "market areas and market organisations", as predefined for the ILCD. Also a name for e.g. a specific plant etc. can be given here (e.g. "FR, Lyon, XY Company, Z Site"; user defined). ]"""
+        """ Specific, country, or region of the elementary flows' / exchanges' occurence for which the LCIA method(ology) is valid / modelled. [Note: Entry can be of type "two-letter ISO 3166 country code" for countries, "seven-letter regional codes" for regions or continents, or "market areas and market organisations", as predefined for the ILCD. Also a name for e.g. a specific plant etc. can be given here (e.g. "FR, Lyon, XY Company, Z Site"; user defined). ] """
         return self._data.get("interventionLocation")
 
     @intervention_location.setter
@@ -839,7 +839,7 @@ class GeographyWrapper(BaseWrapper):
 
     @property
     def intervension_sub_location(self) -> Optional[str]:
-        """Geographical sub-unit(s) of "Intervention location(s)" that further specify the specifically modelled sub-locations. Such sub-locations can be e.g. sites of a company, specific catchments modleled, countries of a continent, or locations in a country. Information on limited representativeness should be provided if applicable."""
+        """ Geographical sub-unit(s) of "Intervention location(s)" that further specify the specifically modelled sub-locations. Such sub-locations can be e.g. sites of a company, specific catchments modleled, countries of a continent, or locations in a country. Information on limited representativeness should be provided if applicable. """
         return self._data.get("intervensionSubLocation")
 
     @intervension_sub_location.setter
@@ -852,7 +852,7 @@ class GeographyWrapper(BaseWrapper):
 
     @property
     def impact_location(self) -> Optional[str]:
-        """Location or region where the impact is modelled to take place. [Note: Entry can be of type "two-letter ISO 3166 country code" for countries, "seven-letter regional codes" for regions or continents, or "market areas and market organisations", as predefined for the ILCD. Also a name for e.g. a specific catchment etc. can be given here, user defined).]"""
+        """ Location or region where the impact is modelled to take place. [Note: Entry can be of type "two-letter ISO 3166 country code" for countries, "seven-letter regional codes" for regions or continents, or "market areas and market organisations", as predefined for the ILCD. Also a name for e.g. a specific catchment etc. can be given here, user defined).] """
         return self._data.get("impactLocation")
 
     @impact_location.setter
@@ -865,12 +865,12 @@ class GeographyWrapper(BaseWrapper):
 
     @property
     def geographical_representativeness_description(self) -> MultiLangText:
-        """Further explanation on additional aspects of the location, both regarding the intervention and the impact: whether certain areas are exempted from the location, whether data is only valid for certain sub-locations within the location indicated, or whether impact indicator values for certain elementary flows are extrapolated from another geographical area than indicated. Information on the use of generic intervention and/or impact locations, and other restrictions."""
+        """ Further explanation on additional aspects of the location, both regarding the intervention and the impact: whether certain areas are exempted from the location, whether data is only valid for certain sub-locations within the location indicated, or whether impact indicator values for certain elementary flows are extrapolated from another geographical area than indicated. Information on the use of generic intervention and/or impact locations, and other restrictions. """
         return self._get_multi_lang("geographicalRepresentativenessDescription")
 
     @property
     def other(self) -> Optional[str]:
-        """Access common:other field"""
+        """ Access common:other field """
         return self._data.get("common:other")
 
     @other.setter
@@ -889,22 +889,22 @@ class TimeWrapper(BaseWrapper):
 
     @property
     def reference_year(self) -> MultiLangText:
-        """Reference year when the emission is assumed to take place, i.e. the start year of the time period for which the impact is modelled. For time-independent models "time independent" should be stated."""
+        """ Reference year when the emission is assumed to take place, i.e. the start year of the time period for which the impact is modelled. For time-independent models "time independent" should be stated. """
         return self._get_multi_lang("referenceYear")
 
     @property
     def duration(self) -> MultiLangText:
-        """Time period for which the impact is modelled."""
+        """ Time period for which the impact is modelled. """
         return self._get_multi_lang("duration")
 
     @property
     def time_representativeness_description(self) -> MultiLangText:
-        """Description of the valid time span of the data set including information on limited usability within sub-time spans, if any."""
+        """ Description of the valid time span of the data set including information on limited usability within sub-time spans, if any. """
         return self._get_multi_lang("timeRepresentativenessDescription")
 
     @property
     def other(self) -> Optional[str]:
-        """Access common:other field"""
+        """ Access common:other field """
         return self._data.get("common:other")
 
     @other.setter
@@ -923,7 +923,7 @@ class QuantitativeReferenceWrapper(BaseWrapper):
 
     @property
     def reference_quantity(self) -> str:
-        """"Flow property data set" of the reference quantity (flow property), in which the impact indicator values are measured."""
+        """ "Flow property data set" of the reference quantity (flow property), in which the impact indicator values are measured. """
         return self._data.get("referenceQuantity")
 
     @reference_quantity.setter
@@ -933,7 +933,7 @@ class QuantitativeReferenceWrapper(BaseWrapper):
 
     @property
     def other(self) -> Optional[str]:
-        """Access common:other field"""
+        """ Access common:other field """
         return self._data.get("common:other")
 
     @other.setter
@@ -952,7 +952,7 @@ class ClassificationWrapper(BaseWrapper):
 
     @property
     def class_(self) -> str:
-        """Access common:class field"""
+        """ Access common:class field """
         return self._data.get("common:class")
 
     @class_.setter
@@ -962,7 +962,7 @@ class ClassificationWrapper(BaseWrapper):
 
     @property
     def other(self) -> Optional[str]:
-        """Access common:other field"""
+        """ Access common:other field """
         return self._data.get("common:other")
 
     @other.setter
@@ -981,7 +981,7 @@ class ClassificationInformationWrapper(BaseWrapper):
 
     @property
     def classification(self) -> ClassificationWrapper:
-        """Optional statistical or other classification of the data set. Typically also used for structuring LCA databases."""
+        """ Optional statistical or other classification of the data set. Typically also used for structuring LCA databases. """
         self._ensure_field("common:classification")
         return ClassificationWrapper(self._entity, self._data["common:classification"])
 
@@ -993,7 +993,7 @@ class DataSetInformationWrapper(BaseWrapper):
 
     @property
     def uuid(self) -> str:
-        """Unique identifier of the data set. The UUID is a 128-bit number represented as a hexadecimal string of the form: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx. The UUID is used to uniquely identify the data set in the ILCD database."""
+        """ Unique identifier of the data set. The UUID is a 128-bit number represented as a hexadecimal string of the form: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx. The UUID is used to uniquely identify the data set in the ILCD database. """
         return self._data.get("common:UUID")
 
     @uuid.setter
@@ -1003,12 +1003,12 @@ class DataSetInformationWrapper(BaseWrapper):
 
     @property
     def name(self) -> MultiLangText:
-        """Name of the data set. Composed as follows "LCIA methodology short name; Impact category/ies; midpoint/endpoint; Impact indicator; Source short name". Not applicable components are left out. Examples: "Impacts2007+; Climate change; midpoint; Global Warming Potential; IPCC 2001"; "ABC 2006; Acidification; endpoint; Species diversity loss; John Doe 2006"; "My-indicator2009; combined; endpoint; Ecopoints; various""""
+        """ Name of the data set. Composed as follows "LCIA methodology short name; Impact category/ies; midpoint/endpoint; Impact indicator; Source short name". Not applicable components are left out. Examples: "Impacts2007+; Climate change; midpoint; Global Warming Potential; IPCC 2001"; "ABC 2006; Acidification; endpoint; Species diversity loss; John Doe 2006"; "My-indicator2009; combined; endpoint; Ecopoints; various" """
         return self._get_multi_lang("common:name")
 
     @property
     def methodology(self) -> Optional[str]:
-        """Name of the LCIA methodology/ies the data set belongs to, if any"""
+        """ Name of the LCIA methodology/ies the data set belongs to, if any """
         return self._data.get("methodology")
 
     @methodology.setter
@@ -1021,13 +1021,13 @@ class DataSetInformationWrapper(BaseWrapper):
 
     @property
     def classification_information(self) -> ClassificationInformationWrapper:
-        """Access classificationInformation nested object"""
+        """ Access classificationInformation nested object """
         self._ensure_field("classificationInformation")
         return ClassificationInformationWrapper(self._entity, self._data["classificationInformation"])
 
     @property
     def impact_category(self) -> Optional[str]:
-        """Impact category/ies covered by the LCIA method or methodology."""
+        """ Impact category/ies covered by the LCIA method or methodology. """
         return self._data.get("impactCategory")
 
     @impact_category.setter
@@ -1040,7 +1040,7 @@ class DataSetInformationWrapper(BaseWrapper):
 
     @property
     def area_of_protection(self) -> Optional[str]:
-        """For damage (endpoint) and single-point indicators only: Area(s) of Protection the data set relates to."""
+        """ For damage (endpoint) and single-point indicators only: Area(s) of Protection the data set relates to. """
         return self._data.get("areaOfProtection")
 
     @area_of_protection.setter
@@ -1053,7 +1053,7 @@ class DataSetInformationWrapper(BaseWrapper):
 
     @property
     def impact_indicator(self) -> Optional[str]:
-        """Description of the meaning of the impact indicator of this data set (not applicable for LCIA methodologies data sets)."""
+        """ Description of the meaning of the impact indicator of this data set (not applicable for LCIA methodologies data sets). """
         return self._data.get("impactIndicator")
 
     @impact_indicator.setter
@@ -1066,12 +1066,12 @@ class DataSetInformationWrapper(BaseWrapper):
 
     @property
     def general_comment(self) -> MultiLangText:
-        """General information about the data set, including e.g. general (internal, not reviewed) quality statements as well as information sources used. (Note: Please also check the more specific fields e.g. on "Intended application", "Advice on data set use" and the fields in the "Modelling and validation" section to avoid overlapping entries.)"""
+        """ General information about the data set, including e.g. general (internal, not reviewed) quality statements as well as information sources used. (Note: Please also check the more specific fields e.g. on "Intended application", "Advice on data set use" and the fields in the "Modelling and validation" section to avoid overlapping entries.) """
         return self._get_multi_lang("common:generalComment")
 
     @property
     def reference_to_external_documentation(self) -> Optional[str]:
-        """"Source data set(s)" of external documents / files with further documentative information on the data set including on underlying data sources (e.g. time, geographical coverage, impact models, characterisation factors, substance property databases employed, etc.). (Note: can indirectly reference to digital file.)"""
+        """ "Source data set(s)" of external documents / files with further documentative information on the data set including on underlying data sources (e.g. time, geographical coverage, impact models, characterisation factors, substance property databases employed, etc.). (Note: can indirectly reference to digital file.) """
         return self._data.get("referenceToExternalDocumentation")
 
     @reference_to_external_documentation.setter
@@ -1084,7 +1084,7 @@ class DataSetInformationWrapper(BaseWrapper):
 
     @property
     def other(self) -> Optional[str]:
-        """Access common:other field"""
+        """ Access common:other field """
         return self._data.get("common:other")
 
     @other.setter
@@ -1103,37 +1103,37 @@ class LciaMethodInformationWrapper(BaseWrapper):
 
     @property
     def data_set_information(self) -> DataSetInformationWrapper:
-        """Access dataSetInformation nested object"""
+        """ Access dataSetInformation nested object """
         self._ensure_field("dataSetInformation")
         return DataSetInformationWrapper(self._entity, self._data["dataSetInformation"])
 
     @property
     def quantitative_reference(self) -> QuantitativeReferenceWrapper:
-        """This section allows to refer to the LCIA method(ology)'s quantitative reference, which is always the unit, in which the characterisation factors of the impact indicator are measured, e.g. "kg CO2-Equivalents"."""
+        """ This section allows to refer to the LCIA method(ology)'s quantitative reference, which is always the unit, in which the characterisation factors of the impact indicator are measured, e.g. "kg CO2-Equivalents". """
         self._ensure_field("quantitativeReference")
         return QuantitativeReferenceWrapper(self._entity, self._data["quantitativeReference"])
 
     @property
     def time(self) -> TimeWrapper:
-        """Access time nested object"""
+        """ Access time nested object """
         self._ensure_field("time")
         return TimeWrapper(self._entity, self._data["time"])
 
     @property
     def geography(self) -> GeographyWrapper:
-        """Access geography nested object"""
+        """ Access geography nested object """
         self._ensure_field("geography")
         return GeographyWrapper(self._entity, self._data["geography"])
 
     @property
     def impact_model(self) -> ImpactModelWrapper:
-        """Provides information about the general representativiness of the data set and about its composition of single LCIA-methods."""
+        """ Provides information about the general representativiness of the data set and about its composition of single LCIA-methods. """
         self._ensure_field("impactModel")
         return ImpactModelWrapper(self._entity, self._data["impactModel"])
 
     @property
     def other(self) -> Optional[str]:
-        """Access common:other field"""
+        """ Access common:other field """
         return self._data.get("common:other")
 
     @other.setter
@@ -1152,7 +1152,7 @@ class LciamethodsDataSetWrapper(BaseWrapper):
 
     @property
     def version(self) -> Optional[str]:
-        """Access @version field"""
+        """ Access @version field """
         return self._data.get("@version")
 
     @version.setter
@@ -1165,7 +1165,7 @@ class LciamethodsDataSetWrapper(BaseWrapper):
 
     @property
     def schema_location(self) -> Optional[str]:
-        """Access @xsi:schemaLocation field"""
+        """ Access @xsi:schemaLocation field """
         return self._data.get("@xsi:schemaLocation")
 
     @schema_location.setter
@@ -1178,31 +1178,31 @@ class LciamethodsDataSetWrapper(BaseWrapper):
 
     @property
     def lcia_method_information(self) -> LciaMethodInformationWrapper:
-        """Access LCIAMethodInformation nested object"""
+        """ Access LCIAMethodInformation nested object """
         self._ensure_field("LCIAMethodInformation")
         return LciaMethodInformationWrapper(self._entity, self._data["LCIAMethodInformation"])
 
     @property
     def modelling_and_validation(self) -> ModellingAndValidationWrapper:
-        """Covers the five sub-sections 1) LCIA method, normalisation, weighting 2) Data sources 3) Completeness, 4) Validation, and 5) Compliance declarations."""
+        """ Covers the five sub-sections 1) LCIA method, normalisation, weighting 2) Data sources 3) Completeness, 4) Validation, and 5) Compliance declarations. """
         self._ensure_field("modellingAndValidation")
         return ModellingAndValidationWrapper(self._entity, self._data["modellingAndValidation"])
 
     @property
     def administrative_information(self) -> AdministrativeInformationWrapper:
-        """Information required for data set management and administration."""
+        """ Information required for data set management and administration. """
         self._ensure_field("administrativeInformation")
         return AdministrativeInformationWrapper(self._entity, self._data["administrativeInformation"])
 
     @property
     def characterisation_factors(self) -> CharacterisationFactorsWrapper:
-        """Flow / Exchanges list with corresponding impact factors according to the respective LCIA method."""
+        """ Flow / Exchanges list with corresponding impact factors according to the respective LCIA method. """
         self._ensure_field("characterisationFactors")
         return CharacterisationFactorsWrapper(self._entity, self._data["characterisationFactors"])
 
     @property
     def other(self) -> Optional[str]:
-        """Access common:other field"""
+        """ Access common:other field """
         return self._data.get("common:other")
 
     @other.setter

@@ -18,7 +18,7 @@ class PublicationAndOwnershipWrapper(BaseWrapper):
 
     @property
     def data_set_version(self) -> str:
-        """Version number of data set. First two digits refer to major updates, the second two digits to minor revisions and error corrections etc. The third three digits are intended for automatic and internal counting of versions during data set development. Together with the data set's UUID, the "Data set version" uniquely identifies each data set."""
+        """ Version number of data set. First two digits refer to major updates, the second two digits to minor revisions and error corrections etc. The third three digits are intended for automatic and internal counting of versions during data set development. Together with the data set's UUID, the "Data set version" uniquely identifies each data set. """
         return self._data.get("common:dataSetVersion")
 
     @data_set_version.setter
@@ -28,7 +28,7 @@ class PublicationAndOwnershipWrapper(BaseWrapper):
 
     @property
     def reference_to_preceding_data_set_version(self) -> Optional[str]:
-        """Last preceding data set, which was replaced by this version. Either a URI of that data set (i.e. an internet address) or its UUID plus version number is given (or both)."""
+        """ Last preceding data set, which was replaced by this version. Either a URI of that data set (i.e. an internet address) or its UUID plus version number is given (or both). """
         return self._data.get("common:referenceToPrecedingDataSetVersion")
 
     @reference_to_preceding_data_set_version.setter
@@ -41,7 +41,7 @@ class PublicationAndOwnershipWrapper(BaseWrapper):
 
     @property
     def permanent_data_set_uri(self) -> Optional[str]:
-        """URI (i.e. an internet address) of the original of this data set. [Note: This equally globally unique identifier supports users and software tools to identify and retrieve the original version of a data set via the internet or to check for available updates. The URI must not represent an existing WWW address, but it should be unique and point to the data access point, e.g. by combining the data owner's www path with the data set's UUID, e.g. http://www.mycompany.com/lca/processes/50f12420-8855-12db-b606-0900210c9a66.]"""
+        """ URI (i.e. an internet address) of the original of this data set. [Note: This equally globally unique identifier supports users and software tools to identify and retrieve the original version of a data set via the internet or to check for available updates. The URI must not represent an existing WWW address, but it should be unique and point to the data access point, e.g. by combining the data owner's www path with the data set's UUID, e.g. http://www.mycompany.com/lca/processes/50f12420-8855-12db-b606-0900210c9a66.] """
         return self._data.get("common:permanentDataSetURI")
 
     @permanent_data_set_uri.setter
@@ -54,7 +54,7 @@ class PublicationAndOwnershipWrapper(BaseWrapper):
 
     @property
     def reference_to_ownership_of_data_set(self) -> str:
-        """"Contact data set" of the person or entity who owns this data set. (Note: this is not necessarily the publisher of the data set.)"""
+        """ "Contact data set" of the person or entity who owns this data set. (Note: this is not necessarily the publisher of the data set.) """
         return self._data.get("common:referenceToOwnershipOfDataSet")
 
     @reference_to_ownership_of_data_set.setter
@@ -64,7 +64,7 @@ class PublicationAndOwnershipWrapper(BaseWrapper):
 
     @property
     def other(self) -> Optional[str]:
-        """Access common:other field"""
+        """ Access common:other field """
         return self._data.get("common:other")
 
     @other.setter
@@ -89,7 +89,7 @@ class DataEntryByWrapper(BaseWrapper):
 
     @property
     def time_stamp(self) -> str:
-        """Date and time stamp of data set generation, typically an automated entry ("last saved")."""
+        """ Date and time stamp of data set generation, typically an automated entry ("last saved"). """
         return self._data.get("common:timeStamp")
 
     @time_stamp.setter
@@ -99,13 +99,13 @@ class DataEntryByWrapper(BaseWrapper):
 
     @property
     def reference_to_data_set_format(self) -> ReferenceToDataSetFormatWrapper:
-        """"Source data set" of the used version of the ILCD format. If additional data format fields have been integrated into the data set file, using the "namespace" option, the used format namespace(s) are to be given. This is the case if the data sets carries additional information as specified by other, particular LCA formats, e.g. of other database networks or LCA softwares."""
+        """ "Source data set" of the used version of the ILCD format. If additional data format fields have been integrated into the data set file, using the "namespace" option, the used format namespace(s) are to be given. This is the case if the data sets carries additional information as specified by other, particular LCA formats, e.g. of other database networks or LCA softwares. """
         self._ensure_field("common:referenceToDataSetFormat")
         return ReferenceToDataSetFormatWrapper(self._entity, self._data["common:referenceToDataSetFormat"])
 
     @property
     def other(self) -> Optional[str]:
-        """Access common:other field"""
+        """ Access common:other field """
         return self._data.get("common:other")
 
     @other.setter
@@ -124,19 +124,19 @@ class AdministrativeInformationWrapper(BaseWrapper):
 
     @property
     def data_entry_by(self) -> DataEntryByWrapper:
-        """Staff or entity, that documented the generated data set, entering the information into the database; plus administrative information linked to the data entry activity."""
+        """ Staff or entity, that documented the generated data set, entering the information into the database; plus administrative information linked to the data entry activity. """
         self._ensure_field("dataEntryBy")
         return DataEntryByWrapper(self._entity, self._data["dataEntryBy"])
 
     @property
     def publication_and_ownership(self) -> PublicationAndOwnershipWrapper:
-        """Information related to publication and version management of the data set including copyright and access restrictions."""
+        """ Information related to publication and version management of the data set including copyright and access restrictions. """
         self._ensure_field("publicationAndOwnership")
         return PublicationAndOwnershipWrapper(self._entity, self._data["publicationAndOwnership"])
 
     @property
     def other(self) -> Optional[str]:
-        """Access common:other field"""
+        """ Access common:other field """
         return self._data.get("common:other")
 
     @other.setter
@@ -155,7 +155,7 @@ class ComplianceDeclarationsWrapper(BaseWrapper):
 
     @property
     def compliance(self) -> str:
-        """One compliance declaration. Multiple declarations may be provided."""
+        """ One compliance declaration. Multiple declarations may be provided. """
         return self._data.get("compliance")
 
     @compliance.setter
@@ -165,7 +165,7 @@ class ComplianceDeclarationsWrapper(BaseWrapper):
 
     @property
     def other(self) -> Optional[str]:
-        """Access common:other field"""
+        """ Access common:other field """
         return self._data.get("common:other")
 
     @other.setter
@@ -184,7 +184,7 @@ class DataSourcesTreatmentAndRepresentativenessWrapper(BaseWrapper):
 
     @property
     def reference_to_data_source(self) -> Optional[str]:
-        """"Source data set" of data source(s) used for the data set e.g. a paper, a questionnaire, a monography etc. The main raw data sources should be named, too. [Note: relevant especially for market price data.]"""
+        """ "Source data set" of data source(s) used for the data set e.g. a paper, a questionnaire, a monography etc. The main raw data sources should be named, too. [Note: relevant especially for market price data.] """
         return self._data.get("referenceToDataSource")
 
     @reference_to_data_source.setter
@@ -197,7 +197,7 @@ class DataSourcesTreatmentAndRepresentativenessWrapper(BaseWrapper):
 
     @property
     def other(self) -> Optional[str]:
-        """Access common:other field"""
+        """ Access common:other field """
         return self._data.get("common:other")
 
     @other.setter
@@ -216,19 +216,19 @@ class ModellingAndValidationWrapper(BaseWrapper):
 
     @property
     def data_sources_treatment_and_representativeness(self) -> DataSourcesTreatmentAndRepresentativenessWrapper:
-        """Access dataSourcesTreatmentAndRepresentativeness nested object"""
+        """ Access dataSourcesTreatmentAndRepresentativeness nested object """
         self._ensure_field("dataSourcesTreatmentAndRepresentativeness")
         return DataSourcesTreatmentAndRepresentativenessWrapper(self._entity, self._data["dataSourcesTreatmentAndRepresentativeness"])
 
     @property
     def compliance_declarations(self) -> ComplianceDeclarationsWrapper:
-        """Statements on compliance of several data set aspects with compliance requirements as defined by the referenced compliance system (e.g. an EPD scheme, handbook of a national or international data network such as the ILCD, etc.)."""
+        """ Statements on compliance of several data set aspects with compliance requirements as defined by the referenced compliance system (e.g. an EPD scheme, handbook of a national or international data network such as the ILCD, etc.). """
         self._ensure_field("complianceDeclarations")
         return ComplianceDeclarationsWrapper(self._entity, self._data["complianceDeclarations"])
 
     @property
     def other(self) -> Optional[str]:
-        """Access common:other field"""
+        """ Access common:other field """
         return self._data.get("common:other")
 
     @other.setter
@@ -247,7 +247,7 @@ class QuantitativeReferenceWrapper(BaseWrapper):
 
     @property
     def reference_to_reference_unit_group(self) -> str:
-        """"Unit group data set" and its reference unit, in which the Flow property is measured."""
+        """ "Unit group data set" and its reference unit, in which the Flow property is measured. """
         return self._data.get("referenceToReferenceUnitGroup")
 
     @reference_to_reference_unit_group.setter
@@ -257,7 +257,7 @@ class QuantitativeReferenceWrapper(BaseWrapper):
 
     @property
     def other(self) -> Optional[str]:
-        """Access common:other field"""
+        """ Access common:other field """
         return self._data.get("common:other")
 
     @other.setter
@@ -276,7 +276,7 @@ class ClassWrapper(BaseWrapper):
 
     @property
     def level(self) -> str:
-        """Access @level field"""
+        """ Access @level field """
         return self._data.get("@level")
 
     @level.setter
@@ -286,7 +286,7 @@ class ClassWrapper(BaseWrapper):
 
     @property
     def class_id(self) -> str:
-        """Access @classId field"""
+        """ Access @classId field """
         return self._data.get("@classId")
 
     @class_id.setter
@@ -296,7 +296,7 @@ class ClassWrapper(BaseWrapper):
 
     @property
     def text(self) -> str:
-        """Access #text field"""
+        """ Access #text field """
         return self._data.get("#text")
 
     @text.setter
@@ -312,13 +312,13 @@ class ClassificationWrapper(BaseWrapper):
 
     @property
     def class_(self) -> ClassWrapper:
-        """Access common:class nested object"""
+        """ Access common:class nested object """
         self._ensure_field("common:class")
         return ClassWrapper(self._entity, self._data["common:class"])
 
     @property
     def other(self) -> Optional[str]:
-        """Access common:other field"""
+        """ Access common:other field """
         return self._data.get("common:other")
 
     @other.setter
@@ -337,7 +337,7 @@ class ClassificationInformationWrapper(BaseWrapper):
 
     @property
     def classification(self) -> ClassificationWrapper:
-        """Optional statistical or other classification of the data set. Typically also used for structuring LCA databases."""
+        """ Optional statistical or other classification of the data set. Typically also used for structuring LCA databases. """
         self._ensure_field("common:classification")
         return ClassificationWrapper(self._entity, self._data["common:classification"])
 
@@ -349,7 +349,7 @@ class DataSetInformationWrapper(BaseWrapper):
 
     @property
     def uuid(self) -> str:
-        """Automatically generated Universally Unique Identifier of this data set. Together with the "Data set version", the UUID uniquely identifies each data set."""
+        """ Automatically generated Universally Unique Identifier of this data set. Together with the "Data set version", the UUID uniquely identifies each data set. """
         return self._data.get("common:UUID")
 
     @uuid.setter
@@ -359,28 +359,28 @@ class DataSetInformationWrapper(BaseWrapper):
 
     @property
     def name(self) -> MultiLangText:
-        """Name of flow property."""
+        """ Name of flow property. """
         return self._get_multi_lang("common:name")
 
     @property
     def synonyms(self) -> MultiLangText:
-        """Synonyms are alternative names for the "Name" of the Flow property."""
+        """ Synonyms are alternative names for the "Name" of the Flow property. """
         return self._get_multi_lang("common:synonyms")
 
     @property
     def classification_information(self) -> ClassificationInformationWrapper:
-        """Hierachical classification of the Flow property foreseen to be used to structure the Flow property content of the database. (Note: This entry is NOT required for the identification of the Flow property data set. It should nevertheless be avoided to use identical names for Flow properties in the same class."""
+        """ Hierachical classification of the Flow property foreseen to be used to structure the Flow property content of the database. (Note: This entry is NOT required for the identification of the Flow property data set. It should nevertheless be avoided to use identical names for Flow properties in the same class. """
         self._ensure_field("classificationInformation")
         return ClassificationInformationWrapper(self._entity, self._data["classificationInformation"])
 
     @property
     def general_comment(self) -> MultiLangText:
-        """Free text for general information about the data set. It may contain comments on e.g. information sources used as well as general (internal, not reviewed) quality statements."""
+        """ Free text for general information about the data set. It may contain comments on e.g. information sources used as well as general (internal, not reviewed) quality statements. """
         return self._get_multi_lang("common:generalComment")
 
     @property
     def other(self) -> Optional[str]:
-        """Access common:other field"""
+        """ Access common:other field """
         return self._data.get("common:other")
 
     @other.setter
@@ -399,19 +399,19 @@ class FlowPropertiesInformationWrapper(BaseWrapper):
 
     @property
     def data_set_information(self) -> DataSetInformationWrapper:
-        """Access dataSetInformation nested object"""
+        """ Access dataSetInformation nested object """
         self._ensure_field("dataSetInformation")
         return DataSetInformationWrapper(self._entity, self._data["dataSetInformation"])
 
     @property
     def quantitative_reference(self) -> QuantitativeReferenceWrapper:
-        """This section allows to refer to the Flow property's quantitative reference, which is always a unit (i.e. that unit, in which the property is measured, e.g. "MJ" for energy-related Flow properties)."""
+        """ This section allows to refer to the Flow property's quantitative reference, which is always a unit (i.e. that unit, in which the property is measured, e.g. "MJ" for energy-related Flow properties). """
         self._ensure_field("quantitativeReference")
         return QuantitativeReferenceWrapper(self._entity, self._data["quantitativeReference"])
 
     @property
     def other(self) -> Optional[str]:
-        """Access common:other field"""
+        """ Access common:other field """
         return self._data.get("common:other")
 
     @other.setter
@@ -430,7 +430,7 @@ class FlowpropertiesDataSetWrapper(BaseWrapper):
 
     @property
     def version(self) -> str:
-        """Access @version field"""
+        """ Access @version field """
         return self._data.get("@version")
 
     @version.setter
@@ -440,7 +440,7 @@ class FlowpropertiesDataSetWrapper(BaseWrapper):
 
     @property
     def schema_location(self) -> str:
-        """Access @xsi:schemaLocation field"""
+        """ Access @xsi:schemaLocation field """
         return self._data.get("@xsi:schemaLocation")
 
     @schema_location.setter
@@ -450,25 +450,25 @@ class FlowpropertiesDataSetWrapper(BaseWrapper):
 
     @property
     def flow_properties_information(self) -> FlowPropertiesInformationWrapper:
-        """Access flowPropertiesInformation nested object"""
+        """ Access flowPropertiesInformation nested object """
         self._ensure_field("flowPropertiesInformation")
         return FlowPropertiesInformationWrapper(self._entity, self._data["flowPropertiesInformation"])
 
     @property
     def modelling_and_validation(self) -> ModellingAndValidationWrapper:
-        """Covers the five sub-sections 1) LCI method (not used), 2) Data sources, treatment and representativeness (only 3 fields), 3) Completeness (not used), 4) Validation, and 5) Compliance."""
+        """ Covers the five sub-sections 1) LCI method (not used), 2) Data sources, treatment and representativeness (only 3 fields), 3) Completeness (not used), 4) Validation, and 5) Compliance. """
         self._ensure_field("modellingAndValidation")
         return ModellingAndValidationWrapper(self._entity, self._data["modellingAndValidation"])
 
     @property
     def administrative_information(self) -> AdministrativeInformationWrapper:
-        """Information on data set management and administration."""
+        """ Information on data set management and administration. """
         self._ensure_field("administrativeInformation")
         return AdministrativeInformationWrapper(self._entity, self._data["administrativeInformation"])
 
     @property
     def other(self) -> Optional[str]:
-        """Access common:other field"""
+        """ Access common:other field """
         return self._data.get("common:other")
 
     @other.setter

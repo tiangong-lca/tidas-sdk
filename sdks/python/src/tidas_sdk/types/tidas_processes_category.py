@@ -45,7 +45,7 @@ Processes = Literal[
     '0142',  # Raising of horses and other equines
     '0143',  # Raising of camels and camelids
     '0144',  # Raising of sheep and goats
-    '0145',  # Raising of swine/pigs
+    '0145',  # Raising of swine and pigs
     '0146',  # Raising of poultry
     '0149',  # Raising of other animals
     '015',  # Mixed farming
@@ -73,6 +73,8 @@ Processes = Literal[
     '032',  # Aquaculture
     '0321',  # Marine aquaculture
     '0322',  # Freshwater aquaculture
+    '033',  # Support activities for fishing and aquaculture
+    '0330',  # Support activities for fishing and aquaculture
     'B',  # Mining and quarrying
     '05',  # Mining of coal and lignite
     '051',  # Mining of hard coal
@@ -124,6 +126,7 @@ Processes = Literal[
     '1073',  # Manufacture of cocoa, chocolate and sugar confectionery
     '1074',  # Manufacture of macaroni, noodles, couscous and similar farinaceous products
     '1075',  # Manufacture of prepared meals and dishes
+    '1076',  # Processing of coffee and tea
     '1079',  # Manufacture of other food products n.e.c.
     '108',  # Manufacture of prepared animal feeds
     '1080',  # Manufacture of prepared animal feeds
@@ -131,8 +134,9 @@ Processes = Literal[
     '110',  # Manufacture of beverages
     '1101',  # Distilling, rectifying and blending of spirits
     '1102',  # Manufacture of wines
-    '1103',  # Manufacture of malt liquors and malt
-    '1104',  # Manufacture of soft drinks; production of mineral waters and other bottled waters
+    '1103',  # Manufacture of beer
+    '1104',  # Manufacture of malt
+    '1105',  # Manufacture of soft drinks; production of mineral waters and other bottled waters
     '12',  # Manufacture of tobacco products
     '120',  # Manufacture of tobacco products
     '1200',  # Manufacture of tobacco products
@@ -155,9 +159,9 @@ Processes = Literal[
     '143',  # Manufacture of knitted and crocheted apparel
     '1430',  # Manufacture of knitted and crocheted apparel
     '15',  # Manufacture of leather and related products
-    '151',  # Tanning and dressing of leather; manufacture of luggage, handbags, saddlery and harness; dressing and dyeing of fur
+    '151',  # Tanning, dyeing, dressing of leather and fur; manufacture of luggage, handbags, saddlery and harness
     '1511',  # Tanning and dressing of leather; dressing and dyeing of fur
-    '1512',  # Manufacture of luggage, handbags and the like, saddlery and harness
+    '1512',  # Manufacture of luggage, handbags and the like, saddlery and harness of any material
     '152',  # Manufacture of footwear
     '1520',  # Manufacture of footwear
     '16',  # Manufacture of wood and of products of wood and cork, except furniture; manufacture of articles of straw and plaiting materials
@@ -182,8 +186,8 @@ Processes = Literal[
     '19',  # Manufacture of coke and refined petroleum products
     '191',  # Manufacture of coke oven products
     '1910',  # Manufacture of coke oven products
-    '192',  # Manufacture of refined petroleum products
-    '1920',  # Manufacture of refined petroleum products
+    '192',  # Manufacture of refined petroleum products; manufacture of fossil fuel products
+    '1920',  # Manufacture of refined petroleum products; manufacture of fossil fuel products
     '20',  # Manufacture of chemicals and chemical products
     '201',  # Manufacture of basic chemicals, fertilizers and nitrogen compounds, plastics and synthetic rubber in primary forms
     '2011',  # Manufacture of basic chemicals
@@ -199,7 +203,7 @@ Processes = Literal[
     '21',  # Manufacture of basic pharmaceutical products and pharmaceutical preparations
     '210',  # Manufacture of pharmaceuticals, medicinal chemical and botanical products
     '2100',  # Manufacture of pharmaceuticals, medicinal chemical and botanical products
-    '22',  # Manufacture of rubber and plastics products
+    '22',  # Manufacture of rubber and plastic products
     '221',  # Manufacture of rubber products
     '2211',  # Manufacture of rubber tyres and tubes; retreading and rebuilding of rubber tyres
     '2219',  # Manufacture of other rubber products
@@ -238,7 +242,8 @@ Processes = Literal[
     '2599',  # Manufacture of other fabricated metal products n.e.c.
     '26',  # Manufacture of computer, electronic and optical products
     '261',  # Manufacture of electronic components and boards
-    '2610',  # Manufacture of electronic components and boards
+    '2611',  # Manufacture of solar cells, solar panels and photovoltaic inverters
+    '2619',  # Manufacture of other electronic components and boards
     '262',  # Manufacture of computers and peripheral equipment
     '2620',  # Manufacture of computers and peripheral equipment
     '263',  # Manufacture of communication equipment
@@ -263,8 +268,8 @@ Processes = Literal[
     '2731',  # Manufacture of fibre optic cables
     '2732',  # Manufacture of other electronic and electric wires and cables
     '2733',  # Manufacture of wiring devices
-    '274',  # Manufacture of electric lighting equipment
-    '2740',  # Manufacture of electric lighting equipment
+    '274',  # Manufacture of lighting equipment
+    '2740',  # Manufacture of lighting equipment
     '275',  # Manufacture of domestic appliances
     '2750',  # Manufacture of domestic appliances
     '279',  # Manufacture of other electrical equipment
@@ -275,7 +280,7 @@ Processes = Literal[
     '2812',  # Manufacture of fluid power equipment
     '2813',  # Manufacture of other pumps, compressors, taps and valves
     '2814',  # Manufacture of bearings, gears, gearing and driving elements
-    '2815',  # Manufacture of ovens, furnaces and furnace burners
+    '2815',  # Manufacture of ovens, furnaces and permanent household heating equipment
     '2816',  # Manufacture of lifting and handling equipment
     '2817',  # Manufacture of office machinery and equipment (except computers and peripheral equipment)
     '2818',  # Manufacture of power-driven hand tools
@@ -311,7 +316,8 @@ Processes = Literal[
     '3099',  # Manufacture of other transport equipment n.e.c.
     '31',  # Manufacture of furniture
     '310',  # Manufacture of furniture
-    '3100',  # Manufacture of furniture
+    '3101',  # Manufacture of wooden furniture
+    '3102',  # Manufacture of other furniture
     '32',  # Other manufacturing
     '321',  # Manufacture of jewellery, bijouterie and related articles
     '3211',  # Manufacture of jewellery and related articles
@@ -326,24 +332,28 @@ Processes = Literal[
     '3250',  # Manufacture of medical and dental instruments and supplies
     '329',  # Other manufacturing n.e.c.
     '3290',  # Other manufacturing n.e.c.
-    '33',  # Repair and installation of machinery and equipment
-    '331',  # Repair of fabricated metal products, machinery and equipment
-    '3311',  # Repair of fabricated metal products
-    '3312',  # Repair of machinery
-    '3313',  # Repair of electronic and optical equipment
-    '3314',  # Repair of electrical equipment
-    '3315',  # Repair of transport equipment, except motor vehicles
-    '3319',  # Repair of other equipment
+    '33',  # Repair, maintenance and installation of machinery and equipment
+    '331',  # Repair and maintenance of fabricated metal products, machinery and equipment
+    '3311',  # Repair and maintenance of fabricated metal products
+    '3312',  # Repair and maintenance of machinery
+    '3313',  # Repair and maintenance of electronic and optical equipment
+    '3314',  # Repair and maintenance of electrical equipment
+    '3315',  # Repair and maintenance of transport equipment, except motor vehicles
+    '3319',  # Repair and maintenance of other equipment
     '332',  # Installation of industrial machinery and equipment
     '3320',  # Installation of industrial machinery and equipment
     'D',  # Electricity, gas, steam and air conditioning supply
     '35',  # Electricity, gas, steam and air conditioning supply
-    '351',  # Electric power generation, transmission and distribution
-    '3510',  # Electric power generation, transmission and distribution
+    '351',  # Electric power generation, transmission and distribution activities
+    '3511',  # Electric power generation activities from non-renewable sources
+    '3512',  # Electric power generation activities from renewable sources
+    '3513',  # Electric power transmission and distribution activities
     '352',  # Manufacture of gas; distribution of gaseous fuels through mains
     '3520',  # Manufacture of gas; distribution of gaseous fuels through mains
     '353',  # Steam and air conditioning supply
     '3530',  # Steam and air conditioning supply
+    '354',  # Activities of brokers and agents for electric power and natural gas
+    '3540',  # Activities of brokers and agents for electric power and natural gas
     'E',  # Water supply; sewerage, waste management and remediation activities
     '36',  # Water collection, treatment and supply
     '360',  # Water collection, treatment and supply
@@ -351,22 +361,22 @@ Processes = Literal[
     '37',  # Sewerage
     '370',  # Sewerage
     '3700',  # Sewerage
-    '38',  # Waste collection, treatment and disposal activities; materials recovery
-    '381',  # Waste collection
+    '38',  # Waste collection, treatment and disposal, and recovery activities
+    '381',  # Waste collection activities
     '3811',  # Collection of non-hazardous waste
     '3812',  # Collection of hazardous waste
     '382',  # Waste treatment and disposal
     '3821',  # Treatment and disposal of non-hazardous waste
     '3822',  # Treatment and disposal of hazardous waste
-    '383',  # Materials recovery
-    '3830',  # Materials recovery
-    '39',  # Remediation activities and other waste management services
-    '390',  # Remediation activities and other waste management services
-    '3900',  # Remediation activities and other waste management services
+    '383',  # Materials and other waste recovery
+    '3830',  # Materials and other waste recovery
+    '39',  # Remediation and other waste management service activities
+    '390',  # Remediation and other waste management service activities
+    '3900',  # Remediation and other waste management service activities
     'F',  # Construction
-    '41',  # Construction of buildings
-    '410',  # Construction of buildings
-    '4100',  # Construction of buildings
+    '41',  # Construction of residential and non-residential buildings
+    '410',  # Construction of residential and non-residential buildings
+    '4100',  # Construction of residential and non-residential buildings
     '42',  # Civil engineering
     '421',  # Construction of roads and railways
     '4210',  # Construction of roads and railways
@@ -384,19 +394,12 @@ Processes = Literal[
     '4329',  # Other construction installation
     '433',  # Building completion and finishing
     '4330',  # Building completion and finishing
+    '434',  # Intermediation service activities for specialized construction services
+    '4340',  # Intermediation service activities for specialized construction services
     '439',  # Other specialized construction activities
     '4390',  # Other specialized construction activities
-    'G',  # Wholesale and retail trade; repair of motor vehicles and motorcycles
-    '45',  # Wholesale and retail trade and repair of motor vehicles and motorcycles
-    '451',  # Sale of motor vehicles
-    '4510',  # Sale of motor vehicles
-    '452',  # Maintenance and repair of motor vehicles
-    '4520',  # Maintenance and repair of motor vehicles
-    '453',  # Sale of motor vehicle parts and accessories
-    '4530',  # Sale of motor vehicle parts and accessories
-    '454',  # Sale, maintenance and repair of motorcycles and related parts and accessories
-    '4540',  # Sale, maintenance and repair of motorcycles and related parts and accessories
-    '46',  # Wholesale trade, except of motor vehicles and motorcycles
+    'G',  # Wholesale and retail trade
+    '46',  # Wholesale trade
     '461',  # Wholesale on a fee or contract basis
     '4610',  # Wholesale on a fee or contract basis
     '462',  # Wholesale of agricultural raw materials and live animals
@@ -405,54 +408,57 @@ Processes = Literal[
     '4630',  # Wholesale of food, beverages and tobacco
     '464',  # Wholesale of household goods
     '4641',  # Wholesale of textiles, clothing and footwear
+    '4642',  # Wholesale of household, office and shop furniture, carpets and lighting equipment
     '4649',  # Wholesale of other household goods
     '465',  # Wholesale of machinery, equipment and supplies
     '4651',  # Wholesale of computers, computer peripheral equipment and software
     '4652',  # Wholesale of electronic and telecommunications equipment and parts
     '4653',  # Wholesale of agricultural machinery, equipment and supplies
     '4659',  # Wholesale of other machinery and equipment
-    '466',  # Other specialized wholesale
-    '4661',  # Wholesale of solid, liquid and gaseous fuels and related products
-    '4662',  # Wholesale of metals and metal ores
-    '4663',  # Wholesale of construction materials, hardware, plumbing and heating equipment and supplies
-    '4669',  # Wholesale of waste and scrap and other products n.e.c.
+    '466',  # Wholesale of motor vehicles, motorcycles and related parts and accessories
+    '4661',  # Wholesale of motor vehicles
+    '4662',  # Wholesale of motor vehicle parts and accessories
+    '4663',  # Wholesale of motorcycles, motorcycle parts and accessories
+    '467',  # Other specialized wholesale
+    '4671',  # Wholesale of solid, liquid and gaseous fuels and related products
+    '4672',  # Wholesale of metals and metal ores
+    '4673',  # Wholesale of construction materials, hardware, plumbing and heating equipment and supplies
+    '4679',  # Wholesale of chemicals, waste and scrap and other products n.e.c.
     '469',  # Non-specialized wholesale trade
     '4690',  # Non-specialized wholesale trade
-    '47',  # Retail trade, except of motor vehicles and motorcycles
-    '471',  # Retail sale in non-specialized stores
-    '4711',  # Retail sale in non-specialized stores with food, beverages or tobacco predominating
-    '4719',  # Other retail sale in non-specialized stores
-    '472',  # Retail sale of food, beverages and tobacco in specialized stores
-    '4721',  # Retail sale of food in specialized stores
-    '4722',  # Retail sale of beverages in specialized stores
-    '4723',  # Retail sale of tobacco products in specialized stores
-    '473',  # Retail sale of automotive fuel in specialized stores
-    '4730',  # Retail sale of automotive fuel in specialized stores
-    '474',  # Retail sale of information and communications equipment in specialized stores
-    '4741',  # Retail sale of computers, peripheral units, software and telecommunications equipment in specialized stores
-    '4742',  # Retail sale of audio and video equipment in specialized stores
-    '475',  # Retail sale of other household equipment in specialized stores
-    '4751',  # Retail sale of textiles in specialized stores
-    '4752',  # Retail sale of hardware, paints and glass in specialized stores
-    '4753',  # Retail sale of carpets, rugs, wall and floor coverings in specialized stores
-    '4759',  # Retail sale of electrical household appliances, furniture, lighting equipment and other household articles in specialized stores
-    '476',  # Retail sale of cultural and recreation goods in specialized stores
-    '4761',  # Retail sale of books, newspapers and stationary in specialized stores
-    '4762',  # Retail sale of music and video recordings in specialized stores
-    '4763',  # Retail sale of sporting equipment in specialized stores
-    '4764',  # Retail sale of games and toys in specialized stores
-    '477',  # Retail sale of other goods in specialized stores
-    '4771',  # Retail sale of clothing, footwear and leather articles in specialized stores
-    '4772',  # Retail sale of pharmaceutical and medical goods, cosmetic and toilet articles in specialized stores
-    '4773',  # Other retail sale of new goods in specialized stores
+    '47',  # Retail trade
+    '471',  # Non-specialized retail sale
+    '4711',  # Non-specialized retail sale with food, beverages or tobacco predominating
+    '4719',  # Other non-specialized retail sale
+    '472',  # Retail sale of food, beverages and tobacco
+    '4721',  # Retail sale of food
+    '4722',  # Retail sale of beverages
+    '4723',  # Retail sale of tobacco products
+    '473',  # Retail sale of automotive fuel
+    '4730',  # Retail sale of automotive fuel
+    '474',  # Retail sale of information and communication equipment
+    '4740',  # Retail sale of information and communication equipment
+    '475',  # Retail sale of other household equipment
+    '4751',  # Retail sale of textiles
+    '4752',  # Retail sale of hardware, building materials, paints and glass
+    '4753',  # Retail sale of carpets, rugs, wall and floor coverings
+    '4759',  # Retail sale of electrical household appliances, furniture, lighting equipment and other household articles
+    '476',  # Retail sale of cultural and recreational goods
+    '4761',  # Retail sale of books, newspapers, stationery and office supplies
+    '4762',  # Retail sale of sporting equipment
+    '4763',  # Retail sale of games and toys
+    '4769',  # Retail sale of cultural and recreational goods n.e.c.
+    '477',  # Retail sale of other goods, except motor vehicles and motorcycles
+    '4771',  # Retail sale of clothing, footwear and leather articles
+    '4772',  # Retail sale of pharmaceutical and medical goods, cosmetic and toilet articles
+    '4773',  # Retail sale of other new goods n.e.c.
     '4774',  # Retail sale of second-hand goods
-    '478',  # Retail sale via stalls and markets
-    '4781',  # Retail sale via stalls and markets of food, beverages and tobacco products
-    '4782',  # Retail sale via stalls and markets of textiles, clothing and footwear
-    '4789',  # Retail sale via stalls and markets of other goods
-    '479',  # Retail trade not in stores, stalls or markets
-    '4791',  # Retail sale via mail order houses or via Internet
-    '4799',  # Other retail sale not in stores, stalls or markets
+    '478',  # Retail sale of motor vehicles, motorcycles and related parts and accessories
+    '4781',  # Retail sale of motor vehicles
+    '4782',  # Retail sale of motor vehicle parts and accessories
+    '4783',  # Retail sale of motorcycles, motorcycles parts and accessories
+    '479',  # Intermediation service activities for retail sale
+    '4790',  # Intermediation service activities for retail sale
     'H',  # Transportation and storage
     '49',  # Land transport and transport via pipelines
     '491',  # Transport via railways
@@ -484,37 +490,49 @@ Processes = Literal[
     '5222',  # Service activities incidental to water transportation
     '5223',  # Service activities incidental to air transportation
     '5224',  # Cargo handling
-    '5229',  # Other transportation support activities
+    '5229',  # Other support activities for transportation
+    '523',  # Intermediation service activities for transportation
+    '5231',  # Intermediation service activities for freight transportation
+    '5232',  # Intermediation service activities for passenger transportation
     '53',  # Postal and courier activities
     '531',  # Postal activities
     '5310',  # Postal activities
     '532',  # Courier activities
     '5320',  # Courier activities
+    '533',  # Intermediation service activities for postal and courier activities
+    '5330',  # Intermediation service activities for postal and courier activities
     'I',  # Accommodation and food service activities
     '55',  # Accommodation
-    '551',  # Short term accommodation activities
-    '5510',  # Short term accommodation activities
-    '552',  # Camping grounds, recreational vehicle parks and trailer parks
-    '5520',  # Camping grounds, recreational vehicle parks and trailer parks
-    '559',  # Other accommodation
-    '5590',  # Other accommodation
+    '551',  # Hotels and similar accommodation activities
+    '5510',  # Hotels and similar accommodation activities
+    '552',  # Other short term accommodation activities
+    '5520',  # Other short term accommodation activities
+    '553',  # Camping grounds, recreational vehicle parks and trailer parks
+    '5530',  # Camping grounds, recreational vehicle parks and trailer parks
+    '554',  # Intermediation service activities for accommodation
+    '5540',  # Intermediation service activities for accommodation
+    '559',  # Other accommodation n.e.c.
+    '5590',  # Other accommodation n.e.c.
     '56',  # Food and beverage service activities
     '561',  # Restaurants and mobile food service activities
     '5610',  # Restaurants and mobile food service activities
     '562',  # Event catering and other food service activities
-    '5621',  # Event catering
+    '5621',  # Event catering activities
     '5629',  # Other food service activities
     '563',  # Beverage serving activities
     '5630',  # Beverage serving activities
-    'J',  # Information and communication
+    '564',  # Intermediation service activities for food and beverage services activities
+    '5640',  # Intermediation service activities for food and beverage services activities
+    'J',  # Publishing, broadcasting, and content production and distribution activities
     '58',  # Publishing activities
-    '581',  # Publishing of books, periodicals and other publishing activities
-    '5811',  # Book publishing
-    '5812',  # Publishing of directories and mailing lists
-    '5813',  # Publishing of newspapers, journals and periodicals
+    '581',  # Publishing of books, newspapers, periodicals and other publishing activities
+    '5811',  # Publishing of books
+    '5812',  # Publishing of newspapers
+    '5813',  # Publishing of journals and periodicals
     '5819',  # Other publishing activities
     '582',  # Software publishing
-    '5820',  # Software publishing
+    '5821',  # Publishing of video games
+    '5829',  # Other software publishing
     '59',  # Motion picture, video and television programme production, sound recording and music publishing activities
     '591',  # Motion picture, video and television programme activities
     '5911',  # Motion picture, video and television programme production activities
@@ -523,45 +541,54 @@ Processes = Literal[
     '5914',  # Motion picture projection activities
     '592',  # Sound recording and music publishing activities
     '5920',  # Sound recording and music publishing activities
-    '60',  # Programming and broadcasting activities
-    '601',  # Radio broadcasting
-    '6010',  # Radio broadcasting
-    '602',  # Television programming and broadcasting activities
-    '6020',  # Television programming and broadcasting activities
+    '60',  # Programming, broadcasting, news agency and other content distribution activities
+    '601',  # Radio broadcasting and audio distribution activities
+    '6010',  # Radio broadcasting and audio distribution activities
+    '602',  # Television programming, broadcasting and video distribution activities
+    '6020',  # Television programming, broadcasting and video distribution activities
+    '603',  # News agency and other content distribution activities
+    '6031',  # News agency activities
+    '6039',  # Social network sites and other content distribution activities
+    'K',  # Telecommunications, computer programming, consultancy, computing infrastructure, and other information service activities
     '61',  # Telecommunications
-    '611',  # Wired telecommunications activities
-    '6110',  # Wired telecommunications activities
-    '612',  # Wireless telecommunications activities
-    '6120',  # Wireless telecommunications activities
-    '613',  # Satellite telecommunications activities
-    '6130',  # Satellite telecommunications activities
-    '619',  # Other telecommunications activities
-    '6190',  # Other telecommunications activities
+    '611',  # Wired, wireless, and satellite telecommunication activities
+    '6110',  # Wired, wireless, and satellite telecommunication activities
+    '612',  # Telecommunication reselling activities and intermediation service activities for telecommunication
+    '6120',  # Telecommunication reselling activities and intermediation service activities for telecommunication
+    '619',  # Other telecommunication activities
+    '6190',  # Other telecommunication activities
     '62',  # Computer programming, consultancy and related activities
-    '620',  # Computer programming, consultancy and related activities
-    '6201',  # Computer programming activities
-    '6202',  # Computer consultancy and computer facilities management activities
-    '6209',  # Other information technology and computer service activities
-    '63',  # Information service activities
-    '631',  # Data processing, hosting and related activities; web portals
-    '6311',  # Data processing, hosting and related activities
-    '6312',  # Web portals
-    '639',  # Other information service activities
-    '6391',  # News agency activities
-    '6399',  # Other information service activities n.e.c.
-    'K',  # Financial and insurance activities
+    '621',  # Computer programming activities
+    '6211',  # Development of video games, video game software, and video game software tools
+    '6219',  # Other computer programming activities
+    '622',  # Computer consultancy and computer facilities management activities
+    '6220',  # Computer consultancy and computer facilities management activities
+    '629',  # Other information technology and computer service activities
+    '6290',  # Other information technology and computer service activities
+    '63',  # Computing infrastructure, data processing, hosting, and other information service activities
+    '631',  # Computing infrastructure, data processing, hosting and related activities
+    '6310',  # Computing infrastructure, data processing, hosting and related activities
+    '639',  # Web search portals activities and other information service activities
+    '6390',  # Web search portals activities and other information service activities
+    'L',  # Financial and insurance activities
     '64',  # Financial service activities, except insurance and pension funding
     '641',  # Monetary intermediation
     '6411',  # Central banking
     '6419',  # Other monetary intermediation
-    '642',  # Activities of holding companies
-    '6420',  # Activities of holding companies
-    '643',  # Trusts, funds and similar financial entities
-    '6430',  # Trusts, funds and similar financial entities
+    '642',  # Activities of holding companies and financing conduits
+    '6421',  # Activities of holding companies
+    '6422',  # Activities of financing conduits
+    '643',  # Activities of trusts, funds and similar financial entities
+    '6431',  # Activities of money market funds
+    '6432',  # Activities of non-money market investments funds
+    '6433',  # Activities of trust, estate and agency accounts
     '649',  # Other financial service activities, except insurance and pension funding activities
-    '6491',  # Financial leasing
-    '6492',  # Other credit granting
-    '6499',  # Other financial service activities, except insurance and pension funding activities, n.e.c.
+    '6491',  # Financial leasing activities
+    '6492',  # International trade financing activities
+    '6493',  # Factoring activities
+    '6494',  # Securitisation activities
+    '6495',  # Other credit granting activities
+    '6499',  # Other financial service activities n.e.c., except insurance and pension funding activities
     '65',  # Insurance, reinsurance and pension funding, except compulsory social security
     '651',  # Insurance
     '6511',  # Life insurance
@@ -571,23 +598,24 @@ Processes = Literal[
     '653',  # Pension funding
     '6530',  # Pension funding
     '66',  # Activities auxiliary to financial service and insurance activities
-    '661',  # Activities auxiliary to financial service activities, except insurance and pension funding
+    '661',  # Activities auxiliary to financial services, except insurance and pension funding
     '6611',  # Administration of financial markets
     '6612',  # Security and commodity contracts brokerage
-    '6619',  # Other activities auxiliary to financial service activities
+    '6619',  # Other activities auxiliary to financial service activities, except insurance and pension funding
     '662',  # Activities auxiliary to insurance and pension funding
     '6621',  # Risk and damage evaluation
     '6622',  # Activities of insurance agents and brokers
     '6629',  # Other activities auxiliary to insurance and pension funding
     '663',  # Fund management activities
     '6630',  # Fund management activities
-    'L',  # Real estate activities
+    'M',  # Real estate activities
     '68',  # Real estate activities
     '681',  # Real estate activities with own or leased property
     '6810',  # Real estate activities with own or leased property
     '682',  # Real estate activities on a fee or contract basis
-    '6820',  # Real estate activities on a fee or contract basis
-    'M',  # Professional, scientific and technical activities
+    '6821',  # Intermediation service activities for real estate
+    '6829',  # Other real estate activities on a fee or contract basis
+    'N',  # Professional, scientific and technical activities
     '69',  # Legal and accounting activities
     '691',  # Legal activities
     '6910',  # Legal activities
@@ -596,11 +624,11 @@ Processes = Literal[
     '70',  # Activities of head offices; management consultancy activities
     '701',  # Activities of head offices
     '7010',  # Activities of head offices
-    '702',  # Management consultancy activities
-    '7020',  # Management consultancy activities
+    '702',  # Business and other management consultancy activities
+    '7020',  # Business and other management consultancy activities
     '71',  # Architectural and engineering activities; technical testing and analysis
-    '711',  # Architectural and engineering activities and related technical consultancy
-    '7110',  # Architectural and engineering activities and related technical consultancy
+    '711',  # Architectural and engineering, and related technical consultancy activities
+    '7110',  # Architectural and engineering, and related technical consultancy activities
     '712',  # Technical testing and analysis
     '7120',  # Technical testing and analysis
     '72',  # Scientific research and development
@@ -608,131 +636,156 @@ Processes = Literal[
     '7210',  # Research and experimental development on natural sciences and engineering
     '722',  # Research and experimental development on social sciences and humanities
     '7220',  # Research and experimental development on social sciences and humanities
-    '73',  # Advertising and market research
-    '731',  # Advertising
-    '7310',  # Advertising
-    '732',  # Market research and public opinion polling
-    '7320',  # Market research and public opinion polling
+    '73',  # Activities of advertising, market research and public relations
+    '731',  # Advertising activities
+    '7310',  # Advertising activities
+    '732',  # Market research and public opinion polling activities
+    '7320',  # Market research and public opinion polling activities
+    '733',  # Public relations activities
+    '7330',  # Public relations activities
     '74',  # Other professional, scientific and technical activities
     '741',  # Specialized design activities
     '7410',  # Specialized design activities
     '742',  # Photographic activities
     '7420',  # Photographic activities
+    '743',  # Translation and interpretation activities
+    '7430',  # Translation and interpretation activities
     '749',  # Other professional, scientific and technical activities n.e.c.
-    '7490',  # Other professional, scientific and technical activities n.e.c.
+    '7491',  # Patent brokering and marketing service activities
+    '7499',  # All other professional, scientific and technical activities n.e.c.
     '75',  # Veterinary activities
     '750',  # Veterinary activities
     '7500',  # Veterinary activities
-    'N',  # Administrative and support service activities
+    'O',  # Administrative and support service activities
     '77',  # Rental and leasing activities
-    '771',  # Renting and leasing of motor vehicles
-    '7710',  # Renting and leasing of motor vehicles
-    '772',  # Renting and leasing of personal and household goods
-    '7721',  # Renting and leasing of recreational and sports goods
-    '7722',  # Renting of video tapes and disks
-    '7729',  # Renting and leasing of other personal and household goods
-    '773',  # Renting and leasing of other machinery, equipment and tangible goods
-    '7730',  # Renting and leasing of other machinery, equipment and tangible goods
+    '771',  # Rental and leasing of motor vehicles
+    '7710',  # Rental and leasing of motor vehicles
+    '772',  # Rental and leasing of personal and household goods
+    '7721',  # Rental and leasing of recreational and sports goods
+    '7729',  # Rental and leasing of other personal and household goods
+    '773',  # Rental and leasing of other machinery, equipment and tangible goods
+    '7730',  # Rental and leasing of other machinery, equipment and tangible goods
     '774',  # Leasing of intellectual property and similar products, except copyrighted works
     '7740',  # Leasing of intellectual property and similar products, except copyrighted works
+    '775',  # Intermediation service activities for rental and leasing of tangible goods and non-financial intangible assets
+    '7751',  # Intermediation service activities for rental and leasing of cars, motorhomes and trailers
+    '7752',  # Intermediation service activities for rental and leasing of other tangible goods and non-financial intangible assets
     '78',  # Employment activities
     '781',  # Activities of employment placement agencies
     '7810',  # Activities of employment placement agencies
-    '782',  # Temporary employment agency activities
-    '7820',  # Temporary employment agency activities
-    '783',  # Other human resources provision
-    '7830',  # Other human resources provision
-    '79',  # Travel agency, tour operator, reservation service and related activities
+    '782',  # Temporary employment agency activities and other human resource provisions
+    '7820',  # Temporary employment agency activities and other human resource provisions
+    '79',  # Travel agency, tour operator, and other travel related activities
     '791',  # Travel agency and tour operator activities
     '7911',  # Travel agency activities
     '7912',  # Tour operator activities
-    '799',  # Other reservation service and related activities
-    '7990',  # Other reservation service and related activities
-    '80',  # Security and investigation activities
-    '801',  # Private security activities
-    '8010',  # Private security activities
-    '802',  # Security systems service activities
-    '8020',  # Security systems service activities
-    '803',  # Investigation activities
-    '8030',  # Investigation activities
+    '799',  # Other travel related activities
+    '7990',  # Other travel related activities
+    '80',  # Investigation and security activities
+    '801',  # Investigation and security activities
+    '8011',  # Investigation and private security activities
+    '8019',  # Security activities n.e.c.
     '81',  # Services to buildings and landscape activities
     '811',  # Combined facilities support activities
     '8110',  # Combined facilities support activities
     '812',  # Cleaning activities
     '8121',  # General cleaning of buildings
-    '8129',  # Other building and industrial cleaning activities
-    '813',  # Landscape care and maintenance service activities
-    '8130',  # Landscape care and maintenance service activities
+    '8129',  # Other cleaning activities
+    '813',  # Landscape service activities
+    '8130',  # Landscape service activities
     '82',  # Office administrative, office support and other business support activities
     '821',  # Office administrative and support activities
-    '8211',  # Combined office administrative service activities
-    '8219',  # Photocopying, document preparation and other specialized office support activities
+    '8210',  # Office administrative and support activities
     '822',  # Activities of call centres
     '8220',  # Activities of call centres
     '823',  # Organization of conventions and trade shows
     '8230',  # Organization of conventions and trade shows
+    '824',  # Intermediation service activities for business support activities n.e.c., except financial intermediation
+    '8240',  # Intermediation service activities for business support activities n.e.c., except financial intermediation
     '829',  # Business support service activities n.e.c.
     '8291',  # Activities of collection agencies and credit bureaus
     '8292',  # Packaging activities
     '8299',  # Other business support service activities n.e.c.
-    'O',  # Public administration and defence; compulsory social security
+    'P',  # Public administration and defence; compulsory social security
     '84',  # Public administration and defence; compulsory social security
-    '841',  # Administration of the State and the economic and social policy of the community
+    '841',  # Administration of the State and the economic, social and environmental policies of the community
     '8411',  # General public administration activities
-    '8412',  # Regulation of the activities of providing health care, education, cultural services and other social services, excluding social security
-    '8413',  # Regulation of and contribution to more efficient operation of businesses
+    '8412',  # Regulation of the activities of providing health care, education, cultural services and other social services, excluding social security and environment
+    '8413',  # Regulation of the activities of providing environmental services
+    '8414',  # Regulation of and contribution to more efficient operation of businesses
     '842',  # Provision of services to the community as a whole
     '8421',  # Foreign affairs
     '8422',  # Defence activities
     '8423',  # Public order and safety activities
     '843',  # Compulsory social security activities
     '8430',  # Compulsory social security activities
-    'P',  # Education
+    'Q',  # Education
     '85',  # Education
-    '851',  # Pre-primary and primary education
-    '8510',  # Pre-primary and primary education
-    '852',  # Secondary education
-    '8521',  # General secondary education
-    '8522',  # Technical and vocational secondary education
-    '853',  # Higher education
-    '8530',  # Higher education
-    '854',  # Other education
-    '8541',  # Sports and recreation education
-    '8542',  # Cultural education
-    '8549',  # Other education n.e.c.
-    '855',  # Educational support activities
-    '8550',  # Educational support activities
-    'Q',  # Human health and social work activities
+    '851',  # Pre-primary education
+    '8510',  # Pre-primary education
+    '852',  # Primary education
+    '8520',  # Primary education
+    '853',  # Secondary and post-secondary non-tertiary education
+    '8531',  # General secondary education
+    '8532',  # Vocational secondary education
+    '8533',  # Post-secondary non-tertiary education
+    '854',  # Tertiary education
+    '8540',  # Tertiary education
+    '855',  # Other education
+    '8551',  # Sports and recreation education
+    '8552',  # Cultural education
+    '8553',  # Driving school activities
+    '8559',  # Other education n.e.c.
+    '856',  # Educational support activities
+    '8561',  # Intermediation service activities for courses and tutors
+    '8569',  # Other educational support activities
+    'R',  # Human health and social work activities
     '86',  # Human health activities
     '861',  # Hospital activities
     '8610',  # Hospital activities
     '862',  # Medical and dental practice activities
     '8620',  # Medical and dental practice activities
     '869',  # Other human health activities
-    '8690',  # Other human health activities
+    '8691',  # Intermediation service activities for medical, dental, and other human health services
+    '8699',  # Other human health activities n.e.c
     '87',  # Residential care activities
-    '871',  # Residential nursing care facilities
-    '8710',  # Residential nursing care facilities
-    '872',  # Residential care activities for mental retardation, mental health and substance abuse
-    '8720',  # Residential care activities for mental retardation, mental health and substance abuse
-    '873',  # Residential care activities for the elderly and disabled
-    '8730',  # Residential care activities for the elderly and disabled
+    '871',  # Residential nursing care activities
+    '8710',  # Residential nursing care activities
+    '872',  # Residential care activities for persons living with or having a diagnosis of a mental illness or substance abuse
+    '8720',  # Residential care activities for persons living with or having a diagnosis of a mental illness or substance abuse
+    '873',  # Residential care activities for older persons or persons with physical disabilities
+    '8730',  # Residential care activities for older persons or persons with physical disabilities
     '879',  # Other residential care activities
-    '8790',  # Other residential care activities
+    '8791',  # Intermediation service activities for residential care activities
+    '8799',  # Other residential care activities n.e.c.
     '88',  # Social work activities without accommodation
-    '881',  # Social work activities without accommodation for the elderly and disabled
-    '8810',  # Social work activities without accommodation for the elderly and disabled
+    '881',  # Social work activities without accommodation for older persons or persons with disabilities
+    '8810',  # Social work activities without accommodation for older persons or persons with disabilities
     '889',  # Other social work activities without accommodation
     '8890',  # Other social work activities without accommodation
-    'R',  # Arts, entertainment and recreation
-    '90',  # Creative, arts and entertainment activities
-    '900',  # Creative, arts and entertainment activities
-    '9000',  # Creative, arts and entertainment activities
-    '91',  # Libraries, archives, museums and other cultural activities
-    '910',  # Libraries, archives, museums and other cultural activities
-    '9101',  # Library and archives activities
-    '9102',  # Museums activities and operation of historical sites and buildings
-    '9103',  # Botanical and zoological gardens and nature reserves activities
+    'S',  # Arts, sports and recreation
+    '90',  # Arts creation and performing arts activities
+    '901',  # Arts creation activities
+    '9011',  # Literary creation and musical composition activities
+    '9012',  # Visual arts creation activities
+    '9013',  # Other arts creation activities
+    '902',  # Activities of performing arts
+    '9020',  # Activities of performing arts
+    '903',  # Support activities to arts creation and performing arts
+    '9031',  # Operation of arts facilities and sites
+    '9039',  # Other support activities to arts creation and performing arts
+    '91',  # Library, archives, museum and other cultural activities
+    '911',  # Library and archive activities
+    '9111',  # Library activities
+    '9112',  # Archive activities
+    '912',  # Museum, collection, historical site and monument activities
+    '9121',  # Museum and collection activities
+    '9122',  # Historical site and monument activities
+    '913',  # Conservation, restoration and other support activities for cultural heritage
+    '9130',  # Conservation, restoration and other support activities for cultural heritage
+    '914',  # Botanical and zoological garden and nature reserve activities
+    '9141',  # Botanical and zoological garden activities
+    '9142',  # Nature reserve activities
     '92',  # Gambling and betting activities
     '920',  # Gambling and betting activities
     '9200',  # Gambling and betting activities
@@ -741,10 +794,10 @@ Processes = Literal[
     '9311',  # Operation of sports facilities
     '9312',  # Activities of sports clubs
     '9319',  # Other sports activities
-    '932',  # Other amusement and recreation activities
+    '932',  # Amusement and recreation activities
     '9321',  # Activities of amusement parks and theme parks
-    '9329',  # Other amusement and recreation activities n.e.c.
-    'S',  # Other service activities
+    '9329',  # Other amusement and recreation activities
+    'T',  # Other service activities
     '94',  # Activities of membership organizations
     '941',  # Activities of business, employers and professional membership organizations
     '9411',  # Activities of business and employers membership organizations
@@ -755,23 +808,34 @@ Processes = Literal[
     '9491',  # Activities of religious organizations
     '9492',  # Activities of political organizations
     '9499',  # Activities of other membership organizations n.e.c.
-    '95',  # Repair of computers and personal and household goods
-    '951',  # Repair of computers and communication equipment
-    '9511',  # Repair of computers and peripheral equipment
-    '9512',  # Repair of communication equipment
-    '952',  # Repair of personal and household goods
-    '9521',  # Repair of consumer electronics
-    '9522',  # Repair of household appliances and home and garden equipment
-    '9523',  # Repair of footwear and leather goods
-    '9524',  # Repair of furniture and home furnishings
-    '9529',  # Repair of other personal and household goods
-    '96',  # Other personal service activities
-    '960',  # Other personal service activities
-    '9601',  # Washing and (dry-) cleaning of textile and fur products
-    '9602',  # Hairdressing and other beauty treatment
-    '9603',  # Funeral and related activities
-    '9609',  # Other personal service activities n.e.c.
-    'T',  # Activities of households as employers; undifferentiated goods- and services-producing activities of households for own use
+    '95',  # Repair and maintenance of computers, personal and household goods, and motor vehicles and motorcycles
+    '951',  # Repair and maintenance of computers and communication equipment
+    '9510',  # Repair and maintenance of computers and communication equipment
+    '952',  # Repair and maintenance of personal and household goods
+    '9521',  # Repair and maintenance of consumer electronics
+    '9522',  # Repair and maintenance of household appliances and home and garden equipment
+    '9523',  # Repair and maintenance of footwear and leather goods
+    '9524',  # Repair and maintenance of furniture and home furnishings
+    '9529',  # Repair and maintenance of other personal and household goods
+    '953',  # Repair and maintenance of motor vehicles and motorcycles
+    '9531',  # Repair and maintenance of motor vehicles
+    '9532',  # Repair and maintenance of motorcycles
+    '954',  # Intermediation service activities for repair and maintenance of computers, personal and household goods, and motor vehicles and motorcycles
+    '9540',  # Intermediation service activities for repair and maintenance of computers, personal and household goods, and motor vehicles and motorcycles
+    '96',  # Personal service activities
+    '961',  # Washing and cleaning of textile and fur products
+    '9610',  # Washing and cleaning of textile and fur products
+    '962',  # Hairdressing, beauty treatment, day spa and similar activities
+    '9621',  # Hairdressing and barber activities
+    '9622',  # Beauty care and other beauty treatment activities
+    '9623',  # Day spa, sauna and steam bath activities
+    '963',  # Funeral and related activities
+    '9630',  # Funeral and related activities
+    '964',  # Intermediation service activities for personal services
+    '9640',  # Intermediation service activities for personal services
+    '969',  # Other personal service activities n.e.c.
+    '9690',  # Other personal service activities n.e.c.
+    'U',  # Activities of households as employers; undifferentiated goods- and services-producing activities of households for own use
     '97',  # Activities of households as employers of domestic personnel
     '970',  # Activities of households as employers of domestic personnel
     '9700',  # Activities of households as employers of domestic personnel
@@ -780,7 +844,7 @@ Processes = Literal[
     '9810',  # Undifferentiated goods-producing activities of private households for own use
     '982',  # Undifferentiated service-producing activities of private households for own use
     '9820',  # Undifferentiated service-producing activities of private households for own use
-    'U',  # Activities of extraterritorial organizations and bodies
+    'V',  # Activities of extraterritorial organizations and bodies
     '99',  # Activities of extraterritorial organizations and bodies
     '990',  # Activities of extraterritorial organizations and bodies
     '9900',  # Activities of extraterritorial organizations and bodies
@@ -788,7 +852,7 @@ Processes = Literal[
 
 
 # Type-safe union of all processes category text values
-# Note: This is a very large Literal type with ~587 values.
+# Note: This is a very large Literal type with ~649 values.
 # The full list is generated from PROCESSES_CATEGORIES.
 # For type checking purposes, we use str as the actual type since
 # Python's type checker may have issues with such large Literal types.
@@ -936,7 +1000,7 @@ PROCESSES_CATEGORIES: dict[str, ProcessesCategoryData] = {
     '0145': {
         'level': '3',
         'classId': '0145',
-        'text': 'Raising of swine/pigs',
+        'text': 'Raising of swine and pigs',
     },
     '0146': {
         'level': '3',
@@ -1072,6 +1136,16 @@ PROCESSES_CATEGORIES: dict[str, ProcessesCategoryData] = {
         'level': '3',
         'classId': '0322',
         'text': 'Freshwater aquaculture',
+    },
+    '033': {
+        'level': '2',
+        'classId': '033',
+        'text': 'Support activities for fishing and aquaculture',
+    },
+    '0330': {
+        'level': '3',
+        'classId': '0330',
+        'text': 'Support activities for fishing and aquaculture',
     },
     'B': {
         'level': '0',
@@ -1328,6 +1402,11 @@ PROCESSES_CATEGORIES: dict[str, ProcessesCategoryData] = {
         'classId': '1075',
         'text': 'Manufacture of prepared meals and dishes',
     },
+    '1076': {
+        'level': '3',
+        'classId': '1076',
+        'text': 'Processing of coffee and tea',
+    },
     '1079': {
         'level': '3',
         'classId': '1079',
@@ -1366,11 +1445,16 @@ PROCESSES_CATEGORIES: dict[str, ProcessesCategoryData] = {
     '1103': {
         'level': '3',
         'classId': '1103',
-        'text': 'Manufacture of malt liquors and malt',
+        'text': 'Manufacture of beer',
     },
     '1104': {
         'level': '3',
         'classId': '1104',
+        'text': 'Manufacture of malt',
+    },
+    '1105': {
+        'level': '3',
+        'classId': '1105',
         'text': 'Manufacture of soft drinks; production of mineral waters and other bottled waters',
     },
     '12': {
@@ -1486,7 +1570,7 @@ PROCESSES_CATEGORIES: dict[str, ProcessesCategoryData] = {
     '151': {
         'level': '2',
         'classId': '151',
-        'text': 'Tanning and dressing of leather; manufacture of luggage, handbags, saddlery and harness; dressing and dyeing of fur',
+        'text': 'Tanning, dyeing, dressing of leather and fur; manufacture of luggage, handbags, saddlery and harness',
     },
     '1511': {
         'level': '3',
@@ -1496,7 +1580,7 @@ PROCESSES_CATEGORIES: dict[str, ProcessesCategoryData] = {
     '1512': {
         'level': '3',
         'classId': '1512',
-        'text': 'Manufacture of luggage, handbags and the like, saddlery and harness',
+        'text': 'Manufacture of luggage, handbags and the like, saddlery and harness of any material',
     },
     '152': {
         'level': '2',
@@ -1621,12 +1705,12 @@ PROCESSES_CATEGORIES: dict[str, ProcessesCategoryData] = {
     '192': {
         'level': '2',
         'classId': '192',
-        'text': 'Manufacture of refined petroleum products',
+        'text': 'Manufacture of refined petroleum products; manufacture of fossil fuel products',
     },
     '1920': {
         'level': '3',
         'classId': '1920',
-        'text': 'Manufacture of refined petroleum products',
+        'text': 'Manufacture of refined petroleum products; manufacture of fossil fuel products',
     },
     '20': {
         'level': '1',
@@ -1706,7 +1790,7 @@ PROCESSES_CATEGORIES: dict[str, ProcessesCategoryData] = {
     '22': {
         'level': '1',
         'classId': '22',
-        'text': 'Manufacture of rubber and plastics products',
+        'text': 'Manufacture of rubber and plastic products',
     },
     '221': {
         'level': '2',
@@ -1898,10 +1982,15 @@ PROCESSES_CATEGORIES: dict[str, ProcessesCategoryData] = {
         'classId': '261',
         'text': 'Manufacture of electronic components and boards',
     },
-    '2610': {
+    '2611': {
         'level': '3',
-        'classId': '2610',
-        'text': 'Manufacture of electronic components and boards',
+        'classId': '2611',
+        'text': 'Manufacture of solar cells, solar panels and photovoltaic inverters',
+    },
+    '2619': {
+        'level': '3',
+        'classId': '2619',
+        'text': 'Manufacture of other electronic components and boards',
     },
     '262': {
         'level': '2',
@@ -2026,12 +2115,12 @@ PROCESSES_CATEGORIES: dict[str, ProcessesCategoryData] = {
     '274': {
         'level': '2',
         'classId': '274',
-        'text': 'Manufacture of electric lighting equipment',
+        'text': 'Manufacture of lighting equipment',
     },
     '2740': {
         'level': '3',
         'classId': '2740',
-        'text': 'Manufacture of electric lighting equipment',
+        'text': 'Manufacture of lighting equipment',
     },
     '275': {
         'level': '2',
@@ -2086,7 +2175,7 @@ PROCESSES_CATEGORIES: dict[str, ProcessesCategoryData] = {
     '2815': {
         'level': '3',
         'classId': '2815',
-        'text': 'Manufacture of ovens, furnaces and furnace burners',
+        'text': 'Manufacture of ovens, furnaces and permanent household heating equipment',
     },
     '2816': {
         'level': '3',
@@ -2263,10 +2352,15 @@ PROCESSES_CATEGORIES: dict[str, ProcessesCategoryData] = {
         'classId': '310',
         'text': 'Manufacture of furniture',
     },
-    '3100': {
+    '3101': {
         'level': '3',
-        'classId': '3100',
-        'text': 'Manufacture of furniture',
+        'classId': '3101',
+        'text': 'Manufacture of wooden furniture',
+    },
+    '3102': {
+        'level': '3',
+        'classId': '3102',
+        'text': 'Manufacture of other furniture',
     },
     '32': {
         'level': '1',
@@ -2341,42 +2435,42 @@ PROCESSES_CATEGORIES: dict[str, ProcessesCategoryData] = {
     '33': {
         'level': '1',
         'classId': '33',
-        'text': 'Repair and installation of machinery and equipment',
+        'text': 'Repair, maintenance and installation of machinery and equipment',
     },
     '331': {
         'level': '2',
         'classId': '331',
-        'text': 'Repair of fabricated metal products, machinery and equipment',
+        'text': 'Repair and maintenance of fabricated metal products, machinery and equipment',
     },
     '3311': {
         'level': '3',
         'classId': '3311',
-        'text': 'Repair of fabricated metal products',
+        'text': 'Repair and maintenance of fabricated metal products',
     },
     '3312': {
         'level': '3',
         'classId': '3312',
-        'text': 'Repair of machinery',
+        'text': 'Repair and maintenance of machinery',
     },
     '3313': {
         'level': '3',
         'classId': '3313',
-        'text': 'Repair of electronic and optical equipment',
+        'text': 'Repair and maintenance of electronic and optical equipment',
     },
     '3314': {
         'level': '3',
         'classId': '3314',
-        'text': 'Repair of electrical equipment',
+        'text': 'Repair and maintenance of electrical equipment',
     },
     '3315': {
         'level': '3',
         'classId': '3315',
-        'text': 'Repair of transport equipment, except motor vehicles',
+        'text': 'Repair and maintenance of transport equipment, except motor vehicles',
     },
     '3319': {
         'level': '3',
         'classId': '3319',
-        'text': 'Repair of other equipment',
+        'text': 'Repair and maintenance of other equipment',
     },
     '332': {
         'level': '2',
@@ -2401,12 +2495,22 @@ PROCESSES_CATEGORIES: dict[str, ProcessesCategoryData] = {
     '351': {
         'level': '2',
         'classId': '351',
-        'text': 'Electric power generation, transmission and distribution',
+        'text': 'Electric power generation, transmission and distribution activities',
     },
-    '3510': {
+    '3511': {
         'level': '3',
-        'classId': '3510',
-        'text': 'Electric power generation, transmission and distribution',
+        'classId': '3511',
+        'text': 'Electric power generation activities from non-renewable sources',
+    },
+    '3512': {
+        'level': '3',
+        'classId': '3512',
+        'text': 'Electric power generation activities from renewable sources',
+    },
+    '3513': {
+        'level': '3',
+        'classId': '3513',
+        'text': 'Electric power transmission and distribution activities',
     },
     '352': {
         'level': '2',
@@ -2427,6 +2531,16 @@ PROCESSES_CATEGORIES: dict[str, ProcessesCategoryData] = {
         'level': '3',
         'classId': '3530',
         'text': 'Steam and air conditioning supply',
+    },
+    '354': {
+        'level': '2',
+        'classId': '354',
+        'text': 'Activities of brokers and agents for electric power and natural gas',
+    },
+    '3540': {
+        'level': '3',
+        'classId': '3540',
+        'text': 'Activities of brokers and agents for electric power and natural gas',
     },
     'E': {
         'level': '0',
@@ -2466,12 +2580,12 @@ PROCESSES_CATEGORIES: dict[str, ProcessesCategoryData] = {
     '38': {
         'level': '1',
         'classId': '38',
-        'text': 'Waste collection, treatment and disposal activities; materials recovery',
+        'text': 'Waste collection, treatment and disposal, and recovery activities',
     },
     '381': {
         'level': '2',
         'classId': '381',
-        'text': 'Waste collection',
+        'text': 'Waste collection activities',
     },
     '3811': {
         'level': '3',
@@ -2501,27 +2615,27 @@ PROCESSES_CATEGORIES: dict[str, ProcessesCategoryData] = {
     '383': {
         'level': '2',
         'classId': '383',
-        'text': 'Materials recovery',
+        'text': 'Materials and other waste recovery',
     },
     '3830': {
         'level': '3',
         'classId': '3830',
-        'text': 'Materials recovery',
+        'text': 'Materials and other waste recovery',
     },
     '39': {
         'level': '1',
         'classId': '39',
-        'text': 'Remediation activities and other waste management services',
+        'text': 'Remediation and other waste management service activities',
     },
     '390': {
         'level': '2',
         'classId': '390',
-        'text': 'Remediation activities and other waste management services',
+        'text': 'Remediation and other waste management service activities',
     },
     '3900': {
         'level': '3',
         'classId': '3900',
-        'text': 'Remediation activities and other waste management services',
+        'text': 'Remediation and other waste management service activities',
     },
     'F': {
         'level': '0',
@@ -2531,17 +2645,17 @@ PROCESSES_CATEGORIES: dict[str, ProcessesCategoryData] = {
     '41': {
         'level': '1',
         'classId': '41',
-        'text': 'Construction of buildings',
+        'text': 'Construction of residential and non-residential buildings',
     },
     '410': {
         'level': '2',
         'classId': '410',
-        'text': 'Construction of buildings',
+        'text': 'Construction of residential and non-residential buildings',
     },
     '4100': {
         'level': '3',
         'classId': '4100',
-        'text': 'Construction of buildings',
+        'text': 'Construction of residential and non-residential buildings',
     },
     '42': {
         'level': '1',
@@ -2628,6 +2742,16 @@ PROCESSES_CATEGORIES: dict[str, ProcessesCategoryData] = {
         'classId': '4330',
         'text': 'Building completion and finishing',
     },
+    '434': {
+        'level': '2',
+        'classId': '434',
+        'text': 'Intermediation service activities for specialized construction services',
+    },
+    '4340': {
+        'level': '3',
+        'classId': '4340',
+        'text': 'Intermediation service activities for specialized construction services',
+    },
     '439': {
         'level': '2',
         'classId': '439',
@@ -2641,57 +2765,12 @@ PROCESSES_CATEGORIES: dict[str, ProcessesCategoryData] = {
     'G': {
         'level': '0',
         'classId': 'G',
-        'text': 'Wholesale and retail trade; repair of motor vehicles and motorcycles',
-    },
-    '45': {
-        'level': '1',
-        'classId': '45',
-        'text': 'Wholesale and retail trade and repair of motor vehicles and motorcycles',
-    },
-    '451': {
-        'level': '2',
-        'classId': '451',
-        'text': 'Sale of motor vehicles',
-    },
-    '4510': {
-        'level': '3',
-        'classId': '4510',
-        'text': 'Sale of motor vehicles',
-    },
-    '452': {
-        'level': '2',
-        'classId': '452',
-        'text': 'Maintenance and repair of motor vehicles',
-    },
-    '4520': {
-        'level': '3',
-        'classId': '4520',
-        'text': 'Maintenance and repair of motor vehicles',
-    },
-    '453': {
-        'level': '2',
-        'classId': '453',
-        'text': 'Sale of motor vehicle parts and accessories',
-    },
-    '4530': {
-        'level': '3',
-        'classId': '4530',
-        'text': 'Sale of motor vehicle parts and accessories',
-    },
-    '454': {
-        'level': '2',
-        'classId': '454',
-        'text': 'Sale, maintenance and repair of motorcycles and related parts and accessories',
-    },
-    '4540': {
-        'level': '3',
-        'classId': '4540',
-        'text': 'Sale, maintenance and repair of motorcycles and related parts and accessories',
+        'text': 'Wholesale and retail trade',
     },
     '46': {
         'level': '1',
         'classId': '46',
-        'text': 'Wholesale trade, except of motor vehicles and motorcycles',
+        'text': 'Wholesale trade',
     },
     '461': {
         'level': '2',
@@ -2733,6 +2812,11 @@ PROCESSES_CATEGORIES: dict[str, ProcessesCategoryData] = {
         'classId': '4641',
         'text': 'Wholesale of textiles, clothing and footwear',
     },
+    '4642': {
+        'level': '3',
+        'classId': '4642',
+        'text': 'Wholesale of household, office and shop furniture, carpets and lighting equipment',
+    },
     '4649': {
         'level': '3',
         'classId': '4649',
@@ -2766,27 +2850,47 @@ PROCESSES_CATEGORIES: dict[str, ProcessesCategoryData] = {
     '466': {
         'level': '2',
         'classId': '466',
-        'text': 'Other specialized wholesale',
+        'text': 'Wholesale of motor vehicles, motorcycles and related parts and accessories',
     },
     '4661': {
         'level': '3',
         'classId': '4661',
-        'text': 'Wholesale of solid, liquid and gaseous fuels and related products',
+        'text': 'Wholesale of motor vehicles',
     },
     '4662': {
         'level': '3',
         'classId': '4662',
-        'text': 'Wholesale of metals and metal ores',
+        'text': 'Wholesale of motor vehicle parts and accessories',
     },
     '4663': {
         'level': '3',
         'classId': '4663',
+        'text': 'Wholesale of motorcycles, motorcycle parts and accessories',
+    },
+    '467': {
+        'level': '2',
+        'classId': '467',
+        'text': 'Other specialized wholesale',
+    },
+    '4671': {
+        'level': '3',
+        'classId': '4671',
+        'text': 'Wholesale of solid, liquid and gaseous fuels and related products',
+    },
+    '4672': {
+        'level': '3',
+        'classId': '4672',
+        'text': 'Wholesale of metals and metal ores',
+    },
+    '4673': {
+        'level': '3',
+        'classId': '4673',
         'text': 'Wholesale of construction materials, hardware, plumbing and heating equipment and supplies',
     },
-    '4669': {
+    '4679': {
         'level': '3',
-        'classId': '4669',
-        'text': 'Wholesale of waste and scrap and other products n.e.c.',
+        'classId': '4679',
+        'text': 'Wholesale of chemicals, waste and scrap and other products n.e.c.',
     },
     '469': {
         'level': '2',
@@ -2801,137 +2905,132 @@ PROCESSES_CATEGORIES: dict[str, ProcessesCategoryData] = {
     '47': {
         'level': '1',
         'classId': '47',
-        'text': 'Retail trade, except of motor vehicles and motorcycles',
+        'text': 'Retail trade',
     },
     '471': {
         'level': '2',
         'classId': '471',
-        'text': 'Retail sale in non-specialized stores',
+        'text': 'Non-specialized retail sale',
     },
     '4711': {
         'level': '3',
         'classId': '4711',
-        'text': 'Retail sale in non-specialized stores with food, beverages or tobacco predominating',
+        'text': 'Non-specialized retail sale with food, beverages or tobacco predominating',
     },
     '4719': {
         'level': '3',
         'classId': '4719',
-        'text': 'Other retail sale in non-specialized stores',
+        'text': 'Other non-specialized retail sale',
     },
     '472': {
         'level': '2',
         'classId': '472',
-        'text': 'Retail sale of food, beverages and tobacco in specialized stores',
+        'text': 'Retail sale of food, beverages and tobacco',
     },
     '4721': {
         'level': '3',
         'classId': '4721',
-        'text': 'Retail sale of food in specialized stores',
+        'text': 'Retail sale of food',
     },
     '4722': {
         'level': '3',
         'classId': '4722',
-        'text': 'Retail sale of beverages in specialized stores',
+        'text': 'Retail sale of beverages',
     },
     '4723': {
         'level': '3',
         'classId': '4723',
-        'text': 'Retail sale of tobacco products in specialized stores',
+        'text': 'Retail sale of tobacco products',
     },
     '473': {
         'level': '2',
         'classId': '473',
-        'text': 'Retail sale of automotive fuel in specialized stores',
+        'text': 'Retail sale of automotive fuel',
     },
     '4730': {
         'level': '3',
         'classId': '4730',
-        'text': 'Retail sale of automotive fuel in specialized stores',
+        'text': 'Retail sale of automotive fuel',
     },
     '474': {
         'level': '2',
         'classId': '474',
-        'text': 'Retail sale of information and communications equipment in specialized stores',
+        'text': 'Retail sale of information and communication equipment',
     },
-    '4741': {
+    '4740': {
         'level': '3',
-        'classId': '4741',
-        'text': 'Retail sale of computers, peripheral units, software and telecommunications equipment in specialized stores',
-    },
-    '4742': {
-        'level': '3',
-        'classId': '4742',
-        'text': 'Retail sale of audio and video equipment in specialized stores',
+        'classId': '4740',
+        'text': 'Retail sale of information and communication equipment',
     },
     '475': {
         'level': '2',
         'classId': '475',
-        'text': 'Retail sale of other household equipment in specialized stores',
+        'text': 'Retail sale of other household equipment',
     },
     '4751': {
         'level': '3',
         'classId': '4751',
-        'text': 'Retail sale of textiles in specialized stores',
+        'text': 'Retail sale of textiles',
     },
     '4752': {
         'level': '3',
         'classId': '4752',
-        'text': 'Retail sale of hardware, paints and glass in specialized stores',
+        'text': 'Retail sale of hardware, building materials, paints and glass',
     },
     '4753': {
         'level': '3',
         'classId': '4753',
-        'text': 'Retail sale of carpets, rugs, wall and floor coverings in specialized stores',
+        'text': 'Retail sale of carpets, rugs, wall and floor coverings',
     },
     '4759': {
         'level': '3',
         'classId': '4759',
-        'text': 'Retail sale of electrical household appliances, furniture, lighting equipment and other household articles in specialized stores',
+        'text': 'Retail sale of electrical household appliances, furniture, lighting equipment and other household articles',
     },
     '476': {
         'level': '2',
         'classId': '476',
-        'text': 'Retail sale of cultural and recreation goods in specialized stores',
+        'text': 'Retail sale of cultural and recreational goods',
     },
     '4761': {
         'level': '3',
         'classId': '4761',
-        'text': 'Retail sale of books, newspapers and stationary in specialized stores',
+        'text': 'Retail sale of books, newspapers, stationery and office supplies',
     },
     '4762': {
         'level': '3',
         'classId': '4762',
-        'text': 'Retail sale of music and video recordings in specialized stores',
+        'text': 'Retail sale of sporting equipment',
     },
     '4763': {
         'level': '3',
         'classId': '4763',
-        'text': 'Retail sale of sporting equipment in specialized stores',
+        'text': 'Retail sale of games and toys',
     },
-    '4764': {
+    '4769': {
         'level': '3',
-        'classId': '4764',
-        'text': 'Retail sale of games and toys in specialized stores',
+        'classId': '4769',
+        'text': 'Retail sale of cultural and recreational goods n.e.c.',
     },
     '477': {
         'level': '2',
         'classId': '477',
-        'text': 'Retail sale of other goods in specialized stores',
+        'text': 'Retail sale of other goods, except motor vehicles and motorcycles',
     },
     '4771': {
         'level': '3',
         'classId': '4771',
-        'text': 'Retail sale of clothing, footwear and leather articles in specialized stores',
+        'text': 'Retail sale of clothing, footwear and leather articles',
     },
     '4772': {
         'level': '3',
         'classId': '4772',
-        'text': 'Retail sale of pharmaceutical and medical goods, cosmetic and toilet articles in specialized stores',
+        'text': 'Retail sale of pharmaceutical and medical goods, cosmetic and toilet articles',
     },
     '4773': {
         'level': '3',
         'classId': '4773',
-        'text': 'Other retail sale of new goods in specialized stores',
+        'text': 'Retail sale of other new goods n.e.c.',
     },
     '4774': {
         'level': '3',
@@ -2941,37 +3040,32 @@ PROCESSES_CATEGORIES: dict[str, ProcessesCategoryData] = {
     '478': {
         'level': '2',
         'classId': '478',
-        'text': 'Retail sale via stalls and markets',
+        'text': 'Retail sale of motor vehicles, motorcycles and related parts and accessories',
     },
     '4781': {
         'level': '3',
         'classId': '4781',
-        'text': 'Retail sale via stalls and markets of food, beverages and tobacco products',
+        'text': 'Retail sale of motor vehicles',
     },
     '4782': {
         'level': '3',
         'classId': '4782',
-        'text': 'Retail sale via stalls and markets of textiles, clothing and footwear',
+        'text': 'Retail sale of motor vehicle parts and accessories',
     },
-    '4789': {
+    '4783': {
         'level': '3',
-        'classId': '4789',
-        'text': 'Retail sale via stalls and markets of other goods',
+        'classId': '4783',
+        'text': 'Retail sale of motorcycles, motorcycles parts and accessories',
     },
     '479': {
         'level': '2',
         'classId': '479',
-        'text': 'Retail trade not in stores, stalls or markets',
+        'text': 'Intermediation service activities for retail sale',
     },
-    '4791': {
+    '4790': {
         'level': '3',
-        'classId': '4791',
-        'text': 'Retail sale via mail order houses or via Internet',
-    },
-    '4799': {
-        'level': '3',
-        'classId': '4799',
-        'text': 'Other retail sale not in stores, stalls or markets',
+        'classId': '4790',
+        'text': 'Intermediation service activities for retail sale',
     },
     'H': {
         'level': '0',
@@ -3131,7 +3225,22 @@ PROCESSES_CATEGORIES: dict[str, ProcessesCategoryData] = {
     '5229': {
         'level': '3',
         'classId': '5229',
-        'text': 'Other transportation support activities',
+        'text': 'Other support activities for transportation',
+    },
+    '523': {
+        'level': '2',
+        'classId': '523',
+        'text': 'Intermediation service activities for transportation',
+    },
+    '5231': {
+        'level': '3',
+        'classId': '5231',
+        'text': 'Intermediation service activities for freight transportation',
+    },
+    '5232': {
+        'level': '3',
+        'classId': '5232',
+        'text': 'Intermediation service activities for passenger transportation',
     },
     '53': {
         'level': '1',
@@ -3158,6 +3267,16 @@ PROCESSES_CATEGORIES: dict[str, ProcessesCategoryData] = {
         'classId': '5320',
         'text': 'Courier activities',
     },
+    '533': {
+        'level': '2',
+        'classId': '533',
+        'text': 'Intermediation service activities for postal and courier activities',
+    },
+    '5330': {
+        'level': '3',
+        'classId': '5330',
+        'text': 'Intermediation service activities for postal and courier activities',
+    },
     'I': {
         'level': '0',
         'classId': 'I',
@@ -3171,32 +3290,52 @@ PROCESSES_CATEGORIES: dict[str, ProcessesCategoryData] = {
     '551': {
         'level': '2',
         'classId': '551',
-        'text': 'Short term accommodation activities',
+        'text': 'Hotels and similar accommodation activities',
     },
     '5510': {
         'level': '3',
         'classId': '5510',
-        'text': 'Short term accommodation activities',
+        'text': 'Hotels and similar accommodation activities',
     },
     '552': {
         'level': '2',
         'classId': '552',
-        'text': 'Camping grounds, recreational vehicle parks and trailer parks',
+        'text': 'Other short term accommodation activities',
     },
     '5520': {
         'level': '3',
         'classId': '5520',
+        'text': 'Other short term accommodation activities',
+    },
+    '553': {
+        'level': '2',
+        'classId': '553',
         'text': 'Camping grounds, recreational vehicle parks and trailer parks',
+    },
+    '5530': {
+        'level': '3',
+        'classId': '5530',
+        'text': 'Camping grounds, recreational vehicle parks and trailer parks',
+    },
+    '554': {
+        'level': '2',
+        'classId': '554',
+        'text': 'Intermediation service activities for accommodation',
+    },
+    '5540': {
+        'level': '3',
+        'classId': '5540',
+        'text': 'Intermediation service activities for accommodation',
     },
     '559': {
         'level': '2',
         'classId': '559',
-        'text': 'Other accommodation',
+        'text': 'Other accommodation n.e.c.',
     },
     '5590': {
         'level': '3',
         'classId': '5590',
-        'text': 'Other accommodation',
+        'text': 'Other accommodation n.e.c.',
     },
     '56': {
         'level': '1',
@@ -3221,7 +3360,7 @@ PROCESSES_CATEGORIES: dict[str, ProcessesCategoryData] = {
     '5621': {
         'level': '3',
         'classId': '5621',
-        'text': 'Event catering',
+        'text': 'Event catering activities',
     },
     '5629': {
         'level': '3',
@@ -3238,10 +3377,20 @@ PROCESSES_CATEGORIES: dict[str, ProcessesCategoryData] = {
         'classId': '5630',
         'text': 'Beverage serving activities',
     },
+    '564': {
+        'level': '2',
+        'classId': '564',
+        'text': 'Intermediation service activities for food and beverage services activities',
+    },
+    '5640': {
+        'level': '3',
+        'classId': '5640',
+        'text': 'Intermediation service activities for food and beverage services activities',
+    },
     'J': {
         'level': '0',
         'classId': 'J',
-        'text': 'Information and communication',
+        'text': 'Publishing, broadcasting, and content production and distribution activities',
     },
     '58': {
         'level': '1',
@@ -3251,22 +3400,22 @@ PROCESSES_CATEGORIES: dict[str, ProcessesCategoryData] = {
     '581': {
         'level': '2',
         'classId': '581',
-        'text': 'Publishing of books, periodicals and other publishing activities',
+        'text': 'Publishing of books, newspapers, periodicals and other publishing activities',
     },
     '5811': {
         'level': '3',
         'classId': '5811',
-        'text': 'Book publishing',
+        'text': 'Publishing of books',
     },
     '5812': {
         'level': '3',
         'classId': '5812',
-        'text': 'Publishing of directories and mailing lists',
+        'text': 'Publishing of newspapers',
     },
     '5813': {
         'level': '3',
         'classId': '5813',
-        'text': 'Publishing of newspapers, journals and periodicals',
+        'text': 'Publishing of journals and periodicals',
     },
     '5819': {
         'level': '3',
@@ -3278,10 +3427,15 @@ PROCESSES_CATEGORIES: dict[str, ProcessesCategoryData] = {
         'classId': '582',
         'text': 'Software publishing',
     },
-    '5820': {
+    '5821': {
         'level': '3',
-        'classId': '5820',
-        'text': 'Software publishing',
+        'classId': '5821',
+        'text': 'Publishing of video games',
+    },
+    '5829': {
+        'level': '3',
+        'classId': '5829',
+        'text': 'Other software publishing',
     },
     '59': {
         'level': '1',
@@ -3326,27 +3480,47 @@ PROCESSES_CATEGORIES: dict[str, ProcessesCategoryData] = {
     '60': {
         'level': '1',
         'classId': '60',
-        'text': 'Programming and broadcasting activities',
+        'text': 'Programming, broadcasting, news agency and other content distribution activities',
     },
     '601': {
         'level': '2',
         'classId': '601',
-        'text': 'Radio broadcasting',
+        'text': 'Radio broadcasting and audio distribution activities',
     },
     '6010': {
         'level': '3',
         'classId': '6010',
-        'text': 'Radio broadcasting',
+        'text': 'Radio broadcasting and audio distribution activities',
     },
     '602': {
         'level': '2',
         'classId': '602',
-        'text': 'Television programming and broadcasting activities',
+        'text': 'Television programming, broadcasting and video distribution activities',
     },
     '6020': {
         'level': '3',
         'classId': '6020',
-        'text': 'Television programming and broadcasting activities',
+        'text': 'Television programming, broadcasting and video distribution activities',
+    },
+    '603': {
+        'level': '2',
+        'classId': '603',
+        'text': 'News agency and other content distribution activities',
+    },
+    '6031': {
+        'level': '3',
+        'classId': '6031',
+        'text': 'News agency activities',
+    },
+    '6039': {
+        'level': '3',
+        'classId': '6039',
+        'text': 'Social network sites and other content distribution activities',
+    },
+    'K': {
+        'level': '0',
+        'classId': 'K',
+        'text': 'Telecommunications, computer programming, consultancy, computing infrastructure, and other information service activities',
     },
     '61': {
         'level': '1',
@@ -3356,106 +3530,101 @@ PROCESSES_CATEGORIES: dict[str, ProcessesCategoryData] = {
     '611': {
         'level': '2',
         'classId': '611',
-        'text': 'Wired telecommunications activities',
+        'text': 'Wired, wireless, and satellite telecommunication activities',
     },
     '6110': {
         'level': '3',
         'classId': '6110',
-        'text': 'Wired telecommunications activities',
+        'text': 'Wired, wireless, and satellite telecommunication activities',
     },
     '612': {
         'level': '2',
         'classId': '612',
-        'text': 'Wireless telecommunications activities',
+        'text': 'Telecommunication reselling activities and intermediation service activities for telecommunication',
     },
     '6120': {
         'level': '3',
         'classId': '6120',
-        'text': 'Wireless telecommunications activities',
-    },
-    '613': {
-        'level': '2',
-        'classId': '613',
-        'text': 'Satellite telecommunications activities',
-    },
-    '6130': {
-        'level': '3',
-        'classId': '6130',
-        'text': 'Satellite telecommunications activities',
+        'text': 'Telecommunication reselling activities and intermediation service activities for telecommunication',
     },
     '619': {
         'level': '2',
         'classId': '619',
-        'text': 'Other telecommunications activities',
+        'text': 'Other telecommunication activities',
     },
     '6190': {
         'level': '3',
         'classId': '6190',
-        'text': 'Other telecommunications activities',
+        'text': 'Other telecommunication activities',
     },
     '62': {
         'level': '1',
         'classId': '62',
         'text': 'Computer programming, consultancy and related activities',
     },
-    '620': {
+    '621': {
         'level': '2',
-        'classId': '620',
-        'text': 'Computer programming, consultancy and related activities',
-    },
-    '6201': {
-        'level': '3',
-        'classId': '6201',
+        'classId': '621',
         'text': 'Computer programming activities',
     },
-    '6202': {
+    '6211': {
         'level': '3',
-        'classId': '6202',
+        'classId': '6211',
+        'text': 'Development of video games, video game software, and video game software tools',
+    },
+    '6219': {
+        'level': '3',
+        'classId': '6219',
+        'text': 'Other computer programming activities',
+    },
+    '622': {
+        'level': '2',
+        'classId': '622',
         'text': 'Computer consultancy and computer facilities management activities',
     },
-    '6209': {
+    '6220': {
         'level': '3',
-        'classId': '6209',
+        'classId': '6220',
+        'text': 'Computer consultancy and computer facilities management activities',
+    },
+    '629': {
+        'level': '2',
+        'classId': '629',
+        'text': 'Other information technology and computer service activities',
+    },
+    '6290': {
+        'level': '3',
+        'classId': '6290',
         'text': 'Other information technology and computer service activities',
     },
     '63': {
         'level': '1',
         'classId': '63',
-        'text': 'Information service activities',
+        'text': 'Computing infrastructure, data processing, hosting, and other information service activities',
     },
     '631': {
         'level': '2',
         'classId': '631',
-        'text': 'Data processing, hosting and related activities; web portals',
+        'text': 'Computing infrastructure, data processing, hosting and related activities',
     },
-    '6311': {
+    '6310': {
         'level': '3',
-        'classId': '6311',
-        'text': 'Data processing, hosting and related activities',
-    },
-    '6312': {
-        'level': '3',
-        'classId': '6312',
-        'text': 'Web portals',
+        'classId': '6310',
+        'text': 'Computing infrastructure, data processing, hosting and related activities',
     },
     '639': {
         'level': '2',
         'classId': '639',
-        'text': 'Other information service activities',
+        'text': 'Web search portals activities and other information service activities',
     },
-    '6391': {
+    '6390': {
         'level': '3',
-        'classId': '6391',
-        'text': 'News agency activities',
+        'classId': '6390',
+        'text': 'Web search portals activities and other information service activities',
     },
-    '6399': {
-        'level': '3',
-        'classId': '6399',
-        'text': 'Other information service activities n.e.c.',
-    },
-    'K': {
+    'L': {
         'level': '0',
-        'classId': 'K',
+        'classId': 'L',
         'text': 'Financial and insurance activities',
     },
     '64': {
@@ -3481,22 +3650,37 @@ PROCESSES_CATEGORIES: dict[str, ProcessesCategoryData] = {
     '642': {
         'level': '2',
         'classId': '642',
+        'text': 'Activities of holding companies and financing conduits',
+    },
+    '6421': {
+        'level': '3',
+        'classId': '6421',
         'text': 'Activities of holding companies',
     },
-    '6420': {
+    '6422': {
         'level': '3',
-        'classId': '6420',
-        'text': 'Activities of holding companies',
+        'classId': '6422',
+        'text': 'Activities of financing conduits',
     },
     '643': {
         'level': '2',
         'classId': '643',
-        'text': 'Trusts, funds and similar financial entities',
+        'text': 'Activities of trusts, funds and similar financial entities',
     },
-    '6430': {
+    '6431': {
         'level': '3',
-        'classId': '6430',
-        'text': 'Trusts, funds and similar financial entities',
+        'classId': '6431',
+        'text': 'Activities of money market funds',
+    },
+    '6432': {
+        'level': '3',
+        'classId': '6432',
+        'text': 'Activities of non-money market investments funds',
+    },
+    '6433': {
+        'level': '3',
+        'classId': '6433',
+        'text': 'Activities of trust, estate and agency accounts',
     },
     '649': {
         'level': '2',
@@ -3506,17 +3690,32 @@ PROCESSES_CATEGORIES: dict[str, ProcessesCategoryData] = {
     '6491': {
         'level': '3',
         'classId': '6491',
-        'text': 'Financial leasing',
+        'text': 'Financial leasing activities',
     },
     '6492': {
         'level': '3',
         'classId': '6492',
-        'text': 'Other credit granting',
+        'text': 'International trade financing activities',
+    },
+    '6493': {
+        'level': '3',
+        'classId': '6493',
+        'text': 'Factoring activities',
+    },
+    '6494': {
+        'level': '3',
+        'classId': '6494',
+        'text': 'Securitisation activities',
+    },
+    '6495': {
+        'level': '3',
+        'classId': '6495',
+        'text': 'Other credit granting activities',
     },
     '6499': {
         'level': '3',
         'classId': '6499',
-        'text': 'Other financial service activities, except insurance and pension funding activities, n.e.c.',
+        'text': 'Other financial service activities n.e.c., except insurance and pension funding activities',
     },
     '65': {
         'level': '1',
@@ -3566,7 +3765,7 @@ PROCESSES_CATEGORIES: dict[str, ProcessesCategoryData] = {
     '661': {
         'level': '2',
         'classId': '661',
-        'text': 'Activities auxiliary to financial service activities, except insurance and pension funding',
+        'text': 'Activities auxiliary to financial services, except insurance and pension funding',
     },
     '6611': {
         'level': '3',
@@ -3581,7 +3780,7 @@ PROCESSES_CATEGORIES: dict[str, ProcessesCategoryData] = {
     '6619': {
         'level': '3',
         'classId': '6619',
-        'text': 'Other activities auxiliary to financial service activities',
+        'text': 'Other activities auxiliary to financial service activities, except insurance and pension funding',
     },
     '662': {
         'level': '2',
@@ -3613,9 +3812,9 @@ PROCESSES_CATEGORIES: dict[str, ProcessesCategoryData] = {
         'classId': '6630',
         'text': 'Fund management activities',
     },
-    'L': {
+    'M': {
         'level': '0',
-        'classId': 'L',
+        'classId': 'M',
         'text': 'Real estate activities',
     },
     '68': {
@@ -3638,14 +3837,19 @@ PROCESSES_CATEGORIES: dict[str, ProcessesCategoryData] = {
         'classId': '682',
         'text': 'Real estate activities on a fee or contract basis',
     },
-    '6820': {
+    '6821': {
         'level': '3',
-        'classId': '6820',
-        'text': 'Real estate activities on a fee or contract basis',
+        'classId': '6821',
+        'text': 'Intermediation service activities for real estate',
     },
-    'M': {
+    '6829': {
+        'level': '3',
+        'classId': '6829',
+        'text': 'Other real estate activities on a fee or contract basis',
+    },
+    'N': {
         'level': '0',
-        'classId': 'M',
+        'classId': 'N',
         'text': 'Professional, scientific and technical activities',
     },
     '69': {
@@ -3691,12 +3895,12 @@ PROCESSES_CATEGORIES: dict[str, ProcessesCategoryData] = {
     '702': {
         'level': '2',
         'classId': '702',
-        'text': 'Management consultancy activities',
+        'text': 'Business and other management consultancy activities',
     },
     '7020': {
         'level': '3',
         'classId': '7020',
-        'text': 'Management consultancy activities',
+        'text': 'Business and other management consultancy activities',
     },
     '71': {
         'level': '1',
@@ -3706,12 +3910,12 @@ PROCESSES_CATEGORIES: dict[str, ProcessesCategoryData] = {
     '711': {
         'level': '2',
         'classId': '711',
-        'text': 'Architectural and engineering activities and related technical consultancy',
+        'text': 'Architectural and engineering, and related technical consultancy activities',
     },
     '7110': {
         'level': '3',
         'classId': '7110',
-        'text': 'Architectural and engineering activities and related technical consultancy',
+        'text': 'Architectural and engineering, and related technical consultancy activities',
     },
     '712': {
         'level': '2',
@@ -3751,27 +3955,37 @@ PROCESSES_CATEGORIES: dict[str, ProcessesCategoryData] = {
     '73': {
         'level': '1',
         'classId': '73',
-        'text': 'Advertising and market research',
+        'text': 'Activities of advertising, market research and public relations',
     },
     '731': {
         'level': '2',
         'classId': '731',
-        'text': 'Advertising',
+        'text': 'Advertising activities',
     },
     '7310': {
         'level': '3',
         'classId': '7310',
-        'text': 'Advertising',
+        'text': 'Advertising activities',
     },
     '732': {
         'level': '2',
         'classId': '732',
-        'text': 'Market research and public opinion polling',
+        'text': 'Market research and public opinion polling activities',
     },
     '7320': {
         'level': '3',
         'classId': '7320',
-        'text': 'Market research and public opinion polling',
+        'text': 'Market research and public opinion polling activities',
+    },
+    '733': {
+        'level': '2',
+        'classId': '733',
+        'text': 'Public relations activities',
+    },
+    '7330': {
+        'level': '3',
+        'classId': '7330',
+        'text': 'Public relations activities',
     },
     '74': {
         'level': '1',
@@ -3798,15 +4012,30 @@ PROCESSES_CATEGORIES: dict[str, ProcessesCategoryData] = {
         'classId': '7420',
         'text': 'Photographic activities',
     },
+    '743': {
+        'level': '2',
+        'classId': '743',
+        'text': 'Translation and interpretation activities',
+    },
+    '7430': {
+        'level': '3',
+        'classId': '7430',
+        'text': 'Translation and interpretation activities',
+    },
     '749': {
         'level': '2',
         'classId': '749',
         'text': 'Other professional, scientific and technical activities n.e.c.',
     },
-    '7490': {
+    '7491': {
         'level': '3',
-        'classId': '7490',
-        'text': 'Other professional, scientific and technical activities n.e.c.',
+        'classId': '7491',
+        'text': 'Patent brokering and marketing service activities',
+    },
+    '7499': {
+        'level': '3',
+        'classId': '7499',
+        'text': 'All other professional, scientific and technical activities n.e.c.',
     },
     '75': {
         'level': '1',
@@ -3823,9 +4052,9 @@ PROCESSES_CATEGORIES: dict[str, ProcessesCategoryData] = {
         'classId': '7500',
         'text': 'Veterinary activities',
     },
-    'N': {
+    'O': {
         'level': '0',
-        'classId': 'N',
+        'classId': 'O',
         'text': 'Administrative and support service activities',
     },
     '77': {
@@ -3836,42 +4065,37 @@ PROCESSES_CATEGORIES: dict[str, ProcessesCategoryData] = {
     '771': {
         'level': '2',
         'classId': '771',
-        'text': 'Renting and leasing of motor vehicles',
+        'text': 'Rental and leasing of motor vehicles',
     },
     '7710': {
         'level': '3',
         'classId': '7710',
-        'text': 'Renting and leasing of motor vehicles',
+        'text': 'Rental and leasing of motor vehicles',
     },
     '772': {
         'level': '2',
         'classId': '772',
-        'text': 'Renting and leasing of personal and household goods',
+        'text': 'Rental and leasing of personal and household goods',
     },
     '7721': {
         'level': '3',
         'classId': '7721',
-        'text': 'Renting and leasing of recreational and sports goods',
-    },
-    '7722': {
-        'level': '3',
-        'classId': '7722',
-        'text': 'Renting of video tapes and disks',
+        'text': 'Rental and leasing of recreational and sports goods',
     },
     '7729': {
         'level': '3',
         'classId': '7729',
-        'text': 'Renting and leasing of other personal and household goods',
+        'text': 'Rental and leasing of other personal and household goods',
     },
     '773': {
         'level': '2',
         'classId': '773',
-        'text': 'Renting and leasing of other machinery, equipment and tangible goods',
+        'text': 'Rental and leasing of other machinery, equipment and tangible goods',
     },
     '7730': {
         'level': '3',
         'classId': '7730',
-        'text': 'Renting and leasing of other machinery, equipment and tangible goods',
+        'text': 'Rental and leasing of other machinery, equipment and tangible goods',
     },
     '774': {
         'level': '2',
@@ -3882,6 +4106,21 @@ PROCESSES_CATEGORIES: dict[str, ProcessesCategoryData] = {
         'level': '3',
         'classId': '7740',
         'text': 'Leasing of intellectual property and similar products, except copyrighted works',
+    },
+    '775': {
+        'level': '2',
+        'classId': '775',
+        'text': 'Intermediation service activities for rental and leasing of tangible goods and non-financial intangible assets',
+    },
+    '7751': {
+        'level': '3',
+        'classId': '7751',
+        'text': 'Intermediation service activities for rental and leasing of cars, motorhomes and trailers',
+    },
+    '7752': {
+        'level': '3',
+        'classId': '7752',
+        'text': 'Intermediation service activities for rental and leasing of other tangible goods and non-financial intangible assets',
     },
     '78': {
         'level': '1',
@@ -3901,27 +4140,17 @@ PROCESSES_CATEGORIES: dict[str, ProcessesCategoryData] = {
     '782': {
         'level': '2',
         'classId': '782',
-        'text': 'Temporary employment agency activities',
+        'text': 'Temporary employment agency activities and other human resource provisions',
     },
     '7820': {
         'level': '3',
         'classId': '7820',
-        'text': 'Temporary employment agency activities',
-    },
-    '783': {
-        'level': '2',
-        'classId': '783',
-        'text': 'Other human resources provision',
-    },
-    '7830': {
-        'level': '3',
-        'classId': '7830',
-        'text': 'Other human resources provision',
+        'text': 'Temporary employment agency activities and other human resource provisions',
     },
     '79': {
         'level': '1',
         'classId': '79',
-        'text': 'Travel agency, tour operator, reservation service and related activities',
+        'text': 'Travel agency, tour operator, and other travel related activities',
     },
     '791': {
         'level': '2',
@@ -3941,47 +4170,32 @@ PROCESSES_CATEGORIES: dict[str, ProcessesCategoryData] = {
     '799': {
         'level': '2',
         'classId': '799',
-        'text': 'Other reservation service and related activities',
+        'text': 'Other travel related activities',
     },
     '7990': {
         'level': '3',
         'classId': '7990',
-        'text': 'Other reservation service and related activities',
+        'text': 'Other travel related activities',
     },
     '80': {
         'level': '1',
         'classId': '80',
-        'text': 'Security and investigation activities',
+        'text': 'Investigation and security activities',
     },
     '801': {
         'level': '2',
         'classId': '801',
-        'text': 'Private security activities',
+        'text': 'Investigation and security activities',
     },
-    '8010': {
+    '8011': {
         'level': '3',
-        'classId': '8010',
-        'text': 'Private security activities',
+        'classId': '8011',
+        'text': 'Investigation and private security activities',
     },
-    '802': {
-        'level': '2',
-        'classId': '802',
-        'text': 'Security systems service activities',
-    },
-    '8020': {
+    '8019': {
         'level': '3',
-        'classId': '8020',
-        'text': 'Security systems service activities',
-    },
-    '803': {
-        'level': '2',
-        'classId': '803',
-        'text': 'Investigation activities',
-    },
-    '8030': {
-        'level': '3',
-        'classId': '8030',
-        'text': 'Investigation activities',
+        'classId': '8019',
+        'text': 'Security activities n.e.c.',
     },
     '81': {
         'level': '1',
@@ -4011,17 +4225,17 @@ PROCESSES_CATEGORIES: dict[str, ProcessesCategoryData] = {
     '8129': {
         'level': '3',
         'classId': '8129',
-        'text': 'Other building and industrial cleaning activities',
+        'text': 'Other cleaning activities',
     },
     '813': {
         'level': '2',
         'classId': '813',
-        'text': 'Landscape care and maintenance service activities',
+        'text': 'Landscape service activities',
     },
     '8130': {
         'level': '3',
         'classId': '8130',
-        'text': 'Landscape care and maintenance service activities',
+        'text': 'Landscape service activities',
     },
     '82': {
         'level': '1',
@@ -4033,15 +4247,10 @@ PROCESSES_CATEGORIES: dict[str, ProcessesCategoryData] = {
         'classId': '821',
         'text': 'Office administrative and support activities',
     },
-    '8211': {
+    '8210': {
         'level': '3',
-        'classId': '8211',
-        'text': 'Combined office administrative service activities',
-    },
-    '8219': {
-        'level': '3',
-        'classId': '8219',
-        'text': 'Photocopying, document preparation and other specialized office support activities',
+        'classId': '8210',
+        'text': 'Office administrative and support activities',
     },
     '822': {
         'level': '2',
@@ -4063,6 +4272,16 @@ PROCESSES_CATEGORIES: dict[str, ProcessesCategoryData] = {
         'classId': '8230',
         'text': 'Organization of conventions and trade shows',
     },
+    '824': {
+        'level': '2',
+        'classId': '824',
+        'text': 'Intermediation service activities for business support activities n.e.c., except financial intermediation',
+    },
+    '8240': {
+        'level': '3',
+        'classId': '8240',
+        'text': 'Intermediation service activities for business support activities n.e.c., except financial intermediation',
+    },
     '829': {
         'level': '2',
         'classId': '829',
@@ -4083,9 +4302,9 @@ PROCESSES_CATEGORIES: dict[str, ProcessesCategoryData] = {
         'classId': '8299',
         'text': 'Other business support service activities n.e.c.',
     },
-    'O': {
+    'P': {
         'level': '0',
-        'classId': 'O',
+        'classId': 'P',
         'text': 'Public administration and defence; compulsory social security',
     },
     '84': {
@@ -4096,7 +4315,7 @@ PROCESSES_CATEGORIES: dict[str, ProcessesCategoryData] = {
     '841': {
         'level': '2',
         'classId': '841',
-        'text': 'Administration of the State and the economic and social policy of the community',
+        'text': 'Administration of the State and the economic, social and environmental policies of the community',
     },
     '8411': {
         'level': '3',
@@ -4106,11 +4325,16 @@ PROCESSES_CATEGORIES: dict[str, ProcessesCategoryData] = {
     '8412': {
         'level': '3',
         'classId': '8412',
-        'text': 'Regulation of the activities of providing health care, education, cultural services and other social services, excluding social security',
+        'text': 'Regulation of the activities of providing health care, education, cultural services and other social services, excluding social security and environment',
     },
     '8413': {
         'level': '3',
         'classId': '8413',
+        'text': 'Regulation of the activities of providing environmental services',
+    },
+    '8414': {
+        'level': '3',
+        'classId': '8414',
         'text': 'Regulation of and contribution to more efficient operation of businesses',
     },
     '842': {
@@ -4143,9 +4367,9 @@ PROCESSES_CATEGORIES: dict[str, ProcessesCategoryData] = {
         'classId': '8430',
         'text': 'Compulsory social security activities',
     },
-    'P': {
+    'Q': {
         'level': '0',
-        'classId': 'P',
+        'classId': 'Q',
         'text': 'Education',
     },
     '85': {
@@ -4156,71 +4380,96 @@ PROCESSES_CATEGORIES: dict[str, ProcessesCategoryData] = {
     '851': {
         'level': '2',
         'classId': '851',
-        'text': 'Pre-primary and primary education',
+        'text': 'Pre-primary education',
     },
     '8510': {
         'level': '3',
         'classId': '8510',
-        'text': 'Pre-primary and primary education',
+        'text': 'Pre-primary education',
     },
     '852': {
         'level': '2',
         'classId': '852',
-        'text': 'Secondary education',
+        'text': 'Primary education',
     },
-    '8521': {
+    '8520': {
         'level': '3',
-        'classId': '8521',
-        'text': 'General secondary education',
-    },
-    '8522': {
-        'level': '3',
-        'classId': '8522',
-        'text': 'Technical and vocational secondary education',
+        'classId': '8520',
+        'text': 'Primary education',
     },
     '853': {
         'level': '2',
         'classId': '853',
-        'text': 'Higher education',
+        'text': 'Secondary and post-secondary non-tertiary education',
     },
-    '8530': {
+    '8531': {
         'level': '3',
-        'classId': '8530',
-        'text': 'Higher education',
+        'classId': '8531',
+        'text': 'General secondary education',
+    },
+    '8532': {
+        'level': '3',
+        'classId': '8532',
+        'text': 'Vocational secondary education',
+    },
+    '8533': {
+        'level': '3',
+        'classId': '8533',
+        'text': 'Post-secondary non-tertiary education',
     },
     '854': {
         'level': '2',
         'classId': '854',
-        'text': 'Other education',
+        'text': 'Tertiary education',
     },
-    '8541': {
+    '8540': {
         'level': '3',
-        'classId': '8541',
-        'text': 'Sports and recreation education',
-    },
-    '8542': {
-        'level': '3',
-        'classId': '8542',
-        'text': 'Cultural education',
-    },
-    '8549': {
-        'level': '3',
-        'classId': '8549',
-        'text': 'Other education n.e.c.',
+        'classId': '8540',
+        'text': 'Tertiary education',
     },
     '855': {
         'level': '2',
         'classId': '855',
-        'text': 'Educational support activities',
+        'text': 'Other education',
     },
-    '8550': {
+    '8551': {
         'level': '3',
-        'classId': '8550',
+        'classId': '8551',
+        'text': 'Sports and recreation education',
+    },
+    '8552': {
+        'level': '3',
+        'classId': '8552',
+        'text': 'Cultural education',
+    },
+    '8553': {
+        'level': '3',
+        'classId': '8553',
+        'text': 'Driving school activities',
+    },
+    '8559': {
+        'level': '3',
+        'classId': '8559',
+        'text': 'Other education n.e.c.',
+    },
+    '856': {
+        'level': '2',
+        'classId': '856',
         'text': 'Educational support activities',
     },
-    'Q': {
+    '8561': {
+        'level': '3',
+        'classId': '8561',
+        'text': 'Intermediation service activities for courses and tutors',
+    },
+    '8569': {
+        'level': '3',
+        'classId': '8569',
+        'text': 'Other educational support activities',
+    },
+    'R': {
         'level': '0',
-        'classId': 'Q',
+        'classId': 'R',
         'text': 'Human health and social work activities',
     },
     '86': {
@@ -4253,10 +4502,15 @@ PROCESSES_CATEGORIES: dict[str, ProcessesCategoryData] = {
         'classId': '869',
         'text': 'Other human health activities',
     },
-    '8690': {
+    '8691': {
         'level': '3',
-        'classId': '8690',
-        'text': 'Other human health activities',
+        'classId': '8691',
+        'text': 'Intermediation service activities for medical, dental, and other human health services',
+    },
+    '8699': {
+        'level': '3',
+        'classId': '8699',
+        'text': 'Other human health activities n.e.c',
     },
     '87': {
         'level': '1',
@@ -4266,42 +4520,47 @@ PROCESSES_CATEGORIES: dict[str, ProcessesCategoryData] = {
     '871': {
         'level': '2',
         'classId': '871',
-        'text': 'Residential nursing care facilities',
+        'text': 'Residential nursing care activities',
     },
     '8710': {
         'level': '3',
         'classId': '8710',
-        'text': 'Residential nursing care facilities',
+        'text': 'Residential nursing care activities',
     },
     '872': {
         'level': '2',
         'classId': '872',
-        'text': 'Residential care activities for mental retardation, mental health and substance abuse',
+        'text': 'Residential care activities for persons living with or having a diagnosis of a mental illness or substance abuse',
     },
     '8720': {
         'level': '3',
         'classId': '8720',
-        'text': 'Residential care activities for mental retardation, mental health and substance abuse',
+        'text': 'Residential care activities for persons living with or having a diagnosis of a mental illness or substance abuse',
     },
     '873': {
         'level': '2',
         'classId': '873',
-        'text': 'Residential care activities for the elderly and disabled',
+        'text': 'Residential care activities for older persons or persons with physical disabilities',
     },
     '8730': {
         'level': '3',
         'classId': '8730',
-        'text': 'Residential care activities for the elderly and disabled',
+        'text': 'Residential care activities for older persons or persons with physical disabilities',
     },
     '879': {
         'level': '2',
         'classId': '879',
         'text': 'Other residential care activities',
     },
-    '8790': {
+    '8791': {
         'level': '3',
-        'classId': '8790',
-        'text': 'Other residential care activities',
+        'classId': '8791',
+        'text': 'Intermediation service activities for residential care activities',
+    },
+    '8799': {
+        'level': '3',
+        'classId': '8799',
+        'text': 'Other residential care activities n.e.c.',
     },
     '88': {
         'level': '1',
@@ -4311,12 +4570,12 @@ PROCESSES_CATEGORIES: dict[str, ProcessesCategoryData] = {
     '881': {
         'level': '2',
         'classId': '881',
-        'text': 'Social work activities without accommodation for the elderly and disabled',
+        'text': 'Social work activities without accommodation for older persons or persons with disabilities',
     },
     '8810': {
         'level': '3',
         'classId': '8810',
-        'text': 'Social work activities without accommodation for the elderly and disabled',
+        'text': 'Social work activities without accommodation for older persons or persons with disabilities',
     },
     '889': {
         'level': '2',
@@ -4328,50 +4587,120 @@ PROCESSES_CATEGORIES: dict[str, ProcessesCategoryData] = {
         'classId': '8890',
         'text': 'Other social work activities without accommodation',
     },
-    'R': {
+    'S': {
         'level': '0',
-        'classId': 'R',
-        'text': 'Arts, entertainment and recreation',
+        'classId': 'S',
+        'text': 'Arts, sports and recreation',
     },
     '90': {
         'level': '1',
         'classId': '90',
-        'text': 'Creative, arts and entertainment activities',
+        'text': 'Arts creation and performing arts activities',
     },
-    '900': {
+    '901': {
         'level': '2',
-        'classId': '900',
-        'text': 'Creative, arts and entertainment activities',
+        'classId': '901',
+        'text': 'Arts creation activities',
     },
-    '9000': {
+    '9011': {
         'level': '3',
-        'classId': '9000',
-        'text': 'Creative, arts and entertainment activities',
+        'classId': '9011',
+        'text': 'Literary creation and musical composition activities',
+    },
+    '9012': {
+        'level': '3',
+        'classId': '9012',
+        'text': 'Visual arts creation activities',
+    },
+    '9013': {
+        'level': '3',
+        'classId': '9013',
+        'text': 'Other arts creation activities',
+    },
+    '902': {
+        'level': '2',
+        'classId': '902',
+        'text': 'Activities of performing arts',
+    },
+    '9020': {
+        'level': '3',
+        'classId': '9020',
+        'text': 'Activities of performing arts',
+    },
+    '903': {
+        'level': '2',
+        'classId': '903',
+        'text': 'Support activities to arts creation and performing arts',
+    },
+    '9031': {
+        'level': '3',
+        'classId': '9031',
+        'text': 'Operation of arts facilities and sites',
+    },
+    '9039': {
+        'level': '3',
+        'classId': '9039',
+        'text': 'Other support activities to arts creation and performing arts',
     },
     '91': {
         'level': '1',
         'classId': '91',
-        'text': 'Libraries, archives, museums and other cultural activities',
+        'text': 'Library, archives, museum and other cultural activities',
     },
-    '910': {
+    '911': {
         'level': '2',
-        'classId': '910',
-        'text': 'Libraries, archives, museums and other cultural activities',
+        'classId': '911',
+        'text': 'Library and archive activities',
     },
-    '9101': {
+    '9111': {
         'level': '3',
-        'classId': '9101',
-        'text': 'Library and archives activities',
+        'classId': '9111',
+        'text': 'Library activities',
     },
-    '9102': {
+    '9112': {
         'level': '3',
-        'classId': '9102',
-        'text': 'Museums activities and operation of historical sites and buildings',
+        'classId': '9112',
+        'text': 'Archive activities',
     },
-    '9103': {
+    '912': {
+        'level': '2',
+        'classId': '912',
+        'text': 'Museum, collection, historical site and monument activities',
+    },
+    '9121': {
         'level': '3',
-        'classId': '9103',
-        'text': 'Botanical and zoological gardens and nature reserves activities',
+        'classId': '9121',
+        'text': 'Museum and collection activities',
+    },
+    '9122': {
+        'level': '3',
+        'classId': '9122',
+        'text': 'Historical site and monument activities',
+    },
+    '913': {
+        'level': '2',
+        'classId': '913',
+        'text': 'Conservation, restoration and other support activities for cultural heritage',
+    },
+    '9130': {
+        'level': '3',
+        'classId': '9130',
+        'text': 'Conservation, restoration and other support activities for cultural heritage',
+    },
+    '914': {
+        'level': '2',
+        'classId': '914',
+        'text': 'Botanical and zoological garden and nature reserve activities',
+    },
+    '9141': {
+        'level': '3',
+        'classId': '9141',
+        'text': 'Botanical and zoological garden activities',
+    },
+    '9142': {
+        'level': '3',
+        'classId': '9142',
+        'text': 'Nature reserve activities',
     },
     '92': {
         'level': '1',
@@ -4416,7 +4745,7 @@ PROCESSES_CATEGORIES: dict[str, ProcessesCategoryData] = {
     '932': {
         'level': '2',
         'classId': '932',
-        'text': 'Other amusement and recreation activities',
+        'text': 'Amusement and recreation activities',
     },
     '9321': {
         'level': '3',
@@ -4426,11 +4755,11 @@ PROCESSES_CATEGORIES: dict[str, ProcessesCategoryData] = {
     '9329': {
         'level': '3',
         'classId': '9329',
-        'text': 'Other amusement and recreation activities n.e.c.',
+        'text': 'Other amusement and recreation activities',
     },
-    'S': {
+    'T': {
         'level': '0',
-        'classId': 'S',
+        'classId': 'T',
         'text': 'Other service activities',
     },
     '94': {
@@ -4486,86 +4815,141 @@ PROCESSES_CATEGORIES: dict[str, ProcessesCategoryData] = {
     '95': {
         'level': '1',
         'classId': '95',
-        'text': 'Repair of computers and personal and household goods',
+        'text': 'Repair and maintenance of computers, personal and household goods, and motor vehicles and motorcycles',
     },
     '951': {
         'level': '2',
         'classId': '951',
-        'text': 'Repair of computers and communication equipment',
+        'text': 'Repair and maintenance of computers and communication equipment',
     },
-    '9511': {
+    '9510': {
         'level': '3',
-        'classId': '9511',
-        'text': 'Repair of computers and peripheral equipment',
-    },
-    '9512': {
-        'level': '3',
-        'classId': '9512',
-        'text': 'Repair of communication equipment',
+        'classId': '9510',
+        'text': 'Repair and maintenance of computers and communication equipment',
     },
     '952': {
         'level': '2',
         'classId': '952',
-        'text': 'Repair of personal and household goods',
+        'text': 'Repair and maintenance of personal and household goods',
     },
     '9521': {
         'level': '3',
         'classId': '9521',
-        'text': 'Repair of consumer electronics',
+        'text': 'Repair and maintenance of consumer electronics',
     },
     '9522': {
         'level': '3',
         'classId': '9522',
-        'text': 'Repair of household appliances and home and garden equipment',
+        'text': 'Repair and maintenance of household appliances and home and garden equipment',
     },
     '9523': {
         'level': '3',
         'classId': '9523',
-        'text': 'Repair of footwear and leather goods',
+        'text': 'Repair and maintenance of footwear and leather goods',
     },
     '9524': {
         'level': '3',
         'classId': '9524',
-        'text': 'Repair of furniture and home furnishings',
+        'text': 'Repair and maintenance of furniture and home furnishings',
     },
     '9529': {
         'level': '3',
         'classId': '9529',
-        'text': 'Repair of other personal and household goods',
+        'text': 'Repair and maintenance of other personal and household goods',
+    },
+    '953': {
+        'level': '2',
+        'classId': '953',
+        'text': 'Repair and maintenance of motor vehicles and motorcycles',
+    },
+    '9531': {
+        'level': '3',
+        'classId': '9531',
+        'text': 'Repair and maintenance of motor vehicles',
+    },
+    '9532': {
+        'level': '3',
+        'classId': '9532',
+        'text': 'Repair and maintenance of motorcycles',
+    },
+    '954': {
+        'level': '2',
+        'classId': '954',
+        'text': 'Intermediation service activities for repair and maintenance of computers, personal and household goods, and motor vehicles and motorcycles',
+    },
+    '9540': {
+        'level': '3',
+        'classId': '9540',
+        'text': 'Intermediation service activities for repair and maintenance of computers, personal and household goods, and motor vehicles and motorcycles',
     },
     '96': {
         'level': '1',
         'classId': '96',
-        'text': 'Other personal service activities',
+        'text': 'Personal service activities',
     },
-    '960': {
+    '961': {
         'level': '2',
-        'classId': '960',
-        'text': 'Other personal service activities',
+        'classId': '961',
+        'text': 'Washing and cleaning of textile and fur products',
     },
-    '9601': {
+    '9610': {
         'level': '3',
-        'classId': '9601',
-        'text': 'Washing and (dry-) cleaning of textile and fur products',
+        'classId': '9610',
+        'text': 'Washing and cleaning of textile and fur products',
     },
-    '9602': {
-        'level': '3',
-        'classId': '9602',
-        'text': 'Hairdressing and other beauty treatment',
+    '962': {
+        'level': '2',
+        'classId': '962',
+        'text': 'Hairdressing, beauty treatment, day spa and similar activities',
     },
-    '9603': {
+    '9621': {
         'level': '3',
-        'classId': '9603',
+        'classId': '9621',
+        'text': 'Hairdressing and barber activities',
+    },
+    '9622': {
+        'level': '3',
+        'classId': '9622',
+        'text': 'Beauty care and other beauty treatment activities',
+    },
+    '9623': {
+        'level': '3',
+        'classId': '9623',
+        'text': 'Day spa, sauna and steam bath activities',
+    },
+    '963': {
+        'level': '2',
+        'classId': '963',
         'text': 'Funeral and related activities',
     },
-    '9609': {
+    '9630': {
         'level': '3',
-        'classId': '9609',
+        'classId': '9630',
+        'text': 'Funeral and related activities',
+    },
+    '964': {
+        'level': '2',
+        'classId': '964',
+        'text': 'Intermediation service activities for personal services',
+    },
+    '9640': {
+        'level': '3',
+        'classId': '9640',
+        'text': 'Intermediation service activities for personal services',
+    },
+    '969': {
+        'level': '2',
+        'classId': '969',
         'text': 'Other personal service activities n.e.c.',
     },
-    'T': {
+    '9690': {
+        'level': '3',
+        'classId': '9690',
+        'text': 'Other personal service activities n.e.c.',
+    },
+    'U': {
         'level': '0',
-        'classId': 'T',
+        'classId': 'U',
         'text': 'Activities of households as employers; undifferentiated goods- and services-producing activities of households for own use',
     },
     '97': {
@@ -4608,9 +4992,9 @@ PROCESSES_CATEGORIES: dict[str, ProcessesCategoryData] = {
         'classId': '9820',
         'text': 'Undifferentiated service-producing activities of private households for own use',
     },
-    'U': {
+    'V': {
         'level': '0',
-        'classId': 'U',
+        'classId': 'V',
         'text': 'Activities of extraterritorial organizations and bodies',
     },
     '99': {
