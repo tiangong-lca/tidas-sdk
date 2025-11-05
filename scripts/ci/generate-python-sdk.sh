@@ -68,7 +68,7 @@ check_dependencies() {
 
     # 检查 Python
     if ! command -v python3 &> /dev/null; then
-        log_error "python3 not found. Please install Python 3.8+"
+        log_error "python3 not found. Please install Python 3.12+"
         exit 1
     fi
 

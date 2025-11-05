@@ -12,9 +12,11 @@ This document captures research findings and technology decisions for the Python
 ## 1. Pydantic v2 for Data Validation
 
 ### Decision
+
 Use Pydantic v2.x as the primary validation and data modeling framework.
 
 ### Rationale
+
 - **Industry Standard**: Pydantic is the de facto Python library for data validation, used by FastAPI, LangChain, and thousands of projects
 - **Performance**: v2 includes Rust-based core (pydantic-core) offering 5-17x speed improvements over v1
 - **Type Safety**: First-class type hint support with excellent IDE integration
@@ -22,17 +24,20 @@ Use Pydantic v2.x as the primary validation and data modeling framework.
 - **JSON Schema Compatibility**: Can generate and consume JSON schemas, aligning with TIDAS schema source
 
 ### Alternatives Considered
+
 - **attrs + cattrs**: More lightweight but lacks built-in validation; would require custom validation layer
 - **dataclasses + marshmallow**: Standard library dataclasses with marshmallow validation; less type-safe, more boilerplate
 - **Custom validation**: Full control but significant development effort; not worth reinventing
 
 ### Implementation Notes
+
 - Pin to `pydantic>=2.0,<3.0` for stability
 - Use `model_validate()` for runtime validation
 - Leverage `ConfigDict` for model configuration (strict mode, etc.)
 - Use `Field()` for constraints (min_length, max_length, pattern, etc.)
 
 ### References
+
 - [Pydantic v2 Documentation](https://docs.pydantic.dev/latest/)
 - [Pydantic Performance Benchmarks](https://docs.pydantic.dev/latest/concepts/performance/)
 - [TypeScript SDK Zod patterns](../../../sdks/typescript/src/schemas/) (for parity)
@@ -42,9 +47,11 @@ Use Pydantic v2.x as the primary validation and data modeling framework.
 ## 2. AST-Based Code Generation
 
 ### Decision
+
 Use Python AST (Abstract Syntax Tree) manipulation for generating Pydantic models from JSON schemas.
 
 ### Rationale
+
 - **Correctness**: AST generation produces syntactically valid Python by construction
 - **Maintainability**: Changes to generation logic are localized and testable
 - **Formatting**: Can use `ast.unparse()` + `black` for consistent code style
@@ -52,11 +59,13 @@ Use Python AST (Abstract Syntax Tree) manipulation for generating Pydantic model
 - **Debugging**: Generated AST can be inspected and validated before code emission
 
 ### Alternatives Considered
+
 - **String Templates (Jinja2)**: Simpler for basic cases but error-prone for complex types; formatting challenges; hard to ensure syntactic validity
 - **datamodel-code-generator**: Existing tool for JSON Schema → Pydantic, but less control over output structure and TIDAS-specific patterns
 - **Manual Code Writing**: Not sustainable for 18 schemas; defeats purpose of automation
 
 ### Implementation Strategy
+
 ```python
 import ast
 from typing import List
@@ -89,6 +98,7 @@ formatted_code = black.format_str(code, mode=black.FileMode())
 ```
 
 ### References
+
 - [Python ast module](https://docs.python.org/3/library/ast.html)
 - [black code formatter](https://black.readthedocs.io/)
 
@@ -97,9 +107,11 @@ formatted_code = black.format_str(code, mode=black.FileMode())
 ## 3. loguru for Structured Logging
 
 ### Decision
+
 Use loguru as the logging library instead of standard library `logging`.
 
 ### Rationale
+
 - **Better Defaults**: Colored output, automatic timestamps, exception tracing with no configuration
 - **Simpler API**: Single `logger` object, no handler/formatter setup needed
 - **Structured Logging**: Easy to add context with `logger.bind()` and `logger.contextualize()`
@@ -108,11 +120,13 @@ Use loguru as the logging library instead of standard library `logging`.
 - **User-Friendly**: End users can configure with simple patterns: `logger.add()`, `logger.remove()`
 
 ### Alternatives Considered
+
 - **Standard logging**: More portable but verbose configuration; less intuitive for end users
 - **structlog**: More powerful for structured logging but overkill for SDK needs; steeper learning curve
 - **No logging**: Simplest but removes observability; validation warnings would be lost in weak mode
 
 ### Implementation Pattern
+
 ```python
 from loguru import logger
 
@@ -137,6 +151,7 @@ logger.add(sys.stderr, level="DEBUG")  # Enable debug output
 ```
 
 ### References
+
 - [loguru Documentation](https://loguru.readthedocs.io/)
 - [Comparison with standard logging](https://loguru.readthedocs.io/en/stable/resources/migration.html)
 
@@ -145,9 +160,11 @@ logger.add(sys.stderr, level="DEBUG")  # Enable debug output
 ## 4. uv for Package Management
 
 ### Decision
+
 Use uv as the primary package manager and build tool for development.
 
 ### Rationale
+
 - **Speed**: 10-100x faster than pip for dependency resolution and installation
 - **Modern**: Built-in support for PEP 621 (pyproject.toml metadata)
 - **Compatibility**: Works seamlessly with PyPI packages; end users can still use pip
@@ -156,12 +173,14 @@ Use uv as the primary package manager and build tool for development.
 - **Future-Proof**: Rapidly growing adoption in Python community (by Astral, creators of ruff)
 
 ### Alternatives Considered
+
 - **pip + venv**: Standard but slow; no lock files; manual build setup
 - **Poetry**: Popular but slower than uv; more opinionated; heavier weight
 - **PDM**: Good alternative but less ecosystem momentum than uv
 - **pip-tools**: Good for lock files but still requires separate venv management
 
 ### Development Workflow
+
 ```bash
 # Project setup
 cd sdks/python
@@ -182,6 +201,7 @@ uv publish --token $PYPI_TOKEN
 ```
 
 ### End User Experience
+
 ```bash
 # Users can still use pip
 pip install tidas-sdk
@@ -191,6 +211,7 @@ uv pip install tidas-sdk
 ```
 
 ### References
+
 - [uv Documentation](https://github.com/astral-sh/uv)
 - [uv Performance Benchmarks](https://github.com/astral-sh/uv#performance)
 
@@ -199,9 +220,11 @@ uv pip install tidas-sdk
 ## 5. Multi-Language Text API Design
 
 ### Decision
+
 Implement multi-language fields as custom descriptor classes with pythonic `set_text()` / `get_text()` methods.
 
 ### Rationale
+
 - **User-Friendly**: Explicit methods are discoverable and self-documenting
 - **Type-Safe**: Can provide proper type hints for IDE autocomplete
 - **Flexible**: Supports both simple cases (single language) and complex (multiple languages)
@@ -209,11 +232,13 @@ Implement multi-language fields as custom descriptor classes with pythonic `set_
 - **Parity**: Mirrors TypeScript SDK's `setText()` / `getText()` API for consistency
 
 ### Alternatives Considered
+
 - **Property-based API**: `entity.name['en'] = "value"` - less discoverable, no method chaining
 - **Attribute access**: `entity.name_en = "value"` - doesn't support dynamic languages, inflexible
 - **Raw arrays only**: `entity.name = [{'@xml:lang': 'en', '#text': 'value'}]` - verbose, error-prone
 
 ### Implementation Design
+
 ```python
 from typing import List, Optional
 
@@ -266,6 +291,7 @@ for lang_item in name.raw:
 ```
 
 ### References
+
 - [TypeScript SDK MultiLangArray](../../../sdks/typescript/src/types/multi-lang-types.ts)
 - [Python Descriptor Protocol](https://docs.python.org/3/howto/descriptor.html)
 
@@ -274,15 +300,18 @@ for lang_item in name.raw:
 ## 6. Validation Mode Implementation
 
 ### Decision
+
 Implement validation modes using Pydantic's validation context and custom error handling.
 
 ### Rationale
+
 - **Pydantic-Native**: Leverages built-in validation infrastructure
 - **Performance**: Ignore mode bypasses validation entirely for speed
 - **Flexibility**: Weak mode collects errors without raising exceptions
 - **User Control**: Mode configurable per-entity and globally
 
 ### Implementation Strategy
+
 ```python
 from pydantic import ValidationError as PydanticValidationError
 from typing import Literal, List
@@ -338,11 +367,13 @@ class TidasEntity:
 ```
 
 ### Alternatives Considered
+
 - **Try/Catch Everywhere**: Wrap every operation; too invasive, poor performance
 - **Validation Decorators**: Cleaner but harder to control mode at runtime
 - **Separate Validator Class**: More modular but adds complexity for users
 
 ### References
+
 - [Pydantic Validation Context](https://docs.pydantic.dev/latest/concepts/validators/)
 - [TypeScript SDK Validation Modes](../../../sdks/typescript/src/core/config/ValidationConfig.ts)
 
@@ -351,9 +382,11 @@ class TidasEntity:
 ## 7. JSON Schema to Pydantic Mapping
 
 ### Decision
+
 Create custom mapping layer that preserves TIDAS-specific patterns and constraints.
 
 ### Rationale
+
 - **Precision**: Direct control over type mapping ensures TIDAS semantics preserved
 - **Constraints**: Can map JSON Schema constraints to Pydantic Field() constraints
 - **Special Cases**: Handle multi-language fields, UUID validation, enum categories
@@ -361,21 +394,22 @@ Create custom mapping layer that preserves TIDAS-specific patterns and constrain
 
 ### Key Mappings
 
-| JSON Schema Type | Pydantic Type | Notes |
-|------------------|---------------|-------|
-| `string` | `str` | Add `Field(max_length=N)` if maxLength specified |
-| `string` (format: uuid) | `UUID` (from uuid module) | Automatic UUID validation |
-| `string` (format: date-time) | `datetime` | ISO8601 parsing |
-| `integer` | `int` | Add `Field(ge=N, le=M)` for min/max |
-| `number` | `float` | Similar constraints |
-| `boolean` | `bool` | Direct mapping |
-| `array` | `List[T]` | Recursive type resolution |
-| `object` | Nested model | Create separate Pydantic model |
-| `enum` | `Literal[...]` | Type-safe enum values |
-| `anyOf/oneOf` | `Union[...]` | Pydantic handles discrimination |
-| Multi-lang pattern | `MultiLangText` | Custom wrapper class |
+| JSON Schema Type             | Pydantic Type             | Notes                                            |
+| ---------------------------- | ------------------------- | ------------------------------------------------ |
+| `string`                     | `str`                     | Add `Field(max_length=N)` if maxLength specified |
+| `string` (format: uuid)      | `UUID` (from uuid module) | Automatic UUID validation                        |
+| `string` (format: date-time) | `datetime`                | ISO8601 parsing                                  |
+| `integer`                    | `int`                     | Add `Field(ge=N, le=M)` for min/max              |
+| `number`                     | `float`                   | Similar constraints                              |
+| `boolean`                    | `bool`                    | Direct mapping                                   |
+| `array`                      | `List[T]`                 | Recursive type resolution                        |
+| `object`                     | Nested model              | Create separate Pydantic model                   |
+| `enum`                       | `Literal[...]`            | Type-safe enum values                            |
+| `anyOf/oneOf`                | `Union[...]`              | Pydantic handles discrimination                  |
+| Multi-lang pattern           | `MultiLangText`           | Custom wrapper class                             |
 
 ### Implementation Pattern
+
 ```python
 def json_type_to_python(schema: dict) -> str:
     """Convert JSON Schema type to Python type annotation."""
@@ -424,6 +458,7 @@ def extract_field_constraints(schema: dict) -> dict:
 ```
 
 ### References
+
 - [JSON Schema Specification](https://json-schema.org/specification)
 - [Pydantic Field Types](https://docs.pydantic.dev/latest/concepts/fields/)
 - [TIDAS Schema Examples](../../../tidas-tools/src/tidas_tools/tidas/schemas/)
@@ -433,15 +468,18 @@ def extract_field_constraints(schema: dict) -> dict:
 ## 8. Testing Strategy
 
 ### Decision
+
 Multi-layered testing approach: unit tests, integration tests, example verification, and performance benchmarks.
 
 ### Rationale
+
 - **Comprehensive Coverage**: Different test types catch different issue categories
 - **Regression Prevention**: Generated code changes are automatically validated
 - **Documentation**: Examples double as acceptance tests
 - **Performance**: Benchmarks ensure success criteria met
 
 ### Test Structure
+
 ```
 tests/
 ├── unit/
@@ -468,6 +506,7 @@ tests/
 ```
 
 ### Key Test Patterns
+
 ```python
 # Unit test example
 def test_weak_validation_collects_warnings():
@@ -504,12 +543,14 @@ def test_batch_creation_performance():
 ```
 
 ### Coverage Goals
+
 - **Unit Tests**: 90%+ line coverage
 - **Integration Tests**: All user scenarios from spec covered
 - **Generated Code**: All 18 schemas generate and pass mypy
 - **Examples**: All examples execute without errors
 
 ### References
+
 - [pytest Documentation](https://docs.pytest.org/)
 - [pytest-benchmark](https://pytest-benchmark.readthedocs.io/)
 
@@ -518,15 +559,18 @@ def test_batch_creation_performance():
 ## 9. Distribution and Installation
 
 ### Decision
+
 Publish to PyPI with pre-generated code included in package; use pyproject.toml for metadata.
 
 ### Rationale
+
 - **User Convenience**: Users don't need tidas-tools or generation scripts
 - **Installation Speed**: Pre-generated code means faster pip install (no build step)
 - **Reproducibility**: Generated code is version controlled and tested
 - **Standard Practice**: Matches how most Python packages are distributed
 
 ### Package Structure
+
 ```
 tidas-sdk/
 ├── src/
@@ -544,6 +588,7 @@ tidas-sdk/
 ```
 
 ### pyproject.toml Configuration
+
 ```toml
 [project]
 name = "tidas-sdk"
@@ -552,7 +597,7 @@ description = "Python SDK for TIDAS/ILCD Life Cycle Assessment data"
 authors = [{name = "TIDAS Team"}]
 license = {text = "MIT"}
 readme = "README.md"
-requires-python = ">=3.8"
+requires-python = ">=3.12"
 dependencies = [
     "pydantic>=2.0,<3.0",
     "loguru>=0.7.0",
@@ -583,16 +628,17 @@ where = ["src"]
 
 [tool.ruff]
 line-length = 100
-target-version = "py38"
+target-version = "py312"
 
 [tool.mypy]
-python_version = "3.8"
+python_version = "3.12"
 strict = true
 warn_return_any = true
 warn_unused_configs = true
 ```
 
 ### Release Workflow
+
 ```bash
 # 1. Regenerate code from latest schemas
 uv run scripts/generate_types.py
@@ -617,6 +663,7 @@ git push origin v0.1.0
 ```
 
 ### References
+
 - [Python Packaging Guide](https://packaging.python.org/)
 - [PEP 621 - pyproject.toml](https://peps.python.org/pep-0621/)
 
@@ -624,17 +671,17 @@ git push origin v0.1.0
 
 ## Summary of Decisions
 
-| Area | Decision | Key Benefit |
-|------|----------|-------------|
-| Validation Framework | Pydantic v2 | Industry standard, performance, type safety |
-| Code Generation | AST manipulation | Correctness, maintainability |
-| Logging | loguru | Better defaults, simpler API |
-| Package Manager | uv | Speed, modern tooling |
-| Multi-Language API | Descriptor with set_text/get_text | Pythonic, discoverable |
-| Validation Modes | Pydantic + custom handling | Flexible, performant |
-| Schema Mapping | Custom mapping layer | Preserves TIDAS semantics |
-| Testing | Multi-layered (unit/integration/perf) | Comprehensive coverage |
-| Distribution | PyPI with pre-generated code | User convenience, standard practice |
+| Area                 | Decision                              | Key Benefit                                 |
+| -------------------- | ------------------------------------- | ------------------------------------------- |
+| Validation Framework | Pydantic v2                           | Industry standard, performance, type safety |
+| Code Generation      | AST manipulation                      | Correctness, maintainability                |
+| Logging              | loguru                                | Better defaults, simpler API                |
+| Package Manager      | uv                                    | Speed, modern tooling                       |
+| Multi-Language API   | Descriptor with set_text/get_text     | Pythonic, discoverable                      |
+| Validation Modes     | Pydantic + custom handling            | Flexible, performant                        |
+| Schema Mapping       | Custom mapping layer                  | Preserves TIDAS semantics                   |
+| Testing              | Multi-layered (unit/integration/perf) | Comprehensive coverage                      |
+| Distribution         | PyPI with pre-generated code          | User convenience, standard practice         |
 
 All decisions align with project goals of TypeScript SDK parity, Python ecosystem best practices, and LCA domain requirements.
 

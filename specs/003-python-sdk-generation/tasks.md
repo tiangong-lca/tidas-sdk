@@ -24,21 +24,22 @@ This document provides a detailed, dependency-ordered task breakdown for impleme
 
 ### Tasks
 
-- [X] T001 Create sdks/python directory structure per architecture plan
-- [X] T002 Initialize pyproject.toml with PEP 621 metadata and dependencies (Pydantic v2, loguru, typing_extensions)
-- [X] T003 Configure uv workspace in sdks/python directory
-- [X] T004 Create README.md with project overview and development setup instructions
-- [X] T005 Create LICENSE file (MIT) in sdks/python/
-- [X] T006 Set up .gitignore for Python (.venv/, **pycache**/,*.pyc, dist/,*.egg-info/)
-- [X] T007 Create src/tidas_sdk/__init__.py with version constant
-- [X] T008 Create placeholder directory structure (core/, models/, types/, scripts/)
-- [X] T009 Configure ruff linter in pyproject.toml (line-length=100, target-version=py38)
-- [X] T010 Configure mypy in pyproject.toml (strict=true, python_version="3.8")
-- [X] T011 Configure pytest in pyproject.toml with test discovery patterns
-- [X] T012 Create tests/ directory with __init__.py and subdirectories (unit/, integration/, generation/)
-- [X] T013 Verify uv installation and create initial virtual environment
+- [x] T001 Create sdks/python directory structure per architecture plan
+- [x] T002 Initialize pyproject.toml with PEP 621 metadata and dependencies (Pydantic v2, loguru, typing_extensions)
+- [x] T003 Configure uv workspace in sdks/python directory
+- [x] T004 Create README.md with project overview and development setup instructions
+- [x] T005 Create LICENSE file (MIT) in sdks/python/
+- [x] T006 Set up .gitignore for Python (.venv/, **pycache**/,_.pyc, dist/,_.egg-info/)
+- [x] T007 Create src/tidas_sdk/**init**.py with version constant
+- [x] T008 Create placeholder directory structure (core/, models/, types/, scripts/)
+- [x] T009 Configure ruff linter in pyproject.toml (line-length=100, target-version=py312)
+- [x] T010 Configure mypy in pyproject.toml (strict=true, python_version="3.12")
+- [x] T011 Configure pytest in pyproject.toml with test discovery patterns
+- [x] T012 Create tests/ directory with **init**.py and subdirectories (unit/, integration/, generation/)
+- [x] T013 Verify uv installation and create initial virtual environment
 
 **Completion Criteria**:
+
 - ✅ Project installs with `uv pip install -e ".[dev]"` without errors
 - ✅ All directories from architecture plan exist
 - ✅ pyproject.toml passes `uv build --dry-run` validation
@@ -56,46 +57,47 @@ This document provides a detailed, dependency-ordered task breakdown for impleme
 
 ### Exception Hierarchy
 
-- [X] T014 [P] Implement TidasException base class in src/tidas_sdk/core/exceptions.py
-- [X] T015 [P] Implement ValidationError with field_path, expected, actual attributes in src/tidas_sdk/core/exceptions.py
-- [X] T016 [P] Implement SchemaGenerationError in src/tidas_sdk/core/exceptions.py
-- [X] T017 [P] Implement ConfigurationError in src/tidas_sdk/core/exceptions.py
-- [X] T018 [P] Add ValidationError.from_pydantic() classmethod for Pydantic error conversion in src/tidas_sdk/core/exceptions.py
+- [x] T014 [P] Implement TidasException base class in src/tidas_sdk/core/exceptions.py
+- [x] T015 [P] Implement ValidationError with field_path, expected, actual attributes in src/tidas_sdk/core/exceptions.py
+- [x] T016 [P] Implement SchemaGenerationError in src/tidas_sdk/core/exceptions.py
+- [x] T017 [P] Implement ConfigurationError in src/tidas_sdk/core/exceptions.py
+- [x] T018 [P] Add ValidationError.from_pydantic() classmethod for Pydantic error conversion in src/tidas_sdk/core/exceptions.py
 
 ### Validation Framework
 
-- [X] T019 Implement ValidationConfig dataclass (mode: strict/weak/ignore) in src/tidas_sdk/core/validation.py
-- [X] T020 Implement ValidationWarning dataclass with structured error data in src/tidas_sdk/core/validation.py
-- [X] T021 Implement global validation mode functions (set_global_validation_mode, get_global_validation_mode) in src/tidas_sdk/core/validation.py
+- [x] T019 Implement ValidationConfig dataclass (mode: strict/weak/ignore) in src/tidas_sdk/core/validation.py
+- [x] T020 Implement ValidationWarning dataclass with structured error data in src/tidas_sdk/core/validation.py
+- [x] T021 Implement global validation mode functions (set_global_validation_mode, get_global_validation_mode) in src/tidas_sdk/core/validation.py
 
 ### Multi-Language Support
 
-- [X] T022 Implement MultiLangText class with set_text/get_text methods in src/tidas_sdk/core/multilang.py
-- [X] T023 Add MultiLangText.raw property for array access in src/tidas_sdk/core/multilang.py
-- [X] T024 Implement MultiLangText.__repr__ showing available languages in src/tidas_sdk/core/multilang.py
+- [x] T022 Implement MultiLangText class with set_text/get_text methods in src/tidas_sdk/core/multilang.py
+- [x] T023 Add MultiLangText.raw property for array access in src/tidas_sdk/core/multilang.py
+- [x] T024 Implement MultiLangText.**repr** showing available languages in src/tidas_sdk/core/multilang.py
 
 ### Base Entity Class
 
-- [X] T025 Implement TidasEntity abstract base class in src/tidas_sdk/core/base.py
-- [X] T026 Add TidasEntity.__init__ with data and validation_config parameters in src/tidas_sdk/core/base.py
-- [X] T027 Implement TidasEntity.validate() with mode-specific behavior (strict/weak/ignore) in src/tidas_sdk/core/base.py
-- [X] T028 Implement TidasEntity.get_validation_warnings() returning ValidationWarning list in src/tidas_sdk/core/base.py
-- [X] T029 Implement TidasEntity.set_validation_mode() in src/tidas_sdk/core/base.py
-- [X] T030 Implement TidasEntity.to_json() returning dict in src/tidas_sdk/core/base.py
-- [X] T031 Implement TidasEntity.to_json_string() with indent parameter in src/tidas_sdk/core/base.py
-- [X] T032 Implement TidasEntity.clone() using structuredClone in src/tidas_sdk/core/base.py
-- [X] T033 Implement TidasEntity.get_value(path) for dot-notation field access in src/tidas_sdk/core/base.py
+- [x] T025 Implement TidasEntity abstract base class in src/tidas_sdk/core/base.py
+- [x] T026 Add TidasEntity.**init** with data and validation_config parameters in src/tidas_sdk/core/base.py
+- [x] T027 Implement TidasEntity.validate() with mode-specific behavior (strict/weak/ignore) in src/tidas_sdk/core/base.py
+- [x] T028 Implement TidasEntity.get_validation_warnings() returning ValidationWarning list in src/tidas_sdk/core/base.py
+- [x] T029 Implement TidasEntity.set_validation_mode() in src/tidas_sdk/core/base.py
+- [x] T030 Implement TidasEntity.to_json() returning dict in src/tidas_sdk/core/base.py
+- [x] T031 Implement TidasEntity.to_json_string() with indent parameter in src/tidas_sdk/core/base.py
+- [x] T032 Implement TidasEntity.clone() using structuredClone in src/tidas_sdk/core/base.py
+- [x] T033 Implement TidasEntity.get_value(path) for dot-notation field access in src/tidas_sdk/core/base.py
 
 ### Logging Setup
 
-- [X] T034 [P] Configure loguru logger in src/tidas_sdk/core/logging_config.py with default WARNING level
-- [X] T035 [P] Add structured logging helpers for entity operations in src/tidas_sdk/core/logging_config.py
+- [x] T034 [P] Configure loguru logger in src/tidas_sdk/core/logging_config.py with default WARNING level
+- [x] T035 [P] Add structured logging helpers for entity operations in src/tidas_sdk/core/logging_config.py
 
 ### Global Configuration
 
-- [X] T036 [P] Implement global config module in src/tidas_sdk/config.py with validation defaults
+- [x] T036 [P] Implement global config module in src/tidas_sdk/config.py with validation defaults
 
 **Completion Criteria**:
+
 - ✅ All core classes pass mypy strict type checking
 - ✅ ValidationConfig can switch between strict/weak/ignore modes
 - ✅ MultiLangText.set_text() and get_text() work correctly
@@ -118,84 +120,85 @@ This document provides a detailed, dependency-ordered task breakdown for impleme
 
 ### Schema Parser Foundation
 
-- [X] T037 [US3] Implement schema_parser.py to read JSON schema files from ../tidas-tools/src/tidas_tools/tidas/schemas/ in sdks/python/scripts/schema_parser.py
-- [X] T038 [US3] Add SchemaParser.parse_schema() extracting type definitions and constraints in sdks/python/scripts/schema_parser.py
-- [X] T039 [US3] Add SchemaParser.identify_multilang_fields() detecting @xml:lang patterns in sdks/python/scripts/schema_parser.py
-- [X] T040 [US3] Add TIDAS_TOOLS_PATH environment variable support with clear error if not found in sdks/python/scripts/schema_parser.py
+- [x] T037 [US3] Implement schema_parser.py to read JSON schema files from ../tidas-tools/src/tidas_tools/tidas/schemas/ in sdks/python/scripts/schema_parser.py
+- [x] T038 [US3] Add SchemaParser.parse_schema() extracting type definitions and constraints in sdks/python/scripts/schema_parser.py
+- [x] T039 [US3] Add SchemaParser.identify_multilang_fields() detecting @xml:lang patterns in sdks/python/scripts/schema_parser.py
+- [x] T040 [US3] Add TIDAS_TOOLS_PATH environment variable support with clear error if not found in sdks/python/scripts/schema_parser.py
 
 ### Dependency Analysis
 
-- [X] T041 [P] [US3] Implement SchemaParser.build_dependency_graph() analyzing import relationships in sdks/python/scripts/schema_parser.py
-- [X] T042 [P] [US3] Implement topological sort for generation order in sdks/python/scripts/schema_parser.py
+- [x] T041 [P] [US3] Implement SchemaParser.build_dependency_graph() analyzing import relationships in sdks/python/scripts/schema_parser.py
+- [x] T042 [P] [US3] Implement topological sort for generation order in sdks/python/scripts/schema_parser.py
 
 ### Code Generation Engine
 
-- [X] T043 [US3] Implement generate_types.py main script orchestrating generation in sdks/python/scripts/generate_types.py (Replaced with generate_types.py using datamodel-code-generator)
-- [X] T044 [US3] Add JSON schema to Python type mapping (string→str, integer→int, object→BaseModel, etc.) in sdks/python/scripts/type_mapper.py
-- [X] T045 [US3] Implement AST node generation for Pydantic Field() with constraints (max_length, pattern, etc.) in sdks/python/scripts/code_generator.py
-- [X] T046 [US3] Add black formatting to generated code in sdks/python/scripts/code_generator.py
+- [x] T043 [US3] Implement generate_types.py main script orchestrating generation in sdks/python/scripts/generate_types.py (Replaced with generate_types.py using datamodel-code-generator)
+- [x] T044 [US3] Add JSON schema to Python type mapping (string→str, integer→int, object→BaseModel, etc.) in sdks/python/scripts/type_mapper.py
+- [x] T045 [US3] Implement AST node generation for Pydantic Field() with constraints (max_length, pattern, etc.) in sdks/python/scripts/code_generator.py
+- [x] T046 [US3] Add black formatting to generated code in sdks/python/scripts/code_generator.py
 
 ### Pydantic Model Generation (All 18 Schemas)
 
-- [X] T047 [P] [US3] Generate Pydantic model for tidas_data_types.json in src/tidas_sdk/types/tidas_data_types.py
-- [X] T048 [P] [US3] Generate Pydantic model for tidas_contacts.json in src/tidas_sdk/types/tidas_contacts.py
-- [X] T049 [P] [US3] Generate Pydantic model for tidas_contacts_category.json in src/tidas_sdk/types/tidas_contacts_category.py
-- [X] T050 [P] [US3] Generate Pydantic model for tidas_flows.json in src/tidas_sdk/types/tidas_flows.py
-- [X] T051 [P] [US3] Generate Pydantic model for tidas_flows_elementary_category.json in src/tidas_sdk/types/tidas_flows_elementary_category.py
-- [X] T052 [P] [US3] Generate Pydantic model for tidas_flows_product_category.json in src/tidas_sdk/types/tidas_flows_product_category.py
-- [X] T053 [P] [US3] Generate Pydantic model for tidas_processes.json in src/tidas_sdk/types/tidas_processes.py
-- [X] T054 [P] [US3] Generate Pydantic model for tidas_processes_category.json in src/tidas_sdk/types/tidas_processes_category.py
-- [X] T055 [P] [US3] Generate Pydantic model for tidas_sources.json in src/tidas_sdk/types/tidas_sources.py
-- [X] T056 [P] [US3] Generate Pydantic model for tidas_sources_category.json in src/tidas_sdk/types/tidas_sources_category.py
-- [X] T057 [P] [US3] Generate Pydantic model for tidas_flowproperties.json in src/tidas_sdk/types/tidas_flowproperties.py
-- [X] T058 [P] [US3] Generate Pydantic model for tidas_flowproperties_category.json in src/tidas_sdk/types/tidas_flowproperties_category.py
-- [X] T059 [P] [US3] Generate Pydantic model for tidas_unitgroups.json in src/tidas_sdk/types/tidas_unitgroups.py
-- [X] T060 [P] [US3] Generate Pydantic model for tidas_unitgroups_category.json in src/tidas_sdk/types/tidas_unitgroups_category.py
-- [X] T061 [P] [US3] Generate Pydantic model for tidas_lciamethods.json in src/tidas_sdk/types/tidas_lciamethods.py
-- [X] T062 [P] [US3] Generate Pydantic model for tidas_lciamethods_category.json in src/tidas_sdk/types/tidas_lciamethods_category.py
-- [X] T063 [P] [US3] Generate Pydantic model for tidas_lifecyclemodels.json in src/tidas_sdk/types/tidas_lifecyclemodels.py
-- [X] T064 [P] [US3] Generate Pydantic model for tidas_locations_category.json in src/tidas_sdk/types/tidas_locations_category.py
-- [X] T065 [US3] Generate **init**.py exports for types module in src/tidas_sdk/types/**init**.py
+- [x] T047 [P] [US3] Generate Pydantic model for tidas_data_types.json in src/tidas_sdk/types/tidas_data_types.py
+- [x] T048 [P] [US3] Generate Pydantic model for tidas_contacts.json in src/tidas_sdk/types/tidas_contacts.py
+- [x] T049 [P] [US3] Generate Pydantic model for tidas_contacts_category.json in src/tidas_sdk/types/tidas_contacts_category.py
+- [x] T050 [P] [US3] Generate Pydantic model for tidas_flows.json in src/tidas_sdk/types/tidas_flows.py
+- [x] T051 [P] [US3] Generate Pydantic model for tidas_flows_elementary_category.json in src/tidas_sdk/types/tidas_flows_elementary_category.py
+- [x] T052 [P] [US3] Generate Pydantic model for tidas_flows_product_category.json in src/tidas_sdk/types/tidas_flows_product_category.py
+- [x] T053 [P] [US3] Generate Pydantic model for tidas_processes.json in src/tidas_sdk/types/tidas_processes.py
+- [x] T054 [P] [US3] Generate Pydantic model for tidas_processes_category.json in src/tidas_sdk/types/tidas_processes_category.py
+- [x] T055 [P] [US3] Generate Pydantic model for tidas_sources.json in src/tidas_sdk/types/tidas_sources.py
+- [x] T056 [P] [US3] Generate Pydantic model for tidas_sources_category.json in src/tidas_sdk/types/tidas_sources_category.py
+- [x] T057 [P] [US3] Generate Pydantic model for tidas_flowproperties.json in src/tidas_sdk/types/tidas_flowproperties.py
+- [x] T058 [P] [US3] Generate Pydantic model for tidas_flowproperties_category.json in src/tidas_sdk/types/tidas_flowproperties_category.py
+- [x] T059 [P] [US3] Generate Pydantic model for tidas_unitgroups.json in src/tidas_sdk/types/tidas_unitgroups.py
+- [x] T060 [P] [US3] Generate Pydantic model for tidas_unitgroups_category.json in src/tidas_sdk/types/tidas_unitgroups_category.py
+- [x] T061 [P] [US3] Generate Pydantic model for tidas_lciamethods.json in src/tidas_sdk/types/tidas_lciamethods.py
+- [x] T062 [P] [US3] Generate Pydantic model for tidas_lciamethods_category.json in src/tidas_sdk/types/tidas_lciamethods_category.py
+- [x] T063 [P] [US3] Generate Pydantic model for tidas_lifecyclemodels.json in src/tidas_sdk/types/tidas_lifecyclemodels.py
+- [x] T064 [P] [US3] Generate Pydantic model for tidas_locations_category.json in src/tidas_sdk/types/tidas_locations_category.py
+- [x] T065 [US3] Generate **init**.py exports for types module in src/tidas_sdk/types/**init**.py
 
 ### Entity Wrapper Classes (All 8 Entities) - ✅ COMPLETE
 
-- [X] T066 [P] [US3] Implement TidasContact wrapper class in src/tidas_sdk/models/contact.py ✅
-- [X] T067 [P] [US3] Implement TidasFlow wrapper class in src/tidas_sdk/models/flow.py ✅
-- [X] T068 [P] [US3] Implement TidasProcess wrapper class in src/tidas_sdk/models/process.py ✅
-- [X] T069 [P] [US3] Implement TidasSource wrapper class in src/tidas_sdk/models/source.py ✅
-- [X] T070 [P] [US3] Implement TidasFlowProperty wrapper class in src/tidas_sdk/models/flow_property.py ✅
-- [X] T071 [P] [US3] Implement TidasUnitGroup wrapper class in src/tidas_sdk/models/unit_group.py ✅
-- [X] T072 [P] [US3] Implement TidasLCIAMethod wrapper class in src/tidas_sdk/models/lcia_method.py ✅
-- [X] T073 [P] [US3] Implement TidasLifeCycleModel wrapper class in src/tidas_sdk/models/life_cycle_model.py ✅
-- [X] T074 [US3] Update models/__init__.py with all entity class exports in src/tidas_sdk/models/__init__.py ✅
+- [x] T066 [P] [US3] Implement TidasContact wrapper class in src/tidas_sdk/models/contact.py ✅
+- [x] T067 [P] [US3] Implement TidasFlow wrapper class in src/tidas_sdk/models/flow.py ✅
+- [x] T068 [P] [US3] Implement TidasProcess wrapper class in src/tidas_sdk/models/process.py ✅
+- [x] T069 [P] [US3] Implement TidasSource wrapper class in src/tidas_sdk/models/source.py ✅
+- [x] T070 [P] [US3] Implement TidasFlowProperty wrapper class in src/tidas_sdk/models/flow_property.py ✅
+- [x] T071 [P] [US3] Implement TidasUnitGroup wrapper class in src/tidas_sdk/models/unit_group.py ✅
+- [x] T072 [P] [US3] Implement TidasLCIAMethod wrapper class in src/tidas_sdk/models/lcia_method.py ✅
+- [x] T073 [P] [US3] Implement TidasLifeCycleModel wrapper class in src/tidas_sdk/models/life_cycle_model.py ✅
+- [x] T074 [US3] Update models/**init**.py with all entity class exports in src/tidas_sdk/models/**init**.py ✅
 
 ### Factory Functions (All 8 Entities + Batch) - ✅ COMPLETE
 
-- [X] T075 [P] [US3] Implement create_contact() and create_contacts_batch() in src/tidas_sdk/factories.py ✅
-- [X] T076 [P] [US3] Implement create_flow() and create_flows_batch() in src/tidas_sdk/factories.py ✅
-- [X] T077 [P] [US3] Implement create_process() and create_processes_batch() in src/tidas_sdk/factories.py ✅
-- [X] T078 [P] [US3] Implement create_source() and create_sources_batch() in src/tidas_sdk/factories.py ✅
-- [X] T079 [P] [US3] Implement create_flow_property() and create_flow_properties_batch() in src/tidas_sdk/factories.py ✅
-- [X] T080 [P] [US3] Implement create_unit_group() and create_unit_groups_batch() in src/tidas_sdk/factories.py ✅
-- [X] T081 [P] [US3] Implement create_lcia_method() and create_lcia_methods_batch() in src/tidas_sdk/factories.py ✅
-- [X] T082 [P] [US3] Implement create_life_cycle_model() and create_life_cycle_models_batch() in src/tidas_sdk/factories.py ✅
-- [X] T083 [US3] Implement generic batch creation helper _create_batch() in src/tidas_sdk/factories.py ✅
-- [X] T084 [US3] Add UUID auto-generation if not provided in factory functions in src/tidas_sdk/factories.py ✅
+- [x] T075 [P] [US3] Implement create_contact() and create_contacts_batch() in src/tidas_sdk/factories.py ✅
+- [x] T076 [P] [US3] Implement create_flow() and create_flows_batch() in src/tidas_sdk/factories.py ✅
+- [x] T077 [P] [US3] Implement create_process() and create_processes_batch() in src/tidas_sdk/factories.py ✅
+- [x] T078 [P] [US3] Implement create_source() and create_sources_batch() in src/tidas_sdk/factories.py ✅
+- [x] T079 [P] [US3] Implement create_flow_property() and create_flow_properties_batch() in src/tidas_sdk/factories.py ✅
+- [x] T080 [P] [US3] Implement create_unit_group() and create_unit_groups_batch() in src/tidas_sdk/factories.py ✅
+- [x] T081 [P] [US3] Implement create_lcia_method() and create_lcia_methods_batch() in src/tidas_sdk/factories.py ✅
+- [x] T082 [P] [US3] Implement create_life_cycle_model() and create_life_cycle_models_batch() in src/tidas_sdk/factories.py ✅
+- [x] T083 [US3] Implement generic batch creation helper \_create_batch() in src/tidas_sdk/factories.py ✅
+- [x] T084 [US3] Add UUID auto-generation if not provided in factory functions in src/tidas_sdk/factories.py ✅
 
 ### Generation Script Enhancement
 
-- [X] T085 [US3] Add CLI argument parsing to generate_types.py (--schema-dir, --output-dir, --force) in sdks/python/scripts/generate_types.py
-- [X] T086 [US3] Add generation progress logging (INFO level) in sdks/python/scripts/generate_types.py
-- [X] T087 [US3] Add generation summary report (schemas processed, files created) in sdks/python/scripts/generate_types.py
+- [x] T085 [US3] Add CLI argument parsing to generate_types.py (--schema-dir, --output-dir, --force) in sdks/python/scripts/generate_types.py
+- [x] T086 [US3] Add generation progress logging (INFO level) in sdks/python/scripts/generate_types.py
+- [x] T087 [US3] Add generation summary report (schemas processed, files created) in sdks/python/scripts/generate_types.py
 
 ### Verification & Integration
 
-- [X] T088 [US3] Export all factory functions from main __init__.py in src/tidas_sdk/__init__.py ✅
-- [X] T089 [US3] Run mypy on all generated code and verify strict mode passes ✅
-- [X] T090 [US3] Run pylint on generated code and verify score >9.0 ✅
-- [X] T091 [US3] Verify generation script completes in <30 seconds for all 18 schemas ✅
+- [x] T088 [US3] Export all factory functions from main **init**.py in src/tidas_sdk/**init**.py ✅
+- [x] T089 [US3] Run mypy on all generated code and verify strict mode passes ✅
+- [x] T090 [US3] Run pylint on generated code and verify score >9.0 ✅
+- [x] T091 [US3] Verify generation script completes in <30 seconds for all 18 schemas ✅
 
 **Story Completion Criteria**:
+
 - ✅ All 18 JSON schemas generate valid Python code
 - ✅ Generated code passes mypy strict type checking
 - ⏳ Generated code passes pylint with score >9.0 (pending)
@@ -235,16 +238,16 @@ uv run pylint src/tidas_sdk  # Score must be >9.0
 
 ### Entity Usage Verification
 
-- [X] T092 [US1] Verify TidasContact class instantiates correctly with create_contact() ✅
-- [X] T093 [US1] Verify multi-language name field supports set_text() and get_text() on Contact ✅
-- [X] T094 [US1] Verify validation in strict mode raises ValidationError for invalid Contact data ✅
-- [X] T095 [US1] Verify to_json_string() produces valid TIDAS JSON format for Contact ✅
+- [x] T092 [US1] Verify TidasContact class instantiates correctly with create_contact() ✅
+- [x] T093 [US1] Verify multi-language name field supports set_text() and get_text() on Contact ✅
+- [x] T094 [US1] Verify validation in strict mode raises ValidationError for invalid Contact data ✅
+- [x] T095 [US1] Verify to_json_string() produces valid TIDAS JSON format for Contact ✅
 
 ### Example Creation
 
-- [X] T096 [US1] Create example 01_basic_usage.py demonstrating Contact creation, validation, export in sdks/python/examples/01_basic_usage.py ✅
-- [X] T097 [US1] Add detailed comments to 01_basic_usage.py explaining TIDAS concepts in sdks/python/examples/01_basic_usage.py ✅
-- [X] T098 [US1] Verify example runs without errors and produces valid contact.json file ✅
+- [x] T096 [US1] Create example 01_basic_usage.py demonstrating Contact creation, validation, export in sdks/python/examples/01_basic_usage.py ✅
+- [x] T097 [US1] Add detailed comments to 01_basic_usage.py explaining TIDAS concepts in sdks/python/examples/01_basic_usage.py ✅
+- [x] T098 [US1] Verify example runs without errors and produces valid contact.json file ✅
 
 ### Integration Test
 
@@ -252,6 +255,7 @@ uv run pylint src/tidas_sdk  # Score must be >9.0
 - [ ] T100 [US1] Create integration test for JSON roundtrip preservation in tests/integration/test_json_roundtrip.py
 
 **Story Completion Criteria**:
+
 - ✅ Contact entity can be created with `create_contact()`
 - ✅ Multi-language name field supports set_text() and get_text()
 - ✅ Validation in strict mode raises ValidationError for invalid data
@@ -289,20 +293,20 @@ assert "jane@example.com" in json_str
 
 ### Validation Enhancement
 
-- [X] T101 [US2] Enhance TidasEntity.validate() to accumulate warnings in weak mode in src/tidas_sdk/core/base.py ✅
-- [X] T102 [US2] Add loguru WARNING-level logging for each validation warning in src/tidas_sdk/core/base.py ✅
+- [x] T101 [US2] Enhance TidasEntity.validate() to accumulate warnings in weak mode in src/tidas_sdk/core/base.py ✅
+- [x] T102 [US2] Add loguru WARNING-level logging for each validation warning in src/tidas_sdk/core/base.py ✅
 
 ### Performance Optimization
 
-- [X] T103 [US2] Optimize validation-ignore mode to truly skip Pydantic validation in src/tidas_sdk/core/base.py ✅
-- [X] T104 [US2] Add batch JSON export helper export_batch_to_json() in src/tidas_sdk/factories.py ✅
+- [x] T103 [US2] Optimize validation-ignore mode to truly skip Pydantic validation in src/tidas_sdk/core/base.py ✅
+- [x] T104 [US2] Add batch JSON export helper export_batch_to_json() in src/tidas_sdk/factories.py ✅
 
 ### Examples
 
-- [X] T105 [US2] Create example 02_batch_operations.py demonstrating 1000 entity creation and validation in sdks/python/examples/02_batch_operations.py ✅
-- [X] T106 [US2] Create example 03_validation_modes.py showing strict/weak/ignore differences in sdks/python/examples/03_validation_modes.py ✅
-- [X] T107 [US2] Add detailed comments explaining performance patterns in sdks/python/examples/02_batch_operations.py ✅
-- [X] T108 [US2] Add detailed comments explaining when to use each validation mode in sdks/python/examples/03_validation_modes.py ✅
+- [x] T105 [US2] Create example 02_batch_operations.py demonstrating 1000 entity creation and validation in sdks/python/examples/02_batch_operations.py ✅
+- [x] T106 [US2] Create example 03_validation_modes.py showing strict/weak/ignore differences in sdks/python/examples/03_validation_modes.py ✅
+- [x] T107 [US2] Add detailed comments explaining performance patterns in sdks/python/examples/02_batch_operations.py ✅
+- [x] T108 [US2] Add detailed comments explaining when to use each validation mode in sdks/python/examples/03_validation_modes.py ✅
 
 ### Integration Tests
 
@@ -310,6 +314,7 @@ assert "jane@example.com" in json_str
 - [ ] T110 [US2] Create test_validation_modes.py testing strict/weak/ignore behavior in tests/integration/test_validation_modes.py
 
 **Story Completion Criteria**:
+
 - ✅ create_flows_batch() creates 1000 entities in <1 second (ignore mode)
 - ✅ Weak validation collects all warnings without raising exceptions
 - ✅ get_validation_warnings() returns structured ValidationWarning objects
@@ -363,15 +368,16 @@ assert isinstance(warnings, list)
 
 ### Relationship Example
 
-- [X] T118 [US4] Create example 04_relationships.py demonstrating entity references (Flow→FlowProperty→UnitGroup) in sdks/python/examples/04_relationships.py ✅
-- [X] T119 [US4] Add detailed comments explaining LCA entity relationships in sdks/python/examples/04_relationships.py ✅
+- [x] T118 [US4] Create example 04_relationships.py demonstrating entity references (Flow→FlowProperty→UnitGroup) in sdks/python/examples/04_relationships.py ✅
+- [x] T119 [US4] Add detailed comments explaining LCA entity relationships in sdks/python/examples/04_relationships.py ✅
 
 ### Examples README
 
-- [X] T120 [US4] Create examples/README.md with overview and how to run each example in sdks/python/examples/README.md ✅
-- [X] T121 [US4] Add expected output snippets to examples/README.md showing what users should see in sdks/python/examples/README.md ✅
+- [x] T120 [US4] Create examples/README.md with overview and how to run each example in sdks/python/examples/README.md ✅
+- [x] T121 [US4] Add expected output snippets to examples/README.md showing what users should see in sdks/python/examples/README.md ✅
 
 **Story Completion Criteria**:
+
 - ✅ README.md provides clear installation and quick start
 - ✅ quickstart.md enables new user to create entity in <10 minutes
 - ✅ All public methods have docstrings with type information
@@ -439,6 +445,7 @@ test -f docs/api_reference.md && test -s docs/api_reference.md
 - [ ] T137 Run ruff check and ruff format, verify no issues
 
 **Phase Completion Criteria**:
+
 - ✅ All tests pass with pytest
 - ✅ Code coverage >90%
 - ✅ mypy strict mode passes
@@ -491,6 +498,7 @@ test -f docs/api_reference.md && test -s docs/api_reference.md
 - [ ] T156 Create GitHub release with changelog and installation instructions
 
 **Phase Completion Criteria**:
+
 - ✅ Package builds successfully with `uv build`
 - ✅ Package installs with `pip install tidas-sdk`
 - ✅ Package appears on PyPI at <https://pypi.org/project/tidas-sdk/>
@@ -528,6 +536,7 @@ test -f docs/api_reference.md && test -s docs/api_reference.md
 - [ ] T166 Verify import time <500ms (test with `python -c "import time; start=time.time(); import tidas_sdk; print(time.time()-start)"`)
 
 **Phase Completion Criteria**:
+
 - ✅ All public APIs have complete type hints
 - ✅ Error messages are clear and actionable
 - ✅ Performance targets met for all benchmarks
@@ -561,12 +570,14 @@ Foundation (Phase 2)
 ### Parallel Execution Opportunities
 
 **After Phase 2 Complete**:
+
 - Phase 3 (US3) must complete first (generates all code)
 - Phase 4 (US1) requires US3 complete
 - Phase 5 (US2) can partially overlap with Phase 4
 - Phase 6 (US4) can start once examples exist from Phase 4
 
 **Within Phases, parallel opportunities marked [P]**:
+
 - Phase 3: Pydantic model generation (18 tasks) - all parallel after dependency graph built
 - Phase 3: Entity wrappers (8 tasks) - all parallel
 - Phase 3: Factory functions (8 tasks) - all parallel
@@ -576,6 +587,7 @@ Foundation (Phase 2)
 ### MVP Scope (Minimum Viable Product)
 
 **For MVP Release (v0.1.0-alpha), complete only**:
+
 - Phase 1: Setup ✅
 - Phase 2: Foundation ✅
 - Phase 3: US3 Code Generation (all 18 schemas, all 8 entities) ✅
@@ -586,6 +598,7 @@ Foundation (Phase 2)
 **Estimated MVP Timeline**: 12-15 days
 
 **Post-MVP Increments**:
+
 - v0.1.0-beta: + US2 (Batch) + Full testing
 - v0.1.0-rc1: + US4 (Documentation)
 - v0.1.0: + Distribution + Polish
@@ -594,18 +607,18 @@ Foundation (Phase 2)
 
 ## Task Summary
 
-| Phase | Tasks | Parallel | Est. Days |
-|-------|-------|----------|-----------|
-| Phase 1: Setup | 13 | 0 | 1-2 |
-| Phase 2: Foundation | 23 | 13 | 3-4 |
-| Phase 3: US3 Code Generation | 55 | 39 | 5-6 |
-| Phase 4: US1 Single Entity | 9 | 0 | 2-3 |
-| Phase 5: US2 Batch Processing | 10 | 0 | 2-3 |
-| Phase 6: US4 Documentation | 11 | 7 | 3-4 |
-| Phase 7: Testing | 16 | 10 | 3-4 |
-| Phase 8: Distribution | 19 | 0 | 2-3 |
-| Phase 9: Polish | 10 | 4 | 2-3 |
-| **Total** | **166** | **73** | **23-32** |
+| Phase                         | Tasks   | Parallel | Est. Days |
+| ----------------------------- | ------- | -------- | --------- |
+| Phase 1: Setup                | 13      | 0        | 1-2       |
+| Phase 2: Foundation           | 23      | 13       | 3-4       |
+| Phase 3: US3 Code Generation  | 55      | 39       | 5-6       |
+| Phase 4: US1 Single Entity    | 9       | 0        | 2-3       |
+| Phase 5: US2 Batch Processing | 10      | 0        | 2-3       |
+| Phase 6: US4 Documentation    | 11      | 7        | 3-4       |
+| Phase 7: Testing              | 16      | 10       | 3-4       |
+| Phase 8: Distribution         | 19      | 0        | 2-3       |
+| Phase 9: Polish               | 10      | 4        | 2-3       |
+| **Total**                     | **166** | **73**   | **23-32** |
 
 **Parallel Efficiency**: 44% of tasks can run in parallel with proper work distribution
 
@@ -614,6 +627,7 @@ Foundation (Phase 2)
 ## Validation Checklist
 
 **Format Compliance**:
+
 - ✅ All tasks have checkbox format `- [ ]`
 - ✅ All tasks have sequential IDs (T001-T166)
 - ✅ All phase 3-6 tasks have story labels [US3], [US1], [US2], [US4]
@@ -621,6 +635,7 @@ Foundation (Phase 2)
 - ✅ All tasks include specific file paths
 
 **Completeness**:
+
 - ✅ All 10 acceptance criteria from spec covered
 - ✅ All 4 user scenarios mapped to phases (prioritized: US3→US1→US2→US4)
 - ✅ All functional requirements (REQ-1 to REQ-18) addressed
@@ -628,6 +643,7 @@ Foundation (Phase 2)
 - ✅ All success criteria testable with specific tasks
 
 **Dependencies**:
+
 - ✅ Setup phase has no external dependencies
 - ✅ Foundation phase depends only on Setup
 - ✅ US3 (Code Generation) is first user story - generates all infrastructure

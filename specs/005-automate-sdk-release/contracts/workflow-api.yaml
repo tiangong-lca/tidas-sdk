@@ -421,5 +421,5 @@ resource_limits:
     os: ubuntu-latest
     required_tools:
       - git
-      - python >= 3.8
+      - python >= 3.12
       - node >= 14

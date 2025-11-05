@@ -13,7 +13,14 @@ The TIDAS SDK provides three validation modes to balance data quality with perfo
 - IGNORE: Skip validation (maximum performance)
 """
 
-from tidas_sdk import ValidationConfig, ValidationError, create_contact, set_global_validation_mode
+import time
+
+from tidas_sdk import (
+    ValidationConfig,
+    ValidationError,
+    create_contact,
+    set_global_validation_mode,
+)
 
 # ============================================================
 # Mode 1: STRICT Validation (Default)
@@ -30,10 +37,12 @@ print("Behavior: Raises ValidationError immediately on any schema violation\n")
 contact_strict = create_contact()
 
 # Add some data (incomplete)
-contact_strict._data["contactDataSet"]["contactInformation"]["dataSetInformation"]["common:name"] = [
-    {"@xml:lang": "en", "#text": "Dr. Alice Chen"}
-]
-contact_strict._data["contactDataSet"]["contactInformation"]["dataSetInformation"]["email"] = "alice@example.com"
+contact_strict._data["contactDataSet"]["contactInformation"]["dataSetInformation"][
+    "common:name"
+] = [{"@xml:lang": "en", "#text": "Dr. Alice Chen"}]
+contact_strict._data["contactDataSet"]["contactInformation"]["dataSetInformation"][
+    "email"
+] = "alice@example.com"
 
 print("Attempting validation with incomplete data...")
 
@@ -65,13 +74,17 @@ config_weak = ValidationConfig(mode="weak")
 contact_weak = create_contact(validation_config=config_weak)
 
 # Add the same incomplete data
-contact_weak._data["contactDataSet"]["contactInformation"]["dataSetInformation"]["common:name"] = [
-    {"@xml:lang": "en", "#text": "Dr. Bob Smith"}
-]
-contact_weak._data["contactDataSet"]["contactInformation"]["dataSetInformation"]["email"] = "bob@example.com"
+contact_weak._data["contactDataSet"]["contactInformation"]["dataSetInformation"][
+    "common:name"
+] = [{"@xml:lang": "en", "#text": "Dr. Bob Smith"}]
+contact_weak._data["contactDataSet"]["contactInformation"]["dataSetInformation"][
+    "email"
+] = "bob@example.com"
 
 # Add some invalid data too
-contact_weak._data["contactDataSet"]["contactInformation"]["dataSetInformation"]["common:UUID"] = "invalid-uuid-format"
+contact_weak._data["contactDataSet"]["contactInformation"]["dataSetInformation"][
+    "common:UUID"
+] = "invalid-uuid-format"
 
 print("Attempting validation with incomplete AND invalid data...")
 
@@ -115,8 +128,12 @@ config_ignore = ValidationConfig(mode="ignore")
 contact_ignore = create_contact(validation_config=config_ignore)
 
 # Add completely invalid data (would normally fail)
-contact_ignore._data["contactDataSet"]["contactInformation"]["dataSetInformation"]["common:name"] = "Not even an array!"
-contact_ignore._data["contactDataSet"]["contactInformation"]["dataSetInformation"]["email"] = 12345  # Wrong type!
+contact_ignore._data["contactDataSet"]["contactInformation"]["dataSetInformation"][
+    "common:name"
+] = "Not even an array!"
+contact_ignore._data["contactDataSet"]["contactInformation"]["dataSetInformation"][
+    "email"
+] = 12345  # Wrong type!
 contact_ignore._data["invalid_field"] = "Should not exist"
 
 print("Attempting validation with completely invalid data...")
@@ -138,15 +155,13 @@ print("\n" + "=" * 60)
 print("PERFORMANCE COMPARISON")
 print("=" * 60)
 
-import time
-
 # Sample data
 sample_data = {
     "contactDataSet": {
         "contactInformation": {
             "dataSetInformation": {
                 "common:name": [{"@xml:lang": "en", "#text": "Test Contact"}],
-                "email": "test@example.com"
+                "email": "test@example.com",
             }
         }
     }
@@ -194,9 +209,9 @@ print("=" * 60)
 
 # You can change validation mode for an entity after creation
 contact_switch = create_contact()
-contact_switch._data["contactDataSet"]["contactInformation"]["dataSetInformation"]["common:name"] = [
-    {"@xml:lang": "en", "#text": "Mode Switcher"}
-]
+contact_switch._data["contactDataSet"]["contactInformation"]["dataSetInformation"][
+    "common:name"
+] = [{"@xml:lang": "en", "#text": "Mode Switcher"}]
 
 print("\n1. Start with strict mode (default):")
 print(f"   Current mode: {contact_switch.get_validation_config().mode}")
@@ -251,7 +266,8 @@ print("\n" + "=" * 60)
 print("VALIDATION MODE DECISION GUIDE")
 print("=" * 60)
 
-print("""
+print(
+    """
 📋 When to use each mode:
 
 ┌─────────────────────────────────────────────────────────────┐
@@ -302,7 +318,8 @@ print("""
 
   4. EXPORT with ignore mode (fast)
      → Export validated data efficiently
-""")
+"""
+)
 
 print("\nFor more examples:")
 print("  • See 01_basic_usage.py for basic validation")

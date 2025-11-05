@@ -11,6 +11,7 @@ This SDK is currently under development. For production use of TIDAS data utilit
 ## 📋 Features
 
 ### Planned Features
+
 - [x] Pydantic-based data models from JSON schemas
 - [x] Type-safe data manipulation
 - [ ] TIDAS data validation
@@ -19,6 +20,7 @@ This SDK is currently under development. For production use of TIDAS data utilit
 - [ ] Factory functions for entity creation
 
 ### Current Implementation
+
 - Basic project structure
 - Pydantic dependencies configured
 - Type system planning
@@ -27,10 +29,12 @@ This SDK is currently under development. For production use of TIDAS data utilit
 ## 🔧 Development Setup
 
 ### Prerequisites
-- Python 3.8+
+
+- Python 3.12+
 - uv (recommended) or pip
 
 ### Installation
+
 ```bash
 # Clone the repository
 git clone https://github.com/tiangong-lca/tidas-sdk.git
@@ -44,6 +48,7 @@ pip install -e .
 ```
 
 ### Development Commands
+
 ```bash
 # Install development dependencies
 uv sync --dev
@@ -123,6 +128,7 @@ uv run pytest tests/test_example.py
 ## 🤝 Contributing
 
 We welcome contributions! Please:
+
 1. Follow the development guidelines in the main repository
 2. Add tests for new functionality
 3. Ensure code passes linting and type checking
