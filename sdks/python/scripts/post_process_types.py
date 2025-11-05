@@ -21,7 +21,7 @@ from loguru import logger
 # Classes that should be removed (mapped to their replacement in tidas_data_types)
 # Format: (class_name_pattern, replacement_type_name)
 CLASS_REMOVALS = {
-    # Multi-language types
+    # Multi-language types (variants)
     "StringMultiLang1Item": "MultiLangItemString",  # Used internally, not directly
     "StringMultiLang1": "StringMultiLang",
     "StringMultiLang2": "StringMultiLang",
@@ -31,6 +31,10 @@ CLASS_REMOVALS = {
     "FTMultiLang1Item": "MultiLangItem",  # Used internally, not directly
     "FTMultiLang1": "FTMultiLang",
     "FTMultiLang2": "FTMultiLang",
+    # Multi-language types (base types - these can be duplicated in generated files)
+    "StringMultiLang": "StringMultiLang",
+    "STMultiLang": "STMultiLang",
+    "FTMultiLang": "FTMultiLang",
     # Reference types
     "GlobalReferenceType1": "GlobalReferenceType",
     "GlobalReferenceTypeItem": "GlobalReferenceType",
@@ -38,6 +42,7 @@ CLASS_REMOVALS = {
     "CASNumber": "CASNumber",
     "FT": "FT",
     "ST": "ST",
+    "String": "String",
     "Int5": "Int5",
     "Int6": "Int6",
     "Real": "Real",
@@ -46,6 +51,8 @@ CLASS_REMOVALS = {
     "MatV": "MatV",
     "LevelType": "LevelType",
     "UUID": "UUID",
+    "GIS": "GIS",
+    "Year": "Year",
 }
 
 # Types to import (including type aliases)
@@ -805,21 +812,27 @@ def add_import_statement(
                 in_multiline_category_import = True
                 if current_category_module not in existing_category_imports:
                     existing_category_imports[current_category_module] = set()
-            elif ")" in line and in_multiline_category_import:
-                # End of multi-line import - extract last type if present
-                if current_category_module:
-                    last_type = line.split(",")[-1].strip().rstrip(")")
-                    if last_type:
-                        existing_category_imports[current_category_module].add(
-                            last_type
-                        )
+        elif in_multiline_category_import and current_category_module:
+            # Check if this line ends the multi-line import
+            if stripped == ")" or stripped.endswith(")") and not stripped.endswith(",)"):
+                # End of multi-line import
+                # Extract any remaining type names before the closing paren
+                if stripped != ")":
+                    line_types = stripped.rstrip(")").split(",")
+                    for type_name in line_types:
+                        type_name = type_name.strip()
+                        if type_name:
+                            existing_category_imports[current_category_module].add(type_name)
                 in_multiline_category_import = False
                 current_category_module = None
-        elif in_multiline_category_import and current_category_module:
-            # Inside multi-line import - extract type name
-            type_name = stripped.rstrip(",").rstrip(")")
-            if type_name:
-                existing_category_imports[current_category_module].add(type_name)
+            else:
+                # Inside multi-line import - extract type names (may be multiple per line)
+                # Handle lines like "Contacts, TidasContactsText,"
+                line_types = stripped.split(",")
+                for type_name in line_types:
+                    type_name = type_name.strip()
+                    if type_name:
+                        existing_category_imports[current_category_module].add(type_name)
 
     # Build import statements
     new_imports = []
@@ -836,27 +849,28 @@ def add_import_statement(
     category_imports_by_module: dict[str, list[str]] = {}
     if category_imports:
         for category_module, type_name in category_imports:
-            # Check if this specific type already exists in imports
-            if (
-                category_module in existing_category_imports
-                and type_name in existing_category_imports[category_module]
-            ):
+            if category_module not in category_imports_by_module:
+                category_imports_by_module[category_module] = []
+
+            # If module already has imports, merge with existing types (only once per module)
+            if category_module in existing_category_imports:
+                # Check if we haven't already merged existing types for this module
+                if len(category_imports_by_module[category_module]) == 0:
+                    # Add all existing types first
+                    for existing_type in existing_category_imports[category_module]:
+                        if existing_type not in category_imports_by_module[category_module]:
+                            category_imports_by_module[category_module].append(
+                                existing_type
+                            )
+
+            # Add new type_name if not already in the list
+            if type_name not in category_imports_by_module[category_module]:
+                category_imports_by_module[category_module].append(type_name)
+                logger.debug(f"Adding {type_name} to {category_module}")
+            else:
                 logger.debug(
                     f"Category import already exists: {category_module}.{type_name}"
                 )
-                continue
-
-            if category_module not in category_imports_by_module:
-                category_imports_by_module[category_module] = []
-            # If module already has imports, merge with existing types
-            if category_module in existing_category_imports:
-                # Add existing types to the list
-                for existing_type in existing_category_imports[category_module]:
-                    if existing_type not in category_imports_by_module[category_module]:
-                        category_imports_by_module[category_module].append(
-                            existing_type
-                        )
-            category_imports_by_module[category_module].append(type_name)
 
     # First, update existing category imports to add new types
     # This must happen BEFORE creating new_imports
@@ -1066,12 +1080,13 @@ def post_process_file(file_path: Path, dry_run: bool = False) -> dict:
     # Step 2.5: Clean up duplicate union types (e.g., "Type | Type" -> "Type")
     if not dry_run:
         import re
+
         original_before_cleanup = content
         # Match and remove adjacent duplicate types in unions
         content = re.sub(
-            r'\b(\w+)\s*\|\s*\1\b',  # Match "TypeName | TypeName"
-            r'\1',  # Replace with just "TypeName"
-            content
+            r"\b(\w+)\s*\|\s*\1\b",  # Match "TypeName | TypeName"
+            r"\1",  # Replace with just "TypeName"
+            content,
         )
         if content != original_before_cleanup:
             logger.debug("  Cleaned up duplicate union types")

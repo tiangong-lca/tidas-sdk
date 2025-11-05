@@ -6,7 +6,7 @@ from __future__ import annotations
 from enum import Enum
 from typing import Literal
 
-from pydantic import AnyUrl, AwareDatetime, BaseModel, Field, RootModel
+from pydantic import AnyUrl, AwareDatetime, BaseModel, ConfigDict, Field, RootModel
 from tidas_sdk.types.tidas_processes_category import (
     Processes,
     TidasProcessesText
@@ -41,24 +41,36 @@ from tidas_sdk.types.tidas_data_types import (
 
 
 class CommonClas(BaseModel):
+    model_config = ConfigDict(
+        extra='allow',
+    )
     field_level: Literal['0'] = Field(..., alias='@level')
     field_classId: Processes = Field(..., alias='@classId')
     text: TidasProcessesText = Field(..., alias='#text')
 
 
 class CommonClas1(BaseModel):
+    model_config = ConfigDict(
+        extra='allow',
+    )
     field_level: Literal['1'] = Field(..., alias='@level')
     field_classId: Processes = Field(..., alias='@classId')
     text: TidasProcessesText = Field(..., alias='#text')
 
 
 class CommonClas2(BaseModel):
+    model_config = ConfigDict(
+        extra='allow',
+    )
     field_level: Literal['2'] = Field(..., alias='@level')
     field_classId: Processes = Field(..., alias='@classId')
     text: TidasProcessesText = Field(..., alias='#text')
 
 
 class CommonClas3(BaseModel):
+    model_config = ConfigDict(
+        extra='allow',
+    )
     field_level: Literal['3'] = Field(..., alias='@level')
     field_classId: Processes = Field(..., alias='@classId')
     text: TidasProcessesText = Field(..., alias='#text')
@@ -66,6 +78,9 @@ class CommonClas3(BaseModel):
 
 class CommonClass(BaseModel):
     pass
+    model_config = ConfigDict(
+        extra='allow',
+    )
 
 
 class CommonClassification(BaseModel):
@@ -73,6 +88,9 @@ class CommonClassification(BaseModel):
     Optional statistical or other classification of the data set. Typically also used for structuring LCA databases.
     """
 
+    model_config = ConfigDict(
+        extra='allow',
+    )
     common_class: (
         list[CommonClas | CommonClas1 | CommonClas2 | CommonClas3] | CommonClass
     ) = Field(..., alias='common:class', union_mode='smart')
@@ -84,6 +102,9 @@ class ClassificationInformation(BaseModel):
     Hierarchical or flat classification of the good, service or function that is provided by this life cycle model; typically used to structure database contents in LCA software, among other purposes. (Note: This entry is NOT required for the identification of a Life cycle model, but it should nevertheless be avoided to use identical names for Life cycle model data sets in the same class. The ILCD classifications are defined in the ILCDClassifications.xml file, for common use.)
     """
 
+    model_config = ConfigDict(
+        extra='allow',
+    )
     common_classification: CommonClassification = Field(
         ...,
         alias='common:classification',
@@ -96,6 +117,9 @@ class QuantitativeReference(BaseModel):
     This section names the quantitative reference of this data set, i.e. the reference to which the inputs and outputs of all process instances of the life cycle model quantitatively relate.
     """
 
+    model_config = ConfigDict(
+        extra='allow',
+    )
     referenceToReferenceProcess: str = Field(
         ...,
         description='Process instance that scales the life cycle model and thereby all directly and indirectly connected process instances of the model; it is often a process instance at the "end" of the life cycle model chain, or the process that provides the delivered good, service or function of the model.',
@@ -109,6 +133,9 @@ class MemberOf(BaseModel):
     Refers to one user-definable group, to which this process instance belongs.
     """
 
+    model_config = ConfigDict(
+        extra='allow',
+    )
     field_groupId: str | None = Field(
         None,
         alias='@groupId',
@@ -118,6 +145,9 @@ class MemberOf(BaseModel):
 
 
 class MemberOfItem(BaseModel):
+    model_config = ConfigDict(
+        extra='allow',
+    )
     field_groupId: str | None = Field(
         None,
         alias='@groupId',
@@ -131,6 +161,9 @@ class Groups(BaseModel):
     Group(s) to which this process instance belongs.
     """
 
+    model_config = ConfigDict(
+        extra='allow',
+    )
     memberOf: MemberOf | list[MemberOfItem] | None = Field(
         None,
         description='Refers to one user-definable group, to which this process instance belongs.',
@@ -233,32 +266,14 @@ class CommonLicenseType(Enum):
     Other = 'Other'
 
 
-class String(RootModel[str]):
-    root: str = Field(
-        ...,
-        description='String with a maximum length of 500 characters. Must have a minimum length of 1.',
-        max_length=500,
-        min_length=1,
-    )
-
-
-class GIS(RootModel[str]):
-    root: str = Field(
-        ...,
-        description='Global geographical reference in Latitude and LongitudeExamples: "+42.42;-180", "0;0", "13.22 ; -3"',
-        pattern='^\\s*[+-]?((90(\\.0+)?)|([0-8]?\\d(\\.\\d+)?))\\s*;\\s*[+-]?((180(\\.0+)?)|((1[0-7]\\d|[0-9]?\\d)(\\.\\d+)?))\\s*$',
-    )
-
-
-class Year(RootModel[int]):
-    root: int = Field(..., description='4-digit year', ge=1000, le=9999)
-
-
 class Name(BaseModel):
     """
     General descriptive, specifying, structured name of the Life cycle model data set. Note: Ensure proper name structuring and observe restriction to 100 characters for each of the four name fields.
     """
 
+    model_config = ConfigDict(
+        extra='allow',
+    )
     baseName: StringMultiLang = Field(
         ...,
         description='General descriptive name of the life cycle model and/or its main good(s), service(s) and/or functions delivered.',
@@ -287,6 +302,9 @@ class DataSetInformation(BaseModel):
     General data set information, to identify the life cycle model, document a general comment about it, and to reference resulting aggregated process data sets that are based on this ife cycle model and to reference a potential background report.
     """
 
+    model_config = ConfigDict(
+        extra='allow',
+    )
     common_UUID: str = Field(
         ...,
         alias='common:UUID',
@@ -329,6 +347,9 @@ class Group(BaseModel):
     Definition for each group.
     """
 
+    model_config = ConfigDict(
+        extra='allow',
+    )
     field_id: str | None = Field(None, alias='@id', pattern='^-?\\d+$')
     groupName: StringMultiLang | None = Field(
         None,
@@ -338,6 +359,9 @@ class Group(BaseModel):
 
 
 class GroupItem(BaseModel):
+    model_config = ConfigDict(
+        extra='allow',
+    )
     field_id: str | None = Field(None, alias='@id', pattern='^-?\\d+$')
     groupName: StringMultiLang | None = Field(
         None,
@@ -351,6 +375,9 @@ class GroupDeclarations(BaseModel):
     Section to define groups to which process instances can declare to belong to, in the context of this Life cycle model data set. Groups are user-defined and could be e.g. life cycle stages, foreground/background, ...
     """
 
+    model_config = ConfigDict(
+        extra='allow',
+    )
     group: Group | list[GroupItem] | None = Field(
         None, description='Definition for each group.', union_mode='smart'
     )
@@ -361,12 +388,18 @@ class Parameter(BaseModel):
     Value of the parameter.
     """
 
+    model_config = ConfigDict(
+        extra='allow',
+    )
     field_name: str | None = Field(
         None, alias='@name', description='Name of free parameter'
     )
 
 
 class ParameterItem(BaseModel):
+    model_config = ConfigDict(
+        extra='allow',
+    )
     field_name: str | None = Field(
         None, alias='@name', description='Name of free parameter'
     )
@@ -377,6 +410,9 @@ class Parameters(BaseModel):
     Set of parameters of this process instance with parameter values (changed or unchanged from those in the underlying process data set).
     """
 
+    model_config = ConfigDict(
+        extra='allow',
+    )
     parameter: Parameter | list[ParameterItem] | None = Field(
         None, description='Value of the parameter.', union_mode='smart'
     )
@@ -387,6 +423,9 @@ class DownstreamProcess(BaseModel):
     Process instance that is connected downstream with this process instance, with its connected input product or waste (flow) exchange internal ID, the flow UUID and optionally the exchange's "location" (if any). Finally, the dominant flow exchange may be identified, where two different flow data sets are connected, in support e.g. of graphical model display.
     """
 
+    model_config = ConfigDict(
+        extra='allow',
+    )
     field_id: str = Field(
         ...,
         alias='@id',
@@ -412,6 +451,9 @@ class DownstreamProcess(BaseModel):
 
 
 class DownstreamProces(BaseModel):
+    model_config = ConfigDict(
+        extra='allow',
+    )
     field_id: str = Field(
         ...,
         alias='@id',
@@ -441,6 +483,9 @@ class OutputExchange(BaseModel):
     Reference to process data set UUID of one of the connecting output product or waste flow exchanges of this process instance. I.e. which (flow) exchange on output side of this process instance is to be connected to another process instance's input product or waste (flow) exchange?
     """
 
+    model_config = ConfigDict(
+        extra='allow',
+    )
     field_dominant: FieldDominant = Field(
         ...,
         alias='@dominant',
@@ -466,6 +511,9 @@ DownstreamProces1 = DownstreamProces
 
 
 class OutputExchangeItem(BaseModel):
+    model_config = ConfigDict(
+        extra='allow',
+    )
     field_dominant: FieldDominant = Field(
         ...,
         alias='@dominant',
@@ -489,6 +537,9 @@ class Connections(BaseModel):
     Connection information among process instances, via connecting product or waste flow exchanges.
     """
 
+    model_config = ConfigDict(
+        extra='allow',
+    )
     outputExchange: OutputExchange | list[OutputExchangeItem] | None = Field(
         None,
         description="Reference to process data set UUID of one of the connecting output product or waste flow exchanges of this process instance. I.e. which (flow) exchange on output side of this process instance is to be connected to another process instance's input product or waste (flow) exchange?",
@@ -497,6 +548,9 @@ class Connections(BaseModel):
 
 
 class ProcessInstanceItem(BaseModel):
+    model_config = ConfigDict(
+        extra='allow',
+    )
     field_dataSetInternalID: str = Field(
         ..., alias='@dataSetInternalID', pattern='^-?\\d+$'
     )
@@ -535,6 +589,9 @@ class Parameter1(BaseModel):
     Value of the parameter.
     """
 
+    model_config = ConfigDict(
+        extra='allow',
+    )
     field_name: str | None = Field(
         None, alias='@name', description='Name of free parameter'
     )
@@ -546,6 +603,9 @@ class Parameter1(BaseModel):
 
 
 class ParameterItem1(BaseModel):
+    model_config = ConfigDict(
+        extra='allow',
+    )
     field_name: str | None = Field(
         None, alias='@name', description='Name of free parameter'
     )
@@ -561,6 +621,9 @@ class Parameters1(BaseModel):
     Set of parameters of this process instance with parameter values (changed or unchanged from those in the underlying process data set).
     """
 
+    model_config = ConfigDict(
+        extra='allow',
+    )
     parameter: Parameter1 | list[ParameterItem1] | None = Field(
         None, description='Value of the parameter.', union_mode='smart'
     )
@@ -577,6 +640,9 @@ class OutputExchange1(BaseModel):
     Reference to process data set UUID of one of the connecting output product or waste flow exchanges of this process instance. I.e. which (flow) exchange on output side of this process instance is to be connected to another process instance's input product or waste (flow) exchange?
     """
 
+    model_config = ConfigDict(
+        extra='allow',
+    )
     field_dominant: FieldDominant = Field(
         ...,
         alias='@dominant',
@@ -602,6 +668,9 @@ DownstreamProces3 = DownstreamProces
 
 
 class OutputExchangeItem1(BaseModel):
+    model_config = ConfigDict(
+        extra='allow',
+    )
     field_dominant: FieldDominant = Field(
         ...,
         alias='@dominant',
@@ -625,6 +694,9 @@ class Connections1(BaseModel):
     Connection information among process instances, via connecting product or waste flow exchanges.
     """
 
+    model_config = ConfigDict(
+        extra='allow',
+    )
     outputExchange: OutputExchange1 | list[OutputExchangeItem1] = Field(
         ...,
         description="Reference to process data set UUID of one of the connecting output product or waste flow exchanges of this process instance. I.e. which (flow) exchange on output side of this process instance is to be connected to another process instance's input product or waste (flow) exchange?",
@@ -637,6 +709,9 @@ class ProcessInstance(BaseModel):
     Instances (occurrences) of the same process data set in this life cycle model. Each process data set may occur in different places within the model, with different parameter settings and connected to different other process instances.
     """
 
+    model_config = ConfigDict(
+        extra='allow',
+    )
     field_dataSetInternalID: str = Field(
         ..., alias='@dataSetInternalID', pattern='^-?\\d+$'
     )
@@ -675,6 +750,9 @@ class Processes(BaseModel):
     "Process data set(s)" included in this life cycle model as separate data set(s).
     """
 
+    model_config = ConfigDict(
+        extra='allow',
+    )
     processInstance: list[ProcessInstanceItem] | ProcessInstance | None = Field(
         None,
         description='Instances (occurrences) of the same process data set in this life cycle model. Each process data set may occur in different places within the model, with different parameter settings and connected to different other process instances.',
@@ -687,6 +765,9 @@ class Technology(BaseModel):
     Provides information about the technological representativeness of the data set.
     """
 
+    model_config = ConfigDict(
+        extra='allow',
+    )
     groupDeclarations: GroupDeclarations | None = Field(
         None,
         description='Section to define groups to which process instances can declare to belong to, in the context of this Life cycle model data set. Groups are user-defined and could be e.g. life cycle stages, foreground/background, ...',
@@ -710,6 +791,9 @@ class LifeCycleModelInformation(BaseModel):
     This section comprises the following sub-sections: 1) "Key data set information", 2) "Quantitative reference", 3) "Technology".
     """
 
+    model_config = ConfigDict(
+        extra='allow',
+    )
     dataSetInformation: DataSetInformation = Field(
         ...,
         description='General data set information, to identify the life cycle model, document a general comment about it, and to reference resulting aggregated process data sets that are based on this ife cycle model and to reference a potential background report.',
@@ -729,6 +813,9 @@ class DataSourcesTreatmentEtc(BaseModel):
     Data selection, completeness, and treatment principles and procedures, data sources and market coverage information.
     """
 
+    model_config = ConfigDict(
+        extra='allow',
+    )
     useAdviceForDataSet: FTMultiLang | None = Field(
         None,
         description='Specific methodological advice for data set users that requires attention. E.g. on inclusion/exclusion of whole life cycle stages, specific use phase behavior to be modelled, and other methodological advices.',
@@ -742,6 +829,9 @@ class Review(BaseModel):
     Review information on this life cycle model data set
     """
 
+    model_config = ConfigDict(
+        extra='allow',
+    )
     common_referenceToNameOfReviewerAndInstitution: (
         GlobalReferenceType | list[GlobalReferenceType]
     ) = Field(
@@ -768,6 +858,9 @@ class Review(BaseModel):
 
 
 class ReviewItem(BaseModel):
+    model_config = ConfigDict(
+        extra='allow',
+    )
     common_referenceToNameOfReviewerAndInstitution: (
         GlobalReferenceType | list[GlobalReferenceType]
     ) = Field(
@@ -798,6 +891,9 @@ class Validation(BaseModel):
     Review / validation information on data set.
     """
 
+    model_config = ConfigDict(
+        extra='allow',
+    )
     review: Review | list[ReviewItem] = Field(
         ...,
         description='Review information on this life cycle model data set',
@@ -811,6 +907,9 @@ class Compliance(BaseModel):
     One compliance declaration. Multiple declarations may be provided.
     """
 
+    model_config = ConfigDict(
+        extra='allow',
+    )
     common_referenceToComplianceSystem: (
         GlobalReferenceType | list[GlobalReferenceType]
     ) = Field(
@@ -853,6 +952,9 @@ class Compliance(BaseModel):
 
 
 class Compliance1Item(BaseModel):
+    model_config = ConfigDict(
+        extra='allow',
+    )
     common_referenceToComplianceSystem: (
         GlobalReferenceType | list[GlobalReferenceType]
     ) = Field(
@@ -907,6 +1009,9 @@ class ComplianceDeclarations(BaseModel):
     One or more declarations of compliance to selected standards, schemes and other references, e.g. ISO 14040, ISO 14044, ILCD, EF, EN 15804, ...
     """
 
+    model_config = ConfigDict(
+        extra='allow',
+    )
     compliance: Compliance | Compliance1 = Field(
         ...,
         description='One compliance declaration. Multiple declarations may be provided.',
@@ -920,6 +1025,9 @@ class ModellingAndValidation(BaseModel):
     This section covers the following sub-sections: 1) "Data sources, treatment and representativeness", 2) "Validation", and 3) "Compliance".
     """
 
+    model_config = ConfigDict(
+        extra='allow',
+    )
     dataSourcesTreatmentEtc: DataSourcesTreatmentEtc | None = Field(
         None,
         description='Data selection, completeness, and treatment principles and procedures, data sources and market coverage information.',
@@ -939,6 +1047,9 @@ class CommonCommissionerAndGoal(BaseModel):
     Extract of the information items linked to goal and scope of LCIA method modeling.
     """
 
+    model_config = ConfigDict(
+        extra='allow',
+    )
     common_referenceToCommissioner: (
         GlobalReferenceType | list[GlobalReferenceType]
     ) = Field(
@@ -967,6 +1078,9 @@ class DataGenerator(BaseModel):
     "Contact data set" of the person(s), working group(s), organisation(s) or database network, that generated the data set, i.e. being technically responsible for its correctness regarding methods, inventory, and documentative information.
     """
 
+    model_config = ConfigDict(
+        extra='allow',
+    )
     common_referenceToPersonOrEntityGeneratingTheDataSet: (
         GlobalReferenceType | list[GlobalReferenceType] | None
     ) = Field(
@@ -983,6 +1097,9 @@ class DataEntryBy(BaseModel):
     "Contact data set" of the responsible person or entity that has documented this data set, i.e. entered the data and the descriptive information.
     """
 
+    model_config = ConfigDict(
+        extra='allow',
+    )
     common_timeStamp: AwareDatetime = Field(
         ...,
         alias='common:timeStamp',
@@ -1012,6 +1129,9 @@ class PublicationAndOwnership(BaseModel):
     Information related to publication and version management of the data set including copyright and access restrictions.
     """
 
+    model_config = ConfigDict(
+        extra='allow',
+    )
     common_dataSetVersion: str = Field(
         ...,
         alias='common:dataSetVersion',
@@ -1070,6 +1190,9 @@ class AdministrativeInformation(BaseModel):
     Information required for data set management and administration.
     """
 
+    model_config = ConfigDict(
+        extra='allow',
+    )
     common_commissionerAndGoal: CommonCommissionerAndGoal = Field(
         ...,
         alias='common:commissionerAndGoal',
@@ -1091,6 +1214,9 @@ class AdministrativeInformation(BaseModel):
 
 
 class LifeCycleModelDataSet(BaseModel):
+    model_config = ConfigDict(
+        extra='allow',
+    )
     field_xmlns: Literal['http://eplca.jrc.ec.europa.eu/ILCD/LifeCycleModel/2017'] = (
         Field(..., alias='@xmlns')
     )
@@ -1124,4 +1250,7 @@ class LifeCycleModelDataSet(BaseModel):
 
 
 class Model(BaseModel):
+    model_config = ConfigDict(
+        extra='allow',
+    )
     lifeCycleModelDataSet: LifeCycleModelDataSet

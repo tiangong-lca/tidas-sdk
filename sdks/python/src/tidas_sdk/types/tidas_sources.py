@@ -6,7 +6,7 @@ from __future__ import annotations
 from enum import Enum
 from typing import Literal
 
-from pydantic import AnyUrl, AwareDatetime, BaseModel, Field, RootModel
+from pydantic import AnyUrl, AwareDatetime, BaseModel, ConfigDict, Field, RootModel
 from tidas_sdk.types.tidas_sources_category import (
     Sources,
     TidasSourcesText
@@ -41,12 +41,18 @@ from tidas_sdk.types.tidas_data_types import (
 
 
 class CommonClass(BaseModel):
+    model_config = ConfigDict(
+        extra='allow',
+    )
     field_level: Literal['0'] = Field(..., alias='@level')
     field_classId: Sources = Field(..., alias='@classId')
     text: TidasSourcesText = Field(..., alias='#text')
 
 
 class CommonClassification(BaseModel):
+    model_config = ConfigDict(
+        extra='allow',
+    )
     common_class: CommonClass = Field(..., alias='common:class')
     common_other: str | None = Field(None, alias='common:other')
 
@@ -56,6 +62,9 @@ class ClassificationInformation(BaseModel):
     Hierachical classification of the Source foreseen to be used to structure the Source content of the database. (Note: This entry is NOT required for the identification of a Source. It should nevertheless be avoided to use identical names for Source in the same class.
     """
 
+    model_config = ConfigDict(
+        extra='allow',
+    )
     common_classification: CommonClassification = Field(
         ..., alias='common:classification'
     )
@@ -83,31 +92,16 @@ class ReferenceToDigitalFile(BaseModel):
     Link to a digital file of the source (www-address or intranet-path; relative or absolue path). (Info: Allows direct access to e.g. complete reports of further documentation, which may also be digitally attached to this data set and exchanged jointly with the XML file.)
     """
 
+    model_config = ConfigDict(
+        extra='allow',
+    )
     field_uri: AnyUrl | None = Field(None, alias='@uri')
 
 
-class String(RootModel[str]):
-    root: str = Field(
-        ...,
-        description='String with a maximum length of 500 characters. Must have a minimum length of 1.',
-        max_length=500,
-        min_length=1,
-    )
-
-
-class GIS(RootModel[str]):
-    root: str = Field(
-        ...,
-        description='Global geographical reference in Latitude and LongitudeExamples: "+42.42;-180", "0;0", "13.22 ; -3"',
-        pattern='^\\s*[+-]?((90(\\.0+)?)|([0-8]?\\d(\\.\\d+)?))\\s*;\\s*[+-]?((180(\\.0+)?)|((1[0-7]\\d|[0-9]?\\d)(\\.\\d+)?))\\s*$',
-    )
-
-
-class Year(RootModel[int]):
-    root: int = Field(..., description='4-digit year', ge=1000, le=9999)
-
-
 class DataSetInformation(BaseModel):
+    model_config = ConfigDict(
+        extra='allow',
+    )
     common_UUID: str = Field(
         ...,
         alias='common:UUID',
@@ -158,11 +152,17 @@ class DataSetInformation(BaseModel):
 
 
 class SourceInformation(BaseModel):
+    model_config = ConfigDict(
+        extra='allow',
+    )
     dataSetInformation: DataSetInformation
     common_other: str | None = Field(None, alias='common:other')
 
 
 class DataEntryBy(BaseModel):
+    model_config = ConfigDict(
+        extra='allow',
+    )
     common_timeStamp: AwareDatetime = Field(
         ...,
         alias='common:timeStamp',
@@ -184,6 +184,9 @@ class PublicationAndOwnership(BaseModel):
     Information related to publication and version management of the data set including copyright and access restrictions.
     """
 
+    model_config = ConfigDict(
+        extra='allow',
+    )
     common_dataSetVersion: str = Field(
         ...,
         alias='common:dataSetVersion',
@@ -218,6 +221,9 @@ class AdministrativeInformation(BaseModel):
     Information on data set management and administration.
     """
 
+    model_config = ConfigDict(
+        extra='allow',
+    )
     dataEntryBy: DataEntryBy
     publicationAndOwnership: PublicationAndOwnership = Field(
         ...,
@@ -227,6 +233,9 @@ class AdministrativeInformation(BaseModel):
 
 
 class SourceDataSet(BaseModel):
+    model_config = ConfigDict(
+        extra='allow',
+    )
     field_xmlns_common: Literal['http://lca.jrc.it/ILCD/Common'] = Field(
         ..., alias='@xmlns:common'
     )
@@ -246,4 +255,7 @@ class SourceDataSet(BaseModel):
 
 
 class Model(BaseModel):
+    model_config = ConfigDict(
+        extra='allow',
+    )
     sourceDataSet: SourceDataSet

@@ -6,7 +6,7 @@ from __future__ import annotations
 from enum import Enum
 from typing import Literal
 
-from pydantic import AnyUrl, AwareDatetime, BaseModel, Field, RootModel
+from pydantic import AnyUrl, AwareDatetime, BaseModel, ConfigDict, Field, RootModel
 from tidas_sdk.types.tidas_lciamethods_category import (
     Lciamethods,
     TidasLciamethodsText
@@ -41,18 +41,27 @@ from tidas_sdk.types.tidas_data_types import (
 
 
 class CommonClas(BaseModel):
+    model_config = ConfigDict(
+        extra='allow',
+    )
     field_level: Literal['0'] = Field(..., alias='@level')
     field_classId: Lciamethods = Field(..., alias='@classId')
     text: TidasLciamethodsText = Field(..., alias='#text')
 
 
 class CommonClas1(BaseModel):
+    model_config = ConfigDict(
+        extra='allow',
+    )
     field_level: Literal['1'] = Field(..., alias='@level')
     field_classId: Lciamethods = Field(..., alias='@classId')
     text: TidasLciamethodsText = Field(..., alias='#text')
 
 
 class CommonClas2(BaseModel):
+    model_config = ConfigDict(
+        extra='allow',
+    )
     field_level: Literal['2'] = Field(..., alias='@level')
     field_classId: Lciamethods = Field(..., alias='@classId')
     text: TidasLciamethodsText = Field(..., alias='#text')
@@ -60,6 +69,9 @@ class CommonClas2(BaseModel):
 
 class CommonClass1(BaseModel):
     pass
+    model_config = ConfigDict(
+        extra='allow',
+    )
 
 
 class CommonClassification(BaseModel):
@@ -67,6 +79,9 @@ class CommonClassification(BaseModel):
     Optional statistical or other classification of the data set. Typically also used for structuring LCA databases.
     """
 
+    model_config = ConfigDict(
+        extra='allow',
+    )
     common_class: list[CommonClas | CommonClas1 | CommonClas2] | CommonClass1 = Field(
         ..., alias='common:class'
     )
@@ -74,6 +89,9 @@ class CommonClassification(BaseModel):
 
 
 class ClassificationInformation(BaseModel):
+    model_config = ConfigDict(
+        extra='allow',
+    )
     common_classification: CommonClassification = Field(
         ...,
         alias='common:classification',
@@ -203,10 +221,16 @@ class CommonMethod(BaseModel):
     Validation method(s) used in the respective "Scope of review".
     """
 
+    model_config = ConfigDict(
+        extra='allow',
+    )
     field_name: FieldName1 = Field(..., alias='@name')
 
 
 class CommonMethodItem(BaseModel):
+    model_config = ConfigDict(
+        extra='allow',
+    )
     field_name: FieldName1 = Field(..., alias='@name')
 
 
@@ -215,6 +239,9 @@ class CommonScope(BaseModel):
     Scope of review regarding which aspects and components of the data set was reviewed or verified. In case of aggregated e.g. LCI results also and on which level of detail (e.g. LCI results only, included unit processes, ...) the review / verification was performed.
     """
 
+    model_config = ConfigDict(
+        extra='allow',
+    )
     field_name: FieldName = Field(..., alias='@name')
     common_method: CommonMethod | list[CommonMethodItem] = Field(
         ...,
@@ -231,6 +258,9 @@ CommonMethodItem1 = CommonMethodItem
 
 
 class CommonScopeItem(BaseModel):
+    model_config = ConfigDict(
+        extra='allow',
+    )
     field_name: FieldName = Field(..., alias='@name')
     common_method: CommonMethod1 | list[CommonMethodItem1] = Field(
         ...,
@@ -384,11 +414,10 @@ class DeviatingRecommendation(Enum):
     Not_recommended = 'Not recommended'
 
 
-class Year(RootModel[int]):
-    root: int = Field(..., description='4-digit year', ge=1000, le=9999)
-
-
 class DataSetInformation(BaseModel):
+    model_config = ConfigDict(
+        extra='allow',
+    )
     common_UUID: str = Field(
         ...,
         alias='common:UUID',
@@ -441,6 +470,9 @@ class QuantitativeReference(BaseModel):
     This section allows to refer to the LCIA method(ology)'s quantitative reference, which is always the unit, in which the characterisation factors of the impact indicator are measured, e.g. "kg CO2-Equivalents".
     """
 
+    model_config = ConfigDict(
+        extra='allow',
+    )
     referenceQuantity: GlobalReferenceType | list[GlobalReferenceType] = Field(
         ...,
         description='"Flow property data set" of the reference quantity (flow property), in which the impact indicator values are measured.',
@@ -450,6 +482,9 @@ class QuantitativeReference(BaseModel):
 
 
 class Time(BaseModel):
+    model_config = ConfigDict(
+        extra='allow',
+    )
     referenceYear: STMultiLang = Field(
         ...,
         description='Reference year when the emission is assumed to take place, i.e. the start year of the time period for which the impact is modelled. For time-independent models "time independent" should be stated.',
@@ -473,6 +508,9 @@ class InterventionLocation(BaseModel):
     Specific, country, or region of the elementary flows' / exchanges' occurence for which the LCIA method(ology) is valid / modelled. [Note: Entry can be of type "two-letter ISO 3166 country code" for countries, "seven-letter regional codes" for regions or continents, or "market areas and market organisations", as predefined for the ILCD. Also a name for e.g. a specific plant etc. can be given here (e.g. "FR, Lyon, XY Company, Z Site"; user defined). ]
     """
 
+    model_config = ConfigDict(
+        extra='allow',
+    )
     text: str | None = Field(None, alias='#text')
     field_latitudeAndLongitude: str | None = Field(
         None,
@@ -487,6 +525,9 @@ class IntervensionSubLocation(BaseModel):
     Geographical sub-unit(s) of "Intervention location(s)" that further specify the specifically modelled sub-locations. Such sub-locations can be e.g. sites of a company, specific catchments modleled, countries of a continent, or locations in a country. Information on limited representativeness should be provided if applicable.
     """
 
+    model_config = ConfigDict(
+        extra='allow',
+    )
     text: str | None = Field(None, alias='#text')
     field_latitudeAndLongitude: str | None = Field(
         None,
@@ -501,6 +542,9 @@ class ImpactLocation(BaseModel):
     Location or region where the impact is modelled to take place. [Note: Entry can be of type "two-letter ISO 3166 country code" for countries, "seven-letter regional codes" for regions or continents, or "market areas and market organisations", as predefined for the ILCD. Also a name for e.g. a specific catchment etc. can be given here, user defined).]
     """
 
+    model_config = ConfigDict(
+        extra='allow',
+    )
     text: str | None = Field(None, alias='#text')
     field_latitudeAndLongitude: str | None = Field(
         None,
@@ -511,6 +555,9 @@ class ImpactLocation(BaseModel):
 
 
 class Geography(BaseModel):
+    model_config = ConfigDict(
+        extra='allow',
+    )
     interventionLocation: InterventionLocation | str | None = Field(
         None,
         description='Specific, country, or region of the elementary flows\' / exchanges\' occurence for which the LCIA method(ology) is valid / modelled. [Note: Entry can be of type "two-letter ISO 3166 country code" for countries, "seven-letter regional codes" for regions or continents, or "market areas and market organisations", as predefined for the ILCD. Also a name for e.g. a specific plant etc. can be given here (e.g. "FR, Lyon, XY Company, Z Site"; user defined). ]',
@@ -541,6 +588,9 @@ class ImpactModel(BaseModel):
     Provides information about the general representativiness of the data set and about its composition of single LCIA-methods.
     """
 
+    model_config = ConfigDict(
+        extra='allow',
+    )
     modelName: str = Field(
         ...,
         description='Name(s) of the model(s) used for calculating the LCIA impact indicator values (if any)',
@@ -581,6 +631,9 @@ class ImpactModel(BaseModel):
 
 
 class LCIAMethodInformation(BaseModel):
+    model_config = ConfigDict(
+        extra='allow',
+    )
     dataSetInformation: DataSetInformation
     quantitativeReference: QuantitativeReference = Field(
         ...,
@@ -600,6 +653,9 @@ class LCIAMethodNormalisationAndWeighting(BaseModel):
     LCIA methodological modelling aspects
     """
 
+    model_config = ConfigDict(
+        extra='allow',
+    )
     typeOfDataSet: TypeOfDataSet = Field(
         ...,
         description='Type of data set regarding the extent of the impact chain that is covered.',
@@ -667,6 +723,9 @@ class DataSources(BaseModel):
     Data sources used for the model and the underlying substance and other data.
     """
 
+    model_config = ConfigDict(
+        extra='allow',
+    )
     referenceToDataSource: GlobalReferenceType | list[GlobalReferenceType] = Field(
         ...,
         description='"Source data set(s)" of the data source(s) used for the data set e.g. paper, questionnaire, monography etc. The main data sources e.g. for underlying substance properties are named, too.',
@@ -676,6 +735,9 @@ class DataSources(BaseModel):
 
 
 class Completeness(BaseModel):
+    model_config = ConfigDict(
+        extra='allow',
+    )
     completenessImpactCoverage: str | None = Field(
         None,
         description='Estimate of the completeness of coverage of impact(s), as identified in the fields "Impact category/ies" or - only for LCIA methodologies with Damage indicator or Combined single-point indicators - "Area(s) of Protection". Expressed by the quantitative extent of coverage of the scientifically recognized, impact. Note that this information is typically highly uncertain.',
@@ -693,6 +755,9 @@ class Review(BaseModel):
     Type of review that has been performed regarding independency and type of review process.
     """
 
+    model_config = ConfigDict(
+        extra='allow',
+    )
     field_type: FieldType = Field(..., alias='@type')
     common_scope: CommonScope | list[CommonScopeItem] | None = Field(
         None,
@@ -736,6 +801,9 @@ class Validation(BaseModel):
     Review information on LCIA method.
     """
 
+    model_config = ConfigDict(
+        extra='allow',
+    )
     review: Review = Field(
         ...,
         description='Type of review that has been performed regarding independency and type of review process.',
@@ -748,6 +816,9 @@ class Compliance(BaseModel):
     One compliance declaration. Multiple declarations may be provided.
     """
 
+    model_config = ConfigDict(
+        extra='allow',
+    )
     common_referenceToComplianceSystem: (
         GlobalReferenceType | list[GlobalReferenceType]
     ) = Field(
@@ -790,6 +861,9 @@ class Compliance(BaseModel):
 
 
 class Compliance1Item(BaseModel):
+    model_config = ConfigDict(
+        extra='allow',
+    )
     common_referenceToComplianceSystem: (
         GlobalReferenceType | list[GlobalReferenceType]
     ) = Field(
@@ -844,6 +918,9 @@ class ComplianceDeclarations(BaseModel):
     Statements on compliance of several data set aspects with compliance requirements as defined by the referenced compliance system (e.g. an EPD scheme, handbook of a national or international data network such as the ILCD, etc.).
     """
 
+    model_config = ConfigDict(
+        extra='allow',
+    )
     compliance: Compliance | Compliance1 = Field(
         ...,
         description='One compliance declaration. Multiple declarations may be provided.',
@@ -857,6 +934,9 @@ class ModellingAndValidation(BaseModel):
     Covers the five sub-sections 1) LCIA method, normalisation, weighting 2) Data sources 3) Completeness, 4) Validation, and 5) Compliance declarations.
     """
 
+    model_config = ConfigDict(
+        extra='allow',
+    )
     useAdviceForDataSet: STMultiLang | None = Field(
         None,
         description='Methodological advice for the use and application of this data set, such as limits in applicability or representativeness as well as recommendations to use it together with others from the same LCIA methodology to ensure consistency.',
@@ -887,6 +967,9 @@ class CommonCommissionerAndGoal(BaseModel):
     Extract of the information items linked to goal and scope of LCIA method modeling.
     """
 
+    model_config = ConfigDict(
+        extra='allow',
+    )
     common_referenceToCommissioner: (
         GlobalReferenceType | list[GlobalReferenceType] | None
     ) = Field(
@@ -915,6 +998,9 @@ class DataGenerator(BaseModel):
     Expert(s), that compiled and modelled the data set as well as internal administrative information linked to the data generation activity.
     """
 
+    model_config = ConfigDict(
+        extra='allow',
+    )
     common_referenceToPersonOrEntityGeneratingTheDataSet: (
         GlobalReferenceType | list[GlobalReferenceType]
     ) = Field(
@@ -927,6 +1013,9 @@ class DataGenerator(BaseModel):
 
 
 class RecommendationBy(BaseModel):
+    model_config = ConfigDict(
+        extra='allow',
+    )
     referenceToEntity: GlobalReferenceType | list[GlobalReferenceType] = Field(
         ...,
         description='"Contact data set(s)" of the governmental body/ies that has/ve officially recommended this LCIA method data set and its impact factors for use within the documented scope. Eventually deviating (downgraded) recommendations for individual exchanges are documented in the "Inputs and Outputs" section of the data set.',
@@ -948,6 +1037,9 @@ class DataEntryBy(BaseModel):
     Staff or entity, that documented the generated data set, entering the information into the database; plus administrative information linked to the data entry activity.
     """
 
+    model_config = ConfigDict(
+        extra='allow',
+    )
     common_timeStamp: AwareDatetime = Field(
         ...,
         alias='common:timeStamp',
@@ -986,6 +1078,9 @@ class PublicationAndOwnership(BaseModel):
     Information related to publication and version management of the data set including copyright and access restrictions.
     """
 
+    model_config = ConfigDict(
+        extra='allow',
+    )
     common_dateOfLastRevision: AwareDatetime = Field(
         ...,
         alias='common:dateOfLastRevision',
@@ -1051,6 +1146,9 @@ class AdministrativeInformation(BaseModel):
     Information required for data set management and administration.
     """
 
+    model_config = ConfigDict(
+        extra='allow',
+    )
     common_commissionerAndGoal: CommonCommissionerAndGoal | None = Field(
         None,
         alias='common:commissionerAndGoal',
@@ -1072,6 +1170,9 @@ class AdministrativeInformation(BaseModel):
 
 
 class Factor(BaseModel):
+    model_config = ConfigDict(
+        extra='allow',
+    )
     referenceToFlowDataSet: GlobalReferenceType | list[GlobalReferenceType] = (
         Field(
             ...,
@@ -1135,6 +1236,9 @@ class Factor(BaseModel):
 
 
 class ReferenceToDataSource(BaseModel):
+    model_config = ConfigDict(
+        extra='allow',
+    )
     referenceToDataSource: (
         GlobalReferenceType | list[GlobalReferenceType] | None
     ) = Field(
@@ -1145,6 +1249,9 @@ class ReferenceToDataSource(BaseModel):
 
 
 class FactorItem(BaseModel):
+    model_config = ConfigDict(
+        extra='allow',
+    )
     referenceToFlowDataSet: GlobalReferenceType | list[GlobalReferenceType] = (
         Field(
             ...,
@@ -1205,11 +1312,17 @@ class CharacterisationFactors(BaseModel):
     Flow / Exchanges list with corresponding impact factors according to the respective LCIA method.
     """
 
+    model_config = ConfigDict(
+        extra='allow',
+    )
     factor: Factor | list[FactorItem] = Field(..., union_mode='smart')
     common_other: str | None = Field(None, alias='common:other')
 
 
 class LCIAMethodDataSet(BaseModel):
+    model_config = ConfigDict(
+        extra='allow',
+    )
     field_xmlns: Literal['http://lca.jrc.it/ILCD/LCIAMethod'] = Field(
         'http://lca.jrc.it/ILCD/LCIAMethod', alias='@xmlns'
     )
@@ -1245,4 +1358,7 @@ class LCIAMethodDataSet(BaseModel):
 
 
 class Model(BaseModel):
+    model_config = ConfigDict(
+        extra='allow',
+    )
     LCIAMethodDataSet_1: LCIAMethodDataSet = Field(..., alias='LCIAMethodDataSet')

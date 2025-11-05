@@ -6,7 +6,7 @@ from __future__ import annotations
 from enum import Enum
 from typing import Literal
 
-from pydantic import AnyUrl, AwareDatetime, BaseModel, Field, RootModel
+from pydantic import AnyUrl, AwareDatetime, BaseModel, ConfigDict, Field, RootModel
 from tidas_sdk.types.tidas_flows_elementary_category import (
     FlowsElementary,
     TidasFlowsElementaryText
@@ -48,18 +48,27 @@ from tidas_sdk.types.tidas_data_types import (
 
 
 class CommonCategoryItem(BaseModel):
+    model_config = ConfigDict(
+        extra='allow',
+    )
     field_level: Literal['0'] = Field(..., alias='@level')
     field_catId: FlowsElementary = Field(..., alias='@catId')
     text: TidasFlowsElementaryText = Field(..., alias='#text')
 
 
 class CommonCategoryItem1(BaseModel):
+    model_config = ConfigDict(
+        extra='allow',
+    )
     field_level: Literal['1'] = Field(..., alias='@level')
     field_catId: FlowsElementary = Field(..., alias='@catId')
     text: TidasFlowsElementaryText = Field(..., alias='#text')
 
 
 class CommonCategoryItem2(BaseModel):
+    model_config = ConfigDict(
+        extra='allow',
+    )
     field_level: Literal['2'] = Field(..., alias='@level')
     field_catId: FlowsElementary = Field(..., alias='@catId')
     text: TidasFlowsElementaryText = Field(..., alias='#text')
@@ -67,9 +76,15 @@ class CommonCategoryItem2(BaseModel):
 
 class CommonCategory(BaseModel):
     pass
+    model_config = ConfigDict(
+        extra='allow',
+    )
 
 
 class CommonElementaryFlowCategorization(BaseModel):
+    model_config = ConfigDict(
+        extra='allow',
+    )
     common_category: (
         list[CommonCategoryItem | CommonCategoryItem1 | CommonCategoryItem2]
         | CommonCategory
@@ -78,30 +93,45 @@ class CommonElementaryFlowCategorization(BaseModel):
 
 
 class CommonClas(BaseModel):
+    model_config = ConfigDict(
+        extra='allow',
+    )
     field_level: Literal['0'] = Field(..., alias='@level')
     field_classId: FlowsProduct = Field(..., alias='@classId')
     text: TidasFlowsProductText = Field(..., alias='#text')
 
 
 class CommonClas1(BaseModel):
+    model_config = ConfigDict(
+        extra='allow',
+    )
     field_level: Literal['1'] = Field(..., alias='@level')
     field_classId: FlowsProduct = Field(..., alias='@classId')
     text: TidasFlowsProductText = Field(..., alias='#text')
 
 
 class CommonClas2(BaseModel):
+    model_config = ConfigDict(
+        extra='allow',
+    )
     field_level: Literal['2'] = Field(..., alias='@level')
     field_classId: FlowsProduct = Field(..., alias='@classId')
     text: TidasFlowsProductText = Field(..., alias='#text')
 
 
 class CommonClas3(BaseModel):
+    model_config = ConfigDict(
+        extra='allow',
+    )
     field_level: Literal['3'] = Field(..., alias='@level')
     field_classId: FlowsProduct = Field(..., alias='@classId')
     text: TidasFlowsProductText = Field(..., alias='#text')
 
 
 class CommonClas4(BaseModel):
+    model_config = ConfigDict(
+        extra='allow',
+    )
     field_level: Literal['4'] = Field(..., alias='@level')
     field_classId: FlowsProduct = Field(..., alias='@classId')
     text: TidasFlowsProductText = Field(..., alias='#text')
@@ -111,6 +141,9 @@ CommonClass = CommonCategory
 
 
 class CommonClassification(BaseModel):
+    model_config = ConfigDict(
+        extra='allow',
+    )
     common_class: (
         list[CommonClas | CommonClas1 | CommonClas2 | CommonClas3 | CommonClas4]
         | CommonClass
@@ -123,6 +156,9 @@ class ClassificationInformation(BaseModel):
     Hierachical classification of the Flow property foreseen to be used to structure the Flow property content of the database. (Note: This entry is NOT required for the identification of the Flow property data set. It should nevertheless be avoided to use identical names for Flow properties in the same class.
     """
 
+    model_config = ConfigDict(
+        extra='allow',
+    )
     common_elementaryFlowCategorization: CommonElementaryFlowCategorization = Field(
         ..., alias='common:elementaryFlowCategorization'
     )
@@ -141,6 +177,9 @@ CommonCategoryItem5 = CommonCategoryItem2
 
 
 class CommonElementaryFlowCategorization1(BaseModel):
+    model_config = ConfigDict(
+        extra='allow',
+    )
     common_category: (
         list[CommonCategoryItem3 | CommonCategoryItem4 | CommonCategoryItem5]
         | CommonCategory
@@ -164,6 +203,9 @@ CommonClas9 = CommonClas4
 
 
 class CommonClassification1(BaseModel):
+    model_config = ConfigDict(
+        extra='allow',
+    )
     common_class: (
         list[CommonClas5 | CommonClas6 | CommonClas7 | CommonClas8 | CommonClas9]
         | CommonClass
@@ -176,6 +218,9 @@ class ClassificationInformation1(BaseModel):
     Hierachical classification of the Flow property foreseen to be used to structure the Flow property content of the database. (Note: This entry is NOT required for the identification of the Flow property data set. It should nevertheless be avoided to use identical names for Flow properties in the same class.
     """
 
+    model_config = ConfigDict(
+        extra='allow',
+    )
     common_elementaryFlowCategorization: CommonElementaryFlowCategorization1 | None = (
         Field(None, alias='common:elementaryFlowCategorization')
     )
@@ -191,6 +236,9 @@ class TypeOfDataSet(Enum):
 
 
 class LCIMethod(BaseModel):
+    model_config = ConfigDict(
+        extra='allow',
+    )
     typeOfDataSet: TypeOfDataSet
     common_other: str | None = Field(None, alias='common:other')
 
@@ -216,14 +264,6 @@ class DataDerivationTypeStatus(Enum):
     Unknown_derivation = 'Unknown derivation'
 
 
-class StringMultiLang(RootModel[StringMultiLang]):
-    root: StringMultiLang = Field(
-        ...,
-        description='Multi-language string with a maximum length of 500 characters',
-        union_mode='smart',
-    )
-
-
 class GlobalReferenceType(
     RootModel[GlobalReferenceType | list[GlobalReferenceType]]
 ):
@@ -234,19 +274,10 @@ class GlobalReferenceType(
     )
 
 
-class GIS(RootModel[str]):
-    root: str = Field(
-        ...,
-        description='Global geographical reference in Latitude and LongitudeExamples: "+42.42;-180", "0;0", "13.22 ; -3"',
-        pattern='^\\s*[+-]?((90(\\.0+)?)|([0-8]?\\d(\\.\\d+)?))\\s*;\\s*[+-]?((180(\\.0+)?)|((1[0-7]\\d|[0-9]?\\d)(\\.\\d+)?))\\s*$',
-    )
-
-
-class Year(RootModel[int]):
-    root: int = Field(..., description='4-digit year', ge=1000, le=9999)
-
-
 class Name(BaseModel):
+    model_config = ConfigDict(
+        extra='allow',
+    )
     baseName: StringMultiLang = Field(
         ...,
         description='Multi-language string with a maximum length of 500 characters',
@@ -271,6 +302,9 @@ class Name(BaseModel):
 
 
 class DataSetInformation(BaseModel):
+    model_config = ConfigDict(
+        extra='allow',
+    )
     common_UUID: str = Field(
         ...,
         alias='common:UUID',
@@ -312,6 +346,9 @@ class DataSetInformation(BaseModel):
 
 
 class QuantitativeReference(BaseModel):
+    model_config = ConfigDict(
+        extra='allow',
+    )
     referenceToReferenceFlowProperty: str = Field(
         ..., description='5-digit integer number', pattern='^(0|[1-9]\\d{0,4})$'
     )
@@ -319,11 +356,17 @@ class QuantitativeReference(BaseModel):
 
 
 class Geography(BaseModel):
+    model_config = ConfigDict(
+        extra='allow',
+    )
     locationOfSupply: Locations | None = Field(None, union_mode='smart')
     common_other: str | None = Field(None, alias='common:other')
 
 
 class Technology(BaseModel):
+    model_config = ConfigDict(
+        extra='allow',
+    )
     technologicalApplicability: FTMultiLang | None = Field(
         None,
         description='Description of the intended / possible applications of the good or service, or waste. E.g. for which type of products the material, represented by this data set, is used. Examples: "This high purity chemical is used for analytical laboratories only." or "This technical quality bulk chemical is used for large scale synthesis in chemical industry.". Or: "This type of biowaste is typically composted or biodigested as the water content is too high for efficient combustion".',
@@ -340,6 +383,9 @@ class Technology(BaseModel):
 
 
 class FlowInformation(BaseModel):
+    model_config = ConfigDict(
+        extra='allow',
+    )
     dataSetInformation: DataSetInformation
     quantitativeReference: QuantitativeReference
     geography: Geography | None = None
@@ -352,6 +398,9 @@ class Compliance(BaseModel):
     One compliance declaration. Multiple declarations may be provided.
     """
 
+    model_config = ConfigDict(
+        extra='allow',
+    )
     common_referenceToComplianceSystem: (
         GlobalReferenceType | list[GlobalReferenceType]
     ) = Field(
@@ -367,6 +416,9 @@ class Compliance(BaseModel):
 
 
 class Compliance1Item(BaseModel):
+    model_config = ConfigDict(
+        extra='allow',
+    )
     common_referenceToComplianceSystem: (
         GlobalReferenceType | list[GlobalReferenceType]
     ) = Field(
@@ -390,6 +442,9 @@ class Compliance1(RootModel[list[Compliance1Item]]):
 
 
 class ComplianceDeclarations(BaseModel):
+    model_config = ConfigDict(
+        extra='allow',
+    )
     compliance: Compliance | Compliance1 = Field(
         ...,
         description='One compliance declaration. Multiple declarations may be provided.',
@@ -399,12 +454,18 @@ class ComplianceDeclarations(BaseModel):
 
 
 class ModellingAndValidation(BaseModel):
+    model_config = ConfigDict(
+        extra='allow',
+    )
     LCIMethod_1: LCIMethod = Field(..., alias='LCIMethod')
     complianceDeclarations: ComplianceDeclarations
     common_other: str | None = Field(None, alias='common:other')
 
 
 class DataEntryBy(BaseModel):
+    model_config = ConfigDict(
+        extra='allow',
+    )
     common_timeStamp: AwareDatetime = Field(
         ...,
         alias='common:timeStamp',
@@ -430,6 +491,9 @@ class DataEntryBy(BaseModel):
 
 
 class PublicationAndOwnership(BaseModel):
+    model_config = ConfigDict(
+        extra='allow',
+    )
     common_dataSetVersion: str = Field(
         ...,
         alias='common:dataSetVersion',
@@ -460,12 +524,18 @@ class PublicationAndOwnership(BaseModel):
 
 
 class AdministrativeInformation(BaseModel):
+    model_config = ConfigDict(
+        extra='allow',
+    )
     dataEntryBy: DataEntryBy
     publicationAndOwnership: PublicationAndOwnership
     common_other: str | None = Field(None, alias='common:other')
 
 
 class FlowProperty(BaseModel):
+    model_config = ConfigDict(
+        extra='allow',
+    )
     field_dataSetInternalID: str = Field(
         ...,
         alias='@dataSetInternalID',
@@ -513,11 +583,17 @@ FlowPropertyItem = FlowProperty
 
 
 class FlowProperties(BaseModel):
+    model_config = ConfigDict(
+        extra='allow',
+    )
     flowProperty: FlowProperty | list[FlowPropertyItem] = Field(..., union_mode='smart')
     common_other: str | None = Field(None, alias='common:other')
 
 
 class FlowDataSet(BaseModel):
+    model_config = ConfigDict(
+        extra='allow',
+    )
     field_xmlns: Literal['http://lca.jrc.it/ILCD/Flow'] = Field(..., alias='@xmlns')
     field_xmlns_common: Literal['http://lca.jrc.it/ILCD/Common'] = Field(
         ..., alias='@xmlns:common'
@@ -541,4 +617,7 @@ class FlowDataSet(BaseModel):
 
 
 class Model(BaseModel):
+    model_config = ConfigDict(
+        extra='allow',
+    )
     flowDataSet: FlowDataSet

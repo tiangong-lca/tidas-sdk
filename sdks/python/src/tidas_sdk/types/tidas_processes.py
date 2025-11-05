@@ -6,7 +6,7 @@ from __future__ import annotations
 from enum import Enum
 from typing import Literal
 
-from pydantic import AnyUrl, AwareDatetime, BaseModel, Field, RootModel
+from pydantic import AnyUrl, AwareDatetime, BaseModel, ConfigDict, Field, RootModel
 from tidas_sdk.types.tidas_locations_category import Locations
 
 from tidas_sdk.types.tidas_processes_category import (
@@ -43,24 +43,36 @@ from tidas_sdk.types.tidas_data_types import (
 
 
 class CommonClas(BaseModel):
+    model_config = ConfigDict(
+        extra='allow',
+    )
     field_level: Literal['0'] = Field(..., alias='@level')
     field_classId: Processes = Field(..., alias='@classId')
     text: TidasProcessesText = Field(..., alias='#text')
 
 
 class CommonClas1(BaseModel):
+    model_config = ConfigDict(
+        extra='allow',
+    )
     field_level: Literal['1'] = Field(..., alias='@level')
     field_classId: Processes = Field(..., alias='@classId')
     text: TidasProcessesText = Field(..., alias='#text')
 
 
 class CommonClas2(BaseModel):
+    model_config = ConfigDict(
+        extra='allow',
+    )
     field_level: Literal['2'] = Field(..., alias='@level')
     field_classId: Processes = Field(..., alias='@classId')
     text: TidasProcessesText = Field(..., alias='#text')
 
 
 class CommonClas3(BaseModel):
+    model_config = ConfigDict(
+        extra='allow',
+    )
     field_level: Literal['3'] = Field(..., alias='@level')
     field_classId: Processes = Field(..., alias='@classId')
     text: TidasProcessesText = Field(..., alias='#text')
@@ -68,6 +80,9 @@ class CommonClas3(BaseModel):
 
 class CommonClass(BaseModel):
     pass
+    model_config = ConfigDict(
+        extra='allow',
+    )
 
 
 class CommonClassification(BaseModel):
@@ -75,6 +90,9 @@ class CommonClassification(BaseModel):
     Optional statistical or other classification of the data set. Typically also used for structuring LCA databases.
     """
 
+    model_config = ConfigDict(
+        extra='allow',
+    )
     common_class: (
         list[CommonClas | CommonClas1 | CommonClas2 | CommonClas3] | CommonClass
     ) = Field(..., alias='common:class', union_mode='smart')
@@ -86,6 +104,9 @@ class ClassificationInformation(BaseModel):
     Hierarchical or flat classification of the good, service or function that is provided by this life cycle model; typically used to structure database contents in LCA software, among other purposes. (Note: This entry is NOT required for the identification of a Life cycle model, but it should nevertheless be avoided to use identical names for Life cycle model data sets in the same class. The ILCD classifications are defined in the ILCDClassifications.xml file, for common use.)
     """
 
+    model_config = ConfigDict(
+        extra='allow',
+    )
     common_classification: CommonClassification = Field(
         ...,
         alias='common:classification',
@@ -220,6 +241,9 @@ class CompletenessElementaryFlows(BaseModel):
     Completeness of the elementary flows in the Inputs and Outputs section of this data set from impact perspective, regarding addressing the individual mid-point problem field / impact category given. The completeness refers to the state-of-the-art of scientific knowledge whether or not an individual elementary flow contributes to the respective mid-point topic in a relevant way, which is e.g. the basis for the ILCD reference elementary flows. [Note: The "Completeness" statement does not automatically mean that related LCIA methods exist or reference the elementary flows of this data set. Hence for direct applicability of existing LCIA methods, check the field "Supported LCIA method data sets".]
     """
 
+    model_config = ConfigDict(
+        extra='allow',
+    )
     field_type: FieldType1 | None = Field(None, alias='@type')
     field_value: FieldValue | None = Field(None, alias='@value')
 
@@ -267,10 +291,16 @@ class CommonMethod(BaseModel):
     Validation method(s) used in the respective "Scope of review".
     """
 
+    model_config = ConfigDict(
+        extra='allow',
+    )
     field_name: FieldName1 = Field(..., alias='@name')
 
 
 class CommonMethodItem(BaseModel):
+    model_config = ConfigDict(
+        extra='allow',
+    )
     field_name: FieldName1 = Field(..., alias='@name')
 
 
@@ -279,6 +309,9 @@ class CommonScope(BaseModel):
     Scope of review regarding which aspects and components of the data set was reviewed or verified. In case of aggregated e.g. LCI results also and on which level of detail (e.g. LCI results only, included unit processes, ...) the review / verification was performed.
     """
 
+    model_config = ConfigDict(
+        extra='allow',
+    )
     field_name: FieldName = Field(..., alias='@name')
     common_method: CommonMethod | list[CommonMethodItem] = Field(
         ...,
@@ -295,6 +328,9 @@ CommonMethodItem1 = CommonMethodItem
 
 
 class CommonScopeItem(BaseModel):
+    model_config = ConfigDict(
+        extra='allow',
+    )
     field_name: FieldName = Field(..., alias='@name')
     common_method: CommonMethod1 | list[CommonMethodItem1] = Field(
         ...,
@@ -331,11 +367,17 @@ class CommonDataQualityIndicator(BaseModel):
     Data quality indicators serve to provide the reviewed key information on the data set in a defined, computer-readable (and hence searchable) form. This serves to support LCA practitioners to identify/select the highest quality and most appropriate data sets.
     """
 
+    model_config = ConfigDict(
+        extra='allow',
+    )
     field_name: FieldName6 = Field(..., alias='@name')
     field_value: FieldValue1 = Field(..., alias='@value')
 
 
 class CommonDataQualityIndicatorItem(BaseModel):
+    model_config = ConfigDict(
+        extra='allow',
+    )
     field_name: FieldName6 = Field(..., alias='@name')
     field_value: FieldValue1 = Field(..., alias='@value')
 
@@ -345,6 +387,9 @@ class CommonDataQualityIndicators(BaseModel):
     Data quality indicators serve to provide the reviewed key information on the data set in a defined, computer-readable (and hence searchable) form. This serves to support LCA practitioners to identify/select the highest quality and most appropriate data sets.
     """
 
+    model_config = ConfigDict(
+        extra='allow',
+    )
     common_dataQualityIndicator: (
         CommonDataQualityIndicator | list[CommonDataQualityIndicatorItem]
     ) = Field(
@@ -490,14 +535,6 @@ class DataDerivationTypeStatus(Enum):
     Missing_unimportant = 'Missing unimportant'
 
 
-class StringMultiLang(RootModel[StringMultiLang]):
-    root: StringMultiLang = Field(
-        ...,
-        description='Multi-language string with a maximum length of 500 characters',
-        union_mode='smart',
-    )
-
-
 class GlobalReferenceType(
     RootModel[GlobalReferenceType | list[GlobalReferenceType]]
 ):
@@ -513,6 +550,9 @@ class Name(BaseModel):
     General descriptive and specifying name of the process.
     """
 
+    model_config = ConfigDict(
+        extra='allow',
+    )
     baseName: StringMultiLang = Field(
         ...,
         description='Multi-language string with a maximum length of 500 characters',
@@ -537,6 +577,9 @@ class Name(BaseModel):
 
 
 class ComplementingProcesses(BaseModel):
+    model_config = ConfigDict(
+        extra='allow',
+    )
     referenceToComplementingProcess: (
         GlobalReferenceType | list[GlobalReferenceType] | None
     ) = Field(
@@ -551,6 +594,9 @@ class DataSetInformation(BaseModel):
     General data set information. Section covers all single fields in the ISO/TS 14048 "Process description", which are not part of the other sub-sections. In ISO/TS 14048 no own sub-section is foreseen for these entries.
     """
 
+    model_config = ConfigDict(
+        extra='allow',
+    )
     common_UUID: str = Field(
         ...,
         alias='common:UUID',
@@ -598,6 +644,9 @@ class QuantitativeReference(BaseModel):
     This section names the quantitative reference used for this data set, i.e. the reference to which the inputs and outputs quantiatively relate.
     """
 
+    model_config = ConfigDict(
+        extra='allow',
+    )
     field_type: FieldType = Field(..., alias='@type')
     referenceToReferenceFlow: str = Field(
         ..., description='6-digit integer number', pattern='^(0|[1-9]\\d{0,5})$'
@@ -611,6 +660,9 @@ class QuantitativeReference(BaseModel):
 
 
 class Time(BaseModel):
+    model_config = ConfigDict(
+        extra='allow',
+    )
     common_referenceYear: int = Field(
         ...,
         alias='common:referenceYear',
@@ -641,6 +693,9 @@ class LocationOfOperationSupplyOrProduction(BaseModel):
     Location, country or region the data set represents. [Note 1: This field does not refer to e.g. the country in which a specific site is located that is represented by this data set but to the actually represented country, region, or site. Note 2: Entry can be of type "two-letter ISO 3166 country code" for countries, "seven-letter regional codes" for regions or continents, or "market areas and market organisations", as predefined for the ILCD. Also a name for e.g. a specific plant etc. can be given here (e.g. "FR, Lyon, XY Company, Z Site"; user defined). Note 3: The fact whether the entry refers to production or to consumption / supply has to be stated in the name-field "Mix and location types" e.g. as "Production mix".]
     """
 
+    model_config = ConfigDict(
+        extra='allow',
+    )
     field_location: Locations = Field(..., alias='@location', union_mode='smart')
     field_latitudeAndLongitude: str | None = Field(
         None,
@@ -661,6 +716,9 @@ class SubLocationOfOperationSupplyOrProduction(BaseModel):
     One or more geographical sub-unit(s) of the stated "Location". Such sub-units can be e.g. the sampling sites of a company-average data set, the countries of a region-average data set, or specific sites in a country-average data set. [Note: For single site data sets this field is empty and the site is named in the "Location" field.]
     """
 
+    model_config = ConfigDict(
+        extra='allow',
+    )
     field_subLocation: Locations | None = Field(
         None, alias='@subLocation', union_mode='smart'
     )
@@ -679,6 +737,9 @@ class SubLocationOfOperationSupplyOrProduction(BaseModel):
 
 
 class Geography(BaseModel):
+    model_config = ConfigDict(
+        extra='allow',
+    )
     locationOfOperationSupplyOrProduction: LocationOfOperationSupplyOrProduction = (
         Field(
             ...,
@@ -695,6 +756,9 @@ class Geography(BaseModel):
 
 
 class Technology(BaseModel):
+    model_config = ConfigDict(
+        extra='allow',
+    )
     technologyDescriptionAndIncludedProcesses: FTMultiLang = Field(
         ...,
         description='Description of the technological characteristics including operating conditions of the process or product system. For the latter this includes the relevant upstream and downstream processes included in the data set. Professional terminology should be used.',
@@ -730,6 +794,9 @@ class Technology(BaseModel):
 
 
 class VariableParameter(BaseModel):
+    model_config = ConfigDict(
+        extra='allow',
+    )
     field_name: str | None = Field(
         None,
         alias='@name',
@@ -771,6 +838,9 @@ class VariableParameter(BaseModel):
 
 
 class MathematicalRelations(BaseModel):
+    model_config = ConfigDict(
+        extra='allow',
+    )
     modelDescription: FTMultiLang | None = Field(
         None,
         description='Description of the model(s) represented in this section of mathematical relations. Can cover information on restrictions, model strenghts and weaknesses, etc. (Note: Also see information provided on the level of the individual formula in field "Comment" and in the general process description in the fields in section "Technology".)',
@@ -785,6 +855,9 @@ class ProcessInformation(BaseModel):
     Corresponds to the ISO/TS 14048 section "Process description". It comprises the following six sub-sections: 1) "Data set information" for data set identification and overarching information items, 2) "Quantitative reference", 3) "Time", 4) "Geography", 5) "Technology" and 6) "Mathematical relations".
     """
 
+    model_config = ConfigDict(
+        extra='allow',
+    )
     dataSetInformation: DataSetInformation = Field(
         ...,
         description='General data set information. Section covers all single fields in the ISO/TS 14048 "Process description", which are not part of the other sub-sections. In ISO/TS 14048 no own sub-section is foreseen for these entries.',
@@ -801,6 +874,9 @@ class ProcessInformation(BaseModel):
 
 
 class LCIMethodAndAllocation(BaseModel):
+    model_config = ConfigDict(
+        extra='allow',
+    )
     typeOfDataSet: TypeOfDataSet = Field(
         ...,
         description='Type of the data set regarding systematic inclusion/exclusion of upstream or downstream processes, transparency and internal (hidden) multi-functionality, and the completeness of modelling.',
@@ -846,6 +922,9 @@ class LCIMethodAndAllocation(BaseModel):
 
 
 class DataSourcesTreatmentAndRepresentativeness(BaseModel):
+    model_config = ConfigDict(
+        extra='allow',
+    )
     dataCutOffAndCompletenessPrinciples: FTMultiLang = Field(
         ...,
         description='Principles applied in data collection regarding completeness of (also intermediate) product and waste flows and of elementary flows. Examples are: cut-off rules, systematic exclusion of infrastructure, services or auxiliaries, etc. systematic exclusion of air in incineration processes, coling water, etc.',
@@ -930,6 +1009,9 @@ class DataSourcesTreatmentAndRepresentativeness(BaseModel):
 
 
 class Completeness(BaseModel):
+    model_config = ConfigDict(
+        extra='allow',
+    )
     completenessProductModel: CompletenessProductModel | None = Field(
         None,
         description='Completeness of coverage of relevant product, waste and elementary flows. [Notes: For LCI results and Partly terminated systems this means throughout the underlying product system model. "Relevant" refers to the overall environmental relevance, i.e. for unit processes including the upstream and downstream burdens of product and waste flows.]',
@@ -958,6 +1040,9 @@ class Review(BaseModel):
     Type of review that has been performed regarding independency and type of review process.
     """
 
+    model_config = ConfigDict(
+        extra='allow',
+    )
     field_type: FieldType2 = Field(..., alias='@type')
     common_scope: CommonScope | list[CommonScopeItem] | None = Field(
         None,
@@ -1006,6 +1091,9 @@ class Validation(BaseModel):
     Review information on LCIA method.
     """
 
+    model_config = ConfigDict(
+        extra='allow',
+    )
     review: Review = Field(
         ...,
         description='Type of review that has been performed regarding independency and type of review process.',
@@ -1018,6 +1106,9 @@ class Compliance(BaseModel):
     One compliance declaration. Multiple declarations may be provided.
     """
 
+    model_config = ConfigDict(
+        extra='allow',
+    )
     common_referenceToComplianceSystem: (
         GlobalReferenceType | list[GlobalReferenceType]
     ) = Field(
@@ -1060,6 +1151,9 @@ class Compliance(BaseModel):
 
 
 class Compliance1Item(BaseModel):
+    model_config = ConfigDict(
+        extra='allow',
+    )
     common_referenceToComplianceSystem: (
         GlobalReferenceType | list[GlobalReferenceType]
     ) = Field(
@@ -1114,6 +1208,9 @@ class ComplianceDeclarations(BaseModel):
     Statements on compliance of several data set aspects with compliance requirements as defined by the referenced compliance system (e.g. an EPD scheme, handbook of a national or international data network such as the ILCD, etc.).
     """
 
+    model_config = ConfigDict(
+        extra='allow',
+    )
     compliance: Compliance | Compliance1 = Field(
         ...,
         description='One compliance declaration. Multiple declarations may be provided.',
@@ -1123,6 +1220,9 @@ class ComplianceDeclarations(BaseModel):
 
 
 class ModellingAndValidation(BaseModel):
+    model_config = ConfigDict(
+        extra='allow',
+    )
     LCIMethodAndAllocation_1: LCIMethodAndAllocation = Field(
         ..., alias='LCIMethodAndAllocation'
     )
@@ -1145,6 +1245,9 @@ class CommonCommissionerAndGoal(BaseModel):
     Basic information about goal and scope of the data set.
     """
 
+    model_config = ConfigDict(
+        extra='allow',
+    )
     common_referenceToCommissioner: (
         GlobalReferenceType | list[GlobalReferenceType]
     ) = Field(
@@ -1173,6 +1276,9 @@ class DataGenerator(BaseModel):
     Expert(s), that compiled and modelled the data set as well as internal administrative information linked to the data generation activity.
     """
 
+    model_config = ConfigDict(
+        extra='allow',
+    )
     common_referenceToPersonOrEntityGeneratingTheDataSet: (
         GlobalReferenceType | list[GlobalReferenceType] | None
     ) = Field(
@@ -1189,6 +1295,9 @@ class DataEntryBy(BaseModel):
     Staff or entity, that documented the generated data set, entering the information into the database; plus administrative information linked to the data entry activity.
     """
 
+    model_config = ConfigDict(
+        extra='allow',
+    )
     common_timeStamp: AwareDatetime = Field(
         ...,
         alias='common:timeStamp',
@@ -1234,6 +1343,9 @@ class PublicationAndOwnership(BaseModel):
     Information related to publication and version management of the data set including copyright and access restrictions.
     """
 
+    model_config = ConfigDict(
+        extra='allow',
+    )
     common_dateOfLastRevision: AwareDatetime | None = Field(
         None,
         alias='common:dateOfLastRevision',
@@ -1327,6 +1439,9 @@ class AdministrativeInformation(BaseModel):
     Information on data set management and administration.
     """
 
+    model_config = ConfigDict(
+        extra='allow',
+    )
     common_commissionerAndGoal: CommonCommissionerAndGoal = Field(
         ...,
         alias='common:commissionerAndGoal',
@@ -1352,6 +1467,9 @@ class Allocation(BaseModel):
     specifies one allocation of this exchange (see the attributes of this tag below)
     """
 
+    model_config = ConfigDict(
+        extra='allow',
+    )
     field_internalReferenceToCoProduct: str | None = Field(
         None,
         alias='@internalReferenceToCoProduct',
@@ -1371,6 +1489,9 @@ class Allocations(BaseModel):
     container tag for the specification of allocations if process has more than one reference product. Use only for multifunctional processes.
     """
 
+    model_config = ConfigDict(
+        extra='allow',
+    )
     allocation: Allocation | None = Field(
         None,
         description='specifies one allocation of this exchange (see the attributes of this tag below)',
@@ -1382,6 +1503,9 @@ class ReferencesToDataSource(BaseModel):
     "Source data set" of data source(s) used for the value of this specific Input or Output, especially if differing from the general data source used for this data set.
     """
 
+    model_config = ConfigDict(
+        extra='allow',
+    )
     referenceToDataSource: (
         GlobalReferenceType | list[GlobalReferenceType] | None
     ) = Field(
@@ -1393,6 +1517,9 @@ class ReferencesToDataSource(BaseModel):
 
 
 class ExchangeItem(BaseModel):
+    model_config = ConfigDict(
+        extra='allow',
+    )
     field_dataSetInternalID: str = Field(
         ...,
         alias='@dataSetInternalID',
@@ -1465,11 +1592,17 @@ class ExchangeItem(BaseModel):
 
 
 class Exchanges(BaseModel):
+    model_config = ConfigDict(
+        extra='allow',
+    )
     exchange: list[ExchangeItem]
     common_other: str | None = Field(None, alias='common:other')
 
 
 class LCIAResult(BaseModel):
+    model_config = ConfigDict(
+        extra='allow',
+    )
     referenceToLCIAMethodDataSet: (
         GlobalReferenceType | list[GlobalReferenceType] | None
     ) = Field(
@@ -1504,6 +1637,9 @@ class LCIAResult1(RootModel[list[LCIAResult1Item]]):
 
 
 class LCIAResults(BaseModel):
+    model_config = ConfigDict(
+        extra='allow',
+    )
     LCIAResult_1: LCIAResult | LCIAResult1 | None = Field(
         None, alias='LCIAResult', union_mode='smart'
     )
@@ -1511,6 +1647,9 @@ class LCIAResults(BaseModel):
 
 
 class ProcessDataSet(BaseModel):
+    model_config = ConfigDict(
+        extra='allow',
+    )
     field_xmlns_common: Literal['http://lca.jrc.it/ILCD/Common'] = Field(
         ..., alias='@xmlns:common'
     )
@@ -1539,4 +1678,7 @@ class ProcessDataSet(BaseModel):
 
 
 class Model(BaseModel):
+    model_config = ConfigDict(
+        extra='allow',
+    )
     processDataSet: ProcessDataSet

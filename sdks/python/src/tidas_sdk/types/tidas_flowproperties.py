@@ -6,7 +6,7 @@ from __future__ import annotations
 from enum import Enum
 from typing import Literal
 
-from pydantic import AnyUrl, AwareDatetime, BaseModel, Field, RootModel
+from pydantic import AnyUrl, AwareDatetime, BaseModel, ConfigDict, Field, RootModel
 from tidas_sdk.types.tidas_flowproperties_category import (
     Flowproperties,
     TidasFlowpropertiesText
@@ -50,27 +50,6 @@ class CommonApprovalOfOverallCompliance(Enum):
     Not_defined = 'Not defined'
 
 
-class String(RootModel[str]):
-    root: str = Field(
-        ...,
-        description='String with a maximum length of 500 characters. Must have a minimum length of 1.',
-        max_length=500,
-        min_length=1,
-    )
-
-
-class GIS(RootModel[str]):
-    root: str = Field(
-        ...,
-        description='Global geographical reference in Latitude and LongitudeExamples: "+42.42;-180", "0;0", "13.22 ; -3"',
-        pattern='^\\s*[+-]?((90(\\.0+)?)|([0-8]?\\d(\\.\\d+)?))\\s*;\\s*[+-]?((180(\\.0+)?)|((1[0-7]\\d|[0-9]?\\d)(\\.\\d+)?))\\s*$',
-    )
-
-
-class Year(RootModel[int]):
-    root: int = Field(..., description='4-digit year', ge=1000, le=9999)
-
-
 class DateTime(RootModel[AwareDatetime]):
     root: AwareDatetime = Field(
         ..., description='Date and time format acc. to ISO 8601'
@@ -78,6 +57,9 @@ class DateTime(RootModel[AwareDatetime]):
 
 
 class CommonClass(BaseModel):
+    model_config = ConfigDict(
+        extra='allow',
+    )
     field_level: str = Field(
         ...,
         alias='@level',
@@ -93,6 +75,9 @@ class CommonClassification(BaseModel):
     Optional statistical or other classification of the data set. Typically also used for structuring LCA databases.
     """
 
+    model_config = ConfigDict(
+        extra='allow',
+    )
     common_class: CommonClass = Field(..., alias='common:class')
     common_other: str | None = Field(None, alias='common:other')
 
@@ -102,6 +87,9 @@ class ClassificationInformation(BaseModel):
     Hierachical classification of the Flow property foreseen to be used to structure the Flow property content of the database. (Note: This entry is NOT required for the identification of the Flow property data set. It should nevertheless be avoided to use identical names for Flow properties in the same class.
     """
 
+    model_config = ConfigDict(
+        extra='allow',
+    )
     common_classification: CommonClassification = Field(
         ...,
         alias='common:classification',
@@ -110,6 +98,9 @@ class ClassificationInformation(BaseModel):
 
 
 class DataSetInformation(BaseModel):
+    model_config = ConfigDict(
+        extra='allow',
+    )
     common_UUID: str = Field(
         ...,
         alias='common:UUID',
@@ -146,6 +137,9 @@ class QuantitativeReference(BaseModel):
     This section allows to refer to the Flow property's quantitative reference, which is always a unit (i.e. that unit, in which the property is measured, e.g. "MJ" for energy-related Flow properties).
     """
 
+    model_config = ConfigDict(
+        extra='allow',
+    )
     referenceToReferenceUnitGroup: (
         GlobalReferenceType | list[GlobalReferenceType]
     ) = Field(
@@ -157,6 +151,9 @@ class QuantitativeReference(BaseModel):
 
 
 class FlowPropertiesInformation(BaseModel):
+    model_config = ConfigDict(
+        extra='allow',
+    )
     dataSetInformation: DataSetInformation
     quantitativeReference: QuantitativeReference = Field(
         ...,
@@ -166,6 +163,9 @@ class FlowPropertiesInformation(BaseModel):
 
 
 class DataSourcesTreatmentAndRepresentativeness(BaseModel):
+    model_config = ConfigDict(
+        extra='allow',
+    )
     referenceToDataSource: (
         GlobalReferenceType | list[GlobalReferenceType] | None
     ) = Field(
@@ -181,6 +181,9 @@ class Compliance(BaseModel):
     One compliance declaration. Multiple declarations may be provided.
     """
 
+    model_config = ConfigDict(
+        extra='allow',
+    )
     common_referenceToComplianceSystem: (
         GlobalReferenceType | list[GlobalReferenceType]
     ) = Field(
@@ -197,6 +200,9 @@ class Compliance(BaseModel):
 
 
 class Compliance1Item(BaseModel):
+    model_config = ConfigDict(
+        extra='allow',
+    )
     common_referenceToComplianceSystem: (
         GlobalReferenceType | list[GlobalReferenceType]
     ) = Field(
@@ -225,6 +231,9 @@ class ComplianceDeclarations(BaseModel):
     Statements on compliance of several data set aspects with compliance requirements as defined by the referenced compliance system (e.g. an EPD scheme, handbook of a national or international data network such as the ILCD, etc.).
     """
 
+    model_config = ConfigDict(
+        extra='allow',
+    )
     compliance: Compliance | Compliance1 = Field(
         ...,
         description='One compliance declaration. Multiple declarations may be provided.',
@@ -238,6 +247,9 @@ class ModellingAndValidation(BaseModel):
     Covers the five sub-sections 1) LCI method (not used), 2) Data sources, treatment and representativeness (only 3 fields), 3) Completeness (not used), 4) Validation, and 5) Compliance.
     """
 
+    model_config = ConfigDict(
+        extra='allow',
+    )
     dataSourcesTreatmentAndRepresentativeness: (
         DataSourcesTreatmentAndRepresentativeness | None
     ) = None
@@ -253,6 +265,9 @@ class DataEntryBy(BaseModel):
     Staff or entity, that documented the generated data set, entering the information into the database; plus administrative information linked to the data entry activity.
     """
 
+    model_config = ConfigDict(
+        extra='allow',
+    )
     common_timeStamp: AwareDatetime = Field(
         ...,
         alias='common:timeStamp',
@@ -274,6 +289,9 @@ class PublicationAndOwnership(BaseModel):
     Information related to publication and version management of the data set including copyright and access restrictions.
     """
 
+    model_config = ConfigDict(
+        extra='allow',
+    )
     common_dataSetVersion: str = Field(
         ...,
         alias='common:dataSetVersion',
@@ -308,6 +326,9 @@ class AdministrativeInformation(BaseModel):
     Information on data set management and administration.
     """
 
+    model_config = ConfigDict(
+        extra='allow',
+    )
     dataEntryBy: DataEntryBy = Field(
         ...,
         description='Staff or entity, that documented the generated data set, entering the information into the database; plus administrative information linked to the data entry activity.',
@@ -320,6 +341,9 @@ class AdministrativeInformation(BaseModel):
 
 
 class FlowPropertyDataSet(BaseModel):
+    model_config = ConfigDict(
+        extra='allow',
+    )
     field_xmlns: Literal['http://lca.jrc.it/ILCD/FlowProperty'] = Field(
         ..., alias='@xmlns'
     )
@@ -345,4 +369,7 @@ class FlowPropertyDataSet(BaseModel):
 
 
 class Model(BaseModel):
+    model_config = ConfigDict(
+        extra='allow',
+    )
     flowPropertyDataSet: FlowPropertyDataSet

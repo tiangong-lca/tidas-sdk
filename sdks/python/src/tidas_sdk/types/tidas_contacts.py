@@ -5,7 +5,7 @@ from __future__ import annotations
 
 from typing import Literal
 
-from pydantic import AnyUrl, AwareDatetime, BaseModel, Field, RootModel
+from pydantic import AnyUrl, AwareDatetime, BaseModel, ConfigDict, Field, RootModel
 from tidas_sdk.types.tidas_contacts_category import (
     Contacts,
     TidasContactsText
@@ -40,12 +40,18 @@ from tidas_sdk.types.tidas_data_types import (
 
 
 class CommonClas(BaseModel):
+    model_config = ConfigDict(
+        extra='allow',
+    )
     field_level: Literal['0'] = Field(..., alias='@level')
     field_classId: Contacts = Field(..., alias='@classId')
     text: TidasContactsText = Field(..., alias='#text')
 
 
 class CommonClas1(BaseModel):
+    model_config = ConfigDict(
+        extra='allow',
+    )
     field_level: Literal['1'] = Field(..., alias='@level')
     field_classId: Contacts = Field(..., alias='@classId')
     text: TidasContactsText = Field(..., alias='#text')
@@ -53,6 +59,9 @@ class CommonClas1(BaseModel):
 
 class CommonClass1(BaseModel):
     pass
+    model_config = ConfigDict(
+        extra='allow',
+    )
 
 
 class CommonClass(RootModel[list[CommonClas | CommonClas1] | CommonClass1]):
@@ -67,6 +76,9 @@ class CommonClassification(BaseModel):
     Optional statistical or other classification of the data set. Typically also used for structuring LCA databases.
     """
 
+    model_config = ConfigDict(
+        extra='allow',
+    )
     common_class: CommonClass | CommonClass2 = Field(
         ..., alias='common:class', union_mode='smart'
     )
@@ -77,6 +89,9 @@ class ClassificationInformation(BaseModel):
     Hierachical classification of the contact foreseen to be used to structure the contact content of the database. (Note: This entry is NOT required for the identification of the contact data set. It should nevertheless be avoided to use identical names for contacts in the same class.
     """
 
+    model_config = ConfigDict(
+        extra='allow',
+    )
     common_classification: CommonClassification = Field(
         ...,
         alias='common:classification',
@@ -85,27 +100,10 @@ class ClassificationInformation(BaseModel):
     common_other: str | None = Field(None, alias='common:other')
 
 
-class FTMultiLang(RootModel[FTMultiLang]):
-    root: FTMultiLang = Field(
-        ...,
-        description='Multi-lang free text with an unlimited length.',
-        union_mode='smart',
-    )
-
-
-class GIS(RootModel[str]):
-    root: str = Field(
-        ...,
-        description='Global geographical reference in Latitude and LongitudeExamples: "+42.42;-180", "0;0", "13.22 ; -3"',
-        pattern='^\\s*[+-]?((90(\\.0+)?)|([0-8]?\\d(\\.\\d+)?))\\s*;\\s*[+-]?((180(\\.0+)?)|((1[0-7]\\d|[0-9]?\\d)(\\.\\d+)?))\\s*$',
-    )
-
-
-class Year(RootModel[int]):
-    root: int = Field(..., description='4-digit year', ge=1000, le=9999)
-
-
 class DataSetInformation(BaseModel):
+    model_config = ConfigDict(
+        extra='allow',
+    )
     common_UUID: str = Field(
         ...,
         alias='common:UUID',
@@ -184,11 +182,17 @@ class DataSetInformation(BaseModel):
 
 
 class ContactInformation(BaseModel):
+    model_config = ConfigDict(
+        extra='allow',
+    )
     dataSetInformation: DataSetInformation
     common_other: str | None = Field(None, alias='common:other')
 
 
 class DataEntryBy(BaseModel):
+    model_config = ConfigDict(
+        extra='allow',
+    )
     common_timeStamp: AwareDatetime = Field(
         ...,
         alias='common:timeStamp',
@@ -206,6 +210,9 @@ class DataEntryBy(BaseModel):
 
 
 class PublicationAndOwnership(BaseModel):
+    model_config = ConfigDict(
+        extra='allow',
+    )
     common_dataSetVersion: str = Field(
         ...,
         alias='common:dataSetVersion',
@@ -236,12 +243,18 @@ class PublicationAndOwnership(BaseModel):
 
 
 class AdministrativeInformation(BaseModel):
+    model_config = ConfigDict(
+        extra='allow',
+    )
     dataEntryBy: DataEntryBy
     publicationAndOwnership: PublicationAndOwnership
     common_other: str | None = Field(None, alias='common:other')
 
 
 class ContactDataSet(BaseModel):
+    model_config = ConfigDict(
+        extra='allow',
+    )
     field_xmlns: Literal['http://lca.jrc.it/ILCD/Contact'] = Field(..., alias='@xmlns')
     field_xmlns_common: Literal['http://lca.jrc.it/ILCD/Common'] = Field(
         ..., alias='@xmlns:common'
@@ -263,5 +276,8 @@ class ContactDataSet(BaseModel):
 
 
 class Model(BaseModel):
+    model_config = ConfigDict(
+        extra='allow',
+    )
     contactDataSet: ContactDataSet
     common_other: str | None = Field(None, alias='common:other')

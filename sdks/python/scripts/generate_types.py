@@ -164,6 +164,9 @@ def generate_schema(
         "--use-title-as-name",  # Use schema title as class name
         "--use-schema-description",  # Add docstrings from descriptions
         "--disable-timestamp",  # Remove generation timestamp
+        # Add these flags to avoid circular reference issues
+        "--validation",  # Disable validation to avoid schema conflicts
+        "--allow-extra-fields",  # Allow extra fields to avoid reference issues
     ]
 
     try:

@@ -348,7 +348,7 @@ class EntityModelGenerator:
             "",
             "",
             f"class {entity_name}(TidasEntity):",
-            f'    """Wrapper class for {entity_name.replace("Tidas", "")} entities with pythonic API.',
+            f'    """Wrapper class for {entity_name.replace('Tidas', '')} entities with pythonic API.',
             "",
             f"    Represents a {entity_name.replace('Tidas', '').lower()} in LCA.",
             "",

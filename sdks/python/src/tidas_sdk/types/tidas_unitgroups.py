@@ -6,7 +6,7 @@ from __future__ import annotations
 from enum import Enum
 from typing import Literal
 
-from pydantic import AnyUrl, AwareDatetime, BaseModel, Field, RootModel
+from pydantic import AnyUrl, AwareDatetime, BaseModel, ConfigDict, Field, RootModel
 from tidas_sdk.types.tidas_unitgroups_category import (
     TidasUnitgroupsText,
     Unitgroups
@@ -41,6 +41,9 @@ from tidas_sdk.types.tidas_data_types import (
 
 
 class CommonClass(BaseModel):
+    model_config = ConfigDict(
+        extra='allow',
+    )
     field_level: Literal['0'] = Field(
         ...,
         alias='@level',
@@ -59,6 +62,9 @@ class CommonClassification(BaseModel):
     Optional statistical or other classification of the data set. Typically also used for structuring LCA databases.
     """
 
+    model_config = ConfigDict(
+        extra='allow',
+    )
     common_class: CommonClass = Field(..., alias='common:class')
     common_other: str | None = Field(None, alias='common:other')
 
@@ -68,6 +74,9 @@ class ClassificationInformation(BaseModel):
     Hierachical classification of the Unit groups; foreseen to be used to structure the Unit group content of the database. (Note: This entry is NOT required for the identification of the Unit group data set. It should nevertheless be avoided to use identical names for Unit groups in the same class.
     """
 
+    model_config = ConfigDict(
+        extra='allow',
+    )
     common_classification: CommonClassification = Field(
         ...,
         alias='common:classification',
@@ -81,19 +90,10 @@ class CommonApprovalOfOverallCompliance(Enum):
     Not_defined = 'Not defined'
 
 
-class GIS(RootModel[str]):
-    root: str = Field(
-        ...,
-        description='Global geographical reference in Latitude and LongitudeExamples: "+42.42;-180", "0;0", "13.22 ; -3"',
-        pattern='^\\s*[+-]?((90(\\.0+)?)|([0-8]?\\d(\\.\\d+)?))\\s*;\\s*[+-]?((180(\\.0+)?)|((1[0-7]\\d|[0-9]?\\d)(\\.\\d+)?))\\s*$',
-    )
-
-
-class Year(RootModel[int]):
-    root: int = Field(..., description='4-digit year', ge=1000, le=9999)
-
-
 class DataSetInformation(BaseModel):
+    model_config = ConfigDict(
+        extra='allow',
+    )
     common_UUID: str = Field(
         ...,
         alias='common:UUID',
@@ -120,6 +120,9 @@ class DataSetInformation(BaseModel):
 
 
 class QuantitativeReference(BaseModel):
+    model_config = ConfigDict(
+        extra='allow',
+    )
     referenceToReferenceUnit: str = Field(
         ..., description='5-digit integer number', pattern='^(0|[1-9]\\d{0,4})$'
     )
@@ -127,6 +130,9 @@ class QuantitativeReference(BaseModel):
 
 
 class UnitGroupInformation(BaseModel):
+    model_config = ConfigDict(
+        extra='allow',
+    )
     dataSetInformation: DataSetInformation
     quantitativeReference: QuantitativeReference
     common_other: str | None = Field(None, alias='common:other')
@@ -137,6 +143,9 @@ class Compliance(BaseModel):
     One compliance declaration. Multiple declarations may be provided.
     """
 
+    model_config = ConfigDict(
+        extra='allow',
+    )
     common_referenceToComplianceSystem: (
         GlobalReferenceType | list[GlobalReferenceType]
     ) = Field(
@@ -152,6 +161,9 @@ class Compliance(BaseModel):
 
 
 class Compliance1Item(BaseModel):
+    model_config = ConfigDict(
+        extra='allow',
+    )
     common_referenceToComplianceSystem: (
         GlobalReferenceType | list[GlobalReferenceType]
     ) = Field(
@@ -175,6 +187,9 @@ class Compliance1(RootModel[list[Compliance1Item]]):
 
 
 class ComplianceDeclarations(BaseModel):
+    model_config = ConfigDict(
+        extra='allow',
+    )
     compliance: Compliance | Compliance1 = Field(
         ...,
         description='One compliance declaration. Multiple declarations may be provided.',
@@ -184,11 +199,17 @@ class ComplianceDeclarations(BaseModel):
 
 
 class ModellingAndValidation(BaseModel):
+    model_config = ConfigDict(
+        extra='allow',
+    )
     complianceDeclarations: ComplianceDeclarations
     common_other: str | None = Field(None, alias='common:other')
 
 
 class DataEntryBy(BaseModel):
+    model_config = ConfigDict(
+        extra='allow',
+    )
     common_timeStamp: AwareDatetime = Field(
         ...,
         alias='common:timeStamp',
@@ -206,6 +227,9 @@ class DataEntryBy(BaseModel):
 
 
 class PublicationAndOwnership(BaseModel):
+    model_config = ConfigDict(
+        extra='allow',
+    )
     common_dataSetVersion: str = Field(
         ...,
         alias='common:dataSetVersion',
@@ -236,12 +260,18 @@ class PublicationAndOwnership(BaseModel):
 
 
 class AdministrativeInformation(BaseModel):
+    model_config = ConfigDict(
+        extra='allow',
+    )
     dataEntryBy: DataEntryBy
     publicationAndOwnership: PublicationAndOwnership
     common_other: str | None = Field(None, alias='common:other')
 
 
 class Unit(BaseModel):
+    model_config = ConfigDict(
+        extra='allow',
+    )
     field_dataSetInternalID: str | None = Field(
         None,
         alias='@dataSetInternalID',
@@ -268,6 +298,9 @@ class Unit(BaseModel):
 
 
 class UnitItem(BaseModel):
+    model_config = ConfigDict(
+        extra='allow',
+    )
     field_dataSetInternalID: str | None = Field(
         None,
         alias='@dataSetInternalID',
@@ -293,11 +326,17 @@ class UnitItem(BaseModel):
 
 
 class Units(BaseModel):
+    model_config = ConfigDict(
+        extra='allow',
+    )
     unit: Unit | list[UnitItem] | None = Field(None, union_mode='smart')
     common_other: str | None = Field(None, alias='common:other')
 
 
 class UnitGroupDataSet(BaseModel):
+    model_config = ConfigDict(
+        extra='allow',
+    )
     field_xmlns: Literal['http://lca.jrc.it/ILCD/UnitGroup'] = Field(
         ..., alias='@xmlns'
     )
@@ -319,4 +358,7 @@ class UnitGroupDataSet(BaseModel):
 
 
 class Model(BaseModel):
+    model_config = ConfigDict(
+        extra='allow',
+    )
     unitGroupDataSet: UnitGroupDataSet
