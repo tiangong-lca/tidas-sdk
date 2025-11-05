@@ -80,7 +80,7 @@ class CommonClassification(BaseModel):
         extra='allow',
     )
     common_class: CommonClass | CommonClass2 = Field(
-        ..., alias='common:class', union_mode='smart'
+        ..., alias='common:class'
     )
 
 

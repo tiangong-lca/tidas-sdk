@@ -93,7 +93,7 @@ class CommonClassification(BaseModel):
     )
     common_class: (
         list[CommonClas | CommonClas1 | CommonClas2 | CommonClas3] | CommonClass
-    ) = Field(..., alias='common:class', union_mode='smart')
+    ) = Field(..., alias='common:class')
     common_other: str | None = Field(None, alias='common:other')
 
 

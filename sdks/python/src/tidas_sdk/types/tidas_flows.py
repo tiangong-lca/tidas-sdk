@@ -88,7 +88,7 @@ class CommonElementaryFlowCategorization(BaseModel):
     common_category: (
         list[CommonCategoryItem | CommonCategoryItem1 | CommonCategoryItem2]
         | CommonCategory
-    ) = Field(..., alias='common:category', union_mode='smart')
+    ) = Field(..., alias='common:category')
     common_other: str | None = Field(None, alias='common:other')
 
 
@@ -147,7 +147,7 @@ class CommonClassification(BaseModel):
     common_class: (
         list[CommonClas | CommonClas1 | CommonClas2 | CommonClas3 | CommonClas4]
         | CommonClass
-    ) = Field(..., alias='common:class', union_mode='smart')
+    ) = Field(..., alias='common:class')
     common_other: str | None = Field(None, alias='common:other')
 
 
@@ -359,7 +359,7 @@ class Geography(BaseModel):
     model_config = ConfigDict(
         extra='allow',
     )
-    locationOfSupply: Locations | None = Field(None, union_mode='smart')
+    locationOfSupply: Locations | None = Field(None)
     common_other: str | None = Field(None, alias='common:other')
 
 

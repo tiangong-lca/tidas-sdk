@@ -95,7 +95,7 @@ class CommonClassification(BaseModel):
     )
     common_class: (
         list[CommonClas | CommonClas1 | CommonClas2 | CommonClas3] | CommonClass
-    ) = Field(..., alias='common:class', union_mode='smart')
+    ) = Field(..., alias='common:class')
     common_other: str | None = Field(None, alias='common:other')
 
 
@@ -696,7 +696,7 @@ class LocationOfOperationSupplyOrProduction(BaseModel):
     model_config = ConfigDict(
         extra='allow',
     )
-    field_location: Locations = Field(..., alias='@location', union_mode='smart')
+    field_location: Locations = Field(..., alias='@location')
     field_latitudeAndLongitude: str | None = Field(
         None,
         alias='@latitudeAndLongitude',
@@ -720,7 +720,7 @@ class SubLocationOfOperationSupplyOrProduction(BaseModel):
         extra='allow',
     )
     field_subLocation: Locations | None = Field(
-        None, alias='@subLocation', union_mode='smart'
+        None, alias='@subLocation'
     )
     field_latitudeAndLongitude: str | None = Field(
         None,

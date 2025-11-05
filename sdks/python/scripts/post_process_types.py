@@ -999,6 +999,16 @@ def post_process_file(file_path: Path, dry_run: bool = False) -> dict:
     """
     logger.info(f"Processing {file_path.name}")
 
+    # IMPORTANT: Skip tidas_data_types.py completely (it's manually maintained)
+    is_data_types_file = file_path.name == "tidas_data_types.py"
+    if is_data_types_file:
+        logger.debug(f"  Skipping {file_path.name} (manually maintained base types file)")
+        return {
+            "classes_removed": 0,
+            "types_replaced": 0,
+            "import_added": False,
+        }
+
     content = file_path.read_text(encoding="utf-8")
     original_content = content
     stats = {
@@ -1227,6 +1237,59 @@ def post_process_file(file_path: Path, dry_run: bool = False) -> dict:
                                 )
                                 break
 
+    # Step 3.5.1: Remove union_mode from category type fields
+    # Literal types (like Locations, FlowsElementary) cannot use union_mode in Pydantic
+    if file_stem in entity_field_mappings:
+        field_mapping = entity_field_mappings[file_stem]
+
+        for field_name, category_module in field_mapping.items():
+            if category_module in category_type_names:
+                # Get Python field name(s)
+                python_field_names = []
+                if field_name.startswith("@"):
+                    python_field_names.append(f"field_{field_name[1:]}")
+                elif field_name.startswith("common:"):
+                    python_field_names.append(f"common_{field_name[7:]}")
+                else:
+                    python_field_names.append(field_name)
+
+                # Remove union_mode from these fields
+                for python_field_name in python_field_names:
+                    # Pattern: field_name: CategoryType... = Field(..., union_mode='smart', ...)
+                    # We want to remove the union_mode parameter
+                    # Handle multi-line field definitions
+                    lines = content.split('\n')
+                    modified = False
+                    field_start_idx = -1
+
+                    for i, line in enumerate(lines):
+                        # Check if this line starts the field definition
+                        if f'{python_field_name}:' in line:
+                            field_start_idx = i
+
+                        # If we're in a field definition, check for union_mode
+                        if field_start_idx != -1:
+                            original_line = line
+                            # Handle both ', union_mode' and 'union_mode,' patterns
+                            line = re.sub(r',\s*union_mode=["\']smart["\']\s*', '', line)
+                            line = re.sub(r'\s*union_mode=["\']smart["\']\s*,', '', line)
+                            if line != original_line:
+                                lines[i] = line
+                                modified = True
+                                logger.debug(
+                                    f"  Removed union_mode from {python_field_name} (category type field)"
+                                )
+                                # Stop looking after finding and removing union_mode
+                                field_start_idx = -1
+                                break
+
+                            # Check if field definition ends (closing parenthesis)
+                            if ')' in line:
+                                field_start_idx = -1
+
+                    if modified and not dry_run:
+                        content = '\n'.join(lines)
+
     # Step 3.6: Replace text field types based on category context
     # If a class has field_catId or field_classId with a category type,
     # replace text: str with the corresponding Text type
@@ -1394,7 +1457,10 @@ def post_process_file(file_path: Path, dry_run: bool = False) -> dict:
                     )
 
     # Step 4: Add import statements if needed
-    if used_import_types or category_imports:
+    # IMPORTANT: Skip tidas_data_types.py to avoid circular imports
+    is_data_types_file = file_path.name == "tidas_data_types.py"
+
+    if (used_import_types or category_imports) and not is_data_types_file:
         # Add all potentially needed imports (we import more than strictly needed for safety)
         if not dry_run:
             content = add_import_statement(
@@ -1405,6 +1471,10 @@ def post_process_file(file_path: Path, dry_run: bool = False) -> dict:
         stats["import_added"] = True
         logger.debug(
             f"  Added import for {len(used_import_types)} base types and {len(category_imports)} category types"
+        )
+    elif is_data_types_file and (used_import_types or category_imports):
+        logger.debug(
+            f"  Skipping import addition for {file_path.name} (base data types file)"
         )
 
     # Step 4: Write file if changed
