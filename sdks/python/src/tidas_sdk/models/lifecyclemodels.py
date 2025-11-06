@@ -57,13 +57,8 @@ class TidasLifecyclemodels(TidasEntity):
         This method is called during initialization to set up
         required namespace attributes and default field values.
         """
-        self.set_nested_value("lifeCycleModelDataSet.@xmlns", "http://lca.jrc.it/ILCD/LifeCycleModel")
-        self.set_nested_value("lifeCycleModelDataSet.@xmlns:common", "http://lca.jrc.it/ILCD/Common")
-        self.set_nested_value("lifeCycleModelDataSet.@xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance")
-        self.set_nested_value("lifeCycleModelDataSet.@version", "1.1")
-        self.set_nested_value("lifeCycleModelDataSet.@xsi:schemaLocation", "http://lca.jrc.it/ILCD/LifeCycleModel ../../schemas/ILCD_LifeCycleModelDataSet.xsd")
-
-        # Ensure required nested structure exists
+        # IMPORTANT: Ensure nested structure FIRST, then set xmlns fields
+        # (ensure_nested_structure overwrites existing values with empty dicts)
         self.ensure_nested_structure([
             "lifeCycleModelDataSet",
             "lifeCycleModelDataSet.lifeCycleModelInformation",
@@ -74,6 +69,13 @@ class TidasLifecyclemodels(TidasEntity):
             "lifeCycleModelDataSet.administrativeInformation.dataEntryBy",
             "lifeCycleModelDataSet.administrativeInformation.publicationAndOwnership",
         ])
+
+        # Set XML namespace attributes
+        self.set_nested_value("lifeCycleModelDataSet.@xmlns", "http://lca.jrc.it/ILCD/LifeCycleModel")
+        self.set_nested_value("lifeCycleModelDataSet.@xmlns:common", "http://lca.jrc.it/ILCD/Common")
+        self.set_nested_value("lifeCycleModelDataSet.@xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance")
+        self.set_nested_value("lifeCycleModelDataSet.@version", "1.1")
+        self.set_nested_value("lifeCycleModelDataSet.@xsi:schemaLocation", "http://lca.jrc.it/ILCD/LifeCycleModel ../../schemas/ILCD_LifeCycleModelDataSet.xsd")
 
     @property
     def lifecyclemodels_data_set(self) -> LifecyclemodelsDataSetWrapper:

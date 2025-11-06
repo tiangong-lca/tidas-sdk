@@ -279,37 +279,38 @@ class EntityModelGenerator:
             Dictionary of default field values
         """
         # Map entity types to their default field values
+        # IMPORTANT: Use str(uuid.uuid4()) for JSON serialization
         defaults_map = {
             "tidas_processes": {
-                "processDataSet.processInformation.dataSetInformation.common:UUID": "uuid.uuid4()",
+                "processDataSet.processInformation.dataSetInformation.common:UUID": "str(uuid.uuid4())",
                 "processDataSet.administrativeInformation.dataEntryBy.common:timeStamp": "datetime.datetime.now().isoformat()",
             },
             "tadas_contacts": {
-                "contactDataSet.contactInformation.dataSetInformation.common:UUID": "uuid.uuid4()",
+                "contactDataSet.contactInformation.dataSetInformation.common:UUID": "str(uuid.uuid4())",
                 "contactDataSet.administrativeInformation.dataEntryBy.common:timeStamp": "datetime.datetime.now().isoformat()",
             },
             "tadas_flows": {
-                "flowDataSet.flowInformation.dataSetInformation.common:UUID": "uuid.uuid4()",
+                "flowDataSet.flowInformation.dataSetInformation.common:UUID": "str(uuid.uuid4())",
                 "flowDataSet.administrativeInformation.dataEntryBy.common:timeStamp": "datetime.datetime.now().isoformat()",
             },
             "tadas_sources": {
-                "sourceDataSet.sourceInformation.dataSetInformation.common:UUID": "uuid.uuid4()",
+                "sourceDataSet.sourceInformation.dataSetInformation.common:UUID": "str(uuid.uuid4())",
                 "sourceDataSet.administrativeInformation.dataEntryBy.common:timeStamp": "datetime.datetime.now().isoformat()",
             },
             "tadas_flowproperties": {
-                "flowPropertyDataSet.flowPropertiesInformation.dataSetInformation.common:UUID": "uuid.uuid4()",
+                "flowPropertyDataSet.flowPropertiesInformation.dataSetInformation.common:UUID": "str(uuid.uuid4())",
                 "flowPropertyDataSet.administrativeInformation.dataEntryBy.common:timeStamp": "datetime.datetime.now().isoformat()",
             },
             "tadas_unitgroups": {
-                "unitGroupDataSet.unitGroupInformation.dataSetInformation.common:UUID": "uuid.uuid4()",
+                "unitGroupDataSet.unitGroupInformation.dataSetInformation.common:UUID": "str(uuid.uuid4())",
                 "unitGroupDataSet.administrativeInformation.dataEntryBy.common:timeStamp": "datetime.datetime.now().isoformat()",
             },
             "tadas_lciamethods": {
-                "LCIAMethodDataSet.LCIAMethodInformation.dataSetInformation.common:UUID": "uuid.uuid4()",
+                "LCIAMethodDataSet.LCIAMethodInformation.dataSetInformation.common:UUID": "str(uuid.uuid4())",
                 "LCIAMethodDataSet.administrativeInformation.dataEntryBy.common:timeStamp": "datetime.datetime.now().isoformat()",
             },
             "tadas_lifecyclemodels": {
-                "lifeCycleModelDataSet.lifeCycleModelInformation.dataSetInformation.common:UUID": "uuid.uuid4()",
+                "lifeCycleModelDataSet.lifeCycleModelInformation.dataSetInformation.common:UUID": "str(uuid.uuid4())",
                 "lifeCycleModelDataSet.administrativeInformation.dataEntryBy.common:timeStamp": "datetime.datetime.now().isoformat()",
             },
         }
@@ -480,20 +481,13 @@ class EntityModelGenerator:
             ]
         )
 
-        # Add namespace attributes
-        for attr_name, attr_value in namespace_attrs.items():
-            lines.extend(
-                [
-                    f'        self.set_nested_value("{dataset_name}.{attr_name}", "{attr_value}")',
-                ]
-            )
-
-        # Add nested structure paths
+        # IMPORTANT: Add nested structure paths FIRST
+        # (ensure_nested_structure overwrites existing values with empty dicts)
         if nested_paths:
             lines.extend(
                 [
-                    "",
-                    "        # Ensure required nested structure exists",
+                    "        # IMPORTANT: Ensure nested structure FIRST, then set xmlns fields",
+                    "        # (ensure_nested_structure overwrites existing values with empty dicts)",
                     f"        self.ensure_nested_structure([",
                 ]
             )
@@ -506,6 +500,21 @@ class EntityModelGenerator:
                     "        ])",
                 ]
             )
+
+        # Add namespace attributes AFTER structure creation
+        if namespace_attrs:
+            lines.extend(
+                [
+                    "",
+                    "        # Set XML namespace attributes",
+                ]
+            )
+            for attr_name, attr_value in namespace_attrs.items():
+                lines.extend(
+                    [
+                        f'        self.set_nested_value("{dataset_name}.{attr_name}", "{attr_value}")',
+                    ]
+                )
 
         # Add default field values
         if default_values:

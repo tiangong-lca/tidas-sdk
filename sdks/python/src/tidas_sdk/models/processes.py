@@ -58,13 +58,8 @@ class TidasProcesses(TidasEntity):
         This method is called during initialization to set up
         required namespace attributes and default field values.
         """
-        self.set_nested_value("processDataSet.@xmlns", "http://lca.jrc.it/ILCD/Process")
-        self.set_nested_value("processDataSet.@xmlns:common", "http://lca.jrc.it/ILCD/Common")
-        self.set_nested_value("processDataSet.@xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance")
-        self.set_nested_value("processDataSet.@version", "1.1")
-        self.set_nested_value("processDataSet.@xsi:schemaLocation", "http://lca.jrc.it/ILCD/Process ../../schemas/ILCD_ProcessDataSet.xsd")
-
-        # Ensure required nested structure exists
+        # IMPORTANT: Ensure nested structure FIRST, then set xmlns fields
+        # (ensure_nested_structure overwrites existing values with empty dicts)
         self.ensure_nested_structure([
             "processDataSet",
             "processDataSet.processInformation",
@@ -85,9 +80,16 @@ class TidasProcesses(TidasEntity):
             "processDataSet.exchanges",
         ])
 
+        # Set XML namespace attributes
+        self.set_nested_value("processDataSet.@xmlns", "http://lca.jrc.it/ILCD/Process")
+        self.set_nested_value("processDataSet.@xmlns:common", "http://lca.jrc.it/ILCD/Common")
+        self.set_nested_value("processDataSet.@xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance")
+        self.set_nested_value("processDataSet.@version", "1.1")
+        self.set_nested_value("processDataSet.@xsi:schemaLocation", "http://lca.jrc.it/ILCD/Process ../../schemas/ILCD_ProcessDataSet.xsd")
+
         # Set required fields with default values if they don't exist
         if not self.get_nested_value("processDataSet.processInformation.dataSetInformation.common:UUID"):
-            self.set_nested_value("processDataSet.processInformation.dataSetInformation.common:UUID", uuid.uuid4())
+            self.set_nested_value("processDataSet.processInformation.dataSetInformation.common:UUID", str(uuid.uuid4()))
         if not self.get_nested_value("processDataSet.administrativeInformation.dataEntryBy.common:timeStamp"):
             self.set_nested_value("processDataSet.administrativeInformation.dataEntryBy.common:timeStamp", datetime.datetime.now().isoformat())
 

@@ -57,13 +57,8 @@ class TidasLciamethods(TidasEntity):
         This method is called during initialization to set up
         required namespace attributes and default field values.
         """
-        self.set_nested_value("LCIAMethodDataSet.@xmlns", "http://lca.jrc.it/ILCD/LCIAMethod")
-        self.set_nested_value("LCIAMethodDataSet.@xmlns:common", "http://lca.jrc.it/ILCD/Common")
-        self.set_nested_value("LCIAMethodDataSet.@xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance")
-        self.set_nested_value("LCIAMethodDataSet.@version", "1.1")
-        self.set_nested_value("LCIAMethodDataSet.@xsi:schemaLocation", "http://lca.jrc.it/ILCD/LCIAMethod ../../schemas/ILCD_LCIAMethodDataSet.xsd")
-
-        # Ensure required nested structure exists
+        # IMPORTANT: Ensure nested structure FIRST, then set xmlns fields
+        # (ensure_nested_structure overwrites existing values with empty dicts)
         self.ensure_nested_structure([
             "LCIAMethodDataSet",
             "LCIAMethodDataSet.LCIAMethodInformation",
@@ -75,6 +70,13 @@ class TidasLciamethods(TidasEntity):
             "LCIAMethodDataSet.administrativeInformation.publicationAndOwnership",
             "LCIAMethodDataSet.characterisationFactors",
         ])
+
+        # Set XML namespace attributes
+        self.set_nested_value("LCIAMethodDataSet.@xmlns", "http://lca.jrc.it/ILCD/LCIAMethod")
+        self.set_nested_value("LCIAMethodDataSet.@xmlns:common", "http://lca.jrc.it/ILCD/Common")
+        self.set_nested_value("LCIAMethodDataSet.@xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance")
+        self.set_nested_value("LCIAMethodDataSet.@version", "1.1")
+        self.set_nested_value("LCIAMethodDataSet.@xsi:schemaLocation", "http://lca.jrc.it/ILCD/LCIAMethod ../../schemas/ILCD_LCIAMethodDataSet.xsd")
 
     @property
     def lciamethods_data_set(self) -> LciamethodsDataSetWrapper:
