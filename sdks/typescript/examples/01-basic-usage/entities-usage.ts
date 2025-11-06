@@ -81,11 +81,16 @@ contact.contactDataSet.contactInformation.dataSetInformation.referenceToContact 
 // Example 2: Create a Flow
 console.log('\n=== Example 2: Flow Creation ===');
 const flow = createFlow();
+console.log(JSON.stringify(flow, null, 2));
 
 // Set flow information
-flow.flowDataSet.flowInformation.dataSetInformation.name.baseName = [
-  { '@xml:lang': 'en', '#text': 'Carbon dioxide' },
-];
+flow.flowDataSet.flowInformation.dataSetInformation.name = {
+  baseName: [{ '@xml:lang': 'en', '#text': 'Carbon dioxide' }],
+  treatmentStandardsRoutes: [{ '@xml:lang': 'en', '#text': 'Standard CO2' }],
+  mixAndLocationTypes: [{ '@xml:lang': 'en', '#text': 'Global average' }],
+  flowProperties: [{ '@xml:lang': 'en', '#text': 'Mass' }],
+  'common:other': 'Carbon dioxide',
+};
 
 flow.flowDataSet.flowInformation.dataSetInformation['common:synonyms'] = [
   { '@xml:lang': 'en', '#text': 'CO2; carbon dioxide' },
