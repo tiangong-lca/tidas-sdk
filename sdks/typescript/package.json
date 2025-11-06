@@ -1,9 +1,9 @@
 {
   "name": "@tiangong-lca/tidas-sdk",
   "version": "0.1.20",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
-  "module": "dist/index.js",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "module": "./dist/index.js",
   "exports": {
     ".": {
       "import": "./dist/index.js",
