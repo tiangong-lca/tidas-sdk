@@ -183,7 +183,7 @@ class CommonElementaryFlowCategorization1(BaseModel):
     common_category: (
         list[CommonCategoryItem3 | CommonCategoryItem4 | CommonCategoryItem5]
         | CommonCategory
-    ) = Field(..., alias='common:category', union_mode='smart')
+    ) = Field(..., alias='common:category')
     common_other: str | None = Field(None, alias='common:other')
 
 
@@ -209,7 +209,7 @@ class CommonClassification1(BaseModel):
     common_class: (
         list[CommonClas5 | CommonClas6 | CommonClas7 | CommonClas8 | CommonClas9]
         | CommonClass
-    ) = Field(..., alias='common:class', union_mode='smart')
+    ) = Field(..., alias='common:class')
     common_other: str | None = Field(None, alias='common:other')
 
 
@@ -270,7 +270,6 @@ class GlobalReferenceType(
     root: GlobalReferenceType | list[GlobalReferenceType] = Field(
         ...,
         description='Represents a reference to another dataset or file. Either refObjectId and version, or uri, or both have to be specified.',
-        union_mode='smart',
     )
 
 
@@ -279,24 +278,17 @@ class Name(BaseModel):
         extra='allow',
     )
     baseName: StringMultiLang = Field(
-        ...,
-        description='Multi-language string with a maximum length of 500 characters',
-        union_mode='smart',
+        ..., description='Multi-language string with a maximum length of 500 characters'
     )
     treatmentStandardsRoutes: StringMultiLang = Field(
-        ...,
-        description='Multi-language string with a maximum length of 500 characters',
-        union_mode='smart',
+        ..., description='Multi-language string with a maximum length of 500 characters'
     )
     mixAndLocationTypes: StringMultiLang = Field(
-        ...,
-        description='Multi-language string with a maximum length of 500 characters',
-        union_mode='smart',
+        ..., description='Multi-language string with a maximum length of 500 characters'
     )
     flowProperties: StringMultiLang | None = Field(
         None,
         description='Multi-language string with a maximum length of 500 characters',
-        union_mode='smart',
     )
     common_other: str | None = Field(None, alias='common:other')
 
@@ -316,14 +308,12 @@ class DataSetInformation(BaseModel):
         None,
         alias='common:synonyms',
         description='Synonyms / alternative names / brands of the good, service, or process. Separated by semicolon.',
-        union_mode='smart',
     )
     classificationInformation: (
         ClassificationInformation | ClassificationInformation1
     ) = Field(
         ...,
         description='Hierachical classification of the Flow property foreseen to be used to structure the Flow property content of the database. (Note: This entry is NOT required for the identification of the Flow property data set. It should nevertheless be avoided to use identical names for Flow properties in the same class.',
-        union_mode='smart',
     )
     CASNumber: str | None = Field(
         None,
@@ -340,7 +330,6 @@ class DataSetInformation(BaseModel):
         None,
         alias='common:generalComment',
         description='Free text for general information about the Flow data set. It may contain information about e.g. the use of the substance, good, service or process in a specific technology or industry-context, information sources used, data selection principles etc.',
-        union_mode='smart',
     )
     common_other: str | None = Field(None, alias='common:other')
 
@@ -359,7 +348,7 @@ class Geography(BaseModel):
     model_config = ConfigDict(
         extra='allow',
     )
-    locationOfSupply: Locations | None = Field(None)
+    locationOfSupply: Locations | None = None
     common_other: str | None = Field(None, alias='common:other')
 
 
@@ -370,14 +359,12 @@ class Technology(BaseModel):
     technologicalApplicability: FTMultiLang | None = Field(
         None,
         description='Description of the intended / possible applications of the good or service, or waste. E.g. for which type of products the material, represented by this data set, is used. Examples: "This high purity chemical is used for analytical laboratories only." or "This technical quality bulk chemical is used for large scale synthesis in chemical industry.". Or: "This type of biowaste is typically composted or biodigested as the water content is too high for efficient combustion".',
-        union_mode='smart',
     )
     referenceToTechnicalSpecification: (
         GlobalReferenceType | list[GlobalReferenceType] | None
     ) = Field(
         None,
         description='"Source data set(s)" of the product\'s or waste\'s technical specification, waste data sheet, safety data sheet, etc.',
-        union_mode='smart',
     )
     common_other: str | None = Field(None, alias='common:other')
 
@@ -407,7 +394,6 @@ class Compliance(BaseModel):
         ...,
         alias='common:referenceToComplianceSystem',
         description='Represents a reference to another dataset or file. Either refObjectId and version, or uri, or both have to be specified.',
-        union_mode='smart',
     )
     common_approvalOfOverallCompliance: CommonApprovalOfOverallCompliance = Field(
         ..., alias='common:approvalOfOverallCompliance'
@@ -425,7 +411,6 @@ class Compliance1Item(BaseModel):
         ...,
         alias='common:referenceToComplianceSystem',
         description='Represents a reference to another dataset or file. Either refObjectId and version, or uri, or both have to be specified.',
-        union_mode='smart',
     )
     common_approvalOfOverallCompliance: CommonApprovalOfOverallCompliance = Field(
         ..., alias='common:approvalOfOverallCompliance'
@@ -448,7 +433,6 @@ class ComplianceDeclarations(BaseModel):
     compliance: Compliance | Compliance1 = Field(
         ...,
         description='One compliance declaration. Multiple declarations may be provided.',
-        union_mode='smart',
     )
     common_other: str | None = Field(None, alias='common:other')
 
@@ -477,7 +461,6 @@ class DataEntryBy(BaseModel):
         ...,
         alias='common:referenceToDataSetFormat',
         description='"Source data set" of the used version of the ILCD format. If additional data format fields have been integrated into the data set file, using the "namespace" option, the used format namespace(s) are to be given. This is the case if the data sets carries additional information as specified by other, particular LCA formats, e.g. of other database networks or LCA softwares.',
-        union_mode='smart',
     )
     common_referenceToPersonOrEntityEnteringTheData: (
         GlobalReferenceType | list[GlobalReferenceType] | None
@@ -485,7 +468,6 @@ class DataEntryBy(BaseModel):
         None,
         alias='common:referenceToPersonOrEntityEnteringTheData',
         description='"Contact data set" of the responsible person or entity that has documented this data set, i.e. entered the data and the descriptive information.',
-        union_mode='smart',
     )
     common_other: str | None = Field(None, alias='common:other')
 
@@ -505,7 +487,6 @@ class PublicationAndOwnership(BaseModel):
         None,
         alias='common:referenceToPrecedingDataSetVersion',
         description='Last preceding data set, which was replaced by this version. Either a URI of that data set (i.e. an internet address) or its UUID plus version number is given (or both).',
-        union_mode='smart',
     )
     common_permanentDataSetURI: AnyUrl | None = Field(
         None,
@@ -518,7 +499,6 @@ class PublicationAndOwnership(BaseModel):
         ...,
         alias='common:referenceToOwnershipOfDataSet',
         description='"Contact data set" of the person or entity who owns this data set. (Note: this is not necessarily the publisher of the data set.)',
-        union_mode='smart',
     )
     common_other: str | None = Field(None, alias='common:other')
 
@@ -547,7 +527,6 @@ class FlowProperty(BaseModel):
     ) = Field(
         ...,
         description='Represents a reference to another dataset or file. Either refObjectId and version, or uri, or both have to be specified.',
-        union_mode='smart',
     )
     meanValue: str = Field(
         ...,
@@ -574,7 +553,6 @@ class FlowProperty(BaseModel):
     generalComment: StringMultiLang | None = Field(
         None,
         description='Multi-language string with a maximum length of 500 characters',
-        union_mode='smart',
     )
     common_other: str | None = Field(None, alias='common:other')
 
@@ -586,7 +564,7 @@ class FlowProperties(BaseModel):
     model_config = ConfigDict(
         extra='allow',
     )
-    flowProperty: FlowProperty | list[FlowPropertyItem] = Field(..., union_mode='smart')
+    flowProperty: FlowProperty | list[FlowPropertyItem]
     common_other: str | None = Field(None, alias='common:other')
 
 

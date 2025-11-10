@@ -22,6 +22,7 @@ from .models import (
     TidasSources,
     TidasUnitgroups,
 )
+from .types.tidas_processes import Model as ProcessesModel
 
 # Type variable for generic entity types
 TEntity = TypeVar("TEntity")
@@ -538,6 +539,87 @@ def create_life_cycle_models_batch(
     return _create_batch(create_life_cycle_model, data_list, validation_config)
 
 
+# Process factory methods for direct Pydantic model creation
+
+
+def create_process_model(
+    data: Optional[Dict[str, Any]] = None,
+    validation_config: Optional[ValidationConfig] = None,
+) -> ProcessesModel:
+    """Create a Process Pydantic model.
+
+    If data is provided without a UUID, a UUID will be automatically generated.
+
+    Args:
+        data: Process data as dictionary (TIDAS JSON format). If None, creates empty process.
+        validation_config: Validation configuration. If None, uses global default.
+
+    Returns:
+        ProcessesModel instance
+
+    Example:
+        >>> process = create_process_model()
+        >>> process.process_data_set.process_information.data_set_information.name.base_name.set_text(
+        ...     "Electricity production", "en"
+        ... )
+    """
+    if data is None:
+        data = {}
+
+    # Auto-generate UUID if not provided
+    uuid_path = [
+        "processDataSet",
+        "processInformation",
+        "dataSetInformation",
+        "common:UUID",
+    ]
+    data = _generate_uuid_if_needed(data, uuid_path)
+
+    # Import here to avoid circular imports
+
+    return ProcessesModel(**data)
+
+
+def create_process_model_batch(
+    data_list: List[Dict[str, Any]],
+    validation_config: Optional[ValidationConfig] = None,
+) -> List[ProcessesModel]:
+    """Create multiple Process Pydantic models in batch.
+
+    UUIDs will be automatically generated for any processes without UUIDs.
+
+    Args:
+        data_list: List of process data dictionaries
+        validation_config: Optional validation configuration for all processes
+
+    Returns:
+        List of ProcessesModel instances
+
+    Example:
+        >>> processes = create_process_model_batch([{}, {}])  # Create 2 empty processes
+        >>> len(processes)
+        2
+    """
+    from .types.tidas_processes import Model as ProcessesModel
+
+    entities = []
+    for data in data_list:
+        # Auto-generate UUID if not provided
+        uuid_path = [
+            "processDataSet",
+            "processInformation",
+            "dataSetInformation",
+            "common:UUID",
+        ]
+        data = _generate_uuid_if_needed(data, uuid_path)
+
+        entity = ProcessesModel(**data)
+        entities.append(entity)
+
+    logger.info(f"Created batch of {len(entities)} Process models")
+    return entities
+
+
 # Export list
 __all__ = [
     "create_contact",
@@ -556,4 +638,6 @@ __all__ = [
     "create_lcia_methods_batch",
     "create_life_cycle_model",
     "create_life_cycle_models_batch",
+    "create_process_model",
+    "create_process_model_batch",
 ]

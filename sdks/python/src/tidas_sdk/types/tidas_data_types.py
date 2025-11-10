@@ -12,7 +12,6 @@ from typing import Annotated, Union
 from pydantic import AwareDatetime, BaseModel, Field, RootModel
 
 
-
 # ========== String Types ==========
 
 CASNumber = Annotated[str, Field(pattern=r"^[0-9]{2,7}-[0-9]{2}-[0-9]$")]
@@ -34,6 +33,16 @@ class MultiLangItem(BaseModel):
     lang: str = Field(alias="@xml:lang")
     text: str = Field(alias="#text")
 
+    def __str__(self) -> str:
+        return f"{self.lang}: {self.text}"
+
+    def set_text(self, text: str, lang: str = "en") -> None:
+        self.lang = lang
+        self.text = text
+
+    def get_text(self) -> str:
+        return self.text
+
 
 class MultiLangItemString(MultiLangItem):
     """Multi-language string item (max 500 chars)."""
@@ -50,6 +59,21 @@ class MultiLangItemST(MultiLangItem):
 # Multi-language type aliases
 StringMultiLang = list[MultiLangItemString] | MultiLangItemString
 """Multi-language string with max 500 characters."""
+
+
+class StringMultiLang(BaseModel):
+    """Multi-language string with max 500 characters."""
+
+    items: list[MultiLangItemString] = Field(default_factory=list)
+
+    def set_text(self, text: str, lang: str = "en") -> None:
+        self.items.append(MultiLangItemString(lang=lang, text=text))
+
+    def get_text(self, lang: str = "en") -> str:
+        for item in self.items:
+            if item.lang == lang:
+                return item.text
+
 
 STMultiLang = list[MultiLangItemST] | MultiLangItemST
 """Multi-language short text with max 1000 characters."""
@@ -111,23 +135,32 @@ class GlobalReferenceType(BaseModel):
     )
     version: str = Field(alias="@version")
     uri: str = Field(alias="@uri")
-    common_short_description: 'STMultiLang' = Field(alias="common:shortDescription")
+    common_short_description: "STMultiLang" = Field(alias="common:shortDescription")
 
 
 # Can also be an array of references
 GlobalReferenceTypeOrArray = GlobalReferenceType | list[GlobalReferenceType]
 
-UUID = Annotated[str, Field(pattern=r"^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")]
+UUID = Annotated[
+    str,
+    Field(pattern=r"^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"),
+]
 """Unique Universal Identifier, 16-byte hex number."""
 
 
 # ========== Geographic Types ==========
 
-GIS = Annotated[str, Field(pattern=r"^\s*[+-]?((90(\.0+)?)|([0-8]?\d(\.\d+)?))\s*;\s*[+-]?((180(\.0+)?)|((1[0-7]\d|[0-9]?\d)(\.\d+)?))\s*$")]
+GIS = Annotated[
+    str,
+    Field(
+        pattern=r"^\s*[+-]?((90(\.0+)?)|([0-8]?\d(\.\d+)?))\s*;\s*[+-]?((180(\.0+)?)|((1[0-7]\d|[0-9]?\d)(\.\d+)?))\s*$"
+    ),
+]
 """Global geographical reference in Latitude and Longitude. Examples: "+42.42;-180", "0;0", "13.22 ; -3"."""
 
 
 # ========== Date/Time Types ==========
+
 
 class Year(RootModel):
     """4-digit year."""

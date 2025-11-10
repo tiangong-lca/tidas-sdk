@@ -158,8 +158,8 @@ def generate_schema(
         # Deduplication and cleanup (reduces numbered suffixes)
         "--reuse-model",  # Reuse models with identical content
         "--collapse-root-models",  # Merge RootModel wrappers
-        "--union-mode",
-        "smart",  # Intelligent union handling
+        # "--union-mode",
+        # "smart",  # Intelligent union handling
         # Better naming
         "--use-title-as-name",  # Use schema title as class name
         "--use-schema-description",  # Add docstrings from descriptions

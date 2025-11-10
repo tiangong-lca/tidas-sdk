@@ -112,7 +112,6 @@ class DataSetInformation(BaseModel):
         ...,
         alias='common:shortName',
         description='Short name for the "Source citation", i.e. for the bibliographical reference or reference to internal data sources used.',
-        union_mode='smart',
     )
     classificationInformation: ClassificationInformation = Field(
         ...,
@@ -128,7 +127,6 @@ class DataSetInformation(BaseModel):
     sourceDescriptionOrComment: FTMultiLang | None = Field(
         None,
         description='Free text for additional description of the source. In case of use of published data it may contain a brief summary of the publication and the kind of medium used (e.g. CD-ROM, hard copy).',
-        union_mode='smart',
     )
     referenceToDigitalFile: ReferenceToDigitalFile | None = Field(
         None,
@@ -138,14 +136,12 @@ class DataSetInformation(BaseModel):
         Field(
             None,
             description='"Contact data set"s of working groups, organisations or database networks to which EITHER this person or entity OR this database, data set format, or compliance system belongs. [Note: This does not necessarily imply a legally binding relationship, but may also be a voluntary membership.]',
-            union_mode='smart',
         )
     )
     referenceToLogo: GlobalReferenceType | list[GlobalReferenceType] | None = (
         Field(
             None,
             description='"Source data set" of the logo of the organisation or source to be used in reports etc.',
-            union_mode='smart',
         )
     )
     common_other: str | None = Field(None, alias='common:other')
@@ -174,7 +170,6 @@ class DataEntryBy(BaseModel):
         ...,
         alias='common:referenceToDataSetFormat',
         description='"Source data set" of the used version of the ILCD format. If additional data format fields have been integrated into the data set file, using the "namespace" option, the used format namespace(s) are to be given. This is the case if the data sets carries additional information as specified by other, particular LCA formats, e.g. of other database networks or LCA softwares.',
-        union_mode='smart',
     )
     common_other: str | None = Field(None, alias='common:other')
 
@@ -198,7 +193,6 @@ class PublicationAndOwnership(BaseModel):
         None,
         alias='common:referenceToPrecedingDataSetVersion',
         description='Last preceding data set, which was replaced by this version. Either a URI of that data set (i.e. an internet address) or its UUID plus version number is given (or both).',
-        union_mode='smart',
     )
     common_permanentDataSetURI: AnyUrl | None = Field(
         None,
@@ -211,7 +205,6 @@ class PublicationAndOwnership(BaseModel):
         ...,
         alias='common:referenceToOwnershipOfDataSet',
         description='"Contact data set" of the person or entity who owns this data set. (Note: this is not necessarily the publisher of the data set.)',
-        union_mode='smart',
     )
     common_other: str | None = Field(None, alias='common:other')
 

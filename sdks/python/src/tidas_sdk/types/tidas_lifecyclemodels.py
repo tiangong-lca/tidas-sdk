@@ -167,7 +167,6 @@ class Groups(BaseModel):
     memberOf: MemberOf | list[MemberOfItem] | None = Field(
         None,
         description='Refers to one user-definable group, to which this process instance belongs.',
-        union_mode='smart',
     )
 
 
@@ -277,22 +276,18 @@ class Name(BaseModel):
     baseName: StringMultiLang = Field(
         ...,
         description='General descriptive name of the life cycle model and/or its main good(s), service(s) and/or functions delivered.',
-        union_mode='smart',
     )
     treatmentStandardsRoutes: StringMultiLang = Field(
         ...,
         description='Specifying information on the good, service, or function delivered by the life cycle model in technical term(s): treatment received, standard fulfilled, product quality, use information, production route name, educt name, primary / secondary etc. Separated by commata.',
-        union_mode='smart',
     )
     mixAndLocationTypes: StringMultiLang = Field(
         ...,
         description='Specifying information on the good, service, or function, whether being a production mix or consumption mix, location type of availability (such as e.g. "to consumer" or "at plant"). Separated by commata. May include information of excluded life cycle stages, if any.',
-        union_mode='smart',
     )
     functionalUnitFlowProperties: StringMultiLang | None = Field(
         None,
         description='Further, quantitative specifying information on the good, service or function in technical term(s): qualifying constituent(s)-content and / or energy-content per unit etc. as appropriate. Separated by commata. (Note: non-qualifying flow properties, CAS No, Synonyms, Chemical formulas etc. are to be documented exclusively in the "Flow data set" of the reference flow of this life cycle model.)',
-        union_mode='smart',
     )
     common_other: str | None = Field(None, alias='common:other')
 
@@ -324,20 +319,17 @@ class DataSetInformation(BaseModel):
     ) = Field(
         None,
         description='Reference to the LCI result or partly terminated system process data set(s) that is/are generated from this model.',
-        union_mode='smart',
     )
     common_generalComment: FTMultiLang | None = Field(
         None,
         alias='common:generalComment',
         description='General information about the data set.',
-        union_mode='smart',
     )
     referenceToExternalDocumentation: (
         GlobalReferenceType | list[GlobalReferenceType] | None
     ) = Field(
         None,
         description='"Source data set(s)" of detailed LCI or LCA study or other study on the process or product represented by this data set, as well as documents / files with overarching documentative information on technology, geographical and / or time aspects etc. on the level of the life cycle model. (Note: can indirectly reference to electronic and online files.)',
-        union_mode='smart',
     )
     common_other: str | None = Field(None, alias='common:other')
 
@@ -354,7 +346,6 @@ class Group(BaseModel):
     groupName: StringMultiLang | None = Field(
         None,
         description='Multi-language string with a maximum length of 500 characters',
-        union_mode='smart',
     )
 
 
@@ -366,7 +357,6 @@ class GroupItem(BaseModel):
     groupName: StringMultiLang | None = Field(
         None,
         description='Multi-language string with a maximum length of 500 characters',
-        union_mode='smart',
     )
 
 
@@ -379,7 +369,7 @@ class GroupDeclarations(BaseModel):
         extra='allow',
     )
     group: Group | list[GroupItem] | None = Field(
-        None, description='Definition for each group.', union_mode='smart'
+        None, description='Definition for each group.'
     )
 
 
@@ -414,7 +404,7 @@ class Parameters(BaseModel):
         extra='allow',
     )
     parameter: Parameter | list[ParameterItem] | None = Field(
-        None, description='Value of the parameter.', union_mode='smart'
+        None, description='Value of the parameter.'
     )
 
 
@@ -500,7 +490,6 @@ class OutputExchange(BaseModel):
     downstreamProcess: DownstreamProcess | list[DownstreamProces] = Field(
         ...,
         description='Process instance that is connected downstream with this process instance, with its connected input product or waste (flow) exchange internal ID, the flow UUID and optionally the exchange\'s "location" (if any). Finally, the dominant flow exchange may be identified, where two different flow data sets are connected, in support e.g. of graphical model display.',
-        union_mode='smart',
     )
 
 
@@ -528,7 +517,6 @@ class OutputExchangeItem(BaseModel):
     downstreamProcess: DownstreamProcess1 | list[DownstreamProces1] = Field(
         ...,
         description='Process instance that is connected downstream with this process instance, with its connected input product or waste (flow) exchange internal ID, the flow UUID and optionally the exchange\'s "location" (if any). Finally, the dominant flow exchange may be identified, where two different flow data sets are connected, in support e.g. of graphical model display.',
-        union_mode='smart',
     )
 
 
@@ -543,7 +531,6 @@ class Connections(BaseModel):
     outputExchange: OutputExchange | list[OutputExchangeItem] | None = Field(
         None,
         description="Reference to process data set UUID of one of the connecting output product or waste flow exchanges of this process instance. I.e. which (flow) exchange on output side of this process instance is to be connected to another process instance's input product or waste (flow) exchange?",
-        union_mode='smart',
     )
 
 
@@ -563,7 +550,6 @@ class ProcessInstanceItem(BaseModel):
     referenceToProcess: GlobalReferenceType | list[GlobalReferenceType] = Field(
         ...,
         description='Reference to the process data set and (optional) identifying its version, that is included in the eILCD archive of the Life cycle model and/or accessible at a remote location, i.e. an URI or URL.',
-        union_mode='smart',
     )
     scalingFactors: str | None = Field(
         None,
@@ -625,7 +611,7 @@ class Parameters1(BaseModel):
         extra='allow',
     )
     parameter: Parameter1 | list[ParameterItem1] | None = Field(
-        None, description='Value of the parameter.', union_mode='smart'
+        None, description='Value of the parameter.'
     )
 
 
@@ -657,7 +643,6 @@ class OutputExchange1(BaseModel):
     downstreamProcess: DownstreamProcess2 | list[DownstreamProces2] = Field(
         ...,
         description='Process instance that is connected downstream with this process instance, with its connected input product or waste (flow) exchange internal ID, the flow UUID and optionally the exchange\'s "location" (if any). Finally, the dominant flow exchange may be identified, where two different flow data sets are connected, in support e.g. of graphical model display.',
-        union_mode='smart',
     )
 
 
@@ -685,7 +670,6 @@ class OutputExchangeItem1(BaseModel):
     downstreamProcess: DownstreamProcess3 | list[DownstreamProces3] = Field(
         ...,
         description='Process instance that is connected downstream with this process instance, with its connected input product or waste (flow) exchange internal ID, the flow UUID and optionally the exchange\'s "location" (if any). Finally, the dominant flow exchange may be identified, where two different flow data sets are connected, in support e.g. of graphical model display.',
-        union_mode='smart',
     )
 
 
@@ -700,7 +684,6 @@ class Connections1(BaseModel):
     outputExchange: OutputExchange1 | list[OutputExchangeItem1] = Field(
         ...,
         description="Reference to process data set UUID of one of the connecting output product or waste flow exchanges of this process instance. I.e. which (flow) exchange on output side of this process instance is to be connected to another process instance's input product or waste (flow) exchange?",
-        union_mode='smart',
     )
 
 
@@ -724,7 +707,6 @@ class ProcessInstance(BaseModel):
     referenceToProcess: GlobalReferenceType | list[GlobalReferenceType] = Field(
         ...,
         description='Reference to the process data set and (optional) identifying its version, that is included in the eILCD archive of the Life cycle model and/or accessible at a remote location, i.e. an URI or URL.',
-        union_mode='smart',
     )
     scalingFactors: str | None = Field(
         None,
@@ -756,7 +738,6 @@ class Processes(BaseModel):
     processInstance: list[ProcessInstanceItem] | ProcessInstance | None = Field(
         None,
         description='Instances (occurrences) of the same process data set in this life cycle model. Each process data set may occur in different places within the model, with different parameter settings and connected to different other process instances.',
-        union_mode='smart',
     )
 
 
@@ -780,7 +761,6 @@ class Technology(BaseModel):
         Field(
             None,
             description='"Source data set" of the flow diagramm(s), and/or screenshot(s) of the life cycle model represented by this data set. For clearer illustration and documentation of the model. Note: The source data set references the actual picture as jpd or png file or as e.g. pdf file with several pictures.',
-            union_mode='smart',
         )
     )
     common_other: str | None = Field(None, alias='common:other')
@@ -819,7 +799,6 @@ class DataSourcesTreatmentEtc(BaseModel):
     useAdviceForDataSet: FTMultiLang | None = Field(
         None,
         description='Specific methodological advice for data set users that requires attention. E.g. on inclusion/exclusion of whole life cycle stages, specific use phase behavior to be modelled, and other methodological advices.',
-        union_mode='smart',
     )
     common_other: str | None = Field(None, alias='common:other')
 
@@ -838,13 +817,11 @@ class Review(BaseModel):
         ...,
         alias='common:referenceToNameOfReviewerAndInstitution',
         description='"Contact data set" of reviewer. The full name of reviewer(s) and institution(s) as well as a contact address and/or email should be provided in that contact data set.',
-        union_mode='smart',
     )
     common_otherReviewDetails: FTMultiLang | None = Field(
         None,
         alias='common:otherReviewDetails',
         description='Further information from the review process, especially comments received from third parties once the data set has been published or additional reviewer comments from an additional external review.',
-        union_mode='smart',
     )
     common_referenceToCompleteReviewReport: (
         GlobalReferenceType | list[GlobalReferenceType] | None
@@ -852,7 +829,6 @@ class Review(BaseModel):
         None,
         alias='common:referenceToCompleteReviewReport',
         description='"Source data set" of the complete review report.',
-        union_mode='smart',
     )
     common_other: str | None = Field(None, alias='common:other')
 
@@ -867,13 +843,11 @@ class ReviewItem(BaseModel):
         ...,
         alias='common:referenceToNameOfReviewerAndInstitution',
         description='"Contact data set" of reviewer. The full name of reviewer(s) and institution(s) as well as a contact address and/or email should be provided in that contact data set.',
-        union_mode='smart',
     )
     common_otherReviewDetails: FTMultiLang | None = Field(
         None,
         alias='common:otherReviewDetails',
         description='Further information from the review process, especially comments received from third parties once the data set has been published or additional reviewer comments from an additional external review.',
-        union_mode='smart',
     )
     common_referenceToCompleteReviewReport: (
         GlobalReferenceType | list[GlobalReferenceType] | None
@@ -881,7 +855,6 @@ class ReviewItem(BaseModel):
         None,
         alias='common:referenceToCompleteReviewReport',
         description='"Source data set" of the complete review report.',
-        union_mode='smart',
     )
     common_other: str | None = Field(None, alias='common:other')
 
@@ -895,9 +868,7 @@ class Validation(BaseModel):
         extra='allow',
     )
     review: Review | list[ReviewItem] = Field(
-        ...,
-        description='Review information on this life cycle model data set',
-        union_mode='smart',
+        ..., description='Review information on this life cycle model data set'
     )
     common_other: str | None = Field(None, alias='common:other')
 
@@ -916,7 +887,6 @@ class Compliance(BaseModel):
         ...,
         alias='common:referenceToComplianceSystem',
         description='"Source data set" of the "Compliance system" that is declared to be met by the data set.',
-        union_mode='smart',
     )
     common_approvalOfOverallCompliance: CommonApprovalOfOverallCompliance = Field(
         ...,
@@ -961,7 +931,6 @@ class Compliance1Item(BaseModel):
         ...,
         alias='common:referenceToComplianceSystem',
         description='"Source data set" of the "Compliance system" that is declared to be met by the data set.',
-        union_mode='smart',
     )
     common_approvalOfOverallCompliance: CommonApprovalOfOverallCompliance = Field(
         ...,
@@ -1015,7 +984,6 @@ class ComplianceDeclarations(BaseModel):
     compliance: Compliance | Compliance1 = Field(
         ...,
         description='One compliance declaration. Multiple declarations may be provided.',
-        union_mode='smart',
     )
     common_other: str | None = Field(None, alias='common:other')
 
@@ -1056,19 +1024,16 @@ class CommonCommissionerAndGoal(BaseModel):
         ...,
         alias='common:referenceToCommissioner',
         description='"Contact data set" of the commissioner / financing party of the data collection / compilation and of the data set modelling. For groups of commissioners, each single organisation should be named. For data set updates and for direct use of data from formerly commissioned studies, also the original commissioner should be named.',
-        union_mode='smart',
     )
     common_project: StringMultiLang | None = Field(
         None,
         alias='common:project',
         description='Project within which the data set was modelled in its present version. [Note: If the project was published e.g. as a report, this can be referenced in the "Publication of data set in:" field in the "Publication and ownership" sub-section.',
-        union_mode='smart',
     )
     common_intendedApplications: FTMultiLang | None = Field(
         None,
         alias='common:intendedApplications',
         description='Documentation of the intended application(s) of data collection and data set modelling. This indicates / includes information on the level of detail, the specifidity, and the quality ambition in the effort.',
-        union_mode='smart',
     )
     common_other: str | None = Field(None, alias='common:other')
 
@@ -1087,7 +1052,6 @@ class DataGenerator(BaseModel):
         None,
         alias='common:referenceToPersonOrEntityGeneratingTheDataSet',
         description='"Contact data set" of the person(s), working group(s), organisation(s) or database network, that generated the data set, i.e. being responsible for its correctness regarding methods, inventory, and documentative information.',
-        union_mode='smart',
     )
     common_other: str | None = Field(None, alias='common:other')
 
@@ -1111,7 +1075,6 @@ class DataEntryBy(BaseModel):
         ...,
         alias='common:referenceToDataSetFormat',
         description='"Source data set" of the used version of the ILCD format. If additional data format fields have been integrated into the data set file, using the "namespace" option, the used format namespace(s) are to be given. This is the case if the data sets carries additional information as specified by other, particular LCA formats, e.g. of other database networks or LCA softwares.',
-        union_mode='smart',
     )
     common_referenceToPersonOrEntityEnteringTheData: (
         GlobalReferenceType | list[GlobalReferenceType] | None
@@ -1119,7 +1082,6 @@ class DataEntryBy(BaseModel):
         None,
         alias='common:referenceToPersonOrEntityEnteringTheData',
         description='"Contact data set" of the responsible person or entity that has documented this data set, i.e. entered the data and the descriptive information.',
-        union_mode='smart',
     )
     common_other: str | None = Field(None, alias='common:other')
 
@@ -1143,7 +1105,6 @@ class PublicationAndOwnership(BaseModel):
         None,
         alias='common:referenceToPrecedingDataSetVersion',
         description='Last preceding data set, which was replaced by this version. Either a URI of that data set (i.e. an internet address) or its UUID plus version number is given (or both).',
-        union_mode='smart',
     )
     common_permanentDataSetURI: AnyUrl = Field(
         ...,
@@ -1156,7 +1117,6 @@ class PublicationAndOwnership(BaseModel):
         ...,
         alias='common:referenceToOwnershipOfDataSet',
         description='Quality compliance of this data set with the respective requirements set by the "compliance system" refered to.',
-        union_mode='smart',
     )
     common_copyright: CommonCopyright = Field(
         ...,
@@ -1169,7 +1129,6 @@ class PublicationAndOwnership(BaseModel):
         None,
         alias='common:referenceToEntitiesWithExclusiveAccess',
         description='"Contact data set" of those entities or persons (or groups of these), to which an exclusive access to this data set is granted. Mainly intended to be used in confidentiality management in projects. [Note: See also field "Access and use restrictions".]',
-        union_mode='smart',
     )
     common_licenseType: CommonLicenseType = Field(
         ...,
@@ -1180,7 +1139,6 @@ class PublicationAndOwnership(BaseModel):
         None,
         alias='common:accessRestrictions',
         description='Access restrictions / use conditions for this data set as free text or referring to e.g. license conditions. In case of no restrictions "None" is entered.',
-        union_mode='smart',
     )
     common_other: str | None = Field(None, alias='common:other')
 

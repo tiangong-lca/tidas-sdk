@@ -253,3 +253,59 @@ MIT License - see [LICENSE](../LICENSE) file for details.
 
 - [tidas-tools](https://pypi.org/project/tidas-tools/): Production-ready utilities for TIDAS data
 - [@tiangong-lca/tidas-sdk](https://www.npmjs.com/package/@tiangong-lca/tidas-sdk): TypeScript SDK
+
+## 📋 Usage Examples
+
+### Creating Entities
+
+The SDK provides two approaches for creating entities:
+
+1. **Wrapper Approach** (Original):
+
+   ```python
+   from tidas_sdk import create_process
+   process = create_process()
+   process.process_data_set.process_information.data_set_information.name.base_name.set_text("Electricity production", "en")
+   process.validate()
+   ```
+
+2. **Pydantic Model Approach** (New):
+   ```python
+   from tidas_sdk import create_process_model
+   process = create_process_model()
+   # Access data directly through the Pydantic model
+   process.process_data_set.process_information.data_set_information.name.base_name = "Electricity production"
+   # Validation happens automatically on instantiation
+   ```
+
+### Converting Between Approaches
+
+You can convert between wrapper and Pydantic models:
+
+```python
+# From wrapper to Pydantic
+process_wrapper = create_process()
+process_model = process_wrapper.to_pydantic()
+
+# From Pydantic to wrapper
+process_model = create_process_model()
+process_wrapper = TidasProcesses(process_model.model_dump())
+```
+
+### Example Script
+
+See [examples/06_pydantic_models.py](examples/06_pydantic_models.py) for a complete example demonstrating both approaches.
+
+### Validation
+
+Both approaches provide validation:
+
+- **Wrapper Approach**: Call `.validate()` method on wrapper instances
+- **Pydantic Model Approach**: Automatic validation on instantiation
+
+### Serialization
+
+Both approaches support JSON serialization:
+
+- **Wrapper Approach**: Call `.model_dump_json()` method on wrapper instances
+- **Pydantic Model Approach**: Call `.model_dump_json()` method on Pydantic model instances
