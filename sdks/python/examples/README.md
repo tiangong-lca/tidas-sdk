@@ -16,6 +16,14 @@ More complex examples showing advanced features:
 - [complex-workflows.py](./complex-workflows.py) - Complete LCA data workflows
 - [custom-validation.py](./custom-validation.py) - Custom validation rules
 
+### Builder Pattern
+Examples demonstrating the Builder pattern for incremental entity construction:
+
+- [builder_contact_example.py](./builder_contact_example.py) - Contact entity builder example
+- [builder_process_example.py](./builder_process_example.py) - Process entity builder example (conceptual)
+
+**Note**: Builder pattern examples are currently demonstrating the API design. Due to a known issue with field alias mapping in the `build()` method, these examples will show validation errors. See the [Builder Pattern Guide](../docs/builder-pattern-guide.md) for more details.
+
 ## 🚀 Running Examples
 
 ### Prerequisites

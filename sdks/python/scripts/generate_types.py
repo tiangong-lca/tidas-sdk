@@ -420,6 +420,24 @@ def main() -> int:
     else:
         print("⚠️  Entity model generator script not found")
 
+    # Generate builder pattern classes
+    print("\n" + "=" * 60)
+    print("GENERATING BUILDER PATTERN CLASSES")
+    print("=" * 60)
+    builder_script = Path(__file__).parent / "generate_builders.py"
+    if builder_script.exists():
+        result = subprocess.run(
+            [sys.executable, str(builder_script)],
+            capture_output=False,
+            check=False,
+        )
+        if result.returncode != 0:
+            print("⚠️  Builder generation had warnings/errors")
+        else:
+            print("✅ Builder generation completed successfully")
+    else:
+        print("⚠️  Builder generator script not found")
+
     # Return exit code
     return 1 if stats["errors"] > 0 else 0
 

@@ -89,9 +89,39 @@ contact.validate()
 contact_json = contact.model_dump_json()
 ```
 
-### Current Development
+### Builder Pattern for Complex Entities
 
-The SDK is currently under development. The API will evolve as we implement features.
+TIDAS entities are often deeply nested and complex. The SDK provides automatically generated Builder classes for incremental construction:
+
+```python
+import uuid
+from tidas_sdk.builders.tidas_contacts_builders import ContactDataSetBuilder
+
+# Create builder
+builder = ContactDataSetBuilder()
+
+# Set fields incrementally
+builder.contactInformation.dataSetInformation.common_UUID = str(uuid.uuid4())
+builder.contactInformation.dataSetInformation.set_name("Dr. Jane Smith", "en")
+builder.contactInformation.dataSetInformation.set_shortName("J. Smith", "en")
+builder.contactInformation.dataSetInformation.email = "jane@example.com"
+
+# Add multi-language support
+builder.contactInformation.dataSetInformation.set_name("Dr. Jane Smith", "en")
+builder.contactInformation.dataSetInformation.set_name("Dr. Jane Smith", "fr")
+
+# Build final Pydantic model
+contact = builder.build()
+```
+
+**Key Features:**
+- ✅ Incremental field assignment
+- ✅ Auto-initialization of nested builders
+- ✅ Multi-language helper methods (`set_name()`, `get_name()`)
+- ✅ Optional validation (validate on `build()`, not on assignment)
+- ✅ Type-safe with full IDE autocomplete
+
+See the [Builder Pattern Guide](docs/builder-pattern-guide.md) for comprehensive examples.
 
 ## 🏗️ Project Structure
 
