@@ -49,3 +49,11 @@ CLAUDE.md
 # test
 test/
 output/
+
+# codex
+.codex/
+
+# python cache
+__pycache__/
+.coverage
+uv.lock

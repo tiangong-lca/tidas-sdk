@@ -108,7 +108,11 @@ export type ProcessesCategory =
       '@classId'?: '0144';
       '#text'?: 'Raising of sheep and goats';
     }
-  | { '@level'?: '3'; '@classId'?: '0145'; '#text'?: 'Raising of swine/pigs' }
+  | {
+      '@level'?: '3';
+      '@classId'?: '0145';
+      '#text'?: 'Raising of swine and pigs';
+    }
   | { '@level'?: '3'; '@classId'?: '0146'; '#text'?: 'Raising of poultry' }
   | {
       '@level'?: '3';
@@ -192,6 +196,16 @@ export type ProcessesCategory =
   | { '@level'?: '2'; '@classId'?: '032'; '#text'?: 'Aquaculture' }
   | { '@level'?: '3'; '@classId'?: '0321'; '#text'?: 'Marine aquaculture' }
   | { '@level'?: '3'; '@classId'?: '0322'; '#text'?: 'Freshwater aquaculture' }
+  | {
+      '@level'?: '2';
+      '@classId'?: '033';
+      '#text'?: 'Support activities for fishing and aquaculture';
+    }
+  | {
+      '@level'?: '3';
+      '@classId'?: '0330';
+      '#text'?: 'Support activities for fishing and aquaculture';
+    }
   | { '@level'?: '0'; '@classId'?: 'B'; '#text'?: 'Mining and quarrying' }
   | {
       '@level'?: '1';
@@ -401,6 +415,11 @@ export type ProcessesCategory =
     }
   | {
       '@level'?: '3';
+      '@classId'?: '1076';
+      '#text'?: 'Processing of coffee and tea';
+    }
+  | {
+      '@level'?: '3';
       '@classId'?: '1079';
       '#text'?: 'Manufacture of other food products n.e.c.';
     }
@@ -422,14 +441,11 @@ export type ProcessesCategory =
       '#text'?: 'Distilling, rectifying and blending of spirits';
     }
   | { '@level'?: '3'; '@classId'?: '1102'; '#text'?: 'Manufacture of wines' }
+  | { '@level'?: '3'; '@classId'?: '1103'; '#text'?: 'Manufacture of beer' }
+  | { '@level'?: '3'; '@classId'?: '1104'; '#text'?: 'Manufacture of malt' }
   | {
       '@level'?: '3';
-      '@classId'?: '1103';
-      '#text'?: 'Manufacture of malt liquors and malt';
-    }
-  | {
-      '@level'?: '3';
-      '@classId'?: '1104';
+      '@classId'?: '1105';
       '#text'?: 'Manufacture of soft drinks; production of mineral waters and other bottled waters';
     }
   | {
@@ -533,7 +549,7 @@ export type ProcessesCategory =
   | {
       '@level'?: '2';
       '@classId'?: '151';
-      '#text'?: 'Tanning and dressing of leather; manufacture of luggage, handbags, saddlery and harness; dressing and dyeing of fur';
+      '#text'?: 'Tanning, dyeing, dressing of leather and fur; manufacture of luggage, handbags, saddlery and harness';
     }
   | {
       '@level'?: '3';
@@ -543,7 +559,7 @@ export type ProcessesCategory =
   | {
       '@level'?: '3';
       '@classId'?: '1512';
-      '#text'?: 'Manufacture of luggage, handbags and the like, saddlery and harness';
+      '#text'?: 'Manufacture of luggage, handbags and the like, saddlery and harness of any material';
     }
   | { '@level'?: '2'; '@classId'?: '152'; '#text'?: 'Manufacture of footwear' }
   | { '@level'?: '3'; '@classId'?: '1520'; '#text'?: 'Manufacture of footwear' }
@@ -656,12 +672,12 @@ export type ProcessesCategory =
   | {
       '@level'?: '2';
       '@classId'?: '192';
-      '#text'?: 'Manufacture of refined petroleum products';
+      '#text'?: 'Manufacture of refined petroleum products; manufacture of fossil fuel products';
     }
   | {
       '@level'?: '3';
       '@classId'?: '1920';
-      '#text'?: 'Manufacture of refined petroleum products';
+      '#text'?: 'Manufacture of refined petroleum products; manufacture of fossil fuel products';
     }
   | {
       '@level'?: '1';
@@ -741,7 +757,7 @@ export type ProcessesCategory =
   | {
       '@level'?: '1';
       '@classId'?: '22';
-      '#text'?: 'Manufacture of rubber and plastics products';
+      '#text'?: 'Manufacture of rubber and plastic products';
     }
   | {
       '@level'?: '2';
@@ -931,8 +947,13 @@ export type ProcessesCategory =
     }
   | {
       '@level'?: '3';
-      '@classId'?: '2610';
-      '#text'?: 'Manufacture of electronic components and boards';
+      '@classId'?: '2611';
+      '#text'?: 'Manufacture of solar cells, solar panels and photovoltaic inverters';
+    }
+  | {
+      '@level'?: '3';
+      '@classId'?: '2619';
+      '#text'?: 'Manufacture of other electronic components and boards';
     }
   | {
       '@level'?: '2';
@@ -1057,12 +1078,12 @@ export type ProcessesCategory =
   | {
       '@level'?: '2';
       '@classId'?: '274';
-      '#text'?: 'Manufacture of electric lighting equipment';
+      '#text'?: 'Manufacture of lighting equipment';
     }
   | {
       '@level'?: '3';
       '@classId'?: '2740';
-      '#text'?: 'Manufacture of electric lighting equipment';
+      '#text'?: 'Manufacture of lighting equipment';
     }
   | {
       '@level'?: '2';
@@ -1117,7 +1138,7 @@ export type ProcessesCategory =
   | {
       '@level'?: '3';
       '@classId'?: '2815';
-      '#text'?: 'Manufacture of ovens, furnaces and furnace burners';
+      '#text'?: 'Manufacture of ovens, furnaces and permanent household heating equipment';
     }
   | {
       '@level'?: '3';
@@ -1288,8 +1309,13 @@ export type ProcessesCategory =
   | { '@level'?: '2'; '@classId'?: '310'; '#text'?: 'Manufacture of furniture' }
   | {
       '@level'?: '3';
-      '@classId'?: '3100';
-      '#text'?: 'Manufacture of furniture';
+      '@classId'?: '3101';
+      '#text'?: 'Manufacture of wooden furniture';
+    }
+  | {
+      '@level'?: '3';
+      '@classId'?: '3102';
+      '#text'?: 'Manufacture of other furniture';
     }
   | { '@level'?: '1'; '@classId'?: '32'; '#text'?: 'Other manufacturing' }
   | {
@@ -1360,38 +1386,42 @@ export type ProcessesCategory =
   | {
       '@level'?: '1';
       '@classId'?: '33';
-      '#text'?: 'Repair and installation of machinery and equipment';
+      '#text'?: 'Repair, maintenance and installation of machinery and equipment';
     }
   | {
       '@level'?: '2';
       '@classId'?: '331';
-      '#text'?: 'Repair of fabricated metal products, machinery and equipment';
+      '#text'?: 'Repair and maintenance of fabricated metal products, machinery and equipment';
     }
   | {
       '@level'?: '3';
       '@classId'?: '3311';
-      '#text'?: 'Repair of fabricated metal products';
+      '#text'?: 'Repair and maintenance of fabricated metal products';
     }
-  | { '@level'?: '3'; '@classId'?: '3312'; '#text'?: 'Repair of machinery' }
+  | {
+      '@level'?: '3';
+      '@classId'?: '3312';
+      '#text'?: 'Repair and maintenance of machinery';
+    }
   | {
       '@level'?: '3';
       '@classId'?: '3313';
-      '#text'?: 'Repair of electronic and optical equipment';
+      '#text'?: 'Repair and maintenance of electronic and optical equipment';
     }
   | {
       '@level'?: '3';
       '@classId'?: '3314';
-      '#text'?: 'Repair of electrical equipment';
+      '#text'?: 'Repair and maintenance of electrical equipment';
     }
   | {
       '@level'?: '3';
       '@classId'?: '3315';
-      '#text'?: 'Repair of transport equipment, except motor vehicles';
+      '#text'?: 'Repair and maintenance of transport equipment, except motor vehicles';
     }
   | {
       '@level'?: '3';
       '@classId'?: '3319';
-      '#text'?: 'Repair of other equipment';
+      '#text'?: 'Repair and maintenance of other equipment';
     }
   | {
       '@level'?: '2';
@@ -1416,12 +1446,22 @@ export type ProcessesCategory =
   | {
       '@level'?: '2';
       '@classId'?: '351';
-      '#text'?: 'Electric power generation, transmission and distribution';
+      '#text'?: 'Electric power generation, transmission and distribution activities';
     }
   | {
       '@level'?: '3';
-      '@classId'?: '3510';
-      '#text'?: 'Electric power generation, transmission and distribution';
+      '@classId'?: '3511';
+      '#text'?: 'Electric power generation activities from non-renewable sources';
+    }
+  | {
+      '@level'?: '3';
+      '@classId'?: '3512';
+      '#text'?: 'Electric power generation activities from renewable sources';
+    }
+  | {
+      '@level'?: '3';
+      '@classId'?: '3513';
+      '#text'?: 'Electric power transmission and distribution activities';
     }
   | {
       '@level'?: '2';
@@ -1442,6 +1482,16 @@ export type ProcessesCategory =
       '@level'?: '3';
       '@classId'?: '3530';
       '#text'?: 'Steam and air conditioning supply';
+    }
+  | {
+      '@level'?: '2';
+      '@classId'?: '354';
+      '#text'?: 'Activities of brokers and agents for electric power and natural gas';
+    }
+  | {
+      '@level'?: '3';
+      '@classId'?: '3540';
+      '#text'?: 'Activities of brokers and agents for electric power and natural gas';
     }
   | {
       '@level'?: '0';
@@ -1469,9 +1519,13 @@ export type ProcessesCategory =
   | {
       '@level'?: '1';
       '@classId'?: '38';
-      '#text'?: 'Waste collection, treatment and disposal activities; materials recovery';
+      '#text'?: 'Waste collection, treatment and disposal, and recovery activities';
     }
-  | { '@level'?: '2'; '@classId'?: '381'; '#text'?: 'Waste collection' }
+  | {
+      '@level'?: '2';
+      '@classId'?: '381';
+      '#text'?: 'Waste collection activities';
+    }
   | {
       '@level'?: '3';
       '@classId'?: '3811';
@@ -1497,34 +1551,46 @@ export type ProcessesCategory =
       '@classId'?: '3822';
       '#text'?: 'Treatment and disposal of hazardous waste';
     }
-  | { '@level'?: '2'; '@classId'?: '383'; '#text'?: 'Materials recovery' }
-  | { '@level'?: '3'; '@classId'?: '3830'; '#text'?: 'Materials recovery' }
+  | {
+      '@level'?: '2';
+      '@classId'?: '383';
+      '#text'?: 'Materials and other waste recovery';
+    }
+  | {
+      '@level'?: '3';
+      '@classId'?: '3830';
+      '#text'?: 'Materials and other waste recovery';
+    }
   | {
       '@level'?: '1';
       '@classId'?: '39';
-      '#text'?: 'Remediation activities and other waste management services';
+      '#text'?: 'Remediation and other waste management service activities';
     }
   | {
       '@level'?: '2';
       '@classId'?: '390';
-      '#text'?: 'Remediation activities and other waste management services';
+      '#text'?: 'Remediation and other waste management service activities';
     }
   | {
       '@level'?: '3';
       '@classId'?: '3900';
-      '#text'?: 'Remediation activities and other waste management services';
+      '#text'?: 'Remediation and other waste management service activities';
     }
   | { '@level'?: '0'; '@classId'?: 'F'; '#text'?: 'Construction' }
-  | { '@level'?: '1'; '@classId'?: '41'; '#text'?: 'Construction of buildings' }
+  | {
+      '@level'?: '1';
+      '@classId'?: '41';
+      '#text'?: 'Construction of residential and non-residential buildings';
+    }
   | {
       '@level'?: '2';
       '@classId'?: '410';
-      '#text'?: 'Construction of buildings';
+      '#text'?: 'Construction of residential and non-residential buildings';
     }
   | {
       '@level'?: '3';
       '@classId'?: '4100';
-      '#text'?: 'Construction of buildings';
+      '#text'?: 'Construction of residential and non-residential buildings';
     }
   | { '@level'?: '1'; '@classId'?: '42'; '#text'?: 'Civil engineering' }
   | {
@@ -1597,6 +1663,16 @@ export type ProcessesCategory =
     }
   | {
       '@level'?: '2';
+      '@classId'?: '434';
+      '#text'?: 'Intermediation service activities for specialized construction services';
+    }
+  | {
+      '@level'?: '3';
+      '@classId'?: '4340';
+      '#text'?: 'Intermediation service activities for specialized construction services';
+    }
+  | {
+      '@level'?: '2';
       '@classId'?: '439';
       '#text'?: 'Other specialized construction activities';
     }
@@ -1605,53 +1681,8 @@ export type ProcessesCategory =
       '@classId'?: '4390';
       '#text'?: 'Other specialized construction activities';
     }
-  | {
-      '@level'?: '0';
-      '@classId'?: 'G';
-      '#text'?: 'Wholesale and retail trade; repair of motor vehicles and motorcycles';
-    }
-  | {
-      '@level'?: '1';
-      '@classId'?: '45';
-      '#text'?: 'Wholesale and retail trade and repair of motor vehicles and motorcycles';
-    }
-  | { '@level'?: '2'; '@classId'?: '451'; '#text'?: 'Sale of motor vehicles' }
-  | { '@level'?: '3'; '@classId'?: '4510'; '#text'?: 'Sale of motor vehicles' }
-  | {
-      '@level'?: '2';
-      '@classId'?: '452';
-      '#text'?: 'Maintenance and repair of motor vehicles';
-    }
-  | {
-      '@level'?: '3';
-      '@classId'?: '4520';
-      '#text'?: 'Maintenance and repair of motor vehicles';
-    }
-  | {
-      '@level'?: '2';
-      '@classId'?: '453';
-      '#text'?: 'Sale of motor vehicle parts and accessories';
-    }
-  | {
-      '@level'?: '3';
-      '@classId'?: '4530';
-      '#text'?: 'Sale of motor vehicle parts and accessories';
-    }
-  | {
-      '@level'?: '2';
-      '@classId'?: '454';
-      '#text'?: 'Sale, maintenance and repair of motorcycles and related parts and accessories';
-    }
-  | {
-      '@level'?: '3';
-      '@classId'?: '4540';
-      '#text'?: 'Sale, maintenance and repair of motorcycles and related parts and accessories';
-    }
-  | {
-      '@level'?: '1';
-      '@classId'?: '46';
-      '#text'?: 'Wholesale trade, except of motor vehicles and motorcycles';
-    }
+  | { '@level'?: '0'; '@classId'?: 'G'; '#text'?: 'Wholesale and retail trade' }
+  | { '@level'?: '1'; '@classId'?: '46'; '#text'?: 'Wholesale trade' }
   | {
       '@level'?: '2';
       '@classId'?: '461';
@@ -1694,6 +1725,11 @@ export type ProcessesCategory =
     }
   | {
       '@level'?: '3';
+      '@classId'?: '4642';
+      '#text'?: 'Wholesale of household, office and shop furniture, carpets and lighting equipment';
+    }
+  | {
+      '@level'?: '3';
       '@classId'?: '4649';
       '#text'?: 'Wholesale of other household goods';
     }
@@ -1725,27 +1761,47 @@ export type ProcessesCategory =
   | {
       '@level'?: '2';
       '@classId'?: '466';
-      '#text'?: 'Other specialized wholesale';
+      '#text'?: 'Wholesale of motor vehicles, motorcycles and related parts and accessories';
     }
   | {
       '@level'?: '3';
       '@classId'?: '4661';
-      '#text'?: 'Wholesale of solid, liquid and gaseous fuels and related products';
+      '#text'?: 'Wholesale of motor vehicles';
     }
   | {
       '@level'?: '3';
       '@classId'?: '4662';
-      '#text'?: 'Wholesale of metals and metal ores';
+      '#text'?: 'Wholesale of motor vehicle parts and accessories';
     }
   | {
       '@level'?: '3';
       '@classId'?: '4663';
+      '#text'?: 'Wholesale of motorcycles, motorcycle parts and accessories';
+    }
+  | {
+      '@level'?: '2';
+      '@classId'?: '467';
+      '#text'?: 'Other specialized wholesale';
+    }
+  | {
+      '@level'?: '3';
+      '@classId'?: '4671';
+      '#text'?: 'Wholesale of solid, liquid and gaseous fuels and related products';
+    }
+  | {
+      '@level'?: '3';
+      '@classId'?: '4672';
+      '#text'?: 'Wholesale of metals and metal ores';
+    }
+  | {
+      '@level'?: '3';
+      '@classId'?: '4673';
       '#text'?: 'Wholesale of construction materials, hardware, plumbing and heating equipment and supplies';
     }
   | {
       '@level'?: '3';
-      '@classId'?: '4669';
-      '#text'?: 'Wholesale of waste and scrap and other products n.e.c.';
+      '@classId'?: '4679';
+      '#text'?: 'Wholesale of chemicals, waste and scrap and other products n.e.c.';
     }
   | {
       '@level'?: '2';
@@ -1757,140 +1813,123 @@ export type ProcessesCategory =
       '@classId'?: '4690';
       '#text'?: 'Non-specialized wholesale trade';
     }
-  | {
-      '@level'?: '1';
-      '@classId'?: '47';
-      '#text'?: 'Retail trade, except of motor vehicles and motorcycles';
-    }
+  | { '@level'?: '1'; '@classId'?: '47'; '#text'?: 'Retail trade' }
   | {
       '@level'?: '2';
       '@classId'?: '471';
-      '#text'?: 'Retail sale in non-specialized stores';
+      '#text'?: 'Non-specialized retail sale';
     }
   | {
       '@level'?: '3';
       '@classId'?: '4711';
-      '#text'?: 'Retail sale in non-specialized stores with food, beverages or tobacco predominating';
+      '#text'?: 'Non-specialized retail sale with food, beverages or tobacco predominating';
     }
   | {
       '@level'?: '3';
       '@classId'?: '4719';
-      '#text'?: 'Other retail sale in non-specialized stores';
+      '#text'?: 'Other non-specialized retail sale';
     }
   | {
       '@level'?: '2';
       '@classId'?: '472';
-      '#text'?: 'Retail sale of food, beverages and tobacco in specialized stores';
+      '#text'?: 'Retail sale of food, beverages and tobacco';
     }
-  | {
-      '@level'?: '3';
-      '@classId'?: '4721';
-      '#text'?: 'Retail sale of food in specialized stores';
-    }
+  | { '@level'?: '3'; '@classId'?: '4721'; '#text'?: 'Retail sale of food' }
   | {
       '@level'?: '3';
       '@classId'?: '4722';
-      '#text'?: 'Retail sale of beverages in specialized stores';
+      '#text'?: 'Retail sale of beverages';
     }
   | {
       '@level'?: '3';
       '@classId'?: '4723';
-      '#text'?: 'Retail sale of tobacco products in specialized stores';
+      '#text'?: 'Retail sale of tobacco products';
     }
   | {
       '@level'?: '2';
       '@classId'?: '473';
-      '#text'?: 'Retail sale of automotive fuel in specialized stores';
+      '#text'?: 'Retail sale of automotive fuel';
     }
   | {
       '@level'?: '3';
       '@classId'?: '4730';
-      '#text'?: 'Retail sale of automotive fuel in specialized stores';
+      '#text'?: 'Retail sale of automotive fuel';
     }
   | {
       '@level'?: '2';
       '@classId'?: '474';
-      '#text'?: 'Retail sale of information and communications equipment in specialized stores';
+      '#text'?: 'Retail sale of information and communication equipment';
     }
   | {
       '@level'?: '3';
-      '@classId'?: '4741';
-      '#text'?: 'Retail sale of computers, peripheral units, software and telecommunications equipment in specialized stores';
-    }
-  | {
-      '@level'?: '3';
-      '@classId'?: '4742';
-      '#text'?: 'Retail sale of audio and video equipment in specialized stores';
+      '@classId'?: '4740';
+      '#text'?: 'Retail sale of information and communication equipment';
     }
   | {
       '@level'?: '2';
       '@classId'?: '475';
-      '#text'?: 'Retail sale of other household equipment in specialized stores';
+      '#text'?: 'Retail sale of other household equipment';
     }
-  | {
-      '@level'?: '3';
-      '@classId'?: '4751';
-      '#text'?: 'Retail sale of textiles in specialized stores';
-    }
+  | { '@level'?: '3'; '@classId'?: '4751'; '#text'?: 'Retail sale of textiles' }
   | {
       '@level'?: '3';
       '@classId'?: '4752';
-      '#text'?: 'Retail sale of hardware, paints and glass in specialized stores';
+      '#text'?: 'Retail sale of hardware, building materials, paints and glass';
     }
   | {
       '@level'?: '3';
       '@classId'?: '4753';
-      '#text'?: 'Retail sale of carpets, rugs, wall and floor coverings in specialized stores';
+      '#text'?: 'Retail sale of carpets, rugs, wall and floor coverings';
     }
   | {
       '@level'?: '3';
       '@classId'?: '4759';
-      '#text'?: 'Retail sale of electrical household appliances, furniture, lighting equipment and other household articles in specialized stores';
+      '#text'?: 'Retail sale of electrical household appliances, furniture, lighting equipment and other household articles';
     }
   | {
       '@level'?: '2';
       '@classId'?: '476';
-      '#text'?: 'Retail sale of cultural and recreation goods in specialized stores';
+      '#text'?: 'Retail sale of cultural and recreational goods';
     }
   | {
       '@level'?: '3';
       '@classId'?: '4761';
-      '#text'?: 'Retail sale of books, newspapers and stationary in specialized stores';
+      '#text'?: 'Retail sale of books, newspapers, stationery and office supplies';
     }
   | {
       '@level'?: '3';
       '@classId'?: '4762';
-      '#text'?: 'Retail sale of music and video recordings in specialized stores';
+      '#text'?: 'Retail sale of sporting equipment';
     }
   | {
       '@level'?: '3';
       '@classId'?: '4763';
-      '#text'?: 'Retail sale of sporting equipment in specialized stores';
+      '#text'?: 'Retail sale of games and toys';
     }
   | {
       '@level'?: '3';
-      '@classId'?: '4764';
-      '#text'?: 'Retail sale of games and toys in specialized stores';
+      '@classId'?: '4769';
+      '#text'?: 'Retail sale of cultural and recreational goods n.e.c.';
     }
   | {
       '@level'?: '2';
       '@classId'?: '477';
-      '#text'?: 'Retail sale of other goods in specialized stores';
+      '#text'?: 'Retail sale of other goods, except motor vehicles and motorcycles';
     }
   | {
       '@level'?: '3';
       '@classId'?: '4771';
-      '#text'?: 'Retail sale of clothing, footwear and leather articles in specialized stores';
+      '#text'?: 'Retail sale of clothing, footwear and leather articles';
     }
   | {
       '@level'?: '3';
       '@classId'?: '4772';
-      '#text'?: 'Retail sale of pharmaceutical and medical goods, cosmetic and toilet articles in specialized stores';
+      '#text'?: 'Retail sale of pharmaceutical and medical goods, cosmetic and toilet articles';
     }
   | {
       '@level'?: '3';
       '@classId'?: '4773';
-      '#text'?: 'Other retail sale of new goods in specialized stores';
+      '#text'?: 'Retail sale of other new goods n.e.c.';
     }
   | {
       '@level'?: '3';
@@ -1900,37 +1939,32 @@ export type ProcessesCategory =
   | {
       '@level'?: '2';
       '@classId'?: '478';
-      '#text'?: 'Retail sale via stalls and markets';
+      '#text'?: 'Retail sale of motor vehicles, motorcycles and related parts and accessories';
     }
   | {
       '@level'?: '3';
       '@classId'?: '4781';
-      '#text'?: 'Retail sale via stalls and markets of food, beverages and tobacco products';
+      '#text'?: 'Retail sale of motor vehicles';
     }
   | {
       '@level'?: '3';
       '@classId'?: '4782';
-      '#text'?: 'Retail sale via stalls and markets of textiles, clothing and footwear';
+      '#text'?: 'Retail sale of motor vehicle parts and accessories';
     }
   | {
       '@level'?: '3';
-      '@classId'?: '4789';
-      '#text'?: 'Retail sale via stalls and markets of other goods';
+      '@classId'?: '4783';
+      '#text'?: 'Retail sale of motorcycles, motorcycles parts and accessories';
     }
   | {
       '@level'?: '2';
       '@classId'?: '479';
-      '#text'?: 'Retail trade not in stores, stalls or markets';
+      '#text'?: 'Intermediation service activities for retail sale';
     }
   | {
       '@level'?: '3';
-      '@classId'?: '4791';
-      '#text'?: 'Retail sale via mail order houses or via Internet';
-    }
-  | {
-      '@level'?: '3';
-      '@classId'?: '4799';
-      '#text'?: 'Other retail sale not in stores, stalls or markets';
+      '@classId'?: '4790';
+      '#text'?: 'Intermediation service activities for retail sale';
     }
   | { '@level'?: '0'; '@classId'?: 'H'; '#text'?: 'Transportation and storage' }
   | {
@@ -2026,7 +2060,22 @@ export type ProcessesCategory =
   | {
       '@level'?: '3';
       '@classId'?: '5229';
-      '#text'?: 'Other transportation support activities';
+      '#text'?: 'Other support activities for transportation';
+    }
+  | {
+      '@level'?: '2';
+      '@classId'?: '523';
+      '#text'?: 'Intermediation service activities for transportation';
+    }
+  | {
+      '@level'?: '3';
+      '@classId'?: '5231';
+      '#text'?: 'Intermediation service activities for freight transportation';
+    }
+  | {
+      '@level'?: '3';
+      '@classId'?: '5232';
+      '#text'?: 'Intermediation service activities for passenger transportation';
     }
   | {
       '@level'?: '1';
@@ -2038,6 +2087,16 @@ export type ProcessesCategory =
   | { '@level'?: '2'; '@classId'?: '532'; '#text'?: 'Courier activities' }
   | { '@level'?: '3'; '@classId'?: '5320'; '#text'?: 'Courier activities' }
   | {
+      '@level'?: '2';
+      '@classId'?: '533';
+      '#text'?: 'Intermediation service activities for postal and courier activities';
+    }
+  | {
+      '@level'?: '3';
+      '@classId'?: '5330';
+      '#text'?: 'Intermediation service activities for postal and courier activities';
+    }
+  | {
       '@level'?: '0';
       '@classId'?: 'I';
       '#text'?: 'Accommodation and food service activities';
@@ -2046,25 +2105,53 @@ export type ProcessesCategory =
   | {
       '@level'?: '2';
       '@classId'?: '551';
-      '#text'?: 'Short term accommodation activities';
+      '#text'?: 'Hotels and similar accommodation activities';
     }
   | {
       '@level'?: '3';
       '@classId'?: '5510';
-      '#text'?: 'Short term accommodation activities';
+      '#text'?: 'Hotels and similar accommodation activities';
     }
   | {
       '@level'?: '2';
       '@classId'?: '552';
-      '#text'?: 'Camping grounds, recreational vehicle parks and trailer parks';
+      '#text'?: 'Other short term accommodation activities';
     }
   | {
       '@level'?: '3';
       '@classId'?: '5520';
+      '#text'?: 'Other short term accommodation activities';
+    }
+  | {
+      '@level'?: '2';
+      '@classId'?: '553';
       '#text'?: 'Camping grounds, recreational vehicle parks and trailer parks';
     }
-  | { '@level'?: '2'; '@classId'?: '559'; '#text'?: 'Other accommodation' }
-  | { '@level'?: '3'; '@classId'?: '5590'; '#text'?: 'Other accommodation' }
+  | {
+      '@level'?: '3';
+      '@classId'?: '5530';
+      '#text'?: 'Camping grounds, recreational vehicle parks and trailer parks';
+    }
+  | {
+      '@level'?: '2';
+      '@classId'?: '554';
+      '#text'?: 'Intermediation service activities for accommodation';
+    }
+  | {
+      '@level'?: '3';
+      '@classId'?: '5540';
+      '#text'?: 'Intermediation service activities for accommodation';
+    }
+  | {
+      '@level'?: '2';
+      '@classId'?: '559';
+      '#text'?: 'Other accommodation n.e.c.';
+    }
+  | {
+      '@level'?: '3';
+      '@classId'?: '5590';
+      '#text'?: 'Other accommodation n.e.c.';
+    }
   | {
       '@level'?: '1';
       '@classId'?: '56';
@@ -2085,7 +2172,11 @@ export type ProcessesCategory =
       '@classId'?: '562';
       '#text'?: 'Event catering and other food service activities';
     }
-  | { '@level'?: '3'; '@classId'?: '5621'; '#text'?: 'Event catering' }
+  | {
+      '@level'?: '3';
+      '@classId'?: '5621';
+      '#text'?: 'Event catering activities';
+    }
   | {
       '@level'?: '3';
       '@classId'?: '5629';
@@ -2102,26 +2193,36 @@ export type ProcessesCategory =
       '#text'?: 'Beverage serving activities';
     }
   | {
+      '@level'?: '2';
+      '@classId'?: '564';
+      '#text'?: 'Intermediation service activities for food and beverage services activities';
+    }
+  | {
+      '@level'?: '3';
+      '@classId'?: '5640';
+      '#text'?: 'Intermediation service activities for food and beverage services activities';
+    }
+  | {
       '@level'?: '0';
       '@classId'?: 'J';
-      '#text'?: 'Information and communication';
+      '#text'?: 'Publishing, broadcasting, and content production and distribution activities';
     }
   | { '@level'?: '1'; '@classId'?: '58'; '#text'?: 'Publishing activities' }
   | {
       '@level'?: '2';
       '@classId'?: '581';
-      '#text'?: 'Publishing of books, periodicals and other publishing activities';
+      '#text'?: 'Publishing of books, newspapers, periodicals and other publishing activities';
     }
-  | { '@level'?: '3'; '@classId'?: '5811'; '#text'?: 'Book publishing' }
+  | { '@level'?: '3'; '@classId'?: '5811'; '#text'?: 'Publishing of books' }
   | {
       '@level'?: '3';
       '@classId'?: '5812';
-      '#text'?: 'Publishing of directories and mailing lists';
+      '#text'?: 'Publishing of newspapers';
     }
   | {
       '@level'?: '3';
       '@classId'?: '5813';
-      '#text'?: 'Publishing of newspapers, journals and periodicals';
+      '#text'?: 'Publishing of journals and periodicals';
     }
   | {
       '@level'?: '3';
@@ -2129,7 +2230,16 @@ export type ProcessesCategory =
       '#text'?: 'Other publishing activities';
     }
   | { '@level'?: '2'; '@classId'?: '582'; '#text'?: 'Software publishing' }
-  | { '@level'?: '3'; '@classId'?: '5820'; '#text'?: 'Software publishing' }
+  | {
+      '@level'?: '3';
+      '@classId'?: '5821';
+      '#text'?: 'Publishing of video games';
+    }
+  | {
+      '@level'?: '3';
+      '@classId'?: '5829';
+      '#text'?: 'Other software publishing';
+    }
   | {
       '@level'?: '1';
       '@classId'?: '59';
@@ -2173,60 +2283,74 @@ export type ProcessesCategory =
   | {
       '@level'?: '1';
       '@classId'?: '60';
-      '#text'?: 'Programming and broadcasting activities';
+      '#text'?: 'Programming, broadcasting, news agency and other content distribution activities';
     }
-  | { '@level'?: '2'; '@classId'?: '601'; '#text'?: 'Radio broadcasting' }
-  | { '@level'?: '3'; '@classId'?: '6010'; '#text'?: 'Radio broadcasting' }
+  | {
+      '@level'?: '2';
+      '@classId'?: '601';
+      '#text'?: 'Radio broadcasting and audio distribution activities';
+    }
+  | {
+      '@level'?: '3';
+      '@classId'?: '6010';
+      '#text'?: 'Radio broadcasting and audio distribution activities';
+    }
   | {
       '@level'?: '2';
       '@classId'?: '602';
-      '#text'?: 'Television programming and broadcasting activities';
+      '#text'?: 'Television programming, broadcasting and video distribution activities';
     }
   | {
       '@level'?: '3';
       '@classId'?: '6020';
-      '#text'?: 'Television programming and broadcasting activities';
+      '#text'?: 'Television programming, broadcasting and video distribution activities';
+    }
+  | {
+      '@level'?: '2';
+      '@classId'?: '603';
+      '#text'?: 'News agency and other content distribution activities';
+    }
+  | { '@level'?: '3'; '@classId'?: '6031'; '#text'?: 'News agency activities' }
+  | {
+      '@level'?: '3';
+      '@classId'?: '6039';
+      '#text'?: 'Social network sites and other content distribution activities';
+    }
+  | {
+      '@level'?: '0';
+      '@classId'?: 'K';
+      '#text'?: 'Telecommunications, computer programming, consultancy, computing infrastructure, and other information service activities';
     }
   | { '@level'?: '1'; '@classId'?: '61'; '#text'?: 'Telecommunications' }
   | {
       '@level'?: '2';
       '@classId'?: '611';
-      '#text'?: 'Wired telecommunications activities';
+      '#text'?: 'Wired, wireless, and satellite telecommunication activities';
     }
   | {
       '@level'?: '3';
       '@classId'?: '6110';
-      '#text'?: 'Wired telecommunications activities';
+      '#text'?: 'Wired, wireless, and satellite telecommunication activities';
     }
   | {
       '@level'?: '2';
       '@classId'?: '612';
-      '#text'?: 'Wireless telecommunications activities';
+      '#text'?: 'Telecommunication reselling activities and intermediation service activities for telecommunication';
     }
   | {
       '@level'?: '3';
       '@classId'?: '6120';
-      '#text'?: 'Wireless telecommunications activities';
-    }
-  | {
-      '@level'?: '2';
-      '@classId'?: '613';
-      '#text'?: 'Satellite telecommunications activities';
-    }
-  | {
-      '@level'?: '3';
-      '@classId'?: '6130';
-      '#text'?: 'Satellite telecommunications activities';
+      '#text'?: 'Telecommunication reselling activities and intermediation service activities for telecommunication';
     }
   | {
       '@level'?: '2';
       '@classId'?: '619';
-      '#text'?: 'Other telecommunications activities';
+      '#text'?: 'Other telecommunication activities';
     }
   | {
       '@level'?: '3';
       '@classId'?: '6190';
-      '#text'?: 'Other telecommunications activities';
+      '#text'?: 'Other telecommunication activities';
     }
   | {
       '@level'?: '1';
@@ -2235,54 +2359,67 @@ export type ProcessesCategory =
     }
   | {
       '@level'?: '2';
-      '@classId'?: '620';
-      '#text'?: 'Computer programming, consultancy and related activities';
-    }
-  | {
-      '@level'?: '3';
-      '@classId'?: '6201';
+      '@classId'?: '621';
       '#text'?: 'Computer programming activities';
     }
   | {
       '@level'?: '3';
-      '@classId'?: '6202';
+      '@classId'?: '6211';
+      '#text'?: 'Development of video games, video game software, and video game software tools';
+    }
+  | {
+      '@level'?: '3';
+      '@classId'?: '6219';
+      '#text'?: 'Other computer programming activities';
+    }
+  | {
+      '@level'?: '2';
+      '@classId'?: '622';
       '#text'?: 'Computer consultancy and computer facilities management activities';
     }
   | {
       '@level'?: '3';
-      '@classId'?: '6209';
+      '@classId'?: '6220';
+      '#text'?: 'Computer consultancy and computer facilities management activities';
+    }
+  | {
+      '@level'?: '2';
+      '@classId'?: '629';
+      '#text'?: 'Other information technology and computer service activities';
+    }
+  | {
+      '@level'?: '3';
+      '@classId'?: '6290';
       '#text'?: 'Other information technology and computer service activities';
     }
   | {
       '@level'?: '1';
       '@classId'?: '63';
-      '#text'?: 'Information service activities';
+      '#text'?: 'Computing infrastructure, data processing, hosting, and other information service activities';
     }
   | {
       '@level'?: '2';
       '@classId'?: '631';
-      '#text'?: 'Data processing, hosting and related activities; web portals';
+      '#text'?: 'Computing infrastructure, data processing, hosting and related activities';
     }
   | {
       '@level'?: '3';
-      '@classId'?: '6311';
-      '#text'?: 'Data processing, hosting and related activities';
+      '@classId'?: '6310';
+      '#text'?: 'Computing infrastructure, data processing, hosting and related activities';
     }
-  | { '@level'?: '3'; '@classId'?: '6312'; '#text'?: 'Web portals' }
   | {
       '@level'?: '2';
       '@classId'?: '639';
-      '#text'?: 'Other information service activities';
+      '#text'?: 'Web search portals activities and other information service activities';
     }
-  | { '@level'?: '3'; '@classId'?: '6391'; '#text'?: 'News agency activities' }
   | {
       '@level'?: '3';
-      '@classId'?: '6399';
-      '#text'?: 'Other information service activities n.e.c.';
+      '@classId'?: '6390';
+      '#text'?: 'Web search portals activities and other information service activities';
     }
   | {
       '@level'?: '0';
-      '@classId'?: 'K';
+      '@classId'?: 'L';
       '#text'?: 'Financial and insurance activities';
     }
   | {
@@ -2300,34 +2437,68 @@ export type ProcessesCategory =
   | {
       '@level'?: '2';
       '@classId'?: '642';
+      '#text'?: 'Activities of holding companies and financing conduits';
+    }
+  | {
+      '@level'?: '3';
+      '@classId'?: '6421';
       '#text'?: 'Activities of holding companies';
     }
   | {
       '@level'?: '3';
-      '@classId'?: '6420';
-      '#text'?: 'Activities of holding companies';
+      '@classId'?: '6422';
+      '#text'?: 'Activities of financing conduits';
     }
   | {
       '@level'?: '2';
       '@classId'?: '643';
-      '#text'?: 'Trusts, funds and similar financial entities';
+      '#text'?: 'Activities of trusts, funds and similar financial entities';
     }
   | {
       '@level'?: '3';
-      '@classId'?: '6430';
-      '#text'?: 'Trusts, funds and similar financial entities';
+      '@classId'?: '6431';
+      '#text'?: 'Activities of money market funds';
+    }
+  | {
+      '@level'?: '3';
+      '@classId'?: '6432';
+      '#text'?: 'Activities of non-money market investments funds';
+    }
+  | {
+      '@level'?: '3';
+      '@classId'?: '6433';
+      '#text'?: 'Activities of trust, estate and agency accounts';
     }
   | {
       '@level'?: '2';
       '@classId'?: '649';
       '#text'?: 'Other financial service activities, except insurance and pension funding activities';
     }
-  | { '@level'?: '3'; '@classId'?: '6491'; '#text'?: 'Financial leasing' }
-  | { '@level'?: '3'; '@classId'?: '6492'; '#text'?: 'Other credit granting' }
+  | {
+      '@level'?: '3';
+      '@classId'?: '6491';
+      '#text'?: 'Financial leasing activities';
+    }
+  | {
+      '@level'?: '3';
+      '@classId'?: '6492';
+      '#text'?: 'International trade financing activities';
+    }
+  | { '@level'?: '3'; '@classId'?: '6493'; '#text'?: 'Factoring activities' }
+  | {
+      '@level'?: '3';
+      '@classId'?: '6494';
+      '#text'?: 'Securitisation activities';
+    }
+  | {
+      '@level'?: '3';
+      '@classId'?: '6495';
+      '#text'?: 'Other credit granting activities';
+    }
   | {
       '@level'?: '3';
       '@classId'?: '6499';
-      '#text'?: 'Other financial service activities, except insurance and pension funding activities, n.e.c.';
+      '#text'?: 'Other financial service activities n.e.c., except insurance and pension funding activities';
     }
   | {
       '@level'?: '1';
@@ -2349,7 +2520,7 @@ export type ProcessesCategory =
   | {
       '@level'?: '2';
       '@classId'?: '661';
-      '#text'?: 'Activities auxiliary to financial service activities, except insurance and pension funding';
+      '#text'?: 'Activities auxiliary to financial services, except insurance and pension funding';
     }
   | {
       '@level'?: '3';
@@ -2364,7 +2535,7 @@ export type ProcessesCategory =
   | {
       '@level'?: '3';
       '@classId'?: '6619';
-      '#text'?: 'Other activities auxiliary to financial service activities';
+      '#text'?: 'Other activities auxiliary to financial service activities, except insurance and pension funding';
     }
   | {
       '@level'?: '2';
@@ -2396,7 +2567,7 @@ export type ProcessesCategory =
       '@classId'?: '6630';
       '#text'?: 'Fund management activities';
     }
-  | { '@level'?: '0'; '@classId'?: 'L'; '#text'?: 'Real estate activities' }
+  | { '@level'?: '0'; '@classId'?: 'M'; '#text'?: 'Real estate activities' }
   | { '@level'?: '1'; '@classId'?: '68'; '#text'?: 'Real estate activities' }
   | {
       '@level'?: '2';
@@ -2415,12 +2586,17 @@ export type ProcessesCategory =
     }
   | {
       '@level'?: '3';
-      '@classId'?: '6820';
-      '#text'?: 'Real estate activities on a fee or contract basis';
+      '@classId'?: '6821';
+      '#text'?: 'Intermediation service activities for real estate';
+    }
+  | {
+      '@level'?: '3';
+      '@classId'?: '6829';
+      '#text'?: 'Other real estate activities on a fee or contract basis';
     }
   | {
       '@level'?: '0';
-      '@classId'?: 'M';
+      '@classId'?: 'N';
       '#text'?: 'Professional, scientific and technical activities';
     }
   | {
@@ -2458,12 +2634,12 @@ export type ProcessesCategory =
   | {
       '@level'?: '2';
       '@classId'?: '702';
-      '#text'?: 'Management consultancy activities';
+      '#text'?: 'Business and other management consultancy activities';
     }
   | {
       '@level'?: '3';
       '@classId'?: '7020';
-      '#text'?: 'Management consultancy activities';
+      '#text'?: 'Business and other management consultancy activities';
     }
   | {
       '@level'?: '1';
@@ -2473,12 +2649,12 @@ export type ProcessesCategory =
   | {
       '@level'?: '2';
       '@classId'?: '711';
-      '#text'?: 'Architectural and engineering activities and related technical consultancy';
+      '#text'?: 'Architectural and engineering, and related technical consultancy activities';
     }
   | {
       '@level'?: '3';
       '@classId'?: '7110';
-      '#text'?: 'Architectural and engineering activities and related technical consultancy';
+      '#text'?: 'Architectural and engineering, and related technical consultancy activities';
     }
   | {
       '@level'?: '2';
@@ -2518,19 +2694,29 @@ export type ProcessesCategory =
   | {
       '@level'?: '1';
       '@classId'?: '73';
-      '#text'?: 'Advertising and market research';
+      '#text'?: 'Activities of advertising, market research and public relations';
     }
-  | { '@level'?: '2'; '@classId'?: '731'; '#text'?: 'Advertising' }
-  | { '@level'?: '3'; '@classId'?: '7310'; '#text'?: 'Advertising' }
+  | { '@level'?: '2'; '@classId'?: '731'; '#text'?: 'Advertising activities' }
+  | { '@level'?: '3'; '@classId'?: '7310'; '#text'?: 'Advertising activities' }
   | {
       '@level'?: '2';
       '@classId'?: '732';
-      '#text'?: 'Market research and public opinion polling';
+      '#text'?: 'Market research and public opinion polling activities';
     }
   | {
       '@level'?: '3';
       '@classId'?: '7320';
-      '#text'?: 'Market research and public opinion polling';
+      '#text'?: 'Market research and public opinion polling activities';
+    }
+  | {
+      '@level'?: '2';
+      '@classId'?: '733';
+      '#text'?: 'Public relations activities';
+    }
+  | {
+      '@level'?: '3';
+      '@classId'?: '7330';
+      '#text'?: 'Public relations activities';
     }
   | {
       '@level'?: '1';
@@ -2551,20 +2737,35 @@ export type ProcessesCategory =
   | { '@level'?: '3'; '@classId'?: '7420'; '#text'?: 'Photographic activities' }
   | {
       '@level'?: '2';
+      '@classId'?: '743';
+      '#text'?: 'Translation and interpretation activities';
+    }
+  | {
+      '@level'?: '3';
+      '@classId'?: '7430';
+      '#text'?: 'Translation and interpretation activities';
+    }
+  | {
+      '@level'?: '2';
       '@classId'?: '749';
       '#text'?: 'Other professional, scientific and technical activities n.e.c.';
     }
   | {
       '@level'?: '3';
-      '@classId'?: '7490';
-      '#text'?: 'Other professional, scientific and technical activities n.e.c.';
+      '@classId'?: '7491';
+      '#text'?: 'Patent brokering and marketing service activities';
+    }
+  | {
+      '@level'?: '3';
+      '@classId'?: '7499';
+      '#text'?: 'All other professional, scientific and technical activities n.e.c.';
     }
   | { '@level'?: '1'; '@classId'?: '75'; '#text'?: 'Veterinary activities' }
   | { '@level'?: '2'; '@classId'?: '750'; '#text'?: 'Veterinary activities' }
   | { '@level'?: '3'; '@classId'?: '7500'; '#text'?: 'Veterinary activities' }
   | {
       '@level'?: '0';
-      '@classId'?: 'N';
+      '@classId'?: 'O';
       '#text'?: 'Administrative and support service activities';
     }
   | {
@@ -2575,42 +2776,37 @@ export type ProcessesCategory =
   | {
       '@level'?: '2';
       '@classId'?: '771';
-      '#text'?: 'Renting and leasing of motor vehicles';
+      '#text'?: 'Rental and leasing of motor vehicles';
     }
   | {
       '@level'?: '3';
       '@classId'?: '7710';
-      '#text'?: 'Renting and leasing of motor vehicles';
+      '#text'?: 'Rental and leasing of motor vehicles';
     }
   | {
       '@level'?: '2';
       '@classId'?: '772';
-      '#text'?: 'Renting and leasing of personal and household goods';
+      '#text'?: 'Rental and leasing of personal and household goods';
     }
   | {
       '@level'?: '3';
       '@classId'?: '7721';
-      '#text'?: 'Renting and leasing of recreational and sports goods';
-    }
-  | {
-      '@level'?: '3';
-      '@classId'?: '7722';
-      '#text'?: 'Renting of video tapes and disks';
+      '#text'?: 'Rental and leasing of recreational and sports goods';
     }
   | {
       '@level'?: '3';
       '@classId'?: '7729';
-      '#text'?: 'Renting and leasing of other personal and household goods';
+      '#text'?: 'Rental and leasing of other personal and household goods';
     }
   | {
       '@level'?: '2';
       '@classId'?: '773';
-      '#text'?: 'Renting and leasing of other machinery, equipment and tangible goods';
+      '#text'?: 'Rental and leasing of other machinery, equipment and tangible goods';
     }
   | {
       '@level'?: '3';
       '@classId'?: '7730';
-      '#text'?: 'Renting and leasing of other machinery, equipment and tangible goods';
+      '#text'?: 'Rental and leasing of other machinery, equipment and tangible goods';
     }
   | {
       '@level'?: '2';
@@ -2621,6 +2817,21 @@ export type ProcessesCategory =
       '@level'?: '3';
       '@classId'?: '7740';
       '#text'?: 'Leasing of intellectual property and similar products, except copyrighted works';
+    }
+  | {
+      '@level'?: '2';
+      '@classId'?: '775';
+      '#text'?: 'Intermediation service activities for rental and leasing of tangible goods and non-financial intangible assets';
+    }
+  | {
+      '@level'?: '3';
+      '@classId'?: '7751';
+      '#text'?: 'Intermediation service activities for rental and leasing of cars, motorhomes and trailers';
+    }
+  | {
+      '@level'?: '3';
+      '@classId'?: '7752';
+      '#text'?: 'Intermediation service activities for rental and leasing of other tangible goods and non-financial intangible assets';
     }
   | { '@level'?: '1'; '@classId'?: '78'; '#text'?: 'Employment activities' }
   | {
@@ -2636,27 +2847,17 @@ export type ProcessesCategory =
   | {
       '@level'?: '2';
       '@classId'?: '782';
-      '#text'?: 'Temporary employment agency activities';
+      '#text'?: 'Temporary employment agency activities and other human resource provisions';
     }
   | {
       '@level'?: '3';
       '@classId'?: '7820';
-      '#text'?: 'Temporary employment agency activities';
-    }
-  | {
-      '@level'?: '2';
-      '@classId'?: '783';
-      '#text'?: 'Other human resources provision';
-    }
-  | {
-      '@level'?: '3';
-      '@classId'?: '7830';
-      '#text'?: 'Other human resources provision';
+      '#text'?: 'Temporary employment agency activities and other human resource provisions';
     }
   | {
       '@level'?: '1';
       '@classId'?: '79';
-      '#text'?: 'Travel agency, tour operator, reservation service and related activities';
+      '#text'?: 'Travel agency, tour operator, and other travel related activities';
     }
   | {
       '@level'?: '2';
@@ -2676,43 +2877,32 @@ export type ProcessesCategory =
   | {
       '@level'?: '2';
       '@classId'?: '799';
-      '#text'?: 'Other reservation service and related activities';
+      '#text'?: 'Other travel related activities';
     }
   | {
       '@level'?: '3';
       '@classId'?: '7990';
-      '#text'?: 'Other reservation service and related activities';
+      '#text'?: 'Other travel related activities';
     }
   | {
       '@level'?: '1';
       '@classId'?: '80';
-      '#text'?: 'Security and investigation activities';
+      '#text'?: 'Investigation and security activities';
     }
   | {
       '@level'?: '2';
       '@classId'?: '801';
-      '#text'?: 'Private security activities';
+      '#text'?: 'Investigation and security activities';
     }
   | {
       '@level'?: '3';
-      '@classId'?: '8010';
-      '#text'?: 'Private security activities';
-    }
-  | {
-      '@level'?: '2';
-      '@classId'?: '802';
-      '#text'?: 'Security systems service activities';
+      '@classId'?: '8011';
+      '#text'?: 'Investigation and private security activities';
     }
   | {
       '@level'?: '3';
-      '@classId'?: '8020';
-      '#text'?: 'Security systems service activities';
-    }
-  | { '@level'?: '2'; '@classId'?: '803'; '#text'?: 'Investigation activities' }
-  | {
-      '@level'?: '3';
-      '@classId'?: '8030';
-      '#text'?: 'Investigation activities';
+      '@classId'?: '8019';
+      '#text'?: 'Security activities n.e.c.';
     }
   | {
       '@level'?: '1';
@@ -2738,17 +2928,17 @@ export type ProcessesCategory =
   | {
       '@level'?: '3';
       '@classId'?: '8129';
-      '#text'?: 'Other building and industrial cleaning activities';
+      '#text'?: 'Other cleaning activities';
     }
   | {
       '@level'?: '2';
       '@classId'?: '813';
-      '#text'?: 'Landscape care and maintenance service activities';
+      '#text'?: 'Landscape service activities';
     }
   | {
       '@level'?: '3';
       '@classId'?: '8130';
-      '#text'?: 'Landscape care and maintenance service activities';
+      '#text'?: 'Landscape service activities';
     }
   | {
       '@level'?: '1';
@@ -2762,13 +2952,8 @@ export type ProcessesCategory =
     }
   | {
       '@level'?: '3';
-      '@classId'?: '8211';
-      '#text'?: 'Combined office administrative service activities';
-    }
-  | {
-      '@level'?: '3';
-      '@classId'?: '8219';
-      '#text'?: 'Photocopying, document preparation and other specialized office support activities';
+      '@classId'?: '8210';
+      '#text'?: 'Office administrative and support activities';
     }
   | {
       '@level'?: '2';
@@ -2792,6 +2977,16 @@ export type ProcessesCategory =
     }
   | {
       '@level'?: '2';
+      '@classId'?: '824';
+      '#text'?: 'Intermediation service activities for business support activities n.e.c., except financial intermediation';
+    }
+  | {
+      '@level'?: '3';
+      '@classId'?: '8240';
+      '#text'?: 'Intermediation service activities for business support activities n.e.c., except financial intermediation';
+    }
+  | {
+      '@level'?: '2';
       '@classId'?: '829';
       '#text'?: 'Business support service activities n.e.c.';
     }
@@ -2808,7 +3003,7 @@ export type ProcessesCategory =
     }
   | {
       '@level'?: '0';
-      '@classId'?: 'O';
+      '@classId'?: 'P';
       '#text'?: 'Public administration and defence; compulsory social security';
     }
   | {
@@ -2819,7 +3014,7 @@ export type ProcessesCategory =
   | {
       '@level'?: '2';
       '@classId'?: '841';
-      '#text'?: 'Administration of the State and the economic and social policy of the community';
+      '#text'?: 'Administration of the State and the economic, social and environmental policies of the community';
     }
   | {
       '@level'?: '3';
@@ -2829,11 +3024,16 @@ export type ProcessesCategory =
   | {
       '@level'?: '3';
       '@classId'?: '8412';
-      '#text'?: 'Regulation of the activities of providing health care, education, cultural services and other social services, excluding social security';
+      '#text'?: 'Regulation of the activities of providing health care, education, cultural services and other social services, excluding social security and environment';
     }
   | {
       '@level'?: '3';
       '@classId'?: '8413';
+      '#text'?: 'Regulation of the activities of providing environmental services';
+    }
+  | {
+      '@level'?: '3';
+      '@classId'?: '8414';
       '#text'?: 'Regulation of and contribution to more efficient operation of businesses';
     }
   | {
@@ -2858,52 +3058,65 @@ export type ProcessesCategory =
       '@classId'?: '8430';
       '#text'?: 'Compulsory social security activities';
     }
-  | { '@level'?: '0'; '@classId'?: 'P'; '#text'?: 'Education' }
+  | { '@level'?: '0'; '@classId'?: 'Q'; '#text'?: 'Education' }
   | { '@level'?: '1'; '@classId'?: '85'; '#text'?: 'Education' }
+  | { '@level'?: '2'; '@classId'?: '851'; '#text'?: 'Pre-primary education' }
+  | { '@level'?: '3'; '@classId'?: '8510'; '#text'?: 'Pre-primary education' }
+  | { '@level'?: '2'; '@classId'?: '852'; '#text'?: 'Primary education' }
+  | { '@level'?: '3'; '@classId'?: '8520'; '#text'?: 'Primary education' }
   | {
       '@level'?: '2';
-      '@classId'?: '851';
-      '#text'?: 'Pre-primary and primary education';
+      '@classId'?: '853';
+      '#text'?: 'Secondary and post-secondary non-tertiary education';
     }
   | {
       '@level'?: '3';
-      '@classId'?: '8510';
-      '#text'?: 'Pre-primary and primary education';
-    }
-  | { '@level'?: '2'; '@classId'?: '852'; '#text'?: 'Secondary education' }
-  | {
-      '@level'?: '3';
-      '@classId'?: '8521';
+      '@classId'?: '8531';
       '#text'?: 'General secondary education';
     }
   | {
       '@level'?: '3';
-      '@classId'?: '8522';
-      '#text'?: 'Technical and vocational secondary education';
+      '@classId'?: '8532';
+      '#text'?: 'Vocational secondary education';
     }
-  | { '@level'?: '2'; '@classId'?: '853'; '#text'?: 'Higher education' }
-  | { '@level'?: '3'; '@classId'?: '8530'; '#text'?: 'Higher education' }
-  | { '@level'?: '2'; '@classId'?: '854'; '#text'?: 'Other education' }
   | {
       '@level'?: '3';
-      '@classId'?: '8541';
+      '@classId'?: '8533';
+      '#text'?: 'Post-secondary non-tertiary education';
+    }
+  | { '@level'?: '2'; '@classId'?: '854'; '#text'?: 'Tertiary education' }
+  | { '@level'?: '3'; '@classId'?: '8540'; '#text'?: 'Tertiary education' }
+  | { '@level'?: '2'; '@classId'?: '855'; '#text'?: 'Other education' }
+  | {
+      '@level'?: '3';
+      '@classId'?: '8551';
       '#text'?: 'Sports and recreation education';
     }
-  | { '@level'?: '3'; '@classId'?: '8542'; '#text'?: 'Cultural education' }
-  | { '@level'?: '3'; '@classId'?: '8549'; '#text'?: 'Other education n.e.c.' }
+  | { '@level'?: '3'; '@classId'?: '8552'; '#text'?: 'Cultural education' }
+  | {
+      '@level'?: '3';
+      '@classId'?: '8553';
+      '#text'?: 'Driving school activities';
+    }
+  | { '@level'?: '3'; '@classId'?: '8559'; '#text'?: 'Other education n.e.c.' }
   | {
       '@level'?: '2';
-      '@classId'?: '855';
+      '@classId'?: '856';
       '#text'?: 'Educational support activities';
     }
   | {
       '@level'?: '3';
-      '@classId'?: '8550';
-      '#text'?: 'Educational support activities';
+      '@classId'?: '8561';
+      '#text'?: 'Intermediation service activities for courses and tutors';
+    }
+  | {
+      '@level'?: '3';
+      '@classId'?: '8569';
+      '#text'?: 'Other educational support activities';
     }
   | {
       '@level'?: '0';
-      '@classId'?: 'Q';
+      '@classId'?: 'R';
       '#text'?: 'Human health and social work activities';
     }
   | { '@level'?: '1'; '@classId'?: '86'; '#text'?: 'Human health activities' }
@@ -2926,8 +3139,13 @@ export type ProcessesCategory =
     }
   | {
       '@level'?: '3';
-      '@classId'?: '8690';
-      '#text'?: 'Other human health activities';
+      '@classId'?: '8691';
+      '#text'?: 'Intermediation service activities for medical, dental, and other human health services';
+    }
+  | {
+      '@level'?: '3';
+      '@classId'?: '8699';
+      '#text'?: 'Other human health activities n.e.c';
     }
   | {
       '@level'?: '1';
@@ -2937,32 +3155,32 @@ export type ProcessesCategory =
   | {
       '@level'?: '2';
       '@classId'?: '871';
-      '#text'?: 'Residential nursing care facilities';
+      '#text'?: 'Residential nursing care activities';
     }
   | {
       '@level'?: '3';
       '@classId'?: '8710';
-      '#text'?: 'Residential nursing care facilities';
+      '#text'?: 'Residential nursing care activities';
     }
   | {
       '@level'?: '2';
       '@classId'?: '872';
-      '#text'?: 'Residential care activities for mental retardation, mental health and substance abuse';
+      '#text'?: 'Residential care activities for persons living with or having a diagnosis of a mental illness or substance abuse';
     }
   | {
       '@level'?: '3';
       '@classId'?: '8720';
-      '#text'?: 'Residential care activities for mental retardation, mental health and substance abuse';
+      '#text'?: 'Residential care activities for persons living with or having a diagnosis of a mental illness or substance abuse';
     }
   | {
       '@level'?: '2';
       '@classId'?: '873';
-      '#text'?: 'Residential care activities for the elderly and disabled';
+      '#text'?: 'Residential care activities for older persons or persons with physical disabilities';
     }
   | {
       '@level'?: '3';
       '@classId'?: '8730';
-      '#text'?: 'Residential care activities for the elderly and disabled';
+      '#text'?: 'Residential care activities for older persons or persons with physical disabilities';
     }
   | {
       '@level'?: '2';
@@ -2971,8 +3189,13 @@ export type ProcessesCategory =
     }
   | {
       '@level'?: '3';
-      '@classId'?: '8790';
-      '#text'?: 'Other residential care activities';
+      '@classId'?: '8791';
+      '#text'?: 'Intermediation service activities for residential care activities';
+    }
+  | {
+      '@level'?: '3';
+      '@classId'?: '8799';
+      '#text'?: 'Other residential care activities n.e.c.';
     }
   | {
       '@level'?: '1';
@@ -2982,12 +3205,12 @@ export type ProcessesCategory =
   | {
       '@level'?: '2';
       '@classId'?: '881';
-      '#text'?: 'Social work activities without accommodation for the elderly and disabled';
+      '#text'?: 'Social work activities without accommodation for older persons or persons with disabilities';
     }
   | {
       '@level'?: '3';
       '@classId'?: '8810';
-      '#text'?: 'Social work activities without accommodation for the elderly and disabled';
+      '#text'?: 'Social work activities without accommodation for older persons or persons with disabilities';
     }
   | {
       '@level'?: '2';
@@ -3001,48 +3224,106 @@ export type ProcessesCategory =
     }
   | {
       '@level'?: '0';
-      '@classId'?: 'R';
-      '#text'?: 'Arts, entertainment and recreation';
+      '@classId'?: 'S';
+      '#text'?: 'Arts, sports and recreation';
     }
   | {
       '@level'?: '1';
       '@classId'?: '90';
-      '#text'?: 'Creative, arts and entertainment activities';
+      '#text'?: 'Arts creation and performing arts activities';
     }
+  | { '@level'?: '2'; '@classId'?: '901'; '#text'?: 'Arts creation activities' }
   | {
-      '@level'?: '2';
-      '@classId'?: '900';
-      '#text'?: 'Creative, arts and entertainment activities';
+      '@level'?: '3';
+      '@classId'?: '9011';
+      '#text'?: 'Literary creation and musical composition activities';
     }
   | {
       '@level'?: '3';
-      '@classId'?: '9000';
-      '#text'?: 'Creative, arts and entertainment activities';
+      '@classId'?: '9012';
+      '#text'?: 'Visual arts creation activities';
+    }
+  | {
+      '@level'?: '3';
+      '@classId'?: '9013';
+      '#text'?: 'Other arts creation activities';
+    }
+  | {
+      '@level'?: '2';
+      '@classId'?: '902';
+      '#text'?: 'Activities of performing arts';
+    }
+  | {
+      '@level'?: '3';
+      '@classId'?: '9020';
+      '#text'?: 'Activities of performing arts';
+    }
+  | {
+      '@level'?: '2';
+      '@classId'?: '903';
+      '#text'?: 'Support activities to arts creation and performing arts';
+    }
+  | {
+      '@level'?: '3';
+      '@classId'?: '9031';
+      '#text'?: 'Operation of arts facilities and sites';
+    }
+  | {
+      '@level'?: '3';
+      '@classId'?: '9039';
+      '#text'?: 'Other support activities to arts creation and performing arts';
     }
   | {
       '@level'?: '1';
       '@classId'?: '91';
-      '#text'?: 'Libraries, archives, museums and other cultural activities';
+      '#text'?: 'Library, archives, museum and other cultural activities';
     }
   | {
       '@level'?: '2';
-      '@classId'?: '910';
-      '#text'?: 'Libraries, archives, museums and other cultural activities';
+      '@classId'?: '911';
+      '#text'?: 'Library and archive activities';
+    }
+  | { '@level'?: '3'; '@classId'?: '9111'; '#text'?: 'Library activities' }
+  | { '@level'?: '3'; '@classId'?: '9112'; '#text'?: 'Archive activities' }
+  | {
+      '@level'?: '2';
+      '@classId'?: '912';
+      '#text'?: 'Museum, collection, historical site and monument activities';
     }
   | {
       '@level'?: '3';
-      '@classId'?: '9101';
-      '#text'?: 'Library and archives activities';
+      '@classId'?: '9121';
+      '#text'?: 'Museum and collection activities';
     }
   | {
       '@level'?: '3';
-      '@classId'?: '9102';
-      '#text'?: 'Museums activities and operation of historical sites and buildings';
+      '@classId'?: '9122';
+      '#text'?: 'Historical site and monument activities';
+    }
+  | {
+      '@level'?: '2';
+      '@classId'?: '913';
+      '#text'?: 'Conservation, restoration and other support activities for cultural heritage';
     }
   | {
       '@level'?: '3';
-      '@classId'?: '9103';
-      '#text'?: 'Botanical and zoological gardens and nature reserves activities';
+      '@classId'?: '9130';
+      '#text'?: 'Conservation, restoration and other support activities for cultural heritage';
+    }
+  | {
+      '@level'?: '2';
+      '@classId'?: '914';
+      '#text'?: 'Botanical and zoological garden and nature reserve activities';
+    }
+  | {
+      '@level'?: '3';
+      '@classId'?: '9141';
+      '#text'?: 'Botanical and zoological garden activities';
+    }
+  | {
+      '@level'?: '3';
+      '@classId'?: '9142';
+      '#text'?: 'Nature reserve activities';
     }
   | {
       '@level'?: '1';
@@ -3079,7 +3360,7 @@ export type ProcessesCategory =
   | {
       '@level'?: '2';
       '@classId'?: '932';
-      '#text'?: 'Other amusement and recreation activities';
+      '#text'?: 'Amusement and recreation activities';
     }
   | {
       '@level'?: '3';
@@ -3089,9 +3370,9 @@ export type ProcessesCategory =
   | {
       '@level'?: '3';
       '@classId'?: '9329';
-      '#text'?: 'Other amusement and recreation activities n.e.c.';
+      '#text'?: 'Other amusement and recreation activities';
     }
-  | { '@level'?: '0'; '@classId'?: 'S'; '#text'?: 'Other service activities' }
+  | { '@level'?: '0'; '@classId'?: 'T'; '#text'?: 'Other service activities' }
   | {
       '@level'?: '1';
       '@classId'?: '94';
@@ -3145,86 +3426,141 @@ export type ProcessesCategory =
   | {
       '@level'?: '1';
       '@classId'?: '95';
-      '#text'?: 'Repair of computers and personal and household goods';
+      '#text'?: 'Repair and maintenance of computers, personal and household goods, and motor vehicles and motorcycles';
     }
   | {
       '@level'?: '2';
       '@classId'?: '951';
-      '#text'?: 'Repair of computers and communication equipment';
+      '#text'?: 'Repair and maintenance of computers and communication equipment';
     }
   | {
       '@level'?: '3';
-      '@classId'?: '9511';
-      '#text'?: 'Repair of computers and peripheral equipment';
-    }
-  | {
-      '@level'?: '3';
-      '@classId'?: '9512';
-      '#text'?: 'Repair of communication equipment';
+      '@classId'?: '9510';
+      '#text'?: 'Repair and maintenance of computers and communication equipment';
     }
   | {
       '@level'?: '2';
       '@classId'?: '952';
-      '#text'?: 'Repair of personal and household goods';
+      '#text'?: 'Repair and maintenance of personal and household goods';
     }
   | {
       '@level'?: '3';
       '@classId'?: '9521';
-      '#text'?: 'Repair of consumer electronics';
+      '#text'?: 'Repair and maintenance of consumer electronics';
     }
   | {
       '@level'?: '3';
       '@classId'?: '9522';
-      '#text'?: 'Repair of household appliances and home and garden equipment';
+      '#text'?: 'Repair and maintenance of household appliances and home and garden equipment';
     }
   | {
       '@level'?: '3';
       '@classId'?: '9523';
-      '#text'?: 'Repair of footwear and leather goods';
+      '#text'?: 'Repair and maintenance of footwear and leather goods';
     }
   | {
       '@level'?: '3';
       '@classId'?: '9524';
-      '#text'?: 'Repair of furniture and home furnishings';
+      '#text'?: 'Repair and maintenance of furniture and home furnishings';
     }
   | {
       '@level'?: '3';
       '@classId'?: '9529';
-      '#text'?: 'Repair of other personal and household goods';
+      '#text'?: 'Repair and maintenance of other personal and household goods';
+    }
+  | {
+      '@level'?: '2';
+      '@classId'?: '953';
+      '#text'?: 'Repair and maintenance of motor vehicles and motorcycles';
+    }
+  | {
+      '@level'?: '3';
+      '@classId'?: '9531';
+      '#text'?: 'Repair and maintenance of motor vehicles';
+    }
+  | {
+      '@level'?: '3';
+      '@classId'?: '9532';
+      '#text'?: 'Repair and maintenance of motorcycles';
+    }
+  | {
+      '@level'?: '2';
+      '@classId'?: '954';
+      '#text'?: 'Intermediation service activities for repair and maintenance of computers, personal and household goods, and motor vehicles and motorcycles';
+    }
+  | {
+      '@level'?: '3';
+      '@classId'?: '9540';
+      '#text'?: 'Intermediation service activities for repair and maintenance of computers, personal and household goods, and motor vehicles and motorcycles';
     }
   | {
       '@level'?: '1';
       '@classId'?: '96';
-      '#text'?: 'Other personal service activities';
+      '#text'?: 'Personal service activities';
     }
   | {
       '@level'?: '2';
-      '@classId'?: '960';
-      '#text'?: 'Other personal service activities';
+      '@classId'?: '961';
+      '#text'?: 'Washing and cleaning of textile and fur products';
     }
   | {
       '@level'?: '3';
-      '@classId'?: '9601';
-      '#text'?: 'Washing and (dry-) cleaning of textile and fur products';
+      '@classId'?: '9610';
+      '#text'?: 'Washing and cleaning of textile and fur products';
+    }
+  | {
+      '@level'?: '2';
+      '@classId'?: '962';
+      '#text'?: 'Hairdressing, beauty treatment, day spa and similar activities';
     }
   | {
       '@level'?: '3';
-      '@classId'?: '9602';
-      '#text'?: 'Hairdressing and other beauty treatment';
+      '@classId'?: '9621';
+      '#text'?: 'Hairdressing and barber activities';
     }
   | {
       '@level'?: '3';
-      '@classId'?: '9603';
+      '@classId'?: '9622';
+      '#text'?: 'Beauty care and other beauty treatment activities';
+    }
+  | {
+      '@level'?: '3';
+      '@classId'?: '9623';
+      '#text'?: 'Day spa, sauna and steam bath activities';
+    }
+  | {
+      '@level'?: '2';
+      '@classId'?: '963';
       '#text'?: 'Funeral and related activities';
     }
   | {
       '@level'?: '3';
-      '@classId'?: '9609';
+      '@classId'?: '9630';
+      '#text'?: 'Funeral and related activities';
+    }
+  | {
+      '@level'?: '2';
+      '@classId'?: '964';
+      '#text'?: 'Intermediation service activities for personal services';
+    }
+  | {
+      '@level'?: '3';
+      '@classId'?: '9640';
+      '#text'?: 'Intermediation service activities for personal services';
+    }
+  | {
+      '@level'?: '2';
+      '@classId'?: '969';
+      '#text'?: 'Other personal service activities n.e.c.';
+    }
+  | {
+      '@level'?: '3';
+      '@classId'?: '9690';
       '#text'?: 'Other personal service activities n.e.c.';
     }
   | {
       '@level'?: '0';
-      '@classId'?: 'T';
+      '@classId'?: 'U';
       '#text'?: 'Activities of households as employers; undifferentiated goods- and services-producing activities of households for own use';
     }
   | {
@@ -3269,7 +3605,7 @@ export type ProcessesCategory =
     }
   | {
       '@level'?: '0';
-      '@classId'?: 'U';
+      '@classId'?: 'V';
       '#text'?: 'Activities of extraterritorial organizations and bodies';
     }
   | {

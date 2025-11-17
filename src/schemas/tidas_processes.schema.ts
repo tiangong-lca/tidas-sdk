@@ -673,22 +673,44 @@ export const ProcessesSchema = z.object({
     LCIAResults: z
       .object({
         LCIAResult: z
-          .object({
-            referenceToLCIAMethodDataSet: GlobalReferenceTypeSchema.optional(),
-            meanAmount: RealSchema,
-            uncertaintyDistributionType: z
-              .union([
-                z.literal('undefined'),
-                z.literal('log-normal'),
-                z.literal('normal'),
-                z.literal('triangular'),
-                z.literal('uniform'),
-              ])
-              .optional(),
-            relativeStandardDeviation95In: PercSchema.optional(),
-            generalComment: StringMultiLangSchema.optional(),
-            'common:other': z.string().optional(),
-          })
+          .union([
+            z.object({
+              referenceToLCIAMethodDataSet:
+                GlobalReferenceTypeSchema.optional(),
+              meanAmount: RealSchema,
+              uncertaintyDistributionType: z
+                .union([
+                  z.literal('undefined'),
+                  z.literal('log-normal'),
+                  z.literal('normal'),
+                  z.literal('triangular'),
+                  z.literal('uniform'),
+                ])
+                .optional(),
+              relativeStandardDeviation95In: PercSchema.optional(),
+              generalComment: StringMultiLangSchema.optional(),
+              'common:other': z.string().optional(),
+            }),
+            z.array(
+              z.object({
+                referenceToLCIAMethodDataSet:
+                  GlobalReferenceTypeSchema.optional(),
+                meanAmount: RealSchema,
+                uncertaintyDistributionType: z
+                  .union([
+                    z.literal('undefined'),
+                    z.literal('log-normal'),
+                    z.literal('normal'),
+                    z.literal('triangular'),
+                    z.literal('uniform'),
+                  ])
+                  .optional(),
+                relativeStandardDeviation95In: PercSchema.optional(),
+                generalComment: StringMultiLangSchema.optional(),
+                'common:other': z.string().optional(),
+              })
+            ),
+          ])
           .optional(),
         'common:other': z.string().optional(),
       })
