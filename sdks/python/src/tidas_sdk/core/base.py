@@ -7,12 +7,12 @@ from collections.abc import Mapping, MutableSequence
 from copy import deepcopy
 import json
 from pathlib import Path
-from typing import Any, ClassVar, Generic, Literal, TypeVar, cast, get_args, get_origin
+from typing import Any, ClassVar, Generic, Literal, Sequence, TypeVar, cast, get_args, get_origin
 
 from jsonschema import Draft202012Validator, ValidationError as JsonSchemaValidationError
 from pydantic import BaseModel, ConfigDict, ValidationError as PydanticValidationError
 
-from .multilang import deep_wrap_multilang
+from .multilang import MultiLangList, deep_wrap_multilang
 from tidas_sdk.schemas import load_schema, schema_exists
 
 
@@ -144,7 +144,8 @@ class TidasEntity(Generic[ModelT]):
 
     def _validate_with_pydantic(self, data: Mapping[str, Any]) -> bool:
         try:
-            self._model_cls.model_validate(data)
+            payload = self._payload_for_validation()
+            self._model_cls.model_validate(payload)
         except PydanticValidationError as exc:
             object.__setattr__(self, "_last_pydantic_error", exc)
             return False
@@ -312,3 +313,38 @@ class TidasEntity(Generic[ModelT]):
             return False
         inner = args[0]
         return isinstance(inner, type) and issubclass(inner, TidasBaseModel)
+
+    # -- validation helpers -------------------------------------------------------------
+
+    def _payload_for_validation(self) -> dict[str, Any]:
+        return self._collect_runtime_payload(self._model)
+
+    def _collect_runtime_payload(self, model: TidasBaseModel) -> dict[str, Any]:
+        payload: dict[str, Any] = {}
+        fields = model.model_fields
+        for field_name, field in fields.items():
+            alias = field.alias or field_name
+            try:
+                value = getattr(model, field_name)
+            except AttributeError:
+                continue
+            payload[alias] = self._normalize_runtime_value(value)
+        return payload
+
+    def _normalize_runtime_value(self, value: Any) -> Any:
+        if isinstance(value, MultiLangList):
+            return value
+        if isinstance(value, TidasBaseModel):
+            return self._collect_runtime_payload(value)
+        if isinstance(value, Sequence) and not isinstance(value, (str, bytes, bytearray)):
+            items: list[Any] = []
+            for item in value:
+                if isinstance(item, MultiLangList):
+                    items.append(item)
+                    continue
+                if isinstance(item, TidasBaseModel):
+                    items.append(self._collect_runtime_payload(item))
+                else:
+                    items.append(item)
+            return items
+        return value

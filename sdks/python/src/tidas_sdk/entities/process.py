@@ -11,10 +11,19 @@ from ..generated.tidas_processes import (
     ProcessDataSetAdministrativeInformationDataEntryBy,
     ProcessDataSetAdministrativeInformationPublicationAndOwnership,
     ProcessDataSetProcessInformationDataSetInformation,
+    ProcessDataSetProcessInformationGeography,
+    ProcessDataSetProcessInformationMathematicalRelations,
+    ProcessDataSetProcessInformationQuantitativeReference,
+    ProcessDataSetProcessInformationTechnology,
+    ProcessDataSetProcessInformationTime,
+    DataSetInformationClassificationInformationCommonClassification,
+    ProcessInformationDataSetInformationClassificationInformation,
+    ProcessInformationDataSetInformationName,
     Processes,
     ProcessesProcessDataSet,
     ProcessesProcessDataSetAdministrativeInformation,
     ProcessesProcessDataSetProcessInformation,
+    ProcessesProcessDataSetModellingAndValidation,
 )
 from .utils import default_timestamp, ensure_model, ensure_multilang
 
@@ -32,50 +41,59 @@ class TidasProcess(TidasEntity[Processes]):
 
     def ensure_defaults(self) -> None:
         dataset = ensure_model(self, "process_data_set", ProcessesProcessDataSet)
-        dataset.xmlns = dataset.xmlns or "http://lca.jrc.it/ILCD/Process"
-        dataset.xmlns_common = dataset.xmlns_common or "http://lca.jrc.it/ILCD/Common"
-        dataset.xmlns_xsi = dataset.xmlns_xsi or "http://www.w3.org/2001/XMLSchema-instance"
-        dataset.version = dataset.version or "1.1"
-        dataset.locations = dataset.locations or "../ILCDLocations.xml"
-        dataset.xsi_schema_location = (
-            dataset.xsi_schema_location
-            or "http://lca.jrc.it/ILCD/Process ../../schemas/ILCD_ProcessDataSet.xsd"
-        )
+        if not getattr(dataset, "xmlns", None):
+            dataset.xmlns = "http://lca.jrc.it/ILCD/Process"
+        if not getattr(dataset, "xmlns_common", None):
+            dataset.xmlns_common = "http://lca.jrc.it/ILCD/Common"
+        if not getattr(dataset, "xmlns_xsi", None):
+            dataset.xmlns_xsi = "http://www.w3.org/2001/XMLSchema-instance"
+        if not getattr(dataset, "version", None):
+            dataset.version = "1.1"
+        if not getattr(dataset, "locations", None):
+            dataset.locations = "../ILCDLocations.xml"
+        if not getattr(dataset, "xsi_schema_location", None):
+            dataset.xsi_schema_location = "http://lca.jrc.it/ILCD/Process ../../schemas/ILCD_ProcessDataSet.xsd"
 
-        process_info = ensure_model(
-            dataset,
-            "process_information",
-            ProcessesProcessDataSetProcessInformation,
-        )
+        process_info = ensure_model(dataset, "process_information", ProcessesProcessDataSetProcessInformation)
         data_info = ensure_model(
-            process_info,
-            "data_set_information",
-            ProcessDataSetProcessInformationDataSetInformation,
+            process_info, "data_set_information", ProcessDataSetProcessInformationDataSetInformation
         )
-        if not data_info.common_uuid:
+        if not getattr(data_info, "common_uuid", None):
             data_info.common_uuid = str(uuid4())
-        for field_name in (
-            "common_name",
-            "common_short_name",
-            "common_synonyms",
-            "common_general_comment",
-        ):
+        ensure_model(data_info, "name", ProcessInformationDataSetInformationName)
+        ensure_model(
+            data_info,
+            "classification_information",
+            ProcessInformationDataSetInformationClassificationInformation,
+        )
+        classification_info = getattr(data_info, "classification_information", None)
+        if classification_info is not None:
+            ensure_model(
+                classification_info,
+                "common_classification",
+                DataSetInformationClassificationInformationCommonClassification,
+            )
+        for field_name in ("common_synonyms", "common_general_comment"):
             ensure_multilang(data_info, field_name)
 
-        admin = ensure_model(
-            dataset,
-            "administrative_information",
-            ProcessesProcessDataSetAdministrativeInformation,
-        )
-        data_entry = ensure_model(
-            admin,
-            "data_entry_by",
-            ProcessDataSetAdministrativeInformationDataEntryBy,
-        )
-        if not data_entry.common_time_stamp:
-            data_entry.common_time_stamp = default_timestamp()
         ensure_model(
-            admin,
-            "publication_and_ownership",
-            ProcessDataSetAdministrativeInformationPublicationAndOwnership,
+            process_info,
+            "quantitative_reference",
+            ProcessDataSetProcessInformationQuantitativeReference,
         )
+        ensure_model(process_info, "time", ProcessDataSetProcessInformationTime)
+        ensure_model(process_info, "geography", ProcessDataSetProcessInformationGeography)
+        ensure_model(process_info, "technology", ProcessDataSetProcessInformationTechnology)
+        ensure_model(
+            process_info,
+            "mathematical_relations",
+            ProcessDataSetProcessInformationMathematicalRelations,
+        )
+
+        admin = ensure_model(dataset, "administrative_information", ProcessesProcessDataSetAdministrativeInformation)
+        data_entry = ensure_model(admin, "data_entry_by", ProcessDataSetAdministrativeInformationDataEntryBy)
+        if not getattr(data_entry, "common_time_stamp", None):
+            data_entry.common_time_stamp = default_timestamp()
+        ensure_model(admin, "publication_and_ownership", ProcessDataSetAdministrativeInformationPublicationAndOwnership)
+
+        ensure_model(dataset, "modelling_and_validation", ProcessesProcessDataSetModellingAndValidation)

@@ -1,4 +1,3 @@
-from multiprocessing import process
 from tidas_sdk import create_process, TidasProcess
 
 
@@ -13,7 +12,14 @@ def creat_object_from_json():
             "processInformation": {
                 "dataSetInformation": {
                     "common:UUID": "123e4567-e89b-12d3-a456-426614174000",
-                    "common:name": [{"@xml:lang": "en", "#text": "Sample Process"}],
+                    "name": {
+                        "baseName": [
+                            {"@xml:lang": "en", "#text": "Sample Process"},
+                        ],
+                        "mixAndLocationTypes": [
+                            {"@xml:lang": "en", "#text": "Production mix"},
+                        ],
+                    },
                 },
                 "description": [
                     {"@xml:lang": "en", "#text": "This is a sample process."}
@@ -36,10 +42,14 @@ def convert_object_to_json():
     对象内部维护一个符合ILCD JSON格式的嵌套字典结构, 可以通过to_json()方法导出为JSON数据.
     """
 
-    data = {...}  # 示例JSON数据, 可以是不完整的
-    process: TidasProcess = create_process(data)
+    process: TidasProcess = create_process({})
+    name_list = (
+        process.process_data_set.process_information.data_set_information.name.base_name
+    )
+    name_list.set_text("Updated Process Name", lang="en")
     json_data = process.to_json()
     print("✓ Converted Process entity to JSON data")
+    print(json_data)
 
     pass
 
@@ -52,14 +62,12 @@ def properties_access():
     对于多语言字段, 也提供set_text(text: str, lang: str)和get_text(lang: str)方法进行操作.
     """
     process: TidasProcess = create_process({})
-    process.process_data_set.process_information.data_set_information.common_name = [
-        {"@xml:lang": "en", "#text": "Updated Process Name"}
-    ]
-    process.process_data_set.process_information.data_set_information.common_name.set_text(
-        "中文名称", lang="zh"
+    name_list = (
+        process.process_data_set.process_information.data_set_information.name.base_name
     )
-
-    pass
+    name_list.set_text("Updated Process Name", lang="en")
+    name_list.set_text("中文名称", lang="zh")
+    print("✓ Updated localized names:", name_list.to_plain_list())
 
 
 def type_hinting_and_autocompletion():
@@ -86,6 +94,10 @@ def validation_on_demand():
         print("✓ Process entity is valid")
     else:
         print("✗ Process entity is invalid")
+        error = process.last_validation_error()
+        if error:
+            first_issue = error.errors()[0]
+            print("  首个校验错误:", first_issue["loc"], "-", first_issue["msg"])
 
     pass
 
@@ -101,3 +113,11 @@ def convert_to_xml():
     print("✓ Converted Process entity to XML format")
 
     pass
+
+if __name__ == "__main__":
+    creat_object_from_json()
+    convert_object_to_json()
+    properties_access()
+    type_hinting_and_autocompletion()
+    validation_on_demand()
+    convert_to_xml()
