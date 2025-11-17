@@ -12,6 +12,7 @@ from __future__ import annotations
 import argparse
 import json
 import keyword
+import shutil
 import sys
 from dataclasses import dataclass, field
 from pathlib import Path
@@ -60,9 +61,11 @@ class SchemaGenerator:
     def __init__(self, config: GeneratorConfig) -> None:
         self.config = config
         self.generated_index: list[tuple[str, list[str]]] = []
+        self.schema_cache_dir = self.config.output_dir.parent / "schemas"
 
     def run(self) -> None:
         self.config.output_dir.mkdir(parents=True, exist_ok=True)
+        self.schema_cache_dir.mkdir(parents=True, exist_ok=True)
         for schema_path in sorted(self._iter_schema_files()):
             module_name = schema_path.stem
             artifact = self._build_artifact(schema_path, module_name)
@@ -75,6 +78,7 @@ class SchemaGenerator:
             print(f"✓ Generated {target_path.relative_to(self.config.output_dir.parent)}")
             for warning in artifact.warnings:
                 print(f"  ⚠ {warning}")
+            self._copy_schema(schema_path)
 
         self._write_package_init()
 
@@ -174,6 +178,14 @@ class SchemaGenerator:
 
         target = self.config.output_dir / "__init__.py"
         target.write_text("\n".join(lines), encoding="utf-8")
+
+    def _copy_schema(self, schema_path: Path) -> None:
+        destination = self.schema_cache_dir / schema_path.name
+        try:
+            shutil.copy2(schema_path, destination)
+        except FileNotFoundError:
+            # schema may not exist if submodule not initialized
+            pass
 
 
 class SchemaConverter:

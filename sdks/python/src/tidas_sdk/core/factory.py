@@ -3,12 +3,17 @@ Factory helpers for constructing TIDAS entities.
 """
 from __future__ import annotations
 
-from typing import Any, Mapping
+import json
+from pathlib import Path
+from typing import Any, Iterable, Mapping
 
+from .base import ValidationMode
 from ..entities.process import TidasProcess
 
 __all__ = [
     "create_process",
+    "create_process_from_json",
+    "create_processes_batch",
     "create_flow",
     "create_contact",
     "create_source",
@@ -30,12 +35,47 @@ __all__ = [
 def create_process(
     data: Mapping[str, Any] | None = None,
     *,
-    validate_on_init: bool = False,
+    validate: bool = False,
+    validation_mode: ValidationMode = "pydantic",
 ) -> TidasProcess:
     """
     Create a Process entity from a partial JSON payload.
     """
-    return TidasProcess(dict(data) if data is not None else None, validate_on_init=validate_on_init)
+    entity = TidasProcess(
+        dict(data) if data is not None else None,
+        validate_on_init=validate and validation_mode == "pydantic",
+    )
+    if validate:
+        entity.validate(mode=validation_mode)
+    return entity
+
+
+def create_process_from_json(
+    json_data: str | bytes | Path,
+    *,
+    validate: bool = False,
+    validation_mode: ValidationMode = "pydantic",
+) -> TidasProcess:
+    """
+    Create a Process entity from JSON string/bytes/path input.
+    """
+    payload = _parse_json_payload(json_data)
+    return create_process(payload, validate=validate, validation_mode=validation_mode)
+
+
+def create_processes_batch(
+    data_array: Iterable[Mapping[str, Any]],
+    *,
+    validate: bool = False,
+    validation_mode: ValidationMode = "pydantic",
+) -> list[TidasProcess]:
+    """
+    Batch create Process entities.
+    """
+    return [
+        create_process(data, validate=validate, validation_mode=validation_mode)
+        for data in data_array
+    ]
 
 
 # Placeholder factories for the remaining entity types. These will be fleshed out as the
@@ -73,3 +113,13 @@ TidasFlowProperty = _PlaceholderEntity
 TidasUnitGroup = _PlaceholderEntity
 TidasLCIAMethod = _PlaceholderEntity
 TidasLifeCycleModel = _PlaceholderEntity
+
+
+def _parse_json_payload(json_data: str | bytes | Path) -> Mapping[str, Any]:
+    if isinstance(json_data, Path):
+        content = json_data.read_text(encoding="utf-8")
+    elif isinstance(json_data, bytes):
+        content = json_data.decode("utf-8")
+    else:
+        content = json_data
+    return json.loads(content)

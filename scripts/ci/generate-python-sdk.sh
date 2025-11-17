@@ -65,6 +65,17 @@ generate_models() {
         --output "$OUTPUT_DIR"
 }
 
+verify_generation() {
+    step "Running basic verification..."
+    python3 -m compileall "$PYTHON_SDK_ROOT/src/tidas_sdk" >/dev/null
+    python3 - <<'PY'
+from tidas_sdk import create_process
+
+entity = create_process({})
+entity.to_json()
+PY
+}
+
 summarize() {
     step "Generation summary"
     local file_count
@@ -92,6 +103,7 @@ main() {
     validate_inputs
     check_dependencies
     generate_models
+    verify_generation
     summarize
     log "Done."
 }

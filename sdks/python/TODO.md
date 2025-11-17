@@ -11,6 +11,9 @@
 - [x] 自研生成器骨架 `sdks/python/scripts/generate_sdk.py`
 - [x] 生成器增强：解析 `$defs`/`$ref`、内联对象建模、枚举/Union 映射、MultiLang 自动识别
 - [x] CI 入口脚本 `scripts/ci/generate-python-sdk.sh`
+- [x] JSON Schema 校验：`TidasEntity.validate(mode=...)` 支持 Pydantic/JSON Schema 双模式
+- [x] XML 序列化：`dataset_to_xml` 递归处理属性/文本/多语言列表
+- [x] 工厂函数增强：Process 支持 `from_json`、批量创建、可配置验证模式
 
 ## 待完成
 
@@ -21,23 +24,20 @@
 2. **类型映射策略（进阶）**
    - 为格式化字段（`date-time`、`uri` 等）挑选更合适的 Python 类型或 `Annotated`
    - 针对多层 Union/枚举场景实现 Literal/Enum 复用与去重
-3. **JSON Schema 校验**
-   - 将 `tidas-tools` 中原始 schema 缓存到 `tidas_sdk/schemas/`
-   - 提供 `TidasEntity.validate(mode="jsonschema")`，使用 `jsonschema` 库报告详细错误
-4. **XML 序列化**
-   - 实现 `tidas_sdk.xml.serializer.dataset_to_xml`（可基于 `lxml` 或自写 DOM）
-   - 确保 `process.to_xml()` 的 namespace/schemLocation 与 TypeScript 逻辑一致
-5. **实体扩展**
+3. **实体扩展**
    - Flow/Contact/Source/FlowProperty/UnitGroup/LCIAMethod/LifeCycleModel
    - 为常用字段提供便捷方法（例如 `set_name`, `reference.flows[...]`）
-6. **工厂函数完善**
-   - 支持 `from_json(str|Path)`、批量创建、`validate_on_init` 与自定义 `validation_mode`
-7. **测试与示例**
+4. **工厂函数完善（其余实体）**
+   - 其余实体同步 `from_json`、批量创建、验证模式等便捷 API
+5. **测试与示例**
    - 单元测试覆盖多语言、JSON → 对象 → JSON 循环、延迟验证
    - 更新 `examples/usage.py`，确保六大特性均可运行
-8. **文档 & DevX**
+6. **文档 & DevX**
    - `sdks/python/README.md` 增加生成步骤、可用 API
    - 在根 README 链接 Python 生成流程
-9. **发布准备**
+7. **发布准备**
    - 打通 `pyproject` 里的工具链（ruff、mypy、pytest）
    - 添加 `Makefile`/npm script 入口方便本地生成
+8. **CI 集成验证**
+   - 在 CI 流程中调用 `scripts/ci/generate-python-sdk.sh` 以确保 schema 变更可自动生成
+   - 生成后执行基础功能验证（如运行示例或关键单元测试）并输出摘要，防止生成器回归

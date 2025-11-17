@@ -13,6 +13,8 @@ from .core.factory import (  # noqa: F401
     create_lcia_method,
     create_life_cycle_model,
     create_process,
+    create_process_from_json,
+    create_processes_batch,
     create_source,
     create_unit_group,
 )
@@ -35,6 +37,8 @@ __all__ = [
     "create_lcia_method",
     "create_life_cycle_model",
     "create_process",
+    "create_process_from_json",
+    "create_processes_batch",
     "create_source",
     "create_unit_group",
     "TidasContact",

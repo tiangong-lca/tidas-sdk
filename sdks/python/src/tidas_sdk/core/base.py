@@ -7,11 +7,13 @@ from collections.abc import Mapping, MutableSequence
 from copy import deepcopy
 import json
 from pathlib import Path
-from typing import Any, ClassVar, Generic, TypeVar, cast, get_args, get_origin
+from typing import Any, ClassVar, Generic, Literal, TypeVar, cast, get_args, get_origin
 
-from pydantic import BaseModel, ConfigDict, ValidationError
+from jsonschema import Draft202012Validator, ValidationError as JsonSchemaValidationError
+from pydantic import BaseModel, ConfigDict, ValidationError as PydanticValidationError
 
-from .multilang import MultiLangList, deep_wrap_multilang
+from .multilang import deep_wrap_multilang
+from tidas_sdk.schemas import load_schema, schema_exists
 
 
 class TidasBaseModel(BaseModel):
@@ -29,6 +31,8 @@ class TidasBaseModel(BaseModel):
 
 
 ModelT = TypeVar("ModelT", bound=TidasBaseModel)
+
+ValidationMode = Literal["pydantic", "jsonschema", "both"]
 
 
 class TidasEntity(Generic[ModelT]):
@@ -58,6 +62,8 @@ class TidasEntity(Generic[ModelT]):
                 prepared = self._prepare_partial_payload(model_cls, wrapped)
                 model = model_cls.model_construct(**prepared)
             object.__setattr__(self, "_model", model)
+        object.__setattr__(self, "_last_pydantic_error", None)
+        object.__setattr__(self, "_last_jsonschema_errors", None)
         self.ensure_defaults()
 
     @property
@@ -105,24 +111,91 @@ class TidasEntity(Generic[ModelT]):
 
     # -- validation -----------------------------------------------------------------------
 
-    def validate(self) -> bool:
+    def validate(self, *, mode: ValidationMode = "pydantic") -> bool:
         """
-        Run a strict validation pass using the underlying Pydantic model.
+        Run validation using either Pydantic, JSON Schema, or both.
         """
         data = self.to_json(by_alias=True, exclude_none=False)
-        try:
-            self._model_cls.model_validate(data)
-        except ValidationError as exc:  # pragma: no cover - bubble up summary soon
-            self._last_validation_error = exc
-            return False
-        self._last_validation_error = None
-        return True
+        success = True
 
-    def last_validation_error(self) -> ValidationError | None:
+        if mode in ("pydantic", "both"):
+            success = self._validate_with_pydantic(data) and success
+        else:
+            object.__setattr__(self, "_last_pydantic_error", None)
+
+        if mode in ("jsonschema", "both"):
+            success = self._validate_with_jsonschema(data) and success
+        else:
+            object.__setattr__(self, "_last_jsonschema_errors", None)
+
+        return success
+
+    def last_validation_error(self) -> PydanticValidationError | None:
         """
         Access the cached validation error from the previous run (if any).
         """
-        return getattr(self, "_last_validation_error", None)
+        return cast(PydanticValidationError | None, getattr(self, "_last_pydantic_error", None))
+
+    def jsonschema_errors(self) -> list[str] | None:
+        """
+        Access JSON Schema validation errors from the previous run.
+        """
+        return cast(list[str] | None, getattr(self, "_last_jsonschema_errors", None))
+
+    def _validate_with_pydantic(self, data: Mapping[str, Any]) -> bool:
+        try:
+            self._model_cls.model_validate(data)
+        except PydanticValidationError as exc:
+            object.__setattr__(self, "_last_pydantic_error", exc)
+            return False
+        object.__setattr__(self, "_last_pydantic_error", None)
+        return True
+
+    def _validate_with_jsonschema(self, data: Mapping[str, Any]) -> bool:
+        schema_name = self.schema_name
+        if not schema_name:
+            object.__setattr__(
+                self,
+                "_last_jsonschema_errors",
+                ["Entity does not declare a schema_name for JSON Schema validation."],
+            )
+            return False
+
+        if not schema_exists(schema_name):
+            object.__setattr__(
+                self,
+                "_last_jsonschema_errors",
+                [f"Schema '{schema_name}' not found in packaged resources."],
+            )
+            return False
+
+        try:
+            schema = load_schema(schema_name)
+            validator = Draft202012Validator(schema)
+            errors = sorted(validator.iter_errors(data), key=lambda err: list(err.path))
+        except Exception as exc:
+            object.__setattr__(
+                self,
+                "_last_jsonschema_errors",
+                [f"Schema validation failed to execute: {exc}"],
+            )
+            return False
+
+        if errors:
+            messages = []
+            for error in errors:
+                path = self._format_error_path(error)
+                messages.append(f"{path}: {error.message}")
+            object.__setattr__(self, "_last_jsonschema_errors", messages)
+            return False
+
+        object.__setattr__(self, "_last_jsonschema_errors", [])
+        return True
+
+    @staticmethod
+    def _format_error_path(error: JsonSchemaValidationError) -> str:
+        path_segments = [str(segment) for segment in error.path]
+        return "/".join(path_segments) if path_segments else "<root>"
 
     # -- loading helpers ------------------------------------------------------------------
 
