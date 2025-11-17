@@ -1,0 +1,241 @@
+"""
+Core abstractions shared by all generated entities.
+"""
+from __future__ import annotations
+
+from collections.abc import Mapping, MutableSequence
+from copy import deepcopy
+import json
+from pathlib import Path
+from typing import Any, ClassVar, Generic, TypeVar, cast, get_args, get_origin
+
+from pydantic import BaseModel, ConfigDict, ValidationError
+
+from .multilang import MultiLangList, deep_wrap_multilang
+
+
+class TidasBaseModel(BaseModel):
+    """
+    Base configuration for every generated Pydantic model.
+    """
+
+    model_config = ConfigDict(
+        populate_by_name=True,
+        validate_assignment=False,
+        extra="allow",
+        arbitrary_types_allowed=True,
+        use_enum_values=True,
+    )
+
+
+ModelT = TypeVar("ModelT", bound=TidasBaseModel)
+
+
+class TidasEntity(Generic[ModelT]):
+    """
+    Runtime wrapper around generated Pydantic models.
+    """
+
+    schema_name: ClassVar[str | None] = None
+
+    def __init__(
+        self,
+        model_cls: type[ModelT],
+        initial_data: Mapping[str, Any] | ModelT | None = None,
+        *,
+        validate_on_init: bool = False,
+    ) -> None:
+        object.__setattr__(self, "_model_cls", model_cls)
+        payload: Mapping[str, Any]
+        if isinstance(initial_data, model_cls):
+            object.__setattr__(self, "_model", initial_data)
+        else:
+            payload = initial_data or {}
+            wrapped = deep_wrap_multilang(deepcopy(payload))
+            if validate_on_init:
+                model = model_cls.model_validate(wrapped)
+            else:
+                prepared = self._prepare_partial_payload(model_cls, wrapped)
+                model = model_cls.model_construct(**prepared)
+            object.__setattr__(self, "_model", model)
+        self.ensure_defaults()
+
+    @property
+    def model(self) -> ModelT:
+        """
+        Expose the underlying Pydantic model for advanced scenarios.
+        """
+        return self._model
+
+    # -- mutation helpers -----------------------------------------------------------------
+
+    def update(self, data: Mapping[str, Any]) -> None:
+        """
+        Merge incoming dict-like data into the entity, bypassing validation.
+        """
+        for key, value in data.items():
+            setattr(self, key, deep_wrap_multilang(value))
+
+    def to_json(self, *, by_alias: bool = True, exclude_none: bool = True) -> dict[str, Any]:
+        """
+        Convert entity contents to a JSON serialisable dict.
+        """
+        result = self._model.model_dump(by_alias=by_alias, exclude_none=exclude_none)
+        return cast(dict[str, Any], result)
+
+    def to_json_string(self, **kwargs: Any) -> str:
+        """
+        Convenience helper for writing JSON payloads.
+        """
+        payload = self.to_json(**kwargs)
+        return json.dumps(payload, ensure_ascii=False, indent=2)
+
+    def to_xml(self) -> str:
+        """
+        Convert entity contents to ILCD XML.
+        """
+        from tidas_sdk.xml.serializer import dataset_to_xml
+
+        return dataset_to_xml(self.to_json())
+
+    def ensure_defaults(self) -> None:  # pragma: no cover - overridden by subclasses
+        """
+        Hook for subclasses to set required namespaces or default structures.
+        """
+
+    # -- validation -----------------------------------------------------------------------
+
+    def validate(self) -> bool:
+        """
+        Run a strict validation pass using the underlying Pydantic model.
+        """
+        data = self.to_json(by_alias=True, exclude_none=False)
+        try:
+            self._model_cls.model_validate(data)
+        except ValidationError as exc:  # pragma: no cover - bubble up summary soon
+            self._last_validation_error = exc
+            return False
+        self._last_validation_error = None
+        return True
+
+    def last_validation_error(self) -> ValidationError | None:
+        """
+        Access the cached validation error from the previous run (if any).
+        """
+        return getattr(self, "_last_validation_error", None)
+
+    # -- loading helpers ------------------------------------------------------------------
+
+    @classmethod
+    def from_json(
+        cls,
+        model_cls: type[ModelT],
+        data: str | bytes | Path | Mapping[str, Any],
+        *,
+        validate_on_init: bool = False,
+    ) -> "TidasEntity[ModelT]":
+        """
+        Build an entity from either a mapping or a JSON payload.
+        """
+        if isinstance(data, (str, bytes, Path)):
+            payload = cls._parse_file_or_string(data)
+        else:
+            payload = data
+        return cls(model_cls, payload, validate_on_init=validate_on_init)
+
+    # -- python protocol ------------------------------------------------------------------
+
+    def __getattr__(self, item: str) -> Any:
+        return getattr(self._model, item)
+
+    def __setattr__(self, key: str, value: Any) -> None:
+        if key.startswith("_"):
+            object.__setattr__(self, key, value)
+        else:
+            wrapped = deep_wrap_multilang(value)
+            setattr(self._model, key, wrapped)
+
+    # -- internal helpers -----------------------------------------------------------------
+
+    @staticmethod
+    def _parse_file_or_string(data: str | bytes | Path) -> Mapping[str, Any]:
+        if isinstance(data, Path):
+            content = data.read_text(encoding="utf-8")
+        else:
+            content = data.decode("utf-8") if isinstance(data, bytes) else data
+        return json.loads(content)
+
+    def _prepare_partial_payload(
+        self,
+        model_cls: type[ModelT],
+        payload: Mapping[str, Any],
+    ) -> dict[str, Any]:
+        output: dict[str, Any] = {}
+        for key, value in payload.items():
+            field_name = self._field_name_for_key(model_cls, key)
+            output[field_name] = self._maybe_wrap_nested(model_cls, field_name, value)
+        return output
+
+    @staticmethod
+    def _field_name_for_key(model_cls: type[ModelT], key: str) -> str:
+        fields = model_cls.model_fields
+        for name, field in fields.items():
+            if field.alias == key:
+                return name
+        return key
+
+    def _maybe_wrap_nested(
+        self,
+        model_cls: type[ModelT],
+        field_name: str,
+        value: Any,
+    ) -> Any:
+        fields = model_cls.model_fields
+        field = fields.get(field_name)
+        if field is None:
+            return value
+        annotation = field.annotation
+        nested_model = self._resolve_nested_model(annotation)
+        if nested_model and isinstance(value, Mapping):
+            return nested_model.model_construct(
+                **self._prepare_partial_payload(nested_model, value)
+            )
+        if self._is_sequence_of_models(annotation) and isinstance(value, list):
+            args = get_args(annotation)
+            nested_cls = self._resolve_nested_model(args[0]) if args else None
+            if nested_cls is None:
+                return value
+            return [
+                nested_cls.model_construct(
+                    **self._prepare_partial_payload(nested_cls, cast(Mapping[str, Any], item))
+                )
+                if isinstance(item, Mapping)
+                else item
+                for item in value
+            ]
+        return value
+
+    @staticmethod
+    def _resolve_nested_model(annotation: Any) -> type[TidasBaseModel] | None:
+        try:
+            if annotation and issubclass(annotation, TidasBaseModel):
+                return annotation
+        except TypeError:
+            pass
+        origin = get_origin(annotation)
+        if origin in (list, MutableSequence):
+            args = get_args(annotation)
+            if args:
+                return TidasEntity._resolve_nested_model(args[0])
+        return None
+
+    @staticmethod
+    def _is_sequence_of_models(annotation: Any) -> bool:
+        origin = get_origin(annotation)
+        if origin not in (list, MutableSequence):
+            return False
+        args = get_args(annotation)
+        if not args:
+            return False
+        inner = args[0]
+        return isinstance(inner, type) and issubclass(inner, TidasBaseModel)
