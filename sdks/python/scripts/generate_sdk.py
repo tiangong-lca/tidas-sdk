@@ -434,7 +434,7 @@ class SchemaConverter:
         self,
         parent_path: tuple[str, ...],
         prop_name: str,
-        schema: dict[str, Any],
+        schema: dict[str, Any] | list[Any] | str,
         qualifier: str | None = None,
     ) -> str:
         if isinstance(schema, list):

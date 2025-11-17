@@ -54,7 +54,7 @@ class TidasEntity(Generic[ModelT]):
         if isinstance(initial_data, model_cls):
             object.__setattr__(self, "_model", initial_data)
         else:
-            payload = initial_data or {}
+            payload = cast(Mapping[str, Any], initial_data or {})
             wrapped = deep_wrap_multilang(deepcopy(payload))
             if validate_on_init:
                 model = model_cls.model_validate(wrapped)
@@ -211,9 +211,9 @@ class TidasEntity(Generic[ModelT]):
         Build an entity from either a mapping or a JSON payload.
         """
         if isinstance(data, (str, bytes, Path)):
-            payload = cls._parse_file_or_string(data)
+            payload = cast(Mapping[str, Any], cls._parse_file_or_string(data))
         else:
-            payload = data
+            payload = cast(Mapping[str, Any], data)
         return cls(model_cls, payload, validate_on_init=validate_on_init)
 
     # -- python protocol ------------------------------------------------------------------
@@ -231,7 +231,7 @@ class TidasEntity(Generic[ModelT]):
     # -- internal helpers -----------------------------------------------------------------
 
     @staticmethod
-    def _parse_file_or_string(data: str | bytes | Path) -> Mapping[str, Any]:
+    def _parse_file_or_string(data: str | bytes | Path) -> dict[str, Any]:
         if isinstance(data, Path):
             content = data.read_text(encoding="utf-8")
         else:
@@ -240,7 +240,7 @@ class TidasEntity(Generic[ModelT]):
 
     def _prepare_partial_payload(
         self,
-        model_cls: type[ModelT],
+        model_cls: type[TidasBaseModel],
         payload: Mapping[str, Any],
     ) -> dict[str, Any]:
         output: dict[str, Any] = {}
@@ -250,7 +250,7 @@ class TidasEntity(Generic[ModelT]):
         return output
 
     @staticmethod
-    def _field_name_for_key(model_cls: type[ModelT], key: str) -> str:
+    def _field_name_for_key(model_cls: type[TidasBaseModel], key: str) -> str:
         fields = model_cls.model_fields
         for name, field in fields.items():
             if field.alias == key:
@@ -259,7 +259,7 @@ class TidasEntity(Generic[ModelT]):
 
     def _maybe_wrap_nested(
         self,
-        model_cls: type[ModelT],
+        model_cls: type[TidasBaseModel],
         field_name: str,
         value: Any,
     ) -> Any:
