@@ -67,10 +67,20 @@ def create_simple_process():
         "光伏发电", "zh"
     )
 
+    # 注意：builder 在构建过程中，嵌套数据存储在私有字段中
+    # model_dump_json() 不会显示嵌套 builder 状态（输出为空或不完整）
+    # 使用 build_dump() 可以查看完整的 builder 状态（用于调试）
+    print("\n=== Builder 状态（调试用）===")
+    print(builder.build_dump(indent=2))
+    print("\n注意：以上是 builder 的调试输出，与最终模型结构不同")
+
+    # 使用新的直接赋值功能
     builder.processDataSet.processInformation.dataSetInformation.name.treatmentStandardsRoutes = [
         {"@xml:lang": "en", "#text": "Photovoltaic"},
         {"@xml:lang": "zh", "#text": "光伏发电"},
     ]
+
+    # 使用 assign-then-append 模式
     builder.processDataSet.processInformation.dataSetInformation.name.mixAndLocationTypes = {
         "@xml:lang": "en",
         "#text": "Production mix",
@@ -79,36 +89,31 @@ def create_simple_process():
         {"@xml:lang": "zh", "#text": "生产混合"}
     )
 
-    # 设置functionalUnitFlowProperties
-    builder.processDataSet.processInformation.dataSetInformation.name.functionalUnitFlowProperties.set_functionalUnitFlowProperties(
+    # 设置functionalUnitFlowProperties - 使用 helper 方法
+    builder.processDataSet.processInformation.dataSetInformation.name.set_functionalUnitFlowProperties(
         "3kWp", "en"
     )
-    builder.processDataSet.processInformation.dataSetInformation.name.functionalUnitFlowProperties.set_functionalUnitFlowProperties(
+    builder.processDataSet.processInformation.dataSetInformation.name.set_functionalUnitFlowProperties(
         "3kWp", "zh"
     )
 
-    # 设置classificationInformation
-    builder.processDataSet.processInformation.dataSetInformation.classificationInformation.common_classification.set_classes(
-        "Energy carriers and technologies"
-    )
-    builder.processDataSet.processInformation.dataSetInformation.classificationInformation.common_classification.set_level(
-        "1"
-    )
+    # 设置classificationInformation（必填字段，需要提供分类数据）
+    # 使用直接赋值设置 common_class
+    builder.processDataSet.processInformation.dataSetInformation.classificationInformation.common_classification.common_class = [
+        {
+            "@level": "1",
+            "@classId": "36",
+            "#text": "Electricity",
+        }
+    ]
 
-    # 使用add_common_cla方法添加分类项
-    builder.processDataSet.processInformation.dataSetInformation.classificationInformation.common_classification.common_class = {
-        "@level": "1",
-        "@classId": "36",
-        "#text": "Electricity",
-    }
-
-    # 设置generalComment
-    builder.processDataSet.processInformation.dataSetInformation.common_generalComment.set_text(
+    # 设置generalComment - 使用 helper 方法
+    builder.processDataSet.processInformation.dataSetInformation.set_generalComment(
         "Example process for photovoltaic electricity production", "en"
-    ),
-    builder.processDataSet.processInformation.dataSetInformation.common_generalComment.set_text(
+    )
+    builder.processDataSet.processInformation.dataSetInformation.set_generalComment(
         "光伏发电示例流程", "zh"
-    ),
+    )
 
     # 4. 设置定量参考信息 (Set quantitative reference)
 
@@ -118,10 +123,11 @@ def create_simple_process():
     builder.processDataSet.processInformation.quantitativeReference.referenceToReferenceFlow = (
         "1"
     )
-    builder.processDataSet.processInformation.quantitativeReference.functionalUnitOrOther.set_text(
+    # 使用 helper 方法设置 functionalUnitOrOther
+    builder.processDataSet.processInformation.quantitativeReference.set_functionalUnitOrOther(
         "1 kWh of electricity", "en"
     )
-    builder.processDataSet.processInformation.quantitativeReference.functionalUnitOrOther.set_text(
+    builder.processDataSet.processInformation.quantitativeReference.set_functionalUnitOrOther(
         "1千瓦时电力", "zh"
     )
 
@@ -133,10 +139,11 @@ def create_simple_process():
     builder.processDataSet.processInformation.geography.locationOfOperationSupplyOrProduction.field_location = (
         "GLO"
     )
-    builder.processDataSet.processInformation.geography.locationOfOperationSupplyOrProduction.descriptionOfRestrictions.set_text(
+    # 使用 helper 方法设置 descriptionOfRestrictions
+    builder.processDataSet.processInformation.geography.locationOfOperationSupplyOrProduction.set_descriptionOfRestrictions(
         "Global average data for photovoltaic electricity production", "en"
     )
-    builder.processDataSet.processInformation.geography.locationOfOperationSupplyOrProduction.descriptionOfRestrictions.set_text(
+    builder.processDataSet.processInformation.geography.locationOfOperationSupplyOrProduction.set_descriptionOfRestrictions(
         "光伏发电的全球平均数据", "zh"
     )
 
@@ -148,14 +155,16 @@ def create_simple_process():
     builder.processDataSet.administrativeInformation.common_commissionerAndGoal.common_referenceToCommissioner.uri = (
         "../contacts/00000000-0000-0000-0000-000000000000"
     )
-    builder.processDataSet.administrativeInformation.common_commissionerAndGoal.common_referenceToCommissioner.shortDescription.set_text(
-        "Example organization", "en"
-    )
+    # shortDescription 是 GlobalReferenceType 的字段，使用直接赋值
+    builder.processDataSet.administrativeInformation.common_commissionerAndGoal.common_referenceToCommissioner.shortDescription = [
+        {"@xml:lang": "en", "#text": "Example organization"}
+    ]
 
-    builder.processDataSet.administrativeInformation.common_commissionerAndGoal.common_intendedApplications.set_text(
+    # 使用 helper 方法设置 common_intendedApplications
+    builder.processDataSet.administrativeInformation.common_commissionerAndGoal.set_intendedApplications(
         "Life cycle assessment", "en"
     )
-    builder.processDataSet.administrativeInformation.common_commissionerAndGoal.common_intendedApplications.set_text(
+    builder.processDataSet.administrativeInformation.common_commissionerAndGoal.set_intendedApplications(
         "生命周期评价", "zh"
     )
 
@@ -171,9 +180,10 @@ def create_simple_process():
     builder.processDataSet.administrativeInformation.dataEntryBy.common_referenceToDataSetFormat.uri = (
         "../ILCD_Format/ILCD_1.1_Format"
     )
-    builder.processDataSet.administrativeInformation.dataEntryBy.common_referenceToDataSetFormat.shortDescription.set_text(
-        "ILCD format 1.1", "en"
-    )
+    # shortDescription 使用直接赋值
+    builder.processDataSet.administrativeInformation.dataEntryBy.common_referenceToDataSetFormat.shortDescription = [
+        {"@xml:lang": "en", "#text": "ILCD format 1.1"}
+    ]
 
     # 使用builder模式设置referenceToConvertedOriginalDataSetFrom
     builder.processDataSet.administrativeInformation.dataEntryBy.common_referenceToConvertedOriginalDataSetFrom.field_type = (
@@ -182,9 +192,10 @@ def create_simple_process():
     builder.processDataSet.administrativeInformation.dataEntryBy.common_referenceToConvertedOriginalDataSetFrom.uri = (
         "../sources/00000000-0000-0000-0000-000000000000"
     )
-    builder.processDataSet.administrativeInformation.dataEntryBy.common_referenceToConvertedOriginalDataSetFrom.shortDescription.set_text(
-        "Original data source", "en"
-    )
+    # shortDescription 使用直接赋值
+    builder.processDataSet.administrativeInformation.dataEntryBy.common_referenceToConvertedOriginalDataSetFrom.shortDescription = [
+        {"@xml:lang": "en", "#text": "Original data source"}
+    ]
 
     # 8. 构建最终的Process模型
     try:

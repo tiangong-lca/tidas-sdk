@@ -4,7 +4,7 @@
 from __future__ import annotations
 
 from typing import List, Literal, Optional
-from pydantic import AnyUrl, AwareDatetime, BaseModel, ConfigDict, Field, RootModel
+from pydantic import AnyUrl, AwareDatetime, BaseModel, ConfigDict, Field, RootModel, field_validator
 from enum import (
     Enum,
 )
@@ -38,36 +38,38 @@ from tidas_sdk.types.tidas_data_types import (
     Year,
 )
 
-from tidas_sdk.types.tidas_flowproperties import (
-    AdministrativeInformation,
-    ClassificationInformation,
-    CommonClass,
-    CommonClassification,
-    Compliance,
-    Compliance1,
-    Compliance1Item,
-    ComplianceDeclarations,
-    DataEntryBy,
-    DataSetInformation,
-    DataSourcesTreatmentAndRepresentativeness,
-    DateTime,
-    FlowPropertiesInformation,
-    FlowPropertyDataSet,
-    Model,
-    ModellingAndValidation,
-    PublicationAndOwnership,
-    QuantitativeReference,
-)
+from tidas_sdk.types.tidas_flowproperties import *
 
 
 class DateTimeBuilder(BaseModel):
-    """Builder for DateTime."""
+    """Builder for DateTime.
+    
+    Important:
+        - During construction, nested data is stored in private fields
+        - Calling model_dump() or model_dump_json() will NOT show nested builder state
+        - Always call build() to create the final model before serialization
+        - Use build_dump() for debugging to see full builder state during construction
+    
+    Example:
+        builder = DateTimeBuilder()
+        # Set fields...
+        
+        # WRONG - returns empty or incomplete:
+        # json_str = builder.model_dump_json()
+        
+        # CORRECT - build first, then serialize:
+        model = builder.build()
+        json_str = model.model_dump_json()
+        
+        # For debugging during construction:
+        debug_json = builder.build_dump()
+    """
 
     root: Optional[AwareDatetime] = None
 
     model_config = ConfigDict(
         extra='allow',
-        validate_assignment=False,  # Can be overridden per instance
+        validate_assignment=True,  # Enable validators on assignment
     )
 
     def build(self) -> DateTime:
@@ -76,8 +78,76 @@ class DateTimeBuilder(BaseModel):
 
         return DateTime.model_validate(data)
 
+    def build_dump(self, indent: int = 2) -> str:
+        """Dump builder state including nested builders for debugging.
+        
+        Warning: This is for debugging only. The output structure differs
+        from the final model. Use build() to create the actual model.
+        
+        Returns:
+            JSON string with full builder state including nested builders
+        """
+        import json
+        
+        def _dump_builder(obj, depth=0, seen=None):
+            """Recursively dump builder objects."""
+            if seen is None:
+                seen = set()
+            
+            # Prevent infinite recursion
+            obj_id = id(obj)
+            if obj_id in seen or depth > 20:
+                return "<circular>"
+            
+            if isinstance(obj, BaseModel):
+                seen.add(obj_id)
+                result = {}
+                
+                # Dump regular fields from __dict__
+                for field_name, field_value in obj.__dict__.items():
+                    if field_value is None:
+                        continue
+                    if field_name.startswith("_"):
+                        # Private field - include without underscore
+                        clean_name = field_name[1:]
+                        result[clean_name] = _dump_builder(field_value, depth+1, seen)
+                    else:
+                        result[field_name] = _dump_builder(field_value, depth+1, seen)
+                
+                seen.remove(obj_id)
+                return result
+            elif isinstance(obj, list):
+                return [_dump_builder(item, depth+1, seen) for item in obj]
+            elif isinstance(obj, dict):
+                return {k: _dump_builder(v, depth+1, seen) for k, v in obj.items()}
+            else:
+                return obj
+        
+        return json.dumps(_dump_builder(self), indent=indent, default=str)
+
 class CommonClassBuilder(BaseModel):
-    """Builder for CommonClass."""
+    """Builder for CommonClass.
+    
+    Important:
+        - During construction, nested data is stored in private fields
+        - Calling model_dump() or model_dump_json() will NOT show nested builder state
+        - Always call build() to create the final model before serialization
+        - Use build_dump() for debugging to see full builder state during construction
+    
+    Example:
+        builder = CommonClassBuilder()
+        # Set fields...
+        
+        # WRONG - returns empty or incomplete:
+        # json_str = builder.model_dump_json()
+        
+        # CORRECT - build first, then serialize:
+        model = builder.build()
+        json_str = model.model_dump_json()
+        
+        # For debugging during construction:
+        debug_json = builder.build_dump()
+    """
 
     field_level: Optional[str] = Field(None, alias='@level')
     field_classId: Optional[Flowproperties] = Field(None, alias='@classId')
@@ -85,7 +155,7 @@ class CommonClassBuilder(BaseModel):
 
     model_config = ConfigDict(
         extra='allow',
-        validate_assignment=False,  # Can be overridden per instance
+        validate_assignment=True,  # Enable validators on assignment
     )
 
     def build(self) -> CommonClass:
@@ -94,15 +164,83 @@ class CommonClassBuilder(BaseModel):
 
         return CommonClass.model_validate(data)
 
+    def build_dump(self, indent: int = 2) -> str:
+        """Dump builder state including nested builders for debugging.
+        
+        Warning: This is for debugging only. The output structure differs
+        from the final model. Use build() to create the actual model.
+        
+        Returns:
+            JSON string with full builder state including nested builders
+        """
+        import json
+        
+        def _dump_builder(obj, depth=0, seen=None):
+            """Recursively dump builder objects."""
+            if seen is None:
+                seen = set()
+            
+            # Prevent infinite recursion
+            obj_id = id(obj)
+            if obj_id in seen or depth > 20:
+                return "<circular>"
+            
+            if isinstance(obj, BaseModel):
+                seen.add(obj_id)
+                result = {}
+                
+                # Dump regular fields from __dict__
+                for field_name, field_value in obj.__dict__.items():
+                    if field_value is None:
+                        continue
+                    if field_name.startswith("_"):
+                        # Private field - include without underscore
+                        clean_name = field_name[1:]
+                        result[clean_name] = _dump_builder(field_value, depth+1, seen)
+                    else:
+                        result[field_name] = _dump_builder(field_value, depth+1, seen)
+                
+                seen.remove(obj_id)
+                return result
+            elif isinstance(obj, list):
+                return [_dump_builder(item, depth+1, seen) for item in obj]
+            elif isinstance(obj, dict):
+                return {k: _dump_builder(v, depth+1, seen) for k, v in obj.items()}
+            else:
+                return obj
+        
+        return json.dumps(_dump_builder(self), indent=indent, default=str)
+
 class CommonClassificationBuilder(BaseModel):
-    """Optional statistical or other classification of the data set. Typically also used for structuring LCA databases. (Builder)"""
+    """Optional statistical or other classification of the data set. Typically also used for structuring LCA databases. (Builder)
+    
+    Important:
+        - During construction, nested data is stored in private fields
+        - Calling model_dump() or model_dump_json() will NOT show nested builder state
+        - Always call build() to create the final model before serialization
+        - Use build_dump() for debugging to see full builder state during construction
+    
+    Example:
+        builder = CommonClassificationBuilder()
+        # Set fields...
+        
+        # WRONG - returns empty or incomplete:
+        # json_str = builder.model_dump_json()
+        
+        # CORRECT - build first, then serialize:
+        model = builder.build()
+        json_str = model.model_dump_json()
+        
+        # For debugging during construction:
+        debug_json = builder.build_dump()
+    """
 
     common_other: Optional[str] = Field(None, alias='common:other')
     _common_class: Optional[CommonClassBuilder] = None
 
     model_config = ConfigDict(
         extra='allow',
-        validate_assignment=False,  # Can be overridden per instance
+        validate_assignment=True,  # Enable validators on assignment
     )
 
     @property
@@ -125,14 +263,82 @@ class CommonClassificationBuilder(BaseModel):
 
         return CommonClassification.model_validate(data)
 
+    def build_dump(self, indent: int = 2) -> str:
+        """Dump builder state including nested builders for debugging.
+        
+        Warning: This is for debugging only. The output structure differs
+        from the final model. Use build() to create the actual model.
+        
+        Returns:
+            JSON string with full builder state including nested builders
+        """
+        import json
+        
+        def _dump_builder(obj, depth=0, seen=None):
+            """Recursively dump builder objects."""
+            if seen is None:
+                seen = set()
+            
+            # Prevent infinite recursion
+            obj_id = id(obj)
+            if obj_id in seen or depth > 20:
+                return "<circular>"
+            
+            if isinstance(obj, BaseModel):
+                seen.add(obj_id)
+                result = {}
+                
+                # Dump regular fields from __dict__
+                for field_name, field_value in obj.__dict__.items():
+                    if field_value is None:
+                        continue
+                    if field_name.startswith("_"):
+                        # Private field - include without underscore
+                        clean_name = field_name[1:]
+                        result[clean_name] = _dump_builder(field_value, depth+1, seen)
+                    else:
+                        result[field_name] = _dump_builder(field_value, depth+1, seen)
+                
+                seen.remove(obj_id)
+                return result
+            elif isinstance(obj, list):
+                return [_dump_builder(item, depth+1, seen) for item in obj]
+            elif isinstance(obj, dict):
+                return {k: _dump_builder(v, depth+1, seen) for k, v in obj.items()}
+            else:
+                return obj
+        
+        return json.dumps(_dump_builder(self), indent=indent, default=str)
+
 class ClassificationInformationBuilder(BaseModel):
-    """Hierachical classification of the Flow property foreseen to be used to structure the Flow property content of the database. (Note: This entry is NOT required for the identification of the Flow property data set. It should nevertheless be avoided to use identical names for Flow properties in the same class. (Builder)"""
+    """Hierachical classification of the Flow property foreseen to be used to structure the Flow property content of the database. (Note: This entry is NOT required for the identification of the Flow property data set. It should nevertheless be avoided to use identical names for Flow properties in the same class. (Builder)
+    
+    Important:
+        - During construction, nested data is stored in private fields
+        - Calling model_dump() or model_dump_json() will NOT show nested builder state
+        - Always call build() to create the final model before serialization
+        - Use build_dump() for debugging to see full builder state during construction
+    
+    Example:
+        builder = ClassificationInformationBuilder()
+        # Set fields...
+        
+        # WRONG - returns empty or incomplete:
+        # json_str = builder.model_dump_json()
+        
+        # CORRECT - build first, then serialize:
+        model = builder.build()
+        json_str = model.model_dump_json()
+        
+        # For debugging during construction:
+        debug_json = builder.build_dump()
+    """
 
     _common_classification: Optional[CommonClassificationBuilder] = None
 
     model_config = ConfigDict(
         extra='allow',
-        validate_assignment=False,  # Can be overridden per instance
+        validate_assignment=True,  # Enable validators on assignment
     )
 
     @property
@@ -155,8 +361,76 @@ class ClassificationInformationBuilder(BaseModel):
 
         return ClassificationInformation.model_validate(data)
 
+    def build_dump(self, indent: int = 2) -> str:
+        """Dump builder state including nested builders for debugging.
+        
+        Warning: This is for debugging only. The output structure differs
+        from the final model. Use build() to create the actual model.
+        
+        Returns:
+            JSON string with full builder state including nested builders
+        """
+        import json
+        
+        def _dump_builder(obj, depth=0, seen=None):
+            """Recursively dump builder objects."""
+            if seen is None:
+                seen = set()
+            
+            # Prevent infinite recursion
+            obj_id = id(obj)
+            if obj_id in seen or depth > 20:
+                return "<circular>"
+            
+            if isinstance(obj, BaseModel):
+                seen.add(obj_id)
+                result = {}
+                
+                # Dump regular fields from __dict__
+                for field_name, field_value in obj.__dict__.items():
+                    if field_value is None:
+                        continue
+                    if field_name.startswith("_"):
+                        # Private field - include without underscore
+                        clean_name = field_name[1:]
+                        result[clean_name] = _dump_builder(field_value, depth+1, seen)
+                    else:
+                        result[field_name] = _dump_builder(field_value, depth+1, seen)
+                
+                seen.remove(obj_id)
+                return result
+            elif isinstance(obj, list):
+                return [_dump_builder(item, depth+1, seen) for item in obj]
+            elif isinstance(obj, dict):
+                return {k: _dump_builder(v, depth+1, seen) for k, v in obj.items()}
+            else:
+                return obj
+        
+        return json.dumps(_dump_builder(self), indent=indent, default=str)
+
 class DataSetInformationBuilder(BaseModel):
-    """Builder for DataSetInformation."""
+    """Builder for DataSetInformation.
+    
+    Important:
+        - During construction, nested data is stored in private fields
+        - Calling model_dump() or model_dump_json() will NOT show nested builder state
+        - Always call build() to create the final model before serialization
+        - Use build_dump() for debugging to see full builder state during construction
+    
+    Example:
+        builder = DataSetInformationBuilder()
+        # Set fields...
+        
+        # WRONG - returns empty or incomplete:
+        # json_str = builder.model_dump_json()
+        
+        # CORRECT - build first, then serialize:
+        model = builder.build()
+        json_str = model.model_dump_json()
+        
+        # For debugging during construction:
+        debug_json = builder.build_dump()
+    """
 
     common_UUID: Optional[str] = Field(None, alias='common:UUID')
     common_name: Optional[StringMultiLang] = Field(None, alias='common:name')
@@ -167,7 +441,7 @@ class DataSetInformationBuilder(BaseModel):
 
     model_config = ConfigDict(
         extra='allow',
-        validate_assignment=False,  # Can be overridden per instance
+        validate_assignment=True,  # Enable validators on assignment
     )
 
     @property
@@ -176,6 +450,38 @@ class DataSetInformationBuilder(BaseModel):
         if self._classificationInformation is None:
             self._classificationInformation = ClassificationInformationBuilder()
         return self._classificationInformation
+
+    @field_validator('common_name', mode='before')
+    @classmethod
+    def _convert_string_multilang(cls, v):
+        """Auto-convert dict or list[dict] to StringMultiLang."""
+        if v is None or isinstance(v, StringMultiLang):
+            return v
+        
+        ml = StringMultiLang()
+        if isinstance(v, dict):
+            ml.items.append(MultiLangItemString(**v))
+        elif isinstance(v, list):
+            for item in v:
+                if isinstance(item, dict):
+                    ml.items.append(MultiLangItemString(**item))
+        return ml
+
+    @field_validator('common_synonyms', 'common_generalComment', mode='before')
+    @classmethod
+    def _convert_ft_multilang(cls, v):
+        """Auto-convert dict or list[dict] to FTMultiLang."""
+        if v is None or isinstance(v, FTMultiLang):
+            return v
+        
+        ml = FTMultiLang()
+        if isinstance(v, dict):
+            ml.items.append(MultiLangItem(**v))
+        elif isinstance(v, list):
+            for item in v:
+                if isinstance(item, dict):
+                    ml.items.append(MultiLangItem(**item))
+        return ml
 
     def set_name(self, text: str, lang: str = 'en') -> 'DataSetInformationBuilder':
         """Set common_name text for a specific language."""
@@ -211,7 +517,7 @@ class DataSetInformationBuilder(BaseModel):
                 item.text = text
                 return self
 
-        self.common_synonyms.items.append(MultiLangItemFT(**{'@xml:lang': lang, '#text': text}))
+        self.common_synonyms.items.append(MultiLangItem(**{'@xml:lang': lang, '#text': text}))
         return self
 
     def get_synonyms(self, lang: str = 'en') -> Optional[str]:
@@ -234,7 +540,7 @@ class DataSetInformationBuilder(BaseModel):
                 item.text = text
                 return self
 
-        self.common_generalComment.items.append(MultiLangItemFT(**{'@xml:lang': lang, '#text': text}))
+        self.common_generalComment.items.append(MultiLangItem(**{'@xml:lang': lang, '#text': text}))
         return self
 
     def get_generalComment(self, lang: str = 'en') -> Optional[str]:
@@ -259,15 +565,83 @@ class DataSetInformationBuilder(BaseModel):
 
         return DataSetInformation.model_validate(data)
 
+    def build_dump(self, indent: int = 2) -> str:
+        """Dump builder state including nested builders for debugging.
+        
+        Warning: This is for debugging only. The output structure differs
+        from the final model. Use build() to create the actual model.
+        
+        Returns:
+            JSON string with full builder state including nested builders
+        """
+        import json
+        
+        def _dump_builder(obj, depth=0, seen=None):
+            """Recursively dump builder objects."""
+            if seen is None:
+                seen = set()
+            
+            # Prevent infinite recursion
+            obj_id = id(obj)
+            if obj_id in seen or depth > 20:
+                return "<circular>"
+            
+            if isinstance(obj, BaseModel):
+                seen.add(obj_id)
+                result = {}
+                
+                # Dump regular fields from __dict__
+                for field_name, field_value in obj.__dict__.items():
+                    if field_value is None:
+                        continue
+                    if field_name.startswith("_"):
+                        # Private field - include without underscore
+                        clean_name = field_name[1:]
+                        result[clean_name] = _dump_builder(field_value, depth+1, seen)
+                    else:
+                        result[field_name] = _dump_builder(field_value, depth+1, seen)
+                
+                seen.remove(obj_id)
+                return result
+            elif isinstance(obj, list):
+                return [_dump_builder(item, depth+1, seen) for item in obj]
+            elif isinstance(obj, dict):
+                return {k: _dump_builder(v, depth+1, seen) for k, v in obj.items()}
+            else:
+                return obj
+        
+        return json.dumps(_dump_builder(self), indent=indent, default=str)
+
 class QuantitativeReferenceBuilder(BaseModel):
-    """This section allows to refer to the Flow property's quantitative reference, which is always a unit (i.e. that unit, in which the property is measured, e.g. "MJ" for energy-related Flow properties). (Builder)"""
+    """This section allows to refer to the Flow property's quantitative reference, which is always a unit (i.e. that unit, in which the property is measured, e.g. "MJ" for energy-related Flow properties). (Builder)
+    
+    Important:
+        - During construction, nested data is stored in private fields
+        - Calling model_dump() or model_dump_json() will NOT show nested builder state
+        - Always call build() to create the final model before serialization
+        - Use build_dump() for debugging to see full builder state during construction
+    
+    Example:
+        builder = QuantitativeReferenceBuilder()
+        # Set fields...
+        
+        # WRONG - returns empty or incomplete:
+        # json_str = builder.model_dump_json()
+        
+        # CORRECT - build first, then serialize:
+        model = builder.build()
+        json_str = model.model_dump_json()
+        
+        # For debugging during construction:
+        debug_json = builder.build_dump()
+    """
 
     referenceToReferenceUnitGroup: Optional[GlobalReferenceType | list[GlobalReferenceType]] = None
     common_other: Optional[str] = Field(None, alias='common:other')
 
     model_config = ConfigDict(
         extra='allow',
-        validate_assignment=False,  # Can be overridden per instance
+        validate_assignment=True,  # Enable validators on assignment
     )
 
     def build(self) -> QuantitativeReference:
@@ -276,8 +650,76 @@ class QuantitativeReferenceBuilder(BaseModel):
 
         return QuantitativeReference.model_validate(data)
 
+    def build_dump(self, indent: int = 2) -> str:
+        """Dump builder state including nested builders for debugging.
+        
+        Warning: This is for debugging only. The output structure differs
+        from the final model. Use build() to create the actual model.
+        
+        Returns:
+            JSON string with full builder state including nested builders
+        """
+        import json
+        
+        def _dump_builder(obj, depth=0, seen=None):
+            """Recursively dump builder objects."""
+            if seen is None:
+                seen = set()
+            
+            # Prevent infinite recursion
+            obj_id = id(obj)
+            if obj_id in seen or depth > 20:
+                return "<circular>"
+            
+            if isinstance(obj, BaseModel):
+                seen.add(obj_id)
+                result = {}
+                
+                # Dump regular fields from __dict__
+                for field_name, field_value in obj.__dict__.items():
+                    if field_value is None:
+                        continue
+                    if field_name.startswith("_"):
+                        # Private field - include without underscore
+                        clean_name = field_name[1:]
+                        result[clean_name] = _dump_builder(field_value, depth+1, seen)
+                    else:
+                        result[field_name] = _dump_builder(field_value, depth+1, seen)
+                
+                seen.remove(obj_id)
+                return result
+            elif isinstance(obj, list):
+                return [_dump_builder(item, depth+1, seen) for item in obj]
+            elif isinstance(obj, dict):
+                return {k: _dump_builder(v, depth+1, seen) for k, v in obj.items()}
+            else:
+                return obj
+        
+        return json.dumps(_dump_builder(self), indent=indent, default=str)
+
 class FlowPropertiesInformationBuilder(BaseModel):
-    """Builder for FlowPropertiesInformation."""
+    """Builder for FlowPropertiesInformation.
+    
+    Important:
+        - During construction, nested data is stored in private fields
+        - Calling model_dump() or model_dump_json() will NOT show nested builder state
+        - Always call build() to create the final model before serialization
+        - Use build_dump() for debugging to see full builder state during construction
+    
+    Example:
+        builder = FlowPropertiesInformationBuilder()
+        # Set fields...
+        
+        # WRONG - returns empty or incomplete:
+        # json_str = builder.model_dump_json()
+        
+        # CORRECT - build first, then serialize:
+        model = builder.build()
+        json_str = model.model_dump_json()
+        
+        # For debugging during construction:
+        debug_json = builder.build_dump()
+    """
 
     common_other: Optional[str] = Field(None, alias='common:other')
     _dataSetInformation: Optional[DataSetInformationBuilder] = None
@@ -285,7 +727,7 @@ class FlowPropertiesInformationBuilder(BaseModel):
 
     model_config = ConfigDict(
         extra='allow',
-        validate_assignment=False,  # Can be overridden per instance
+        validate_assignment=True,  # Enable validators on assignment
     )
 
     @property
@@ -318,15 +760,83 @@ class FlowPropertiesInformationBuilder(BaseModel):
 
         return FlowPropertiesInformation.model_validate(data)
 
+    def build_dump(self, indent: int = 2) -> str:
+        """Dump builder state including nested builders for debugging.
+        
+        Warning: This is for debugging only. The output structure differs
+        from the final model. Use build() to create the actual model.
+        
+        Returns:
+            JSON string with full builder state including nested builders
+        """
+        import json
+        
+        def _dump_builder(obj, depth=0, seen=None):
+            """Recursively dump builder objects."""
+            if seen is None:
+                seen = set()
+            
+            # Prevent infinite recursion
+            obj_id = id(obj)
+            if obj_id in seen or depth > 20:
+                return "<circular>"
+            
+            if isinstance(obj, BaseModel):
+                seen.add(obj_id)
+                result = {}
+                
+                # Dump regular fields from __dict__
+                for field_name, field_value in obj.__dict__.items():
+                    if field_value is None:
+                        continue
+                    if field_name.startswith("_"):
+                        # Private field - include without underscore
+                        clean_name = field_name[1:]
+                        result[clean_name] = _dump_builder(field_value, depth+1, seen)
+                    else:
+                        result[field_name] = _dump_builder(field_value, depth+1, seen)
+                
+                seen.remove(obj_id)
+                return result
+            elif isinstance(obj, list):
+                return [_dump_builder(item, depth+1, seen) for item in obj]
+            elif isinstance(obj, dict):
+                return {k: _dump_builder(v, depth+1, seen) for k, v in obj.items()}
+            else:
+                return obj
+        
+        return json.dumps(_dump_builder(self), indent=indent, default=str)
+
 class DataSourcesTreatmentAndRepresentativenessBuilder(BaseModel):
-    """Builder for DataSourcesTreatmentAndRepresentativeness."""
+    """Builder for DataSourcesTreatmentAndRepresentativeness.
+    
+    Important:
+        - During construction, nested data is stored in private fields
+        - Calling model_dump() or model_dump_json() will NOT show nested builder state
+        - Always call build() to create the final model before serialization
+        - Use build_dump() for debugging to see full builder state during construction
+    
+    Example:
+        builder = DataSourcesTreatmentAndRepresentativenessBuilder()
+        # Set fields...
+        
+        # WRONG - returns empty or incomplete:
+        # json_str = builder.model_dump_json()
+        
+        # CORRECT - build first, then serialize:
+        model = builder.build()
+        json_str = model.model_dump_json()
+        
+        # For debugging during construction:
+        debug_json = builder.build_dump()
+    """
 
     referenceToDataSource: Optional[GlobalReferenceType | list[GlobalReferenceType]] = None
     common_other: Optional[str] = Field(None, alias='common:other')
 
     model_config = ConfigDict(
         extra='allow',
-        validate_assignment=False,  # Can be overridden per instance
+        validate_assignment=True,  # Enable validators on assignment
     )
 
     def build(self) -> DataSourcesTreatmentAndRepresentativeness:
@@ -335,15 +845,83 @@ class DataSourcesTreatmentAndRepresentativenessBuilder(BaseModel):
 
         return DataSourcesTreatmentAndRepresentativeness.model_validate(data)
 
+    def build_dump(self, indent: int = 2) -> str:
+        """Dump builder state including nested builders for debugging.
+        
+        Warning: This is for debugging only. The output structure differs
+        from the final model. Use build() to create the actual model.
+        
+        Returns:
+            JSON string with full builder state including nested builders
+        """
+        import json
+        
+        def _dump_builder(obj, depth=0, seen=None):
+            """Recursively dump builder objects."""
+            if seen is None:
+                seen = set()
+            
+            # Prevent infinite recursion
+            obj_id = id(obj)
+            if obj_id in seen or depth > 20:
+                return "<circular>"
+            
+            if isinstance(obj, BaseModel):
+                seen.add(obj_id)
+                result = {}
+                
+                # Dump regular fields from __dict__
+                for field_name, field_value in obj.__dict__.items():
+                    if field_value is None:
+                        continue
+                    if field_name.startswith("_"):
+                        # Private field - include without underscore
+                        clean_name = field_name[1:]
+                        result[clean_name] = _dump_builder(field_value, depth+1, seen)
+                    else:
+                        result[field_name] = _dump_builder(field_value, depth+1, seen)
+                
+                seen.remove(obj_id)
+                return result
+            elif isinstance(obj, list):
+                return [_dump_builder(item, depth+1, seen) for item in obj]
+            elif isinstance(obj, dict):
+                return {k: _dump_builder(v, depth+1, seen) for k, v in obj.items()}
+            else:
+                return obj
+        
+        return json.dumps(_dump_builder(self), indent=indent, default=str)
+
 class ComplianceBuilder(BaseModel):
-    """One compliance declaration. Multiple declarations may be provided. (Builder)"""
+    """One compliance declaration. Multiple declarations may be provided. (Builder)
+    
+    Important:
+        - During construction, nested data is stored in private fields
+        - Calling model_dump() or model_dump_json() will NOT show nested builder state
+        - Always call build() to create the final model before serialization
+        - Use build_dump() for debugging to see full builder state during construction
+    
+    Example:
+        builder = ComplianceBuilder()
+        # Set fields...
+        
+        # WRONG - returns empty or incomplete:
+        # json_str = builder.model_dump_json()
+        
+        # CORRECT - build first, then serialize:
+        model = builder.build()
+        json_str = model.model_dump_json()
+        
+        # For debugging during construction:
+        debug_json = builder.build_dump()
+    """
 
     common_referenceToComplianceSystem: Optional[GlobalReferenceType | list[GlobalReferenceType]] = Field(None, alias='common:referenceToComplianceSystem')
     common_approvalOfOverallCompliance: Optional[CommonApprovalOfOverallCompliance] = Field(None, alias='common:approvalOfOverallCompliance')
 
     model_config = ConfigDict(
         extra='allow',
-        validate_assignment=False,  # Can be overridden per instance
+        validate_assignment=True,  # Enable validators on assignment
     )
 
     def build(self) -> Compliance:
@@ -352,15 +930,83 @@ class ComplianceBuilder(BaseModel):
 
         return Compliance.model_validate(data)
 
+    def build_dump(self, indent: int = 2) -> str:
+        """Dump builder state including nested builders for debugging.
+        
+        Warning: This is for debugging only. The output structure differs
+        from the final model. Use build() to create the actual model.
+        
+        Returns:
+            JSON string with full builder state including nested builders
+        """
+        import json
+        
+        def _dump_builder(obj, depth=0, seen=None):
+            """Recursively dump builder objects."""
+            if seen is None:
+                seen = set()
+            
+            # Prevent infinite recursion
+            obj_id = id(obj)
+            if obj_id in seen or depth > 20:
+                return "<circular>"
+            
+            if isinstance(obj, BaseModel):
+                seen.add(obj_id)
+                result = {}
+                
+                # Dump regular fields from __dict__
+                for field_name, field_value in obj.__dict__.items():
+                    if field_value is None:
+                        continue
+                    if field_name.startswith("_"):
+                        # Private field - include without underscore
+                        clean_name = field_name[1:]
+                        result[clean_name] = _dump_builder(field_value, depth+1, seen)
+                    else:
+                        result[field_name] = _dump_builder(field_value, depth+1, seen)
+                
+                seen.remove(obj_id)
+                return result
+            elif isinstance(obj, list):
+                return [_dump_builder(item, depth+1, seen) for item in obj]
+            elif isinstance(obj, dict):
+                return {k: _dump_builder(v, depth+1, seen) for k, v in obj.items()}
+            else:
+                return obj
+        
+        return json.dumps(_dump_builder(self), indent=indent, default=str)
+
 class Compliance1ItemBuilder(BaseModel):
-    """Builder for Compliance1Item."""
+    """Builder for Compliance1Item.
+    
+    Important:
+        - During construction, nested data is stored in private fields
+        - Calling model_dump() or model_dump_json() will NOT show nested builder state
+        - Always call build() to create the final model before serialization
+        - Use build_dump() for debugging to see full builder state during construction
+    
+    Example:
+        builder = Compliance1ItemBuilder()
+        # Set fields...
+        
+        # WRONG - returns empty or incomplete:
+        # json_str = builder.model_dump_json()
+        
+        # CORRECT - build first, then serialize:
+        model = builder.build()
+        json_str = model.model_dump_json()
+        
+        # For debugging during construction:
+        debug_json = builder.build_dump()
+    """
 
     common_referenceToComplianceSystem: Optional[GlobalReferenceType | list[GlobalReferenceType]] = Field(None, alias='common:referenceToComplianceSystem')
     common_approvalOfOverallCompliance: Optional[CommonApprovalOfOverallCompliance] = Field(None, alias='common:approvalOfOverallCompliance')
 
     model_config = ConfigDict(
         extra='allow',
-        validate_assignment=False,  # Can be overridden per instance
+        validate_assignment=True,  # Enable validators on assignment
     )
 
     def build(self) -> Compliance1Item:
@@ -369,20 +1015,93 @@ class Compliance1ItemBuilder(BaseModel):
 
         return Compliance1Item.model_validate(data)
 
+    def build_dump(self, indent: int = 2) -> str:
+        """Dump builder state including nested builders for debugging.
+        
+        Warning: This is for debugging only. The output structure differs
+        from the final model. Use build() to create the actual model.
+        
+        Returns:
+            JSON string with full builder state including nested builders
+        """
+        import json
+        
+        def _dump_builder(obj, depth=0, seen=None):
+            """Recursively dump builder objects."""
+            if seen is None:
+                seen = set()
+            
+            # Prevent infinite recursion
+            obj_id = id(obj)
+            if obj_id in seen or depth > 20:
+                return "<circular>"
+            
+            if isinstance(obj, BaseModel):
+                seen.add(obj_id)
+                result = {}
+                
+                # Dump regular fields from __dict__
+                for field_name, field_value in obj.__dict__.items():
+                    if field_value is None:
+                        continue
+                    if field_name.startswith("_"):
+                        # Private field - include without underscore
+                        clean_name = field_name[1:]
+                        result[clean_name] = _dump_builder(field_value, depth+1, seen)
+                    else:
+                        result[field_name] = _dump_builder(field_value, depth+1, seen)
+                
+                seen.remove(obj_id)
+                return result
+            elif isinstance(obj, list):
+                return [_dump_builder(item, depth+1, seen) for item in obj]
+            elif isinstance(obj, dict):
+                return {k: _dump_builder(v, depth+1, seen) for k, v in obj.items()}
+            else:
+                return obj
+        
+        return json.dumps(_dump_builder(self), indent=indent, default=str)
+
 class Compliance1Builder(BaseModel):
-    """Builder for Compliance1."""
+    """Builder for Compliance1.
+    
+    Important:
+        - During construction, nested data is stored in private fields
+        - Calling model_dump() or model_dump_json() will NOT show nested builder state
+        - Always call build() to create the final model before serialization
+        - Use build_dump() for debugging to see full builder state during construction
+    
+    Example:
+        builder = Compliance1Builder()
+        # Set fields...
+        
+        # WRONG - returns empty or incomplete:
+        # json_str = builder.model_dump_json()
+        
+        # CORRECT - build first, then serialize:
+        model = builder.build()
+        json_str = model.model_dump_json()
+        
+        # For debugging during construction:
+        debug_json = builder.build_dump()
+    """
 
     _root: List[Compliance1ItemBuilder] = []
 
     model_config = ConfigDict(
         extra='allow',
-        validate_assignment=False,  # Can be overridden per instance
+        validate_assignment=True,  # Enable validators on assignment
     )
 
     @property
     def root(self) -> List[Compliance1ItemBuilder]:
         """Access root builder list."""
         return self._root
+
+    @root.setter
+    def root(self, value: List[Compliance1ItemBuilder]) -> None:
+        """Set root builder list."""
+        self._root = value
 
     def add_root(self) -> Compliance1ItemBuilder:
         """Add and return a new Compliance1Item builder."""
@@ -403,15 +1122,83 @@ class Compliance1Builder(BaseModel):
 
         return Compliance1.model_validate(data)
 
+    def build_dump(self, indent: int = 2) -> str:
+        """Dump builder state including nested builders for debugging.
+        
+        Warning: This is for debugging only. The output structure differs
+        from the final model. Use build() to create the actual model.
+        
+        Returns:
+            JSON string with full builder state including nested builders
+        """
+        import json
+        
+        def _dump_builder(obj, depth=0, seen=None):
+            """Recursively dump builder objects."""
+            if seen is None:
+                seen = set()
+            
+            # Prevent infinite recursion
+            obj_id = id(obj)
+            if obj_id in seen or depth > 20:
+                return "<circular>"
+            
+            if isinstance(obj, BaseModel):
+                seen.add(obj_id)
+                result = {}
+                
+                # Dump regular fields from __dict__
+                for field_name, field_value in obj.__dict__.items():
+                    if field_value is None:
+                        continue
+                    if field_name.startswith("_"):
+                        # Private field - include without underscore
+                        clean_name = field_name[1:]
+                        result[clean_name] = _dump_builder(field_value, depth+1, seen)
+                    else:
+                        result[field_name] = _dump_builder(field_value, depth+1, seen)
+                
+                seen.remove(obj_id)
+                return result
+            elif isinstance(obj, list):
+                return [_dump_builder(item, depth+1, seen) for item in obj]
+            elif isinstance(obj, dict):
+                return {k: _dump_builder(v, depth+1, seen) for k, v in obj.items()}
+            else:
+                return obj
+        
+        return json.dumps(_dump_builder(self), indent=indent, default=str)
+
 class ComplianceDeclarationsBuilder(BaseModel):
-    """Statements on compliance of several data set aspects with compliance requirements as defined by the referenced compliance system (e.g. an EPD scheme, handbook of a national or international data network such as the ILCD, etc.). (Builder)"""
+    """Statements on compliance of several data set aspects with compliance requirements as defined by the referenced compliance system (e.g. an EPD scheme, handbook of a national or international data network such as the ILCD, etc.). (Builder)
+    
+    Important:
+        - During construction, nested data is stored in private fields
+        - Calling model_dump() or model_dump_json() will NOT show nested builder state
+        - Always call build() to create the final model before serialization
+        - Use build_dump() for debugging to see full builder state during construction
+    
+    Example:
+        builder = ComplianceDeclarationsBuilder()
+        # Set fields...
+        
+        # WRONG - returns empty or incomplete:
+        # json_str = builder.model_dump_json()
+        
+        # CORRECT - build first, then serialize:
+        model = builder.build()
+        json_str = model.model_dump_json()
+        
+        # For debugging during construction:
+        debug_json = builder.build_dump()
+    """
 
     common_other: Optional[str] = Field(None, alias='common:other')
     _compliance: Optional[ComplianceBuilder] = None
 
     model_config = ConfigDict(
         extra='allow',
-        validate_assignment=False,  # Can be overridden per instance
+        validate_assignment=True,  # Enable validators on assignment
     )
 
     @property
@@ -434,8 +1221,76 @@ class ComplianceDeclarationsBuilder(BaseModel):
 
         return ComplianceDeclarations.model_validate(data)
 
+    def build_dump(self, indent: int = 2) -> str:
+        """Dump builder state including nested builders for debugging.
+        
+        Warning: This is for debugging only. The output structure differs
+        from the final model. Use build() to create the actual model.
+        
+        Returns:
+            JSON string with full builder state including nested builders
+        """
+        import json
+        
+        def _dump_builder(obj, depth=0, seen=None):
+            """Recursively dump builder objects."""
+            if seen is None:
+                seen = set()
+            
+            # Prevent infinite recursion
+            obj_id = id(obj)
+            if obj_id in seen or depth > 20:
+                return "<circular>"
+            
+            if isinstance(obj, BaseModel):
+                seen.add(obj_id)
+                result = {}
+                
+                # Dump regular fields from __dict__
+                for field_name, field_value in obj.__dict__.items():
+                    if field_value is None:
+                        continue
+                    if field_name.startswith("_"):
+                        # Private field - include without underscore
+                        clean_name = field_name[1:]
+                        result[clean_name] = _dump_builder(field_value, depth+1, seen)
+                    else:
+                        result[field_name] = _dump_builder(field_value, depth+1, seen)
+                
+                seen.remove(obj_id)
+                return result
+            elif isinstance(obj, list):
+                return [_dump_builder(item, depth+1, seen) for item in obj]
+            elif isinstance(obj, dict):
+                return {k: _dump_builder(v, depth+1, seen) for k, v in obj.items()}
+            else:
+                return obj
+        
+        return json.dumps(_dump_builder(self), indent=indent, default=str)
+
 class ModellingAndValidationBuilder(BaseModel):
-    """Covers the five sub-sections 1) LCI method (not used), 2) Data sources, treatment and representativeness (only 3 fields), 3) Completeness (not used), 4) Validation, and 5) Compliance. (Builder)"""
+    """Covers the five sub-sections 1) LCI method (not used), 2) Data sources, treatment and representativeness (only 3 fields), 3) Completeness (not used), 4) Validation, and 5) Compliance. (Builder)
+    
+    Important:
+        - During construction, nested data is stored in private fields
+        - Calling model_dump() or model_dump_json() will NOT show nested builder state
+        - Always call build() to create the final model before serialization
+        - Use build_dump() for debugging to see full builder state during construction
+    
+    Example:
+        builder = ModellingAndValidationBuilder()
+        # Set fields...
+        
+        # WRONG - returns empty or incomplete:
+        # json_str = builder.model_dump_json()
+        
+        # CORRECT - build first, then serialize:
+        model = builder.build()
+        json_str = model.model_dump_json()
+        
+        # For debugging during construction:
+        debug_json = builder.build_dump()
+    """
 
     common_other: Optional[str] = Field(None, alias='common:other')
     _dataSourcesTreatmentAndRepresentativeness: Optional[DataSourcesTreatmentAndRepresentativenessBuilder] = None
@@ -443,7 +1298,7 @@ class ModellingAndValidationBuilder(BaseModel):
 
     model_config = ConfigDict(
         extra='allow',
-        validate_assignment=False,  # Can be overridden per instance
+        validate_assignment=True,  # Enable validators on assignment
     )
 
     @property
@@ -476,8 +1331,76 @@ class ModellingAndValidationBuilder(BaseModel):
 
         return ModellingAndValidation.model_validate(data)
 
+    def build_dump(self, indent: int = 2) -> str:
+        """Dump builder state including nested builders for debugging.
+        
+        Warning: This is for debugging only. The output structure differs
+        from the final model. Use build() to create the actual model.
+        
+        Returns:
+            JSON string with full builder state including nested builders
+        """
+        import json
+        
+        def _dump_builder(obj, depth=0, seen=None):
+            """Recursively dump builder objects."""
+            if seen is None:
+                seen = set()
+            
+            # Prevent infinite recursion
+            obj_id = id(obj)
+            if obj_id in seen or depth > 20:
+                return "<circular>"
+            
+            if isinstance(obj, BaseModel):
+                seen.add(obj_id)
+                result = {}
+                
+                # Dump regular fields from __dict__
+                for field_name, field_value in obj.__dict__.items():
+                    if field_value is None:
+                        continue
+                    if field_name.startswith("_"):
+                        # Private field - include without underscore
+                        clean_name = field_name[1:]
+                        result[clean_name] = _dump_builder(field_value, depth+1, seen)
+                    else:
+                        result[field_name] = _dump_builder(field_value, depth+1, seen)
+                
+                seen.remove(obj_id)
+                return result
+            elif isinstance(obj, list):
+                return [_dump_builder(item, depth+1, seen) for item in obj]
+            elif isinstance(obj, dict):
+                return {k: _dump_builder(v, depth+1, seen) for k, v in obj.items()}
+            else:
+                return obj
+        
+        return json.dumps(_dump_builder(self), indent=indent, default=str)
+
 class DataEntryByBuilder(BaseModel):
-    """Staff or entity, that documented the generated data set, entering the information into the database; plus administrative information linked to the data entry activity. (Builder)"""
+    """Staff or entity, that documented the generated data set, entering the information into the database; plus administrative information linked to the data entry activity. (Builder)
+    
+    Important:
+        - During construction, nested data is stored in private fields
+        - Calling model_dump() or model_dump_json() will NOT show nested builder state
+        - Always call build() to create the final model before serialization
+        - Use build_dump() for debugging to see full builder state during construction
+    
+    Example:
+        builder = DataEntryByBuilder()
+        # Set fields...
+        
+        # WRONG - returns empty or incomplete:
+        # json_str = builder.model_dump_json()
+        
+        # CORRECT - build first, then serialize:
+        model = builder.build()
+        json_str = model.model_dump_json()
+        
+        # For debugging during construction:
+        debug_json = builder.build_dump()
+    """
 
     common_timeStamp: Optional[AwareDatetime] = Field(None, alias='common:timeStamp')
     common_referenceToDataSetFormat: Optional[GlobalReferenceType | list[GlobalReferenceType]] = Field(None, alias='common:referenceToDataSetFormat')
@@ -485,7 +1408,7 @@ class DataEntryByBuilder(BaseModel):
 
     model_config = ConfigDict(
         extra='allow',
-        validate_assignment=False,  # Can be overridden per instance
+        validate_assignment=True,  # Enable validators on assignment
     )
 
     def build(self) -> DataEntryBy:
@@ -494,8 +1417,76 @@ class DataEntryByBuilder(BaseModel):
 
         return DataEntryBy.model_validate(data)
 
+    def build_dump(self, indent: int = 2) -> str:
+        """Dump builder state including nested builders for debugging.
+        
+        Warning: This is for debugging only. The output structure differs
+        from the final model. Use build() to create the actual model.
+        
+        Returns:
+            JSON string with full builder state including nested builders
+        """
+        import json
+        
+        def _dump_builder(obj, depth=0, seen=None):
+            """Recursively dump builder objects."""
+            if seen is None:
+                seen = set()
+            
+            # Prevent infinite recursion
+            obj_id = id(obj)
+            if obj_id in seen or depth > 20:
+                return "<circular>"
+            
+            if isinstance(obj, BaseModel):
+                seen.add(obj_id)
+                result = {}
+                
+                # Dump regular fields from __dict__
+                for field_name, field_value in obj.__dict__.items():
+                    if field_value is None:
+                        continue
+                    if field_name.startswith("_"):
+                        # Private field - include without underscore
+                        clean_name = field_name[1:]
+                        result[clean_name] = _dump_builder(field_value, depth+1, seen)
+                    else:
+                        result[field_name] = _dump_builder(field_value, depth+1, seen)
+                
+                seen.remove(obj_id)
+                return result
+            elif isinstance(obj, list):
+                return [_dump_builder(item, depth+1, seen) for item in obj]
+            elif isinstance(obj, dict):
+                return {k: _dump_builder(v, depth+1, seen) for k, v in obj.items()}
+            else:
+                return obj
+        
+        return json.dumps(_dump_builder(self), indent=indent, default=str)
+
 class PublicationAndOwnershipBuilder(BaseModel):
-    """Information related to publication and version management of the data set including copyright and access restrictions. (Builder)"""
+    """Information related to publication and version management of the data set including copyright and access restrictions. (Builder)
+    
+    Important:
+        - During construction, nested data is stored in private fields
+        - Calling model_dump() or model_dump_json() will NOT show nested builder state
+        - Always call build() to create the final model before serialization
+        - Use build_dump() for debugging to see full builder state during construction
+    
+    Example:
+        builder = PublicationAndOwnershipBuilder()
+        # Set fields...
+        
+        # WRONG - returns empty or incomplete:
+        # json_str = builder.model_dump_json()
+        
+        # CORRECT - build first, then serialize:
+        model = builder.build()
+        json_str = model.model_dump_json()
+        
+        # For debugging during construction:
+        debug_json = builder.build_dump()
+    """
 
     common_dataSetVersion: Optional[str] = Field(None, alias='common:dataSetVersion')
     common_referenceToPrecedingDataSetVersion: Optional[GlobalReferenceType | list[GlobalReferenceType]] = Field(None, alias='common:referenceToPrecedingDataSetVersion')
@@ -505,7 +1496,7 @@ class PublicationAndOwnershipBuilder(BaseModel):
 
     model_config = ConfigDict(
         extra='allow',
-        validate_assignment=False,  # Can be overridden per instance
+        validate_assignment=True,  # Enable validators on assignment
     )
 
     def build(self) -> PublicationAndOwnership:
@@ -514,8 +1505,76 @@ class PublicationAndOwnershipBuilder(BaseModel):
 
         return PublicationAndOwnership.model_validate(data)
 
+    def build_dump(self, indent: int = 2) -> str:
+        """Dump builder state including nested builders for debugging.
+        
+        Warning: This is for debugging only. The output structure differs
+        from the final model. Use build() to create the actual model.
+        
+        Returns:
+            JSON string with full builder state including nested builders
+        """
+        import json
+        
+        def _dump_builder(obj, depth=0, seen=None):
+            """Recursively dump builder objects."""
+            if seen is None:
+                seen = set()
+            
+            # Prevent infinite recursion
+            obj_id = id(obj)
+            if obj_id in seen or depth > 20:
+                return "<circular>"
+            
+            if isinstance(obj, BaseModel):
+                seen.add(obj_id)
+                result = {}
+                
+                # Dump regular fields from __dict__
+                for field_name, field_value in obj.__dict__.items():
+                    if field_value is None:
+                        continue
+                    if field_name.startswith("_"):
+                        # Private field - include without underscore
+                        clean_name = field_name[1:]
+                        result[clean_name] = _dump_builder(field_value, depth+1, seen)
+                    else:
+                        result[field_name] = _dump_builder(field_value, depth+1, seen)
+                
+                seen.remove(obj_id)
+                return result
+            elif isinstance(obj, list):
+                return [_dump_builder(item, depth+1, seen) for item in obj]
+            elif isinstance(obj, dict):
+                return {k: _dump_builder(v, depth+1, seen) for k, v in obj.items()}
+            else:
+                return obj
+        
+        return json.dumps(_dump_builder(self), indent=indent, default=str)
+
 class AdministrativeInformationBuilder(BaseModel):
-    """Information on data set management and administration. (Builder)"""
+    """Information on data set management and administration. (Builder)
+    
+    Important:
+        - During construction, nested data is stored in private fields
+        - Calling model_dump() or model_dump_json() will NOT show nested builder state
+        - Always call build() to create the final model before serialization
+        - Use build_dump() for debugging to see full builder state during construction
+    
+    Example:
+        builder = AdministrativeInformationBuilder()
+        # Set fields...
+        
+        # WRONG - returns empty or incomplete:
+        # json_str = builder.model_dump_json()
+        
+        # CORRECT - build first, then serialize:
+        model = builder.build()
+        json_str = model.model_dump_json()
+        
+        # For debugging during construction:
+        debug_json = builder.build_dump()
+    """
 
     common_other: Optional[str] = Field(None, alias='common:other')
     _dataEntryBy: Optional[DataEntryByBuilder] = None
@@ -523,7 +1582,7 @@ class AdministrativeInformationBuilder(BaseModel):
 
     model_config = ConfigDict(
         extra='allow',
-        validate_assignment=False,  # Can be overridden per instance
+        validate_assignment=True,  # Enable validators on assignment
     )
 
     @property
@@ -556,14 +1615,82 @@ class AdministrativeInformationBuilder(BaseModel):
 
         return AdministrativeInformation.model_validate(data)
 
+    def build_dump(self, indent: int = 2) -> str:
+        """Dump builder state including nested builders for debugging.
+        
+        Warning: This is for debugging only. The output structure differs
+        from the final model. Use build() to create the actual model.
+        
+        Returns:
+            JSON string with full builder state including nested builders
+        """
+        import json
+        
+        def _dump_builder(obj, depth=0, seen=None):
+            """Recursively dump builder objects."""
+            if seen is None:
+                seen = set()
+            
+            # Prevent infinite recursion
+            obj_id = id(obj)
+            if obj_id in seen or depth > 20:
+                return "<circular>"
+            
+            if isinstance(obj, BaseModel):
+                seen.add(obj_id)
+                result = {}
+                
+                # Dump regular fields from __dict__
+                for field_name, field_value in obj.__dict__.items():
+                    if field_value is None:
+                        continue
+                    if field_name.startswith("_"):
+                        # Private field - include without underscore
+                        clean_name = field_name[1:]
+                        result[clean_name] = _dump_builder(field_value, depth+1, seen)
+                    else:
+                        result[field_name] = _dump_builder(field_value, depth+1, seen)
+                
+                seen.remove(obj_id)
+                return result
+            elif isinstance(obj, list):
+                return [_dump_builder(item, depth+1, seen) for item in obj]
+            elif isinstance(obj, dict):
+                return {k: _dump_builder(v, depth+1, seen) for k, v in obj.items()}
+            else:
+                return obj
+        
+        return json.dumps(_dump_builder(self), indent=indent, default=str)
+
 class ModelBuilder(BaseModel):
-    """Builder for Model."""
+    """Builder for Model.
+    
+    Important:
+        - During construction, nested data is stored in private fields
+        - Calling model_dump() or model_dump_json() will NOT show nested builder state
+        - Always call build() to create the final model before serialization
+        - Use build_dump() for debugging to see full builder state during construction
+    
+    Example:
+        builder = ModelBuilder()
+        # Set fields...
+        
+        # WRONG - returns empty or incomplete:
+        # json_str = builder.model_dump_json()
+        
+        # CORRECT - build first, then serialize:
+        model = builder.build()
+        json_str = model.model_dump_json()
+        
+        # For debugging during construction:
+        debug_json = builder.build_dump()
+    """
 
     _flowPropertyDataSet: Optional[FlowPropertyDataSetBuilder] = None
 
     model_config = ConfigDict(
         extra='allow',
-        validate_assignment=False,  # Can be overridden per instance
+        validate_assignment=True,  # Enable validators on assignment
     )
 
     @property
@@ -586,8 +1713,76 @@ class ModelBuilder(BaseModel):
 
         return Model.model_validate(data)
 
+    def build_dump(self, indent: int = 2) -> str:
+        """Dump builder state including nested builders for debugging.
+        
+        Warning: This is for debugging only. The output structure differs
+        from the final model. Use build() to create the actual model.
+        
+        Returns:
+            JSON string with full builder state including nested builders
+        """
+        import json
+        
+        def _dump_builder(obj, depth=0, seen=None):
+            """Recursively dump builder objects."""
+            if seen is None:
+                seen = set()
+            
+            # Prevent infinite recursion
+            obj_id = id(obj)
+            if obj_id in seen or depth > 20:
+                return "<circular>"
+            
+            if isinstance(obj, BaseModel):
+                seen.add(obj_id)
+                result = {}
+                
+                # Dump regular fields from __dict__
+                for field_name, field_value in obj.__dict__.items():
+                    if field_value is None:
+                        continue
+                    if field_name.startswith("_"):
+                        # Private field - include without underscore
+                        clean_name = field_name[1:]
+                        result[clean_name] = _dump_builder(field_value, depth+1, seen)
+                    else:
+                        result[field_name] = _dump_builder(field_value, depth+1, seen)
+                
+                seen.remove(obj_id)
+                return result
+            elif isinstance(obj, list):
+                return [_dump_builder(item, depth+1, seen) for item in obj]
+            elif isinstance(obj, dict):
+                return {k: _dump_builder(v, depth+1, seen) for k, v in obj.items()}
+            else:
+                return obj
+        
+        return json.dumps(_dump_builder(self), indent=indent, default=str)
+
 class FlowPropertyDataSetBuilder(BaseModel):
-    """Builder for FlowPropertyDataSet."""
+    """Builder for FlowPropertyDataSet.
+    
+    Important:
+        - During construction, nested data is stored in private fields
+        - Calling model_dump() or model_dump_json() will NOT show nested builder state
+        - Always call build() to create the final model before serialization
+        - Use build_dump() for debugging to see full builder state during construction
+    
+    Example:
+        builder = FlowPropertyDataSetBuilder()
+        # Set fields...
+        
+        # WRONG - returns empty or incomplete:
+        # json_str = builder.model_dump_json()
+        
+        # CORRECT - build first, then serialize:
+        model = builder.build()
+        json_str = model.model_dump_json()
+        
+        # For debugging during construction:
+        debug_json = builder.build_dump()
+    """
 
     field_xmlns: Optional[Literal['http://lca.jrc.it/ILCD/FlowProperty']] = Field(None, alias='@xmlns')
     field_xmlns_common: Optional[Literal['http://lca.jrc.it/ILCD/Common']] = Field(None, alias='@xmlns:common')
@@ -601,7 +1796,7 @@ class FlowPropertyDataSetBuilder(BaseModel):
 
     model_config = ConfigDict(
         extra='allow',
-        validate_assignment=False,  # Can be overridden per instance
+        validate_assignment=True,  # Enable validators on assignment
     )
 
     @property
@@ -643,3 +1838,70 @@ class FlowPropertyDataSetBuilder(BaseModel):
             data['administrativeInformation'] = self._administrativeInformation.build()
 
         return FlowPropertyDataSet.model_validate(data)
+
+    def build_dump(self, indent: int = 2) -> str:
+        """Dump builder state including nested builders for debugging.
+        
+        Warning: This is for debugging only. The output structure differs
+        from the final model. Use build() to create the actual model.
+        
+        Returns:
+            JSON string with full builder state including nested builders
+        """
+        import json
+        
+        def _dump_builder(obj, depth=0, seen=None):
+            """Recursively dump builder objects."""
+            if seen is None:
+                seen = set()
+            
+            # Prevent infinite recursion
+            obj_id = id(obj)
+            if obj_id in seen or depth > 20:
+                return "<circular>"
+            
+            if isinstance(obj, BaseModel):
+                seen.add(obj_id)
+                result = {}
+                
+                # Dump regular fields from __dict__
+                for field_name, field_value in obj.__dict__.items():
+                    if field_value is None:
+                        continue
+                    if field_name.startswith("_"):
+                        # Private field - include without underscore
+                        clean_name = field_name[1:]
+                        result[clean_name] = _dump_builder(field_value, depth+1, seen)
+                    else:
+                        result[field_name] = _dump_builder(field_value, depth+1, seen)
+                
+                seen.remove(obj_id)
+                return result
+            elif isinstance(obj, list):
+                return [_dump_builder(item, depth+1, seen) for item in obj]
+            elif isinstance(obj, dict):
+                return {k: _dump_builder(v, depth+1, seen) for k, v in obj.items()}
+            else:
+                return obj
+        
+        return json.dumps(_dump_builder(self), indent=indent, default=str)
+
+# Rebuild models to resolve forward references
+DateTimeBuilder.model_rebuild()
+CommonClassBuilder.model_rebuild()
+CommonClassificationBuilder.model_rebuild()
+ClassificationInformationBuilder.model_rebuild()
+DataSetInformationBuilder.model_rebuild()
+QuantitativeReferenceBuilder.model_rebuild()
+FlowPropertiesInformationBuilder.model_rebuild()
+DataSourcesTreatmentAndRepresentativenessBuilder.model_rebuild()
+ComplianceBuilder.model_rebuild()
+Compliance1ItemBuilder.model_rebuild()
+Compliance1Builder.model_rebuild()
+ComplianceDeclarationsBuilder.model_rebuild()
+ModellingAndValidationBuilder.model_rebuild()
+DataEntryByBuilder.model_rebuild()
+PublicationAndOwnershipBuilder.model_rebuild()
+AdministrativeInformationBuilder.model_rebuild()
+ModelBuilder.model_rebuild()
+FlowPropertyDataSetBuilder.model_rebuild()

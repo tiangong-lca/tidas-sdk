@@ -281,11 +281,34 @@ class BuilderGenerator:
         # Class definition
         lines.append(f"{indent}class {builder_name}(BaseModel):")
 
-        # Docstring
+        # Docstring with usage notes
         if docstring:
-            lines.append(f'{indent}    """{docstring} (Builder)"""')
+            lines.append(f'{indent}    """{docstring} (Builder)')
         else:
-            lines.append(f'{indent}    """Builder for {class_name}."""')
+            lines.append(f'{indent}    """Builder for {class_name}.')
+
+        # Add common usage notes for all builders
+        lines.append(f'{indent}    ')
+        lines.append(f'{indent}    Important:')
+        lines.append(f'{indent}        - During construction, nested data is stored in private fields')
+        lines.append(f'{indent}        - Calling model_dump() or model_dump_json() will NOT show nested builder state')
+        lines.append(f'{indent}        - Always call build() to create the final model before serialization')
+        lines.append(f'{indent}        - Use build_dump() for debugging to see full builder state during construction')
+        lines.append(f'{indent}    ')
+        lines.append(f'{indent}    Example:')
+        lines.append(f'{indent}        builder = {builder_name}()')
+        lines.append(f'{indent}        # Set fields...')
+        lines.append(f'{indent}        ')
+        lines.append(f'{indent}        # WRONG - returns empty or incomplete:')
+        lines.append(f'{indent}        # json_str = builder.model_dump_json()')
+        lines.append(f'{indent}        ')
+        lines.append(f'{indent}        # CORRECT - build first, then serialize:')
+        lines.append(f'{indent}        model = builder.build()')
+        lines.append(f'{indent}        json_str = model.model_dump_json()')
+        lines.append(f'{indent}        ')
+        lines.append(f'{indent}        # For debugging during construction:')
+        lines.append(f'{indent}        debug_json = builder.build_dump()')
+        lines.append(f'{indent}    """')
         lines.append("")
 
         # Regular fields (non-nested, non-array)
@@ -344,7 +367,7 @@ class BuilderGenerator:
         # Model config
         lines.append(f"{indent}    model_config = ConfigDict(")
         lines.append(f"{indent}        extra='allow',")
-        lines.append(f"{indent}        validate_assignment=False,  # Can be overridden per instance")
+        lines.append(f"{indent}        validate_assignment=True,  # Enable validators on assignment")
         lines.append(f"{indent}    )")
         lines.append("")
 
@@ -359,7 +382,7 @@ class BuilderGenerator:
             lines.append(f"{indent}        return self._{field_name}")
             lines.append("")
 
-        # Property accessors for arrays (read-only list)
+        # Property accessors for arrays (with getter and setter)
         for field_name, field_info, inner_type in array_fields:
             builder_type = f"{inner_type}Builder"
             lines.append(f"{indent}    @property")
@@ -368,21 +391,114 @@ class BuilderGenerator:
             lines.append(f"{indent}        return self._{field_name}")
             lines.append("")
 
+            # Add setter for list fields
+            lines.append(f"{indent}    @{field_name}.setter")
+            lines.append(f"{indent}    def {field_name}(self, value: List[{builder_type}]) -> None:")
+            lines.append(f'{indent}        """Set {field_name} builder list."""')
+            lines.append(f"{indent}        self._{field_name} = value")
+            lines.append("")
+
         # Add methods for arrays
         for field_name, field_info, inner_type in array_fields:
-            builder_type = f"{inner_type}Builder"
+            # Check if inner_type is a union (contains " | ")
+            if " | " in inner_type:
+                # For union types, use the first type for instantiation
+                first_type = inner_type.split(" | ")[0].strip()
+                instantiate_type = f"{first_type}Builder"
+                builder_type = f"{inner_type}Builder"  # Keep full union for return type
+            else:
+                instantiate_type = f"{inner_type}Builder"
+                builder_type = instantiate_type
+
             method_name = f"add_{field_name.rstrip('s')}"  # Simple pluralization
             lines.append(f"{indent}    def {method_name}(self) -> {builder_type}:")
             lines.append(f'{indent}        """Add and return a new {inner_type} builder."""')
-            lines.append(f"{indent}        builder = {builder_type}()")
+            lines.append(f"{indent}        builder = {instantiate_type}()")
             lines.append(f"{indent}        self._{field_name}.append(builder)")
             lines.append(f"{indent}        return builder")
             lines.append("")
 
-        # Multi-language helper methods
+        # Multi-language field validators (for automatic type conversion)
         ml_fields = [
             (name, info) for name, info in regular_fields if info["is_multi_lang"]
         ]
+
+        if ml_fields:
+            # Group fields by multi-lang type
+            string_ml_fields = []
+            st_ml_fields = []
+            ft_ml_fields = []
+
+            for field_name, field_info in ml_fields:
+                field_type = field_info["type"]
+                if "StringMultiLang" in field_type:
+                    string_ml_fields.append(field_name)
+                elif "STMultiLang" in field_type:
+                    st_ml_fields.append(field_name)
+                elif "FTMultiLang" in field_type:
+                    ft_ml_fields.append(field_name)
+
+            # Generate validator for StringMultiLang fields
+            if string_ml_fields:
+                field_list = ", ".join([f"'{f}'" for f in string_ml_fields])
+                lines.append(f"{indent}    @field_validator({field_list}, mode='before')")
+                lines.append(f"{indent}    @classmethod")
+                lines.append(f"{indent}    def _convert_string_multilang(cls, v):")
+                lines.append(f'{indent}        """Auto-convert dict or list[dict] to StringMultiLang."""')
+                lines.append(f"{indent}        if v is None or isinstance(v, StringMultiLang):")
+                lines.append(f"{indent}            return v")
+                lines.append(f"{indent}        ")
+                lines.append(f"{indent}        ml = StringMultiLang()")
+                lines.append(f"{indent}        if isinstance(v, dict):")
+                lines.append(f"{indent}            ml.items.append(MultiLangItemString(**v))")
+                lines.append(f"{indent}        elif isinstance(v, list):")
+                lines.append(f"{indent}            for item in v:")
+                lines.append(f"{indent}                if isinstance(item, dict):")
+                lines.append(f"{indent}                    ml.items.append(MultiLangItemString(**item))")
+                lines.append(f"{indent}        return ml")
+                lines.append("")
+
+            # Generate validator for STMultiLang fields
+            if st_ml_fields:
+                field_list = ", ".join([f"'{f}'" for f in st_ml_fields])
+                lines.append(f"{indent}    @field_validator({field_list}, mode='before')")
+                lines.append(f"{indent}    @classmethod")
+                lines.append(f"{indent}    def _convert_st_multilang(cls, v):")
+                lines.append(f'{indent}        """Auto-convert dict or list[dict] to STMultiLang."""')
+                lines.append(f"{indent}        if v is None or isinstance(v, STMultiLang):")
+                lines.append(f"{indent}            return v")
+                lines.append(f"{indent}        ")
+                lines.append(f"{indent}        ml = STMultiLang()")
+                lines.append(f"{indent}        if isinstance(v, dict):")
+                lines.append(f"{indent}            ml.items.append(MultiLangItemST(**v))")
+                lines.append(f"{indent}        elif isinstance(v, list):")
+                lines.append(f"{indent}            for item in v:")
+                lines.append(f"{indent}                if isinstance(item, dict):")
+                lines.append(f"{indent}                    ml.items.append(MultiLangItemST(**item))")
+                lines.append(f"{indent}        return ml")
+                lines.append("")
+
+            # Generate validator for FTMultiLang fields
+            if ft_ml_fields:
+                field_list = ", ".join([f"'{f}'" for f in ft_ml_fields])
+                lines.append(f"{indent}    @field_validator({field_list}, mode='before')")
+                lines.append(f"{indent}    @classmethod")
+                lines.append(f"{indent}    def _convert_ft_multilang(cls, v):")
+                lines.append(f'{indent}        """Auto-convert dict or list[dict] to FTMultiLang."""')
+                lines.append(f"{indent}        if v is None or isinstance(v, FTMultiLang):")
+                lines.append(f"{indent}            return v")
+                lines.append(f"{indent}        ")
+                lines.append(f"{indent}        ml = FTMultiLang()")
+                lines.append(f"{indent}        if isinstance(v, dict):")
+                lines.append(f"{indent}            ml.items.append(MultiLangItem(**v))")
+                lines.append(f"{indent}        elif isinstance(v, list):")
+                lines.append(f"{indent}            for item in v:")
+                lines.append(f"{indent}                if isinstance(item, dict):")
+                lines.append(f"{indent}                    ml.items.append(MultiLangItem(**item))")
+                lines.append(f"{indent}        return ml")
+                lines.append("")
+
+        # Multi-language helper methods
         for field_name, field_info in ml_fields:
             # Determine the multi-lang type from the field type
             field_type = field_info["type"]
@@ -394,7 +510,7 @@ class BuilderGenerator:
                 item_class = "MultiLangItemST"
             elif "FTMultiLang" in field_type:
                 ml_class = "FTMultiLang"
-                item_class = "MultiLangItemFT"
+                item_class = "MultiLangItem"  # FTMultiLang uses MultiLangItem, not MultiLangItemFT
             else:
                 continue  # Skip if not a recognized multi-lang type
 
@@ -476,6 +592,55 @@ class BuilderGenerator:
             lines.append("")
 
         lines.append(f"{indent}        return {class_name}.model_validate(data)")
+        lines.append("")
+
+        # Build dump method for debugging
+        lines.append(f"{indent}    def build_dump(self, indent: int = 2) -> str:")
+        lines.append(f'{indent}        """Dump builder state including nested builders for debugging.')
+        lines.append(f'{indent}        ')
+        lines.append(f'{indent}        Warning: This is for debugging only. The output structure differs')
+        lines.append(f'{indent}        from the final model. Use build() to create the actual model.')
+        lines.append(f'{indent}        ')
+        lines.append(f'{indent}        Returns:')
+        lines.append(f'{indent}            JSON string with full builder state including nested builders')
+        lines.append(f'{indent}        """')
+        lines.append(f'{indent}        import json')
+        lines.append(f'{indent}        ')
+        lines.append(f'{indent}        def _dump_builder(obj, depth=0, seen=None):')
+        lines.append(f'{indent}            """Recursively dump builder objects."""')
+        lines.append(f'{indent}            if seen is None:')
+        lines.append(f'{indent}                seen = set()')
+        lines.append(f'{indent}            ')
+        lines.append(f'{indent}            # Prevent infinite recursion')
+        lines.append(f'{indent}            obj_id = id(obj)')
+        lines.append(f'{indent}            if obj_id in seen or depth > 20:')
+        lines.append(f'{indent}                return "<circular>"')
+        lines.append(f'{indent}            ')
+        lines.append(f'{indent}            if isinstance(obj, BaseModel):')
+        lines.append(f'{indent}                seen.add(obj_id)')
+        lines.append(f'{indent}                result = {{}}')
+        lines.append(f'{indent}                ')
+        lines.append(f'{indent}                # Dump regular fields from __dict__')
+        lines.append(f'{indent}                for field_name, field_value in obj.__dict__.items():')
+        lines.append(f'{indent}                    if field_value is None:')
+        lines.append(f'{indent}                        continue')
+        lines.append(f'{indent}                    if field_name.startswith("_"):')
+        lines.append(f'{indent}                        # Private field - include without underscore')
+        lines.append(f'{indent}                        clean_name = field_name[1:]')
+        lines.append(f'{indent}                        result[clean_name] = _dump_builder(field_value, depth+1, seen)')
+        lines.append(f'{indent}                    else:')
+        lines.append(f'{indent}                        result[field_name] = _dump_builder(field_value, depth+1, seen)')
+        lines.append(f'{indent}                ')
+        lines.append(f'{indent}                seen.remove(obj_id)')
+        lines.append(f'{indent}                return result')
+        lines.append(f'{indent}            elif isinstance(obj, list):')
+        lines.append(f'{indent}                return [_dump_builder(item, depth+1, seen) for item in obj]')
+        lines.append(f'{indent}            elif isinstance(obj, dict):')
+        lines.append(f'{indent}                return {{k: _dump_builder(v, depth+1, seen) for k, v in obj.items()}}')
+        lines.append(f'{indent}            else:')
+        lines.append(f'{indent}                return obj')
+        lines.append(f'{indent}        ')
+        lines.append(f'{indent}        return json.dumps(_dump_builder(self), indent=indent, default=str)')
         lines.append("")
 
         return "\n".join(lines)
@@ -562,7 +727,7 @@ class BuilderGenerator:
             lines.append(f"from typing import {', '.join(sorted(typing_imports))}")
 
         # Add pydantic imports
-        pydantic_imports.update(['BaseModel', 'ConfigDict'])
+        pydantic_imports.update(['BaseModel', 'ConfigDict', 'field_validator'])
         if pydantic_imports:
             lines.append(f"from pydantic import {', '.join(sorted(pydantic_imports))}")
 
@@ -575,19 +740,14 @@ class BuilderGenerator:
                 lines.append(f"    {name},")
             lines.append(")")
 
-        # Add import for classes from current entity
+        # Add wildcard import for all classes from current entity
+        # This includes Enums, type aliases, and other types used in field annotations
         lines.extend([
             "",
-            f"from tidas_sdk.types.{entity_name} import (",
+            f"from tidas_sdk.types.{entity_name} import *",
+            "",
+            ""
         ])
-
-        # Import all classes from the entity module
-        for class_name in sorted(known_classes):
-            lines.append(f"    {class_name},")
-
-        lines.append(")")
-        lines.append("")
-        lines.append("")
 
         # Generate builder classes in order (simple -> complex)
         # This ensures nested builders are defined before parent builders
@@ -599,6 +759,13 @@ class BuilderGenerator:
                 class_name, class_info, known_classes
             )
             lines.append(builder_code)
+
+        # Add model_rebuild() calls to resolve forward references
+        lines.append("# Rebuild models to resolve forward references")
+        for class_name in sorted_classes:
+            builder_name = f"{class_name}Builder"
+            lines.append(f"{builder_name}.model_rebuild()")
+        lines.append("")
 
         return "\n".join(lines)
 

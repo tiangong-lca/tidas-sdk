@@ -67,19 +67,135 @@ class StringMultiLang(BaseModel):
     items: list[MultiLangItemString] = Field(default_factory=list)
 
     def set_text(self, text: str, lang: str = "en") -> None:
+        """Add text for a specific language using Python field names."""
         self.items.append(MultiLangItemString(lang=lang, text=text))
 
     def get_text(self, lang: str = "en") -> str:
+        """Get text for a specific language."""
         for item in self.items:
             if item.lang == lang:
                 return item.text
+        return None
+
+    def append(self, item: dict | MultiLangItemString) -> None:
+        """Add a new multi-language item (supports dict or object)."""
+        if isinstance(item, dict):
+            self.items.append(MultiLangItemString(**item))
+        elif isinstance(item, MultiLangItemString):
+            self.items.append(item)
+        else:
+            raise TypeError(f"Expected dict or MultiLangItemString, got {type(item)}")
+
+    def extend(self, items: list) -> None:
+        """Add multiple multi-language items at once."""
+        for item in items:
+            self.append(item)
+
+    def __len__(self) -> int:
+        """Return the number of items."""
+        return len(self.items)
+
+    def __getitem__(self, index: int) -> MultiLangItemString:
+        """Support indexing to access items."""
+        return self.items[index]
+
+    def __iter__(self):
+        """Support iteration over items."""
+        return iter(self.items)
 
 
 STMultiLang = list[MultiLangItemST] | MultiLangItemST
 """Multi-language short text with max 1000 characters."""
 
+
+class STMultiLang(BaseModel):
+    """Multi-language short text with max 1000 characters."""
+
+    items: list[MultiLangItemST] = Field(default_factory=list)
+
+    def set_text(self, text: str, lang: str = "en") -> None:
+        """Add text for a specific language using Python field names."""
+        self.items.append(MultiLangItemST(lang=lang, text=text))
+
+    def get_text(self, lang: str = "en") -> str:
+        """Get text for a specific language."""
+        for item in self.items:
+            if item.lang == lang:
+                return item.text
+        return None
+
+    def append(self, item: dict | MultiLangItemST) -> None:
+        """Add a new multi-language item (supports dict or object)."""
+        if isinstance(item, dict):
+            self.items.append(MultiLangItemST(**item))
+        elif isinstance(item, MultiLangItemST):
+            self.items.append(item)
+        else:
+            raise TypeError(f"Expected dict or MultiLangItemST, got {type(item)}")
+
+    def extend(self, items: list) -> None:
+        """Add multiple multi-language items at once."""
+        for item in items:
+            self.append(item)
+
+    def __len__(self) -> int:
+        """Return the number of items."""
+        return len(self.items)
+
+    def __getitem__(self, index: int) -> MultiLangItemST:
+        """Support indexing to access items."""
+        return self.items[index]
+
+    def __iter__(self):
+        """Support iteration over items."""
+        return iter(self.items)
+
+
 FTMultiLang = list[MultiLangItem] | MultiLangItem
 """Multi-language free text with unlimited length."""
+
+
+class FTMultiLang(BaseModel):
+    """Multi-language free text with unlimited length."""
+
+    items: list[MultiLangItem] = Field(default_factory=list)
+
+    def set_text(self, text: str, lang: str = "en") -> None:
+        """Add text for a specific language using Python field names."""
+        self.items.append(MultiLangItem(lang=lang, text=text))
+
+    def get_text(self, lang: str = "en") -> str:
+        """Get text for a specific language."""
+        for item in self.items:
+            if item.lang == lang:
+                return item.text
+        return None
+
+    def append(self, item: dict | MultiLangItem) -> None:
+        """Add a new multi-language item (supports dict or object)."""
+        if isinstance(item, dict):
+            self.items.append(MultiLangItem(**item))
+        elif isinstance(item, MultiLangItem):
+            self.items.append(item)
+        else:
+            raise TypeError(f"Expected dict or MultiLangItem, got {type(item)}")
+
+    def extend(self, items: list) -> None:
+        """Add multiple multi-language items at once."""
+        for item in items:
+            self.append(item)
+
+    def __len__(self) -> int:
+        """Return the number of items."""
+        return len(self.items)
+
+    def __getitem__(self, index: int) -> MultiLangItem:
+        """Support indexing to access items."""
+        return self.items[index]
+
+    def __iter__(self):
+        """Support iteration over items."""
+        return iter(self.items)
 
 
 # ========== Integer Types ==========
