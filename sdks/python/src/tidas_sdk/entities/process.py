@@ -9,7 +9,15 @@ from uuid import uuid4
 
 from ..core.base import TidasEntity
 from ..core.multilang import MultiLangList
-from ..generated.tidas_processes import Process
+from ..generated.tidas_processes import (
+    AdministrativeInformation,
+    DataEntryBy,
+    DataSetInformation,
+    Process,
+    ProcessDataSet,
+    ProcessInformation,
+    PublicationAndOwnership,
+)
 
 
 class TidasProcess(TidasEntity[Process]):
@@ -23,45 +31,57 @@ class TidasProcess(TidasEntity[Process]):
     # ----------------------------------------------------------------------------------
 
     def ensure_defaults(self) -> None:
-        if self.process_data_set is None:
-            self.process_data_set = {}
         data_set = self.process_data_set
+        if data_set is None:
+            data_set = ProcessDataSet()
+            self.process_data_set = data_set
 
-        # Namespaces
-        for key, value in (
-            ("@xmlns", "http://lca.jrc.it/ILCD/Process"),
-            ("@xmlns:common", "http://lca.jrc.it/ILCD/Common"),
-            ("@xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance"),
-            ("@version", "1.1"),
-            (
-                "@xsi:schemaLocation",
-                "http://lca.jrc.it/ILCD/Process ../../schemas/ILCD_ProcessDataSet.xsd",
-            ),
+        data_set.xmlns = data_set.xmlns or "http://lca.jrc.it/ILCD/Process"
+        data_set.xmlns_common = data_set.xmlns_common or "http://lca.jrc.it/ILCD/Common"
+        data_set.xmlns_xsi = data_set.xmlns_xsi or "http://www.w3.org/2001/XMLSchema-instance"
+        data_set.version = data_set.version or "1.1"
+        data_set.xsi_schema_location = (
+            data_set.xsi_schema_location
+            or "http://lca.jrc.it/ILCD/Process ../../schemas/ILCD_ProcessDataSet.xsd"
+        )
+
+        process_info = data_set.process_information or ProcessInformation()
+        data_set.process_information = process_info
+
+        data_info = process_info.data_set_information or DataSetInformation()
+        process_info.data_set_information = data_info
+
+        admin_info = data_set.administrative_information or AdministrativeInformation()
+        data_set.administrative_information = admin_info
+
+        data_entry = admin_info.data_entry_by or DataEntryBy()
+        admin_info.data_entry_by = data_entry
+
+        publication = admin_info.publication_and_ownership or PublicationAndOwnership()
+        admin_info.publication_and_ownership = publication
+
+        if not data_info.common_uuid:
+            data_info.common_uuid = str(uuid4())
+
+        if not data_entry.common_time_stamp:
+            data_entry.common_time_stamp = datetime.now(tz=timezone.utc).isoformat()
+
+        for field_name in (
+            "common_name",
+            "common_short_name",
+            "common_synonyms",
+            "common_general_comment",
         ):
-            data_set.setdefault(key, value)
-
-        process_info = data_set.setdefault("processInformation", {})
-        data_info = process_info.setdefault("dataSetInformation", {})
-        admin_info = data_set.setdefault("administrativeInformation", {})
-        data_entry = admin_info.setdefault("dataEntryBy", {})
-
-        data_info.setdefault("common:UUID", str(uuid4()))
-        timestamp_field = "common:timeStamp"
-        data_entry.setdefault(timestamp_field, datetime.now(tz=timezone.utc).isoformat())
-
-        # Multi-lang defaults
-        self._ensure_multilang(data_info, "common:name")
-        self._ensure_multilang(data_info, "common:shortName")
-        self._ensure_multilang(data_info, "common:synonyms")
-        self._ensure_multilang(data_info, "common:generalComment")
-
-    # ----------------------------------------------------------------------------------
-    # Helpers
-    # ----------------------------------------------------------------------------------
+            self._ensure_multilang(getattr(data_info, field_name), data_info, field_name)
 
     @staticmethod
-    def _ensure_multilang(node: dict[str, Any], key: str) -> None:
-        current = node.get(key)
-        if isinstance(current, MultiLangList):
+    def _ensure_multilang(value: Any, container: DataSetInformation, field_name: str) -> None:
+        if isinstance(value, MultiLangList):
             return
-        node[key] = MultiLangList(current or [])
+        if isinstance(value, list):
+            setattr(container, field_name, MultiLangList(value))
+            return
+        if value is None:
+            setattr(container, field_name, MultiLangList())
+            return
+        setattr(container, field_name, MultiLangList([value]))

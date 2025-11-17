@@ -1,6 +1,490 @@
-"""
-Namespace reserved for auto-generated models.
+"""Exports for auto-generated models."""
+from __future__ import annotations
 
-During development this module may contain lightweight placeholders so that
-the rest of the SDK remains importable even before the generator has run.
-"""
+from .tidas_data_types import Globalreferencetype
+from .tidas_data_types import DataTypes
+from .tidas_contacts import CommonClassificationCommonClassoption0itemoption0
+from .tidas_contacts import CommonClassificationCommonClassoption0itemoption1
+from .tidas_contacts import CommonClassificationCommonClassoption1
+from .tidas_contacts import DatasetinformationClassificationinformationCommonClassification
+from .tidas_contacts import ContactinformationDatasetinformationClassificationinformation
+from .tidas_contacts import ContactdatasetContactinformationDatasetinformation
+from .tidas_contacts import ContactsContactdatasetContactinformation
+from .tidas_contacts import ContactdatasetAdministrativeinformationDataentryby
+from .tidas_contacts import ContactdatasetAdministrativeinformationPublicationandownership
+from .tidas_contacts import ContactsContactdatasetAdministrativeinformation
+from .tidas_contacts import ContactsContactdataset
+from .tidas_contacts import Contacts
+from .tidas_contacts_category import Contact
+from .tidas_contacts_category import ContactsCategory
+from .tidas_flowproperties import CommonClassificationCommonClass
+from .tidas_flowproperties import DatasetinformationClassificationinformationCommonClassification
+from .tidas_flowproperties import FlowpropertiesinformationDatasetinformationClassificationinformation
+from .tidas_flowproperties import FlowpropertydatasetFlowpropertiesinformationDatasetinformation
+from .tidas_flowproperties import FlowpropertydatasetFlowpropertiesinformationQuantitativereference
+from .tidas_flowproperties import FlowpropertiesFlowpropertydatasetFlowpropertiesinformation
+from .tidas_flowproperties import FlowpropertydatasetModellingandvalidationDatasourcestreatmentandrepresentativeness
+from .tidas_flowproperties import ModellingandvalidationCompliancedeclarationsComplianceoption0
+from .tidas_flowproperties import ModellingandvalidationCompliancedeclarationsComplianceoption1item
+from .tidas_flowproperties import FlowpropertydatasetModellingandvalidationCompliancedeclarations
+from .tidas_flowproperties import FlowpropertiesFlowpropertydatasetModellingandvalidation
+from .tidas_flowproperties import FlowpropertydatasetAdministrativeinformationDataentryby
+from .tidas_flowproperties import FlowpropertydatasetAdministrativeinformationPublicationandownership
+from .tidas_flowproperties import FlowpropertiesFlowpropertydatasetAdministrativeinformation
+from .tidas_flowproperties import FlowpropertiesFlowpropertydataset
+from .tidas_flowproperties import Flowproperties
+from .tidas_flowproperties_category import Flowproperty
+from .tidas_flowproperties_category import FlowpropertiesCategory
+from .tidas_flows import FlowinformationDatasetinformationName
+from .tidas_flows import FlowdatasetFlowinformationDatasetinformation
+from .tidas_flows import FlowdatasetFlowinformationQuantitativereference
+from .tidas_flows import FlowdatasetFlowinformationGeography
+from .tidas_flows import FlowdatasetFlowinformationTechnology
+from .tidas_flows import FlowsFlowdatasetFlowinformation
+from .tidas_flows import FlowdatasetModellingandvalidationLcimethod
+from .tidas_flows import ModellingandvalidationCompliancedeclarationsComplianceoption0
+from .tidas_flows import ModellingandvalidationCompliancedeclarationsComplianceoption1item
+from .tidas_flows import FlowdatasetModellingandvalidationCompliancedeclarations
+from .tidas_flows import FlowsFlowdatasetModellingandvalidation
+from .tidas_flows import FlowdatasetAdministrativeinformationDataentryby
+from .tidas_flows import FlowdatasetAdministrativeinformationPublicationandownership
+from .tidas_flows import FlowsFlowdatasetAdministrativeinformation
+from .tidas_flows import FlowdatasetFlowpropertiesFlowpropertyoption0
+from .tidas_flows import FlowdatasetFlowpropertiesFlowpropertyoption1item
+from .tidas_flows import FlowsFlowdatasetFlowproperties
+from .tidas_flows import FlowsFlowdataset
+from .tidas_flows import Flows
+from .tidas_flows_elementary_category import FlowsElementaryCategory
+from .tidas_flows_product_category import FlowsProductCategory
+from .tidas_lciamethods import CommonClassificationCommonClassoption0itemoption0
+from .tidas_lciamethods import CommonClassificationCommonClassoption0itemoption1
+from .tidas_lciamethods import CommonClassificationCommonClassoption0itemoption2
+from .tidas_lciamethods import DatasetinformationClassificationinformationCommonClassification
+from .tidas_lciamethods import LciamethodinformationDatasetinformationClassificationinformation
+from .tidas_lciamethods import LciamethoddatasetLciamethodinformationDatasetinformation
+from .tidas_lciamethods import LciamethoddatasetLciamethodinformationQuantitativereference
+from .tidas_lciamethods import LciamethoddatasetLciamethodinformationTime
+from .tidas_lciamethods import LciamethodinformationGeographyInterventionlocationoption0
+from .tidas_lciamethods import LciamethodinformationGeographyIntervensionsublocationoption0
+from .tidas_lciamethods import LciamethodinformationGeographyImpactlocationoption0
+from .tidas_lciamethods import LciamethoddatasetLciamethodinformationGeography
+from .tidas_lciamethods import LciamethoddatasetLciamethodinformationImpactmodel
+from .tidas_lciamethods import LciamethodsLciamethoddatasetLciamethodinformation
+from .tidas_lciamethods import LciamethoddatasetModellingandvalidationLciamethodnormalisationandweighting
+from .tidas_lciamethods import LciamethoddatasetModellingandvalidationDatasources
+from .tidas_lciamethods import LciamethoddatasetModellingandvalidationCompleteness
+from .tidas_lciamethods import CommonScopeoption0CommonMethodoption0
+from .tidas_lciamethods import CommonScopeoption0CommonMethodoption1item
+from .tidas_lciamethods import ValidationReviewCommonScopeoption0
+from .tidas_lciamethods import CommonScopeoption1itemCommonMethodoption0
+from .tidas_lciamethods import CommonScopeoption1itemCommonMethodoption1item
+from .tidas_lciamethods import ValidationReviewCommonScopeoption1item
+from .tidas_lciamethods import ModellingandvalidationValidationReview
+from .tidas_lciamethods import LciamethoddatasetModellingandvalidationValidation
+from .tidas_lciamethods import ModellingandvalidationCompliancedeclarationsComplianceoption0
+from .tidas_lciamethods import ModellingandvalidationCompliancedeclarationsComplianceoption1item
+from .tidas_lciamethods import LciamethoddatasetModellingandvalidationCompliancedeclarations
+from .tidas_lciamethods import LciamethodsLciamethoddatasetModellingandvalidation
+from .tidas_lciamethods import AdministrativeinformationCommonCommissionerandgoal
+from .tidas_lciamethods import LciamethoddatasetAdministrativeinformationDatagenerator
+from .tidas_lciamethods import AdministrativeinformationDataentrybyRecommendationby
+from .tidas_lciamethods import LciamethoddatasetAdministrativeinformationDataentryby
+from .tidas_lciamethods import LciamethoddatasetAdministrativeinformationPublicationandownership
+from .tidas_lciamethods import LciamethodsLciamethoddatasetAdministrativeinformation
+from .tidas_lciamethods import LciamethoddatasetCharacterisationfactorsFactoroption0
+from .tidas_lciamethods import LciamethoddatasetCharacterisationfactorsFactoroption1item
+from .tidas_lciamethods import LciamethodsLciamethoddatasetCharacterisationfactors
+from .tidas_lciamethods import LciamethodsLciamethoddataset
+from .tidas_lciamethods import Lciamethods
+from .tidas_lciamethods_category import Lciamethod
+from .tidas_lciamethods_category import LciamethodsCategory
+from .tidas_lifecyclemodels import LifecyclemodelinformationDatasetinformationName
+from .tidas_lifecyclemodels import CommonClassificationCommonClassitemoption0
+from .tidas_lifecyclemodels import CommonClassificationCommonClassitemoption1
+from .tidas_lifecyclemodels import CommonClassificationCommonClassitemoption2
+from .tidas_lifecyclemodels import CommonClassificationCommonClassitemoption3
+from .tidas_lifecyclemodels import DatasetinformationClassificationinformationCommonClassification
+from .tidas_lifecyclemodels import LifecyclemodelinformationDatasetinformationClassificationinformation
+from .tidas_lifecyclemodels import LifecyclemodeldatasetLifecyclemodelinformationDatasetinformation
+from .tidas_lifecyclemodels import LifecyclemodeldatasetLifecyclemodelinformationQuantitativereference
+from .tidas_lifecyclemodels import TechnologyGroupdeclarationsGroupoption0
+from .tidas_lifecyclemodels import TechnologyGroupdeclarationsGroupoption1item
+from .tidas_lifecyclemodels import LifecyclemodelinformationTechnologyGroupdeclarations
+from .tidas_lifecyclemodels import Processinstanceoption0itemGroupsMemberofoption0
+from .tidas_lifecyclemodels import Processinstanceoption0itemGroupsMemberofoption1item
+from .tidas_lifecyclemodels import ProcessesProcessinstanceoption0itemGroups
+from .tidas_lifecyclemodels import Processinstanceoption0itemParametersParameteroption0
+from .tidas_lifecyclemodels import Processinstanceoption0itemParametersParameteroption1item
+from .tidas_lifecyclemodels import ProcessesProcessinstanceoption0itemParameters
+from .tidas_lifecyclemodels import ConnectionsOutputexchangeoption0Downstreamprocessoption0
+from .tidas_lifecyclemodels import ConnectionsOutputexchangeoption0Downstreamprocessoption1item
+from .tidas_lifecyclemodels import Processinstanceoption0itemConnectionsOutputexchangeoption0
+from .tidas_lifecyclemodels import ConnectionsOutputexchangeoption1itemDownstreamprocessoption0
+from .tidas_lifecyclemodels import ConnectionsOutputexchangeoption1itemDownstreamprocessoption1item
+from .tidas_lifecyclemodels import Processinstanceoption0itemConnectionsOutputexchangeoption1item
+from .tidas_lifecyclemodels import ProcessesProcessinstanceoption0itemConnections
+from .tidas_lifecyclemodels import TechnologyProcessesProcessinstanceoption0item
+from .tidas_lifecyclemodels import Processinstanceoption1GroupsMemberofoption0
+from .tidas_lifecyclemodels import Processinstanceoption1GroupsMemberofoption1item
+from .tidas_lifecyclemodels import ProcessesProcessinstanceoption1Groups
+from .tidas_lifecyclemodels import Processinstanceoption1ParametersParameteroption0
+from .tidas_lifecyclemodels import Processinstanceoption1ParametersParameteroption1item
+from .tidas_lifecyclemodels import ProcessesProcessinstanceoption1Parameters
+from .tidas_lifecyclemodels import ConnectionsOutputexchangeoption0Downstreamprocessoption02
+from .tidas_lifecyclemodels import ConnectionsOutputexchangeoption0Downstreamprocessoption1item2
+from .tidas_lifecyclemodels import Processinstanceoption1ConnectionsOutputexchangeoption0
+from .tidas_lifecyclemodels import ConnectionsOutputexchangeoption1itemDownstreamprocessoption02
+from .tidas_lifecyclemodels import ConnectionsOutputexchangeoption1itemDownstreamprocessoption1item2
+from .tidas_lifecyclemodels import Processinstanceoption1ConnectionsOutputexchangeoption1item
+from .tidas_lifecyclemodels import ProcessesProcessinstanceoption1Connections
+from .tidas_lifecyclemodels import TechnologyProcessesProcessinstanceoption1
+from .tidas_lifecyclemodels import LifecyclemodelinformationTechnologyProcesses
+from .tidas_lifecyclemodels import LifecyclemodeldatasetLifecyclemodelinformationTechnology
+from .tidas_lifecyclemodels import LifecyclemodelsLifecyclemodeldatasetLifecyclemodelinformation
+from .tidas_lifecyclemodels import LifecyclemodeldatasetModellingandvalidationDatasourcestreatmentetc
+from .tidas_lifecyclemodels import ModellingandvalidationValidationReviewoption0
+from .tidas_lifecyclemodels import ModellingandvalidationValidationReviewoption1item
+from .tidas_lifecyclemodels import LifecyclemodeldatasetModellingandvalidationValidation
+from .tidas_lifecyclemodels import ModellingandvalidationCompliancedeclarationsComplianceoption0
+from .tidas_lifecyclemodels import ModellingandvalidationCompliancedeclarationsComplianceoption1item
+from .tidas_lifecyclemodels import LifecyclemodeldatasetModellingandvalidationCompliancedeclarations
+from .tidas_lifecyclemodels import LifecyclemodelsLifecyclemodeldatasetModellingandvalidation
+from .tidas_lifecyclemodels import AdministrativeinformationCommonCommissionerandgoal
+from .tidas_lifecyclemodels import LifecyclemodeldatasetAdministrativeinformationDatagenerator
+from .tidas_lifecyclemodels import LifecyclemodeldatasetAdministrativeinformationDataentryby
+from .tidas_lifecyclemodels import LifecyclemodeldatasetAdministrativeinformationPublicationandownership
+from .tidas_lifecyclemodels import LifecyclemodelsLifecyclemodeldatasetAdministrativeinformation
+from .tidas_lifecyclemodels import LifecyclemodelsLifecyclemodeldataset
+from .tidas_lifecyclemodels import Lifecyclemodels
+from .tidas_locations_category import LocationsCategory
+from .tidas_processes import ProcessinformationDatasetinformationName
+from .tidas_processes import ProcessinformationDatasetinformationComplementingprocesses
+from .tidas_processes import CommonClassificationCommonClassitemoption0
+from .tidas_processes import CommonClassificationCommonClassitemoption1
+from .tidas_processes import CommonClassificationCommonClassitemoption2
+from .tidas_processes import CommonClassificationCommonClassitemoption3
+from .tidas_processes import DatasetinformationClassificationinformationCommonClassification
+from .tidas_processes import ProcessinformationDatasetinformationClassificationinformation
+from .tidas_processes import ProcessdatasetProcessinformationDatasetinformation
+from .tidas_processes import ProcessdatasetProcessinformationQuantitativereference
+from .tidas_processes import ProcessdatasetProcessinformationTime
+from .tidas_processes import ProcessinformationGeographyLocationofoperationsupplyorproduction
+from .tidas_processes import ProcessinformationGeographySublocationofoperationsupplyorproduction
+from .tidas_processes import ProcessdatasetProcessinformationGeography
+from .tidas_processes import ProcessdatasetProcessinformationTechnology
+from .tidas_processes import ProcessinformationMathematicalrelationsVariableparameter
+from .tidas_processes import ProcessdatasetProcessinformationMathematicalrelations
+from .tidas_processes import ProcessesProcessdatasetProcessinformation
+from .tidas_processes import ProcessdatasetModellingandvalidationLcimethodandallocation
+from .tidas_processes import ProcessdatasetModellingandvalidationDatasourcestreatmentandrepresentativeness
+from .tidas_processes import ModellingandvalidationCompletenessCompletenesselementaryflows
+from .tidas_processes import ProcessdatasetModellingandvalidationCompleteness
+from .tidas_processes import CommonScopeoption0CommonMethodoption0
+from .tidas_processes import CommonScopeoption0CommonMethodoption1item
+from .tidas_processes import ValidationReviewCommonScopeoption0
+from .tidas_processes import CommonScopeoption1itemCommonMethodoption0
+from .tidas_processes import CommonScopeoption1itemCommonMethodoption1item
+from .tidas_processes import ValidationReviewCommonScopeoption1item
+from .tidas_processes import CommonDataqualityindicatorsCommonDataqualityindicatoroption0
+from .tidas_processes import CommonDataqualityindicatorsCommonDataqualityindicatoroption1item
+from .tidas_processes import ValidationReviewCommonDataqualityindicators
+from .tidas_processes import ModellingandvalidationValidationReview
+from .tidas_processes import ProcessdatasetModellingandvalidationValidation
+from .tidas_processes import ModellingandvalidationCompliancedeclarationsComplianceoption0
+from .tidas_processes import ModellingandvalidationCompliancedeclarationsComplianceoption1item
+from .tidas_processes import ProcessdatasetModellingandvalidationCompliancedeclarations
+from .tidas_processes import ProcessesProcessdatasetModellingandvalidation
+from .tidas_processes import ProcessdatasetAdministrativeinformationCommonCommissionerandgoal
+from .tidas_processes import ProcessdatasetAdministrativeinformationDatagenerator
+from .tidas_processes import ProcessdatasetAdministrativeinformationDataentryby
+from .tidas_processes import ProcessdatasetAdministrativeinformationPublicationandownership
+from .tidas_processes import ProcessesProcessdatasetAdministrativeinformation
+from .tidas_processes import ExchangeitemAllocationsAllocation
+from .tidas_processes import ExchangesExchangeitemAllocations
+from .tidas_processes import ExchangesExchangeitemReferencestodatasource
+from .tidas_processes import ProcessdatasetExchangesExchangeitem
+from .tidas_processes import ProcessesProcessdatasetExchanges
+from .tidas_processes import ProcessdatasetLciaresultsLciaresultoption0
+from .tidas_processes import ProcessdatasetLciaresultsLciaresultoption1item
+from .tidas_processes import ProcessesProcessdatasetLciaresults
+from .tidas_processes import ProcessesProcessdataset
+from .tidas_processes import Processes
+from .tidas_processes_category import ProcessesCategory
+from .tidas_sources import CommonClassificationCommonClass
+from .tidas_sources import DatasetinformationClassificationinformationCommonClassification
+from .tidas_sources import SourceinformationDatasetinformationClassificationinformation
+from .tidas_sources import SourceinformationDatasetinformationReferencetodigitalfile
+from .tidas_sources import SourcedatasetSourceinformationDatasetinformation
+from .tidas_sources import SourcesSourcedatasetSourceinformation
+from .tidas_sources import SourcedatasetAdministrativeinformationDataentryby
+from .tidas_sources import SourcedatasetAdministrativeinformationPublicationandownership
+from .tidas_sources import SourcesSourcedatasetAdministrativeinformation
+from .tidas_sources import SourcesSourcedataset
+from .tidas_sources import Sources
+from .tidas_sources_category import Source
+from .tidas_sources_category import SourcesCategory
+from .tidas_unitgroups import CommonClassificationCommonClass
+from .tidas_unitgroups import DatasetinformationClassificationinformationCommonClassification
+from .tidas_unitgroups import UnitgroupinformationDatasetinformationClassificationinformation
+from .tidas_unitgroups import UnitgroupdatasetUnitgroupinformationDatasetinformation
+from .tidas_unitgroups import UnitgroupdatasetUnitgroupinformationQuantitativereference
+from .tidas_unitgroups import UnitgroupsUnitgroupdatasetUnitgroupinformation
+from .tidas_unitgroups import ModellingandvalidationCompliancedeclarationsComplianceoption0
+from .tidas_unitgroups import ModellingandvalidationCompliancedeclarationsComplianceoption1item
+from .tidas_unitgroups import UnitgroupdatasetModellingandvalidationCompliancedeclarations
+from .tidas_unitgroups import UnitgroupsUnitgroupdatasetModellingandvalidation
+from .tidas_unitgroups import UnitgroupdatasetAdministrativeinformationDataentryby
+from .tidas_unitgroups import UnitgroupdatasetAdministrativeinformationPublicationandownership
+from .tidas_unitgroups import UnitgroupsUnitgroupdatasetAdministrativeinformation
+from .tidas_unitgroups import UnitgroupdatasetUnitsUnitoption0
+from .tidas_unitgroups import UnitgroupdatasetUnitsUnitoption1item
+from .tidas_unitgroups import UnitgroupsUnitgroupdatasetUnits
+from .tidas_unitgroups import UnitgroupsUnitgroupdataset
+from .tidas_unitgroups import Unitgroups
+from .tidas_unitgroups_category import Unitgroup
+from .tidas_unitgroups_category import UnitgroupsCategory
+
+__all__ = [
+    'Globalreferencetype',
+    'DataTypes',
+    'CommonClassificationCommonClassoption0itemoption0',
+    'CommonClassificationCommonClassoption0itemoption1',
+    'CommonClassificationCommonClassoption1',
+    'DatasetinformationClassificationinformationCommonClassification',
+    'ContactinformationDatasetinformationClassificationinformation',
+    'ContactdatasetContactinformationDatasetinformation',
+    'ContactsContactdatasetContactinformation',
+    'ContactdatasetAdministrativeinformationDataentryby',
+    'ContactdatasetAdministrativeinformationPublicationandownership',
+    'ContactsContactdatasetAdministrativeinformation',
+    'ContactsContactdataset',
+    'Contacts',
+    'Contact',
+    'ContactsCategory',
+    'CommonClassificationCommonClass',
+    'DatasetinformationClassificationinformationCommonClassification',
+    'FlowpropertiesinformationDatasetinformationClassificationinformation',
+    'FlowpropertydatasetFlowpropertiesinformationDatasetinformation',
+    'FlowpropertydatasetFlowpropertiesinformationQuantitativereference',
+    'FlowpropertiesFlowpropertydatasetFlowpropertiesinformation',
+    'FlowpropertydatasetModellingandvalidationDatasourcestreatmentandrepresentativeness',
+    'ModellingandvalidationCompliancedeclarationsComplianceoption0',
+    'ModellingandvalidationCompliancedeclarationsComplianceoption1item',
+    'FlowpropertydatasetModellingandvalidationCompliancedeclarations',
+    'FlowpropertiesFlowpropertydatasetModellingandvalidation',
+    'FlowpropertydatasetAdministrativeinformationDataentryby',
+    'FlowpropertydatasetAdministrativeinformationPublicationandownership',
+    'FlowpropertiesFlowpropertydatasetAdministrativeinformation',
+    'FlowpropertiesFlowpropertydataset',
+    'Flowproperties',
+    'Flowproperty',
+    'FlowpropertiesCategory',
+    'FlowinformationDatasetinformationName',
+    'FlowdatasetFlowinformationDatasetinformation',
+    'FlowdatasetFlowinformationQuantitativereference',
+    'FlowdatasetFlowinformationGeography',
+    'FlowdatasetFlowinformationTechnology',
+    'FlowsFlowdatasetFlowinformation',
+    'FlowdatasetModellingandvalidationLcimethod',
+    'ModellingandvalidationCompliancedeclarationsComplianceoption0',
+    'ModellingandvalidationCompliancedeclarationsComplianceoption1item',
+    'FlowdatasetModellingandvalidationCompliancedeclarations',
+    'FlowsFlowdatasetModellingandvalidation',
+    'FlowdatasetAdministrativeinformationDataentryby',
+    'FlowdatasetAdministrativeinformationPublicationandownership',
+    'FlowsFlowdatasetAdministrativeinformation',
+    'FlowdatasetFlowpropertiesFlowpropertyoption0',
+    'FlowdatasetFlowpropertiesFlowpropertyoption1item',
+    'FlowsFlowdatasetFlowproperties',
+    'FlowsFlowdataset',
+    'Flows',
+    'FlowsElementaryCategory',
+    'FlowsProductCategory',
+    'CommonClassificationCommonClassoption0itemoption0',
+    'CommonClassificationCommonClassoption0itemoption1',
+    'CommonClassificationCommonClassoption0itemoption2',
+    'DatasetinformationClassificationinformationCommonClassification',
+    'LciamethodinformationDatasetinformationClassificationinformation',
+    'LciamethoddatasetLciamethodinformationDatasetinformation',
+    'LciamethoddatasetLciamethodinformationQuantitativereference',
+    'LciamethoddatasetLciamethodinformationTime',
+    'LciamethodinformationGeographyInterventionlocationoption0',
+    'LciamethodinformationGeographyIntervensionsublocationoption0',
+    'LciamethodinformationGeographyImpactlocationoption0',
+    'LciamethoddatasetLciamethodinformationGeography',
+    'LciamethoddatasetLciamethodinformationImpactmodel',
+    'LciamethodsLciamethoddatasetLciamethodinformation',
+    'LciamethoddatasetModellingandvalidationLciamethodnormalisationandweighting',
+    'LciamethoddatasetModellingandvalidationDatasources',
+    'LciamethoddatasetModellingandvalidationCompleteness',
+    'CommonScopeoption0CommonMethodoption0',
+    'CommonScopeoption0CommonMethodoption1item',
+    'ValidationReviewCommonScopeoption0',
+    'CommonScopeoption1itemCommonMethodoption0',
+    'CommonScopeoption1itemCommonMethodoption1item',
+    'ValidationReviewCommonScopeoption1item',
+    'ModellingandvalidationValidationReview',
+    'LciamethoddatasetModellingandvalidationValidation',
+    'ModellingandvalidationCompliancedeclarationsComplianceoption0',
+    'ModellingandvalidationCompliancedeclarationsComplianceoption1item',
+    'LciamethoddatasetModellingandvalidationCompliancedeclarations',
+    'LciamethodsLciamethoddatasetModellingandvalidation',
+    'AdministrativeinformationCommonCommissionerandgoal',
+    'LciamethoddatasetAdministrativeinformationDatagenerator',
+    'AdministrativeinformationDataentrybyRecommendationby',
+    'LciamethoddatasetAdministrativeinformationDataentryby',
+    'LciamethoddatasetAdministrativeinformationPublicationandownership',
+    'LciamethodsLciamethoddatasetAdministrativeinformation',
+    'LciamethoddatasetCharacterisationfactorsFactoroption0',
+    'LciamethoddatasetCharacterisationfactorsFactoroption1item',
+    'LciamethodsLciamethoddatasetCharacterisationfactors',
+    'LciamethodsLciamethoddataset',
+    'Lciamethods',
+    'Lciamethod',
+    'LciamethodsCategory',
+    'LifecyclemodelinformationDatasetinformationName',
+    'CommonClassificationCommonClassitemoption0',
+    'CommonClassificationCommonClassitemoption1',
+    'CommonClassificationCommonClassitemoption2',
+    'CommonClassificationCommonClassitemoption3',
+    'DatasetinformationClassificationinformationCommonClassification',
+    'LifecyclemodelinformationDatasetinformationClassificationinformation',
+    'LifecyclemodeldatasetLifecyclemodelinformationDatasetinformation',
+    'LifecyclemodeldatasetLifecyclemodelinformationQuantitativereference',
+    'TechnologyGroupdeclarationsGroupoption0',
+    'TechnologyGroupdeclarationsGroupoption1item',
+    'LifecyclemodelinformationTechnologyGroupdeclarations',
+    'Processinstanceoption0itemGroupsMemberofoption0',
+    'Processinstanceoption0itemGroupsMemberofoption1item',
+    'ProcessesProcessinstanceoption0itemGroups',
+    'Processinstanceoption0itemParametersParameteroption0',
+    'Processinstanceoption0itemParametersParameteroption1item',
+    'ProcessesProcessinstanceoption0itemParameters',
+    'ConnectionsOutputexchangeoption0Downstreamprocessoption0',
+    'ConnectionsOutputexchangeoption0Downstreamprocessoption1item',
+    'Processinstanceoption0itemConnectionsOutputexchangeoption0',
+    'ConnectionsOutputexchangeoption1itemDownstreamprocessoption0',
+    'ConnectionsOutputexchangeoption1itemDownstreamprocessoption1item',
+    'Processinstanceoption0itemConnectionsOutputexchangeoption1item',
+    'ProcessesProcessinstanceoption0itemConnections',
+    'TechnologyProcessesProcessinstanceoption0item',
+    'Processinstanceoption1GroupsMemberofoption0',
+    'Processinstanceoption1GroupsMemberofoption1item',
+    'ProcessesProcessinstanceoption1Groups',
+    'Processinstanceoption1ParametersParameteroption0',
+    'Processinstanceoption1ParametersParameteroption1item',
+    'ProcessesProcessinstanceoption1Parameters',
+    'ConnectionsOutputexchangeoption0Downstreamprocessoption02',
+    'ConnectionsOutputexchangeoption0Downstreamprocessoption1item2',
+    'Processinstanceoption1ConnectionsOutputexchangeoption0',
+    'ConnectionsOutputexchangeoption1itemDownstreamprocessoption02',
+    'ConnectionsOutputexchangeoption1itemDownstreamprocessoption1item2',
+    'Processinstanceoption1ConnectionsOutputexchangeoption1item',
+    'ProcessesProcessinstanceoption1Connections',
+    'TechnologyProcessesProcessinstanceoption1',
+    'LifecyclemodelinformationTechnologyProcesses',
+    'LifecyclemodeldatasetLifecyclemodelinformationTechnology',
+    'LifecyclemodelsLifecyclemodeldatasetLifecyclemodelinformation',
+    'LifecyclemodeldatasetModellingandvalidationDatasourcestreatmentetc',
+    'ModellingandvalidationValidationReviewoption0',
+    'ModellingandvalidationValidationReviewoption1item',
+    'LifecyclemodeldatasetModellingandvalidationValidation',
+    'ModellingandvalidationCompliancedeclarationsComplianceoption0',
+    'ModellingandvalidationCompliancedeclarationsComplianceoption1item',
+    'LifecyclemodeldatasetModellingandvalidationCompliancedeclarations',
+    'LifecyclemodelsLifecyclemodeldatasetModellingandvalidation',
+    'AdministrativeinformationCommonCommissionerandgoal',
+    'LifecyclemodeldatasetAdministrativeinformationDatagenerator',
+    'LifecyclemodeldatasetAdministrativeinformationDataentryby',
+    'LifecyclemodeldatasetAdministrativeinformationPublicationandownership',
+    'LifecyclemodelsLifecyclemodeldatasetAdministrativeinformation',
+    'LifecyclemodelsLifecyclemodeldataset',
+    'Lifecyclemodels',
+    'LocationsCategory',
+    'ProcessinformationDatasetinformationName',
+    'ProcessinformationDatasetinformationComplementingprocesses',
+    'CommonClassificationCommonClassitemoption0',
+    'CommonClassificationCommonClassitemoption1',
+    'CommonClassificationCommonClassitemoption2',
+    'CommonClassificationCommonClassitemoption3',
+    'DatasetinformationClassificationinformationCommonClassification',
+    'ProcessinformationDatasetinformationClassificationinformation',
+    'ProcessdatasetProcessinformationDatasetinformation',
+    'ProcessdatasetProcessinformationQuantitativereference',
+    'ProcessdatasetProcessinformationTime',
+    'ProcessinformationGeographyLocationofoperationsupplyorproduction',
+    'ProcessinformationGeographySublocationofoperationsupplyorproduction',
+    'ProcessdatasetProcessinformationGeography',
+    'ProcessdatasetProcessinformationTechnology',
+    'ProcessinformationMathematicalrelationsVariableparameter',
+    'ProcessdatasetProcessinformationMathematicalrelations',
+    'ProcessesProcessdatasetProcessinformation',
+    'ProcessdatasetModellingandvalidationLcimethodandallocation',
+    'ProcessdatasetModellingandvalidationDatasourcestreatmentandrepresentativeness',
+    'ModellingandvalidationCompletenessCompletenesselementaryflows',
+    'ProcessdatasetModellingandvalidationCompleteness',
+    'CommonScopeoption0CommonMethodoption0',
+    'CommonScopeoption0CommonMethodoption1item',
+    'ValidationReviewCommonScopeoption0',
+    'CommonScopeoption1itemCommonMethodoption0',
+    'CommonScopeoption1itemCommonMethodoption1item',
+    'ValidationReviewCommonScopeoption1item',
+    'CommonDataqualityindicatorsCommonDataqualityindicatoroption0',
+    'CommonDataqualityindicatorsCommonDataqualityindicatoroption1item',
+    'ValidationReviewCommonDataqualityindicators',
+    'ModellingandvalidationValidationReview',
+    'ProcessdatasetModellingandvalidationValidation',
+    'ModellingandvalidationCompliancedeclarationsComplianceoption0',
+    'ModellingandvalidationCompliancedeclarationsComplianceoption1item',
+    'ProcessdatasetModellingandvalidationCompliancedeclarations',
+    'ProcessesProcessdatasetModellingandvalidation',
+    'ProcessdatasetAdministrativeinformationCommonCommissionerandgoal',
+    'ProcessdatasetAdministrativeinformationDatagenerator',
+    'ProcessdatasetAdministrativeinformationDataentryby',
+    'ProcessdatasetAdministrativeinformationPublicationandownership',
+    'ProcessesProcessdatasetAdministrativeinformation',
+    'ExchangeitemAllocationsAllocation',
+    'ExchangesExchangeitemAllocations',
+    'ExchangesExchangeitemReferencestodatasource',
+    'ProcessdatasetExchangesExchangeitem',
+    'ProcessesProcessdatasetExchanges',
+    'ProcessdatasetLciaresultsLciaresultoption0',
+    'ProcessdatasetLciaresultsLciaresultoption1item',
+    'ProcessesProcessdatasetLciaresults',
+    'ProcessesProcessdataset',
+    'Processes',
+    'ProcessesCategory',
+    'CommonClassificationCommonClass',
+    'DatasetinformationClassificationinformationCommonClassification',
+    'SourceinformationDatasetinformationClassificationinformation',
+    'SourceinformationDatasetinformationReferencetodigitalfile',
+    'SourcedatasetSourceinformationDatasetinformation',
+    'SourcesSourcedatasetSourceinformation',
+    'SourcedatasetAdministrativeinformationDataentryby',
+    'SourcedatasetAdministrativeinformationPublicationandownership',
+    'SourcesSourcedatasetAdministrativeinformation',
+    'SourcesSourcedataset',
+    'Sources',
+    'Source',
+    'SourcesCategory',
+    'CommonClassificationCommonClass',
+    'DatasetinformationClassificationinformationCommonClassification',
+    'UnitgroupinformationDatasetinformationClassificationinformation',
+    'UnitgroupdatasetUnitgroupinformationDatasetinformation',
+    'UnitgroupdatasetUnitgroupinformationQuantitativereference',
+    'UnitgroupsUnitgroupdatasetUnitgroupinformation',
+    'ModellingandvalidationCompliancedeclarationsComplianceoption0',
+    'ModellingandvalidationCompliancedeclarationsComplianceoption1item',
+    'UnitgroupdatasetModellingandvalidationCompliancedeclarations',
+    'UnitgroupsUnitgroupdatasetModellingandvalidation',
+    'UnitgroupdatasetAdministrativeinformationDataentryby',
+    'UnitgroupdatasetAdministrativeinformationPublicationandownership',
+    'UnitgroupsUnitgroupdatasetAdministrativeinformation',
+    'UnitgroupdatasetUnitsUnitoption0',
+    'UnitgroupdatasetUnitsUnitoption1item',
+    'UnitgroupsUnitgroupdatasetUnits',
+    'UnitgroupsUnitgroupdataset',
+    'Unitgroups',
+    'Unitgroup',
+    'UnitgroupsCategory',
+]
