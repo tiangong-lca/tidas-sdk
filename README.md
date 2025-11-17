@@ -5,16 +5,19 @@ A comprehensive multi-language SDK project for TIDAS (TianGong Life Cycle Assess
 ## 🚀 Quick Start
 
 ### TypeScript SDK (Recommended)
+
 ```bash
 npm install @tiangong-lca/tidas-sdk
 ```
 
 ### Python Tools
+
 ```bash
 pip install tidas-tools
 ```
 
 ### Python SDK (Development)
+
 ```bash
 # Development version - install from source
 cd sdks/python && uv sync
@@ -23,18 +26,21 @@ cd sdks/python && uv sync
 ## 📦 Available Packages
 
 ### @tiangong-lca/tidas-sdk (TypeScript)
+
 - **Status**: ✅ Production Ready (v0.1.20)
 - **Features**: Type-safe data manipulation, validation, schema generation
 - **Installation**: `npm install @tiangong-lca/tidas-sdk`
 - **Location**: `sdks/typescript/`
 
 ### tidas-tools (Python)
+
 - **Status**: ✅ Production Ready
 - **Features**: Data format conversion, validation, export utilities
 - **Installation**: `pip install tidas-tools`
 - **Location**: `tidas-tools/`
 
 ### tidas-sdk (Python, Development)
+
 - **Status**: 🚧 In Development (v0.1.0)
 - **Features**: Pydantic-based data models, validation, utilities
 - **Installation**: Development only (from source)
@@ -63,12 +69,14 @@ tidas-sdk/
 ## 🛠️ Development
 
 ### Prerequisites
+
 - **TypeScript SDK**: Node.js 14+, npm
 - **Python SDK/Tools**: Python 3.8+, uv (recommended)
 
 ### Setup
 
 #### TypeScript SDK
+
 ```bash
 cd sdks/typescript
 npm install
@@ -77,6 +85,7 @@ npm test
 ```
 
 #### Python SDK
+
 ```bash
 cd sdks/python
 uv sync
@@ -85,6 +94,7 @@ uv run mypy .
 ```
 
 #### Tools Package
+
 ```bash
 cd tidas-tools
 uv sync
@@ -94,6 +104,7 @@ uv run pytest
 ## 🎯 Current Status
 
 ### ✅ Completed
+
 - TypeScript SDK with full TIDAS schema support
 - Data validation using Zod schemas
 - Property access and manipulation utilities
@@ -101,6 +112,7 @@ uv run pytest
 - Comprehensive type generation from JSON schemas
 
 ### 🚧 In Development
+
 - Python SDK implementation with Pydantic models
 - Test coverage improvements
 - Additional language implementations (Java planned)
@@ -108,11 +120,13 @@ uv run pytest
 ### 📋 Roadmap
 
 #### Short Term
+
 - Complete Python SDK development
 - Improve test coverage across all packages
 - Enhanced documentation and examples
 
 #### Long Term
+
 - Java SDK implementation
 - Performance optimizations
 - Additional utility tools
@@ -120,6 +134,7 @@ uv run pytest
 ## 🤝 Contributing
 
 We welcome contributions! Please see our development guidelines in [CLAUDE.md](./CLAUDE.md) for:
+
 - Code style standards
 - Testing requirements
 - Development workflow
@@ -138,6 +153,7 @@ MIT License - see [LICENSE](./LICENSE) file for details.
 ## 📞 Support
 
 For questions, issues, or contributions:
+
 - Open an issue on GitHub
 - Check existing documentation
 - Review development progress in [docs/development-progress.md](./docs/development-progress.md)
