@@ -59,13 +59,21 @@ class ModuleArtifact:
     needs_multilang: bool
     warnings: list[str]
     standard_imports: set[str]
+    scalar_definitions_pre: list[ScalarInfo]
+    scalar_definitions_post: list[ScalarInfo]
 
 
 @dataclass
 class ScalarInfo:
-    hint: str
+    base_type: str
+    constraints: dict[str, str] = field(default_factory=dict)
+    description: str | None = None
+    alias: str | None = None
     needs_multilang: bool = False
     typing_imports: set[str] = field(default_factory=set)
+    standard_imports: set[str] = field(default_factory=set)
+    definition: str | None = None
+    post_definition: bool = False
 
 
 class SchemaGenerator:
@@ -88,9 +96,13 @@ class SchemaGenerator:
             output = self._render_module(schema_path.name, artifact)
             target_path = self.config.output_dir / f"{module_name}.py"
             target_path.write_text(output, encoding="utf-8")
-            self.generated_index.append(
-                (module_name, [model.name for model in artifact.models])
+            export_names = [model.name for model in artifact.models]
+            export_names.extend(
+                scalar.alias
+                for scalar in artifact.scalar_definitions_pre + artifact.scalar_definitions_post
+                if scalar.alias
             )
+            self.generated_index.append((module_name, export_names))
             print(f"✓ Generated {target_path.relative_to(self.config.output_dir.parent)}")
             for warning in artifact.warnings:
                 print(f"  ⚠ {warning}")
@@ -135,8 +147,26 @@ class SchemaGenerator:
         if artifact.standard_imports:
             lines.append("")
 
+        if artifact.scalar_definitions_pre:
+            for scalar in artifact.scalar_definitions_pre:
+                if scalar.description:
+                    lines.append(f"# {scalar.description}")
+                alias = scalar.alias or "ScalarAlias"
+                definition = scalar.definition or f"{alias} = {scalar.base_type}"
+                lines.append(definition)
+            lines.append("")
+
         for model in artifact.models:
             lines.extend(self._render_model(model))
+            lines.append("")
+
+        if artifact.scalar_definitions_post:
+            for scalar in artifact.scalar_definitions_post:
+                if scalar.description:
+                    lines.append(f"# {scalar.description}")
+                alias = scalar.alias or "ScalarAlias"
+                definition = scalar.definition or f"{alias} = {scalar.base_type}"
+                lines.append(definition)
             lines.append("")
 
         return "\n".join(lines)
@@ -240,14 +270,15 @@ class SchemaConverter:
         self.scalar_aliases: dict[str, ScalarInfo] = {}
         self.used_class_names: set[str] = set()
         self.global_scalars = global_scalars if global_scalars is not None else {}
+        self.local_scalars: list[ScalarInfo] = []
+        self.model_paths: dict[str, tuple[str, ...]] = {}
 
     def convert(self) -> ModuleArtifact:
         self._register_definitions()
-        root_name = self._unique_class_name(
-            self._derive_class_name(self.schema, self.module_name)
-        )
-        self.ref_map["#"] = root_name
-        self._ensure_model(root_name, self.schema)
+        root_hint = self._derive_class_name(self.schema, self.module_name)
+        root_path = (root_hint,)
+        root_class = self._ensure_model(self.schema, root_path, name_hint=root_hint)
+        self.ref_map["#"] = root_class
         ordered_models = [self.models[name] for name in self.model_order]
         return ModuleArtifact(
             models=ordered_models,
@@ -255,30 +286,52 @@ class SchemaConverter:
             needs_multilang=self.needs_multilang,
             warnings=self.warnings,
             standard_imports=self.standard_imports,
+            scalar_definitions_pre=[
+                scalar for scalar in self.local_scalars if not scalar.post_definition
+            ],
+            scalar_definitions_post=[
+                scalar for scalar in self.local_scalars if scalar.post_definition
+            ],
         )
 
     def _register_definitions(self) -> None:
         for def_name, def_schema in self.schema.get("$defs", {}).items():
-            class_name = to_pascal_case(def_name)
             pointer = f"#/$defs/{def_name}"
+            union_scalar = self._handle_union_definition(def_name, def_schema)
+            if union_scalar:
+                self._register_scalar(def_name, pointer, union_scalar)
+                continue
             scalar = self._infer_scalar(def_schema)
             if scalar:
                 self._register_scalar(def_name, pointer, scalar)
                 continue
-            class_name = self._unique_class_name(class_name)
+            alias_tokens = (def_name,)
+            class_name = self._ensure_model(def_schema, alias_tokens, name_hint=def_name)
             self.ref_map[pointer] = class_name
-            self._ensure_model(class_name, def_schema)
 
-    def _ensure_model(self, class_name: str, schema: dict[str, Any]) -> ModelDef:
+    def _ensure_model(
+        self,
+        schema: dict[str, Any],
+        path_tokens: tuple[str, ...],
+        *,
+        name_hint: str | None = None,
+    ) -> str:
+        class_name = self._compose_class_name(path_tokens, name_hint=name_hint)
         if class_name in self.models:
-            return self.models[class_name]
+            return class_name
 
-        model = self._build_model(class_name, schema)
+        model = self._build_model(class_name, schema, path_tokens)
         self.models[class_name] = model
         self.model_order.append(class_name)
-        return model
+        self.model_paths[class_name] = path_tokens
+        return class_name
 
-    def _build_model(self, class_name: str, schema: dict[str, Any]) -> ModelDef:
+    def _build_model(
+        self,
+        class_name: str,
+        schema: dict[str, Any],
+        path_tokens: tuple[str, ...],
+    ) -> ModelDef:
         normalized = self._normalize_object_schema(schema)
         properties = normalized["properties"]
         required = normalized["required"]
@@ -288,7 +341,7 @@ class SchemaConverter:
         fields: list[FieldDef] = []
         for prop_name, prop_schema in properties.items():
             is_required = prop_name in required
-            field = self._build_field(class_name, prop_name, prop_schema, is_required)
+            field = self._build_field(class_name, path_tokens, prop_name, prop_schema, is_required)
             fields.append(field)
 
         return ModelDef(
@@ -301,16 +354,19 @@ class SchemaConverter:
     def _build_field(
         self,
         parent_class: str,
+        parent_path: tuple[str, ...],
         prop_name: str,
         prop_schema: dict[str, Any],
         is_required: bool,
     ) -> FieldDef:
-        field_name = to_snake_case(prop_name)
-        if keyword.iskeyword(field_name):
-            field_name += "_"
+        field_name = to_field_name(prop_name)
 
         alias = prop_name
         description = prop_schema.get("description")
+
+        current_parent_path = parent_path
+        if not current_parent_path:
+            current_parent_path = self.model_paths.get(parent_class, tuple())
 
         if self._is_multilang(prop_schema):
             self.needs_multilang = True
@@ -319,7 +375,7 @@ class SchemaConverter:
             is_required = False
             default_value = None
         else:
-            type_hint = self._determine_type(parent_class, prop_name, prop_schema)
+            type_hint = self._determine_type(current_parent_path, prop_name, prop_schema)
             default_factory = self._default_factory(prop_schema)
             default_value = self._default_value(prop_schema, is_required, default_factory)
 
@@ -364,13 +420,14 @@ class SchemaConverter:
 
     def _determine_type(
         self,
-        parent_class: str,
+        parent_path: tuple[str, ...],
         prop_name: str,
         schema: dict[str, Any],
+        qualifier: str | None = None,
     ) -> str:
         if isinstance(schema, list):
             option_types = {
-                self._determine_type(parent_class, f"{prop_name}Option{i}", option)
+                self._determine_type(parent_path, prop_name, option, qualifier=f"option{i}")
                 for i, option in enumerate(schema)
                 if isinstance(option, (dict, list))
             }
@@ -409,7 +466,12 @@ class SchemaConverter:
             if key in schema:
                 options = schema[key]
                 types = {
-                    self._determine_type(parent_class, f"{prop_name}Option{i}", option)
+                    self._determine_type(
+                        parent_path + (prop_name,),
+                        prop_name,
+                        option,
+                        qualifier=f"option{i}",
+                    )
                     for i, option in enumerate(options)
                 }
                 return " | ".join(sorted(types))
@@ -435,13 +497,14 @@ class SchemaConverter:
             if inline_schema:
                 if ref_types:
                     inline_schema = {**inline_schema, "$ref": ref_types[0]}
-                return self._inline_model(parent_class, prop_name, inline_schema)
+                new_path = parent_path + (prop_name,)
+                return self._inline_model(new_path, inline_schema, qualifier=qualifier)
             if ref_types:
                 return ref_types[0]
             # Fall back to schema without allOf (constraints only)
             reduced_schema = {k: v for k, v in schema.items() if k != "allOf"}
             if reduced_schema:
-                return self._determine_type(parent_class, prop_name, reduced_schema)
+                return self._determine_type(parent_path, prop_name, reduced_schema, qualifier=qualifier)
             self.warnings.append(
                 f"{self.module_name}: unsupported allOf on {prop_name}, using Any"
             )
@@ -449,26 +512,31 @@ class SchemaConverter:
             return "Any"
 
         type_name = schema.get("type")
+        if type_name is None:
+            if isinstance(schema.get("properties"), dict):
+                type_name = "object"
+            elif "items" in schema:
+                type_name = "array"
         if isinstance(type_name, list):
             non_null = [t for t in type_name if t != "null"]
             if not non_null:
                 self.typing_imports.add("Any")
                 return "Any"
             schema = {**schema, "type": non_null[0]}
-            return f"{self._determine_type(parent_class, prop_name, schema)} | None"
+            return f"{self._determine_type(parent_path, prop_name, schema)} | None"
 
         if type_name == "array":
             item_schema = schema.get("items", {})
-            item_type = self._determine_type(parent_class, f"{prop_name}Item", item_schema)
+            item_type = self._determine_type(parent_path + (prop_name,), "item", item_schema)
             return f"list[{item_type}]"
 
         if type_name == "object":
             if schema.get("properties"):
-                return self._inline_model(parent_class, prop_name, schema)
+                return self._inline_model(parent_path + (prop_name,), schema, qualifier=qualifier)
             additional = schema.get("additionalProperties")
             if isinstance(additional, dict):
                 value_type = self._determine_type(
-                    parent_class, f"{prop_name}Value", additional
+                    parent_path + (prop_name,), "value", additional
                 )
                 return f"dict[str, {value_type}]"
             self.typing_imports.add("Any")
@@ -478,13 +546,15 @@ class SchemaConverter:
 
     def _inline_model(
         self,
-        parent_class: str,
-        prop_name: str,
+        path_tokens: tuple[str, ...],
         schema: dict[str, Any],
         qualifier: str | None = None,
     ) -> str:
-        class_name = self._compose_class_name(parent_class, prop_name, qualifier)
-        self._ensure_model(class_name, schema)
+        name_hint = path_tokens[-1] if path_tokens else None
+        if qualifier:
+            path_tokens = path_tokens + (qualifier,)
+            name_hint = qualifier
+        class_name = self._ensure_model(schema, path_tokens, name_hint=name_hint)
         return class_name
 
     def _map_primitive(self, type_name: str | None) -> str:
@@ -509,7 +579,14 @@ class SchemaConverter:
                     self.standard_imports.add(imp)
                 else:
                     self.typing_imports.add(imp)
-            return scalar.hint
+            for imp in scalar.standard_imports:
+                self.standard_imports.add(imp)
+            result = scalar.alias or scalar.base_type
+            if self._needs_external_import(ref, result):
+                module_name = self._module_name_from_ref(ref)
+                if module_name:
+                    self.standard_imports.add(f"from .{module_name} import {result}")
+            return result
 
         if ref not in self.ref_map:
             target = ref.split("/")[-1]
@@ -651,7 +728,74 @@ class SchemaConverter:
 
         return constraints
 
+    def _handle_union_definition(self, name: str, schema: dict[str, Any]) -> ScalarInfo | None:
+        if not isinstance(schema, dict):
+            return None
+        for key in ("oneOf", "anyOf"):
+            variants = schema.get(key)
+            if not isinstance(variants, list):
+                continue
+            option_types: list[str] = []
+            for index, option in enumerate(variants):
+                if not isinstance(option, (dict, list)):
+                    continue
+                type_expr = self._determine_type(
+                    (name,),
+                    f"variant{index}",
+                    option,
+                    qualifier=f"variant{index}",
+                )
+                option_types.append(type_expr)
+            if option_types:
+                # Preserve order while removing duplicates
+                seen: set[str] = set()
+                ordered: list[str] = []
+                for expr in option_types:
+                    if expr not in seen:
+                        seen.add(expr)
+                        ordered.append(expr)
+                union_expr = " | ".join(ordered)
+                scalar = ScalarInfo(
+                    base_type=union_expr,
+                    description=schema.get("description"),
+                    post_definition=True,
+                )
+                return scalar
+        return None
+
+    @staticmethod
+    def _module_name_from_ref(ref: str) -> str | None:
+        if ref.startswith("#"):
+            return None
+        if ".json" not in ref:
+            return None
+        module_part = ref.split("#", 1)[0]
+        return Path(module_part).stem
+
+    def _needs_external_import(self, ref: str, symbol: str) -> bool:
+        if ref.startswith("#"):
+            return False
+        if not symbol or not symbol[0].isalpha():
+            return False
+        if not symbol.isidentifier():
+            return False
+        module_name = self._module_name_from_ref(ref)
+        if not module_name or module_name == self.module_name:
+            return False
+        if symbol in {"Literal", "Annotated", "datetime", "date", "time"}:
+            return False
+        return True
+
     def _register_scalar(self, name: str, pointer: str, scalar: ScalarInfo) -> None:
+        alias = normalize_alias_name(name)
+        scalar.alias = alias
+        if scalar.constraints:
+            args = ", ".join(f"{k}={v}" for k, v in scalar.constraints.items())
+            scalar.definition = f"{alias} = Annotated[{scalar.base_type}, Field({args})]"
+            self.typing_imports.add("Annotated")
+        else:
+            scalar.definition = f"{alias} = {scalar.base_type}"
+
         self.scalar_aliases[pointer] = scalar
         self.scalar_aliases[name] = scalar
         self.global_scalars[name] = scalar
@@ -663,6 +807,11 @@ class SchemaConverter:
                 self.standard_imports.add(imp)
             else:
                 self.typing_imports.add(imp)
+        for imp in scalar.standard_imports:
+            self.standard_imports.add(imp)
+        if pointer.startswith("#/$defs/") or name in self.schema.get("$defs", {}):
+            self.local_scalars.append(scalar)
+        self.ref_map[pointer] = scalar.alias or scalar.base_type
 
     def _lookup_scalar(self, ref: str) -> ScalarInfo | None:
         if ref in self.scalar_aliases:
@@ -680,25 +829,35 @@ class SchemaConverter:
         if not isinstance(schema, dict):
             return None
         if self._is_multilang(schema):
-            return ScalarInfo("MultiLangList", needs_multilang=True)
+            return ScalarInfo(base_type="MultiLangList", needs_multilang=True, description=schema.get("description"))
         if "$ref" in schema:
             ref_scalar = self._lookup_scalar(schema["$ref"])
             if ref_scalar:
-                return ref_scalar
+                return ScalarInfo(
+                    base_type=ref_scalar.alias or ref_scalar.base_type,
+                    description=schema.get("description") or ref_scalar.description,
+                    needs_multilang=ref_scalar.needs_multilang,
+                    typing_imports=set(ref_scalar.typing_imports),
+                    standard_imports=set(ref_scalar.standard_imports),
+                )
 
         if "anyOf" in schema and isinstance(schema["anyOf"], list):
             options = [
                 self._infer_scalar(option) for option in schema["anyOf"] if isinstance(option, (dict, list))
             ]
             options = [opt for opt in options if opt is not None]
-            if options and all(opt.hint == options[0].hint for opt in options):
+            if options and all(
+                (opt.alias or opt.base_type) == (options[0].alias or options[0].base_type)
+                for opt in options
+            ):
                 combined_imports: set[str] = set()
                 for opt in options:
                     combined_imports.update(opt.typing_imports)
                 return ScalarInfo(
-                    hint=options[0].hint,
+                    base_type=options[0].alias or options[0].base_type,
                     needs_multilang=any(opt.needs_multilang for opt in options),
                     typing_imports=combined_imports,
+                    description=schema.get("description"),
                 )
             return None
 
@@ -706,38 +865,53 @@ class SchemaConverter:
         if schema_type == "string":
             fmt = schema.get("format")
             if fmt == "date-time":
-                return ScalarInfo("datetime", typing_imports={"from datetime import datetime"})
+                return ScalarInfo(
+                    base_type="datetime",
+                    standard_imports={"from datetime import datetime"},
+                    description=schema.get("description"),
+                )
             if fmt == "date":
-                return ScalarInfo("date", typing_imports={"from datetime import date"})
+                return ScalarInfo(
+                    base_type="date",
+                    standard_imports={"from datetime import date"},
+                    description=schema.get("description"),
+                )
             if fmt == "time":
-                return ScalarInfo("time", typing_imports={"from datetime import time"})
-            return ScalarInfo("str")
+                return ScalarInfo(
+                    base_type="time",
+                    standard_imports={"from datetime import time"},
+                    description=schema.get("description"),
+                )
+            constraints = self._collect_constraints(schema)
+            return ScalarInfo(base_type="str", constraints=constraints, description=schema.get("description"))
         if schema_type == "integer":
-            return ScalarInfo("int")
+            constraints = self._collect_constraints(schema)
+            return ScalarInfo(base_type="int", constraints=constraints, description=schema.get("description"))
         if schema_type == "number":
-            return ScalarInfo("float")
+            constraints = self._collect_constraints(schema)
+            return ScalarInfo(base_type="float", constraints=constraints, description=schema.get("description"))
         if schema_type == "boolean":
-            return ScalarInfo("bool")
+            return ScalarInfo(base_type="bool", description=schema.get("description"))
 
         if "enum" in schema and isinstance(schema["enum"], list):
             literals = ", ".join(repr(value) for value in schema["enum"])
-            return ScalarInfo(f"Literal[{literals}]", typing_imports={"Literal"})
+            return ScalarInfo(base_type=f"Literal[{literals}]", typing_imports={"Literal"}, description=schema.get("description"))
 
         return None
 
     def _compose_class_name(
         self,
-        parent: str,
-        suffix: str,
-        qualifier: str | None = None,
+        path_tokens: tuple[str, ...],
+        name_hint: str | None = None,
     ) -> str:
-        suffix_token = to_pascal_case(suffix)
-        tokens = self._split_pascal(parent)
-        base_tokens = tokens[-2:] if len(tokens) >= 2 else tokens
-        parts = base_tokens + [suffix_token]
-        if qualifier:
-            parts.append(to_pascal_case(qualifier))
-        candidate = "".join(parts) or suffix_token or "GeneratedModel"
+        tokens = [to_pascal_case(token) for token in path_tokens if token]
+        if not tokens and name_hint:
+            tokens = [to_pascal_case(name_hint)]
+        dedup: list[str] = []
+        for token in tokens:
+            if not dedup or dedup[-1] != token:
+                dedup.append(token)
+        candidate = "".join(dedup[-3:]) if dedup else "GeneratedModel"
         return self._unique_class_name(candidate)
 
     def _unique_class_name(self, candidate: str) -> str:
@@ -745,11 +919,8 @@ class SchemaConverter:
             candidate = "GeneratedModel"
         candidate = candidate[0].upper() + candidate[1:]
         if len(candidate) > 64:
-            tail = self._split_pascal(candidate)[-3:]
-            if tail:
-                candidate = "".join(tail)
-            else:
-                candidate = candidate[-64:]
+            tail = _split_camel(candidate)[-3:]
+            candidate = "".join(token.capitalize() for token in tail) or candidate[-64:]
         base = candidate
         counter = 1
         while base in self.used_class_names:
@@ -757,12 +928,6 @@ class SchemaConverter:
             base = f"{candidate}{counter}"
         self.used_class_names.add(base)
         return base
-
-    @staticmethod
-    def _split_pascal(value: str) -> list[str]:
-        step = re.sub(r"([a-z0-9])([A-Z])", r"\1_\2", value)
-        step = re.sub(r"([A-Z]+)([A-Z][a-z])", r"\1_\2", step)
-        return [part for part in step.replace("__", "_").split("_") if part]
 
     @staticmethod
     def _merge_inline_schema(base: dict[str, Any], new: dict[str, Any]) -> dict[str, Any]:
@@ -779,38 +944,45 @@ class SchemaConverter:
         return merged
 
 
+def _split_camel(value: str) -> list[str]:
+    value = re.sub(r"[^0-9A-Za-z]+", " ", value)
+    value = re.sub(r"([A-Z]+)([A-Z][a-z])", r"\1 \2", value)
+    value = re.sub(r"([a-z0-9])([A-Z])", r"\1 \2", value)
+    tokens = [token for token in value.replace("@", " ").replace("#", " ").split() if token]
+    return tokens
+
+
 def to_pascal_case(value: str) -> str:
-    sanitized = (
-        value.replace("-", "_")
-        .replace(":", "_")
-        .replace(".", "_")
-        .replace("/", "_")
-        .replace("@", "_")
-        .replace("#", "_")
-        .replace(" ", "_")
-    )
-    parts = [segment for segment in sanitized.split("_") if segment]
-    return "".join(segment.capitalize() for segment in parts) or "GeneratedModel"
-
-
-def to_snake_case(value: str) -> str:
-    result: list[str] = []
-    for char in value:
-        if char.isupper():
-            if result:
-                result.append("_")
-            result.append(char.lower())
-        elif char in " -:./":
-            result.append("_")
-        elif char in "@#":
-            continue
+    tokens = _split_camel(value)
+    parts: list[str] = []
+    for token in tokens:
+        if token.isupper():
+            parts.append(token)
         else:
-            result.append(char)
-    snake = "".join(result)
-    while "__" in snake:
-        snake = snake.replace("__", "_")
-    snake = snake.strip("_")
-    return snake or "field"
+            parts.append(token[0].upper() + token[1:].lower())
+    return "".join(parts) or "GeneratedModel"
+
+
+def to_field_name(value: str) -> str:
+    tokens = _split_camel(value)
+    if not tokens:
+        return "field"
+    parts = [tokens[0].lower()]
+    for token in tokens[1:]:
+        parts.append(token.lower())
+    name = "_".join(parts)
+    name = re.sub(r"__+", "_", name).strip("_")
+    if not name:
+        return "field"
+    if keyword.iskeyword(name):
+        name += "_"
+    return name
+
+
+def normalize_alias_name(value: str) -> str:
+    if value.isupper():
+        return value
+    return to_pascal_case(value)
 
 
 def sanitize_docstring(text: str) -> str:
