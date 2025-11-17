@@ -105,7 +105,7 @@ class LciamethodsLCIAMethodDataSetLCIAMethodInformation(TidasBaseModel):
     impact_model: LCIAMethodDataSetLCIAMethodInformationImpactModel = Field(default=..., alias='impactModel', description='Provides information about the general representativiness of the data set and about its composition of single LCIA-methods.')
     common_other: str | None = Field(default=None, alias='common:other')
 
-class NormalisationAndWeighting(TidasBaseModel):
+class LCIAMethodDataSetModellingAndValidationLCIAMethodNormalisationAndWeighting(TidasBaseModel):
     """LCIA methodological modelling aspects"""
     type_of_data_set: Literal['Inventory indicator', 'Mid-point indicator', 'Damage indicator', 'Area of Protection damage indicator', 'Combined single-point indicator', 'LCIA methodology documentation'] = Field(default=..., alias='typeOfDataSet', description='Type of data set regarding the extent of the impact chain that is covered.')
     lcia_method_principle: Literal['Distance-to-target', 'Critical surface-time', 'Effective volumes', 'AoP-Damage model', 'Carrying capacity', 'Resource dissipation', 'other'] = Field(default=..., alias='LCIAMethodPrinciple', description='LCIA method principle(s) followed to derive the impact factors.')
@@ -191,14 +191,14 @@ class LCIAMethodDataSetModellingAndValidationComplianceDeclarations(TidasBaseMod
 class LciamethodsLCIAMethodDataSetModellingAndValidation(TidasBaseModel):
     """Covers the five sub-sections 1) LCIA method, normalisation, weighting 2) Data sources 3) Completeness, 4) Validation, and 5) Compliance declarations."""
     use_advice_for_data_set: MultiLangList = Field(default_factory=MultiLangList, alias='useAdviceForDataSet', description='Methodological advice for the use and application of this data set, such as limits in applicability or representativeness as well as recommendations to use it together with others from the same LCIA methodology to ensure consistency.')
-    lcia_method_normalisation_and_weighting: NormalisationAndWeighting = Field(default=..., alias='LCIAMethodNormalisationAndWeighting', description='LCIA methodological modelling aspects')
+    lcia_method_normalisation_and_weighting: LCIAMethodDataSetModellingAndValidationLCIAMethodNormalisationAndWeighting = Field(default=..., alias='LCIAMethodNormalisationAndWeighting', description='LCIA methodological modelling aspects')
     data_sources: LCIAMethodDataSetModellingAndValidationDataSources = Field(default=..., alias='dataSources', description='Data sources used for the model and the underlying substance and other data.')
     completeness: LCIAMethodDataSetModellingAndValidationCompleteness | None = Field(default=None, alias='completeness')
     validation: LCIAMethodDataSetModellingAndValidationValidation = Field(default=..., alias='validation', description='Review information on LCIA method.')
     compliance_declarations: LCIAMethodDataSetModellingAndValidationComplianceDeclarations = Field(default=..., alias='complianceDeclarations', description='Statements on compliance of several data set aspects with compliance requirements as defined by the referenced compliance system (e.g. an EPD scheme, handbook of a national or international data network such as the ILCD, etc.).')
     common_other: str | None = Field(default=None, alias='common:other')
 
-class CommissionerAndGoal(TidasBaseModel):
+class LCIAMethodDataSetAdministrativeInformationCommonCommissionerAndGoal(TidasBaseModel):
     """Extract of the information items linked to goal and scope of LCIA method modeling."""
     common_reference_to_commissioner: GlobalReferenceType | None = Field(default=None, alias='common:referenceToCommissioner', description='"Contact data set" of the commissioner / financing party of the data collection / compilation and of the data set modelling. For groups of commissioners, each single organisation should be named. For data set updates and for direct use of data from formerly commissioned studies, also the original commissioner should be named.')
     common_project: MultiLangList = Field(default_factory=MultiLangList, alias='common:project', description='Extract of the information items linked to goal and scope of LCIA method modeling.')
@@ -224,7 +224,7 @@ class LCIAMethodDataSetAdministrativeInformationDataEntryBy(TidasBaseModel):
     recommendation_by: AdministrativeInformationDataEntryByRecommendationBy = Field(default=..., alias='recommendationBy')
     common_other: str | None = Field(default=None, alias='common:other')
 
-class PublicationAndOwnership(TidasBaseModel):
+class LCIAMethodDataSetAdministrativeInformationPublicationAndOwnership(TidasBaseModel):
     """Information related to publication and version management of the data set including copyright and access restrictions."""
     common_date_of_last_revision: DateTime = Field(default=..., alias='common:dateOfLastRevision', description='Date when the data set was revised for the last time, typically manually set.')
     common_data_set_version: str = Field(default=..., alias='common:dataSetVersion', description='Version number of data set. First two digits refer to major updates, the second two digits to minor revisions and error corrections etc. The third three digits are intended for automatic and internal counting of versions during data set development. Together with the data set\'s UUID, the "Data set version" uniquely identifies each data set.')
@@ -239,10 +239,10 @@ class PublicationAndOwnership(TidasBaseModel):
 
 class LciamethodsLCIAMethodDataSetAdministrativeInformation(TidasBaseModel):
     """Information required for data set management and administration."""
-    common_commissioner_and_goal: CommissionerAndGoal | None = Field(default=None, alias='common:commissionerAndGoal', description='Extract of the information items linked to goal and scope of LCIA method modeling.')
+    common_commissioner_and_goal: LCIAMethodDataSetAdministrativeInformationCommonCommissionerAndGoal | None = Field(default=None, alias='common:commissionerAndGoal', description='Extract of the information items linked to goal and scope of LCIA method modeling.')
     data_generator: LCIAMethodDataSetAdministrativeInformationDataGenerator = Field(default=..., alias='dataGenerator', description='Expert(s), that compiled and modelled the data set as well as internal administrative information linked to the data generation activity.')
     data_entry_by: LCIAMethodDataSetAdministrativeInformationDataEntryBy = Field(default=..., alias='dataEntryBy', description='Staff or entity, that documented the generated data set, entering the information into the database; plus administrative information linked to the data entry activity.')
-    publication_and_ownership: PublicationAndOwnership = Field(default=..., alias='publicationAndOwnership', description='Information related to publication and version management of the data set including copyright and access restrictions.')
+    publication_and_ownership: LCIAMethodDataSetAdministrativeInformationPublicationAndOwnership = Field(default=..., alias='publicationAndOwnership', description='Information related to publication and version management of the data set including copyright and access restrictions.')
     common_other: str | None = Field(default=None, alias='common:other')
 
 class CharacterisationFactorsFactorOption0(TidasBaseModel):

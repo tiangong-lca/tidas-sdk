@@ -4,7 +4,7 @@ Source: tidas_sources_category.json
 """
 from __future__ import annotations
 
-from typing import Literal
+from typing import Literal, Union
 
 from pydantic import Field
 from tidas_sdk.core.base import TidasBaseModel
@@ -47,4 +47,12 @@ class SourceVariant6(TidasBaseModel):
 class SourcesCategory(TidasBaseModel):
     pass
 
-Source = SourceVariant0 | SourceVariant1 | SourceVariant2 | SourceVariant3 | SourceVariant4 | SourceVariant5 | SourceVariant6
+Source = Union[
+    SourceVariant0,
+    SourceVariant1,
+    SourceVariant2,
+    SourceVariant3,
+    SourceVariant4,
+    SourceVariant5,
+    SourceVariant6,
+]

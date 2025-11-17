@@ -4,7 +4,7 @@ Source: tidas_flows_elementary_category.json
 """
 from __future__ import annotations
 
-from typing import Literal
+from typing import Literal, Union
 
 from pydantic import Field
 from tidas_sdk.core.base import TidasBaseModel
@@ -284,4 +284,60 @@ class FlowsElementaryCategoryVariant54(TidasBaseModel):
     cat_id: Literal['4'] | None = Field(default=None, alias='@catId')
     text: Literal['Other elementary flows'] | None = Field(default=None, alias='#text')
 
-FlowsElementaryCategory = FlowsElementaryCategoryVariant0 | FlowsElementaryCategoryVariant1 | FlowsElementaryCategoryVariant2 | FlowsElementaryCategoryVariant3 | FlowsElementaryCategoryVariant4 | FlowsElementaryCategoryVariant5 | FlowsElementaryCategoryVariant6 | FlowsElementaryCategoryVariant7 | FlowsElementaryCategoryVariant8 | FlowsElementaryCategoryVariant9 | FlowsElementaryCategoryVariant10 | FlowsElementaryCategoryVariant11 | FlowsElementaryCategoryVariant12 | FlowsElementaryCategoryVariant13 | FlowsElementaryCategoryVariant14 | FlowsElementaryCategoryVariant15 | FlowsElementaryCategoryVariant16 | FlowsElementaryCategoryVariant17 | FlowsElementaryCategoryVariant18 | FlowsElementaryCategoryVariant19 | FlowsElementaryCategoryVariant20 | FlowsElementaryCategoryVariant21 | FlowsElementaryCategoryVariant22 | FlowsElementaryCategoryVariant23 | FlowsElementaryCategoryVariant24 | FlowsElementaryCategoryVariant25 | FlowsElementaryCategoryVariant26 | FlowsElementaryCategoryVariant27 | FlowsElementaryCategoryVariant28 | FlowsElementaryCategoryVariant29 | FlowsElementaryCategoryVariant30 | FlowsElementaryCategoryVariant31 | FlowsElementaryCategoryVariant32 | FlowsElementaryCategoryVariant33 | FlowsElementaryCategoryVariant34 | FlowsElementaryCategoryVariant35 | FlowsElementaryCategoryVariant36 | FlowsElementaryCategoryVariant37 | FlowsElementaryCategoryVariant38 | FlowsElementaryCategoryVariant39 | FlowsElementaryCategoryVariant40 | FlowsElementaryCategoryVariant41 | FlowsElementaryCategoryVariant42 | FlowsElementaryCategoryVariant43 | FlowsElementaryCategoryVariant44 | FlowsElementaryCategoryVariant45 | FlowsElementaryCategoryVariant46 | FlowsElementaryCategoryVariant47 | FlowsElementaryCategoryVariant48 | FlowsElementaryCategoryVariant49 | FlowsElementaryCategoryVariant50 | FlowsElementaryCategoryVariant51 | FlowsElementaryCategoryVariant52 | FlowsElementaryCategoryVariant53 | FlowsElementaryCategoryVariant54
+FlowsElementaryCategory = Union[
+    FlowsElementaryCategoryVariant0,
+    FlowsElementaryCategoryVariant1,
+    FlowsElementaryCategoryVariant2,
+    FlowsElementaryCategoryVariant3,
+    FlowsElementaryCategoryVariant4,
+    FlowsElementaryCategoryVariant5,
+    FlowsElementaryCategoryVariant6,
+    FlowsElementaryCategoryVariant7,
+    FlowsElementaryCategoryVariant8,
+    FlowsElementaryCategoryVariant9,
+    FlowsElementaryCategoryVariant10,
+    FlowsElementaryCategoryVariant11,
+    FlowsElementaryCategoryVariant12,
+    FlowsElementaryCategoryVariant13,
+    FlowsElementaryCategoryVariant14,
+    FlowsElementaryCategoryVariant15,
+    FlowsElementaryCategoryVariant16,
+    FlowsElementaryCategoryVariant17,
+    FlowsElementaryCategoryVariant18,
+    FlowsElementaryCategoryVariant19,
+    FlowsElementaryCategoryVariant20,
+    FlowsElementaryCategoryVariant21,
+    FlowsElementaryCategoryVariant22,
+    FlowsElementaryCategoryVariant23,
+    FlowsElementaryCategoryVariant24,
+    FlowsElementaryCategoryVariant25,
+    FlowsElementaryCategoryVariant26,
+    FlowsElementaryCategoryVariant27,
+    FlowsElementaryCategoryVariant28,
+    FlowsElementaryCategoryVariant29,
+    FlowsElementaryCategoryVariant30,
+    FlowsElementaryCategoryVariant31,
+    FlowsElementaryCategoryVariant32,
+    FlowsElementaryCategoryVariant33,
+    FlowsElementaryCategoryVariant34,
+    FlowsElementaryCategoryVariant35,
+    FlowsElementaryCategoryVariant36,
+    FlowsElementaryCategoryVariant37,
+    FlowsElementaryCategoryVariant38,
+    FlowsElementaryCategoryVariant39,
+    FlowsElementaryCategoryVariant40,
+    FlowsElementaryCategoryVariant41,
+    FlowsElementaryCategoryVariant42,
+    FlowsElementaryCategoryVariant43,
+    FlowsElementaryCategoryVariant44,
+    FlowsElementaryCategoryVariant45,
+    FlowsElementaryCategoryVariant46,
+    FlowsElementaryCategoryVariant47,
+    FlowsElementaryCategoryVariant48,
+    FlowsElementaryCategoryVariant49,
+    FlowsElementaryCategoryVariant50,
+    FlowsElementaryCategoryVariant51,
+    FlowsElementaryCategoryVariant52,
+    FlowsElementaryCategoryVariant53,
+    FlowsElementaryCategoryVariant54,
+]

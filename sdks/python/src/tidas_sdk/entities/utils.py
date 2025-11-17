@@ -42,8 +42,8 @@ def ensure_multilang(container: Any, attr: str) -> MultiLangList:
     return ml
 
 
-def default_timestamp() -> str:
+def default_timestamp() -> datetime:
     """
-    Produce an ISO 8601 timestamp using UTC.
+    Produce a timezone-aware timestamp for fields expecting `datetime`.
     """
-    return datetime.now(tz=timezone.utc).isoformat()
+    return datetime.now(tz=timezone.utc)

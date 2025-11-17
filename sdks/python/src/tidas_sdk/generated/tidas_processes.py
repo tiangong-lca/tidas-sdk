@@ -22,6 +22,7 @@ from .tidas_data_types import Real
 from .tidas_data_types import String
 from .tidas_data_types import UUID
 from .tidas_data_types import Year
+from .tidas_locations_category import LocationsCategory
 from datetime import datetime
 
 class ProcessInformationDataSetInformationName(TidasBaseModel):
@@ -91,21 +92,21 @@ class ProcessDataSetProcessInformationTime(TidasBaseModel):
 
 class ProcessInformationGeographyLocationOfOperationSupplyOrProduction(TidasBaseModel):
     """Location, country or region the data set represents. [Note 1: This field does not refer to e.g. the country in which a specific site is located that is represented by this data set but to the actually represented country, region, or site. Note 2: Entry can be of type \"two-letter ISO 3166 country code\" for countries, \"seven-letter regional codes\" for regions or continents, or \"market areas and market organisations\", as predefined for the ILCD. Also a name for e.g. a specific plant etc. can be given here (e.g. \"FR, Lyon, XY Company, Z Site\"; user defined). Note 3: The fact whether the entry refers to production or to consumption / supply has to be stated in the name-field \"Mix and location types\" e.g. as \"Production mix\".]"""
-    location: TidasLocationsCategoryJson = Field(default=..., alias='@location')
+    location: LocationsCategory = Field(default=..., alias='@location')
     latitude_and_longitude: GIS | None = Field(default=None, alias='@latitudeAndLongitude', description='Geographical latitude and longitude reference of "Location" / "Sub-location". For area-type locations (e.g. countries, continents) the field is empty.')
     description_of_restrictions: MultiLangList = Field(default_factory=MultiLangList, alias='descriptionOfRestrictions', description='Further explanations about additional aspects of the location: e.g. a company and/or site description and address, whether for certain sub-areas within the "Location" the data set is not valid, whether data is only valid for certain regions within the location indicated, or whether certain elementary flows or intermediate product flows are extrapolated from another geographical area.')
     common_other: str | None = Field(default=None, alias='common:other')
 
-class SupplyOrProduction(TidasBaseModel):
+class ProcessInformationGeographySubLocationOfOperationSupplyOrProduction(TidasBaseModel):
     """One or more geographical sub-unit(s) of the stated \"Location\". Such sub-units can be e.g. the sampling sites of a company-average data set, the countries of a region-average data set, or specific sites in a country-average data set. [Note: For single site data sets this field is empty and the site is named in the \"Location\" field.]"""
-    sub_location: TidasLocationsCategoryJson | None = Field(default=None, alias='@subLocation')
+    sub_location: LocationsCategory | None = Field(default=None, alias='@subLocation')
     latitude_and_longitude: GIS | None = Field(default=None, alias='@latitudeAndLongitude', description='Geographical latitude and longitude reference of "Location" / "Sub-location". For area-type locations (e.g. countries, continents) the field is empty.')
     description_of_restrictions: MultiLangList = Field(default_factory=MultiLangList, alias='descriptionOfRestrictions', description='Further explanations about additional aspects of the location: e.g. a company and/or site description and address, whether for certain sub-areas within the "Location" the data set is not valid, whether data is only valid for certain regions within the location indicated, or whether certain elementary flows or intermediate product flows are extrapolated from another geographical area.')
     common_other: str | None = Field(default=None, alias='common:other')
 
 class ProcessDataSetProcessInformationGeography(TidasBaseModel):
     location_of_operation_supply_or_production: ProcessInformationGeographyLocationOfOperationSupplyOrProduction = Field(default=..., alias='locationOfOperationSupplyOrProduction', description='Location, country or region the data set represents. [Note 1: This field does not refer to e.g. the country in which a specific site is located that is represented by this data set but to the actually represented country, region, or site. Note 2: Entry can be of type "two-letter ISO 3166 country code" for countries, "seven-letter regional codes" for regions or continents, or "market areas and market organisations", as predefined for the ILCD. Also a name for e.g. a specific plant etc. can be given here (e.g. "FR, Lyon, XY Company, Z Site"; user defined). Note 3: The fact whether the entry refers to production or to consumption / supply has to be stated in the name-field "Mix and location types" e.g. as "Production mix".]')
-    sub_location_of_operation_supply_or_production: SupplyOrProduction | None = Field(default=None, alias='subLocationOfOperationSupplyOrProduction', description='One or more geographical sub-unit(s) of the stated "Location". Such sub-units can be e.g. the sampling sites of a company-average data set, the countries of a region-average data set, or specific sites in a country-average data set. [Note: For single site data sets this field is empty and the site is named in the "Location" field.]')
+    sub_location_of_operation_supply_or_production: ProcessInformationGeographySubLocationOfOperationSupplyOrProduction | None = Field(default=None, alias='subLocationOfOperationSupplyOrProduction', description='One or more geographical sub-unit(s) of the stated "Location". Such sub-units can be e.g. the sampling sites of a company-average data set, the countries of a region-average data set, or specific sites in a country-average data set. [Note: For single site data sets this field is empty and the site is named in the "Location" field.]')
     common_other: str | None = Field(default=None, alias='common:other')
 
 class ProcessDataSetProcessInformationTechnology(TidasBaseModel):
@@ -153,7 +154,7 @@ class ProcessDataSetModellingAndValidationLCIMethodAndAllocation(TidasBaseModel)
     reference_to_lca_method_details: GlobalReferenceType | None = Field(default=None, alias='referenceToLCAMethodDetails', description='"Source data set"(s) where the generally used LCA methods including the LCI method principles and specific approaches, the modelling constants details, as well as any other applied methodological conventions are described.')
     common_other: str | None = Field(default=None, alias='common:other')
 
-class TreatmentAndRepresentativeness(TidasBaseModel):
+class ProcessDataSetModellingAndValidationDataSourcesTreatmentAndRepresentativeness(TidasBaseModel):
     data_cut_off_and_completeness_principles: MultiLangList = Field(default_factory=MultiLangList, alias='dataCutOffAndCompletenessPrinciples', description='Principles applied in data collection regarding completeness of (also intermediate) product and waste flows and of elementary flows. Examples are: cut-off rules, systematic exclusion of infrastructure, services or auxiliaries, etc. systematic exclusion of air in incineration processes, coling water, etc.')
     deviations_from_cut_off_and_completeness_principles: MultiLangList = Field(default_factory=MultiLangList, alias='deviationsFromCutOffAndCompletenessPrinciples', description='Short description of any deviations from the "Data completeness principles". In case of no (result relevant) deviations, "none" is entered.')
     data_selection_and_combination_principles: MultiLangList = Field(default_factory=MultiLangList, alias='dataSelectionAndCombinationPrinciples', description='Principles applied in data selection and in combination of data from different sources. Includes brief discussion of consistency of data sources regarding data itself, modelling, appropriateness. In case of averaging: Principles and data selection applied in horizontal and / or vertical averaging.')
@@ -257,7 +258,7 @@ class ProcessDataSetModellingAndValidationComplianceDeclarations(TidasBaseModel)
 
 class ProcessesProcessDataSetModellingAndValidation(TidasBaseModel):
     lci_method_and_allocation: ProcessDataSetModellingAndValidationLCIMethodAndAllocation = Field(default=..., alias='LCIMethodAndAllocation')
-    data_sources_treatment_and_representativeness: TreatmentAndRepresentativeness | None = Field(default=None, alias='dataSourcesTreatmentAndRepresentativeness')
+    data_sources_treatment_and_representativeness: ProcessDataSetModellingAndValidationDataSourcesTreatmentAndRepresentativeness | None = Field(default=None, alias='dataSourcesTreatmentAndRepresentativeness')
     completeness: ProcessDataSetModellingAndValidationCompleteness | None = Field(default=None, alias='completeness')
     validation: ProcessDataSetModellingAndValidationValidation = Field(default=..., alias='validation', description='Review information on LCIA method.')
     compliance_declarations: ProcessDataSetModellingAndValidationComplianceDeclarations = Field(default=..., alias='complianceDeclarations', description='Statements on compliance of several data set aspects with compliance requirements as defined by the referenced compliance system (e.g. an EPD scheme, handbook of a national or international data network such as the ILCD, etc.).')

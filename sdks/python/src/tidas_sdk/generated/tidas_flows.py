@@ -18,6 +18,7 @@ from .tidas_data_types import Perc
 from .tidas_data_types import Real
 from .tidas_data_types import String
 from .tidas_data_types import UUID
+from .tidas_locations_category import LocationsCategory
 from datetime import datetime
 
 class FlowInformationDataSetInformationName(TidasBaseModel):
@@ -42,7 +43,7 @@ class FlowDataSetFlowInformationQuantitativeReference(TidasBaseModel):
     common_other: str | None = Field(default=None, alias='common:other')
 
 class FlowDataSetFlowInformationGeography(TidasBaseModel):
-    location_of_supply: TidasLocationsCategoryJson | None = Field(default=None, alias='locationOfSupply')
+    location_of_supply: LocationsCategory | None = Field(default=None, alias='locationOfSupply')
     common_other: str | None = Field(default=None, alias='common:other')
 
 class FlowDataSetFlowInformationTechnology(TidasBaseModel):

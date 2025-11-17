@@ -4,7 +4,7 @@ Source: tidas_contacts_category.json
 """
 from __future__ import annotations
 
-from typing import Literal
+from typing import Literal, Union
 
 from pydantic import Field
 from tidas_sdk.core.base import TidasBaseModel
@@ -57,4 +57,14 @@ class ContactVariant8(TidasBaseModel):
 class ContactsCategory(TidasBaseModel):
     pass
 
-Contact = ContactVariant0 | ContactVariant1 | ContactVariant2 | ContactVariant3 | ContactVariant4 | ContactVariant5 | ContactVariant6 | ContactVariant7 | ContactVariant8
+Contact = Union[
+    ContactVariant0,
+    ContactVariant1,
+    ContactVariant2,
+    ContactVariant3,
+    ContactVariant4,
+    ContactVariant5,
+    ContactVariant6,
+    ContactVariant7,
+    ContactVariant8,
+]

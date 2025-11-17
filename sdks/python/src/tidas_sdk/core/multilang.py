@@ -66,7 +66,11 @@ def _is_multilang_item(value: Any) -> bool:
 
 
 def _is_multilang_list(value: Any) -> bool:
-    return isinstance(value, MutableSequence) and value and all(_is_multilang_item(entry) for entry in value)
+    if not isinstance(value, MutableSequence):
+        return False
+    if not value:
+        return False
+    return all(_is_multilang_item(entry) for entry in value)
 
 
 def wrap_multilang(value: Any) -> Any:

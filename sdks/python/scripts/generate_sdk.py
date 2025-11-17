@@ -285,8 +285,20 @@ class SchemaConverter:
             self.local_scalars.append(union_scalar)
             self.scalar_aliases["#"] = union_scalar
             self.scalar_aliases[root_hint] = union_scalar
+            self.scalar_aliases[self.module_name] = union_scalar
+            module_ref = f"{self.module_name}.json"
+            self.scalar_aliases[module_ref] = union_scalar
             self.global_scalars.setdefault(alias, union_scalar)
+            self.global_scalars[self.module_name] = union_scalar
+            self.global_scalars[module_ref] = union_scalar
             self.ref_map["#"] = alias
+            for imp in union_scalar.typing_imports:
+                if imp.startswith("from ") or imp.startswith("import "):
+                    self.standard_imports.add(imp)
+                else:
+                    self.typing_imports.add(imp)
+            for imp in union_scalar.standard_imports:
+                self.standard_imports.add(imp)
         else:
             root_path = (root_hint,)
             root_class = self._ensure_model(self.schema, root_path, name_hint=root_hint)
@@ -602,8 +614,17 @@ class SchemaConverter:
 
         if ref not in self.ref_map:
             target = ref.split("/")[-1]
-            class_name = self._unique_class_name(to_pascal_case(target))
-            self.ref_map[ref] = class_name
+            module_name = self._module_name_from_ref(ref)
+            if module_name:
+                alias_source = module_name
+                if module_name.startswith("tidas_"):
+                    alias_source = module_name.removeprefix("tidas_")
+                alias = normalize_alias_name(alias_source)
+                self.standard_imports.add(f"from .{module_name} import {alias}")
+                self.ref_map[ref] = alias
+            else:
+                class_name = self._unique_class_name(to_pascal_case(target))
+                self.ref_map[ref] = class_name
         return self.ref_map[ref]
 
     @staticmethod
@@ -766,16 +787,46 @@ class SchemaConverter:
                     if expr not in seen:
                         seen.add(expr)
                         ordered.append(expr)
-                union_expr = " | ".join(ordered)
+                literal_values: list[str] = []
+                other_types: list[str] = []
+                for expr in ordered:
+                    if expr.startswith("Literal[") and expr.endswith("]") and "|" not in expr:
+                        inner = expr[len("Literal[") : -1].strip()
+                        if inner:
+                            for value in inner.split(","):
+                                cleaned = value.strip()
+                                if cleaned:
+                                    literal_values.append(cleaned)
+                    else:
+                        other_types.append(expr)
+                if literal_values:
+                    dedup_literal_values: list[str] = []
+                    seen_literal: set[str] = set()
+                    for value in literal_values:
+                        if value not in seen_literal:
+                            seen_literal.add(value)
+                            dedup_literal_values.append(value)
+                    combined_literal = f"Literal[{', '.join(dedup_literal_values)}]"
+                    union_parts = [combined_literal, *other_types]
+                else:
+                    union_parts = ordered
+                typing_imports: set[str] = set()
+                if len(union_parts) == 1:
+                    union_expr = union_parts[0]
+                elif len(union_parts) <= 4:
+                    union_expr = " | ".join(union_parts)
+                else:
+                    formatted = ",\n    ".join(union_parts)
+                    union_expr = f"Union[\n    {formatted},\n]"
+                    typing_imports.add("Union")
                 scalar = ScalarInfo(
                     base_type=union_expr,
                     description=schema.get("description"),
                     post_definition=True,
                 )
-                variant_models = [
-                    expr for expr in ordered if expr in self.models or expr in self.ref_map.values()
-                ]
-                scalar.typing_imports.update({"Literal"} if all("Literal[" in expr for expr in ordered) else set())
+                if any("Literal[" in expr for expr in union_parts):
+                    typing_imports.add("Literal")
+                scalar.typing_imports.update(typing_imports)
                 return scalar
         return None
 
@@ -934,9 +985,14 @@ class SchemaConverter:
         if not candidate:
             candidate = "GeneratedModel"
         candidate = candidate[0].upper() + candidate[1:]
-        if len(candidate) > 64:
+        max_length = 120
+        if len(candidate) > max_length:
             tail = _split_camel(candidate)[-3:]
-            candidate = "".join(token.capitalize() for token in tail) or candidate[-64:]
+            shortened = "".join(token.capitalize() for token in tail)
+            if shortened and len(shortened) <= max_length:
+                candidate = shortened
+            else:
+                candidate = candidate[:max_length]
         base = candidate
         counter = 1
         while base in self.used_class_names:

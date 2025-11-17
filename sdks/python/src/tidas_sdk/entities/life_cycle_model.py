@@ -9,7 +9,8 @@ from uuid import uuid4
 from ..core.base import TidasEntity
 from ..generated.tidas_lifecyclemodels import (
     LifeCycleModelDataSetAdministrativeInformationDataEntryBy,
-        LifeCycleModelDataSetLifeCycleModelInformationDataSetInformation,
+    LifeCycleModelDataSetAdministrativeInformationPublicationAndOwnership,
+    LifeCycleModelDataSetLifeCycleModelInformationDataSetInformation,
     Lifecyclemodels,
     LifecyclemodelsLifeCycleModelDataSet,
     LifecyclemodelsLifeCycleModelDataSetAdministrativeInformation,
@@ -73,4 +74,5 @@ class TidasLifeCycleModel(TidasEntity[Lifecyclemodels]):
         ensure_model(
             admin,
             "publication_and_ownership",
-                    )
+            LifeCycleModelDataSetAdministrativeInformationPublicationAndOwnership,
+        )

@@ -9,7 +9,8 @@ from uuid import uuid4
 from ..core.base import TidasEntity
 from ..generated.tidas_flowproperties import (
     FlowPropertyDataSetAdministrativeInformationDataEntryBy,
-        FlowPropertyDataSetFlowPropertiesInformationDataSetInformation,
+    FlowPropertyDataSetAdministrativeInformationPublicationAndOwnership,
+    FlowPropertyDataSetFlowPropertiesInformationDataSetInformation,
     Flowproperties,
     FlowpropertiesFlowPropertyDataSet,
     FlowpropertiesFlowPropertyDataSetAdministrativeInformation,
@@ -71,4 +72,5 @@ class TidasFlowProperty(TidasEntity[Flowproperties]):
         ensure_model(
             admin,
             "publication_and_ownership",
-                    )
+            FlowPropertyDataSetAdministrativeInformationPublicationAndOwnership,
+        )

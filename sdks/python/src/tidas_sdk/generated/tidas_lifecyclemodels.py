@@ -51,7 +51,7 @@ class DataSetInformationClassificationInformationCommonClassification(TidasBaseM
     common_class: list[CommonClassItemOption0 | CommonClassItemOption1 | CommonClassItemOption2 | CommonClassItemOption3] = Field(default_factory=list, alias='common:class')
     common_other: str | None = Field(default=None, alias='common:other')
 
-class InformationClassificationInformation(TidasBaseModel):
+class LifeCycleModelInformationDataSetInformationClassificationInformation(TidasBaseModel):
     """Hierarchical or flat classification of the good, service or function that is provided by this life cycle model; typically used to structure database contents in LCA software, among other purposes. (Note: This entry is NOT required for the identification of a Life cycle model, but it should nevertheless be avoided to use identical names for Life cycle model data sets in the same class. The ILCD classifications are defined in the ILCDClassifications.xml file, for common use.)"""
     common_classification: DataSetInformationClassificationInformationCommonClassification = Field(default=..., alias='common:classification', description='Optional statistical or other classification of the data set. Typically also used for structuring LCA databases.')
 
@@ -59,13 +59,13 @@ class LifeCycleModelDataSetLifeCycleModelInformationDataSetInformation(TidasBase
     """General data set information, to identify the life cycle model, document a general comment about it, and to reference resulting aggregated process data sets that are based on this ife cycle model and to reference a potential background report."""
     common_uuid: UUID = Field(default=..., alias='common:UUID', description='Automatically generated Universally Unique Identifier of this data set. Together with the "Data set version", the UUID uniquely identifies each data set.')
     name: LifeCycleModelInformationDataSetInformationName = Field(default=..., alias='name', description='General descriptive, specifying, structured name of the Life cycle model data set. Note: Ensure proper name structuring and observe restriction to 100 characters for each of the four name fields.')
-    classification_information: InformationClassificationInformation = Field(default=..., alias='classificationInformation', description='Hierarchical or flat classification of the good, service or function that is provided by this life cycle model; typically used to structure database contents in LCA software, among other purposes. (Note: This entry is NOT required for the identification of a Life cycle model, but it should nevertheless be avoided to use identical names for Life cycle model data sets in the same class. The ILCD classifications are defined in the ILCDClassifications.xml file, for common use.)')
+    classification_information: LifeCycleModelInformationDataSetInformationClassificationInformation = Field(default=..., alias='classificationInformation', description='Hierarchical or flat classification of the good, service or function that is provided by this life cycle model; typically used to structure database contents in LCA software, among other purposes. (Note: This entry is NOT required for the identification of a Life cycle model, but it should nevertheless be avoided to use identical names for Life cycle model data sets in the same class. The ILCD classifications are defined in the ILCDClassifications.xml file, for common use.)')
     reference_to_resulting_process: GlobalReferenceType | None = Field(default=None, alias='referenceToResultingProcess', description='Reference to the LCI result or partly terminated system process data set(s) that is/are generated from this model.')
     common_general_comment: MultiLangList = Field(default_factory=MultiLangList, alias='common:generalComment', description='General information about the data set.')
     reference_to_external_documentation: GlobalReferenceType | None = Field(default=None, alias='referenceToExternalDocumentation', description='"Source data set(s)" of detailed LCI or LCA study or other study on the process or product represented by this data set, as well as documents / files with overarching documentative information on technology, geographical and / or time aspects etc. on the level of the life cycle model. (Note: can indirectly reference to electronic and online files.)')
     common_other: str | None = Field(default=None, alias='common:other')
 
-class InformationQuantitativeReference(TidasBaseModel):
+class LifeCycleModelDataSetLifeCycleModelInformationQuantitativeReference(TidasBaseModel):
     """This section names the quantitative reference of this data set, i.e. the reference to which the inputs and outputs of all process instances of the life cycle model quantitatively relate."""
     reference_to_reference_process: str = Field(default=..., alias='referenceToReferenceProcess', description='Process instance that scales the life cycle model and thereby all directly and indirectly connected process instances of the model; it is often a process instance at the "end" of the life cycle model chain, or the process that provides the delivered good, service or function of the model.', pattern='^-?\\d+$')
     common_other: str | None = Field(default=None, alias='common:other')
@@ -234,10 +234,10 @@ class LifeCycleModelDataSetLifeCycleModelInformationTechnology(TidasBaseModel):
 class LifecyclemodelsLifeCycleModelDataSetLifeCycleModelInformation(TidasBaseModel):
     """This section comprises the following sub-sections: 1) \"Key data set information\", 2) \"Quantitative reference\", 3) \"Technology\"."""
     data_set_information: LifeCycleModelDataSetLifeCycleModelInformationDataSetInformation = Field(default=..., alias='dataSetInformation', description='General data set information, to identify the life cycle model, document a general comment about it, and to reference resulting aggregated process data sets that are based on this ife cycle model and to reference a potential background report.')
-    quantitative_reference: InformationQuantitativeReference = Field(default=..., alias='quantitativeReference', description='This section names the quantitative reference of this data set, i.e. the reference to which the inputs and outputs of all process instances of the life cycle model quantitatively relate.')
+    quantitative_reference: LifeCycleModelDataSetLifeCycleModelInformationQuantitativeReference = Field(default=..., alias='quantitativeReference', description='This section names the quantitative reference of this data set, i.e. the reference to which the inputs and outputs of all process instances of the life cycle model quantitatively relate.')
     technology: LifeCycleModelDataSetLifeCycleModelInformationTechnology = Field(default=..., alias='technology', description='Provides information about the technological representativeness of the data set.')
 
-class SourcesTreatmentEtc(TidasBaseModel):
+class LifeCycleModelDataSetModellingAndValidationDataSourcesTreatmentEtc(TidasBaseModel):
     """Data selection, completeness, and treatment principles and procedures, data sources and market coverage information."""
     use_advice_for_data_set: MultiLangList = Field(default_factory=MultiLangList, alias='useAdviceForDataSet', description='Specific methodological advice for data set users that requires attention. E.g. on inclusion/exclusion of whole life cycle stages, specific use phase behavior to be modelled, and other methodological advices.')
     common_other: str | None = Field(default=None, alias='common:other')
@@ -279,19 +279,19 @@ class ComplianceDeclarationsComplianceItem(TidasBaseModel):
     common_quality_compliance: Literal['Fully compliant', 'Not compliant', 'Not defined'] = Field(default=..., alias='common:qualityCompliance', description='Quality compliance of this data set with the respective requirements set by the "compliance system" refered to.')
     common_other: str | None = Field(default=None, alias='common:other')
 
-class ValidationComplianceDeclarations(TidasBaseModel):
+class LifeCycleModelDataSetModellingAndValidationComplianceDeclarations(TidasBaseModel):
     """One or more declarations of compliance to selected standards, schemes and other references, e.g. ISO 14040, ISO 14044, ILCD, EF, EN 15804, ..."""
     compliance: ComplianceDeclarationsComplianceOption0 | list[ComplianceDeclarationsComplianceItem] = Field(default=..., alias='compliance', description='One compliance declaration. Multiple declarations may be provided.')
     common_other: str | None = Field(default=None, alias='common:other')
 
 class LifecyclemodelsLifeCycleModelDataSetModellingAndValidation(TidasBaseModel):
     """This section covers the following sub-sections: 1) \"Data sources, treatment and representativeness\", 2) \"Validation\", and 3) \"Compliance\"."""
-    data_sources_treatment_etc: SourcesTreatmentEtc | None = Field(default=None, alias='dataSourcesTreatmentEtc', description='Data selection, completeness, and treatment principles and procedures, data sources and market coverage information.')
+    data_sources_treatment_etc: LifeCycleModelDataSetModellingAndValidationDataSourcesTreatmentEtc | None = Field(default=None, alias='dataSourcesTreatmentEtc', description='Data selection, completeness, and treatment principles and procedures, data sources and market coverage information.')
     validation: LifeCycleModelDataSetModellingAndValidationValidation = Field(default=..., alias='validation', description='Review / validation information on data set.')
-    compliance_declarations: ValidationComplianceDeclarations = Field(default=..., alias='complianceDeclarations', description='One or more declarations of compliance to selected standards, schemes and other references, e.g. ISO 14040, ISO 14044, ILCD, EF, EN 15804, ...')
+    compliance_declarations: LifeCycleModelDataSetModellingAndValidationComplianceDeclarations = Field(default=..., alias='complianceDeclarations', description='One or more declarations of compliance to selected standards, schemes and other references, e.g. ISO 14040, ISO 14044, ILCD, EF, EN 15804, ...')
     common_other: str | None = Field(default=None, alias='common:other')
 
-class CommissionerAndGoal(TidasBaseModel):
+class LifeCycleModelDataSetAdministrativeInformationCommonCommissionerAndGoal(TidasBaseModel):
     """Extract of the information items linked to goal and scope of LCIA method modeling."""
     common_reference_to_commissioner: GlobalReferenceType = Field(default=..., alias='common:referenceToCommissioner', description='"Contact data set" of the commissioner / financing party of the data collection / compilation and of the data set modelling. For groups of commissioners, each single organisation should be named. For data set updates and for direct use of data from formerly commissioned studies, also the original commissioner should be named.')
     common_project: MultiLangList = Field(default_factory=MultiLangList, alias='common:project', description='Project within which the data set was modelled in its present version. [Note: If the project was published e.g. as a report, this can be referenced in the "Publication of data set in:" field in the "Publication and ownership" sub-section.')
@@ -310,7 +310,7 @@ class LifeCycleModelDataSetAdministrativeInformationDataEntryBy(TidasBaseModel):
     common_reference_to_person_or_entity_entering_the_data: GlobalReferenceType | None = Field(default=None, alias='common:referenceToPersonOrEntityEnteringTheData', description='"Contact data set" of the responsible person or entity that has documented this data set, i.e. entered the data and the descriptive information.')
     common_other: str | None = Field(default=None, alias='common:other')
 
-class PublicationAndOwnership(TidasBaseModel):
+class LifeCycleModelDataSetAdministrativeInformationPublicationAndOwnership(TidasBaseModel):
     """Information related to publication and version management of the data set including copyright and access restrictions."""
     common_data_set_version: str = Field(default=..., alias='common:dataSetVersion', description='Version number of data set. First two digits refer to major updates, the second two digits to minor revisions and error corrections etc. The third three digits are intended for automatic and internal counting of versions during data set development. Together with the data set\'s UUID, the "Data set version" uniquely identifies each data set.')
     common_reference_to_preceding_data_set_version: GlobalReferenceType | None = Field(default=None, alias='common:referenceToPrecedingDataSetVersion', description='Last preceding data set, which was replaced by this version. Either a URI of that data set (i.e. an internet address) or its UUID plus version number is given (or both).')
@@ -324,10 +324,10 @@ class PublicationAndOwnership(TidasBaseModel):
 
 class LifecyclemodelsLifeCycleModelDataSetAdministrativeInformation(TidasBaseModel):
     """Information required for data set management and administration."""
-    common_commissioner_and_goal: CommissionerAndGoal = Field(default=..., alias='common:commissionerAndGoal', description='Extract of the information items linked to goal and scope of LCIA method modeling.')
+    common_commissioner_and_goal: LifeCycleModelDataSetAdministrativeInformationCommonCommissionerAndGoal = Field(default=..., alias='common:commissionerAndGoal', description='Extract of the information items linked to goal and scope of LCIA method modeling.')
     data_generator: LifeCycleModelDataSetAdministrativeInformationDataGenerator | None = Field(default=None, alias='dataGenerator', description='"Contact data set" of the person(s), working group(s), organisation(s) or database network, that generated the data set, i.e. being technically responsible for its correctness regarding methods, inventory, and documentative information.')
     data_entry_by: LifeCycleModelDataSetAdministrativeInformationDataEntryBy = Field(default=..., alias='dataEntryBy', description='"Contact data set" of the responsible person or entity that has documented this data set, i.e. entered the data and the descriptive information.')
-    publication_and_ownership: PublicationAndOwnership = Field(default=..., alias='publicationAndOwnership', description='Information related to publication and version management of the data set including copyright and access restrictions.')
+    publication_and_ownership: LifeCycleModelDataSetAdministrativeInformationPublicationAndOwnership = Field(default=..., alias='publicationAndOwnership', description='Information related to publication and version management of the data set including copyright and access restrictions.')
     common_other: str | None = Field(default=None, alias='common:other')
 
 class LifecyclemodelsLifeCycleModelDataSet(TidasBaseModel):

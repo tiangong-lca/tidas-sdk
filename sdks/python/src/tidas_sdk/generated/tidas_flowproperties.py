@@ -25,7 +25,7 @@ class DataSetInformationClassificationInformationCommonClassification(TidasBaseM
     common_class: ClassificationInformationCommonClassificationCommonClass = Field(default=..., alias='common:class')
     common_other: str | None = Field(default=None, alias='common:other')
 
-class InformationClassificationInformation(TidasBaseModel):
+class FlowPropertiesInformationDataSetInformationClassificationInformation(TidasBaseModel):
     """Hierachical classification of the Flow property foreseen to be used to structure the Flow property content of the database. (Note: This entry is NOT required for the identification of the Flow property data set. It should nevertheless be avoided to use identical names for Flow properties in the same class."""
     common_classification: DataSetInformationClassificationInformationCommonClassification = Field(default=..., alias='common:classification', description='Optional statistical or other classification of the data set. Typically also used for structuring LCA databases.')
 
@@ -33,21 +33,21 @@ class FlowPropertyDataSetFlowPropertiesInformationDataSetInformation(TidasBaseMo
     common_uuid: UUID = Field(default=..., alias='common:UUID', description='Automatically generated Universally Unique Identifier of this data set. Together with the "Data set version", the UUID uniquely identifies each data set.')
     common_name: MultiLangList = Field(default_factory=MultiLangList, alias='common:name', description='Name of flow property.')
     common_synonyms: MultiLangList = Field(default_factory=MultiLangList, alias='common:synonyms', description='Synonyms are alternative names for the "Name" of the Flow property.')
-    classification_information: InformationClassificationInformation = Field(default=..., alias='classificationInformation', description='Hierachical classification of the Flow property foreseen to be used to structure the Flow property content of the database. (Note: This entry is NOT required for the identification of the Flow property data set. It should nevertheless be avoided to use identical names for Flow properties in the same class.')
+    classification_information: FlowPropertiesInformationDataSetInformationClassificationInformation = Field(default=..., alias='classificationInformation', description='Hierachical classification of the Flow property foreseen to be used to structure the Flow property content of the database. (Note: This entry is NOT required for the identification of the Flow property data set. It should nevertheless be avoided to use identical names for Flow properties in the same class.')
     common_general_comment: MultiLangList = Field(default_factory=MultiLangList, alias='common:generalComment', description='Free text for general information about the data set. It may contain comments on e.g. information sources used as well as general (internal, not reviewed) quality statements.')
     common_other: str | None = Field(default=None, alias='common:other')
 
-class InformationQuantitativeReference(TidasBaseModel):
+class FlowPropertyDataSetFlowPropertiesInformationQuantitativeReference(TidasBaseModel):
     """This section allows to refer to the Flow property's quantitative reference, which is always a unit (i.e. that unit, in which the property is measured, e.g. \"MJ\" for energy-related Flow properties)."""
     reference_to_reference_unit_group: GlobalReferenceType = Field(default=..., alias='referenceToReferenceUnitGroup', description='"Unit group data set" and its reference unit, in which the Flow property is measured.')
     common_other: str | None = Field(default=None, alias='common:other')
 
 class FlowpropertiesFlowPropertyDataSetFlowPropertiesInformation(TidasBaseModel):
     data_set_information: FlowPropertyDataSetFlowPropertiesInformationDataSetInformation = Field(default=..., alias='dataSetInformation')
-    quantitative_reference: InformationQuantitativeReference = Field(default=..., alias='quantitativeReference', description='This section allows to refer to the Flow property\'s quantitative reference, which is always a unit (i.e. that unit, in which the property is measured, e.g. "MJ" for energy-related Flow properties).')
+    quantitative_reference: FlowPropertyDataSetFlowPropertiesInformationQuantitativeReference = Field(default=..., alias='quantitativeReference', description='This section allows to refer to the Flow property\'s quantitative reference, which is always a unit (i.e. that unit, in which the property is measured, e.g. "MJ" for energy-related Flow properties).')
     common_other: str | None = Field(default=None, alias='common:other')
 
-class TreatmentAndRepresentativeness(TidasBaseModel):
+class FlowPropertyDataSetModellingAndValidationDataSourcesTreatmentAndRepresentativeness(TidasBaseModel):
     reference_to_data_source: GlobalReferenceType | None = Field(default=None, alias='referenceToDataSource', description='"Source data set" of data source(s) used for the data set e.g. a paper, a questionnaire, a monography etc. The main raw data sources should be named, too. [Note: relevant especially for market price data.]')
     common_other: str | None = Field(default=None, alias='common:other')
 
@@ -66,7 +66,7 @@ class FlowPropertyDataSetModellingAndValidationComplianceDeclarations(TidasBaseM
 
 class FlowpropertiesFlowPropertyDataSetModellingAndValidation(TidasBaseModel):
     """Covers the five sub-sections 1) LCI method (not used), 2) Data sources, treatment and representativeness (only 3 fields), 3) Completeness (not used), 4) Validation, and 5) Compliance."""
-    data_sources_treatment_and_representativeness: TreatmentAndRepresentativeness | None = Field(default=None, alias='dataSourcesTreatmentAndRepresentativeness')
+    data_sources_treatment_and_representativeness: FlowPropertyDataSetModellingAndValidationDataSourcesTreatmentAndRepresentativeness | None = Field(default=None, alias='dataSourcesTreatmentAndRepresentativeness')
     compliance_declarations: FlowPropertyDataSetModellingAndValidationComplianceDeclarations = Field(default=..., alias='complianceDeclarations', description='Statements on compliance of several data set aspects with compliance requirements as defined by the referenced compliance system (e.g. an EPD scheme, handbook of a national or international data network such as the ILCD, etc.).')
     common_other: str | None = Field(default=None, alias='common:other')
 
@@ -76,7 +76,7 @@ class FlowPropertyDataSetAdministrativeInformationDataEntryBy(TidasBaseModel):
     common_reference_to_data_set_format: GlobalReferenceType = Field(default=..., alias='common:referenceToDataSetFormat', description='"Source data set" of the used version of the ILCD format. If additional data format fields have been integrated into the data set file, using the "namespace" option, the used format namespace(s) are to be given. This is the case if the data sets carries additional information as specified by other, particular LCA formats, e.g. of other database networks or LCA softwares.')
     common_other: str | None = Field(default=None, alias='common:other')
 
-class PublicationAndOwnership(TidasBaseModel):
+class FlowPropertyDataSetAdministrativeInformationPublicationAndOwnership(TidasBaseModel):
     """Information related to publication and version management of the data set including copyright and access restrictions."""
     common_data_set_version: str = Field(default=..., alias='common:dataSetVersion', description='Version number of data set. First two digits refer to major updates, the second two digits to minor revisions and error corrections etc. The third three digits are intended for automatic and internal counting of versions during data set development. Together with the data set\'s UUID, the "Data set version" uniquely identifies each data set.')
     common_reference_to_preceding_data_set_version: GlobalReferenceType | None = Field(default=None, alias='common:referenceToPrecedingDataSetVersion', description='Last preceding data set, which was replaced by this version. Either a URI of that data set (i.e. an internet address) or its UUID plus version number is given (or both).')
@@ -87,7 +87,7 @@ class PublicationAndOwnership(TidasBaseModel):
 class FlowpropertiesFlowPropertyDataSetAdministrativeInformation(TidasBaseModel):
     """Information on data set management and administration."""
     data_entry_by: FlowPropertyDataSetAdministrativeInformationDataEntryBy = Field(default=..., alias='dataEntryBy', description='Staff or entity, that documented the generated data set, entering the information into the database; plus administrative information linked to the data entry activity.')
-    publication_and_ownership: PublicationAndOwnership = Field(default=..., alias='publicationAndOwnership', description='Information related to publication and version management of the data set including copyright and access restrictions.')
+    publication_and_ownership: FlowPropertyDataSetAdministrativeInformationPublicationAndOwnership = Field(default=..., alias='publicationAndOwnership', description='Information related to publication and version management of the data set including copyright and access restrictions.')
     common_other: str | None = Field(default=None, alias='common:other')
 
 class FlowpropertiesFlowPropertyDataSet(TidasBaseModel):

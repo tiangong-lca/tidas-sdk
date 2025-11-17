@@ -9,7 +9,8 @@ from uuid import uuid4
 from ..core.base import TidasEntity
 from ..generated.tidas_lciamethods import (
     LCIAMethodDataSetAdministrativeInformationDataEntryBy,
-        LCIAMethodDataSetLCIAMethodInformationDataSetInformation,
+    LCIAMethodDataSetAdministrativeInformationPublicationAndOwnership,
+    LCIAMethodDataSetLCIAMethodInformationDataSetInformation,
     Lciamethods,
     LciamethodsLCIAMethodDataSet,
     LciamethodsLCIAMethodDataSetAdministrativeInformation,
@@ -71,4 +72,5 @@ class TidasLCIAMethod(TidasEntity[Lciamethods]):
         ensure_model(
             admin,
             "publication_and_ownership",
-                    )
+            LCIAMethodDataSetAdministrativeInformationPublicationAndOwnership,
+        )

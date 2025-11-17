@@ -4,7 +4,7 @@ Source: tidas_lciamethods_category.json
 """
 from __future__ import annotations
 
-from typing import Literal
+from typing import Literal, Union
 
 from pydantic import Field
 from tidas_sdk.core.base import TidasBaseModel
@@ -272,4 +272,57 @@ class LCIAMethodVariant51(TidasBaseModel):
 class LciamethodsCategory(TidasBaseModel):
     pass
 
-LCIAMethod = LCIAMethodVariant0 | LCIAMethodVariant1 | LCIAMethodVariant2 | LCIAMethodVariant3 | LCIAMethodVariant4 | LCIAMethodVariant5 | LCIAMethodVariant6 | LCIAMethodVariant7 | LCIAMethodVariant8 | LCIAMethodVariant9 | LCIAMethodVariant10 | LCIAMethodVariant11 | LCIAMethodVariant12 | LCIAMethodVariant13 | LCIAMethodVariant14 | LCIAMethodVariant15 | LCIAMethodVariant16 | LCIAMethodVariant17 | LCIAMethodVariant18 | LCIAMethodVariant19 | LCIAMethodVariant20 | LCIAMethodVariant21 | LCIAMethodVariant22 | LCIAMethodVariant23 | LCIAMethodVariant24 | LCIAMethodVariant25 | LCIAMethodVariant26 | LCIAMethodVariant27 | LCIAMethodVariant28 | LCIAMethodVariant29 | LCIAMethodVariant30 | LCIAMethodVariant31 | LCIAMethodVariant32 | LCIAMethodVariant33 | LCIAMethodVariant34 | LCIAMethodVariant35 | LCIAMethodVariant36 | LCIAMethodVariant37 | LCIAMethodVariant38 | LCIAMethodVariant39 | LCIAMethodVariant40 | LCIAMethodVariant41 | LCIAMethodVariant42 | LCIAMethodVariant43 | LCIAMethodVariant44 | LCIAMethodVariant45 | LCIAMethodVariant46 | LCIAMethodVariant47 | LCIAMethodVariant48 | LCIAMethodVariant49 | LCIAMethodVariant50 | LCIAMethodVariant51
+LCIAMethod = Union[
+    LCIAMethodVariant0,
+    LCIAMethodVariant1,
+    LCIAMethodVariant2,
+    LCIAMethodVariant3,
+    LCIAMethodVariant4,
+    LCIAMethodVariant5,
+    LCIAMethodVariant6,
+    LCIAMethodVariant7,
+    LCIAMethodVariant8,
+    LCIAMethodVariant9,
+    LCIAMethodVariant10,
+    LCIAMethodVariant11,
+    LCIAMethodVariant12,
+    LCIAMethodVariant13,
+    LCIAMethodVariant14,
+    LCIAMethodVariant15,
+    LCIAMethodVariant16,
+    LCIAMethodVariant17,
+    LCIAMethodVariant18,
+    LCIAMethodVariant19,
+    LCIAMethodVariant20,
+    LCIAMethodVariant21,
+    LCIAMethodVariant22,
+    LCIAMethodVariant23,
+    LCIAMethodVariant24,
+    LCIAMethodVariant25,
+    LCIAMethodVariant26,
+    LCIAMethodVariant27,
+    LCIAMethodVariant28,
+    LCIAMethodVariant29,
+    LCIAMethodVariant30,
+    LCIAMethodVariant31,
+    LCIAMethodVariant32,
+    LCIAMethodVariant33,
+    LCIAMethodVariant34,
+    LCIAMethodVariant35,
+    LCIAMethodVariant36,
+    LCIAMethodVariant37,
+    LCIAMethodVariant38,
+    LCIAMethodVariant39,
+    LCIAMethodVariant40,
+    LCIAMethodVariant41,
+    LCIAMethodVariant42,
+    LCIAMethodVariant43,
+    LCIAMethodVariant44,
+    LCIAMethodVariant45,
+    LCIAMethodVariant46,
+    LCIAMethodVariant47,
+    LCIAMethodVariant48,
+    LCIAMethodVariant49,
+    LCIAMethodVariant50,
+    LCIAMethodVariant51,
+]
