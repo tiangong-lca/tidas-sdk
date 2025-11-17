@@ -276,9 +276,21 @@ class SchemaConverter:
     def convert(self) -> ModuleArtifact:
         self._register_definitions()
         root_hint = self._derive_class_name(self.schema, self.module_name)
-        root_path = (root_hint,)
-        root_class = self._ensure_model(self.schema, root_path, name_hint=root_hint)
-        self.ref_map["#"] = root_class
+        union_scalar = self._handle_union_definition(root_hint, self.schema)
+        if union_scalar:
+            alias = normalize_alias_name(root_hint)
+            union_scalar.alias = alias
+            if not union_scalar.definition:
+                union_scalar.definition = f"{alias} = {union_scalar.base_type}"
+            self.local_scalars.append(union_scalar)
+            self.scalar_aliases["#"] = union_scalar
+            self.scalar_aliases[root_hint] = union_scalar
+            self.global_scalars.setdefault(alias, union_scalar)
+            self.ref_map["#"] = alias
+        else:
+            root_path = (root_hint,)
+            root_class = self._ensure_model(self.schema, root_path, name_hint=root_hint)
+            self.ref_map["#"] = root_class
         ordered_models = [self.models[name] for name in self.model_order]
         return ModuleArtifact(
             models=ordered_models,
@@ -760,6 +772,10 @@ class SchemaConverter:
                     description=schema.get("description"),
                     post_definition=True,
                 )
+                variant_models = [
+                    expr for expr in ordered if expr in self.models or expr in self.ref_map.values()
+                ]
+                scalar.typing_imports.update({"Literal"} if all("Literal[" in expr for expr in ordered) else set())
                 return scalar
         return None
 

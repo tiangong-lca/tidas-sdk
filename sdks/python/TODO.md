@@ -18,17 +18,18 @@
 ## 待完成
 
 1. **Schema 解析增强（进阶）**
-   - 支持 `allOf`/`anyOf` 等组合体的字段继承与属性合并
-   - 识别 `patternProperties`、复杂 `additionalProperties` 并映射为 `dict[str, T]`
-   - 根据约束（min/max、pattern）生成更丰富的 `Field(...)` 参数或 `Annotated` 元信息
+   - ~~支持 `allOf`/`anyOf` 等组合体的字段继承与属性合并~~
+   - 识别 `patternProperties`、更复杂的 `additionalProperties` 并映射为 `dict[str, T]`
+   - ~~根据约束（min/max、pattern）生成更丰富的 `Field(...)` 参数或 `Annotated` 元信息~~
+   - 针对超大 `oneOf`（如产品/初级流分类）研究更紧凑的表示方式（Enum/分层结构）
 2. **类型映射策略（进阶）**
-   - 为格式化字段（`date-time`、`uri` 等）挑选更合适的 Python 类型或 `Annotated`
-   - 针对多层 Union/枚举场景实现 Literal/Enum 复用与去重
+   - ~~为格式化字段（`date-time`、`uuid` 等）挑选合适的 Python 类型或 `Annotated`~~
+   - 针对复杂 Union/枚举实现去重与可复用别名（避免数千 `Variant` 类）
 3. **实体扩展**
-   - Flow/Contact/Source/FlowProperty/UnitGroup/LCIAMethod/LifeCycleModel
-   - 为常用字段提供便捷方法（例如 `set_name`, `reference.flows[...]`）
+   - ✅ Flow/Contact/Source/FlowProperty/UnitGroup/LCIAMethod/LifeCycleModel
+   - TODO: 为常用字段提供便捷方法（例如 `set_name`, `reference.flows[...]`）
 4. **工厂函数完善（其余实体）**
-   - 其余实体同步 `from_json`、批量创建、验证模式等便捷 API
+   - ✅ 其余实体同步 `from_json`、批量创建、验证模式等便捷 API
 5. **测试与示例**
    - 单元测试覆盖多语言、JSON → 对象 → JSON 循环、延迟验证
    - 更新 `examples/usage.py`，确保六大特性均可运行
