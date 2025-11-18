@@ -2,20 +2,19 @@
 
 [English](README.md) | [中文](README-zh.md)
 
-TIDAS Python SDK 为 ILCD/TIDAS 生命周期评价数据模型提供类型安全的封装，让你在 Python 中轻松创建、验证与转换 LCA 数据对象。
-
-## 状态
-
-- 当前版本：0.1.0（预览版）
-- 发布方式：源码安装（PyPI 发布计划中）
-
-## 前置条件
-
-- Python 3.12+
-- 使用 [uv](https://docs.astral.sh/uv/) 管理依赖与执行脚本  
-  _如未安装，可运行 `curl -LsSf https://astral.sh/uv/install.sh | sh`_
+TIDAS Python SDK 为 ILCD/TIDAS 生命周期评价（LCA）数据提供类型安全的 Python 封装。
+它基于自动生成的 Pydantic 模型，并提供更高层的工厂函数与辅助方法，方便你在 Python 中读取、
+构建、验证与导出符合 ILCD 标准的数据集。
 
 ## 安装
+
+### 通过 PyPI 安装
+
+```bash
+pip install tidas-sdk
+```
+
+### 从源码安装（本仓库）
 
 ```bash
 cd sdks/python
@@ -30,7 +29,7 @@ uv sync --group dev  # 安装核心依赖及开发工具
 uv run python examples/usage.py
 ```
 
-最小化示例：
+最小示例：
 
 ```python
 from tidas_sdk import create_process
@@ -43,16 +42,56 @@ process.process_data_set.process_information.data_set_information.name.base_name
 print(process.to_json())
 ```
 
-## `examples/usage.py` 展示的特性
+## 基本用法
 
-- **JSON 初始化对象**：`create_process()` 可以从完整或不完整的 JSON 数据构建 `TidasProcess`（见 `creat_object_from_json()`）。
-- **对象导出为 JSON**：`to_json()` 返回符合 ILCD 规范的字典结构，便于与其他系统交互（见 `convert_object_to_json()`）。
-- **属性访问与多语言支持**：可通过点号访问嵌套字段，多语言字段提供 `set_text()` 与 `get_text()` 方法（见 `properties_access()`）。
-- **类型提示与自动补全**：生成的类具备完整类型信息，IDE 可提供精准提示（见 `type_hinting_and_autocompletion()`）。
-- **按需验证**：待数据补全后再调用 `validate()`，并可通过 `last_validation_error()` 查看详细错误（见 `validation_on_demand()`）。
-- **导出为 XML**：`to_xml()` 可输出符合 ILCD 标准的 XML 字符串（见 `convert_to_xml()`）。
+### 创建实体对象
 
-## 开发流程
+```python
+from tidas_sdk import create_process, create_flow, create_source
+
+process = create_process({})
+flow = create_flow({})
+source = create_source({})
+```
+
+也可以直接从 ILCD 风格的 JSON 创建：
+
+```python
+from pathlib import Path
+from tidas_sdk import create_process_from_json
+
+process = create_process_from_json(Path("process.json"))
+```
+
+### 处理多语言字段
+
+```python
+name_list = process.process_data_set.process_information.data_set_information.name.base_name
+name_list.set_text("Sample Process", lang="en")
+name_list.set_text("示例工艺", lang="zh")
+print(name_list.get_text("en"))
+```
+
+### 校验与导出
+
+```python
+is_valid = process.validate()        # 触发 Pydantic / JSON Schema 校验
+json_payload = process.to_json()     # 导出为 ILCD 兼容的字典
+xml_payload = process.to_xml()       # 导出为 ILCD XML 字符串
+```
+
+## 主要特性
+
+- **JSON → 对象**：`create_process()` 等工厂函数可以从完整或不完整的 ILCD JSON 数据构建实体对象。
+- **对象 → JSON**：`to_json()` 返回符合 ILCD 结构的字典，可直接用于存储或下游工具。
+- **多语言字段支持**：`MultiLangList` 提供 `set_text()` / `get_text()`，简化 `@xml:lang` / `#text` 结构的处理。
+- **强类型与自动补全**：生成的 Pydantic 模型具备完整类型信息，IDE 能提供精确的类型提示和补全。
+- **按需验证**：通过 `validate()` 触发 Pydantic / JSON Schema 校验，并可用 `last_validation_error()` 查看详细错误。
+- **导出为 XML**：`to_xml()` 可将实体转换为 ILCD XML，方便与其他 LCA 系统集成。
+
+完整用法示例可参考 `examples/usage.py`。
+
+## 开发流程（针对贡献者）
 
 ```bash
 # 安装或更新依赖

@@ -2,24 +2,23 @@
 
 [中文文档](README-zh.md)
 
-Type-safe Python tooling for working with ILCD/TIDAS life-cycle data. The SDK wraps the generated models with convenient factories, property accessors, and validation helpers so you can build rich LCA workflows in Python.
-
-## Status
-
-- Version: 0.1.0 (preview)
-- Distribution: install from source (PyPI release coming soon)
-
-## Prerequisites
-
-- Python 3.12+
-- [uv](https://docs.astral.sh/uv/) for dependency management and scripted commands  
-  _Install via `curl -LsSf https://astral.sh/uv/install.sh | sh` if uv is not available._
+Type-safe Python SDK for working with ILCD/TIDAS life-cycle assessment (LCA) data.
+It provides generated Pydantic models plus higher-level helpers so you can read,
+manipulate, validate and export ILCD-compatible datasets from Python.
 
 ## Installation
 
+### From PyPI
+
+```bash
+pip install tidas-sdk
+```
+
+### From source (this repository)
+
 ```bash
 cd sdks/python
-uv sync --group dev  # install core + development dependencies
+uv sync --group dev
 ```
 
 ## Quick Start
@@ -43,16 +42,56 @@ process.process_data_set.process_information.data_set_information.name.base_name
 print(process.to_json())
 ```
 
-## Features in `examples/usage.py`
+## Basic Usage
 
-- JSON ➜ Object bootstrap: `create_process()` builds a `TidasProcess` from complete or partial JSON payloads (`creat_object_from_json()`).
-- Object ➜ JSON round-trip: `to_json()` returns the ILCD-compliant dictionary for downstream tooling (`convert_object_to_json()`).
-- Property access & localization: dotted attribute access plus `set_text()`/`get_text()` helpers simplify multilingual fields (`properties_access()`).
-- IDE type hints: generated classes expose full type information for autocompletion (`type_hinting_and_autocompletion()`).
-- On-demand validation: call `validate()` only when your dataset is ready; inspect issues with `last_validation_error()` (`validation_on_demand()`).
-- XML export: `to_xml()` serializes to ILCD XML for interoperability (`convert_to_xml()`).
+### Creating entities
 
-## Development Workflow
+```python
+from tidas_sdk import create_process, create_flow, create_source
+
+process = create_process({})
+flow = create_flow({})
+source = create_source({})
+```
+
+You can also build entities directly from ILCD‑style JSON:
+
+```python
+from pathlib import Path
+from tidas_sdk import create_process_from_json
+
+process = create_process_from_json(Path("process.json"))
+```
+
+### Working with multilingual fields
+
+```python
+name_list = process.process_data_set.process_information.data_set_information.name.base_name
+name_list.set_text("Sample Process", lang="en")
+name_list.set_text("示例工艺", lang="zh")
+print(name_list.get_text("en"))
+```
+
+### Validation and export
+
+```python
+is_valid = process.validate()          # Pydantic (and optional JSON Schema) validation
+json_payload = process.to_json()       # ILCD‑compatible dict
+xml_payload = process.to_xml()         # ILCD XML string
+```
+
+## Main Features
+
+- JSON ➜ Object: `create_process()` and other factory helpers build rich entity objects from complete or partial ILCD JSON.
+- Object ➜ JSON: `to_json()` returns ILCD-compatible dictionaries suitable for storage or downstream tooling.
+- Multilingual fields: `MultiLangList` with `set_text()` / `get_text()` simplifies `@xml:lang` / `#text` handling.
+- Strong typing: generated Pydantic models expose full type hints for IDE autocompletion and static checking.
+- On-demand validation: `validate()` runs Pydantic and optional JSON Schema validation when your dataset is ready.
+- XML export: `to_xml()` converts entities into ILCD XML for interoperability with other LCA systems.
+
+See `examples/usage.py` for a step‑by‑step walkthrough of these features.
+
+## Development Workflow (for contributors)
 
 ```bash
 # Install / update dependencies
