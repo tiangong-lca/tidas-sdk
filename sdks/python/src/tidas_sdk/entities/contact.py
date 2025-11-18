@@ -3,7 +3,7 @@ High level wrapper for Contact datasets.
 """
 from __future__ import annotations
 
-from typing import Any
+from typing import Any, Mapping, cast
 from uuid import uuid4
 
 from ..core.base import TidasEntity
@@ -29,6 +29,14 @@ class TidasContact(TidasEntity[Contacts]):
         validate_on_init: bool = False,
     ) -> None:
         super().__init__(Contacts, initial_data, validate_on_init=validate_on_init)
+
+    @property
+    def contact_data_set(self) -> ContactsContactDataSet:
+        return cast(ContactsContactDataSet, getattr(self.model, "contact_data_set"))
+
+    @contact_data_set.setter
+    def contact_data_set(self, value: ContactsContactDataSet | Mapping[str, Any]) -> None:
+        TidasEntity.__setattr__(self, "contact_data_set", value)
 
     def ensure_defaults(self) -> None:
         dataset = ensure_model(self, "contact_data_set", ContactsContactDataSet)

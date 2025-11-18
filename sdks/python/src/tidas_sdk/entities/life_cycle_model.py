@@ -3,7 +3,7 @@ High level wrapper for LifeCycleModel datasets.
 """
 from __future__ import annotations
 
-from typing import Any
+from typing import Any, Mapping, cast
 from uuid import uuid4
 
 from ..core.base import TidasEntity
@@ -29,6 +29,17 @@ class TidasLifeCycleModel(TidasEntity[Lifecyclemodels]):
         validate_on_init: bool = False,
     ) -> None:
         super().__init__(Lifecyclemodels, initial_data, validate_on_init=validate_on_init)
+
+    @property
+    def life_cycle_model_data_set(self) -> LifecyclemodelsLifeCycleModelDataSet:
+        return cast(LifecyclemodelsLifeCycleModelDataSet, getattr(self.model, "life_cycle_model_data_set"))
+
+    @life_cycle_model_data_set.setter
+    def life_cycle_model_data_set(
+        self,
+        value: LifecyclemodelsLifeCycleModelDataSet | Mapping[str, Any],
+    ) -> None:
+        TidasEntity.__setattr__(self, "life_cycle_model_data_set", value)
 
     def ensure_defaults(self) -> None:
         dataset = ensure_model(self, "life_cycle_model_data_set", LifecyclemodelsLifeCycleModelDataSet)

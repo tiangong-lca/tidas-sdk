@@ -3,7 +3,7 @@ High level wrapper for FlowProperty datasets.
 """
 from __future__ import annotations
 
-from typing import Any
+from typing import Any, Mapping, cast
 from uuid import uuid4
 
 from ..core.base import TidasEntity
@@ -29,6 +29,17 @@ class TidasFlowProperty(TidasEntity[Flowproperties]):
         validate_on_init: bool = False,
     ) -> None:
         super().__init__(Flowproperties, initial_data, validate_on_init=validate_on_init)
+
+    @property
+    def flow_property_data_set(self) -> FlowpropertiesFlowPropertyDataSet:
+        return cast(FlowpropertiesFlowPropertyDataSet, getattr(self.model, "flow_property_data_set"))
+
+    @flow_property_data_set.setter
+    def flow_property_data_set(
+        self,
+        value: FlowpropertiesFlowPropertyDataSet | Mapping[str, Any],
+    ) -> None:
+        TidasEntity.__setattr__(self, "flow_property_data_set", value)
 
     def ensure_defaults(self) -> None:
         dataset = ensure_model(self, "flow_property_data_set", FlowpropertiesFlowPropertyDataSet)

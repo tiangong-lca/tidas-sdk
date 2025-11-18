@@ -43,10 +43,8 @@ def convert_object_to_json():
     """
 
     process: TidasProcess = create_process({})
-    name_list = (
-        process.process_data_set.process_information.data_set_information.name.base_name
-    )
-    name_list.set_text("Updated Process Name", lang="en")
+
+    process.process_data_set.process_information.data_set_information.name.base_name.set_text("Updated Process Name", lang="en")
     json_data = process.to_json()
     print("✓ Converted Process entity to JSON data")
     print(json_data)

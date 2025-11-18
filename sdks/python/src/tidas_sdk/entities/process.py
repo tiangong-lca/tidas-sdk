@@ -3,7 +3,7 @@ High level wrapper around the Process dataset.
 """
 from __future__ import annotations
 
-from typing import Any
+from typing import Any, Mapping, cast
 from uuid import uuid4
 
 from ..core.base import TidasEntity
@@ -38,6 +38,14 @@ class TidasProcess(TidasEntity[Processes]):
         validate_on_init: bool = False,
     ) -> None:
         super().__init__(Processes, initial_data, validate_on_init=validate_on_init)
+
+    @property
+    def process_data_set(self) -> ProcessesProcessDataSet:
+        return cast(ProcessesProcessDataSet, getattr(self.model, "process_data_set"))
+
+    @process_data_set.setter
+    def process_data_set(self, value: ProcessesProcessDataSet | Mapping[str, Any]) -> None:
+        TidasEntity.__setattr__(self, "process_data_set", value)
 
     def ensure_defaults(self) -> None:
         dataset = ensure_model(self, "process_data_set", ProcessesProcessDataSet)

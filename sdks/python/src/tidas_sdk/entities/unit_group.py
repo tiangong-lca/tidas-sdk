@@ -3,7 +3,7 @@ High level wrapper for UnitGroup datasets.
 """
 from __future__ import annotations
 
-from typing import Any
+from typing import Any, Mapping, cast
 from uuid import uuid4
 
 from ..core.base import TidasEntity
@@ -29,6 +29,14 @@ class TidasUnitGroup(TidasEntity[Unitgroups]):
         validate_on_init: bool = False,
     ) -> None:
         super().__init__(Unitgroups, initial_data, validate_on_init=validate_on_init)
+
+    @property
+    def unit_group_data_set(self) -> UnitgroupsUnitGroupDataSet:
+        return cast(UnitgroupsUnitGroupDataSet, getattr(self.model, "unit_group_data_set"))
+
+    @unit_group_data_set.setter
+    def unit_group_data_set(self, value: UnitgroupsUnitGroupDataSet | Mapping[str, Any]) -> None:
+        TidasEntity.__setattr__(self, "unit_group_data_set", value)
 
     def ensure_defaults(self) -> None:
         dataset = ensure_model(self, "unit_group_data_set", UnitgroupsUnitGroupDataSet)

@@ -3,7 +3,7 @@ High level wrapper for LCIAMethod datasets.
 """
 from __future__ import annotations
 
-from typing import Any
+from typing import Any, Mapping, cast
 from uuid import uuid4
 
 from ..core.base import TidasEntity
@@ -29,6 +29,14 @@ class TidasLCIAMethod(TidasEntity[Lciamethods]):
         validate_on_init: bool = False,
     ) -> None:
         super().__init__(Lciamethods, initial_data, validate_on_init=validate_on_init)
+
+    @property
+    def lcia_method_data_set(self) -> LciamethodsLCIAMethodDataSet:
+        return cast(LciamethodsLCIAMethodDataSet, getattr(self.model, "lcia_method_data_set"))
+
+    @lcia_method_data_set.setter
+    def lcia_method_data_set(self, value: LciamethodsLCIAMethodDataSet | Mapping[str, Any]) -> None:
+        TidasEntity.__setattr__(self, "lcia_method_data_set", value)
 
     def ensure_defaults(self) -> None:
         dataset = ensure_model(self, "lcia_method_data_set", LciamethodsLCIAMethodDataSet)
