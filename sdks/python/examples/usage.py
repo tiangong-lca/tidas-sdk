@@ -108,8 +108,30 @@ def convert_to_xml():
     支持转换为XML格式.
     对象可以通过to_xml()方法将数据转换为符合ILCD XML格式的表示, 方便与其他系统进行数据交换.
     """
-    process: TidasProcess = create_process({})
+    process_json = {
+        "processDataSet": {
+            "processInformation": {
+                "dataSetInformation": {
+                    "common:UUID": "123e4567-e89b-12d3-a456-426614174000",
+                    "name": {
+                        "baseName": [
+                            {"@xml:lang": "en", "#text": "Sample Process"},
+                        ],
+                        "mixAndLocationTypes": [
+                            {"@xml:lang": "en", "#text": "Production mix"},
+                        ],
+                    },
+                },
+                "description": [
+                    {"@xml:lang": "en", "#text": "This is a sample process."}
+                ],
+                # 其他更多字段...
+            }
+        }
+    }
+    process: TidasProcess = create_process(process_json)
     xml_data = process.to_xml()
+    print(f"XML Data:{xml_data}")
     print("✓ Converted Process entity to XML format")
 
     pass
