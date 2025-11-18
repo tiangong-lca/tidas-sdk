@@ -78,7 +78,7 @@ def wrap_multilang(value: Any) -> Any:
     Convert dictionaries/lists from JSON payloads into their pythonic wrappers.
     """
     if _is_multilang_list(value):
-        return MultiLangList(value)  # type: ignore[arg-type]
+        return MultiLangList(value)
     if _is_multilang_item(value):
         return MultiLangList([value])
     return value
@@ -93,6 +93,6 @@ def deep_wrap_multilang(payload: Any) -> Any:
     if isinstance(payload, list):
         wrapped = [deep_wrap_multilang(item) for item in payload]
         if _is_multilang_list(wrapped):
-            return MultiLangList(wrapped)  # type: ignore[arg-type]
+            return MultiLangList(wrapped)
         return wrapped
     return payload

@@ -1,4 +1,5 @@
 """Exports for auto-generated models."""
+# mypy: disable-error-code=assignment
 from __future__ import annotations
 
 from .tidas_data_types import StringMultiLangVariant0Item

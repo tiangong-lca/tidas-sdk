@@ -5,7 +5,7 @@ from __future__ import annotations
 
 import json
 from pathlib import Path
-from typing import Any, Iterable, Mapping, Type, TypeVar
+from typing import Any, Iterable, Mapping, Type, TypeVar, cast
 
 from .base import TidasEntity, ValidationMode
 from ..entities.contact import TidasContact
@@ -314,7 +314,7 @@ def _parse_json_payload(json_data: str | bytes | Path) -> Mapping[str, Any]:
         content = json_data.decode("utf-8")
     else:
         content = json_data
-    return json.loads(content)
+    return cast(Mapping[str, Any], json.loads(content))
 
 
 def _create_entity(

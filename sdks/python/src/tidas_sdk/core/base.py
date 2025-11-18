@@ -9,7 +9,7 @@ import json
 from pathlib import Path
 from typing import Any, ClassVar, Generic, Literal, Sequence, TypeVar, cast, get_args, get_origin
 
-from jsonschema import Draft202012Validator, ValidationError as JsonSchemaValidationError
+from jsonschema import Draft202012Validator, ValidationError as JsonSchemaValidationError  # type: ignore[import-untyped]
 from pydantic import BaseModel, ConfigDict, ValidationError as PydanticValidationError
 
 from .multilang import MultiLangList, deep_wrap_multilang
@@ -41,6 +41,10 @@ class TidasEntity(Generic[ModelT]):
     """
 
     schema_name: ClassVar[str | None] = None
+    _model_cls: type[ModelT]
+    _model: ModelT
+    _last_pydantic_error: PydanticValidationError | None
+    _last_jsonschema_errors: list[str] | None
 
     def __init__(
         self,
@@ -87,7 +91,7 @@ class TidasEntity(Generic[ModelT]):
         Convert entity contents to a JSON serialisable dict.
         """
         result = self._model.model_dump(by_alias=by_alias, exclude_none=exclude_none)
-        return cast(dict[str, Any], result)
+        return result
 
     def to_json_string(self, **kwargs: Any) -> str:
         """
@@ -211,10 +215,11 @@ class TidasEntity(Generic[ModelT]):
         """
         Build an entity from either a mapping or a JSON payload.
         """
+        payload: Mapping[str, Any]
         if isinstance(data, (str, bytes, Path)):
-            payload = cast(Mapping[str, Any], cls._parse_file_or_string(data))
+            payload = cls._parse_file_or_string(data)
         else:
-            payload = cast(Mapping[str, Any], data)
+            payload = data
         return cls(model_cls, payload, validate_on_init=validate_on_init)
 
     # -- python protocol ------------------------------------------------------------------
@@ -232,12 +237,15 @@ class TidasEntity(Generic[ModelT]):
     # -- internal helpers -----------------------------------------------------------------
 
     @staticmethod
-    def _parse_file_or_string(data: str | bytes | Path) -> dict[str, Any]:
+    def _parse_file_or_string(data: str | bytes | Path) -> Mapping[str, Any]:
         if isinstance(data, Path):
             content = data.read_text(encoding="utf-8")
         else:
             content = data.decode("utf-8") if isinstance(data, bytes) else data
-        return json.loads(content)
+        parsed = json.loads(content)
+        if not isinstance(parsed, dict):
+            raise ValueError("JSON payload must represent an object.")
+        return cast(Mapping[str, Any], parsed)
 
     def _prepare_partial_payload(
         self,
@@ -291,11 +299,8 @@ class TidasEntity(Generic[ModelT]):
 
     @staticmethod
     def _resolve_nested_model(annotation: Any) -> type[TidasBaseModel] | None:
-        try:
-            if annotation and issubclass(annotation, TidasBaseModel):
-                return annotation
-        except TypeError:
-            pass
+        if isinstance(annotation, type) and issubclass(annotation, TidasBaseModel):
+            return annotation
         origin = get_origin(annotation)
         if origin in (list, MutableSequence):
             args = get_args(annotation)

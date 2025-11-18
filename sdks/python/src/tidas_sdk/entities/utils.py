@@ -17,10 +17,11 @@ def ensure_model(parent: Any, attr: str, model_cls: Type[T]) -> T:
     """
     value = getattr(parent, attr, None)
     if value is None:
-        if hasattr(model_cls, "model_construct"):
-            value = model_cls.model_construct()  # type: ignore[attr-defined]
+        model_construct = getattr(model_cls, "model_construct", None)
+        if callable(model_construct):
+            value = cast(T, model_construct())
         else:
-            value = model_cls()  # type: ignore[call-arg]
+            value = model_cls()
         setattr(parent, attr, value)
     return cast(T, value)
 
