@@ -1,0 +1,24 @@
+{
+  "name": "tidas-sdk-examples",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Examples for @tiangong-lca/tidas-sdk",
+  "scripts": {
+    "install-examples": "npm install",
+    "test-imports": "tsx test-imports.ts",
+    "run-basic": "tsx 01-basic-usage/entities-usage.ts",
+    "run-simple": "tsx 01-basic-usage/simple-entities-demo.ts",
+    "run-validation": "tsx 01-basic-usage/validation-config-demo.ts",
+    "run-advanced": "tsx 02-advanced-features/advanced-usage-patterns.ts",
+    "run-validation-modes": "tsx 03-validation-modes/validation-config-demo.ts",
+    "run-ai-suggestion": "tsx 04-integration/ai-suggestion.ts"
+  },
+  "devDependencies": {
+    "@types/node": "^24.0.14",
+    "tsx": "^4.7.0",
+    "typescript": "^5.8.3"
+  },
+  "dependencies": {
+    "@tiangong-lca/tidas-sdk": "^0.1.21"
+  }
+}
