@@ -134,6 +134,44 @@ def convert_to_xml():
 
     pass
 
+
+def create_object_from_xml():
+    """
+    特征7:
+    直接从 ILCD XML 字符串创建对象.
+    """
+    process_xml = """<?xml version="1.0" encoding="UTF-8"?>
+<processDataSet xmlns="http://lca.jrc.it/ILCD/Process"
+                xmlns:common="http://lca.jrc.it/ILCD/Common"
+                xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                version="1.1"
+                locations="../ILCDLocations.xml"
+                xsi:schemaLocation="http://lca.jrc.it/ILCD/Process ../../schemas/ILCD_ProcessDataSet.xsd">
+  <processInformation>
+    <dataSetInformation>
+      <common:UUID>123e4567-e89b-12d3-a456-426614174000</common:UUID>
+      <name>
+        <baseName xml:lang="en">XML Sample Process</baseName>
+      </name>
+    </dataSetInformation>
+    <quantitativeReference type="Reference flow(s)">
+      <referenceToReferenceFlow>1</referenceToReferenceFlow>
+    </quantitativeReference>
+  </processInformation>
+  <administrativeInformation>
+    <dataEntryBy>
+      <common:timeStamp>2024-01-01T00:00:00Z</common:timeStamp>
+    </dataEntryBy>
+    <publicationAndOwnership/>
+  </administrativeInformation>
+</processDataSet>
+"""
+    process: TidasProcess = TidasProcess.from_xml(process_xml)
+    print("✓ Created Process entity from XML data")
+    print(process.to_json())
+
+    pass
+
 if __name__ == "__main__":
     creat_object_from_json()
     convert_object_to_json()
@@ -141,3 +179,4 @@ if __name__ == "__main__":
     type_hinting_and_autocompletion()
     validation_on_demand()
     convert_to_xml()
+    create_object_from_xml()

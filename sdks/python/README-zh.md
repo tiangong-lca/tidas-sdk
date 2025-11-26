@@ -63,6 +63,17 @@ from tidas_sdk import create_process_from_json
 process = create_process_from_json(Path("process.json"))
 ```
 
+如果手头已经有标准的 ILCD XML 数据集，也可以直接加载：
+
+```python
+from pathlib import Path
+from tidas_sdk import create_process_from_xml, TidasProcess
+
+process = create_process_from_xml(Path("process.xml"))
+# 或使用类方法
+process = TidasProcess.from_xml(Path("process.xml"))
+```
+
 ### 处理多语言字段
 
 ```python

@@ -3,6 +3,7 @@ High level wrapper around the Process dataset.
 """
 from __future__ import annotations
 
+from pathlib import Path
 from typing import Any, Mapping, cast
 from uuid import uuid4
 
@@ -38,6 +39,21 @@ class TidasProcess(TidasEntity[Processes]):
         validate_on_init: bool = False,
     ) -> None:
         super().__init__(Processes, initial_data, validate_on_init=validate_on_init)
+
+    @classmethod
+    def from_xml(
+        cls,
+        xml_data: str | bytes | Path,
+        *,
+        validate_on_init: bool = False,
+    ) -> "TidasProcess":
+        """
+        Construct a process entity from ILCD XML.
+        """
+        from tidas_sdk.xml.parser import dataset_from_xml
+
+        payload = dataset_from_xml(xml_data)
+        return cls(payload, validate_on_init=validate_on_init)
 
     @property
     def process_data_set(self) -> ProcessesProcessDataSet:

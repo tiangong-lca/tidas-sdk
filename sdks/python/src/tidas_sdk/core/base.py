@@ -222,6 +222,22 @@ class TidasEntity(Generic[ModelT]):
             payload = data
         return cls(model_cls, payload, validate_on_init=validate_on_init)
 
+    @classmethod
+    def from_xml(
+        cls,
+        model_cls: type[ModelT],
+        data: str | bytes | Path,
+        *,
+        validate_on_init: bool = False,
+    ) -> "TidasEntity[ModelT]":
+        """
+        Build an entity from an ILCD XML payload.
+        """
+        from tidas_sdk.xml.parser import dataset_from_xml
+
+        payload = dataset_from_xml(data)
+        return cls(model_cls, payload, validate_on_init=validate_on_init)
+
     # -- python protocol ------------------------------------------------------------------
 
     def __getattr__(self, item: str) -> Any:

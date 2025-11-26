@@ -22,6 +22,7 @@ EntityT = TypeVar("EntityT", bound=TidasEntity[Any])
 __all__ = [
     "create_process",
     "create_process_from_json",
+    "create_process_from_xml",
     "create_processes_batch",
     "create_contact",
     "create_contact_from_json",
@@ -75,6 +76,15 @@ def create_process_from_json(
     validation_mode: ValidationMode = "pydantic",
 ) -> TidasProcess:
     return create_process(_parse_json_payload(json_data), validate=validate, validation_mode=validation_mode)
+
+
+def create_process_from_xml(
+    xml_data: str | bytes | Path,
+    *,
+    validate: bool = False,
+    validation_mode: ValidationMode = "pydantic",
+) -> TidasProcess:
+    return create_process(_parse_xml_payload(xml_data), validate=validate, validation_mode=validation_mode)
 
 
 def create_processes_batch(
@@ -315,6 +325,12 @@ def _parse_json_payload(json_data: str | bytes | Path) -> Mapping[str, Any]:
     else:
         content = json_data
     return cast(Mapping[str, Any], json.loads(content))
+
+
+def _parse_xml_payload(xml_data: str | bytes | Path) -> Mapping[str, Any]:
+    from ..xml.parser import dataset_from_xml
+
+    return dataset_from_xml(xml_data)
 
 
 def _create_entity(

@@ -63,6 +63,17 @@ from tidas_sdk import create_process_from_json
 process = create_process_from_json(Path("process.json"))
 ```
 
+Or start from ILCD XML when you already have the canonical `.xml` datasets:
+
+```python
+from pathlib import Path
+from tidas_sdk import create_process_from_xml, TidasProcess
+
+process = create_process_from_xml(Path("process.xml"))
+# or, if you prefer to work with the class directly
+process = TidasProcess.from_xml(Path("process.xml"))
+```
+
 ### Working with multilingual fields
 
 ```python
