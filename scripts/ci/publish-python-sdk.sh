@@ -98,6 +98,6 @@ if [ -z "$PYPI_PASSWORD" ]; then
     warn "PYPI_API_TOKEN empty; twine will prompt for credentials."
 fi
 
-PYPI_API_TOKEN="$PYPI_PASSWORD" uv run twine upload "${TWINE_ARGS[@]}" dist/*
+PYPI_API_TOKEN="$PYPI_PASSWORD" uv run twine upload ${TWINE_ARGS[@]+"${TWINE_ARGS[@]}"} dist/*
 
 log "Publish completed."
