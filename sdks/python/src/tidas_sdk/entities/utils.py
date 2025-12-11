@@ -4,6 +4,7 @@ Shared helpers for entity wrappers.
 from __future__ import annotations
 
 from datetime import datetime, timezone
+from collections.abc import Mapping
 from typing import Any, Type, TypeVar, cast
 
 from ..core.multilang import MultiLangList
@@ -17,11 +18,16 @@ def ensure_model(parent: Any, attr: str, model_cls: Type[T]) -> T:
     """
     value = getattr(parent, attr, None)
     if value is None:
-        model_construct = getattr(model_cls, "model_construct", None)
-        if callable(model_construct):
-            value = cast(T, model_construct())
-        else:
-            value = model_cls()
+        ctor = getattr(model_cls, "model_construct", None)
+        value = cast(T, ctor()) if callable(ctor) else model_cls()
+        setattr(parent, attr, value)
+    elif isinstance(value, Mapping) and not isinstance(value, model_cls):
+        # If a raw mapping slipped through, wrap it into the expected model.
+        try:
+            value = cast(T, model_cls.model_validate(value))
+        except Exception:
+            ctor = getattr(model_cls, "model_construct", None)
+            value = cast(T, ctor(**value) if callable(ctor) else model_cls(**value))
         setattr(parent, attr, value)
     return cast(T, value)
 

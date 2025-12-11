@@ -81,11 +81,20 @@ exclude_lines = [
     "@abstractmethod",
 ]
 
+[tool.uv.workspace]
+members = [
+    ".",
+]
+
+[tool.uv.sources]
+tidas-sdk = { workspace = true }
+
 [dependency-groups]
 dev = [
     "build>=1.2.2.post1",
     "datamodel-code-generator>=0.27.3",
     "mypy>=1.14.1",
     "ruff>=0.14.3",
+    "tidas-sdk[dev]",
     "twine>=6.1.0",
 ]

@@ -1,0 +1,406 @@
+{
+    "processDataSet": {
+        "@xmlns": "http://lca.jrc.it/ILCD/Process",
+        "@version": "1.1",
+        "exchanges": {
+            "exchange": [
+                {
+                    "meanAmount": "432.0",
+                    "allocations": {
+                        "allocation": {}
+                    },
+                    "resultingAmount": "432.0",
+                    "exchangeDirection": "Input",
+                    "@dataSetInternalID": "0",
+                    "referenceToFlowDataSet": {
+                        "@uri": "../flows/890a70b7-b677-4e2a-8a1b-7d017e0a10ae.xml",
+                        "@type": "flow data set",
+                        "@refObjectId": "890a70b7-b677-4e2a-8a1b-7d017e0a10ae",
+                        "common:shortDescription": {
+                            "#text": "Electricity",
+                            "@xml:lang": "en"
+                        }
+                    },
+                    "referencesToDataSource": {
+                        "referenceToDataSource": {}
+                    },
+                    "dataDerivationTypeStatus": "Measured"
+                },
+                {
+                    "meanAmount": "0.029750000000000002",
+                    "allocations": {
+                        "allocation": {}
+                    },
+                    "resultingAmount": "0.029750000000000002",
+                    "exchangeDirection": "Input",
+                    "@dataSetInternalID": "1",
+                    "referenceToFlowDataSet": {
+                        "@uri": "../flows/55a4c166-2eb6-43a3-9a13-2e4f2c4fee60.xml",
+                        "@type": "flow data set",
+                        "@refObjectId": "55a4c166-2eb6-43a3-9a13-2e4f2c4fee60",
+                        "common:shortDescription": {
+                            "#text": "Diesel",
+                            "@xml:lang": "en"
+                        }
+                    },
+                    "referencesToDataSource": {
+                        "referenceToDataSource": {}
+                    },
+                    "dataDerivationTypeStatus": "Measured"
+                },
+                {
+                    "meanAmount": "1000.0",
+                    "allocations": {
+                        "allocation": {}
+                    },
+                    "generalComment": [
+                        {
+                            "#text": "one dry ton (DT) of sludge",
+                            "@xml:lang": "en"
+                        },
+                        {
+                            "#text": "一干吨 （DT） 污泥",
+                            "@xml:lang": "zh"
+                        }
+                    ],
+                    "resultingAmount": "1000.0",
+                    "exchangeDirection": "Input",
+                    "@dataSetInternalID": "2",
+                    "referenceToFlowDataSet": {
+                        "@uri": "../flows/725c8f6e-7975-4155-a250-1f95ef70c508.xml",
+                        "@type": "flow data set",
+                        "@refObjectId": "725c8f6e-7975-4155-a250-1f95ef70c508",
+                        "common:shortDescription": {
+                            "#text": "Sludge",
+                            "@xml:lang": "en"
+                        }
+                    },
+                    "referencesToDataSource": {
+                        "referenceToDataSource": {}
+                    },
+                    "dataDerivationTypeStatus": "Estimated"
+                }
+            ]
+        },
+        "@locations": "../ILCDLocations.xml",
+        "@xmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance",
+        "@xmlns:common": "http://lca.jrc.it/ILCD/Common",
+        "processInformation": {
+            "time": {
+                "common:referenceYear": "2013",
+                "common:timeRepresentativenessDescription": [
+                    {
+                        "#text": "The original article does not provide an expiration date, and the publication date of the article is used as the validity period.",
+                        "@xml:lang": "en"
+                    },
+                    {
+                        "#text": "原文未提供有效期，以文章发表日期作为有效期。",
+                        "@xml:lang": "zh"
+                    }
+                ]
+            },
+            "geography": {
+                "locationOfOperationSupplyOrProduction": {
+                    "@location": "CN",
+                    "descriptionOfRestrictions": [
+                        {
+                            "#text": "Tai Lake Watershed",
+                            "@xml:lang": "en"
+                        },
+                        {
+                            "#text": "太湖流域",
+                            "@xml:lang": "zh"
+                        }
+                    ]
+                }
+            },
+            "technology": {
+                "technologicalApplicability": [
+                    {
+                        "#text": "The data set describes the aerobic composting process of municipal sludge treatment and disposal within the Tai Lake Watershed area. It applies specifically to scenarios where dry sludge is processed into compost, which can be utilized in agricultural applications to improve soil quality and fertility.",
+                        "@xml:lang": "en"
+                    },
+                    {
+                        "#text": "该数据集描述了太湖流域地区市政污泥处理与处置中的好氧堆肥过程。它特别适用于将干污泥处理成可用于农业应用的堆肥，以改善土壤质量和肥力的场景。",
+                        "@xml:lang": "zh"
+                    }
+                ],
+                "technologyDescriptionAndIncludedProcesses": [
+                    {
+                        "#text": "Dewatered sludge is first composted in an organic fertilizer plant, bought by the local government, and then used for urban green spaces as fertilizer and soil.",
+                        "@xml:lang": "en"
+                    },
+                    {
+                        "#text": "脱水后的污泥首先在当地政府购买的有机化肥厂进行堆肥，然后作为肥料和土壤改良剂用于城市绿地。",
+                        "@xml:lang": "zh"
+                    }
+                ],
+                "referenceToTechnologyFlowDiagrammOrPicture": {
+                    "@uri": "../sources/b22ff3c5-cb9e-7e08-d8b5-4f679e1fcca7.xml",
+                    "@type": "source data set",
+                    "@refObjectId": "b22ff3c5-cb9e-7e08-d8b5-4f679e1fcca7",
+                    "common:shortDescription": {
+                        "#text": "T7hCbfGk1oR3SDxq3olc049onri.png",
+                        "@xml:lang": "en"
+                    }
+                }
+            },
+            "dataSetInformation": {
+                "name": {
+                    "baseName": [
+                        {
+                            "#text": "Municipal sludge treatment and disposal",
+                            "@xml:lang": "en"
+                        },
+                        {
+                            "#text": "市政污泥处理与处置",
+                            "@xml:lang": "zh"
+                        }
+                    ],
+                    "mixAndLocationTypes": [
+                        {
+                            "#text": "at plant",
+                            "@xml:lang": "en"
+                        },
+                        {
+                            "#text": "在工厂",
+                            "@xml:lang": "zh"
+                        }
+                    ],
+                    "treatmentStandardsRoutes": [
+                        {
+                            "#text": "dry sludge, aerobic composting",
+                            "@xml:lang": "en"
+                        },
+                        {
+                            "#text": "干污泥, 好氧堆肥",
+                            "@xml:lang": "zh"
+                        }
+                    ]
+                },
+                "common:UUID": "ecb914eb-6f1f-4df9-8289-d9ee519386f4",
+                "common:generalComment": [
+                    {
+                        "#text": "The main data sources used in our study are as follows: 1) Energy consumption and material inputs are obtained from investigations in Tai Lake Watershed; 2) The energy use emission factor is obtained from our own calculation, IPCC, and the literature.3) The fugitive emissions during landfilling, incineration, and composting are mainly determined by the model given in the other study as well as by the IPCC factors (2006), except for the CH4 emission in landfilling, which is obtained from study.4) Data from theoretical calculations (see Incineration section).",
+                        "@xml:lang": "en"
+                    },
+                    {
+                        "#text": "本文研究的主要数据来源如下:1)能源消耗和物质投入来源于对太湖流域的调查;2)能源利用排放因子来源于我们自己的计算、IPCC和文献。3)填埋过程中的CH4排放由文献获得，填埋、焚烧和堆肥过程中的无组织排放主要由文献研究中给出的模型和IPCC因子(2006)决定。4)理论计算数据(焚烧部分)。",
+                        "@xml:lang": "zh"
+                    }
+                ],
+                "classificationInformation": {
+                    "common:classification": {
+                        "common:class": [
+                            {
+                                "#text": "Water supply; sewerage, waste management and remediation activities",
+                                "@level": "0",
+                                "@classId": "E"
+                            },
+                            {
+                                "#text": "Waste collection, treatment and disposal, and recovery activities",
+                                "@level": "1",
+                                "@classId": "38"
+                            },
+                            {
+                                "#text": "Waste treatment and disposal",
+                                "@level": "2",
+                                "@classId": "382"
+                            },
+                            {
+                                "#text": "Treatment and disposal of non-hazardous waste",
+                                "@level": "3",
+                                "@classId": "3821"
+                            }
+                        ]
+                    }
+                }
+            },
+            "mathematicalRelations": {
+                "variableParameter": {}
+            },
+            "quantitativeReference": {
+                "@type": "Reference flow(s)",
+                "functionalUnitOrOther": {
+                    "#text": "The functional unit used for GHGs in this LCA is one dry ton (DT) of sludge.",
+                    "@xml:lang": "en"
+                },
+                "referenceToReferenceFlow": "2"
+            }
+        },
+        "@xsi:schemaLocation": "http://lca.jrc.it/ILCD/Process ../../schemas/ILCD_ProcessDataSet.xsd",
+        "modellingAndValidation": {
+            "validation": {
+                "review": {
+                    "@type": "Dependent internal review",
+                    "common:reviewDetails": [
+                        {
+                            "#text": "Inventory: The internal review was done by several iteration steps concerning raw data validation, raw data documentation, representativity, completeness and consistency of modelling with regard to ISO 14040 and 14044.",
+                            "@xml:lang": "en"
+                        },
+                        {
+                            "#text": "清单： 内部审查通过几个迭代步骤完成，涉及原始数据验证、原始数据记录、代表性、完整性、与 ISO 14040 和 14044 有关的建模的一致性。",
+                            "@xml:lang": "zh"
+                        }
+                    ],
+                    "common:referenceToNameOfReviewerAndInstitution": {
+                        "@uri": "../contacts/f4b4c314-8c4c-4c83-968f-5b3c7724f6a8.xml",
+                        "@type": "contact data set",
+                        "@refObjectId": "f4b4c314-8c4c-4c83-968f-5b3c7724f6a8",
+                        "common:shortDescription": [
+                            {
+                                "#text": "Tiangong LCI Data Working Group",
+                                "@xml:lang": "en"
+                            },
+                            {
+                                "#text": "天工LCI数据工作小组",
+                                "@xml:lang": "zh"
+                            }
+                        ]
+                    }
+                }
+            },
+            "completeness": {
+                "completenessElementaryFlows": {}
+            },
+            "LCIMethodAndAllocation": {
+                "typeOfDataSet": "Unit process, single operation",
+                "deviationsFromLCIMethodPrinciple": [
+                    {
+                        "#text": "None",
+                        "@xml:lang": "en"
+                    },
+                    {
+                        "#text": "无",
+                        "@xml:lang": "zh"
+                    }
+                ],
+                "deviationsFromModellingConstants": [
+                    {
+                        "#text": "None",
+                        "@xml:lang": "en"
+                    },
+                    {
+                        "#text": "无",
+                        "@xml:lang": "zh"
+                    }
+                ]
+            },
+            "dataSourcesTreatmentAndRepresentativeness": {
+                "referenceToDataSource": {
+                    "@uri": "../sources/7c867ca4-6ee2-474e-9919-ab69ab804c2a.xml",
+                    "@type": "source data set",
+                    "@refObjectId": "7c867ca4-6ee2-474e-9919-ab69ab804c2a",
+                    "common:shortDescription": [
+                        {
+                            "#text": "Liu, B., Wei, Q., Zhang, B. & Bi, J. Life cycle GHG emissions of sewage sludge treatment and disposal options in Tai Lake Watershed, China. Science of The Total Environment 447, 361–369 (2013).",
+                            "@xml:lang": "en"
+                        },
+                        {
+                            "#text": "Liu, B., Wei, Q., Zhang, B. & Bi, J. Life cycle GHG emissions of sewage sludge treatment and disposal options in Tai Lake Watershed, China. Science of The Total Environment 447, 361–369 (2013).",
+                            "@xml:lang": "zh"
+                        }
+                    ]
+                }
+            }
+        },
+        "administrativeInformation": {
+            "dataEntryBy": {
+                "common:timeStamp": "2024-05-13T09:00:53+08:00",
+                "common:referenceToDataSetFormat": {
+                    "@uri": "../sources/7c867ca4-6ee2-474e-9919-ab69ab804c2a.xml",
+                    "@type": "source data set",
+                    "@version": "01.00.005",
+                    "@refObjectId": "7c867ca4-6ee2-474e-9919-ab69ab804c2a",
+                    "common:shortDescription": [
+                        {
+                            "#text": "Liu, B., Wei, Q., Zhang, B. & Bi, J. Life cycle GHG emissions of sewage sludge treatment and disposal options in Tai Lake Watershed, China. Science of The Total Environment 447, 361–369 (2013).",
+                            "@xml:lang": "en"
+                        },
+                        {
+                            "#text": "Liu, B., Wei, Q., Zhang, B. & Bi, J. Life cycle GHG emissions of sewage sludge treatment and disposal options in Tai Lake Watershed, China. Science of The Total Environment 447, 361–369 (2013).",
+                            "@xml:lang": "zh"
+                        }
+                    ]
+                },
+                "common:referenceToDataSetUseApproval": {},
+                "common:referenceToConvertedOriginalDataSetFrom": {},
+                "common:referenceToPersonOrEntityEnteringTheData": {
+                    "@uri": "../contacts/33a5f4c5-8fd4-4a35-a056-bac131d74b93.xml",
+                    "@type": "contact data set",
+                    "@version": "01.01.007",
+                    "@refObjectId": "33a5f4c5-8fd4-4a35-a056-bac131d74b93",
+                    "common:shortDescription": [
+                            {
+                            "#text": "匿名作者",
+                            "@xml:lang": "zh"
+                            },
+                            {
+                            "#text": "Anonymous author",
+                            "@xml:lang": "en"
+                            }
+                        ]
+                    }
+            },
+            "dataGenerator": {
+                "common:referenceToPersonOrEntityGeneratingTheDataSet": {
+                    "@uri": "../contacts/6a3dedd4-69c8-465a-81e6-e581481b6174.xml",
+                    "@type": "contact data set",
+                    "@version": "01.00.000",
+                    "@refObjectId": "6a3dedd4-69c8-465a-81e6-e581481b6174",
+                    "common:shortDescription": [
+                        {
+                            "#text": "匿名作者, email@example.com",
+                            "@xml:lang": "en"
+                        },
+                        {
+                            "#text": "匿名作者, email@example.com",
+                            "@xml:lang": "zh"
+                        }
+                    ]
+                }
+            },
+            "publicationAndOwnership": {
+                "common:copyright": "No",
+                "common:licenseType": "Free of charge for all users and uses",
+                "common:dataSetVersion": "01.01.001",
+                "common:dateOfLastRevision": "2024-05-13T14:48:23.418226+08:00",
+                "common:permanentDataSetURI": "https://lcdn.tiangong.earth/datasetdetail/process.xhtml?uuid=ecb914eb-6f1f-4df9-8289-d9ee519386f4&version=01.01.001",
+                "common:workflowAndPublicationStatus": "Final draft for internal review",
+                "common:referenceToOwnershipOfDataSet": {
+                    "@uri": "../contacts/f4b4c314-8c4c-4c83-968f-5b3c7724f6a8.xml",
+                    "@type": "contact data set",
+                    "@refObjectId": "f4b4c314-8c4c-4c83-968f-5b3c7724f6a8",
+                    "common:shortDescription": [
+                        {
+                            "#text": "Tiangong LCI Data Working Group",
+                            "@xml:lang": "en"
+                        },
+                        {
+                            "#text": "天工LCI数据工作小组",
+                            "@xml:lang": "zh"
+                        }
+                    ]
+                }
+            },
+            "common:commissionerAndGoal": {
+                "common:referenceToCommissioner": {
+                    "@uri": "../contacts/f4b4c314-8c4c-4c83-968f-5b3c7724f6a8.xml",
+                    "@type": "contact data set",
+                    "@version": "01.00.000",
+                    "@refObjectId": "f4b4c314-8c4c-4c83-968f-5b3c7724f6a8",
+                    "common:shortDescription": [
+                        {
+                            "#text": "Tiangong LCA Data Working Group",
+                            "@xml:lang": "en"
+                        },
+                        {
+                            "#text": "天工LCA数据团队",
+                            "@xml:lang": "zh"
+                        }
+                    ]
+                }
+            }
+        }
+    }
+}
