@@ -243,9 +243,7 @@ export const FlowsProductCategorySchema: z.ZodType<any> = z.union([
     '@level': z.literal('4').optional(),
     '@classId': z.literal('01231').optional(),
     '#text': z
-      .literal(
-        'Chillies and peppers, green (<i>Capsicum</i> spp. and <i>Pimenta</i> spp.)'
-      )
+      .literal('Chillies and peppers, green (Capsicum spp. and Pimenta spp.)')
       .optional(),
   }),
   z.object({
@@ -347,8 +345,13 @@ export const FlowsProductCategorySchema: z.ZodType<any> = z.union([
   }),
   z.object({
     '@level': z.literal('4').optional(),
-    '@classId': z.literal('01270').optional(),
-    '#text': z.literal('Mushrooms and truffles').optional(),
+    '@classId': z.literal('01271').optional(),
+    '#text': z.literal('Mushrooms, farmed').optional(),
+  }),
+  z.object({
+    '@level': z.literal('4').optional(),
+    '@classId': z.literal('01272').optional(),
+    '#text': z.literal('Truffles, farmed').optional(),
   }),
   z.object({
     '@level': z.literal('3').optional(),
@@ -528,7 +531,7 @@ export const FlowsProductCategorySchema: z.ZodType<any> = z.union([
     '@level': z.literal('4').optional(),
     '@classId': z.literal('01355').optional(),
     '#text': z
-      .literal('Other berries; fruits of the genus <i>Vaccinium</i>')
+      .literal('Other berries; fruits of the genus Vaccinium')
       .optional(),
   }),
   z.object({
@@ -875,15 +878,13 @@ export const FlowsProductCategorySchema: z.ZodType<any> = z.union([
   z.object({
     '@level': z.literal('4').optional(),
     '@classId': z.literal('01651').optional(),
-    '#text': z.literal('Pepper (<i>Piper</i> spp.), raw').optional(),
+    '#text': z.literal('Pepper (Piper spp.), raw').optional(),
   }),
   z.object({
     '@level': z.literal('4').optional(),
     '@classId': z.literal('01652').optional(),
     '#text': z
-      .literal(
-        'Chillies and peppers, dry (<i>Capsicum</i> spp., <i>Pimenta</i> spp.), raw'
-      )
+      .literal('Chillies and peppers, dry (Capsicum spp., Pimenta spp.), raw')
       .optional(),
   }),
   z.object({
@@ -1506,8 +1507,15 @@ export const FlowsProductCategorySchema: z.ZodType<any> = z.union([
   }),
   z.object({
     '@level': z.literal('4').optional(),
-    '@classId': z.literal('02930').optional(),
-    '#text': z.literal('Edible products of animal origin n.e.c.').optional(),
+    '@classId': z.literal('02931').optional(),
+    '#text': z.literal('Edible insects, not live').optional(),
+  }),
+  z.object({
+    '@level': z.literal('4').optional(),
+    '@classId': z.literal('02939').optional(),
+    '#text': z
+      .literal('Other edible products of animal origin n.e.c.')
+      .optional(),
   }),
   z.object({
     '@level': z.literal('3').optional(),
@@ -1606,22 +1614,54 @@ export const FlowsProductCategorySchema: z.ZodType<any> = z.union([
   z.object({
     '@level': z.literal('3').optional(),
     '@classId': z.literal('0311').optional(),
-    '#text': z.literal('Logs of coniferous wood').optional(),
+    '#text': z.literal('Roundwood of coniferous wood').optional(),
   }),
   z.object({
     '@level': z.literal('4').optional(),
-    '@classId': z.literal('03110').optional(),
-    '#text': z.literal('Logs of coniferous wood').optional(),
+    '@classId': z.literal('03111').optional(),
+    '#text': z
+      .literal('Roundwood of coniferous wood, sawlogs and veneer logs')
+      .optional(),
+  }),
+  z.object({
+    '@level': z.literal('4').optional(),
+    '@classId': z.literal('03112').optional(),
+    '#text': z
+      .literal(
+        'Roundwood of coniferous wood, pulpwood and wood for wood-based panels'
+      )
+      .optional(),
+  }),
+  z.object({
+    '@level': z.literal('4').optional(),
+    '@classId': z.literal('03119').optional(),
+    '#text': z.literal('Roundwood of coniferous wood, other').optional(),
   }),
   z.object({
     '@level': z.literal('3').optional(),
     '@classId': z.literal('0312').optional(),
-    '#text': z.literal('Logs of non-coniferous wood').optional(),
+    '#text': z.literal('Roundwood of non-coniferous wood').optional(),
   }),
   z.object({
     '@level': z.literal('4').optional(),
-    '@classId': z.literal('03120').optional(),
-    '#text': z.literal('Logs of non-coniferous wood').optional(),
+    '@classId': z.literal('03121').optional(),
+    '#text': z
+      .literal('Roundwood of non-coniferous wood, sawlogs and veneer logs')
+      .optional(),
+  }),
+  z.object({
+    '@level': z.literal('4').optional(),
+    '@classId': z.literal('03122').optional(),
+    '#text': z
+      .literal(
+        'Roundwood of non-coniferous wood, pulpwood and wood for wood-based panels'
+      )
+      .optional(),
+  }),
+  z.object({
+    '@level': z.literal('4').optional(),
+    '@classId': z.literal('03129').optional(),
+    '#text': z.literal('Roundwood of non-coniferous wood, other').optional(),
   }),
   z.object({
     '@level': z.literal('3').optional(),
@@ -1687,8 +1727,28 @@ export const FlowsProductCategorySchema: z.ZodType<any> = z.union([
   }),
   z.object({
     '@level': z.literal('4').optional(),
-    '@classId': z.literal('03230').optional(),
-    '#text': z.literal('Other wild edible products').optional(),
+    '@classId': z.literal('03231').optional(),
+    '#text': z.literal('Wild edible nuts').optional(),
+  }),
+  z.object({
+    '@level': z.literal('4').optional(),
+    '@classId': z.literal('03232').optional(),
+    '#text': z.literal('Wild edible mushrooms').optional(),
+  }),
+  z.object({
+    '@level': z.literal('4').optional(),
+    '@classId': z.literal('03233').optional(),
+    '#text': z.literal('Wild edible truffles').optional(),
+  }),
+  z.object({
+    '@level': z.literal('4').optional(),
+    '@classId': z.literal('03234').optional(),
+    '#text': z.literal('Wild edible berries').optional(),
+  }),
+  z.object({
+    '@level': z.literal('4').optional(),
+    '@classId': z.literal('03239').optional(),
+    '#text': z.literal('Other wild edible edible products n.e.c').optional(),
   }),
   z.object({
     '@level': z.literal('3').optional(),
@@ -1718,23 +1778,32 @@ export const FlowsProductCategorySchema: z.ZodType<any> = z.union([
     '@classId': z.literal('0325').optional(),
     '#text': z
       .literal(
-        'Vegetable materials of a kind used primarily for plaiting or as stuffing or padding; raw vegetable materials of a kind used primarily for dyeing or tanning; vegetable products n.e.c.'
+        'Vegetable materials of a kind used primarily for plaiting or as stuffing or padding; vegetable products n.e.c.'
       )
       .optional(),
   }),
   z.object({
     '@level': z.literal('4').optional(),
-    '@classId': z.literal('03250').optional(),
+    '@classId': z.literal('03251').optional(),
+    '#text': z.literal('Cotton linters').optional(),
+  }),
+  z.object({
+    '@level': z.literal('4').optional(),
+    '@classId': z.literal('03252').optional(),
     '#text': z
       .literal(
-        'Vegetable materials of a kind used primarily for plaiting or as stuffing or padding; raw vegetable materials of a kind used primarily for dyeing or tanning; vegetable products n.e.c.'
+        'Vegetable materials of a kind used primarily for plaiting or as stuffing or padding; other vegetable products except cotton linters'
       )
       .optional(),
   }),
   z.object({
     '@level': z.literal('1').optional(),
     '@classId': z.literal('04').optional(),
-    '#text': z.literal('Fish and other fishing products').optional(),
+    '#text': z
+      .literal(
+        'Fish, crustaceans, molluscs and other aquatic invertebrates products'
+      )
+      .optional(),
   }),
   z.object({
     '@level': z.literal('2').optional(),
@@ -1888,20 +1957,28 @@ export const FlowsProductCategorySchema: z.ZodType<any> = z.union([
   z.object({
     '@level': z.literal('3').optional(),
     '@classId': z.literal('0426').optional(),
-    '#text': z.literal('Other pelagic fish, live, fresh or chilled').optional(),
+    '#text': z
+      .literal(
+        'Other pelagic fish (excluding tunas, skipjack, or stripe-bellied bonito), live, fresh or chilled'
+      )
+      .optional(),
   }),
   z.object({
     '@level': z.literal('4').optional(),
     '@classId': z.literal('04261').optional(),
     '#text': z
-      .literal('Other wild pelagic fish, live, fresh or chilled')
+      .literal(
+        'Other wild pelagic fish (excluding tunas, skipjack, or stripe-bellied bonito), live, fresh or chilled'
+      )
       .optional(),
   }),
   z.object({
     '@level': z.literal('4').optional(),
     '@classId': z.literal('04262').optional(),
     '#text': z
-      .literal('Other farmed pelagic fish, live, fresh or chilled')
+      .literal(
+        'Other farmed pelagic fish (excluding tunas, skipjack, or stripe-bellied bonito), live, fresh or chilled'
+      )
       .optional(),
   }),
   z.object({
@@ -1968,21 +2045,21 @@ export const FlowsProductCategorySchema: z.ZodType<any> = z.union([
     '@level': z.literal('3').optional(),
     '@classId': z.literal('0433').optional(),
     '#text': z
-      .literal('Lobsters (<i>Homarus spp.</i>), live, fresh or chilled')
+      .literal('Lobsters (Homarus spp.), live, fresh or chilled')
       .optional(),
   }),
   z.object({
     '@level': z.literal('4').optional(),
     '@classId': z.literal('04331').optional(),
     '#text': z
-      .literal('Wild lobsters (<i>Homarus spp.</i>), live, fresh or chilled')
+      .literal('Wild lobsters (Homarus spp.), live, fresh or chilled')
       .optional(),
   }),
   z.object({
     '@level': z.literal('4').optional(),
     '@classId': z.literal('04332').optional(),
     '#text': z
-      .literal('Farmed lobsters (<i>Homarus spp.</i>), live, fresh or chilled')
+      .literal('Farmed lobsters (Homarus spp.), live, fresh or chilled')
       .optional(),
   }),
   z.object({
@@ -2009,7 +2086,7 @@ export const FlowsProductCategorySchema: z.ZodType<any> = z.union([
     '@classId': z.literal('0435').optional(),
     '#text': z
       .literal(
-        'Cold-water shrimps and prawns (<i>Pandalus spp.</i>, <i>Crangon crangon</i>), live, fresh or chilled'
+        'Cold-water shrimps and prawns (Pandalus spp., Crangon crangon), live, fresh or chilled'
       )
       .optional(),
   }),
@@ -2018,7 +2095,7 @@ export const FlowsProductCategorySchema: z.ZodType<any> = z.union([
     '@classId': z.literal('04351').optional(),
     '#text': z
       .literal(
-        'Wild cold-water shrimps and prawns (<i>Pandalus spp.</i>, <i>Crangon crangon</i>), live, fresh or chilled'
+        'Wild cold-water shrimps and prawns (Pandalus spp., Crangon crangon), live, fresh or chilled'
       )
       .optional(),
   }),
@@ -2027,7 +2104,7 @@ export const FlowsProductCategorySchema: z.ZodType<any> = z.union([
     '@classId': z.literal('04352').optional(),
     '#text': z
       .literal(
-        'Farmed cold-water shrimps and prawns (<i>Pandalus spp.</i>, <i>Crangon crangon</i>), live, fresh or chilled'
+        'Farmed cold-water shrimps and prawns (Pandalus spp., Crangon crangon), live, fresh or chilled'
       )
       .optional(),
   }),
@@ -2391,8 +2468,13 @@ export const FlowsProductCategorySchema: z.ZodType<any> = z.union([
   }),
   z.object({
     '@level': z.literal('4').optional(),
-    '@classId': z.literal('11010').optional(),
-    '#text': z.literal('Hard coal').optional(),
+    '@classId': z.literal('11011').optional(),
+    '#text': z.literal('Anthracite').optional(),
+  }),
+  z.object({
+    '@level': z.literal('4').optional(),
+    '@classId': z.literal('11012').optional(),
+    '#text': z.literal('Bituminous Coal').optional(),
   }),
   z.object({
     '@level': z.literal('3').optional(),
@@ -2419,8 +2501,13 @@ export const FlowsProductCategorySchema: z.ZodType<any> = z.union([
   }),
   z.object({
     '@level': z.literal('4').optional(),
-    '@classId': z.literal('11030').optional(),
-    '#text': z.literal('Brown coal').optional(),
+    '@classId': z.literal('11031').optional(),
+    '#text': z.literal('Sub-bituminous coal').optional(),
+  }),
+  z.object({
+    '@level': z.literal('4').optional(),
+    '@classId': z.literal('11032').optional(),
+    '#text': z.literal('Lignite').optional(),
   }),
   z.object({
     '@level': z.literal('3').optional(),
@@ -2443,12 +2530,17 @@ export const FlowsProductCategorySchema: z.ZodType<any> = z.union([
   z.object({
     '@level': z.literal('3').optional(),
     '@classId': z.literal('1105').optional(),
+    '#text': z.literal('Peat, whether or not agglomerated').optional(),
+  }),
+  z.object({
+    '@level': z.literal('4').optional(),
+    '@classId': z.literal('11051').optional(),
     '#text': z.literal('Peat').optional(),
   }),
   z.object({
     '@level': z.literal('4').optional(),
-    '@classId': z.literal('11050').optional(),
-    '#text': z.literal('Peat').optional(),
+    '@classId': z.literal('11052').optional(),
+    '#text': z.literal('Peat briquettes').optional(),
   }),
   z.object({
     '@level': z.literal('1').optional(),
@@ -2476,6 +2568,18 @@ export const FlowsProductCategorySchema: z.ZodType<any> = z.union([
       .literal(
         'Petroleum oils and oils obtained from bituminous minerals, crude'
       )
+      .optional(),
+  }),
+  z.object({
+    '@level': z.literal('4').optional(),
+    '@classId': z.literal('12011').optional(),
+    '#text': z.literal('Crude oil').optional(),
+  }),
+  z.object({
+    '@level': z.literal('4').optional(),
+    '@classId': z.literal('12012').optional(),
+    '#text': z
+      .literal('Petroleum oils and oils obtained from bituminous minerals')
       .optional(),
   }),
   z.object({
@@ -2932,6 +3036,23 @@ export const FlowsProductCategorySchema: z.ZodType<any> = z.union([
       .optional(),
   }),
   z.object({
+    '@level': z.literal('4').optional(),
+    '@classId': z.literal('17201').optional(),
+    '#text': z.literal('Coke oven gas').optional(),
+  }),
+  z.object({
+    '@level': z.literal('4').optional(),
+    '@classId': z.literal('17202').optional(),
+    '#text': z
+      .literal('Gas works gas (and other manufactured gases for distribution)')
+      .optional(),
+  }),
+  z.object({
+    '@level': z.literal('4').optional(),
+    '@classId': z.literal('17203').optional(),
+    '#text': z.literal('Recovered gases').optional(),
+  }),
+  z.object({
     '@level': z.literal('2').optional(),
     '@classId': z.literal('173').optional(),
     '#text': z.literal('Steam and hot water').optional(),
@@ -3365,7 +3486,11 @@ export const FlowsProductCategorySchema: z.ZodType<any> = z.union([
   z.object({
     '@level': z.literal('4').optional(),
     '@classId': z.literal('21216').optional(),
-    '#text': z.literal('Other pelagic fish, frozen').optional(),
+    '#text': z
+      .literal(
+        'Other pelagic fish (excluding tunas, skipjack, or stripe-bellied bonito), frozen'
+      )
+      .optional(),
   }),
   z.object({
     '@level': z.literal('4').optional(),
@@ -4246,21 +4371,6 @@ export const FlowsProductCategorySchema: z.ZodType<any> = z.union([
   }),
   z.object({
     '@level': z.literal('2').optional(),
-    '@classId': z.literal('218').optional(),
-    '#text': z.literal('Cotton linters').optional(),
-  }),
-  z.object({
-    '@level': z.literal('3').optional(),
-    '@classId': z.literal('2180').optional(),
-    '#text': z.literal('Cotton linters').optional(),
-  }),
-  z.object({
-    '@level': z.literal('4').optional(),
-    '@classId': z.literal('21800').optional(),
-    '#text': z.literal('Cotton linters').optional(),
-  }),
-  z.object({
-    '@level': z.literal('2').optional(),
     '@classId': z.literal('219').optional(),
     '#text': z
       .literal(
@@ -5035,7 +5145,7 @@ export const FlowsProductCategorySchema: z.ZodType<any> = z.union([
     '@classId': z.literal('23914').optional(),
     '#text': z
       .literal(
-        'Extracts, essences and concentrates of tea or mate and preparations with a basis thereof or with a basis of tea or mate'
+        'Extracts, essences and concentrates of tea or mat\u00E9, and preparations with a basis thereof or with a basis of tea or mat\u00E9'
       )
       .optional(),
   }),
@@ -5152,6 +5262,11 @@ export const FlowsProductCategorySchema: z.ZodType<any> = z.union([
     '@level': z.literal('4').optional(),
     '@classId': z.literal('23997').optional(),
     '#text': z.literal('Other prepared dishes and meals').optional(),
+  }),
+  z.object({
+    '@level': z.literal('4').optional(),
+    '@classId': z.literal('23998').optional(),
+    '#text': z.literal('Meatless meat and meat substitutes').optional(),
   }),
   z.object({
     '@level': z.literal('4').optional(),
@@ -5319,13 +5434,60 @@ export const FlowsProductCategorySchema: z.ZodType<any> = z.union([
   }),
   z.object({
     '@level': z.literal('3').optional(),
+    '@classId': z.literal('2442').optional(),
+    '#text': z.literal('Milk from non-animal origin').optional(),
+  }),
+  z.object({
+    '@level': z.literal('4').optional(),
+    '@classId': z.literal('24421').optional(),
+    '#text': z.literal('Coconut milk').optional(),
+  }),
+  z.object({
+    '@level': z.literal('4').optional(),
+    '@classId': z.literal('24422').optional(),
+    '#text': z.literal('Almond milk').optional(),
+  }),
+  z.object({
+    '@level': z.literal('4').optional(),
+    '@classId': z.literal('24423').optional(),
+    '#text': z.literal('Soy milk').optional(),
+  }),
+  z.object({
+    '@level': z.literal('4').optional(),
+    '@classId': z.literal('24424').optional(),
+    '#text': z.literal('Rice milk').optional(),
+  }),
+  z.object({
+    '@level': z.literal('4').optional(),
+    '@classId': z.literal('24425').optional(),
+    '#text': z.literal('Oat milk').optional(),
+  }),
+  z.object({
+    '@level': z.literal('4').optional(),
+    '@classId': z.literal('24429').optional(),
+    '#text': z.literal('Other non-animal milk').optional(),
+  }),
+  z.object({
+    '@level': z.literal('3').optional(),
     '@classId': z.literal('2449').optional(),
     '#text': z.literal('Other non-alcoholic caloric beverages').optional(),
   }),
   z.object({
     '@level': z.literal('4').optional(),
-    '@classId': z.literal('24490').optional(),
-    '#text': z.literal('Other non-alcoholic caloric beverages').optional(),
+    '@classId': z.literal('24491').optional(),
+    '#text': z.literal('Non-alcoholic wine').optional(),
+  }),
+  z.object({
+    '@level': z.literal('4').optional(),
+    '@classId': z.literal('24492').optional(),
+    '#text': z.literal('Non-alcoholic beer').optional(),
+  }),
+  z.object({
+    '@level': z.literal('4').optional(),
+    '@classId': z.literal('24499').optional(),
+    '#text': z
+      .literal('Other non-alcoholic caloric beverages, n.e.c.')
+      .optional(),
   }),
   z.object({
     '@level': z.literal('1').optional(),
@@ -5376,12 +5538,13 @@ export const FlowsProductCategorySchema: z.ZodType<any> = z.union([
   }),
   z.object({
     '@level': z.literal('4').optional(),
-    '@classId': z.literal('25090').optional(),
-    '#text': z
-      .literal(
-        'Other manufactured tobacco and manufactured tobacco substitutes; "homogenized" or "reconstituted" tobacco; tobacco extracts and essences'
-      )
-      .optional(),
+    '@classId': z.literal('25091').optional(),
+    '#text': z.literal('Manufactured tobacco').optional(),
+  }),
+  z.object({
+    '@level': z.literal('4').optional(),
+    '@classId': z.literal('25092').optional(),
+    '#text': z.literal('Products containing tobacco').optional(),
   }),
   z.object({
     '@level': z.literal('1').optional(),
@@ -7494,7 +7657,7 @@ export const FlowsProductCategorySchema: z.ZodType<any> = z.union([
     '@classId': z.literal('3131').optional(),
     '#text': z
       .literal(
-        'Wood in the rough, weather or not stripped of bark or sapwood, or roughly squared treated with paint, stains, creosote or other preservatives'
+        'Wood in the rough, whether or not stripped of bark or sapwood, or roughly squared treated with paint, stains, creosote or other preservatives'
       )
       .optional(),
   }),
@@ -7503,7 +7666,7 @@ export const FlowsProductCategorySchema: z.ZodType<any> = z.union([
     '@classId': z.literal('31310').optional(),
     '#text': z
       .literal(
-        'Wood in the rough, weather or not stripped of bark or sapwood, or roughly squared treated with paint, stains, creosote or other preservatives'
+        'Wood in the rough, whether or not stripped of bark or sapwood, or roughly squared treated with paint, stains, creosote or other preservatives'
       )
       .optional(),
   }),
@@ -7555,14 +7718,27 @@ export const FlowsProductCategorySchema: z.ZodType<any> = z.union([
     '@level': z.literal('4').optional(),
     '@classId': z.literal('31411').optional(),
     '#text': z
-      .literal('Plywood consisting solely of sheets, of coniferous wood')
+      .literal(
+        'Plywood consisting solely of sheets, with both outer plies of coniferous wood'
+      )
       .optional(),
   }),
   z.object({
     '@level': z.literal('4').optional(),
     '@classId': z.literal('31412').optional(),
     '#text': z
-      .literal('Plywood consisting solely of sheets, of non-coniferous wood')
+      .literal(
+        'Plywood consisting solely of sheets, with at least one outer ply of tropical wood'
+      )
+      .optional(),
+  }),
+  z.object({
+    '@level': z.literal('4').optional(),
+    '@classId': z.literal('31413').optional(),
+    '#text': z
+      .literal(
+        'Plywood consisting solely of sheets, with at least one outer ply of non-coniferous wood other than tropical'
+      )
       .optional(),
   }),
   z.object({
@@ -7579,7 +7755,7 @@ export const FlowsProductCategorySchema: z.ZodType<any> = z.union([
     '@classId': z.literal('31421').optional(),
     '#text': z
       .literal(
-        'Other plywood, veneered panels and similar laminated wood, of coniferous wood'
+        'Veneered panels and similar laminated wood, with both outer plies of coniferous wood'
       )
       .optional(),
   }),
@@ -7588,7 +7764,16 @@ export const FlowsProductCategorySchema: z.ZodType<any> = z.union([
     '@classId': z.literal('31422').optional(),
     '#text': z
       .literal(
-        'Other plywood, veneered panels and similar laminated wood, of non-coniferous wood'
+        'Veneered panels and similar laminated wood, with at least one outer ply of tropical wood'
+      )
+      .optional(),
+  }),
+  z.object({
+    '@level': z.literal('4').optional(),
+    '@classId': z.literal('31423').optional(),
+    '#text': z
+      .literal(
+        'Veneered panels and similar laminated wood, with at least one outer ply of non-coniferous wood other than tropical'
       )
       .optional(),
   }),
@@ -7604,7 +7789,7 @@ export const FlowsProductCategorySchema: z.ZodType<any> = z.union([
   z.object({
     '@level': z.literal('4').optional(),
     '@classId': z.literal('31431').optional(),
-    '#text': z.literal('Particle board').optional(),
+    '#text': z.literal('Particle board of wood').optional(),
   }),
   z.object({
     '@level': z.literal('4').optional(),
@@ -7613,9 +7798,18 @@ export const FlowsProductCategorySchema: z.ZodType<any> = z.union([
   }),
   z.object({
     '@level': z.literal('4').optional(),
+    '@classId': z.literal('31433').optional(),
+    '#text': z
+      .literal(
+        'Particle board of ligno-cellulosic material other than wood (flax, bagasse, bamboo)'
+      )
+      .optional(),
+  }),
+  z.object({
+    '@level': z.literal('4').optional(),
     '@classId': z.literal('31439').optional(),
     '#text': z
-      .literal('Other board of wood or other ligneous materials')
+      .literal('Other particle boards of wood (e.g. waferboard)')
       .optional(),
   }),
   z.object({
@@ -7684,7 +7878,16 @@ export const FlowsProductCategorySchema: z.ZodType<any> = z.union([
     '@classId': z.literal('31512').optional(),
     '#text': z
       .literal(
-        'Veneer sheets and sheets for plywood and other wood sawn lengthwise, sliced or peeled, of a thickness not exceeding 6 mm, of non-coniferous wood'
+        'Veneer sheets and sheets for plywood and other wood sawn lengthwise, sliced or peeled, of a thickness not exceeding 6 mm, of tropical non-coniferous wood'
+      )
+      .optional(),
+  }),
+  z.object({
+    '@level': z.literal('4').optional(),
+    '@classId': z.literal('31513').optional(),
+    '#text': z
+      .literal(
+        'Veneer sheets and sheets for plywood and other wood sawn lengthwise, sliced or peeled, of a thickness not exceeding 6 mm, of other non-coniferous wood'
       )
       .optional(),
   }),
@@ -7709,20 +7912,69 @@ export const FlowsProductCategorySchema: z.ZodType<any> = z.union([
   }),
   z.object({
     '@level': z.literal('3').optional(),
-    '@classId': z.literal('3160').optional(),
+    '@classId': z.literal('3161').optional(),
+    '#text': z.literal('Cellular board').optional(),
+  }),
+  z.object({
+    '@level': z.literal('4').optional(),
+    '@classId': z.literal('31610').optional(),
+    '#text': z.literal('Cellular board').optional(),
+  }),
+  z.object({
+    '@level': z.literal('3').optional(),
+    '@classId': z.literal('3162').optional(),
+    '#text': z.literal("Builder's joinery and carpentry of wood").optional(),
+  }),
+  z.object({
+    '@level': z.literal('4').optional(),
+    '@classId': z.literal('31621').optional(),
+    '#text': z
+      .literal('Windows, French-windows and their frames made out of wood')
+      .optional(),
+  }),
+  z.object({
+    '@level': z.literal('4').optional(),
+    '@classId': z.literal('31622').optional(),
+    '#text': z
+      .literal('Doors and their frames and thresholds made out of wood')
+      .optional(),
+  }),
+  z.object({
+    '@level': z.literal('4').optional(),
+    '@classId': z.literal('31623').optional(),
+    '#text': z
+      .literal('Shuttering for concrete constructional work made out of wood')
+      .optional(),
+  }),
+  z.object({
+    '@level': z.literal('4').optional(),
+    '@classId': z.literal('31624').optional(),
+    '#text': z.literal('Shingles and shakes made out of wood').optional(),
+  }),
+  z.object({
+    '@level': z.literal('4').optional(),
+    '@classId': z.literal('31625').optional(),
     '#text': z
       .literal(
-        "Builders' joinery and carpentry of wood (including cellular wood panels, assembled parquet panels, shingles and shakes)"
+        'Posts and beams, other than engineered structural timber products made out of wood'
       )
       .optional(),
   }),
   z.object({
     '@level': z.literal('4').optional(),
-    '@classId': z.literal('31600').optional(),
+    '@classId': z.literal('31626').optional(),
+    '#text': z.literal('Assembled flooring panels made out of wood').optional(),
+  }),
+  z.object({
+    '@level': z.literal('4').optional(),
+    '@classId': z.literal('31627').optional(),
+    '#text': z.literal('Engineered structural timber products').optional(),
+  }),
+  z.object({
+    '@level': z.literal('4').optional(),
+    '@classId': z.literal('31629').optional(),
     '#text': z
-      .literal(
-        "Builders' joinery and carpentry of wood (including cellular wood panels, assembled parquet panels, shingles and shakes)"
-      )
+      .literal("Other builder's joinery and carpentry of wood and bamboo")
       .optional(),
   }),
   z.object({
@@ -7745,11 +7997,36 @@ export const FlowsProductCategorySchema: z.ZodType<any> = z.union([
   }),
   z.object({
     '@level': z.literal('4').optional(),
-    '@classId': z.literal('31700').optional(),
+    '@classId': z.literal('31701').optional(),
     '#text': z
       .literal(
-        "Packing cases, boxes, crates, drums and similar packings, of wood; cable-drums of wood; pallets, box pallets and other load boards, of wood; casks, barrels, vats, tubs and other coopers' products and parts thereof, of wood (including staves)"
+        'Packing cases, boxes, crates, drums and similar packings, of wood; cable-drums of wood'
       )
+      .optional(),
+  }),
+  z.object({
+    '@level': z.literal('4').optional(),
+    '@classId': z.literal('31702').optional(),
+    '#text': z
+      .literal(
+        'Pallets, box pallets and other load boards, of wood; pallet collars of wood'
+      )
+      .optional(),
+  }),
+  z.object({
+    '@level': z.literal('4').optional(),
+    '@classId': z.literal('31703').optional(),
+    '#text': z
+      .literal(
+        "Casks, barrels, vats, tubs and other coopers' products and parts thereof, of wood, including staves"
+      )
+      .optional(),
+  }),
+  z.object({
+    '@level': z.literal('4').optional(),
+    '@classId': z.literal('31709').optional(),
+    '#text': z
+      .literal('Other wooden wrapping and packaging material')
       .optional(),
   }),
   z.object({
@@ -7871,8 +8148,15 @@ export const FlowsProductCategorySchema: z.ZodType<any> = z.union([
     '@level': z.literal('4').optional(),
     '@classId': z.literal('32113').optional(),
     '#text': z
+      .literal('Mechanical wood pulp; semi-chemical wood pulp')
+      .optional(),
+  }),
+  z.object({
+    '@level': z.literal('4').optional(),
+    '@classId': z.literal('32114').optional(),
+    '#text': z
       .literal(
-        'Mechanical wood pulp; semi-chemical wood pulp; pulps of fibrous cellulosic material other than wood'
+        'Pulps of fibres derived from recovered (waste and scrap) paper or paperboard or of other fibrous cellulosic material'
       )
       .optional(),
   }),
@@ -7881,7 +8165,7 @@ export const FlowsProductCategorySchema: z.ZodType<any> = z.union([
     '@classId': z.literal('3212').optional(),
     '#text': z
       .literal(
-        'Newsprint, hand-made paper and other uncoated paper and paperboard of a kind used for graphic purposes, and punch card stock and punch tape paper'
+        'Newsprint and other uncoated paper and paperboard of a kind used for writing, printing or other graphic purposes, and non perforated punch cards and punch tape paper'
       )
       .optional(),
   }),
@@ -7897,11 +8181,30 @@ export const FlowsProductCategorySchema: z.ZodType<any> = z.union([
   }),
   z.object({
     '@level': z.literal('4').optional(),
-    '@classId': z.literal('32129').optional(),
+    '@classId': z.literal('32123').optional(),
     '#text': z
       .literal(
-        'Other uncoated paper and paperboard, of a kind used for writing, printing or other graphic purposes, and punch card stock and punch tape paper'
+        'Paper and paperboard of a kind used as a base for photo-sensitive, heat-sensitive or electro-sensitive paper or paperboard'
       )
+      .optional(),
+  }),
+  z.object({
+    '@level': z.literal('4').optional(),
+    '@classId': z.literal('32124').optional(),
+    '#text': z.literal('Wallpaper base').optional(),
+  }),
+  z.object({
+    '@level': z.literal('4').optional(),
+    '@classId': z.literal('32125').optional(),
+    '#text': z
+      .literal('Uncoated graphic paper and paperboard, mechanical')
+      .optional(),
+  }),
+  z.object({
+    '@level': z.literal('4').optional(),
+    '@classId': z.literal('32129').optional(),
+    '#text': z
+      .literal('Other uncoated graphic paper and paperboard, wood free')
       .optional(),
   }),
   z.object({
@@ -7984,9 +8287,7 @@ export const FlowsProductCategorySchema: z.ZodType<any> = z.union([
     '@level': z.literal('4').optional(),
     '@classId': z.literal('32142').optional(),
     '#text': z
-      .literal(
-        'Paper and paperboard, creped, crinkled, embossed or perforated n.e.c.'
-      )
+      .literal('Paper and paperboard, creped, crinkled, embossed or perforated')
       .optional(),
   }),
   z.object({
@@ -8063,7 +8364,7 @@ export const FlowsProductCategorySchema: z.ZodType<any> = z.union([
     '@classId': z.literal('32193').optional(),
     '#text': z
       .literal(
-        'Toilet paper, handkerchiefs, towels, serviettes, napkins for babies, tampons, and similar household, sanitary or hospital articles, and articles of apparel, of paper pulp, paper, cellulose wadding or webs of cellulose fibres'
+        'Toilet paper; handkerchiefs, cleansing or facial tissues and towels; tablecloths and serviettes, articles of apparel and clothing accessories, of paper pulp, paper, cellulose wadding or webs of cellulose fibres'
       )
       .optional(),
   }),
@@ -8266,17 +8567,12 @@ export const FlowsProductCategorySchema: z.ZodType<any> = z.union([
   }),
   z.object({
     '@level': z.literal('4').optional(),
-    '@classId': z.literal('32511').optional(),
+    '@classId': z.literal('32510').optional(),
     '#text': z
       .literal(
-        'Maps and hydrographic or similar charts (including wall maps, topographical plans and maps for globes), printed, other than in book-form'
+        'Maps and hydrographic or similar charts of all kinds, including atlases, wall maps, topographical plans and globes, printed other than book form'
       )
       .optional(),
-  }),
-  z.object({
-    '@level': z.literal('4').optional(),
-    '@classId': z.literal('32512').optional(),
-    '#text': z.literal('Globes').optional(),
   }),
   z.object({
     '@level': z.literal('3').optional(),
@@ -8339,7 +8635,7 @@ export const FlowsProductCategorySchema: z.ZodType<any> = z.union([
     '@classId': z.literal('326').optional(),
     '#text': z
       .literal(
-        'Stamps, cheque forms, banknotes, stock certificates, brochures and leaflets, advertising material and other printed matter'
+        'Stamps, cheque forms, banknotes, stock certificates, advertising material and other printed matter'
       )
       .optional(),
   }),
@@ -8471,21 +8767,27 @@ export const FlowsProductCategorySchema: z.ZodType<any> = z.union([
   }),
   z.object({
     '@level': z.literal('3').optional(),
-    '@classId': z.literal('3310').optional(),
+    '@classId': z.literal('3311').optional(),
     '#text': z
-      .literal(
-        'Coke and semi-coke of coal, of lignite or of peat; retort carbon'
-      )
+      .literal('Coke and semi-coke of coal, or of lignite; retort carbon')
       .optional(),
   }),
   z.object({
     '@level': z.literal('4').optional(),
-    '@classId': z.literal('33100').optional(),
+    '@classId': z.literal('33110').optional(),
     '#text': z
-      .literal(
-        'Coke and semi-coke of coal, of lignite or of peat; retort carbon'
-      )
+      .literal('Coke and semi-coke of coal, or of lignite; retort carbon')
       .optional(),
+  }),
+  z.object({
+    '@level': z.literal('3').optional(),
+    '@classId': z.literal('3312').optional(),
+    '#text': z.literal('Coke and semi-coke of peat').optional(),
+  }),
+  z.object({
+    '@level': z.literal('4').optional(),
+    '@classId': z.literal('33120').optional(),
+    '#text': z.literal('Coke and semi-coke of peat').optional(),
   }),
   z.object({
     '@level': z.literal('2').optional(),
@@ -8498,21 +8800,27 @@ export const FlowsProductCategorySchema: z.ZodType<any> = z.union([
   }),
   z.object({
     '@level': z.literal('3').optional(),
-    '@classId': z.literal('3320').optional(),
+    '@classId': z.literal('3321').optional(),
     '#text': z
-      .literal(
-        'Tar distilled from coal, from lignite or from peat, and other mineral tars'
-      )
+      .literal('Tar distilled from coal, from lignite, and other mineral tars')
       .optional(),
   }),
   z.object({
     '@level': z.literal('4').optional(),
-    '@classId': z.literal('33200').optional(),
+    '@classId': z.literal('33210').optional(),
     '#text': z
-      .literal(
-        'Tar distilled from coal, from lignite or from peat, and other mineral tars'
-      )
+      .literal('Tar distilled from coal, from lignite, and other mineral tars')
       .optional(),
+  }),
+  z.object({
+    '@level': z.literal('3').optional(),
+    '@classId': z.literal('3322').optional(),
+    '#text': z.literal('Tar distilled from peat').optional(),
+  }),
+  z.object({
+    '@level': z.literal('4').optional(),
+    '@classId': z.literal('33220').optional(),
+    '#text': z.literal('Tar distilled from peat').optional(),
   }),
   z.object({
     '@level': z.literal('2').optional(),
@@ -9495,7 +9803,9 @@ export const FlowsProductCategorySchema: z.ZodType<any> = z.union([
     '@level': z.literal('4').optional(),
     '@classId': z.literal('34644').optional(),
     '#text': z
-      .literal('Fertilizers containing two nutrients: nitrogen and phosphorus')
+      .literal(
+        "Fertilizers containing two nutrients: nitrogen and phosphorus; other than diammonium phosphate and monoammonium phosphate'"
+      )
       .optional(),
   }),
   z.object({
@@ -9509,6 +9819,15 @@ export const FlowsProductCategorySchema: z.ZodType<any> = z.union([
     '@level': z.literal('4').optional(),
     '@classId': z.literal('34646').optional(),
     '#text': z.literal('Potassium nitrate').optional(),
+  }),
+  z.object({
+    '@level': z.literal('4').optional(),
+    '@classId': z.literal('34647').optional(),
+    '#text': z
+      .literal(
+        'Fertilizers containing two nutrients: nitrogen and potassium; other than potassium nitrate'
+      )
+      .optional(),
   }),
   z.object({
     '@level': z.literal('4').optional(),
@@ -9868,8 +10187,37 @@ export const FlowsProductCategorySchema: z.ZodType<any> = z.union([
   }),
   z.object({
     '@level': z.literal('4').optional(),
-    '@classId': z.literal('35270').optional(),
-    '#text': z.literal('Other pharmaceutical products').optional(),
+    '@classId': z.literal('35271').optional(),
+    '#text': z
+      .literal(
+        'Glands or other organs, their extracts and secretions, for organo-therapeutic uses'
+      )
+      .optional(),
+  }),
+  z.object({
+    '@level': z.literal('4').optional(),
+    '@classId': z.literal('35272').optional(),
+    '#text': z
+      .literal(
+        'Human blood, animal blood, antisera and other blood fractions and immunological products'
+      )
+      .optional(),
+  }),
+  z.object({
+    '@level': z.literal('4').optional(),
+    '@classId': z.literal('35273').optional(),
+    '#text': z
+      .literal(
+        'Vaccines, toxins, cultures of micro-organisms (excluding yeasts) and similar products; cell cultures'
+      )
+      .optional(),
+  }),
+  z.object({
+    '@level': z.literal('4').optional(),
+    '@classId': z.literal('35279').optional(),
+    '#text': z
+      .literal('Wadding, gauze, bandages and similar articles')
+      .optional(),
   }),
   z.object({
     '@level': z.literal('3').optional(),
@@ -11402,8 +11750,13 @@ export const FlowsProductCategorySchema: z.ZodType<any> = z.union([
   }),
   z.object({
     '@level': z.literal('4').optional(),
-    '@classId': z.literal('38140').optional(),
-    '#text': z.literal('Other furniture n.e.c.').optional(),
+    '@classId': z.literal('38141').optional(),
+    '#text': z.literal('Other furniture n.e.c., made of wood').optional(),
+  }),
+  z.object({
+    '@level': z.literal('4').optional(),
+    '@classId': z.literal('38149').optional(),
+    '#text': z.literal('Other furniture n.e.c., not made of wood').optional(),
   }),
   z.object({
     '@level': z.literal('3').optional(),
@@ -11430,8 +11783,27 @@ export const FlowsProductCategorySchema: z.ZodType<any> = z.union([
   }),
   z.object({
     '@level': z.literal('4').optional(),
-    '@classId': z.literal('38160').optional(),
-    '#text': z.literal('Parts of furniture').optional(),
+    '@classId': z.literal('38161').optional(),
+    '#text': z.literal('Parts of furniture made from wood').optional(),
+  }),
+  z.object({
+    '@level': z.literal('4').optional(),
+    '@classId': z.literal('38169').optional(),
+    '#text': z.literal('Parts of furniture not made from wood').optional(),
+  }),
+  z.object({
+    '@level': z.literal('3').optional(),
+    '@classId': z.literal('3817').optional(),
+    '#text': z
+      .literal('Wooden furniture of a kind used in the bedroom')
+      .optional(),
+  }),
+  z.object({
+    '@level': z.literal('4').optional(),
+    '@classId': z.literal('38170').optional(),
+    '#text': z
+      .literal('Wooden furniture of a kind used in the bedroom')
+      .optional(),
   }),
   z.object({
     '@level': z.literal('2').optional(),
@@ -12396,8 +12768,39 @@ export const FlowsProductCategorySchema: z.ZodType<any> = z.union([
   }),
   z.object({
     '@level': z.literal('4').optional(),
-    '@classId': z.literal('39240').optional(),
-    '#text': z.literal('Waste and scrap of paper or paperboard').optional(),
+    '@classId': z.literal('39241').optional(),
+    '#text': z
+      .literal(
+        'Recovered (waste and scrap) paper or paperboard, of unbleached kraft paper or paperboard or corrugated paper or paperboard'
+      )
+      .optional(),
+  }),
+  z.object({
+    '@level': z.literal('4').optional(),
+    '@classId': z.literal('39242').optional(),
+    '#text': z
+      .literal(
+        'Recovered (waste and scrap) paper or paperboard, of other paper or paperboard made mainly of bleached chemical pulp, not coloured in the mass'
+      )
+      .optional(),
+  }),
+  z.object({
+    '@level': z.literal('4').optional(),
+    '@classId': z.literal('39243').optional(),
+    '#text': z
+      .literal(
+        'Recovered (waste and scrap) paper or paperboard, made mainly of mechanical pulp (newspapers, journals and similar)'
+      )
+      .optional(),
+  }),
+  z.object({
+    '@level': z.literal('4').optional(),
+    '@classId': z.literal('39249').optional(),
+    '#text': z
+      .literal(
+        'Other recovered (waste and scrap) paper or paperboard, including unsorted waste and scrap'
+      )
+      .optional(),
   }),
   z.object({
     '@level': z.literal('3').optional(),
@@ -12451,7 +12854,9 @@ export const FlowsProductCategorySchema: z.ZodType<any> = z.union([
     '@level': z.literal('4').optional(),
     '@classId': z.literal('39282').optional(),
     '#text': z
-      .literal('Agglomerated wood waste and scrap in forms other than pellets')
+      .literal(
+        'Agglomerated wood waste and scrap in forms other than pellets, including wood briquettes'
+      )
       .optional(),
   }),
   z.object({
@@ -13601,7 +14006,7 @@ export const FlowsProductCategorySchema: z.ZodType<any> = z.union([
     '@classId': z.literal('41601').optional(),
     '#text': z
       .literal(
-        'Tungsten, molybdenum, tantalum, magnesium, cobalt, cadmium, titanium, zirconium, beryllium, gallium, hafnium, indium, niobium, rhenium and thallium, germanium and vanadium, unwrought, and powders thereof, except powders of magnesium; waste and scrap of gallium, hafnium, indium, niobium, rhenium, germanium and vanadium; cobalt mattes and other intermediate products of cobalt metallurgy'
+        'Tungsten, molybdenum, tantalum, magnesium, cobalt, cadmium, titanium, zirconium, beryllium, gallium, hafnium, indium, niobium, rhenium and thallium, germanium and vanadium, unwrought, and powders thereof, except powders of magnesium; cobalt mattes and other intermediate products of cobalt metallurgy'
       )
       .optional(),
   }),
@@ -13625,8 +14030,17 @@ export const FlowsProductCategorySchema: z.ZodType<any> = z.union([
   }),
   z.object({
     '@level': z.literal('4').optional(),
-    '@classId': z.literal('41604').optional(),
+    '@classId': z.literal('41605').optional(),
     '#text': z.literal('Cermets and articles thereof').optional(),
+  }),
+  z.object({
+    '@level': z.literal('4').optional(),
+    '@classId': z.literal('41609').optional(),
+    '#text': z
+      .literal(
+        'Waste and scrap of tungsten, molybdenum, tantalum, magnesium, cobalt, titanium, zirconium, antinomy, beryllium, chromium, thallium, cadmium'
+      )
+      .optional(),
   }),
   z.object({
     '@level': z.literal('1').optional(),
@@ -14584,7 +14998,12 @@ export const FlowsProductCategorySchema: z.ZodType<any> = z.union([
   }),
   z.object({
     '@level': z.literal('4').optional(),
-    '@classId': z.literal('43560').optional(),
+    '@classId': z.literal('43561').optional(),
+    '#text': z.literal('Industrial robots').optional(),
+  }),
+  z.object({
+    '@level': z.literal('4').optional(),
+    '@classId': z.literal('43562').optional(),
     '#text': z
       .literal('Other lifting, handling, loading or unloading machinery')
       .optional(),
@@ -15889,9 +16308,12 @@ export const FlowsProductCategorySchema: z.ZodType<any> = z.union([
   z.object({
     '@level': z.literal('4').optional(),
     '@classId': z.literal('44826').optional(),
-    '#text': z
-      .literal('Water heaters, instantaneous or storage, non-electric')
-      .optional(),
+    '#text': z.literal('Solar water heaters').optional(),
+  }),
+  z.object({
+    '@level': z.literal('4').optional(),
+    '@classId': z.literal('44827').optional(),
+    '#text': z.literal('Other non-electric water heaters').optional(),
   }),
   z.object({
     '@level': z.literal('3').optional(),
@@ -16008,8 +16430,27 @@ export const FlowsProductCategorySchema: z.ZodType<any> = z.union([
       .optional(),
   }),
   z.object({
+    '@level': z.literal('3').optional(),
+    '@classId': z.literal('4492').optional(),
+    '#text': z.literal('Machines for additive manufacturing').optional(),
+  }),
+  z.object({
     '@level': z.literal('4').optional(),
-    '@classId': z.literal('44919').optional(),
+    '@classId': z.literal('44920').optional(),
+    '#text': z.literal('Machines for additive manufacturing').optional(),
+  }),
+  z.object({
+    '@level': z.literal('3').optional(),
+    '@classId': z.literal('4493').optional(),
+    '#text': z
+      .literal(
+        'Special-purpose machinery n.e.c. (including machinery for isotopic separation, machines for assembling electric lamps in glass envelopes, machines for manufacturing glassware and rope making machines)'
+      )
+      .optional(),
+  }),
+  z.object({
+    '@level': z.literal('4').optional(),
+    '@classId': z.literal('44930').optional(),
     '#text': z
       .literal(
         'Special-purpose machinery n.e.c. (including machinery for isotopic separation, machines for assembling electric lamps in glass envelopes, machines for manufacturing glassware and rope making machines)'
@@ -16018,29 +16459,29 @@ export const FlowsProductCategorySchema: z.ZodType<any> = z.union([
   }),
   z.object({
     '@level': z.literal('3').optional(),
-    '@classId': z.literal('4492').optional(),
+    '@classId': z.literal('4494').optional(),
     '#text': z.literal('Parts n.e.c. for special-purpose machinery').optional(),
   }),
   z.object({
     '@level': z.literal('4').optional(),
-    '@classId': z.literal('44921').optional(),
+    '@classId': z.literal('44941').optional(),
     '#text': z.literal('Parts for the goods of subclass 44913').optional(),
   }),
   z.object({
     '@level': z.literal('4').optional(),
-    '@classId': z.literal('44922').optional(),
+    '@classId': z.literal('44942').optional(),
     '#text': z
       .literal('Parts for the goods of subclasses 44914, 44917 and 45150')
       .optional(),
   }),
   z.object({
     '@level': z.literal('4').optional(),
-    '@classId': z.literal('44923').optional(),
+    '@classId': z.literal('44943').optional(),
     '#text': z.literal('Parts for the goods of subclass 44918').optional(),
   }),
   z.object({
     '@level': z.literal('4').optional(),
-    '@classId': z.literal('44929').optional(),
+    '@classId': z.literal('44949').optional(),
     '#text': z
       .literal(
         'Parts for the goods of subclass 44915; other parts n.e.c. of special-purpose machinery'
@@ -16389,7 +16830,7 @@ export const FlowsProductCategorySchema: z.ZodType<any> = z.union([
     '@classId': z.literal('46111').optional(),
     '#text': z
       .literal(
-        'Motors of an output not exceeding 37.5 W; other DC motors; DC generators'
+        'Motors of an output not exceeding 37.5 W; other DC motors; DC generators other than photovoltaic generators'
       )
       .optional(),
   }),
@@ -16398,13 +16839,18 @@ export const FlowsProductCategorySchema: z.ZodType<any> = z.union([
     '@classId': z.literal('46112').optional(),
     '#text': z
       .literal(
-        'Universal AC/DC motors of an output exceeding 37.5 W; other AC motors; AC generators (alternators)'
+        'Universal AC/DC motors of an output exceeding 37.5 W; other AC motors; AC generators (alternators) other than photovoltaic generators'
       )
       .optional(),
   }),
   z.object({
     '@level': z.literal('4').optional(),
     '@classId': z.literal('46113').optional(),
+    '#text': z.literal('Photovoltaic AC/DC generators').optional(),
+  }),
+  z.object({
+    '@level': z.literal('4').optional(),
+    '@classId': z.literal('46114').optional(),
     '#text': z
       .literal('Electric generating sets and rotary converters')
       .optional(),
@@ -16705,7 +17151,18 @@ export const FlowsProductCategorySchema: z.ZodType<any> = z.union([
     '@level': z.literal('4').optional(),
     '@classId': z.literal('46532').optional(),
     '#text': z
-      .literal('Lighting sets of a kind used for Christmas trees')
+      .literal(
+        'Lighting sets used for Christmas trees, not solely for LED light sources'
+      )
+      .optional(),
+  }),
+  z.object({
+    '@level': z.literal('4').optional(),
+    '@classId': z.literal('46533').optional(),
+    '#text': z
+      .literal(
+        'Luminaires and lighting fittings, designed for use solely with light-emitting diode (LED) light sources'
+      )
       .optional(),
   }),
   z.object({
@@ -16713,7 +17170,7 @@ export const FlowsProductCategorySchema: z.ZodType<any> = z.union([
     '@classId': z.literal('46539').optional(),
     '#text': z
       .literal(
-        'Other electric lamps and lighting fittings (including lamps and lighting fittings of a kind used for lighting public open spaces or thorough-fares)'
+        'Other electric lamps and lighting fittings (including lamps and lighting fittings of a kind used for lighting public open spaces or thorough-fares), not solely for LED light sources'
       )
       .optional(),
   }),
@@ -17209,7 +17666,7 @@ export const FlowsProductCategorySchema: z.ZodType<any> = z.union([
     '@classId': z.literal('475').optional(),
     '#text': z
       .literal(
-        'Disks, tapes, solid-state non-volatile storage devices and other media, not recorded'
+        'Discs, tapes, solid-state non-volatile storage devices and other media, not recorded'
       )
       .optional(),
   }),
@@ -17274,7 +17731,7 @@ export const FlowsProductCategorySchema: z.ZodType<any> = z.union([
     '@classId': z.literal('476').optional(),
     '#text': z
       .literal(
-        'Audio, video and other disks, tapes and other physical media, recorded'
+        'Audio and video discs, tapes and other physical media, recorded'
       )
       .optional(),
   }),
@@ -17282,14 +17739,14 @@ export const FlowsProductCategorySchema: z.ZodType<any> = z.union([
     '@level': z.literal('3').optional(),
     '@classId': z.literal('4761').optional(),
     '#text': z
-      .literal('Musical audio disks, tapes or other physical media')
+      .literal('Musical audio discs, tapes or other physical media')
       .optional(),
   }),
   z.object({
     '@level': z.literal('4').optional(),
     '@classId': z.literal('47610').optional(),
     '#text': z
-      .literal('Musical audio disks, tapes or other physical media')
+      .literal('Musical audio discs, tapes or other physical media')
       .optional(),
   }),
   z.object({
@@ -17297,7 +17754,7 @@ export const FlowsProductCategorySchema: z.ZodType<any> = z.union([
     '@classId': z.literal('4762').optional(),
     '#text': z
       .literal(
-        'Films and other video content on disks, tape or other physical media'
+        'Films and other video content on discs, tape or other physical media'
       )
       .optional(),
   }),
@@ -17306,7 +17763,7 @@ export const FlowsProductCategorySchema: z.ZodType<any> = z.union([
     '@classId': z.literal('47620').optional(),
     '#text': z
       .literal(
-        'Films and other video content on disks, tape or other physical media'
+        'Films and other video content on discs, tape or other physical media'
       )
       .optional(),
   }),
@@ -17314,27 +17771,27 @@ export const FlowsProductCategorySchema: z.ZodType<any> = z.union([
     '@level': z.literal('3').optional(),
     '@classId': z.literal('4769').optional(),
     '#text': z
-      .literal('Other recorded disks, tapes or other physical media')
+      .literal('Other recorded discs, tapes or other physical media')
       .optional(),
   }),
   z.object({
     '@level': z.literal('4').optional(),
     '@classId': z.literal('47691').optional(),
     '#text': z
-      .literal('Audio books on disk, tape or other physical media')
+      .literal('Audio books on disc, tape or other physical media')
       .optional(),
   }),
   z.object({
     '@level': z.literal('4').optional(),
     '@classId': z.literal('47692').optional(),
     '#text': z
-      .literal('Text-based disks, tapes or other physical media')
+      .literal('Text-based discs, tapes or other physical media')
       .optional(),
   }),
   z.object({
     '@level': z.literal('4').optional(),
     '@classId': z.literal('47699').optional(),
-    '#text': z.literal('Other non-musical audio disks and tapes').optional(),
+    '#text': z.literal('Other non-musical audio discs and tapes').optional(),
   }),
   z.object({
     '@level': z.literal('2').optional(),
@@ -17410,12 +17867,12 @@ export const FlowsProductCategorySchema: z.ZodType<any> = z.union([
   z.object({
     '@level': z.literal('3').optional(),
     '@classId': z.literal('4792').optional(),
-    '#text': z.literal('"Smart cards"').optional(),
+    '#text': z.literal('Smart cards').optional(),
   }),
   z.object({
     '@level': z.literal('4').optional(),
     '@classId': z.literal('47920').optional(),
-    '#text': z.literal('"Smart cards"').optional(),
+    '#text': z.literal('Smart cards').optional(),
   }),
   z.object({
     '@level': z.literal('1').optional(),
@@ -18525,14 +18982,14 @@ export const FlowsProductCategorySchema: z.ZodType<any> = z.union([
   z.object({
     '@level': z.literal('4').optional(),
     '@classId': z.literal('49621').optional(),
-    '#text': z.literal('Helicopters').optional(),
+    '#text': z.literal('Helicopters, except unmanned aircraft').optional(),
   }),
   z.object({
     '@level': z.literal('4').optional(),
     '@classId': z.literal('49622').optional(),
     '#text': z
       .literal(
-        'Aeroplanes and other powered aircraft of an unladen weight not exceeding 2000 kg'
+        'Aeroplanes and other powered aircraft, , except unmanned aircraft, of an unladen weight not exceeding 2000 kg'
       )
       .optional(),
   }),
@@ -18541,9 +18998,14 @@ export const FlowsProductCategorySchema: z.ZodType<any> = z.union([
     '@classId': z.literal('49623').optional(),
     '#text': z
       .literal(
-        'Aeroplanes and other powered aircraft of an unladen weight exceeding 2000 kg'
+        'Aeroplanes and other powered aircraft, , except unmanned aircraft, of an unladen weight exceeding 2000 kg'
       )
       .optional(),
+  }),
+  z.object({
+    '@level': z.literal('4').optional(),
+    '@classId': z.literal('49624').optional(),
+    '#text': z.literal('Unmanned aircraft').optional(),
   }),
   z.object({
     '@level': z.literal('3').optional(),
@@ -19405,8 +19867,18 @@ export const FlowsProductCategorySchema: z.ZodType<any> = z.union([
   }),
   z.object({
     '@level': z.literal('4').optional(),
-    '@classId': z.literal('54650').optional(),
-    '#text': z.literal('Insulation services').optional(),
+    '@classId': z.literal('54651').optional(),
+    '#text': z.literal('Sound or vibration insulation services').optional(),
+  }),
+  z.object({
+    '@level': z.literal('4').optional(),
+    '@classId': z.literal('54652').optional(),
+    '#text': z.literal('Thermal insulation services').optional(),
+  }),
+  z.object({
+    '@level': z.literal('4').optional(),
+    '@classId': z.literal('54659').optional(),
+    '#text': z.literal('Other insulation services, n.e.c.').optional(),
   }),
   z.object({
     '@level': z.literal('3').optional(),
@@ -19528,1259 +20000,635 @@ export const FlowsProductCategorySchema: z.ZodType<any> = z.union([
   z.object({
     '@level': z.literal('1').optional(),
     '@classId': z.literal('61').optional(),
-    '#text': z.literal('Wholesale trade services').optional(),
-  }),
-  z.object({
-    '@level': z.literal('2').optional(),
-    '@classId': z.literal('611').optional(),
     '#text': z
-      .literal('Wholesale trade services, except on a fee or contract basis')
-      .optional(),
-  }),
-  z.object({
-    '@level': z.literal('3').optional(),
-    '@classId': z.literal('6111').optional(),
-    '#text': z
-      .literal(
-        'Wholesale trade services, except on a fee or contract basis, of raw agricultural products and live animals'
-      )
-      .optional(),
-  }),
-  z.object({
-    '@level': z.literal('4').optional(),
-    '@classId': z.literal('61111').optional(),
-    '#text': z
-      .literal(
-        'Wholesale trade services, except on a fee or contract basis, of grains and oilseeds and oleaginous fruits, seeds and animal feed'
-      )
-      .optional(),
-  }),
-  z.object({
-    '@level': z.literal('4').optional(),
-    '@classId': z.literal('61112').optional(),
-    '#text': z
-      .literal(
-        'Wholesale trade services, except on a fee or contract basis, of flowers and plants'
-      )
-      .optional(),
-  }),
-  z.object({
-    '@level': z.literal('4').optional(),
-    '@classId': z.literal('61113').optional(),
-    '#text': z
-      .literal(
-        'Wholesale trade services, except on a fee or contract basis, of unmanufactured tobacco'
-      )
-      .optional(),
-  }),
-  z.object({
-    '@level': z.literal('4').optional(),
-    '@classId': z.literal('61114').optional(),
-    '#text': z
-      .literal(
-        'Wholesale trade services, except on a fee or contract basis, of live animals, including pet animals'
-      )
-      .optional(),
-  }),
-  z.object({
-    '@level': z.literal('4').optional(),
-    '@classId': z.literal('61115').optional(),
-    '#text': z
-      .literal(
-        'Wholesale trade services, except on a fee or contract basis, of hides, skins and leather'
-      )
-      .optional(),
-  }),
-  z.object({
-    '@level': z.literal('4').optional(),
-    '@classId': z.literal('61119').optional(),
-    '#text': z
-      .literal(
-        'Wholesale trade services, except on a fee or contract basis, of agricultural raw materials n.e.c.'
-      )
-      .optional(),
-  }),
-  z.object({
-    '@level': z.literal('3').optional(),
-    '@classId': z.literal('6112').optional(),
-    '#text': z
-      .literal(
-        'Wholesale trade services, except on a fee or contract basis, of food, beverages and tobacco'
-      )
-      .optional(),
-  }),
-  z.object({
-    '@level': z.literal('4').optional(),
-    '@classId': z.literal('61121').optional(),
-    '#text': z
-      .literal(
-        'Wholesale trade services, except on a fee or contract basis, of fruits and vegetables'
-      )
-      .optional(),
-  }),
-  z.object({
-    '@level': z.literal('4').optional(),
-    '@classId': z.literal('61122').optional(),
-    '#text': z
-      .literal(
-        'Wholesale trade services, except on a fee or contract basis, of dairy products, eggs and edible oils and fats'
-      )
-      .optional(),
-  }),
-  z.object({
-    '@level': z.literal('4').optional(),
-    '@classId': z.literal('61123').optional(),
-    '#text': z
-      .literal(
-        'Wholesale trade services, except on a fee or contract basis, of meat, poultry and game'
-      )
-      .optional(),
-  }),
-  z.object({
-    '@level': z.literal('4').optional(),
-    '@classId': z.literal('61124').optional(),
-    '#text': z
-      .literal(
-        'Wholesale trade services, except on a fee or contract basis, of fish and other seafood'
-      )
-      .optional(),
-  }),
-  z.object({
-    '@level': z.literal('4').optional(),
-    '@classId': z.literal('61125').optional(),
-    '#text': z
-      .literal(
-        'Wholesale trade services, except on a fee or contract basis, of sugar confectionery and bakery products'
-      )
-      .optional(),
-  }),
-  z.object({
-    '@level': z.literal('4').optional(),
-    '@classId': z.literal('61126').optional(),
-    '#text': z
-      .literal(
-        'Wholesale trade services, except on a fee or contract basis, of beverages'
-      )
-      .optional(),
-  }),
-  z.object({
-    '@level': z.literal('4').optional(),
-    '@classId': z.literal('61127').optional(),
-    '#text': z
-      .literal(
-        'Wholesale trade services, except on a fee or contract basis, of coffee, tea and spices'
-      )
-      .optional(),
-  }),
-  z.object({
-    '@level': z.literal('4').optional(),
-    '@classId': z.literal('61128').optional(),
-    '#text': z
-      .literal(
-        'Wholesale trade services, except on a fee or contract basis, of tobacco products'
-      )
-      .optional(),
-  }),
-  z.object({
-    '@level': z.literal('4').optional(),
-    '@classId': z.literal('61129').optional(),
-    '#text': z
-      .literal(
-        'Wholesale trade services, except on a fee or contract basis, of food products n.e.c.'
-      )
-      .optional(),
-  }),
-  z.object({
-    '@level': z.literal('3').optional(),
-    '@classId': z.literal('6113').optional(),
-    '#text': z
-      .literal(
-        'Wholesale trade services, except on a fee or contract basis, of textiles, clothing and footwear'
-      )
-      .optional(),
-  }),
-  z.object({
-    '@level': z.literal('4').optional(),
-    '@classId': z.literal('61131').optional(),
-    '#text': z
-      .literal(
-        'Wholesale trade services, except on a fee or contract basis, of yarn and fabrics'
-      )
-      .optional(),
-  }),
-  z.object({
-    '@level': z.literal('4').optional(),
-    '@classId': z.literal('61132').optional(),
-    '#text': z
-      .literal(
-        'Wholesale trade services, except on a fee or contract basis, of household linens, curtains, net curtains and diverse household articles of textile materials'
-      )
-      .optional(),
-  }),
-  z.object({
-    '@level': z.literal('4').optional(),
-    '@classId': z.literal('61133').optional(),
-    '#text': z
-      .literal(
-        'Wholesale trade services, except on a fee or contract basis, of articles of clothing, articles of fur and clothing accessories'
-      )
-      .optional(),
-  }),
-  z.object({
-    '@level': z.literal('4').optional(),
-    '@classId': z.literal('61134').optional(),
-    '#text': z
-      .literal(
-        'Wholesale trade services, except on a fee or contract basis, of footwear'
-      )
-      .optional(),
-  }),
-  z.object({
-    '@level': z.literal('3').optional(),
-    '@classId': z.literal('6114').optional(),
-    '#text': z
-      .literal(
-        'Wholesale trade services, except on a fee or contract basis, of household appliances, articles and equipment'
-      )
-      .optional(),
-  }),
-  z.object({
-    '@level': z.literal('4').optional(),
-    '@classId': z.literal('61141').optional(),
-    '#text': z
-      .literal(
-        'Wholesale trade services, except on a fee or contract basis, of household furniture'
-      )
-      .optional(),
-  }),
-  z.object({
-    '@level': z.literal('4').optional(),
-    '@classId': z.literal('61142').optional(),
-    '#text': z
-      .literal(
-        'Wholesale trade services, except on a fee or contract basis, of radio and television equipment and recorded audio and video disks and tapes'
-      )
-      .optional(),
-  }),
-  z.object({
-    '@level': z.literal('4').optional(),
-    '@classId': z.literal('61143').optional(),
-    '#text': z
-      .literal(
-        'Wholesale trade services, except on a fee or contract basis, of articles for lighting'
-      )
-      .optional(),
-  }),
-  z.object({
-    '@level': z.literal('4').optional(),
-    '@classId': z.literal('61144').optional(),
-    '#text': z
-      .literal(
-        'Wholesale trade services, except on a fee or contract basis, of household appliances'
-      )
-      .optional(),
-  }),
-  z.object({
-    '@level': z.literal('4').optional(),
-    '@classId': z.literal('61145').optional(),
-    '#text': z
-      .literal(
-        'Wholesale trade services, except on a fee or contract basis, of miscellaneous household utensils, cutlery, crockery, glassware, china and pottery'
-      )
-      .optional(),
-  }),
-  z.object({
-    '@level': z.literal('4').optional(),
-    '@classId': z.literal('61146').optional(),
-    '#text': z
-      .literal(
-        "Wholesale trade services, except on a fee or contract basis, of wickerwork, cork goods, cooper's ware and other wooden ware"
-      )
-      .optional(),
-  }),
-  z.object({
-    '@level': z.literal('3').optional(),
-    '@classId': z.literal('6115').optional(),
-    '#text': z
-      .literal(
-        'Wholesale trade services, except on a fee or contract basis, of miscellaneous consumer goods'
-      )
-      .optional(),
-  }),
-  z.object({
-    '@level': z.literal('4').optional(),
-    '@classId': z.literal('61151').optional(),
-    '#text': z
-      .literal(
-        'Wholesale trade services, except on a fee or contract basis, of books, newspapers, magazines and stationery'
-      )
-      .optional(),
-  }),
-  z.object({
-    '@level': z.literal('4').optional(),
-    '@classId': z.literal('61152').optional(),
-    '#text': z
-      .literal(
-        'Wholesale trade services, except on a fee or contract basis, of photographic, optical and precision equipment'
-      )
-      .optional(),
-  }),
-  z.object({
-    '@level': z.literal('4').optional(),
-    '@classId': z.literal('61153').optional(),
-    '#text': z
-      .literal(
-        'Wholesale trade services, except on a fee or contract basis, of games and toys'
-      )
-      .optional(),
-  }),
-  z.object({
-    '@level': z.literal('4').optional(),
-    '@classId': z.literal('61154').optional(),
-    '#text': z
-      .literal(
-        'Wholesale trade services, except on a fee or contract basis, of watches, clocks and jewellery'
-      )
-      .optional(),
-  }),
-  z.object({
-    '@level': z.literal('4').optional(),
-    '@classId': z.literal('61155').optional(),
-    '#text': z
-      .literal(
-        'Wholesale trade services, except on a fee or contract basis, of sports goods (incl. bicycles)'
-      )
-      .optional(),
-  }),
-  z.object({
-    '@level': z.literal('4').optional(),
-    '@classId': z.literal('61156').optional(),
-    '#text': z
-      .literal(
-        'Wholesale trade services, except on a fee or contract basis, of leather goods and travel accessories'
-      )
-      .optional(),
-  }),
-  z.object({
-    '@level': z.literal('4').optional(),
-    '@classId': z.literal('61159').optional(),
-    '#text': z
-      .literal(
-        'Wholesale trade services, except on a fee or contract basis, of miscellaneous consumer goods n.e.c.'
-      )
-      .optional(),
-  }),
-  z.object({
-    '@level': z.literal('3').optional(),
-    '@classId': z.literal('6116').optional(),
-    '#text': z
-      .literal(
-        'Wholesale trade services, except on a fee or contract basis, of construction materials and hardware'
-      )
-      .optional(),
-  }),
-  z.object({
-    '@level': z.literal('4').optional(),
-    '@classId': z.literal('61161').optional(),
-    '#text': z
-      .literal(
-        'Wholesale trade services, except on a fee or contract basis, of construction materials and flat glass'
-      )
-      .optional(),
-  }),
-  z.object({
-    '@level': z.literal('4').optional(),
-    '@classId': z.literal('61162').optional(),
-    '#text': z
-      .literal(
-        'Wholesale trade services, except on a fee or contract basis, of fittings, fixtures and ceramic sanitary fixtures'
-      )
-      .optional(),
-  }),
-  z.object({
-    '@level': z.literal('4').optional(),
-    '@classId': z.literal('61163').optional(),
-    '#text': z
-      .literal(
-        'Wholesale trade services, except on a fee or contract basis, of wallpaper and floor coverings'
-      )
-      .optional(),
-  }),
-  z.object({
-    '@level': z.literal('4').optional(),
-    '@classId': z.literal('61164').optional(),
-    '#text': z
-      .literal(
-        'Wholesale trade services, except on a fee or contract basis, of paints, varnishes and lacquers'
-      )
-      .optional(),
-  }),
-  z.object({
-    '@level': z.literal('4').optional(),
-    '@classId': z.literal('61165').optional(),
-    '#text': z
-      .literal(
-        'Wholesale trade services, except on a fee or contract basis, of hardware and hand tools'
-      )
-      .optional(),
-  }),
-  z.object({
-    '@level': z.literal('3').optional(),
-    '@classId': z.literal('6117').optional(),
-    '#text': z
-      .literal(
-        'Wholesale trade services, except on a fee or contract basis, of chemical and pharmaceutical products'
-      )
-      .optional(),
-  }),
-  z.object({
-    '@level': z.literal('4').optional(),
-    '@classId': z.literal('61171').optional(),
-    '#text': z
-      .literal(
-        'Wholesale trade services, except on a fee or contract basis, of basic industrial chemicals and synthetic resins'
-      )
-      .optional(),
-  }),
-  z.object({
-    '@level': z.literal('4').optional(),
-    '@classId': z.literal('61172').optional(),
-    '#text': z
-      .literal(
-        'Wholesale trade services, except on a fee or contract basis, of fertilizers and agrochemical products'
-      )
-      .optional(),
-  }),
-  z.object({
-    '@level': z.literal('4').optional(),
-    '@classId': z.literal('61173').optional(),
-    '#text': z
-      .literal(
-        'Wholesale trade services, except on a fee or contract basis, of pharmaceutical products'
-      )
-      .optional(),
-  }),
-  z.object({
-    '@level': z.literal('4').optional(),
-    '@classId': z.literal('61174').optional(),
-    '#text': z
-      .literal(
-        'Wholesale trade services, except on a fee or contract basis, of medical and orthopaedic goods'
-      )
-      .optional(),
-  }),
-  z.object({
-    '@level': z.literal('4').optional(),
-    '@classId': z.literal('61175').optional(),
-    '#text': z
-      .literal(
-        'Wholesale trade services, except on a fee or contract basis, of perfumery articles, cosmetic articles and toilet soaps'
-      )
-      .optional(),
-  }),
-  z.object({
-    '@level': z.literal('4').optional(),
-    '@classId': z.literal('61176').optional(),
-    '#text': z
-      .literal(
-        'Wholesale trade services, except on a fee or contract basis, of cleaning materials'
-      )
-      .optional(),
-  }),
-  z.object({
-    '@level': z.literal('3').optional(),
-    '@classId': z.literal('6118').optional(),
-    '#text': z
-      .literal(
-        'Wholesale trade services, except on a fee or contract basis, of machinery, equipment and supplies'
-      )
-      .optional(),
-  }),
-  z.object({
-    '@level': z.literal('4').optional(),
-    '@classId': z.literal('61181').optional(),
-    '#text': z
-      .literal(
-        'Wholesale trade services, except on a fee or contract basis, of motor vehicles, motorcycles, snowmobiles and related parts and accessories'
-      )
-      .optional(),
-  }),
-  z.object({
-    '@level': z.literal('4').optional(),
-    '@classId': z.literal('61182').optional(),
-    '#text': z
-      .literal(
-        'Wholesale trade services, except on a fee or contract basis, of other transport equipment, except bicycles'
-      )
-      .optional(),
-  }),
-  z.object({
-    '@level': z.literal('4').optional(),
-    '@classId': z.literal('61183').optional(),
-    '#text': z
-      .literal(
-        'Wholesale trade services, except on a fee or contract basis, of office machinery and equipment including office furniture'
-      )
-      .optional(),
-  }),
-  z.object({
-    '@level': z.literal('4').optional(),
-    '@classId': z.literal('61184').optional(),
-    '#text': z
-      .literal(
-        'Wholesale trade services, except on a fee or contract basis, of computers and packaged software'
-      )
-      .optional(),
-  }),
-  z.object({
-    '@level': z.literal('4').optional(),
-    '@classId': z.literal('61185').optional(),
-    '#text': z
-      .literal(
-        'Wholesale trade services, except on a fee or contract basis, of electronic and telecommunications equipment and parts'
-      )
-      .optional(),
-  }),
-  z.object({
-    '@level': z.literal('4').optional(),
-    '@classId': z.literal('61186').optional(),
-    '#text': z
-      .literal(
-        'Wholesale trade services, except on a fee or contract basis, of agricultural lawn and garden machinery and equipment, including tractors'
-      )
-      .optional(),
-  }),
-  z.object({
-    '@level': z.literal('4').optional(),
-    '@classId': z.literal('61187').optional(),
-    '#text': z
-      .literal(
-        'Wholesale trade services, except on a fee or contract basis, of mining, construction and civil engineering machinery and equipment'
-      )
-      .optional(),
-  }),
-  z.object({
-    '@level': z.literal('4').optional(),
-    '@classId': z.literal('61188').optional(),
-    '#text': z
-      .literal(
-        'Wholesale trade services, except on a fee or contract basis, of other industry-specific machinery and equipment and related operating supplies'
-      )
-      .optional(),
-  }),
-  z.object({
-    '@level': z.literal('4').optional(),
-    '@classId': z.literal('61189').optional(),
-    '#text': z
-      .literal(
-        'Wholesale trade services, except on a fee or contract basis, of other machinery and equipment n.e.c.'
-      )
-      .optional(),
-  }),
-  z.object({
-    '@level': z.literal('3').optional(),
-    '@classId': z.literal('6119').optional(),
-    '#text': z
-      .literal(
-        'Wholesale trade services, except on a fee or contract basis, of other products'
-      )
-      .optional(),
-  }),
-  z.object({
-    '@level': z.literal('4').optional(),
-    '@classId': z.literal('61191').optional(),
-    '#text': z
-      .literal(
-        'Wholesale trade services, except on a fee or contract basis, of solid, liquid and gaseous fuels and related products'
-      )
-      .optional(),
-  }),
-  z.object({
-    '@level': z.literal('4').optional(),
-    '@classId': z.literal('61192').optional(),
-    '#text': z
-      .literal(
-        'Wholesale trade services, except on a fee or contract basis, of metal ores and metal in primary forms'
-      )
-      .optional(),
-  }),
-  z.object({
-    '@level': z.literal('4').optional(),
-    '@classId': z.literal('61193').optional(),
-    '#text': z
-      .literal(
-        'Wholesale trade services, except on a fee or contract basis, of wood in the rough'
-      )
-      .optional(),
-  }),
-  z.object({
-    '@level': z.literal('4').optional(),
-    '@classId': z.literal('61194').optional(),
-    '#text': z
-      .literal(
-        'Wholesale trade services, except on a fee or contract basis, of paper and paperboard'
-      )
-      .optional(),
-  }),
-  z.object({
-    '@level': z.literal('4').optional(),
-    '@classId': z.literal('61195').optional(),
-    '#text': z
-      .literal(
-        'Wholesale trade services, except on a fee or contract basis, of waste and scrap and materials for recycling'
-      )
-      .optional(),
-  }),
-  z.object({
-    '@level': z.literal('4').optional(),
-    '@classId': z.literal('61197').optional(),
-    '#text': z
-      .literal(
-        'Wholesale trade services, except on a fee or contract basis, of electricity'
-      )
-      .optional(),
-  }),
-  z.object({
-    '@level': z.literal('4').optional(),
-    '@classId': z.literal('61198').optional(),
-    '#text': z
-      .literal(
-        'Wholesale trade services, except on a fee or contract basis, of water'
-      )
-      .optional(),
-  }),
-  z.object({
-    '@level': z.literal('4').optional(),
-    '@classId': z.literal('61199').optional(),
-    '#text': z
-      .literal(
-        'Wholesale trade services, except on a fee or contract basis, of non-metallic minerals and other products n.e.c.'
-      )
+      .literal('Wholesale trade services, not on a fee or contract basis')
       .optional(),
   }),
   z.object({
     '@level': z.literal('2').optional(),
-    '@classId': z.literal('612').optional(),
+    '@classId': z.literal('610').optional(),
     '#text': z
-      .literal('Wholesale trade services on a fee or contract basis')
+      .literal('Wholesale trade services, not on a fee or contract basis')
       .optional(),
   }),
   z.object({
     '@level': z.literal('3').optional(),
-    '@classId': z.literal('6121').optional(),
+    '@classId': z.literal('6101').optional(),
     '#text': z
       .literal(
-        'Wholesale trade services on a fee or contract basis, of raw agricultural products and live animals'
+        'Wholesale trade services, not on a fee or contract basis, of raw agricultural products and live animals'
       )
       .optional(),
   }),
   z.object({
     '@level': z.literal('4').optional(),
-    '@classId': z.literal('61211').optional(),
+    '@classId': z.literal('61011').optional(),
     '#text': z
       .literal(
-        'Wholesale trade services on a fee or contract basis, of grains and oilseeds and oleaginous fruits, seeds and animal feed'
+        'Wholesale trade services, not on a fee or contract basis, of grains and oilseeds and oleaginous fruits, seeds and animal feed'
       )
       .optional(),
   }),
   z.object({
     '@level': z.literal('4').optional(),
-    '@classId': z.literal('61212').optional(),
+    '@classId': z.literal('61012').optional(),
     '#text': z
       .literal(
-        'Wholesale trade services on a fee or contract basis, of flowers and plants'
+        'Wholesale trade services, not on a fee or contract basis, of flowers and plants'
       )
       .optional(),
   }),
   z.object({
     '@level': z.literal('4').optional(),
-    '@classId': z.literal('61213').optional(),
+    '@classId': z.literal('61013').optional(),
     '#text': z
       .literal(
-        'Wholesale trade services on a fee or contract basis, of unmanufactured tobacco'
+        'Wholesale trade services, not on a fee or contract basis, of unmanufactured tobacco'
       )
       .optional(),
   }),
   z.object({
     '@level': z.literal('4').optional(),
-    '@classId': z.literal('61214').optional(),
+    '@classId': z.literal('61014').optional(),
     '#text': z
       .literal(
-        'Wholesale trade services on a fee or contract basis, of live animals, including pet animals'
+        'Wholesale trade services, not on a fee or contract basis, of live animals, including pet animals'
       )
       .optional(),
   }),
   z.object({
     '@level': z.literal('4').optional(),
-    '@classId': z.literal('61215').optional(),
+    '@classId': z.literal('61015').optional(),
     '#text': z
       .literal(
-        'Wholesale trade services on a fee or contract basis, of hides, skins and leather'
+        'Wholesale trade services, not on a fee or contract basis, of hides, skins and leather'
       )
       .optional(),
   }),
   z.object({
     '@level': z.literal('4').optional(),
-    '@classId': z.literal('61219').optional(),
+    '@classId': z.literal('61019').optional(),
     '#text': z
       .literal(
-        'Wholesale trade services on a fee or contract basis, of agricultural raw materials n.e.c.'
-      )
-      .optional(),
-  }),
-  z.object({
-    '@level': z.literal('3').optional(),
-    '@classId': z.literal('6122').optional(),
-    '#text': z
-      .literal(
-        'Wholesale trade services on a fee or contract basis, of food, beverages and tobacco'
-      )
-      .optional(),
-  }),
-  z.object({
-    '@level': z.literal('4').optional(),
-    '@classId': z.literal('61221').optional(),
-    '#text': z
-      .literal(
-        'Wholesale trade services on a fee or contract basis, of fruits and vegetables'
-      )
-      .optional(),
-  }),
-  z.object({
-    '@level': z.literal('4').optional(),
-    '@classId': z.literal('61222').optional(),
-    '#text': z
-      .literal(
-        'Wholesale trade services on a fee or contract basis, of dairy products, eggs and edible oils and fats'
-      )
-      .optional(),
-  }),
-  z.object({
-    '@level': z.literal('4').optional(),
-    '@classId': z.literal('61223').optional(),
-    '#text': z
-      .literal(
-        'Wholesale trade services on a fee or contract basis, of meat, poultry and game'
-      )
-      .optional(),
-  }),
-  z.object({
-    '@level': z.literal('4').optional(),
-    '@classId': z.literal('61224').optional(),
-    '#text': z
-      .literal(
-        'Wholesale trade services on a fee or contract basis, of fish and other seafood'
-      )
-      .optional(),
-  }),
-  z.object({
-    '@level': z.literal('4').optional(),
-    '@classId': z.literal('61225').optional(),
-    '#text': z
-      .literal(
-        'Wholesale trade services on a fee or contract basis, of sugar confectionery and bakery products'
-      )
-      .optional(),
-  }),
-  z.object({
-    '@level': z.literal('4').optional(),
-    '@classId': z.literal('61226').optional(),
-    '#text': z
-      .literal(
-        'Wholesale trade services on a fee or contract basis, of beverages'
-      )
-      .optional(),
-  }),
-  z.object({
-    '@level': z.literal('4').optional(),
-    '@classId': z.literal('61227').optional(),
-    '#text': z
-      .literal(
-        'Wholesale trade services on a fee or contract basis, of coffee, tea and spices'
-      )
-      .optional(),
-  }),
-  z.object({
-    '@level': z.literal('4').optional(),
-    '@classId': z.literal('61228').optional(),
-    '#text': z
-      .literal(
-        'Wholesale trade services on a fee or contract basis, of tobacco products'
-      )
-      .optional(),
-  }),
-  z.object({
-    '@level': z.literal('4').optional(),
-    '@classId': z.literal('61229').optional(),
-    '#text': z
-      .literal(
-        'Wholesale trade services on a fee or contract basis, of food products n.e.c.'
+        'Wholesale trade services, not on a fee or contract basis, of agricultural raw materials n.e.c.'
       )
       .optional(),
   }),
   z.object({
     '@level': z.literal('3').optional(),
-    '@classId': z.literal('6123').optional(),
+    '@classId': z.literal('6102').optional(),
     '#text': z
       .literal(
-        'Wholesale trade services on a fee or contract basis, of textiles, clothing and footwear'
+        'Wholesale trade services, not on a fee or contract basis, of food, beverages and tobacco'
       )
       .optional(),
   }),
   z.object({
     '@level': z.literal('4').optional(),
-    '@classId': z.literal('61231').optional(),
+    '@classId': z.literal('61021').optional(),
     '#text': z
       .literal(
-        'Wholesale trade services on a fee or contract basis, of yarn and fabrics'
+        'Wholesale trade services, not on a fee or contract basis, of fruits and vegetables'
       )
       .optional(),
   }),
   z.object({
     '@level': z.literal('4').optional(),
-    '@classId': z.literal('61232').optional(),
+    '@classId': z.literal('61022').optional(),
     '#text': z
       .literal(
-        'Wholesale trade services on a fee or contract basis, of household linens, curtains, net curtains and diverse household articles'
+        'Wholesale trade services, not on a fee or contract basis, of dairy products, eggs and edible oils and fats'
       )
       .optional(),
   }),
   z.object({
     '@level': z.literal('4').optional(),
-    '@classId': z.literal('61233').optional(),
+    '@classId': z.literal('61023').optional(),
     '#text': z
       .literal(
-        'Wholesale trade services on a fee or contract basis, of articles of clothing, articles of fur and clothing accessories'
+        'Wholesale trade services, not on a fee or contract basis, of meat, poultry and game'
       )
       .optional(),
   }),
   z.object({
     '@level': z.literal('4').optional(),
-    '@classId': z.literal('61234').optional(),
+    '@classId': z.literal('61024').optional(),
     '#text': z
       .literal(
-        'Wholesale trade services on a fee or contract basis, of footwear'
+        'Wholesale trade services, not on a fee or contract basis, of fish and other seafood'
+      )
+      .optional(),
+  }),
+  z.object({
+    '@level': z.literal('4').optional(),
+    '@classId': z.literal('61025').optional(),
+    '#text': z
+      .literal(
+        'Wholesale trade services, not on a fee or contract basis, of sugar confectionery and bakery products'
+      )
+      .optional(),
+  }),
+  z.object({
+    '@level': z.literal('4').optional(),
+    '@classId': z.literal('61026').optional(),
+    '#text': z
+      .literal(
+        'Wholesale trade services, not on a fee or contract basis, of beverages'
+      )
+      .optional(),
+  }),
+  z.object({
+    '@level': z.literal('4').optional(),
+    '@classId': z.literal('61027').optional(),
+    '#text': z
+      .literal(
+        'Wholesale trade services, not on a fee or contract basis, of coffee, tea and spices'
+      )
+      .optional(),
+  }),
+  z.object({
+    '@level': z.literal('4').optional(),
+    '@classId': z.literal('61028').optional(),
+    '#text': z
+      .literal(
+        'Wholesale trade services, not on a fee or contract basis, of tobacco products'
+      )
+      .optional(),
+  }),
+  z.object({
+    '@level': z.literal('4').optional(),
+    '@classId': z.literal('61029').optional(),
+    '#text': z
+      .literal(
+        'Wholesale trade services, not on a fee or contract basis, of food products n.e.c.'
       )
       .optional(),
   }),
   z.object({
     '@level': z.literal('3').optional(),
-    '@classId': z.literal('6124').optional(),
+    '@classId': z.literal('6103').optional(),
     '#text': z
       .literal(
-        'Wholesale trade services on a fee or contract basis, of household appliances, articles and equipment'
+        'Wholesale trade services, not on a fee or contract basis, of textiles, clothing and footwear'
       )
       .optional(),
   }),
   z.object({
     '@level': z.literal('4').optional(),
-    '@classId': z.literal('61241').optional(),
+    '@classId': z.literal('61031').optional(),
     '#text': z
       .literal(
-        'Wholesale trade services on a fee or contract basis, of household furniture'
+        'Wholesale trade services, not on a fee or contract basis, of yarn and fabrics'
       )
       .optional(),
   }),
   z.object({
     '@level': z.literal('4').optional(),
-    '@classId': z.literal('61242').optional(),
+    '@classId': z.literal('61032').optional(),
     '#text': z
       .literal(
-        'Wholesale trade services on a fee or contract basis, of radio and television equipment and recorded audio and video disks and tapes'
+        'Wholesale trade services, not on a fee or contract basis, of household linens, curtains, net curtains and diverse household articles of textile materials'
       )
       .optional(),
   }),
   z.object({
     '@level': z.literal('4').optional(),
-    '@classId': z.literal('61243').optional(),
+    '@classId': z.literal('61033').optional(),
     '#text': z
       .literal(
-        'Wholesale trade services on a fee or contract basis, of articles for lighting'
+        'Wholesale trade services, not on a fee or contract basis, of articles of clothing, articles of fur and clothing accessories'
       )
       .optional(),
   }),
   z.object({
     '@level': z.literal('4').optional(),
-    '@classId': z.literal('61244').optional(),
+    '@classId': z.literal('61034').optional(),
     '#text': z
       .literal(
-        'Wholesale trade services on a fee or contract basis, of household appliances'
-      )
-      .optional(),
-  }),
-  z.object({
-    '@level': z.literal('4').optional(),
-    '@classId': z.literal('61245').optional(),
-    '#text': z
-      .literal(
-        'Wholesale trade services on a fee or contract basis, of miscellaneous household utensils, cutlery, crockery, glassware, china and pottery'
-      )
-      .optional(),
-  }),
-  z.object({
-    '@level': z.literal('4').optional(),
-    '@classId': z.literal('61246').optional(),
-    '#text': z
-      .literal(
-        "Wholesale trade services on a fee or contract basis, of wickerwork, cork goods, cooper's ware and other wooden ware"
+        'Wholesale trade services, not on a fee or contract basis, of footwear'
       )
       .optional(),
   }),
   z.object({
     '@level': z.literal('3').optional(),
-    '@classId': z.literal('6125').optional(),
+    '@classId': z.literal('6104').optional(),
     '#text': z
       .literal(
-        'Wholesale trade services on a fee or contract basis, of miscellaneous consumer goods'
+        'Wholesale trade services, not on a fee or contract basis, of household appliances, articles and equipment'
       )
       .optional(),
   }),
   z.object({
     '@level': z.literal('4').optional(),
-    '@classId': z.literal('61251').optional(),
+    '@classId': z.literal('61041').optional(),
     '#text': z
       .literal(
-        'Wholesale trade services on a fee or contract basis, of books, newspapers, magazines and stationery'
+        'Wholesale trade services, not on a fee or contract basis, of household furniture'
       )
       .optional(),
   }),
   z.object({
     '@level': z.literal('4').optional(),
-    '@classId': z.literal('61252').optional(),
+    '@classId': z.literal('61042').optional(),
     '#text': z
       .literal(
-        'Wholesale trade services on a fee or contract basis, of photographic, optical and precision equipment'
+        'Wholesale trade services, not on a fee or contract basis, of radio and television equipment and recorded audio and video disks and tapes'
       )
       .optional(),
   }),
   z.object({
     '@level': z.literal('4').optional(),
-    '@classId': z.literal('61253').optional(),
+    '@classId': z.literal('61043').optional(),
     '#text': z
       .literal(
-        'Wholesale trade services on a fee or contract basis, of games and toys'
+        'Wholesale trade services, not on a fee or contract basis, of articles for lighting'
       )
       .optional(),
   }),
   z.object({
     '@level': z.literal('4').optional(),
-    '@classId': z.literal('61254').optional(),
+    '@classId': z.literal('61044').optional(),
     '#text': z
       .literal(
-        'Wholesale trade services on a fee or contract basis, of watches, clocks and jewellery'
+        'Wholesale trade services, not on a fee or contract basis, of household appliances'
       )
       .optional(),
   }),
   z.object({
     '@level': z.literal('4').optional(),
-    '@classId': z.literal('61255').optional(),
+    '@classId': z.literal('61045').optional(),
     '#text': z
       .literal(
-        'Wholesale trade services on a fee or contract basis, of sports goods (incl. bicycles)'
+        'Wholesale trade services, not on a fee or contract basis, of miscellaneous household utensils, cutlery, crockery, glassware, china and pottery'
       )
       .optional(),
   }),
   z.object({
     '@level': z.literal('4').optional(),
-    '@classId': z.literal('61256').optional(),
+    '@classId': z.literal('61046').optional(),
     '#text': z
       .literal(
-        'Wholesale trade services on a fee or contract basis, of leather goods and travel accessories'
-      )
-      .optional(),
-  }),
-  z.object({
-    '@level': z.literal('4').optional(),
-    '@classId': z.literal('61259').optional(),
-    '#text': z
-      .literal(
-        'Wholesale trade services on a fee or contract basis, of miscellaneous consumer goods n.e.c.'
+        "Wholesale trade services, not on a fee or contract basis, of wickerwork, cork goods, cooper's ware and other wooden ware"
       )
       .optional(),
   }),
   z.object({
     '@level': z.literal('3').optional(),
-    '@classId': z.literal('6126').optional(),
+    '@classId': z.literal('6105').optional(),
     '#text': z
       .literal(
-        'Wholesale trade services on a fee or contract basis, of construction materials and hardware'
+        'Wholesale trade services, not on a fee or contract basis, of miscellaneous consumer goods'
       )
       .optional(),
   }),
   z.object({
     '@level': z.literal('4').optional(),
-    '@classId': z.literal('61261').optional(),
+    '@classId': z.literal('61051').optional(),
     '#text': z
       .literal(
-        'Wholesale trade services on a fee or contract basis, of construction materials and flat glass'
+        'Wholesale trade services, not on a fee or contract basis, of books, newspapers, magazines and stationery'
       )
       .optional(),
   }),
   z.object({
     '@level': z.literal('4').optional(),
-    '@classId': z.literal('61262').optional(),
+    '@classId': z.literal('61052').optional(),
     '#text': z
       .literal(
-        'Wholesale trade services on a fee or contract basis, of fittings, fixtures and ceramic sanitary fixtures'
+        'Wholesale trade services, not on a fee or contract basis, of photographic, optical and precision equipment'
       )
       .optional(),
   }),
   z.object({
     '@level': z.literal('4').optional(),
-    '@classId': z.literal('61263').optional(),
+    '@classId': z.literal('61053').optional(),
     '#text': z
       .literal(
-        'Wholesale trade services on a fee or contract basis, of wallpaper and floor coverings'
+        'Wholesale trade services, not on a fee or contract basis, of games and toys'
       )
       .optional(),
   }),
   z.object({
     '@level': z.literal('4').optional(),
-    '@classId': z.literal('61264').optional(),
+    '@classId': z.literal('61054').optional(),
     '#text': z
       .literal(
-        'Wholesale trade services on a fee or contract basis, of paints, varnishes and lacquers'
+        'Wholesale trade services, not on a fee or contract basis, of watches, clocks and jewellery'
       )
       .optional(),
   }),
   z.object({
     '@level': z.literal('4').optional(),
-    '@classId': z.literal('61265').optional(),
+    '@classId': z.literal('61055').optional(),
     '#text': z
       .literal(
-        'Wholesale trade services on a fee or contract basis, of hardware and hand tools'
+        'Wholesale trade services, not on a fee or contract basis, of sports goods (incl. bicycles)'
+      )
+      .optional(),
+  }),
+  z.object({
+    '@level': z.literal('4').optional(),
+    '@classId': z.literal('61056').optional(),
+    '#text': z
+      .literal(
+        'Wholesale trade services, not on a fee or contract basis, of leather goods and travel accessories'
+      )
+      .optional(),
+  }),
+  z.object({
+    '@level': z.literal('4').optional(),
+    '@classId': z.literal('61059').optional(),
+    '#text': z
+      .literal(
+        'Wholesale trade services, not on a fee or contract basis, of miscellaneous consumer goods n.e.c.'
       )
       .optional(),
   }),
   z.object({
     '@level': z.literal('3').optional(),
-    '@classId': z.literal('6127').optional(),
+    '@classId': z.literal('6106').optional(),
     '#text': z
       .literal(
-        'Wholesale trade services on a fee or contract basis, of chemical and pharmaceutical products'
+        'Wholesale trade services, not on a fee or contract basis, of construction materials and hardware'
       )
       .optional(),
   }),
   z.object({
     '@level': z.literal('4').optional(),
-    '@classId': z.literal('61271').optional(),
+    '@classId': z.literal('61061').optional(),
     '#text': z
       .literal(
-        'Wholesale trade services on a fee or contract basis, of basic industrial chemicals and synthetic resins'
+        'Wholesale trade services, not on a fee or contract basis, of construction materials and flat glass'
       )
       .optional(),
   }),
   z.object({
     '@level': z.literal('4').optional(),
-    '@classId': z.literal('61272').optional(),
+    '@classId': z.literal('61062').optional(),
     '#text': z
       .literal(
-        'Wholesale trade services on a fee or contract basis, of fertilizers and agrochemical products'
+        'Wholesale trade services, not on a fee or contract basis, of fittings, fixtures and ceramic sanitary fixtures'
       )
       .optional(),
   }),
   z.object({
     '@level': z.literal('4').optional(),
-    '@classId': z.literal('61273').optional(),
+    '@classId': z.literal('61063').optional(),
     '#text': z
       .literal(
-        'Wholesale trade services on a fee or contract basis, of pharmaceutical products'
+        'Wholesale trade services, not on a fee or contract basis, of wallpaper and floor coverings'
       )
       .optional(),
   }),
   z.object({
     '@level': z.literal('4').optional(),
-    '@classId': z.literal('61274').optional(),
+    '@classId': z.literal('61064').optional(),
     '#text': z
       .literal(
-        'Wholesale trade services on a fee or contract basis, of medical and orthopaedic goods'
+        'Wholesale trade services, not on a fee or contract basis, of paints, varnishes and lacquers'
       )
       .optional(),
   }),
   z.object({
     '@level': z.literal('4').optional(),
-    '@classId': z.literal('61275').optional(),
+    '@classId': z.literal('61065').optional(),
     '#text': z
       .literal(
-        'Wholesale trade services on a fee or contract basis, of perfumery articles, cosmetic articles and toilet soaps'
-      )
-      .optional(),
-  }),
-  z.object({
-    '@level': z.literal('4').optional(),
-    '@classId': z.literal('61276').optional(),
-    '#text': z
-      .literal(
-        'Wholesale trade services on a fee or contract basis, of cleaning materials'
+        'Wholesale trade services, not on a fee or contract basis, of hardware and hand tools'
       )
       .optional(),
   }),
   z.object({
     '@level': z.literal('3').optional(),
-    '@classId': z.literal('6128').optional(),
+    '@classId': z.literal('6107').optional(),
     '#text': z
       .literal(
-        'Wholesale trade services on a fee or contract basis, of machinery, equipment and supplies'
+        'Wholesale trade services, not on a fee or contract basis, of chemical and pharmaceutical products'
       )
       .optional(),
   }),
   z.object({
     '@level': z.literal('4').optional(),
-    '@classId': z.literal('61281').optional(),
+    '@classId': z.literal('61071').optional(),
     '#text': z
       .literal(
-        'Wholesale trade services on a fee or contract basis, of motor vehicles, motorcycles, snowmobiles and related parts and accessories'
+        'Wholesale trade services, not on a fee or contract basis, of basic industrial chemicals and synthetic resins'
       )
       .optional(),
   }),
   z.object({
     '@level': z.literal('4').optional(),
-    '@classId': z.literal('61282').optional(),
+    '@classId': z.literal('61072').optional(),
     '#text': z
       .literal(
-        'Wholesale trade services on a fee or contract basis, of other transport equipment, except bicycles'
+        'Wholesale trade services, not on a fee or contract basis, of fertilizers and agrochemical products'
       )
       .optional(),
   }),
   z.object({
     '@level': z.literal('4').optional(),
-    '@classId': z.literal('61283').optional(),
+    '@classId': z.literal('61073').optional(),
     '#text': z
       .literal(
-        'Wholesale trade services on a fee or contract basis, of office machinery and equipment including office furniture'
+        'Wholesale trade services, not on a fee or contract basis, of pharmaceutical products'
       )
       .optional(),
   }),
   z.object({
     '@level': z.literal('4').optional(),
-    '@classId': z.literal('61284').optional(),
+    '@classId': z.literal('61074').optional(),
     '#text': z
       .literal(
-        'Wholesale trade services on a fee or contract basis, of computers and packaged software'
+        'Wholesale trade services, not on a fee or contract basis, of medical and orthopaedic goods'
       )
       .optional(),
   }),
   z.object({
     '@level': z.literal('4').optional(),
-    '@classId': z.literal('61285').optional(),
+    '@classId': z.literal('61075').optional(),
     '#text': z
       .literal(
-        'Wholesale trade services on a fee or contract basis, of electronic and telecommunications equipment and parts'
+        'Wholesale trade services, not on a fee or contract basis, of perfumery articles, cosmetic articles and toilet soaps'
       )
       .optional(),
   }),
   z.object({
     '@level': z.literal('4').optional(),
-    '@classId': z.literal('61286').optional(),
+    '@classId': z.literal('61076').optional(),
     '#text': z
       .literal(
-        'Wholesale trade services on a fee or contract basis, of agricultural, lawn and garden machinery and equipment, including tractors'
-      )
-      .optional(),
-  }),
-  z.object({
-    '@level': z.literal('4').optional(),
-    '@classId': z.literal('61287').optional(),
-    '#text': z
-      .literal(
-        'Wholesale trade services on a fee or contract basis, of mining, construction and civil engineering machinery and equipment'
-      )
-      .optional(),
-  }),
-  z.object({
-    '@level': z.literal('4').optional(),
-    '@classId': z.literal('61288').optional(),
-    '#text': z
-      .literal(
-        'Wholesale trade services on a fee or contract basis, of other industry-specific machinery and equipment and related operating supplies'
-      )
-      .optional(),
-  }),
-  z.object({
-    '@level': z.literal('4').optional(),
-    '@classId': z.literal('61289').optional(),
-    '#text': z
-      .literal(
-        'Wholesale trade services on a fee or contract basis, of other machinery and equipment n.e.c.'
+        'Wholesale trade services, not on a fee or contract basis, of cleaning materials'
       )
       .optional(),
   }),
   z.object({
     '@level': z.literal('3').optional(),
-    '@classId': z.literal('6129').optional(),
+    '@classId': z.literal('6108').optional(),
     '#text': z
       .literal(
-        'Wholesale trade services on a fee or contract basis, of other products'
+        'Wholesale trade services, not on a fee or contract basis, of machinery, equipment and supplies'
       )
       .optional(),
   }),
   z.object({
     '@level': z.literal('4').optional(),
-    '@classId': z.literal('61291').optional(),
+    '@classId': z.literal('61081').optional(),
     '#text': z
       .literal(
-        'Wholesale trade services on a fee or contract basis, of solid, liquid and gaseous fuels and related products'
+        'Wholesale trade services, not on a fee or contract basis, of motor vehicles, motorcycles, snowmobiles and related parts and accessories'
       )
       .optional(),
   }),
   z.object({
     '@level': z.literal('4').optional(),
-    '@classId': z.literal('61292').optional(),
+    '@classId': z.literal('61082').optional(),
     '#text': z
       .literal(
-        'Wholesale trade services on a fee or contract basis, of metal ores and metal in primary forms'
+        'Wholesale trade services, not on a fee or contract basis, of other transport equipment, except bicycles'
       )
       .optional(),
   }),
   z.object({
     '@level': z.literal('4').optional(),
-    '@classId': z.literal('61293').optional(),
+    '@classId': z.literal('61083').optional(),
     '#text': z
       .literal(
-        'Wholesale trade services on a fee or contract basis, of wood in the rough'
+        'Wholesale trade services, not on a fee or contract basis, of office machinery and equipment including office furniture'
       )
       .optional(),
   }),
   z.object({
     '@level': z.literal('4').optional(),
-    '@classId': z.literal('61294').optional(),
+    '@classId': z.literal('61084').optional(),
     '#text': z
       .literal(
-        'Wholesale trade services on a fee or contract basis, of paper and paperboard'
+        'Wholesale trade services, not on a fee or contract basis, of computers and packaged software'
       )
       .optional(),
   }),
   z.object({
     '@level': z.literal('4').optional(),
-    '@classId': z.literal('61295').optional(),
+    '@classId': z.literal('61085').optional(),
     '#text': z
       .literal(
-        'Wholesale trade services on a fee or contract basis, of waste and scrap and materials for recycling'
+        'Wholesale trade services, not on a fee or contract basis, of electronic and telecommunications equipment and parts'
       )
       .optional(),
   }),
   z.object({
     '@level': z.literal('4').optional(),
-    '@classId': z.literal('61297').optional(),
+    '@classId': z.literal('61086').optional(),
     '#text': z
       .literal(
-        'Wholesale trade services on a fee or contract basis, of electricity'
+        'Wholesale trade services, not on a fee or contract basis, of agricultural lawn and garden machinery and equipment, including tractors'
       )
       .optional(),
   }),
   z.object({
     '@level': z.literal('4').optional(),
-    '@classId': z.literal('61298').optional(),
+    '@classId': z.literal('61087').optional(),
     '#text': z
-      .literal('Wholesale trade services on a fee or contract basis, of water')
+      .literal(
+        'Wholesale trade services, not on a fee or contract basis, of mining, construction and civil engineering machinery and equipment'
+      )
       .optional(),
   }),
   z.object({
     '@level': z.literal('4').optional(),
-    '@classId': z.literal('61299').optional(),
+    '@classId': z.literal('61088').optional(),
     '#text': z
       .literal(
-        'Wholesale trade services on a fee or contract basis, of non-metallic minerals and other products n.e.c.'
+        'Wholesale trade services, not on a fee or contract basis, of other industry-specific machinery and equipment and related operating supplies'
+      )
+      .optional(),
+  }),
+  z.object({
+    '@level': z.literal('4').optional(),
+    '@classId': z.literal('61089').optional(),
+    '#text': z
+      .literal(
+        'Wholesale trade services, not on a fee or contract basis, of other machinery and equipment n.e.c.'
+      )
+      .optional(),
+  }),
+  z.object({
+    '@level': z.literal('3').optional(),
+    '@classId': z.literal('6109').optional(),
+    '#text': z
+      .literal(
+        'Wholesale trade services, not on a fee or contract basis, of other products'
+      )
+      .optional(),
+  }),
+  z.object({
+    '@level': z.literal('4').optional(),
+    '@classId': z.literal('61091').optional(),
+    '#text': z
+      .literal(
+        'Wholesale trade services, not on a fee or contract basis, of solid, liquid and gaseous fuels and related products'
+      )
+      .optional(),
+  }),
+  z.object({
+    '@level': z.literal('4').optional(),
+    '@classId': z.literal('61092').optional(),
+    '#text': z
+      .literal(
+        'Wholesale trade services, not on a fee or contract basis, of metal ores and metal in primary forms'
+      )
+      .optional(),
+  }),
+  z.object({
+    '@level': z.literal('4').optional(),
+    '@classId': z.literal('61093').optional(),
+    '#text': z
+      .literal(
+        'Wholesale trade services, not on a fee or contract basis, of wood in the rough'
+      )
+      .optional(),
+  }),
+  z.object({
+    '@level': z.literal('4').optional(),
+    '@classId': z.literal('61094').optional(),
+    '#text': z
+      .literal(
+        'Wholesale trade services, not on a fee or contract basis, of paper and paperboard'
+      )
+      .optional(),
+  }),
+  z.object({
+    '@level': z.literal('4').optional(),
+    '@classId': z.literal('61095').optional(),
+    '#text': z
+      .literal(
+        'Wholesale trade services, not on a fee or contract basis, of waste and scrap and materials for recycling'
+      )
+      .optional(),
+  }),
+  z.object({
+    '@level': z.literal('4').optional(),
+    '@classId': z.literal('61097').optional(),
+    '#text': z
+      .literal(
+        'Wholesale trade services, not on a fee or contract basis, of electricity'
+      )
+      .optional(),
+  }),
+  z.object({
+    '@level': z.literal('4').optional(),
+    '@classId': z.literal('61098').optional(),
+    '#text': z
+      .literal(
+        'Wholesale trade services, not on a fee or contract basis, of water'
+      )
+      .optional(),
+  }),
+  z.object({
+    '@level': z.literal('4').optional(),
+    '@classId': z.literal('61099').optional(),
+    '#text': z
+      .literal(
+        'Wholesale trade services, not on a fee or contract basis, of non-metallic minerals and other products n.e.c.'
       )
       .optional(),
   }),
@@ -23006,583 +22854,6 @@ export const FlowsProductCategorySchema: z.ZodType<any> = z.union([
       .optional(),
   }),
   z.object({
-    '@level': z.literal('2').optional(),
-    '@classId': z.literal('625').optional(),
-    '#text': z
-      .literal('Retail trade services on a fee or contract basis')
-      .optional(),
-  }),
-  z.object({
-    '@level': z.literal('3').optional(),
-    '@classId': z.literal('6251').optional(),
-    '#text': z
-      .literal(
-        'Retail trade services on a fee or contract basis, of raw agricultural products and live animals'
-      )
-      .optional(),
-  }),
-  z.object({
-    '@level': z.literal('4').optional(),
-    '@classId': z.literal('62511').optional(),
-    '#text': z
-      .literal(
-        'Retail trade services on a fee or contract basis, of grains and oilseeds and oleaginous fruits, seeds and animal feed'
-      )
-      .optional(),
-  }),
-  z.object({
-    '@level': z.literal('4').optional(),
-    '@classId': z.literal('62512').optional(),
-    '#text': z
-      .literal(
-        'Retail trade services on a fee or contract basis, of flowers and plants'
-      )
-      .optional(),
-  }),
-  z.object({
-    '@level': z.literal('4').optional(),
-    '@classId': z.literal('62514').optional(),
-    '#text': z
-      .literal(
-        'Retail trade services on a fee or contract basis, of live animals, including pet animals'
-      )
-      .optional(),
-  }),
-  z.object({
-    '@level': z.literal('4').optional(),
-    '@classId': z.literal('62515').optional(),
-    '#text': z
-      .literal(
-        'Retail trade services on a fee or contract basis, of hides, skins and leather'
-      )
-      .optional(),
-  }),
-  z.object({
-    '@level': z.literal('4').optional(),
-    '@classId': z.literal('62519').optional(),
-    '#text': z
-      .literal(
-        'Retail trade services on a fee or contract basis, of agricultural raw materials n.e.c.'
-      )
-      .optional(),
-  }),
-  z.object({
-    '@level': z.literal('3').optional(),
-    '@classId': z.literal('6252').optional(),
-    '#text': z
-      .literal(
-        'Retail trade services on a fee or contract basis, of food, beverages and tobacco'
-      )
-      .optional(),
-  }),
-  z.object({
-    '@level': z.literal('4').optional(),
-    '@classId': z.literal('62521').optional(),
-    '#text': z
-      .literal(
-        'Retail trade services on a fee or contract basis, of fruits and vegetables'
-      )
-      .optional(),
-  }),
-  z.object({
-    '@level': z.literal('4').optional(),
-    '@classId': z.literal('62522').optional(),
-    '#text': z
-      .literal(
-        'Retail trade services on a fee or contract basis, of dairy products, eggs and edible oils and fats'
-      )
-      .optional(),
-  }),
-  z.object({
-    '@level': z.literal('4').optional(),
-    '@classId': z.literal('62523').optional(),
-    '#text': z
-      .literal(
-        'Retail trade services on a fee or contract basis, of meat, poultry and game'
-      )
-      .optional(),
-  }),
-  z.object({
-    '@level': z.literal('4').optional(),
-    '@classId': z.literal('62524').optional(),
-    '#text': z
-      .literal(
-        'Retail trade services on a fee or contract basis, of fish and other seafood'
-      )
-      .optional(),
-  }),
-  z.object({
-    '@level': z.literal('4').optional(),
-    '@classId': z.literal('62525').optional(),
-    '#text': z
-      .literal(
-        'Retail trade services on a fee or contract basis, of sugar confectionery and bakery products'
-      )
-      .optional(),
-  }),
-  z.object({
-    '@level': z.literal('4').optional(),
-    '@classId': z.literal('62526').optional(),
-    '#text': z
-      .literal('Retail trade services on a fee or contract basis, of beverages')
-      .optional(),
-  }),
-  z.object({
-    '@level': z.literal('4').optional(),
-    '@classId': z.literal('62527').optional(),
-    '#text': z
-      .literal(
-        'Retail trade services on a fee or contract basis, of coffee, tea and spices'
-      )
-      .optional(),
-  }),
-  z.object({
-    '@level': z.literal('4').optional(),
-    '@classId': z.literal('62528').optional(),
-    '#text': z
-      .literal(
-        'Retail trade services on a fee or contract basis, of tobacco products'
-      )
-      .optional(),
-  }),
-  z.object({
-    '@level': z.literal('4').optional(),
-    '@classId': z.literal('62529').optional(),
-    '#text': z
-      .literal(
-        'Retail trade services on a fee or contract basis, of food products n.e.c.'
-      )
-      .optional(),
-  }),
-  z.object({
-    '@level': z.literal('3').optional(),
-    '@classId': z.literal('6253').optional(),
-    '#text': z
-      .literal(
-        'Retail trade services on a fee or contract basis, of textiles, clothing and footwear'
-      )
-      .optional(),
-  }),
-  z.object({
-    '@level': z.literal('4').optional(),
-    '@classId': z.literal('62531').optional(),
-    '#text': z
-      .literal(
-        'Retail trade services on a fee or contract basis, of yarn and fabrics'
-      )
-      .optional(),
-  }),
-  z.object({
-    '@level': z.literal('4').optional(),
-    '@classId': z.literal('62532').optional(),
-    '#text': z
-      .literal(
-        'Retail trade services on a fee or contract basis, of household linens, curtains, net curtains and diverse household articles of textile materials'
-      )
-      .optional(),
-  }),
-  z.object({
-    '@level': z.literal('4').optional(),
-    '@classId': z.literal('62533').optional(),
-    '#text': z
-      .literal(
-        'Retail trade services on a fee or contract basis, of articles of clothing, articles of fur and clothing accessories'
-      )
-      .optional(),
-  }),
-  z.object({
-    '@level': z.literal('4').optional(),
-    '@classId': z.literal('62534').optional(),
-    '#text': z
-      .literal('Retail trade services on a fee or contract basis, of footwear')
-      .optional(),
-  }),
-  z.object({
-    '@level': z.literal('3').optional(),
-    '@classId': z.literal('6254').optional(),
-    '#text': z
-      .literal(
-        'Retail trade services on a fee or contract basis, of household appliances, articles and equipment'
-      )
-      .optional(),
-  }),
-  z.object({
-    '@level': z.literal('4').optional(),
-    '@classId': z.literal('62541').optional(),
-    '#text': z
-      .literal(
-        'Retail trade services on a fee or contract basis, of household furniture'
-      )
-      .optional(),
-  }),
-  z.object({
-    '@level': z.literal('4').optional(),
-    '@classId': z.literal('62542').optional(),
-    '#text': z
-      .literal(
-        'Retail trade services on a fee or contract basis, of radio and television equipment and recorded audio and video disks and tapes'
-      )
-      .optional(),
-  }),
-  z.object({
-    '@level': z.literal('4').optional(),
-    '@classId': z.literal('62543').optional(),
-    '#text': z
-      .literal(
-        'Retail trade services on a fee or contract basis, of articles for lighting'
-      )
-      .optional(),
-  }),
-  z.object({
-    '@level': z.literal('4').optional(),
-    '@classId': z.literal('62544').optional(),
-    '#text': z
-      .literal(
-        'Retail trade services on a fee or contract basis, of household appliances'
-      )
-      .optional(),
-  }),
-  z.object({
-    '@level': z.literal('4').optional(),
-    '@classId': z.literal('62545').optional(),
-    '#text': z
-      .literal(
-        'Retail trade services on a fee or contract basis, of miscellaneous household utensils, cutlery, crockery, glassware, china and pottery'
-      )
-      .optional(),
-  }),
-  z.object({
-    '@level': z.literal('4').optional(),
-    '@classId': z.literal('62546').optional(),
-    '#text': z
-      .literal(
-        "Retail trade services on a fee or contract basis, of wickerwork, cork goods, cooper's ware and other wooden ware"
-      )
-      .optional(),
-  }),
-  z.object({
-    '@level': z.literal('3').optional(),
-    '@classId': z.literal('6255').optional(),
-    '#text': z
-      .literal(
-        'Retail trade services on a fee or contract basis, of miscellaneous consumer goods'
-      )
-      .optional(),
-  }),
-  z.object({
-    '@level': z.literal('4').optional(),
-    '@classId': z.literal('62551').optional(),
-    '#text': z
-      .literal(
-        'Retail trade services on a fee or contract basis, of books, newspapers, magazines and stationery'
-      )
-      .optional(),
-  }),
-  z.object({
-    '@level': z.literal('4').optional(),
-    '@classId': z.literal('62552').optional(),
-    '#text': z
-      .literal(
-        'Retail trade services on a fee or contract basis, of photographic, optical and precision equipment'
-      )
-      .optional(),
-  }),
-  z.object({
-    '@level': z.literal('4').optional(),
-    '@classId': z.literal('62553').optional(),
-    '#text': z
-      .literal(
-        'Retail trade services on a fee or contract basis, of games and toys'
-      )
-      .optional(),
-  }),
-  z.object({
-    '@level': z.literal('4').optional(),
-    '@classId': z.literal('62554').optional(),
-    '#text': z
-      .literal(
-        'Retail trade services on a fee or contract basis, of watches, clocks and jewellery'
-      )
-      .optional(),
-  }),
-  z.object({
-    '@level': z.literal('4').optional(),
-    '@classId': z.literal('62555').optional(),
-    '#text': z
-      .literal(
-        'Retail trade services on a fee or contract basis, of sports goods (incl. bicycles)'
-      )
-      .optional(),
-  }),
-  z.object({
-    '@level': z.literal('4').optional(),
-    '@classId': z.literal('62556').optional(),
-    '#text': z
-      .literal(
-        'Retail trade services on a fee or contract basis, of leather goods and travel accessories'
-      )
-      .optional(),
-  }),
-  z.object({
-    '@level': z.literal('4').optional(),
-    '@classId': z.literal('62559').optional(),
-    '#text': z
-      .literal(
-        'Retail trade services on a fee or contract basis, of miscellaneous consumer goods n.e.c.'
-      )
-      .optional(),
-  }),
-  z.object({
-    '@level': z.literal('3').optional(),
-    '@classId': z.literal('6256').optional(),
-    '#text': z
-      .literal(
-        'Retail trade services on a fee or contract basis, of construction materials and hardware'
-      )
-      .optional(),
-  }),
-  z.object({
-    '@level': z.literal('4').optional(),
-    '@classId': z.literal('62561').optional(),
-    '#text': z
-      .literal(
-        'Retail trade services on a fee or contract basis, of construction materials and flat glass'
-      )
-      .optional(),
-  }),
-  z.object({
-    '@level': z.literal('4').optional(),
-    '@classId': z.literal('62562').optional(),
-    '#text': z
-      .literal(
-        'Retail trade services on a fee or contract basis, of fittings, fixtures, and ceramic sanitary fixtures'
-      )
-      .optional(),
-  }),
-  z.object({
-    '@level': z.literal('4').optional(),
-    '@classId': z.literal('62563').optional(),
-    '#text': z
-      .literal(
-        'Retail trade services on a fee or contract basis, of wallpaper and floor coverings'
-      )
-      .optional(),
-  }),
-  z.object({
-    '@level': z.literal('4').optional(),
-    '@classId': z.literal('62564').optional(),
-    '#text': z
-      .literal(
-        'Retail trade services on a fee or contract basis, of paints, varnishes and lacquers'
-      )
-      .optional(),
-  }),
-  z.object({
-    '@level': z.literal('4').optional(),
-    '@classId': z.literal('62565').optional(),
-    '#text': z
-      .literal(
-        'Retail trade services on a fee or contract basis, of hardware and hand tools'
-      )
-      .optional(),
-  }),
-  z.object({
-    '@level': z.literal('3').optional(),
-    '@classId': z.literal('6257').optional(),
-    '#text': z
-      .literal(
-        'Retail trade services on a fee or contract basis, of chemical and pharmaceutical products'
-      )
-      .optional(),
-  }),
-  z.object({
-    '@level': z.literal('4').optional(),
-    '@classId': z.literal('62572').optional(),
-    '#text': z
-      .literal(
-        'Retail trade services on a fee or contract basis, of fertilizers and agrochemical products'
-      )
-      .optional(),
-  }),
-  z.object({
-    '@level': z.literal('4').optional(),
-    '@classId': z.literal('62573').optional(),
-    '#text': z
-      .literal(
-        'Retail trade services on a fee or contract basis, of pharmaceutical products'
-      )
-      .optional(),
-  }),
-  z.object({
-    '@level': z.literal('4').optional(),
-    '@classId': z.literal('62574').optional(),
-    '#text': z
-      .literal(
-        'Retail trade services on a fee or contract basis, of medical and orthopaedic goods'
-      )
-      .optional(),
-  }),
-  z.object({
-    '@level': z.literal('4').optional(),
-    '@classId': z.literal('62575').optional(),
-    '#text': z
-      .literal(
-        'Retail trade services on a fee or contract basis, of perfumery articles, cosmetic articles and toilet soaps'
-      )
-      .optional(),
-  }),
-  z.object({
-    '@level': z.literal('4').optional(),
-    '@classId': z.literal('62576').optional(),
-    '#text': z
-      .literal(
-        'Retail trade services on a fee or contract basis, of cleaning materials'
-      )
-      .optional(),
-  }),
-  z.object({
-    '@level': z.literal('3').optional(),
-    '@classId': z.literal('6258').optional(),
-    '#text': z
-      .literal(
-        'Retail trade services on a fee or contract basis, of machinery, equipment and supplies'
-      )
-      .optional(),
-  }),
-  z.object({
-    '@level': z.literal('4').optional(),
-    '@classId': z.literal('62581').optional(),
-    '#text': z
-      .literal(
-        'Retail trade services on a fee or contract basis, of motor vehicles, motorcycles, snowmobiles and related parts and accessories'
-      )
-      .optional(),
-  }),
-  z.object({
-    '@level': z.literal('4').optional(),
-    '@classId': z.literal('62582').optional(),
-    '#text': z
-      .literal(
-        'Retail trade services on a fee or contract basis, of other transport equipment, except bicycles'
-      )
-      .optional(),
-  }),
-  z.object({
-    '@level': z.literal('4').optional(),
-    '@classId': z.literal('62583').optional(),
-    '#text': z
-      .literal(
-        'Retail trade services on a fee or contract basis, of office machinery and equipment including office furniture'
-      )
-      .optional(),
-  }),
-  z.object({
-    '@level': z.literal('4').optional(),
-    '@classId': z.literal('62584').optional(),
-    '#text': z
-      .literal(
-        'Retail trade services on a fee or contract basis, of computers and packaged software'
-      )
-      .optional(),
-  }),
-  z.object({
-    '@level': z.literal('4').optional(),
-    '@classId': z.literal('62585').optional(),
-    '#text': z
-      .literal(
-        'Retail trade services on a fee or contract basis, of electronic and telecommunications equipment and parts'
-      )
-      .optional(),
-  }),
-  z.object({
-    '@level': z.literal('4').optional(),
-    '@classId': z.literal('62586').optional(),
-    '#text': z
-      .literal(
-        'Retail trade services on a fee or contract basis, of agricultural, lawn and garden machinery and equipment, including tractors'
-      )
-      .optional(),
-  }),
-  z.object({
-    '@level': z.literal('4').optional(),
-    '@classId': z.literal('62587').optional(),
-    '#text': z
-      .literal(
-        'Retail trade services on a fee or contract basis, of mining, construction and civil engineering machinery and equipment'
-      )
-      .optional(),
-  }),
-  z.object({
-    '@level': z.literal('4').optional(),
-    '@classId': z.literal('62588').optional(),
-    '#text': z
-      .literal(
-        'Retail trade services on a fee or contract basis, of other industry-specific machinery and equipment and related operating supplies'
-      )
-      .optional(),
-  }),
-  z.object({
-    '@level': z.literal('4').optional(),
-    '@classId': z.literal('62589').optional(),
-    '#text': z
-      .literal(
-        'Retail trade services on a fee or contract basis, of other machinery and equipment n.e.c.'
-      )
-      .optional(),
-  }),
-  z.object({
-    '@level': z.literal('3').optional(),
-    '@classId': z.literal('6259').optional(),
-    '#text': z
-      .literal(
-        'Retail trade services on a fee or contract basis, of other products'
-      )
-      .optional(),
-  }),
-  z.object({
-    '@level': z.literal('4').optional(),
-    '@classId': z.literal('62591').optional(),
-    '#text': z
-      .literal(
-        'Retail trade services on a fee or contract basis, of solid, liquid and gaseous fuels and related products'
-      )
-      .optional(),
-  }),
-  z.object({
-    '@level': z.literal('4').optional(),
-    '@classId': z.literal('62594').optional(),
-    '#text': z
-      .literal(
-        'Retail trade services on a fee or contract basis, of paper and paperboard'
-      )
-      .optional(),
-  }),
-  z.object({
-    '@level': z.literal('4').optional(),
-    '@classId': z.literal('62597').optional(),
-    '#text': z
-      .literal(
-        'Retail trade services on a fee or contract basis, of electricity'
-      )
-      .optional(),
-  }),
-  z.object({
-    '@level': z.literal('4').optional(),
-    '@classId': z.literal('62598').optional(),
-    '#text': z
-      .literal('Retail trade services on a fee or contract basis, of water')
-      .optional(),
-  }),
-  z.object({
-    '@level': z.literal('4').optional(),
-    '@classId': z.literal('62599').optional(),
-    '#text': z
-      .literal(
-        'Retail trade services on a fee or contract basis, of non-metallic minerals and other products n.e.c.'
-      )
-      .optional(),
-  }),
-  z.object({
     '@level': z.literal('1').optional(),
     '@classId': z.literal('63').optional(),
     '#text': z.literal('Accommodation, food and beverage services').optional(),
@@ -23604,7 +22875,7 @@ export const FlowsProductCategorySchema: z.ZodType<any> = z.union([
     '@classId': z.literal('63111').optional(),
     '#text': z
       .literal(
-        'Room or unit accommodation services for visitors, with daily housekeeping services'
+        'Room or unit accommodation services for visitors, with on-site reactive services'
       )
       .optional(),
   }),
@@ -23613,7 +22884,7 @@ export const FlowsProductCategorySchema: z.ZodType<any> = z.union([
     '@classId': z.literal('63112').optional(),
     '#text': z
       .literal(
-        'Room or unit accommodation services for visitors, without daily housekeeping services'
+        'Room or unit accommodation services for visitors, without on-site reactive services'
       )
       .optional(),
   }),
@@ -24720,20 +23991,12 @@ export const FlowsProductCategorySchema: z.ZodType<any> = z.union([
   z.object({
     '@level': z.literal('3').optional(),
     '@classId': z.literal('6791').optional(),
-    '#text': z
-      .literal(
-        'Freight transport agency services and other freight transport services'
-      )
-      .optional(),
+    '#text': z.literal('Other freight transport services').optional(),
   }),
   z.object({
     '@level': z.literal('4').optional(),
     '@classId': z.literal('67910').optional(),
-    '#text': z
-      .literal(
-        'Freight transport agency services and other freight transport services'
-      )
-      .optional(),
+    '#text': z.literal('Other freight transport services').optional(),
   }),
   z.object({
     '@level': z.literal('3').optional(),
@@ -24802,8 +24065,15 @@ export const FlowsProductCategorySchema: z.ZodType<any> = z.union([
   }),
   z.object({
     '@level': z.literal('4').optional(),
-    '@classId': z.literal('68030').optional(),
-    '#text': z.literal('Local delivery services').optional(),
+    '@classId': z.literal('68031').optional(),
+    '#text': z.literal('Local delivery services for food').optional(),
+  }),
+  z.object({
+    '@level': z.literal('4').optional(),
+    '@classId': z.literal('68039').optional(),
+    '#text': z
+      .literal('Local delivery services for items other than food')
+      .optional(),
   }),
   z.object({
     '@level': z.literal('1').optional(),
@@ -24928,7 +24198,7 @@ export const FlowsProductCategorySchema: z.ZodType<any> = z.union([
     '@classId': z.literal('711').optional(),
     '#text': z
       .literal(
-        'Financial services, except investment banking, insurance services and pension services'
+        'Financial services, except insurance services and pension services'
       )
       .optional(),
   }),
@@ -24951,7 +24221,7 @@ export const FlowsProductCategorySchema: z.ZodType<any> = z.union([
     '@level': z.literal('4').optional(),
     '@classId': z.literal('71121').optional(),
     '#text': z
-      .literal('Deposit services to corporate and institutional depositors')
+      .literal('Deposit services to business and institutional depositors')
       .optional(),
   }),
   z.object({
@@ -24962,7 +24232,7 @@ export const FlowsProductCategorySchema: z.ZodType<any> = z.union([
   z.object({
     '@level': z.literal('3').optional(),
     '@classId': z.literal('7113').optional(),
-    '#text': z.literal('Credit-granting services').optional(),
+    '#text': z.literal('Non-business credit-granting services').optional(),
   }),
   z.object({
     '@level': z.literal('4').optional(),
@@ -24988,32 +24258,50 @@ export const FlowsProductCategorySchema: z.ZodType<any> = z.union([
   }),
   z.object({
     '@level': z.literal('4').optional(),
-    '@classId': z.literal('71135').optional(),
-    '#text': z
-      .literal('Non-mortgage loan services for business purposes')
-      .optional(),
-  }),
-  z.object({
-    '@level': z.literal('4').optional(),
     '@classId': z.literal('71139').optional(),
     '#text': z.literal('Other credit-granting services').optional(),
   }),
   z.object({
     '@level': z.literal('3').optional(),
-    '@classId': z.literal('7114').optional(),
+    '@classId': z.literal('7115').optional(),
+    '#text': z.literal('Business credit granting services').optional(),
+  }),
+  z.object({
+    '@level': z.literal('4').optional(),
+    '@classId': z.literal('71151').optional(),
+    '#text': z.literal('Loan services for business purposes').optional(),
+  }),
+  z.object({
+    '@level': z.literal('4').optional(),
+    '@classId': z.literal('71152').optional(),
     '#text': z.literal('Financial leasing services').optional(),
   }),
   z.object({
     '@level': z.literal('4').optional(),
-    '@classId': z.literal('71140').optional(),
-    '#text': z.literal('Financial leasing services').optional(),
+    '@classId': z.literal('71153').optional(),
+    '#text': z.literal('International trade financing activities').optional(),
+  }),
+  z.object({
+    '@level': z.literal('4').optional(),
+    '@classId': z.literal('71154').optional(),
+    '#text': z.literal('Securitisation activities').optional(),
+  }),
+  z.object({
+    '@level': z.literal('4').optional(),
+    '@classId': z.literal('71155').optional(),
+    '#text': z.literal('Factoring services').optional(),
+  }),
+  z.object({
+    '@level': z.literal('4').optional(),
+    '@classId': z.literal('71159').optional(),
+    '#text': z.literal('Other business credit services').optional(),
   }),
   z.object({
     '@level': z.literal('3').optional(),
     '@classId': z.literal('7119').optional(),
     '#text': z
       .literal(
-        'Other financial services, except investment banking, insurance services and pension services'
+        'Other financial services, except insurance services and pension services'
       )
       .optional(),
   }),
@@ -25022,24 +24310,9 @@ export const FlowsProductCategorySchema: z.ZodType<any> = z.union([
     '@classId': z.literal('71190').optional(),
     '#text': z
       .literal(
-        'Other financial services, except investment banking, insurance services and pension services'
+        'Other financial services, except insurance services and pension services'
       )
       .optional(),
-  }),
-  z.object({
-    '@level': z.literal('2').optional(),
-    '@classId': z.literal('712').optional(),
-    '#text': z.literal('Investment banking services').optional(),
-  }),
-  z.object({
-    '@level': z.literal('3').optional(),
-    '@classId': z.literal('7120').optional(),
-    '#text': z.literal('Investment banking services').optional(),
-  }),
-  z.object({
-    '@level': z.literal('4').optional(),
-    '@classId': z.literal('71200').optional(),
-    '#text': z.literal('Investment banking services').optional(),
   }),
   z.object({
     '@level': z.literal('2').optional(),
@@ -25342,7 +24615,18 @@ export const FlowsProductCategorySchema: z.ZodType<any> = z.union([
     '@level': z.literal('4').optional(),
     '@classId': z.literal('71593').optional(),
     '#text': z
-      .literal('Financial transactions processing and clearinghouse services')
+      .literal(
+        'Financial transactions processing and clearinghouse services, excluding mobile money operators and digital wallets'
+      )
+      .optional(),
+  }),
+  z.object({
+    '@level': z.literal('4').optional(),
+    '@classId': z.literal('71594').optional(),
+    '#text': z
+      .literal(
+        'Services of mobile money operators and digital wallets utilizing financial information'
+      )
       .optional(),
   }),
   z.object({
@@ -25552,44 +24836,6 @@ export const FlowsProductCategorySchema: z.ZodType<any> = z.union([
         'Time-share property management services on a fee or contract basis'
       )
       .optional(),
-  }),
-  z.object({
-    '@level': z.literal('3').optional(),
-    '@classId': z.literal('7222').optional(),
-    '#text': z.literal('Building sales on a fee or contract basis').optional(),
-  }),
-  z.object({
-    '@level': z.literal('4').optional(),
-    '@classId': z.literal('72221').optional(),
-    '#text': z
-      .literal(
-        'Residential building sales on a fee or contract basis, except of time-share ownership properties'
-      )
-      .optional(),
-  }),
-  z.object({
-    '@level': z.literal('4').optional(),
-    '@classId': z.literal('72222').optional(),
-    '#text': z
-      .literal('Non-residential building sales on a fee or contract basis')
-      .optional(),
-  }),
-  z.object({
-    '@level': z.literal('4').optional(),
-    '@classId': z.literal('72223').optional(),
-    '#text': z
-      .literal('Sale of time-share properties on a fee or contract basis')
-      .optional(),
-  }),
-  z.object({
-    '@level': z.literal('3').optional(),
-    '@classId': z.literal('7223').optional(),
-    '#text': z.literal('Land sales on a fee or contract basis').optional(),
-  }),
-  z.object({
-    '@level': z.literal('4').optional(),
-    '@classId': z.literal('72230').optional(),
-    '#text': z.literal('Land sales on a fee or contract basis').optional(),
   }),
   z.object({
     '@level': z.literal('3').optional(),
@@ -26024,7 +25270,7 @@ export const FlowsProductCategorySchema: z.ZodType<any> = z.union([
     '@classId': z.literal('811').optional(),
     '#text': z
       .literal(
-        'Research and experimental development services in natural sciences and engineering'
+        'Research and development services in natural sciences, engineering and technology'
       )
       .optional(),
   }),
@@ -26032,170 +25278,261 @@ export const FlowsProductCategorySchema: z.ZodType<any> = z.union([
     '@level': z.literal('3').optional(),
     '@classId': z.literal('8111').optional(),
     '#text': z
-      .literal('Basic research services in natural sciences and engineering')
+      .literal('Research and development services in natural sciences')
       .optional(),
   }),
   z.object({
     '@level': z.literal('4').optional(),
     '@classId': z.literal('81111').optional(),
     '#text': z
-      .literal('Basic research services in physical sciences')
+      .literal('Research and development services in biological sciences')
       .optional(),
   }),
   z.object({
     '@level': z.literal('4').optional(),
     '@classId': z.literal('81112').optional(),
     '#text': z
-      .literal('Basic research services in chemistry and biology')
+      .literal('Research and development services in chemical sciences')
       .optional(),
   }),
   z.object({
     '@level': z.literal('4').optional(),
     '@classId': z.literal('81113').optional(),
-    '#text': z.literal('Basic research services in biotechnology').optional(),
+    '#text': z
+      .literal(
+        'Research and development services in computer and information sciences'
+      )
+      .optional(),
   }),
   z.object({
     '@level': z.literal('4').optional(),
     '@classId': z.literal('81114').optional(),
     '#text': z
-      .literal('Basic research services in engineering and technology')
+      .literal(
+        'Research and development services in earth and environmental sciences'
+      )
       .optional(),
   }),
   z.object({
     '@level': z.literal('4').optional(),
     '@classId': z.literal('81115').optional(),
     '#text': z
-      .literal('Basic research services in medical sciences and pharmacy')
+      .literal('Reesarch and development services in mathematics')
       .optional(),
   }),
   z.object({
     '@level': z.literal('4').optional(),
     '@classId': z.literal('81116').optional(),
     '#text': z
-      .literal('Basic research services in agricultural sciences')
+      .literal('Research and development services in physical sciences')
       .optional(),
   }),
   z.object({
     '@level': z.literal('4').optional(),
     '@classId': z.literal('81119').optional(),
     '#text': z
-      .literal('Basic research services in other natural sciences')
+      .literal('Research and development services in other natural sciences')
       .optional(),
   }),
   z.object({
     '@level': z.literal('3').optional(),
     '@classId': z.literal('8112').optional(),
     '#text': z
-      .literal('Applied research services in natural sciences and engineering')
+      .literal('Research and development services in engineering')
       .optional(),
   }),
   z.object({
     '@level': z.literal('4').optional(),
     '@classId': z.literal('81121').optional(),
     '#text': z
-      .literal('Applied research services in physical sciences')
+      .literal('Research and development services in civil engineering')
       .optional(),
   }),
   z.object({
     '@level': z.literal('4').optional(),
     '@classId': z.literal('81122').optional(),
     '#text': z
-      .literal('Applied research services in chemistry and biology')
+      .literal('Research and development services in chemical engineering')
       .optional(),
   }),
   z.object({
     '@level': z.literal('4').optional(),
     '@classId': z.literal('81123').optional(),
-    '#text': z.literal('Applied research services in biotechnology').optional(),
+    '#text': z
+      .literal('Research and development services in electrical engineering')
+      .optional(),
   }),
   z.object({
     '@level': z.literal('4').optional(),
     '@classId': z.literal('81124').optional(),
     '#text': z
-      .literal('Applied research services in engineering and technology')
+      .literal('Research and development services in electronic engineering')
       .optional(),
   }),
   z.object({
     '@level': z.literal('4').optional(),
     '@classId': z.literal('81125').optional(),
     '#text': z
-      .literal('Applied research services in medical sciences and pharmacy')
+      .literal('Research and development services in environmental engineering')
       .optional(),
   }),
   z.object({
     '@level': z.literal('4').optional(),
     '@classId': z.literal('81126').optional(),
     '#text': z
-      .literal('Applied research services in agricultural sciences')
+      .literal('Research and development services in materials engineering')
+      .optional(),
+  }),
+  z.object({
+    '@level': z.literal('4').optional(),
+    '@classId': z.literal('81127').optional(),
+    '#text': z
+      .literal('Research and development services in mechanical engineering')
+      .optional(),
+  }),
+  z.object({
+    '@level': z.literal('4').optional(),
+    '@classId': z.literal('81128').optional(),
+    '#text': z
+      .literal('Research and development services in medical engineering')
       .optional(),
   }),
   z.object({
     '@level': z.literal('4').optional(),
     '@classId': z.literal('81129').optional(),
     '#text': z
-      .literal('Applied research services in other natural sciences')
+      .literal('Research and development services in other engineering')
       .optional(),
   }),
   z.object({
     '@level': z.literal('3').optional(),
     '@classId': z.literal('8113').optional(),
     '#text': z
-      .literal(
-        'Experimental development services in natural sciences and engineering'
-      )
+      .literal('Research and development services in technology')
       .optional(),
   }),
   z.object({
     '@level': z.literal('4').optional(),
     '@classId': z.literal('81131').optional(),
     '#text': z
-      .literal('Experimental development services in physical sciences')
+      .literal(
+        'Research and development services in environmental biotechnology'
+      )
       .optional(),
   }),
   z.object({
     '@level': z.literal('4').optional(),
     '@classId': z.literal('81132').optional(),
     '#text': z
-      .literal('Experimental development services in chemistry and biology')
+      .literal('Research and development services in industrial biotechnology')
       .optional(),
   }),
   z.object({
     '@level': z.literal('4').optional(),
     '@classId': z.literal('81133').optional(),
     '#text': z
-      .literal('Experimental development services in biotechnology')
-      .optional(),
-  }),
-  z.object({
-    '@level': z.literal('4').optional(),
-    '@classId': z.literal('81134').optional(),
-    '#text': z
-      .literal(
-        'Experimental development services in engineering and technology'
-      )
-      .optional(),
-  }),
-  z.object({
-    '@level': z.literal('4').optional(),
-    '@classId': z.literal('81135').optional(),
-    '#text': z
-      .literal(
-        'Experimental development services in medical sciences and pharmacy'
-      )
-      .optional(),
-  }),
-  z.object({
-    '@level': z.literal('4').optional(),
-    '@classId': z.literal('81136').optional(),
-    '#text': z
-      .literal('Experimental development services in agricultural sciences')
+      .literal('Research and development services in nanotechnology')
       .optional(),
   }),
   z.object({
     '@level': z.literal('4').optional(),
     '@classId': z.literal('81139').optional(),
     '#text': z
-      .literal('Experimental development services in other natural sciences')
+      .literal('Research and development services in other technology')
+      .optional(),
+  }),
+  z.object({
+    '@level': z.literal('3').optional(),
+    '@classId': z.literal('8114').optional(),
+    '#text': z
+      .literal(
+        'Research and development services in medical and health sciences'
+      )
+      .optional(),
+  }),
+  z.object({
+    '@level': z.literal('4').optional(),
+    '@classId': z.literal('81141').optional(),
+    '#text': z
+      .literal('Research and development services in basic medicine')
+      .optional(),
+  }),
+  z.object({
+    '@level': z.literal('4').optional(),
+    '@classId': z.literal('81142').optional(),
+    '#text': z
+      .literal('Research and development services in clinical medicine')
+      .optional(),
+  }),
+  z.object({
+    '@level': z.literal('4').optional(),
+    '@classId': z.literal('81143').optional(),
+    '#text': z
+      .literal('Research and development services in health sciences')
+      .optional(),
+  }),
+  z.object({
+    '@level': z.literal('4').optional(),
+    '@classId': z.literal('81144').optional(),
+    '#text': z
+      .literal('Research and development services in medical biotechnology')
+      .optional(),
+  }),
+  z.object({
+    '@level': z.literal('4').optional(),
+    '@classId': z.literal('81149').optional(),
+    '#text': z
+      .literal(
+        'Research and development services in other medical and health sciences'
+      )
+      .optional(),
+  }),
+  z.object({
+    '@level': z.literal('3').optional(),
+    '@classId': z.literal('8115').optional(),
+    '#text': z
+      .literal(
+        'Research and development services in agricultural and veterinary sciences'
+      )
+      .optional(),
+  }),
+  z.object({
+    '@level': z.literal('4').optional(),
+    '@classId': z.literal('81151').optional(),
+    '#text': z
+      .literal('Research and develoment services in agricultural biotechnology')
+      .optional(),
+  }),
+  z.object({
+    '@level': z.literal('4').optional(),
+    '@classId': z.literal('81152').optional(),
+    '#text': z
+      .literal(
+        'Research and development services in agricultural, fisheries and forestry sciences'
+      )
+      .optional(),
+  }),
+  z.object({
+    '@level': z.literal('4').optional(),
+    '@classId': z.literal('81153').optional(),
+    '#text': z
+      .literal('Research and development services in animal and dairy sciences')
+      .optional(),
+  }),
+  z.object({
+    '@level': z.literal('4').optional(),
+    '@classId': z.literal('81154').optional(),
+    '#text': z
+      .literal('Research and development services in veterinary sciences')
+      .optional(),
+  }),
+  z.object({
+    '@level': z.literal('4').optional(),
+    '@classId': z.literal('81159').optional(),
+    '#text': z
+      .literal(
+        'Research and development services in other agricultural and veterinary sciences'
+      )
       .optional(),
   }),
   z.object({
@@ -26203,7 +25540,7 @@ export const FlowsProductCategorySchema: z.ZodType<any> = z.union([
     '@classId': z.literal('812').optional(),
     '#text': z
       .literal(
-        'Research and experimental development services in social sciences and humanities'
+        'Research and development services in social sciences and humanities'
       )
       .optional(),
   }),
@@ -26211,157 +25548,139 @@ export const FlowsProductCategorySchema: z.ZodType<any> = z.union([
     '@level': z.literal('3').optional(),
     '@classId': z.literal('8121').optional(),
     '#text': z
-      .literal('Basic research services in social sciences and humanities')
+      .literal('Research and development services in social sciences')
       .optional(),
   }),
   z.object({
     '@level': z.literal('4').optional(),
     '@classId': z.literal('81211').optional(),
-    '#text': z.literal('Basic research services in psychology').optional(),
+    '#text': z
+      .literal('Research and development services in economics and business')
+      .optional(),
   }),
   z.object({
     '@level': z.literal('4').optional(),
     '@classId': z.literal('81212').optional(),
-    '#text': z.literal('Basic research services in economics').optional(),
+    '#text': z
+      .literal('Research and development services in education')
+      .optional(),
   }),
   z.object({
     '@level': z.literal('4').optional(),
     '@classId': z.literal('81213').optional(),
-    '#text': z.literal('Basic research services in law').optional(),
+    '#text': z.literal('Research and development services in law').optional(),
   }),
   z.object({
     '@level': z.literal('4').optional(),
     '@classId': z.literal('81214').optional(),
     '#text': z
-      .literal('Basic research services in languages and literature')
+      .literal('Research and development services in media and communications')
+      .optional(),
+  }),
+  z.object({
+    '@level': z.literal('4').optional(),
+    '@classId': z.literal('81215').optional(),
+    '#text': z
+      .literal('Research and development services in political sciences')
+      .optional(),
+  }),
+  z.object({
+    '@level': z.literal('4').optional(),
+    '@classId': z.literal('81216').optional(),
+    '#text': z
+      .literal(
+        'Research and development services psychology and cognitive sciences'
+      )
+      .optional(),
+  }),
+  z.object({
+    '@level': z.literal('4').optional(),
+    '@classId': z.literal('81217').optional(),
+    '#text': z
+      .literal(
+        'Research and development services in social and economic geography'
+      )
+      .optional(),
+  }),
+  z.object({
+    '@level': z.literal('4').optional(),
+    '@classId': z.literal('81218').optional(),
+    '#text': z
+      .literal('Research and development services in sociology')
       .optional(),
   }),
   z.object({
     '@level': z.literal('4').optional(),
     '@classId': z.literal('81219').optional(),
     '#text': z
-      .literal(
-        'Basic research services in other social sciences and humanities'
-      )
+      .literal('Research and development services in other social sciences')
       .optional(),
   }),
   z.object({
     '@level': z.literal('3').optional(),
     '@classId': z.literal('8122').optional(),
     '#text': z
-      .literal('Applied research services in social sciences and humanities')
+      .literal('Research and development services in humanities and the arts')
       .optional(),
   }),
   z.object({
     '@level': z.literal('4').optional(),
     '@classId': z.literal('81221').optional(),
-    '#text': z.literal('Applied research services in psychology').optional(),
+    '#text': z
+      .literal(
+        'Research and development services in arts (arts, history of arts, performing arts, music)'
+      )
+      .optional(),
   }),
   z.object({
     '@level': z.literal('4').optional(),
     '@classId': z.literal('81222').optional(),
-    '#text': z.literal('Applied research services in economics').optional(),
+    '#text': z
+      .literal('Research and development services in history and archaeology')
+      .optional(),
   }),
   z.object({
     '@level': z.literal('4').optional(),
     '@classId': z.literal('81223').optional(),
-    '#text': z.literal('Applied research services in law').optional(),
+    '#text': z
+      .literal('Research and development services in languages and literature')
+      .optional(),
   }),
   z.object({
     '@level': z.literal('4').optional(),
     '@classId': z.literal('81224').optional(),
     '#text': z
-      .literal('Applied research services in language and literature')
+      .literal(
+        'Research and development services in philosophy, ethics and religion'
+      )
       .optional(),
   }),
   z.object({
     '@level': z.literal('4').optional(),
     '@classId': z.literal('81229').optional(),
     '#text': z
-      .literal(
-        'Applied research services on other social sciences and humanities'
-      )
-      .optional(),
-  }),
-  z.object({
-    '@level': z.literal('3').optional(),
-    '@classId': z.literal('8123').optional(),
-    '#text': z
-      .literal(
-        'Experimental development services in social sciences and humanities'
-      )
-      .optional(),
-  }),
-  z.object({
-    '@level': z.literal('4').optional(),
-    '@classId': z.literal('81231').optional(),
-    '#text': z
-      .literal('Experimental development services in psychology')
-      .optional(),
-  }),
-  z.object({
-    '@level': z.literal('4').optional(),
-    '@classId': z.literal('81232').optional(),
-    '#text': z
-      .literal('Experimental development services in economics')
-      .optional(),
-  }),
-  z.object({
-    '@level': z.literal('4').optional(),
-    '@classId': z.literal('81233').optional(),
-    '#text': z.literal('Experimental development services in law').optional(),
-  }),
-  z.object({
-    '@level': z.literal('4').optional(),
-    '@classId': z.literal('81234').optional(),
-    '#text': z
-      .literal('Experimental development services in languages and literature')
-      .optional(),
-  }),
-  z.object({
-    '@level': z.literal('4').optional(),
-    '@classId': z.literal('81239').optional(),
-    '#text': z
-      .literal(
-        'Experimental development services in other social sciences and humanities'
-      )
+      .literal('Research and development services in other humanities')
       .optional(),
   }),
   z.object({
     '@level': z.literal('2').optional(),
     '@classId': z.literal('813').optional(),
     '#text': z
-      .literal(
-        'Interdisciplinary research and experimental development services'
-      )
+      .literal('Interdisciplinary research and development services')
       .optional(),
   }),
   z.object({
     '@level': z.literal('3').optional(),
     '@classId': z.literal('8130').optional(),
     '#text': z
-      .literal(
-        'Interdisciplinary research and experimental development services'
-      )
+      .literal('Interdisciplinary research and development services')
       .optional(),
   }),
   z.object({
     '@level': z.literal('4').optional(),
-    '@classId': z.literal('81301').optional(),
-    '#text': z.literal('Interdisciplinary basic research services').optional(),
-  }),
-  z.object({
-    '@level': z.literal('4').optional(),
-    '@classId': z.literal('81302').optional(),
+    '@classId': z.literal('81300').optional(),
     '#text': z
-      .literal('Interdisciplinary applied research services')
-      .optional(),
-  }),
-  z.object({
-    '@level': z.literal('4').optional(),
-    '@classId': z.literal('81303').optional(),
-    '#text': z
-      .literal('Interdisciplinary experimental development services')
+      .literal('Interdisciplinary research and development services')
       .optional(),
   }),
   z.object({
@@ -27112,23 +26431,27 @@ export const FlowsProductCategorySchema: z.ZodType<any> = z.union([
   z.object({
     '@level': z.literal('2').optional(),
     '@classId': z.literal('837').optional(),
-    '#text': z
-      .literal('Market research and public opinion polling services')
-      .optional(),
+    '#text': z.literal('Data and data compilation').optional(),
   }),
   z.object({
     '@level': z.literal('3').optional(),
-    '@classId': z.literal('8370').optional(),
-    '#text': z
-      .literal('Market research and public opinion polling services')
-      .optional(),
+    '@classId': z.literal('8371').optional(),
+    '#text': z.literal('Data').optional(),
   }),
   z.object({
     '@level': z.literal('4').optional(),
-    '@classId': z.literal('83700').optional(),
-    '#text': z
-      .literal('Market research and public opinion polling services')
-      .optional(),
+    '@classId': z.literal('83710').optional(),
+    '#text': z.literal('Data').optional(),
+  }),
+  z.object({
+    '@level': z.literal('3').optional(),
+    '@classId': z.literal('8372').optional(),
+    '#text': z.literal('Compilation services of data').optional(),
+  }),
+  z.object({
+    '@level': z.literal('4').optional(),
+    '@classId': z.literal('83720').optional(),
+    '#text': z.literal('Compilation services of data').optional(),
   }),
   z.object({
     '@level': z.literal('2').optional(),
@@ -27249,12 +26572,16 @@ export const FlowsProductCategorySchema: z.ZodType<any> = z.union([
   z.object({
     '@level': z.literal('3').optional(),
     '@classId': z.literal('8394').optional(),
-    '#text': z.literal('Original compilations of facts/information').optional(),
+    '#text': z
+      .literal('Market research and public opinion polling services')
+      .optional(),
   }),
   z.object({
     '@level': z.literal('4').optional(),
     '@classId': z.literal('83940').optional(),
-    '#text': z.literal('Original compilations of facts/information').optional(),
+    '#text': z
+      .literal('Market research and public opinion polling services')
+      .optional(),
   }),
   z.object({
     '@level': z.literal('3').optional(),
@@ -27280,14 +26607,18 @@ export const FlowsProductCategorySchema: z.ZodType<any> = z.union([
     '@level': z.literal('3').optional(),
     '@classId': z.literal('8399').optional(),
     '#text': z
-      .literal('Other professional, technical and business services, n.e.c.')
+      .literal(
+        'Other professional, technical and business services, n.e.c., (excluding the compilation of data)'
+      )
       .optional(),
   }),
   z.object({
     '@level': z.literal('4').optional(),
     '@classId': z.literal('83990').optional(),
     '#text': z
-      .literal('Other professional, technical and business services, n.e.c.')
+      .literal(
+        'Other professional, technical and business services, n.e.c., (excluding the compilation of data)'
+      )
       .optional(),
   }),
   z.object({
@@ -27835,138 +27166,497 @@ export const FlowsProductCategorySchema: z.ZodType<any> = z.union([
   z.object({
     '@level': z.literal('2').optional(),
     '@classId': z.literal('855').optional(),
-    '#text': z
-      .literal('Travel arrangement, tour operator and related services')
-      .optional(),
+    '#text': z.literal('Intermediation services on goods').optional(),
   }),
   z.object({
     '@level': z.literal('3').optional(),
     '@classId': z.literal('8551').optional(),
-    '#text': z.literal('Reservation services for transportation').optional(),
+    '#text': z
+      .literal('Intermediation services for wholesale trade')
+      .optional(),
   }),
   z.object({
     '@level': z.literal('4').optional(),
     '@classId': z.literal('85511').optional(),
     '#text': z
-      .literal('Reservation services for air transportation')
+      .literal(
+        'Intermediation services for wholesale trade of raw agricultural products and live animals'
+      )
       .optional(),
   }),
   z.object({
     '@level': z.literal('4').optional(),
     '@classId': z.literal('85512').optional(),
     '#text': z
-      .literal('Reservation services for rail transportation')
+      .literal(
+        'Intermediation services for wholesale trade of food, beverages and tobacco'
+      )
       .optional(),
   }),
   z.object({
     '@level': z.literal('4').optional(),
     '@classId': z.literal('85513').optional(),
     '#text': z
-      .literal('Reservation services for bus transportation')
+      .literal(
+        'Intermediation services for wholesale trade of textiles, clothing and footwear'
+      )
       .optional(),
   }),
   z.object({
     '@level': z.literal('4').optional(),
     '@classId': z.literal('85514').optional(),
-    '#text': z.literal('Reservation services for vehicle rental').optional(),
+    '#text': z
+      .literal(
+        'Intermediation services for wholesale trade of household appliances, articles and equipment'
+      )
+      .optional(),
+  }),
+  z.object({
+    '@level': z.literal('4').optional(),
+    '@classId': z.literal('85515').optional(),
+    '#text': z
+      .literal(
+        'Intermediation services for wholesale trade of miscellaneous consumer goods'
+      )
+      .optional(),
+  }),
+  z.object({
+    '@level': z.literal('4').optional(),
+    '@classId': z.literal('85516').optional(),
+    '#text': z
+      .literal(
+        'Intermediation services for wholesale trade of construction materials and hardware'
+      )
+      .optional(),
+  }),
+  z.object({
+    '@level': z.literal('4').optional(),
+    '@classId': z.literal('85517').optional(),
+    '#text': z
+      .literal(
+        'Intermediation services for wholesale trade of chemical and pharmaceutical products'
+      )
+      .optional(),
+  }),
+  z.object({
+    '@level': z.literal('4').optional(),
+    '@classId': z.literal('85518').optional(),
+    '#text': z
+      .literal(
+        'Intermediation services for wholesale trade of machinery, equipment and supplies'
+      )
+      .optional(),
   }),
   z.object({
     '@level': z.literal('4').optional(),
     '@classId': z.literal('85519').optional(),
     '#text': z
-      .literal(
-        'Other transportation arrangement and reservation services n.e.c.'
-      )
+      .literal('Intermediation services for wholesale trade of other products')
       .optional(),
   }),
   z.object({
     '@level': z.literal('3').optional(),
     '@classId': z.literal('8552').optional(),
-    '#text': z
-      .literal(
-        'Reservation services for accommodation, cruises and package tours'
-      )
-      .optional(),
+    '#text': z.literal('Intermediation services for retail trade').optional(),
   }),
   z.object({
     '@level': z.literal('4').optional(),
     '@classId': z.literal('85521').optional(),
-    '#text': z.literal('Reservation services for accommodation').optional(),
+    '#text': z
+      .literal(
+        'Intermediation services for retail trade of raw agricultural products and live animals'
+      )
+      .optional(),
   }),
   z.object({
     '@level': z.literal('4').optional(),
     '@classId': z.literal('85522').optional(),
-    '#text': z.literal('Time-share exchange services').optional(),
+    '#text': z
+      .literal(
+        'Intermediation services for retail trade of food, beverages and tobacco'
+      )
+      .optional(),
   }),
   z.object({
     '@level': z.literal('4').optional(),
     '@classId': z.literal('85523').optional(),
-    '#text': z.literal('Reservation services for cruises').optional(),
+    '#text': z
+      .literal(
+        'Intermediation services for retail trade of textiles, clothing and footwear'
+      )
+      .optional(),
   }),
   z.object({
     '@level': z.literal('4').optional(),
     '@classId': z.literal('85524').optional(),
-    '#text': z.literal('Reservation services for package tours').optional(),
-  }),
-  z.object({
-    '@level': z.literal('3').optional(),
-    '@classId': z.literal('8553').optional(),
-    '#text': z.literal('Other reservation services').optional(),
-  }),
-  z.object({
-    '@level': z.literal('4').optional(),
-    '@classId': z.literal('85531').optional(),
     '#text': z
       .literal(
-        'Reservation services for convention centres, congress centres and exhibition halls'
+        'Intermediation services for retail trade of household appliances, articles and equipment'
       )
       .optional(),
   }),
   z.object({
     '@level': z.literal('4').optional(),
-    '@classId': z.literal('85539').optional(),
+    '@classId': z.literal('85525').optional(),
     '#text': z
       .literal(
-        'Reservation services for event tickets, entertainment and recreational services and other reservation services'
+        'Intermediation services for retail trade of miscellaneous consumer goods'
+      )
+      .optional(),
+  }),
+  z.object({
+    '@level': z.literal('4').optional(),
+    '@classId': z.literal('85526').optional(),
+    '#text': z
+      .literal(
+        'Intermediation services for retail trade of construction materials and hardware'
+      )
+      .optional(),
+  }),
+  z.object({
+    '@level': z.literal('4').optional(),
+    '@classId': z.literal('85527').optional(),
+    '#text': z
+      .literal(
+        'Intermediation services for retail trade of chemical and pharmaceutical products'
+      )
+      .optional(),
+  }),
+  z.object({
+    '@level': z.literal('4').optional(),
+    '@classId': z.literal('85528').optional(),
+    '#text': z
+      .literal(
+        'Intermediation services for retail trade of machinery, equipment and supplies'
+      )
+      .optional(),
+  }),
+  z.object({
+    '@level': z.literal('4').optional(),
+    '@classId': z.literal('85529').optional(),
+    '#text': z
+      .literal('Intermediation services for retail trade of other products')
+      .optional(),
+  }),
+  z.object({
+    '@level': z.literal('2').optional(),
+    '@classId': z.literal('856').optional(),
+    '#text': z
+      .literal(
+        'Intermediation services for accommodation, food and beverage, transport and electricity, gas and water distribution services'
       )
       .optional(),
   }),
   z.object({
     '@level': z.literal('3').optional(),
-    '@classId': z.literal('8554').optional(),
-    '#text': z.literal('Tour operator services').optional(),
-  }),
-  z.object({
-    '@level': z.literal('4').optional(),
-    '@classId': z.literal('85540').optional(),
-    '#text': z.literal('Tour operator services').optional(),
-  }),
-  z.object({
-    '@level': z.literal('3').optional(),
-    '@classId': z.literal('8555').optional(),
-    '#text': z.literal('Tourist guide services').optional(),
-  }),
-  z.object({
-    '@level': z.literal('4').optional(),
-    '@classId': z.literal('85550').optional(),
-    '#text': z.literal('Tourist guide services').optional(),
-  }),
-  z.object({
-    '@level': z.literal('3').optional(),
-    '@classId': z.literal('8556').optional(),
+    '@classId': z.literal('8561').optional(),
     '#text': z
-      .literal('Tourism promotion and visitor information services')
+      .literal('Intermediation service for passenger transportation')
       .optional(),
   }),
   z.object({
     '@level': z.literal('4').optional(),
-    '@classId': z.literal('85561').optional(),
-    '#text': z.literal('Tourism promotion services').optional(),
+    '@classId': z.literal('85610').optional(),
+    '#text': z
+      .literal('Intermediation service for passenger transportation')
+      .optional(),
+  }),
+  z.object({
+    '@level': z.literal('3').optional(),
+    '@classId': z.literal('8562').optional(),
+    '#text': z.literal('Intermediation service for accommodation').optional(),
   }),
   z.object({
     '@level': z.literal('4').optional(),
-    '@classId': z.literal('85562').optional(),
-    '#text': z.literal('Visitor information services').optional(),
+    '@classId': z.literal('85620').optional(),
+    '#text': z.literal('Intermediation service for accommodation').optional(),
+  }),
+  z.object({
+    '@level': z.literal('3').optional(),
+    '@classId': z.literal('8563').optional(),
+    '#text': z
+      .literal('Intermediation services for freight transportation')
+      .optional(),
+  }),
+  z.object({
+    '@level': z.literal('4').optional(),
+    '@classId': z.literal('85630').optional(),
+    '#text': z
+      .literal('Intermediation services for freight transportation')
+      .optional(),
+  }),
+  z.object({
+    '@level': z.literal('3').optional(),
+    '@classId': z.literal('8564').optional(),
+    '#text': z
+      .literal('Intermediation services for postal and courier activities')
+      .optional(),
+  }),
+  z.object({
+    '@level': z.literal('4').optional(),
+    '@classId': z.literal('85640').optional(),
+    '#text': z
+      .literal('Intermediation services for postal and courier activities')
+      .optional(),
+  }),
+  z.object({
+    '@level': z.literal('3').optional(),
+    '@classId': z.literal('8565').optional(),
+    '#text': z
+      .literal(
+        'Intermediation service for food and beverage services activities'
+      )
+      .optional(),
+  }),
+  z.object({
+    '@level': z.literal('4').optional(),
+    '@classId': z.literal('85650').optional(),
+    '#text': z
+      .literal(
+        'Intermediation service for food and beverage services activities'
+      )
+      .optional(),
+  }),
+  z.object({
+    '@level': z.literal('3').optional(),
+    '@classId': z.literal('8566').optional(),
+    '#text': z
+      .literal(
+        'Intermediation services for rental and leasing of other tangible goods and non-financial intangible assets'
+      )
+      .optional(),
+  }),
+  z.object({
+    '@level': z.literal('4').optional(),
+    '@classId': z.literal('85660').optional(),
+    '#text': z
+      .literal(
+        'Intermediation services for rental and leasing of other tangible goods and non-financial intangible assets'
+      )
+      .optional(),
+  }),
+  z.object({
+    '@level': z.literal('3').optional(),
+    '@classId': z.literal('8567').optional(),
+    '#text': z
+      .literal(
+        'Intermediation service for rental and leasing of cars, motorhomes and trailers'
+      )
+      .optional(),
+  }),
+  z.object({
+    '@level': z.literal('4').optional(),
+    '@classId': z.literal('85670').optional(),
+    '#text': z
+      .literal(
+        'Intermediation service for rental and leasing of cars, motorhomes and trailers'
+      )
+      .optional(),
+  }),
+  z.object({
+    '@level': z.literal('3').optional(),
+    '@classId': z.literal('8568').optional(),
+    '#text': z
+      .literal(
+        'Intermediation services to electricity, gas and water distribution'
+      )
+      .optional(),
+  }),
+  z.object({
+    '@level': z.literal('4').optional(),
+    '@classId': z.literal('85681').optional(),
+    '#text': z
+      .literal('Intermediation services for electricity transmission')
+      .optional(),
+  }),
+  z.object({
+    '@level': z.literal('4').optional(),
+    '@classId': z.literal('85682').optional(),
+    '#text': z
+      .literal('Intermediation services for electricity distribution')
+      .optional(),
+  }),
+  z.object({
+    '@level': z.literal('4').optional(),
+    '@classId': z.literal('85683').optional(),
+    '#text': z
+      .literal(
+        'Intermediation services for the distribution of gas through mains'
+      )
+      .optional(),
+  }),
+  z.object({
+    '@level': z.literal('4').optional(),
+    '@classId': z.literal('85684').optional(),
+    '#text': z
+      .literal(
+        'Intermediation services for the distribution of water through mains'
+      )
+      .optional(),
+  }),
+  z.object({
+    '@level': z.literal('4').optional(),
+    '@classId': z.literal('85685').optional(),
+    '#text': z
+      .literal(
+        'Intermediation services for the distribution of steam, hot water and air-conditioning supply through mains'
+      )
+      .optional(),
+  }),
+  z.object({
+    '@level': z.literal('4').optional(),
+    '@classId': z.literal('85686').optional(),
+    '#text': z
+      .literal(
+        'Intermediation services for the distribution of water, except through mains'
+      )
+      .optional(),
+  }),
+  z.object({
+    '@level': z.literal('2').optional(),
+    '@classId': z.literal('857').optional(),
+    '#text': z
+      .literal('Intermediation for community, social and personal services')
+      .optional(),
+  }),
+  z.object({
+    '@level': z.literal('3').optional(),
+    '@classId': z.literal('8571').optional(),
+    '#text': z
+      .literal('Intermediation service for courses and tutors')
+      .optional(),
+  }),
+  z.object({
+    '@level': z.literal('4').optional(),
+    '@classId': z.literal('85710').optional(),
+    '#text': z
+      .literal('Intermediation service for courses and tutors')
+      .optional(),
+  }),
+  z.object({
+    '@level': z.literal('3').optional(),
+    '@classId': z.literal('8572').optional(),
+    '#text': z
+      .literal(
+        'Intermediation service for medical, dental, and other human health services'
+      )
+      .optional(),
+  }),
+  z.object({
+    '@level': z.literal('4').optional(),
+    '@classId': z.literal('85720').optional(),
+    '#text': z
+      .literal(
+        'Intermediation service for medical, dental, and other human health services'
+      )
+      .optional(),
+  }),
+  z.object({
+    '@level': z.literal('3').optional(),
+    '@classId': z.literal('8573').optional(),
+    '#text': z
+      .literal('Intermediation service for residential care activities')
+      .optional(),
+  }),
+  z.object({
+    '@level': z.literal('4').optional(),
+    '@classId': z.literal('85730').optional(),
+    '#text': z
+      .literal('Intermediation service for residential care activities')
+      .optional(),
+  }),
+  z.object({
+    '@level': z.literal('3').optional(),
+    '@classId': z.literal('8579').optional(),
+    '#text': z
+      .literal('Other intermediation service for personal services')
+      .optional(),
+  }),
+  z.object({
+    '@level': z.literal('4').optional(),
+    '@classId': z.literal('85790').optional(),
+    '#text': z
+      .literal('Other intermediation service for personal services')
+      .optional(),
+  }),
+  z.object({
+    '@level': z.literal('2').optional(),
+    '@classId': z.literal('858').optional(),
+    '#text': z.literal('Other intermediation services').optional(),
+  }),
+  z.object({
+    '@level': z.literal('3').optional(),
+    '@classId': z.literal('8581').optional(),
+    '#text': z
+      .literal('Intermediation services for specialized construction services')
+      .optional(),
+  }),
+  z.object({
+    '@level': z.literal('4').optional(),
+    '@classId': z.literal('85810').optional(),
+    '#text': z
+      .literal('Intermediation services for specialized construction services')
+      .optional(),
+  }),
+  z.object({
+    '@level': z.literal('3').optional(),
+    '@classId': z.literal('8582').optional(),
+    '#text': z
+      .literal('Intermediation services\u00A0for telecommunication')
+      .optional(),
+  }),
+  z.object({
+    '@level': z.literal('4').optional(),
+    '@classId': z.literal('85820').optional(),
+    '#text': z
+      .literal('Intermediation services\u00A0for telecommunication')
+      .optional(),
+  }),
+  z.object({
+    '@level': z.literal('3').optional(),
+    '@classId': z.literal('8583').optional(),
+    '#text': z.literal('Intermediation service for real estate').optional(),
+  }),
+  z.object({
+    '@level': z.literal('4').optional(),
+    '@classId': z.literal('85830').optional(),
+    '#text': z.literal('Intermediation service for real estate').optional(),
+  }),
+  z.object({
+    '@level': z.literal('3').optional(),
+    '@classId': z.literal('8585').optional(),
+    '#text': z
+      .literal(
+        'Intermediation service for repair and maintenance of computers, personal and household goods, and motor vehicles and motorcycles'
+      )
+      .optional(),
+  }),
+  z.object({
+    '@level': z.literal('4').optional(),
+    '@classId': z.literal('85850').optional(),
+    '#text': z
+      .literal(
+        'Intermediation service for repair and maintenance of computers, personal and household goods, and motor vehicles and motorcycles'
+      )
+      .optional(),
+  }),
+  z.object({
+    '@level': z.literal('3').optional(),
+    '@classId': z.literal('8589').optional(),
+    '#text': z
+      .literal(
+        'Intermediation services for business support service activities n.e.c., except financial intermediation'
+      )
+      .optional(),
+  }),
+  z.object({
+    '@level': z.literal('4').optional(),
+    '@classId': z.literal('85890').optional(),
+    '#text': z
+      .literal(
+        'Intermediation services for business support service activities n.e.c., except financial intermediation'
+      )
+      .optional(),
   }),
   z.object({
     '@level': z.literal('2').optional(),
@@ -27976,71 +27666,58 @@ export const FlowsProductCategorySchema: z.ZodType<any> = z.union([
   z.object({
     '@level': z.literal('3').optional(),
     '@classId': z.literal('8591').optional(),
+    '#text': z
+      .literal('Credit reporting and collection agency services')
+      .optional(),
+  }),
+  z.object({
+    '@level': z.literal('4').optional(),
+    '@classId': z.literal('85911').optional(),
     '#text': z.literal('Credit reporting services').optional(),
   }),
   z.object({
     '@level': z.literal('4').optional(),
-    '@classId': z.literal('85910').optional(),
-    '#text': z.literal('Credit reporting services').optional(),
+    '@classId': z.literal('85912').optional(),
+    '#text': z.literal('Collection agency services').optional(),
   }),
   z.object({
     '@level': z.literal('3').optional(),
     '@classId': z.literal('8592').optional(),
-    '#text': z.literal('Collection agency services').optional(),
+    '#text': z.literal('Telephone based support services').optional(),
   }),
   z.object({
     '@level': z.literal('4').optional(),
-    '@classId': z.literal('85920').optional(),
-    '#text': z.literal('Collection agency services').optional(),
-  }),
-  z.object({
-    '@level': z.literal('3').optional(),
-    '@classId': z.literal('8593').optional(),
-    '#text': z.literal('Telephone-based support services').optional(),
-  }),
-  z.object({
-    '@level': z.literal('4').optional(),
-    '@classId': z.literal('85931').optional(),
+    '@classId': z.literal('85921').optional(),
     '#text': z.literal('Telephone call centre services').optional(),
   }),
   z.object({
     '@level': z.literal('4').optional(),
-    '@classId': z.literal('85939').optional(),
+    '@classId': z.literal('85929').optional(),
     '#text': z.literal('Other telephone-based support services').optional(),
   }),
   z.object({
     '@level': z.literal('3').optional(),
-    '@classId': z.literal('8594').optional(),
+    '@classId': z.literal('8593').optional(),
+    '#text': z.literal('Office administrative services').optional(),
+  }),
+  z.object({
+    '@level': z.literal('4').optional(),
+    '@classId': z.literal('85931').optional(),
     '#text': z.literal('Combined office administrative services').optional(),
   }),
   z.object({
     '@level': z.literal('4').optional(),
-    '@classId': z.literal('85940').optional(),
-    '#text': z.literal('Combined office administrative services').optional(),
-  }),
-  z.object({
-    '@level': z.literal('3').optional(),
-    '@classId': z.literal('8595').optional(),
-    '#text': z.literal('Specialized office support services').optional(),
-  }),
-  z.object({
-    '@level': z.literal('4').optional(),
-    '@classId': z.literal('85951').optional(),
+    '@classId': z.literal('85932').optional(),
     '#text': z.literal('Duplicating services').optional(),
   }),
   z.object({
     '@level': z.literal('4').optional(),
-    '@classId': z.literal('85952').optional(),
-    '#text': z.literal('Mailing list compilation services').optional(),
-  }),
-  z.object({
-    '@level': z.literal('4').optional(),
-    '@classId': z.literal('85953').optional(),
+    '@classId': z.literal('85934').optional(),
     '#text': z.literal('Mailing services').optional(),
   }),
   z.object({
     '@level': z.literal('4').optional(),
-    '@classId': z.literal('85954').optional(),
+    '@classId': z.literal('85939').optional(),
     '#text': z
       .literal(
         'Document preparation and other specialized office support services'
@@ -28049,34 +27726,66 @@ export const FlowsProductCategorySchema: z.ZodType<any> = z.union([
   }),
   z.object({
     '@level': z.literal('3').optional(),
-    '@classId': z.literal('8596').optional(),
+    '@classId': z.literal('8594').optional(),
     '#text': z
       .literal('Convention and trade show assistance and organization services')
       .optional(),
   }),
   z.object({
     '@level': z.literal('4').optional(),
-    '@classId': z.literal('85961').optional(),
+    '@classId': z.literal('85941').optional(),
     '#text': z
       .literal('Convention assistance and organization services')
       .optional(),
   }),
   z.object({
     '@level': z.literal('4').optional(),
-    '@classId': z.literal('85962').optional(),
+    '@classId': z.literal('85942').optional(),
     '#text': z
       .literal('Trade show assistance and organization services')
       .optional(),
   }),
   z.object({
     '@level': z.literal('3').optional(),
-    '@classId': z.literal('8597').optional(),
+    '@classId': z.literal('8595').optional(),
     '#text': z.literal('Landscape care and maintenance services').optional(),
   }),
   z.object({
     '@level': z.literal('4').optional(),
-    '@classId': z.literal('85970').optional(),
+    '@classId': z.literal('85950').optional(),
     '#text': z.literal('Landscape care and maintenance services').optional(),
+  }),
+  z.object({
+    '@level': z.literal('3').optional(),
+    '@classId': z.literal('8596').optional(),
+    '#text': z.literal('Tourist operator and guide services').optional(),
+  }),
+  z.object({
+    '@level': z.literal('4').optional(),
+    '@classId': z.literal('85961').optional(),
+    '#text': z.literal('Tour operator services').optional(),
+  }),
+  z.object({
+    '@level': z.literal('4').optional(),
+    '@classId': z.literal('85962').optional(),
+    '#text': z.literal('Tourist guide services').optional(),
+  }),
+  z.object({
+    '@level': z.literal('3').optional(),
+    '@classId': z.literal('8597').optional(),
+    '#text': z
+      .literal('Tourism promotion and visitor information services')
+      .optional(),
+  }),
+  z.object({
+    '@level': z.literal('4').optional(),
+    '@classId': z.literal('85971').optional(),
+    '#text': z.literal('Tourism promotion services').optional(),
+  }),
+  z.object({
+    '@level': z.literal('4').optional(),
+    '@classId': z.literal('85972').optional(),
+    '#text': z.literal('Visitor information services').optional(),
   }),
   z.object({
     '@level': z.literal('3').optional(),
@@ -28268,108 +27977,6 @@ export const FlowsProductCategorySchema: z.ZodType<any> = z.union([
     '@classId': z.literal('86229').optional(),
     '#text': z
       .literal('Other mining services on resources owned by others')
-      .optional(),
-  }),
-  z.object({
-    '@level': z.literal('2').optional(),
-    '@classId': z.literal('863').optional(),
-    '#text': z
-      .literal(
-        'Support and operation services to electricity, gas and water distribution'
-      )
-      .optional(),
-  }),
-  z.object({
-    '@level': z.literal('3').optional(),
-    '@classId': z.literal('8631').optional(),
-    '#text': z
-      .literal('Support services to electricity transmission and distribution')
-      .optional(),
-  }),
-  z.object({
-    '@level': z.literal('4').optional(),
-    '@classId': z.literal('86311').optional(),
-    '#text': z
-      .literal('Electricity transmission services (on a fee or contract basis)')
-      .optional(),
-  }),
-  z.object({
-    '@level': z.literal('4').optional(),
-    '@classId': z.literal('86312').optional(),
-    '#text': z
-      .literal('Electricity distribution services (on a fee or contract basis)')
-      .optional(),
-  }),
-  z.object({
-    '@level': z.literal('3').optional(),
-    '@classId': z.literal('8632').optional(),
-    '#text': z
-      .literal(
-        'Gas distribution services through mains (on a fee or contract basis)'
-      )
-      .optional(),
-  }),
-  z.object({
-    '@level': z.literal('4').optional(),
-    '@classId': z.literal('86320').optional(),
-    '#text': z
-      .literal(
-        'Gas distribution services through mains (on a fee or contract basis)'
-      )
-      .optional(),
-  }),
-  z.object({
-    '@level': z.literal('3').optional(),
-    '@classId': z.literal('8633').optional(),
-    '#text': z
-      .literal(
-        'Water distribution services through mains (on a fee or contract basis)'
-      )
-      .optional(),
-  }),
-  z.object({
-    '@level': z.literal('4').optional(),
-    '@classId': z.literal('86330').optional(),
-    '#text': z
-      .literal(
-        'Water distribution services through mains (on a fee or contract basis)'
-      )
-      .optional(),
-  }),
-  z.object({
-    '@level': z.literal('3').optional(),
-    '@classId': z.literal('8634').optional(),
-    '#text': z
-      .literal(
-        'Distribution services of steam, hot water and air-conditioning supply through mains (on a fee or contract basis)'
-      )
-      .optional(),
-  }),
-  z.object({
-    '@level': z.literal('4').optional(),
-    '@classId': z.literal('86340').optional(),
-    '#text': z
-      .literal(
-        'Distribution services of steam, hot water and air-conditioning supply through mains (on a fee or contract basis)'
-      )
-      .optional(),
-  }),
-  z.object({
-    '@level': z.literal('3').optional(),
-    '@classId': z.literal('8635').optional(),
-    '#text': z
-      .literal(
-        'Water distribution services, except through mains (on a fee or contract basis)'
-      )
-      .optional(),
-  }),
-  z.object({
-    '@level': z.literal('4').optional(),
-    '@classId': z.literal('86350').optional(),
-    '#text': z
-      .literal(
-        'Water distribution services, except through mains (on a fee or contract basis)'
-      )
       .optional(),
   }),
   z.object({
@@ -30188,6 +29795,24 @@ export const FlowsProductCategorySchema: z.ZodType<any> = z.union([
   }),
   z.object({
     '@level': z.literal('3').optional(),
+    '@classId': z.literal('9114').optional(),
+    '#text': z
+      .literal(
+        'Public administrative services related to the provision on environmental services'
+      )
+      .optional(),
+  }),
+  z.object({
+    '@level': z.literal('4').optional(),
+    '@classId': z.literal('91140').optional(),
+    '#text': z
+      .literal(
+        'Public administrative services related to the provision on environmental services'
+      )
+      .optional(),
+  }),
+  z.object({
+    '@level': z.literal('3').optional(),
     '@classId': z.literal('9119').optional(),
     '#text': z
       .literal('Other administrative services of the government')
@@ -30423,16 +30048,28 @@ export const FlowsProductCategorySchema: z.ZodType<any> = z.union([
   z.object({
     '@level': z.literal('2').optional(),
     '@classId': z.literal('921').optional(),
-    '#text': z.literal('Pre-primary education services').optional(),
+    '#text': z
+      .literal('Early childhood and pre-primary education services')
+      .optional(),
   }),
   z.object({
     '@level': z.literal('3').optional(),
-    '@classId': z.literal('9210').optional(),
+    '@classId': z.literal('9211').optional(),
+    '#text': z.literal('Early childhood development services').optional(),
+  }),
+  z.object({
+    '@level': z.literal('4').optional(),
+    '@classId': z.literal('92110').optional(),
+    '#text': z.literal('Early childhood development services').optional(),
+  }),
+  z.object({
+    '@level': z.literal('3').optional(),
+    '@classId': z.literal('9212').optional(),
     '#text': z.literal('Pre-primary education services').optional(),
   }),
   z.object({
     '@level': z.literal('4').optional(),
-    '@classId': z.literal('92100').optional(),
+    '@classId': z.literal('92120').optional(),
     '#text': z.literal('Pre-primary education services').optional(),
   }),
   z.object({
@@ -30558,22 +30195,61 @@ export const FlowsProductCategorySchema: z.ZodType<any> = z.union([
   z.object({
     '@level': z.literal('3').optional(),
     '@classId': z.literal('9251').optional(),
-    '#text': z.literal('First stage tertiary education services').optional(),
+    '#text': z.literal('Short-cycle tertiary education services').optional(),
   }),
   z.object({
     '@level': z.literal('4').optional(),
-    '@classId': z.literal('92510').optional(),
-    '#text': z.literal('First stage tertiary education services').optional(),
+    '@classId': z.literal('92511').optional(),
+    '#text': z
+      .literal('Short-cycle tertiary general education services')
+      .optional(),
+  }),
+  z.object({
+    '@level': z.literal('4').optional(),
+    '@classId': z.literal('92512').optional(),
+    '#text': z
+      .literal('Short-cycle tertiary vocational education services')
+      .optional(),
   }),
   z.object({
     '@level': z.literal('3').optional(),
     '@classId': z.literal('9252').optional(),
-    '#text': z.literal('Second stage tertiary education services').optional(),
+    '#text': z.literal('Bachelors or equivalent education services').optional(),
   }),
   z.object({
     '@level': z.literal('4').optional(),
     '@classId': z.literal('92520').optional(),
-    '#text': z.literal('Second stage tertiary education services').optional(),
+    '#text': z.literal('Bachelors or equivalent education services').optional(),
+  }),
+  z.object({
+    '@level': z.literal('3').optional(),
+    '@classId': z.literal('9253').optional(),
+    '#text': z.literal('Masters or equivalent education services').optional(),
+  }),
+  z.object({
+    '@level': z.literal('4').optional(),
+    '@classId': z.literal('92530').optional(),
+    '#text': z.literal('Masters or equivalent education services').optional(),
+  }),
+  z.object({
+    '@level': z.literal('3').optional(),
+    '@classId': z.literal('9254').optional(),
+    '#text': z.literal('Doctoral or equivalent education services').optional(),
+  }),
+  z.object({
+    '@level': z.literal('4').optional(),
+    '@classId': z.literal('92540').optional(),
+    '#text': z.literal('Doctoral or equivalent education services').optional(),
+  }),
+  z.object({
+    '@level': z.literal('3').optional(),
+    '@classId': z.literal('9259').optional(),
+    '#text': z.literal('Other tertiary education services').optional(),
+  }),
+  z.object({
+    '@level': z.literal('4').optional(),
+    '@classId': z.literal('92590').optional(),
+    '#text': z.literal('Other tertiary education services').optional(),
   }),
   z.object({
     '@level': z.literal('2').optional(),
@@ -31195,6 +30871,26 @@ export const FlowsProductCategorySchema: z.ZodType<any> = z.union([
     '@level': z.literal('4').optional(),
     '@classId': z.literal('94430').optional(),
     '#text': z.literal('Building remediation services').optional(),
+  }),
+  z.object({
+    '@level': z.literal('3').optional(),
+    '@classId': z.literal('9444').optional(),
+    '#text': z.literal('Treatment of air pollution').optional(),
+  }),
+  z.object({
+    '@level': z.literal('4').optional(),
+    '@classId': z.literal('94440').optional(),
+    '#text': z.literal('Treatment of air pollution').optional(),
+  }),
+  z.object({
+    '@level': z.literal('3').optional(),
+    '@classId': z.literal('9445').optional(),
+    '#text': z.literal('Carbon capture and storage services').optional(),
+  }),
+  z.object({
+    '@level': z.literal('4').optional(),
+    '@classId': z.literal('94450').optional(),
+    '#text': z.literal('Carbon capture and storage services').optional(),
   }),
   z.object({
     '@level': z.literal('3').optional(),

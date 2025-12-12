@@ -87,7 +87,7 @@ export type FlowsProductCategory =
   | {
       '@level'?: '4';
       '@classId'?: '01231';
-      '#text'?: 'Chillies and peppers, green (<i>Capsicum</i> spp. and <i>Pimenta</i> spp.)';
+      '#text'?: 'Chillies and peppers, green (Capsicum spp. and Pimenta spp.)';
     }
   | { '@level'?: '4'; '@classId'?: '01232'; '#text'?: 'Cucumbers and gherkins' }
   | { '@level'?: '4'; '@classId'?: '01233'; '#text'?: 'Eggplants (aubergines)' }
@@ -148,7 +148,8 @@ export type FlowsProductCategory =
       '#text'?: 'Vegetable seeds, except beet seeds';
     }
   | { '@level'?: '3'; '@classId'?: '0127'; '#text'?: 'Mushrooms and truffles' }
-  | { '@level'?: '4'; '@classId'?: '01270'; '#text'?: 'Mushrooms and truffles' }
+  | { '@level'?: '4'; '@classId'?: '01271'; '#text'?: 'Mushrooms, farmed' }
+  | { '@level'?: '4'; '@classId'?: '01272'; '#text'?: 'Truffles, farmed' }
   | {
       '@level'?: '3';
       '@classId'?: '0129';
@@ -242,7 +243,7 @@ export type FlowsProductCategory =
   | {
       '@level'?: '4';
       '@classId'?: '01355';
-      '#text'?: 'Other berries; fruits of the genus <i>Vaccinium</i>';
+      '#text'?: 'Other berries; fruits of the genus Vaccinium';
     }
   | { '@level'?: '4'; '@classId'?: '01356'; '#text'?: 'Locust beans (carobs)' }
   | { '@level'?: '4'; '@classId'?: '01359'; '#text'?: 'Other fruits, n.e.c.' }
@@ -364,12 +365,12 @@ export type FlowsProductCategory =
   | {
       '@level'?: '4';
       '@classId'?: '01651';
-      '#text'?: 'Pepper (<i>Piper</i> spp.), raw';
+      '#text'?: 'Pepper (Piper spp.), raw';
     }
   | {
       '@level'?: '4';
       '@classId'?: '01652';
-      '#text'?: 'Chillies and peppers, dry (<i>Capsicum</i> spp., <i>Pimenta</i> spp.), raw';
+      '#text'?: 'Chillies and peppers, dry (Capsicum spp., Pimenta spp.), raw';
     }
   | {
       '@level'?: '4';
@@ -663,8 +664,13 @@ export type FlowsProductCategory =
     }
   | {
       '@level'?: '4';
-      '@classId'?: '02930';
-      '#text'?: 'Edible products of animal origin n.e.c.';
+      '@classId'?: '02931';
+      '#text'?: 'Edible insects, not live';
+    }
+  | {
+      '@level'?: '4';
+      '@classId'?: '02939';
+      '#text'?: 'Other edible products of animal origin n.e.c.';
     }
   | {
       '@level'?: '3';
@@ -738,21 +744,45 @@ export type FlowsProductCategory =
       '#text'?: 'Forestry and logging products';
     }
   | { '@level'?: '2'; '@classId'?: '031'; '#text'?: 'Wood in the rough' }
-  | { '@level'?: '3'; '@classId'?: '0311'; '#text'?: 'Logs of coniferous wood' }
+  | {
+      '@level'?: '3';
+      '@classId'?: '0311';
+      '#text'?: 'Roundwood of coniferous wood';
+    }
   | {
       '@level'?: '4';
-      '@classId'?: '03110';
-      '#text'?: 'Logs of coniferous wood';
+      '@classId'?: '03111';
+      '#text'?: 'Roundwood of coniferous wood, sawlogs and veneer logs';
+    }
+  | {
+      '@level'?: '4';
+      '@classId'?: '03112';
+      '#text'?: 'Roundwood of coniferous wood, pulpwood and wood for wood-based panels';
+    }
+  | {
+      '@level'?: '4';
+      '@classId'?: '03119';
+      '#text'?: 'Roundwood of coniferous wood, other';
     }
   | {
       '@level'?: '3';
       '@classId'?: '0312';
-      '#text'?: 'Logs of non-coniferous wood';
+      '#text'?: 'Roundwood of non-coniferous wood';
     }
   | {
       '@level'?: '4';
-      '@classId'?: '03120';
-      '#text'?: 'Logs of non-coniferous wood';
+      '@classId'?: '03121';
+      '#text'?: 'Roundwood of non-coniferous wood, sawlogs and veneer logs';
+    }
+  | {
+      '@level'?: '4';
+      '@classId'?: '03122';
+      '#text'?: 'Roundwood of non-coniferous wood, pulpwood and wood for wood-based panels';
+    }
+  | {
+      '@level'?: '4';
+      '@classId'?: '03129';
+      '#text'?: 'Roundwood of non-coniferous wood, other';
     }
   | {
       '@level'?: '3';
@@ -800,10 +830,14 @@ export type FlowsProductCategory =
       '@classId'?: '0323';
       '#text'?: 'Other wild edible products';
     }
+  | { '@level'?: '4'; '@classId'?: '03231'; '#text'?: 'Wild edible nuts' }
+  | { '@level'?: '4'; '@classId'?: '03232'; '#text'?: 'Wild edible mushrooms' }
+  | { '@level'?: '4'; '@classId'?: '03233'; '#text'?: 'Wild edible truffles' }
+  | { '@level'?: '4'; '@classId'?: '03234'; '#text'?: 'Wild edible berries' }
   | {
       '@level'?: '4';
-      '@classId'?: '03230';
-      '#text'?: 'Other wild edible products';
+      '@classId'?: '03239';
+      '#text'?: 'Other wild edible edible products n.e.c';
     }
   | {
       '@level'?: '3';
@@ -819,17 +853,18 @@ export type FlowsProductCategory =
   | {
       '@level'?: '3';
       '@classId'?: '0325';
-      '#text'?: 'Vegetable materials of a kind used primarily for plaiting or as stuffing or padding; raw vegetable materials of a kind used primarily for dyeing or tanning; vegetable products n.e.c.';
+      '#text'?: 'Vegetable materials of a kind used primarily for plaiting or as stuffing or padding; vegetable products n.e.c.';
     }
+  | { '@level'?: '4'; '@classId'?: '03251'; '#text'?: 'Cotton linters' }
   | {
       '@level'?: '4';
-      '@classId'?: '03250';
-      '#text'?: 'Vegetable materials of a kind used primarily for plaiting or as stuffing or padding; raw vegetable materials of a kind used primarily for dyeing or tanning; vegetable products n.e.c.';
+      '@classId'?: '03252';
+      '#text'?: 'Vegetable materials of a kind used primarily for plaiting or as stuffing or padding; other vegetable products except cotton linters';
     }
   | {
       '@level'?: '1';
       '@classId'?: '04';
-      '#text'?: 'Fish and other fishing products';
+      '#text'?: 'Fish, crustaceans, molluscs and other aquatic invertebrates products';
     }
   | {
       '@level'?: '2';
@@ -937,17 +972,17 @@ export type FlowsProductCategory =
   | {
       '@level'?: '3';
       '@classId'?: '0426';
-      '#text'?: 'Other pelagic fish, live, fresh or chilled';
+      '#text'?: 'Other pelagic fish (excluding tunas, skipjack, or stripe-bellied bonito), live, fresh or chilled';
     }
   | {
       '@level'?: '4';
       '@classId'?: '04261';
-      '#text'?: 'Other wild pelagic fish, live, fresh or chilled';
+      '#text'?: 'Other wild pelagic fish (excluding tunas, skipjack, or stripe-bellied bonito), live, fresh or chilled';
     }
   | {
       '@level'?: '4';
       '@classId'?: '04262';
-      '#text'?: 'Other farmed pelagic fish, live, fresh or chilled';
+      '#text'?: 'Other farmed pelagic fish (excluding tunas, skipjack, or stripe-bellied bonito), live, fresh or chilled';
     }
   | {
       '@level'?: '3';
@@ -1002,17 +1037,17 @@ export type FlowsProductCategory =
   | {
       '@level'?: '3';
       '@classId'?: '0433';
-      '#text'?: 'Lobsters (<i>Homarus spp.</i>), live, fresh or chilled';
+      '#text'?: 'Lobsters (Homarus spp.), live, fresh or chilled';
     }
   | {
       '@level'?: '4';
       '@classId'?: '04331';
-      '#text'?: 'Wild lobsters (<i>Homarus spp.</i>), live, fresh or chilled';
+      '#text'?: 'Wild lobsters (Homarus spp.), live, fresh or chilled';
     }
   | {
       '@level'?: '4';
       '@classId'?: '04332';
-      '#text'?: 'Farmed lobsters (<i>Homarus spp.</i>), live, fresh or chilled';
+      '#text'?: 'Farmed lobsters (Homarus spp.), live, fresh or chilled';
     }
   | {
       '@level'?: '3';
@@ -1032,17 +1067,17 @@ export type FlowsProductCategory =
   | {
       '@level'?: '3';
       '@classId'?: '0435';
-      '#text'?: 'Cold-water shrimps and prawns (<i>Pandalus spp.</i>, <i>Crangon crangon</i>), live, fresh or chilled';
+      '#text'?: 'Cold-water shrimps and prawns (Pandalus spp., Crangon crangon), live, fresh or chilled';
     }
   | {
       '@level'?: '4';
       '@classId'?: '04351';
-      '#text'?: 'Wild cold-water shrimps and prawns (<i>Pandalus spp.</i>, <i>Crangon crangon</i>), live, fresh or chilled';
+      '#text'?: 'Wild cold-water shrimps and prawns (Pandalus spp., Crangon crangon), live, fresh or chilled';
     }
   | {
       '@level'?: '4';
       '@classId'?: '04352';
-      '#text'?: 'Farmed cold-water shrimps and prawns (<i>Pandalus spp.</i>, <i>Crangon crangon</i>), live, fresh or chilled';
+      '#text'?: 'Farmed cold-water shrimps and prawns (Pandalus spp., Crangon crangon), live, fresh or chilled';
     }
   | {
       '@level'?: '3';
@@ -1322,7 +1357,8 @@ export type FlowsProductCategory =
   | { '@level'?: '1'; '@classId'?: '11'; '#text'?: 'Coal and peat' }
   | { '@level'?: '2'; '@classId'?: '110'; '#text'?: 'Coal and peat' }
   | { '@level'?: '3'; '@classId'?: '1101'; '#text'?: 'Hard coal' }
-  | { '@level'?: '4'; '@classId'?: '11010'; '#text'?: 'Hard coal' }
+  | { '@level'?: '4'; '@classId'?: '11011'; '#text'?: 'Anthracite' }
+  | { '@level'?: '4'; '@classId'?: '11012'; '#text'?: 'Bituminous Coal' }
   | {
       '@level'?: '3';
       '@classId'?: '1102';
@@ -1334,7 +1370,8 @@ export type FlowsProductCategory =
       '#text'?: 'Patent fuel and similar solid fuels manufactured from hard coal';
     }
   | { '@level'?: '3'; '@classId'?: '1103'; '#text'?: 'Brown coal' }
-  | { '@level'?: '4'; '@classId'?: '11030'; '#text'?: 'Brown coal' }
+  | { '@level'?: '4'; '@classId'?: '11031'; '#text'?: 'Sub-bituminous coal' }
+  | { '@level'?: '4'; '@classId'?: '11032'; '#text'?: 'Lignite' }
   | {
       '@level'?: '3';
       '@classId'?: '1104';
@@ -1345,8 +1382,13 @@ export type FlowsProductCategory =
       '@classId'?: '11040';
       '#text'?: 'Brown coal briquettes and similar solid fuels manufactured from brown coal';
     }
-  | { '@level'?: '3'; '@classId'?: '1105'; '#text'?: 'Peat' }
-  | { '@level'?: '4'; '@classId'?: '11050'; '#text'?: 'Peat' }
+  | {
+      '@level'?: '3';
+      '@classId'?: '1105';
+      '#text'?: 'Peat, whether or not agglomerated';
+    }
+  | { '@level'?: '4'; '@classId'?: '11051'; '#text'?: 'Peat' }
+  | { '@level'?: '4'; '@classId'?: '11052'; '#text'?: 'Peat briquettes' }
   | {
       '@level'?: '1';
       '@classId'?: '12';
@@ -1366,6 +1408,12 @@ export type FlowsProductCategory =
       '@level'?: '4';
       '@classId'?: '12010';
       '#text'?: 'Petroleum oils and oils obtained from bituminous minerals, crude';
+    }
+  | { '@level'?: '4'; '@classId'?: '12011'; '#text'?: 'Crude oil' }
+  | {
+      '@level'?: '4';
+      '@classId'?: '12012';
+      '#text'?: 'Petroleum oils and oils obtained from bituminous minerals';
     }
   | {
       '@level'?: '3';
@@ -1642,6 +1690,13 @@ export type FlowsProductCategory =
       '@classId'?: '17200';
       '#text'?: 'Coal gas, water gas, producer gas and similar gases, other than petroleum gases and other gaseous hydrocarbons';
     }
+  | { '@level'?: '4'; '@classId'?: '17201'; '#text'?: 'Coke oven gas' }
+  | {
+      '@level'?: '4';
+      '@classId'?: '17202';
+      '#text'?: 'Gas works gas (and other manufactured gases for distribution)';
+    }
+  | { '@level'?: '4'; '@classId'?: '17203'; '#text'?: 'Recovered gases' }
   | { '@level'?: '2'; '@classId'?: '173'; '#text'?: 'Steam and hot water' }
   | { '@level'?: '3'; '@classId'?: '1730'; '#text'?: 'Steam and hot water' }
   | { '@level'?: '4'; '@classId'?: '17300'; '#text'?: 'Steam and hot water' }
@@ -1926,7 +1981,7 @@ export type FlowsProductCategory =
   | {
       '@level'?: '4';
       '@classId'?: '21216';
-      '#text'?: 'Other pelagic fish, frozen';
+      '#text'?: 'Other pelagic fish (excluding tunas, skipjack, or stripe-bellied bonito), frozen';
     }
   | { '@level'?: '4'; '@classId'?: '21219'; '#text'?: 'Other fish, frozen' }
   | {
@@ -2425,9 +2480,6 @@ export type FlowsProductCategory =
       '@classId'?: '21700';
       '#text'?: 'Margarine and similar preparations';
     }
-  | { '@level'?: '2'; '@classId'?: '218'; '#text'?: 'Cotton linters' }
-  | { '@level'?: '3'; '@classId'?: '2180'; '#text'?: 'Cotton linters' }
-  | { '@level'?: '4'; '@classId'?: '21800'; '#text'?: 'Cotton linters' }
   | {
       '@level'?: '2';
       '@classId'?: '219';
@@ -2896,7 +2948,7 @@ export type FlowsProductCategory =
   | {
       '@level'?: '4';
       '@classId'?: '23914';
-      '#text'?: 'Extracts, essences and concentrates of tea or mate and preparations with a basis thereof or with a basis of tea or mate';
+      '#text'?: 'Extracts, essences and concentrates of tea or maté, and preparations with a basis thereof or with a basis of tea or maté';
     }
   | {
       '@level'?: '3';
@@ -2975,6 +3027,11 @@ export type FlowsProductCategory =
       '@level'?: '4';
       '@classId'?: '23997';
       '#text'?: 'Other prepared dishes and meals';
+    }
+  | {
+      '@level'?: '4';
+      '@classId'?: '23998';
+      '#text'?: 'Meatless meat and meat substitutes';
     }
   | {
       '@level'?: '4';
@@ -3078,13 +3135,26 @@ export type FlowsProductCategory =
     }
   | {
       '@level'?: '3';
+      '@classId'?: '2442';
+      '#text'?: 'Milk from non-animal origin';
+    }
+  | { '@level'?: '4'; '@classId'?: '24421'; '#text'?: 'Coconut milk' }
+  | { '@level'?: '4'; '@classId'?: '24422'; '#text'?: 'Almond milk' }
+  | { '@level'?: '4'; '@classId'?: '24423'; '#text'?: 'Soy milk' }
+  | { '@level'?: '4'; '@classId'?: '24424'; '#text'?: 'Rice milk' }
+  | { '@level'?: '4'; '@classId'?: '24425'; '#text'?: 'Oat milk' }
+  | { '@level'?: '4'; '@classId'?: '24429'; '#text'?: 'Other non-animal milk' }
+  | {
+      '@level'?: '3';
       '@classId'?: '2449';
       '#text'?: 'Other non-alcoholic caloric beverages';
     }
+  | { '@level'?: '4'; '@classId'?: '24491'; '#text'?: 'Non-alcoholic wine' }
+  | { '@level'?: '4'; '@classId'?: '24492'; '#text'?: 'Non-alcoholic beer' }
   | {
       '@level'?: '4';
-      '@classId'?: '24490';
-      '#text'?: 'Other non-alcoholic caloric beverages';
+      '@classId'?: '24499';
+      '#text'?: 'Other non-alcoholic caloric beverages, n.e.c.';
     }
   | { '@level'?: '1'; '@classId'?: '25'; '#text'?: 'Tobacco products' }
   | { '@level'?: '2'; '@classId'?: '250'; '#text'?: 'Tobacco products' }
@@ -3113,10 +3183,11 @@ export type FlowsProductCategory =
       '@classId'?: '2509';
       '#text'?: 'Other manufactured tobacco and manufactured tobacco substitutes; "homogenized" or "reconstituted" tobacco; tobacco extracts and essences';
     }
+  | { '@level'?: '4'; '@classId'?: '25091'; '#text'?: 'Manufactured tobacco' }
   | {
       '@level'?: '4';
-      '@classId'?: '25090';
-      '#text'?: 'Other manufactured tobacco and manufactured tobacco substitutes; "homogenized" or "reconstituted" tobacco; tobacco extracts and essences';
+      '@classId'?: '25092';
+      '#text'?: 'Products containing tobacco';
     }
   | {
       '@level'?: '1';
@@ -4385,12 +4456,12 @@ export type FlowsProductCategory =
   | {
       '@level'?: '3';
       '@classId'?: '3131';
-      '#text'?: 'Wood in the rough, weather or not stripped of bark or sapwood, or roughly squared treated with paint, stains, creosote or other preservatives';
+      '#text'?: 'Wood in the rough, whether or not stripped of bark or sapwood, or roughly squared treated with paint, stains, creosote or other preservatives';
     }
   | {
       '@level'?: '4';
       '@classId'?: '31310';
-      '#text'?: 'Wood in the rough, weather or not stripped of bark or sapwood, or roughly squared treated with paint, stains, creosote or other preservatives';
+      '#text'?: 'Wood in the rough, whether or not stripped of bark or sapwood, or roughly squared treated with paint, stains, creosote or other preservatives';
     }
   | {
       '@level'?: '3';
@@ -4421,12 +4492,17 @@ export type FlowsProductCategory =
   | {
       '@level'?: '4';
       '@classId'?: '31411';
-      '#text'?: 'Plywood consisting solely of sheets, of coniferous wood';
+      '#text'?: 'Plywood consisting solely of sheets, with both outer plies of coniferous wood';
     }
   | {
       '@level'?: '4';
       '@classId'?: '31412';
-      '#text'?: 'Plywood consisting solely of sheets, of non-coniferous wood';
+      '#text'?: 'Plywood consisting solely of sheets, with at least one outer ply of tropical wood';
+    }
+  | {
+      '@level'?: '4';
+      '@classId'?: '31413';
+      '#text'?: 'Plywood consisting solely of sheets, with at least one outer ply of non-coniferous wood other than tropical';
     }
   | {
       '@level'?: '3';
@@ -4436,19 +4512,24 @@ export type FlowsProductCategory =
   | {
       '@level'?: '4';
       '@classId'?: '31421';
-      '#text'?: 'Other plywood, veneered panels and similar laminated wood, of coniferous wood';
+      '#text'?: 'Veneered panels and similar laminated wood, with both outer plies of coniferous wood';
     }
   | {
       '@level'?: '4';
       '@classId'?: '31422';
-      '#text'?: 'Other plywood, veneered panels and similar laminated wood, of non-coniferous wood';
+      '#text'?: 'Veneered panels and similar laminated wood, with at least one outer ply of tropical wood';
+    }
+  | {
+      '@level'?: '4';
+      '@classId'?: '31423';
+      '#text'?: 'Veneered panels and similar laminated wood, with at least one outer ply of non-coniferous wood other than tropical';
     }
   | {
       '@level'?: '3';
       '@classId'?: '3143';
       '#text'?: 'Particle board and similar board of wood or other ligneous materials';
     }
-  | { '@level'?: '4'; '@classId'?: '31431'; '#text'?: 'Particle board' }
+  | { '@level'?: '4'; '@classId'?: '31431'; '#text'?: 'Particle board of wood' }
   | {
       '@level'?: '4';
       '@classId'?: '31432';
@@ -4456,8 +4537,13 @@ export type FlowsProductCategory =
     }
   | {
       '@level'?: '4';
+      '@classId'?: '31433';
+      '#text'?: 'Particle board of ligno-cellulosic material other than wood (flax, bagasse, bamboo)';
+    }
+  | {
+      '@level'?: '4';
       '@classId'?: '31439';
-      '#text'?: 'Other board of wood or other ligneous materials';
+      '#text'?: 'Other particle boards of wood (e.g. waferboard)';
     }
   | {
       '@level'?: '3';
@@ -4499,7 +4585,12 @@ export type FlowsProductCategory =
   | {
       '@level'?: '4';
       '@classId'?: '31512';
-      '#text'?: 'Veneer sheets and sheets for plywood and other wood sawn lengthwise, sliced or peeled, of a thickness not exceeding 6 mm, of non-coniferous wood';
+      '#text'?: 'Veneer sheets and sheets for plywood and other wood sawn lengthwise, sliced or peeled, of a thickness not exceeding 6 mm, of tropical non-coniferous wood';
+    }
+  | {
+      '@level'?: '4';
+      '@classId'?: '31513';
+      '#text'?: 'Veneer sheets and sheets for plywood and other wood sawn lengthwise, sliced or peeled, of a thickness not exceeding 6 mm, of other non-coniferous wood';
     }
   | { '@level'?: '3'; '@classId'?: '3152'; '#text'?: 'Densified wood' }
   | { '@level'?: '4'; '@classId'?: '31520'; '#text'?: 'Densified wood' }
@@ -4508,15 +4599,52 @@ export type FlowsProductCategory =
       '@classId'?: '316';
       '#text'?: "Builders\' joinery and carpentry of wood (including cellular wood panels, assembled parquet panels, shingles and shakes)";
     }
+  | { '@level'?: '3'; '@classId'?: '3161'; '#text'?: 'Cellular board' }
+  | { '@level'?: '4'; '@classId'?: '31610'; '#text'?: 'Cellular board' }
   | {
       '@level'?: '3';
-      '@classId'?: '3160';
-      '#text'?: "Builders\' joinery and carpentry of wood (including cellular wood panels, assembled parquet panels, shingles and shakes)";
+      '@classId'?: '3162';
+      '#text'?: "Builder\'s joinery and carpentry of wood";
     }
   | {
       '@level'?: '4';
-      '@classId'?: '31600';
-      '#text'?: "Builders\' joinery and carpentry of wood (including cellular wood panels, assembled parquet panels, shingles and shakes)";
+      '@classId'?: '31621';
+      '#text'?: 'Windows, French-windows and their frames made out of wood';
+    }
+  | {
+      '@level'?: '4';
+      '@classId'?: '31622';
+      '#text'?: 'Doors and their frames and thresholds made out of wood';
+    }
+  | {
+      '@level'?: '4';
+      '@classId'?: '31623';
+      '#text'?: 'Shuttering for concrete constructional work made out of wood';
+    }
+  | {
+      '@level'?: '4';
+      '@classId'?: '31624';
+      '#text'?: 'Shingles and shakes made out of wood';
+    }
+  | {
+      '@level'?: '4';
+      '@classId'?: '31625';
+      '#text'?: 'Posts and beams, other than engineered structural timber products made out of wood';
+    }
+  | {
+      '@level'?: '4';
+      '@classId'?: '31626';
+      '#text'?: 'Assembled flooring panels made out of wood';
+    }
+  | {
+      '@level'?: '4';
+      '@classId'?: '31627';
+      '#text'?: 'Engineered structural timber products';
+    }
+  | {
+      '@level'?: '4';
+      '@classId'?: '31629';
+      '#text'?: "Other builder\'s joinery and carpentry of wood and bamboo";
     }
   | {
       '@level'?: '2';
@@ -4530,8 +4658,23 @@ export type FlowsProductCategory =
     }
   | {
       '@level'?: '4';
-      '@classId'?: '31700';
-      '#text'?: "Packing cases, boxes, crates, drums and similar packings, of wood; cable-drums of wood; pallets, box pallets and other load boards, of wood; casks, barrels, vats, tubs and other coopers\' products and parts thereof, of wood (including staves)";
+      '@classId'?: '31701';
+      '#text'?: 'Packing cases, boxes, crates, drums and similar packings, of wood; cable-drums of wood';
+    }
+  | {
+      '@level'?: '4';
+      '@classId'?: '31702';
+      '#text'?: 'Pallets, box pallets and other load boards, of wood; pallet collars of wood';
+    }
+  | {
+      '@level'?: '4';
+      '@classId'?: '31703';
+      '#text'?: "Casks, barrels, vats, tubs and other coopers\' products and parts thereof, of wood, including staves";
+    }
+  | {
+      '@level'?: '4';
+      '@classId'?: '31709';
+      '#text'?: 'Other wooden wrapping and packaging material';
     }
   | {
       '@level'?: '2';
@@ -4607,12 +4750,17 @@ export type FlowsProductCategory =
   | {
       '@level'?: '4';
       '@classId'?: '32113';
-      '#text'?: 'Mechanical wood pulp; semi-chemical wood pulp; pulps of fibrous cellulosic material other than wood';
+      '#text'?: 'Mechanical wood pulp; semi-chemical wood pulp';
+    }
+  | {
+      '@level'?: '4';
+      '@classId'?: '32114';
+      '#text'?: 'Pulps of fibres derived from recovered (waste and scrap) paper or paperboard or of other fibrous cellulosic material';
     }
   | {
       '@level'?: '3';
       '@classId'?: '3212';
-      '#text'?: 'Newsprint, hand-made paper and other uncoated paper and paperboard of a kind used for graphic purposes, and punch card stock and punch tape paper';
+      '#text'?: 'Newsprint and other uncoated paper and paperboard of a kind used for writing, printing or other graphic purposes, and non perforated punch cards and punch tape paper';
     }
   | { '@level'?: '4'; '@classId'?: '32121'; '#text'?: 'Newsprint' }
   | {
@@ -4622,8 +4770,19 @@ export type FlowsProductCategory =
     }
   | {
       '@level'?: '4';
+      '@classId'?: '32123';
+      '#text'?: 'Paper and paperboard of a kind used as a base for photo-sensitive, heat-sensitive or electro-sensitive paper or paperboard';
+    }
+  | { '@level'?: '4'; '@classId'?: '32124'; '#text'?: 'Wallpaper base' }
+  | {
+      '@level'?: '4';
+      '@classId'?: '32125';
+      '#text'?: 'Uncoated graphic paper and paperboard, mechanical';
+    }
+  | {
+      '@level'?: '4';
       '@classId'?: '32129';
-      '#text'?: 'Other uncoated paper and paperboard, of a kind used for writing, printing or other graphic purposes, and punch card stock and punch tape paper';
+      '#text'?: 'Other uncoated graphic paper and paperboard, wood free';
     }
   | {
       '@level'?: '3';
@@ -4674,7 +4833,7 @@ export type FlowsProductCategory =
   | {
       '@level'?: '4';
       '@classId'?: '32142';
-      '#text'?: 'Paper and paperboard, creped, crinkled, embossed or perforated n.e.c.';
+      '#text'?: 'Paper and paperboard, creped, crinkled, embossed or perforated';
     }
   | {
       '@level'?: '4';
@@ -4724,7 +4883,7 @@ export type FlowsProductCategory =
   | {
       '@level'?: '4';
       '@classId'?: '32193';
-      '#text'?: 'Toilet paper, handkerchiefs, towels, serviettes, napkins for babies, tampons, and similar household, sanitary or hospital articles, and articles of apparel, of paper pulp, paper, cellulose wadding or webs of cellulose fibres';
+      '#text'?: 'Toilet paper; handkerchiefs, cleansing or facial tissues and towels; tablecloths and serviettes, articles of apparel and clothing accessories, of paper pulp, paper, cellulose wadding or webs of cellulose fibres';
     }
   | {
       '@level'?: '4';
@@ -4853,10 +5012,9 @@ export type FlowsProductCategory =
     }
   | {
       '@level'?: '4';
-      '@classId'?: '32511';
-      '#text'?: 'Maps and hydrographic or similar charts (including wall maps, topographical plans and maps for globes), printed, other than in book-form';
+      '@classId'?: '32510';
+      '#text'?: 'Maps and hydrographic or similar charts of all kinds, including atlases, wall maps, topographical plans and globes, printed other than book form';
     }
-  | { '@level'?: '4'; '@classId'?: '32512'; '#text'?: 'Globes' }
   | {
       '@level'?: '3';
       '@classId'?: '3252';
@@ -4900,7 +5058,7 @@ export type FlowsProductCategory =
   | {
       '@level'?: '2';
       '@classId'?: '326';
-      '#text'?: 'Stamps, cheque forms, banknotes, stock certificates, brochures and leaflets, advertising material and other printed matter';
+      '#text'?: 'Stamps, cheque forms, banknotes, stock certificates, advertising material and other printed matter';
     }
   | {
       '@level'?: '3';
@@ -4976,13 +5134,23 @@ export type FlowsProductCategory =
     }
   | {
       '@level'?: '3';
-      '@classId'?: '3310';
-      '#text'?: 'Coke and semi-coke of coal, of lignite or of peat; retort carbon';
+      '@classId'?: '3311';
+      '#text'?: 'Coke and semi-coke of coal, or of lignite; retort carbon';
     }
   | {
       '@level'?: '4';
-      '@classId'?: '33100';
-      '#text'?: 'Coke and semi-coke of coal, of lignite or of peat; retort carbon';
+      '@classId'?: '33110';
+      '#text'?: 'Coke and semi-coke of coal, or of lignite; retort carbon';
+    }
+  | {
+      '@level'?: '3';
+      '@classId'?: '3312';
+      '#text'?: 'Coke and semi-coke of peat';
+    }
+  | {
+      '@level'?: '4';
+      '@classId'?: '33120';
+      '#text'?: 'Coke and semi-coke of peat';
     }
   | {
       '@level'?: '2';
@@ -4991,13 +5159,19 @@ export type FlowsProductCategory =
     }
   | {
       '@level'?: '3';
-      '@classId'?: '3320';
-      '#text'?: 'Tar distilled from coal, from lignite or from peat, and other mineral tars';
+      '@classId'?: '3321';
+      '#text'?: 'Tar distilled from coal, from lignite, and other mineral tars';
     }
   | {
       '@level'?: '4';
-      '@classId'?: '33200';
-      '#text'?: 'Tar distilled from coal, from lignite or from peat, and other mineral tars';
+      '@classId'?: '33210';
+      '#text'?: 'Tar distilled from coal, from lignite, and other mineral tars';
+    }
+  | { '@level'?: '3'; '@classId'?: '3322'; '#text'?: 'Tar distilled from peat' }
+  | {
+      '@level'?: '4';
+      '@classId'?: '33220';
+      '#text'?: 'Tar distilled from peat';
     }
   | {
       '@level'?: '2';
@@ -5541,7 +5715,7 @@ export type FlowsProductCategory =
   | {
       '@level'?: '4';
       '@classId'?: '34644';
-      '#text'?: 'Fertilizers containing two nutrients: nitrogen and phosphorus';
+      '#text'?: "Fertilizers containing two nutrients: nitrogen and phosphorus; other than diammonium phosphate and monoammonium phosphate\'";
     }
   | {
       '@level'?: '4';
@@ -5549,6 +5723,11 @@ export type FlowsProductCategory =
       '#text'?: 'Fertilizers containing two nutrients: phosphorus and potassium';
     }
   | { '@level'?: '4'; '@classId'?: '34646'; '#text'?: 'Potassium nitrate' }
+  | {
+      '@level'?: '4';
+      '@classId'?: '34647';
+      '#text'?: 'Fertilizers containing two nutrients: nitrogen and potassium; other than potassium nitrate';
+    }
   | {
       '@level'?: '4';
       '@classId'?: '34649';
@@ -5771,8 +5950,23 @@ export type FlowsProductCategory =
     }
   | {
       '@level'?: '4';
-      '@classId'?: '35270';
-      '#text'?: 'Other pharmaceutical products';
+      '@classId'?: '35271';
+      '#text'?: 'Glands or other organs, their extracts and secretions, for organo-therapeutic uses';
+    }
+  | {
+      '@level'?: '4';
+      '@classId'?: '35272';
+      '#text'?: 'Human blood, animal blood, antisera and other blood fractions and immunological products';
+    }
+  | {
+      '@level'?: '4';
+      '@classId'?: '35273';
+      '#text'?: 'Vaccines, toxins, cultures of micro-organisms (excluding yeasts) and similar products; cell cultures';
+    }
+  | {
+      '@level'?: '4';
+      '@classId'?: '35279';
+      '#text'?: 'Wadding, gauze, bandages and similar articles';
     }
   | {
       '@level'?: '3';
@@ -6715,7 +6909,16 @@ export type FlowsProductCategory =
       '#text'?: 'Other wooden furniture, of a kind used in the kitchen';
     }
   | { '@level'?: '3'; '@classId'?: '3814'; '#text'?: 'Other furniture n.e.c.' }
-  | { '@level'?: '4'; '@classId'?: '38140'; '#text'?: 'Other furniture n.e.c.' }
+  | {
+      '@level'?: '4';
+      '@classId'?: '38141';
+      '#text'?: 'Other furniture n.e.c., made of wood';
+    }
+  | {
+      '@level'?: '4';
+      '@classId'?: '38149';
+      '#text'?: 'Other furniture n.e.c., not made of wood';
+    }
   | {
       '@level'?: '3';
       '@classId'?: '3815';
@@ -6727,7 +6930,26 @@ export type FlowsProductCategory =
       '#text'?: 'Mattress supports; mattresses, fitted with springs or stuffed or internally fitted with any material or of cellular rubber or plastics, whether or not covered';
     }
   | { '@level'?: '3'; '@classId'?: '3816'; '#text'?: 'Parts of furniture' }
-  | { '@level'?: '4'; '@classId'?: '38160'; '#text'?: 'Parts of furniture' }
+  | {
+      '@level'?: '4';
+      '@classId'?: '38161';
+      '#text'?: 'Parts of furniture made from wood';
+    }
+  | {
+      '@level'?: '4';
+      '@classId'?: '38169';
+      '#text'?: 'Parts of furniture not made from wood';
+    }
+  | {
+      '@level'?: '3';
+      '@classId'?: '3817';
+      '#text'?: 'Wooden furniture of a kind used in the bedroom';
+    }
+  | {
+      '@level'?: '4';
+      '@classId'?: '38170';
+      '#text'?: 'Wooden furniture of a kind used in the bedroom';
+    }
   | {
       '@level'?: '2';
       '@classId'?: '382';
@@ -7289,8 +7511,23 @@ export type FlowsProductCategory =
     }
   | {
       '@level'?: '4';
-      '@classId'?: '39240';
-      '#text'?: 'Waste and scrap of paper or paperboard';
+      '@classId'?: '39241';
+      '#text'?: 'Recovered (waste and scrap) paper or paperboard, of unbleached kraft paper or paperboard or corrugated paper or paperboard';
+    }
+  | {
+      '@level'?: '4';
+      '@classId'?: '39242';
+      '#text'?: 'Recovered (waste and scrap) paper or paperboard, of other paper or paperboard made mainly of bleached chemical pulp, not coloured in the mass';
+    }
+  | {
+      '@level'?: '4';
+      '@classId'?: '39243';
+      '#text'?: 'Recovered (waste and scrap) paper or paperboard, made mainly of mechanical pulp (newspapers, journals and similar)';
+    }
+  | {
+      '@level'?: '4';
+      '@classId'?: '39249';
+      '#text'?: 'Other recovered (waste and scrap) paper or paperboard, including unsorted waste and scrap';
     }
   | {
       '@level'?: '3';
@@ -7331,7 +7568,7 @@ export type FlowsProductCategory =
   | {
       '@level'?: '4';
       '@classId'?: '39282';
-      '#text'?: 'Agglomerated wood waste and scrap in forms other than pellets';
+      '#text'?: 'Agglomerated wood waste and scrap in forms other than pellets, including wood briquettes';
     }
   | {
       '@level'?: '4';
@@ -8030,7 +8267,7 @@ export type FlowsProductCategory =
   | {
       '@level'?: '4';
       '@classId'?: '41601';
-      '#text'?: 'Tungsten, molybdenum, tantalum, magnesium, cobalt, cadmium, titanium, zirconium, beryllium, gallium, hafnium, indium, niobium, rhenium and thallium, germanium and vanadium, unwrought, and powders thereof, except powders of magnesium; waste and scrap of gallium, hafnium, indium, niobium, rhenium, germanium and vanadium; cobalt mattes and other intermediate products of cobalt metallurgy';
+      '#text'?: 'Tungsten, molybdenum, tantalum, magnesium, cobalt, cadmium, titanium, zirconium, beryllium, gallium, hafnium, indium, niobium, rhenium and thallium, germanium and vanadium, unwrought, and powders thereof, except powders of magnesium; cobalt mattes and other intermediate products of cobalt metallurgy';
     }
   | {
       '@level'?: '4';
@@ -8044,8 +8281,13 @@ export type FlowsProductCategory =
     }
   | {
       '@level'?: '4';
-      '@classId'?: '41604';
+      '@classId'?: '41605';
       '#text'?: 'Cermets and articles thereof';
+    }
+  | {
+      '@level'?: '4';
+      '@classId'?: '41609';
+      '#text'?: 'Waste and scrap of tungsten, molybdenum, tantalum, magnesium, cobalt, titanium, zirconium, antinomy, beryllium, chromium, thallium, cadmium';
     }
   | {
       '@level'?: '1';
@@ -8629,9 +8871,10 @@ export type FlowsProductCategory =
       '@classId'?: '4356';
       '#text'?: 'Other lifting, handling, loading or unloading machinery';
     }
+  | { '@level'?: '4'; '@classId'?: '43561'; '#text'?: 'Industrial robots' }
   | {
       '@level'?: '4';
-      '@classId'?: '43560';
+      '@classId'?: '43562';
       '#text'?: 'Other lifting, handling, loading or unloading machinery';
     }
   | {
@@ -9457,10 +9700,11 @@ export type FlowsProductCategory =
       '@classId'?: '44825';
       '#text'?: 'Central heating boilers, for producing hot water or low pressure steam';
     }
+  | { '@level'?: '4'; '@classId'?: '44826'; '#text'?: 'Solar water heaters' }
   | {
       '@level'?: '4';
-      '@classId'?: '44826';
-      '#text'?: 'Water heaters, instantaneous or storage, non-electric';
+      '@classId'?: '44827';
+      '#text'?: 'Other non-electric water heaters';
     }
   | {
       '@level'?: '3';
@@ -9533,33 +9777,48 @@ export type FlowsProductCategory =
       '#text'?: 'Machines and apparatus of a kind used solely or principally for the manufacture of semiconductor boules or wafers, semiconductor devices, electronic integrated circuits or flat panel displays';
     }
   | {
+      '@level'?: '3';
+      '@classId'?: '4492';
+      '#text'?: 'Machines for additive manufacturing';
+    }
+  | {
       '@level'?: '4';
-      '@classId'?: '44919';
+      '@classId'?: '44920';
+      '#text'?: 'Machines for additive manufacturing';
+    }
+  | {
+      '@level'?: '3';
+      '@classId'?: '4493';
+      '#text'?: 'Special-purpose machinery n.e.c. (including machinery for isotopic separation, machines for assembling electric lamps in glass envelopes, machines for manufacturing glassware and rope making machines)';
+    }
+  | {
+      '@level'?: '4';
+      '@classId'?: '44930';
       '#text'?: 'Special-purpose machinery n.e.c. (including machinery for isotopic separation, machines for assembling electric lamps in glass envelopes, machines for manufacturing glassware and rope making machines)';
     }
   | {
       '@level'?: '3';
-      '@classId'?: '4492';
+      '@classId'?: '4494';
       '#text'?: 'Parts n.e.c. for special-purpose machinery';
     }
   | {
       '@level'?: '4';
-      '@classId'?: '44921';
+      '@classId'?: '44941';
       '#text'?: 'Parts for the goods of subclass 44913';
     }
   | {
       '@level'?: '4';
-      '@classId'?: '44922';
+      '@classId'?: '44942';
       '#text'?: 'Parts for the goods of subclasses 44914, 44917 and 45150';
     }
   | {
       '@level'?: '4';
-      '@classId'?: '44923';
+      '@classId'?: '44943';
       '#text'?: 'Parts for the goods of subclass 44918';
     }
   | {
       '@level'?: '4';
-      '@classId'?: '44929';
+      '@classId'?: '44949';
       '#text'?: 'Parts for the goods of subclass 44915; other parts n.e.c. of special-purpose machinery';
     }
   | {
@@ -9778,16 +10037,21 @@ export type FlowsProductCategory =
   | {
       '@level'?: '4';
       '@classId'?: '46111';
-      '#text'?: 'Motors of an output not exceeding 37.5 W; other DC motors; DC generators';
+      '#text'?: 'Motors of an output not exceeding 37.5 W; other DC motors; DC generators other than photovoltaic generators';
     }
   | {
       '@level'?: '4';
       '@classId'?: '46112';
-      '#text'?: 'Universal AC/DC motors of an output exceeding 37.5 W; other AC motors; AC generators (alternators)';
+      '#text'?: 'Universal AC/DC motors of an output exceeding 37.5 W; other AC motors; AC generators (alternators) other than photovoltaic generators';
     }
   | {
       '@level'?: '4';
       '@classId'?: '46113';
+      '#text'?: 'Photovoltaic AC/DC generators';
+    }
+  | {
+      '@level'?: '4';
+      '@classId'?: '46114';
       '#text'?: 'Electric generating sets and rotary converters';
     }
   | {
@@ -9973,12 +10237,17 @@ export type FlowsProductCategory =
   | {
       '@level'?: '4';
       '@classId'?: '46532';
-      '#text'?: 'Lighting sets of a kind used for Christmas trees';
+      '#text'?: 'Lighting sets used for Christmas trees, not solely for LED light sources';
+    }
+  | {
+      '@level'?: '4';
+      '@classId'?: '46533';
+      '#text'?: 'Luminaires and lighting fittings, designed for use solely with light-emitting diode (LED) light sources';
     }
   | {
       '@level'?: '4';
       '@classId'?: '46539';
-      '#text'?: 'Other electric lamps and lighting fittings (including lamps and lighting fittings of a kind used for lighting public open spaces or thorough-fares)';
+      '#text'?: 'Other electric lamps and lighting fittings (including lamps and lighting fittings of a kind used for lighting public open spaces or thorough-fares), not solely for LED light sources';
     }
   | {
       '@level'?: '3';
@@ -10280,7 +10549,7 @@ export type FlowsProductCategory =
   | {
       '@level'?: '2';
       '@classId'?: '475';
-      '#text'?: 'Disks, tapes, solid-state non-volatile storage devices and other media, not recorded';
+      '#text'?: 'Discs, tapes, solid-state non-volatile storage devices and other media, not recorded';
     }
   | {
       '@level'?: '3';
@@ -10325,47 +10594,47 @@ export type FlowsProductCategory =
   | {
       '@level'?: '2';
       '@classId'?: '476';
-      '#text'?: 'Audio, video and other disks, tapes and other physical media, recorded';
+      '#text'?: 'Audio and video discs, tapes and other physical media, recorded';
     }
   | {
       '@level'?: '3';
       '@classId'?: '4761';
-      '#text'?: 'Musical audio disks, tapes or other physical media';
+      '#text'?: 'Musical audio discs, tapes or other physical media';
     }
   | {
       '@level'?: '4';
       '@classId'?: '47610';
-      '#text'?: 'Musical audio disks, tapes or other physical media';
+      '#text'?: 'Musical audio discs, tapes or other physical media';
     }
   | {
       '@level'?: '3';
       '@classId'?: '4762';
-      '#text'?: 'Films and other video content on disks, tape or other physical media';
+      '#text'?: 'Films and other video content on discs, tape or other physical media';
     }
   | {
       '@level'?: '4';
       '@classId'?: '47620';
-      '#text'?: 'Films and other video content on disks, tape or other physical media';
+      '#text'?: 'Films and other video content on discs, tape or other physical media';
     }
   | {
       '@level'?: '3';
       '@classId'?: '4769';
-      '#text'?: 'Other recorded disks, tapes or other physical media';
+      '#text'?: 'Other recorded discs, tapes or other physical media';
     }
   | {
       '@level'?: '4';
       '@classId'?: '47691';
-      '#text'?: 'Audio books on disk, tape or other physical media';
+      '#text'?: 'Audio books on disc, tape or other physical media';
     }
   | {
       '@level'?: '4';
       '@classId'?: '47692';
-      '#text'?: 'Text-based disks, tapes or other physical media';
+      '#text'?: 'Text-based discs, tapes or other physical media';
     }
   | {
       '@level'?: '4';
       '@classId'?: '47699';
-      '#text'?: 'Other non-musical audio disks and tapes';
+      '#text'?: 'Other non-musical audio discs and tapes';
     }
   | { '@level'?: '2'; '@classId'?: '478'; '#text'?: 'Packaged software' }
   | {
@@ -10428,8 +10697,8 @@ export type FlowsProductCategory =
       '@classId'?: '47910';
       '#text'?: 'Cards with a magnetic stripe';
     }
-  | { '@level'?: '3'; '@classId'?: '4792'; '#text'?: '"Smart cards"' }
-  | { '@level'?: '4'; '@classId'?: '47920'; '#text'?: '"Smart cards"' }
+  | { '@level'?: '3'; '@classId'?: '4792'; '#text'?: 'Smart cards' }
+  | { '@level'?: '4'; '@classId'?: '47920'; '#text'?: 'Smart cards' }
   | {
       '@level'?: '1';
       '@classId'?: '48';
@@ -11097,17 +11366,22 @@ export type FlowsProductCategory =
       '@classId'?: '4962';
       '#text'?: 'Aeroplanes and helicopters';
     }
-  | { '@level'?: '4'; '@classId'?: '49621'; '#text'?: 'Helicopters' }
+  | {
+      '@level'?: '4';
+      '@classId'?: '49621';
+      '#text'?: 'Helicopters, except unmanned aircraft';
+    }
   | {
       '@level'?: '4';
       '@classId'?: '49622';
-      '#text'?: 'Aeroplanes and other powered aircraft of an unladen weight not exceeding 2000 kg';
+      '#text'?: 'Aeroplanes and other powered aircraft, , except unmanned aircraft, of an unladen weight not exceeding 2000 kg';
     }
   | {
       '@level'?: '4';
       '@classId'?: '49623';
-      '#text'?: 'Aeroplanes and other powered aircraft of an unladen weight exceeding 2000 kg';
+      '#text'?: 'Aeroplanes and other powered aircraft, , except unmanned aircraft, of an unladen weight exceeding 2000 kg';
     }
+  | { '@level'?: '4'; '@classId'?: '49624'; '#text'?: 'Unmanned aircraft' }
   | {
       '@level'?: '3';
       '@classId'?: '4963';
@@ -11692,7 +11966,21 @@ export type FlowsProductCategory =
       '#text'?: 'Gas fitting installation services';
     }
   | { '@level'?: '3'; '@classId'?: '5465'; '#text'?: 'Insulation services' }
-  | { '@level'?: '4'; '@classId'?: '54650'; '#text'?: 'Insulation services' }
+  | {
+      '@level'?: '4';
+      '@classId'?: '54651';
+      '#text'?: 'Sound or vibration insulation services';
+    }
+  | {
+      '@level'?: '4';
+      '@classId'?: '54652';
+      '#text'?: 'Thermal insulation services';
+    }
+  | {
+      '@level'?: '4';
+      '@classId'?: '54659';
+      '#text'?: 'Other insulation services, n.e.c.';
+    }
   | {
       '@level'?: '3';
       '@classId'?: '5469';
@@ -11774,706 +12062,360 @@ export type FlowsProductCategory =
       '@classId'?: '6';
       '#text'?: 'Distributive trade services; accommodation, food and beverage serving services; transport services; and electricity, gas and water distribution services';
     }
-  | { '@level'?: '1'; '@classId'?: '61'; '#text'?: 'Wholesale trade services' }
   | {
-      '@level'?: '2';
-      '@classId'?: '611';
-      '#text'?: 'Wholesale trade services, except on a fee or contract basis';
-    }
-  | {
-      '@level'?: '3';
-      '@classId'?: '6111';
-      '#text'?: 'Wholesale trade services, except on a fee or contract basis, of raw agricultural products and live animals';
-    }
-  | {
-      '@level'?: '4';
-      '@classId'?: '61111';
-      '#text'?: 'Wholesale trade services, except on a fee or contract basis, of grains and oilseeds and oleaginous fruits, seeds and animal feed';
-    }
-  | {
-      '@level'?: '4';
-      '@classId'?: '61112';
-      '#text'?: 'Wholesale trade services, except on a fee or contract basis, of flowers and plants';
-    }
-  | {
-      '@level'?: '4';
-      '@classId'?: '61113';
-      '#text'?: 'Wholesale trade services, except on a fee or contract basis, of unmanufactured tobacco';
-    }
-  | {
-      '@level'?: '4';
-      '@classId'?: '61114';
-      '#text'?: 'Wholesale trade services, except on a fee or contract basis, of live animals, including pet animals';
-    }
-  | {
-      '@level'?: '4';
-      '@classId'?: '61115';
-      '#text'?: 'Wholesale trade services, except on a fee or contract basis, of hides, skins and leather';
-    }
-  | {
-      '@level'?: '4';
-      '@classId'?: '61119';
-      '#text'?: 'Wholesale trade services, except on a fee or contract basis, of agricultural raw materials n.e.c.';
-    }
-  | {
-      '@level'?: '3';
-      '@classId'?: '6112';
-      '#text'?: 'Wholesale trade services, except on a fee or contract basis, of food, beverages and tobacco';
-    }
-  | {
-      '@level'?: '4';
-      '@classId'?: '61121';
-      '#text'?: 'Wholesale trade services, except on a fee or contract basis, of fruits and vegetables';
-    }
-  | {
-      '@level'?: '4';
-      '@classId'?: '61122';
-      '#text'?: 'Wholesale trade services, except on a fee or contract basis, of dairy products, eggs and edible oils and fats';
-    }
-  | {
-      '@level'?: '4';
-      '@classId'?: '61123';
-      '#text'?: 'Wholesale trade services, except on a fee or contract basis, of meat, poultry and game';
-    }
-  | {
-      '@level'?: '4';
-      '@classId'?: '61124';
-      '#text'?: 'Wholesale trade services, except on a fee or contract basis, of fish and other seafood';
-    }
-  | {
-      '@level'?: '4';
-      '@classId'?: '61125';
-      '#text'?: 'Wholesale trade services, except on a fee or contract basis, of sugar confectionery and bakery products';
-    }
-  | {
-      '@level'?: '4';
-      '@classId'?: '61126';
-      '#text'?: 'Wholesale trade services, except on a fee or contract basis, of beverages';
-    }
-  | {
-      '@level'?: '4';
-      '@classId'?: '61127';
-      '#text'?: 'Wholesale trade services, except on a fee or contract basis, of coffee, tea and spices';
-    }
-  | {
-      '@level'?: '4';
-      '@classId'?: '61128';
-      '#text'?: 'Wholesale trade services, except on a fee or contract basis, of tobacco products';
-    }
-  | {
-      '@level'?: '4';
-      '@classId'?: '61129';
-      '#text'?: 'Wholesale trade services, except on a fee or contract basis, of food products n.e.c.';
-    }
-  | {
-      '@level'?: '3';
-      '@classId'?: '6113';
-      '#text'?: 'Wholesale trade services, except on a fee or contract basis, of textiles, clothing and footwear';
-    }
-  | {
-      '@level'?: '4';
-      '@classId'?: '61131';
-      '#text'?: 'Wholesale trade services, except on a fee or contract basis, of yarn and fabrics';
-    }
-  | {
-      '@level'?: '4';
-      '@classId'?: '61132';
-      '#text'?: 'Wholesale trade services, except on a fee or contract basis, of household linens, curtains, net curtains and diverse household articles of textile materials';
-    }
-  | {
-      '@level'?: '4';
-      '@classId'?: '61133';
-      '#text'?: 'Wholesale trade services, except on a fee or contract basis, of articles of clothing, articles of fur and clothing accessories';
-    }
-  | {
-      '@level'?: '4';
-      '@classId'?: '61134';
-      '#text'?: 'Wholesale trade services, except on a fee or contract basis, of footwear';
-    }
-  | {
-      '@level'?: '3';
-      '@classId'?: '6114';
-      '#text'?: 'Wholesale trade services, except on a fee or contract basis, of household appliances, articles and equipment';
-    }
-  | {
-      '@level'?: '4';
-      '@classId'?: '61141';
-      '#text'?: 'Wholesale trade services, except on a fee or contract basis, of household furniture';
-    }
-  | {
-      '@level'?: '4';
-      '@classId'?: '61142';
-      '#text'?: 'Wholesale trade services, except on a fee or contract basis, of radio and television equipment and recorded audio and video disks and tapes';
-    }
-  | {
-      '@level'?: '4';
-      '@classId'?: '61143';
-      '#text'?: 'Wholesale trade services, except on a fee or contract basis, of articles for lighting';
-    }
-  | {
-      '@level'?: '4';
-      '@classId'?: '61144';
-      '#text'?: 'Wholesale trade services, except on a fee or contract basis, of household appliances';
-    }
-  | {
-      '@level'?: '4';
-      '@classId'?: '61145';
-      '#text'?: 'Wholesale trade services, except on a fee or contract basis, of miscellaneous household utensils, cutlery, crockery, glassware, china and pottery';
-    }
-  | {
-      '@level'?: '4';
-      '@classId'?: '61146';
-      '#text'?: "Wholesale trade services, except on a fee or contract basis, of wickerwork, cork goods, cooper\'s ware and other wooden ware";
-    }
-  | {
-      '@level'?: '3';
-      '@classId'?: '6115';
-      '#text'?: 'Wholesale trade services, except on a fee or contract basis, of miscellaneous consumer goods';
-    }
-  | {
-      '@level'?: '4';
-      '@classId'?: '61151';
-      '#text'?: 'Wholesale trade services, except on a fee or contract basis, of books, newspapers, magazines and stationery';
-    }
-  | {
-      '@level'?: '4';
-      '@classId'?: '61152';
-      '#text'?: 'Wholesale trade services, except on a fee or contract basis, of photographic, optical and precision equipment';
-    }
-  | {
-      '@level'?: '4';
-      '@classId'?: '61153';
-      '#text'?: 'Wholesale trade services, except on a fee or contract basis, of games and toys';
-    }
-  | {
-      '@level'?: '4';
-      '@classId'?: '61154';
-      '#text'?: 'Wholesale trade services, except on a fee or contract basis, of watches, clocks and jewellery';
-    }
-  | {
-      '@level'?: '4';
-      '@classId'?: '61155';
-      '#text'?: 'Wholesale trade services, except on a fee or contract basis, of sports goods (incl. bicycles)';
-    }
-  | {
-      '@level'?: '4';
-      '@classId'?: '61156';
-      '#text'?: 'Wholesale trade services, except on a fee or contract basis, of leather goods and travel accessories';
-    }
-  | {
-      '@level'?: '4';
-      '@classId'?: '61159';
-      '#text'?: 'Wholesale trade services, except on a fee or contract basis, of miscellaneous consumer goods n.e.c.';
-    }
-  | {
-      '@level'?: '3';
-      '@classId'?: '6116';
-      '#text'?: 'Wholesale trade services, except on a fee or contract basis, of construction materials and hardware';
-    }
-  | {
-      '@level'?: '4';
-      '@classId'?: '61161';
-      '#text'?: 'Wholesale trade services, except on a fee or contract basis, of construction materials and flat glass';
-    }
-  | {
-      '@level'?: '4';
-      '@classId'?: '61162';
-      '#text'?: 'Wholesale trade services, except on a fee or contract basis, of fittings, fixtures and ceramic sanitary fixtures';
-    }
-  | {
-      '@level'?: '4';
-      '@classId'?: '61163';
-      '#text'?: 'Wholesale trade services, except on a fee or contract basis, of wallpaper and floor coverings';
-    }
-  | {
-      '@level'?: '4';
-      '@classId'?: '61164';
-      '#text'?: 'Wholesale trade services, except on a fee or contract basis, of paints, varnishes and lacquers';
-    }
-  | {
-      '@level'?: '4';
-      '@classId'?: '61165';
-      '#text'?: 'Wholesale trade services, except on a fee or contract basis, of hardware and hand tools';
-    }
-  | {
-      '@level'?: '3';
-      '@classId'?: '6117';
-      '#text'?: 'Wholesale trade services, except on a fee or contract basis, of chemical and pharmaceutical products';
-    }
-  | {
-      '@level'?: '4';
-      '@classId'?: '61171';
-      '#text'?: 'Wholesale trade services, except on a fee or contract basis, of basic industrial chemicals and synthetic resins';
-    }
-  | {
-      '@level'?: '4';
-      '@classId'?: '61172';
-      '#text'?: 'Wholesale trade services, except on a fee or contract basis, of fertilizers and agrochemical products';
-    }
-  | {
-      '@level'?: '4';
-      '@classId'?: '61173';
-      '#text'?: 'Wholesale trade services, except on a fee or contract basis, of pharmaceutical products';
-    }
-  | {
-      '@level'?: '4';
-      '@classId'?: '61174';
-      '#text'?: 'Wholesale trade services, except on a fee or contract basis, of medical and orthopaedic goods';
-    }
-  | {
-      '@level'?: '4';
-      '@classId'?: '61175';
-      '#text'?: 'Wholesale trade services, except on a fee or contract basis, of perfumery articles, cosmetic articles and toilet soaps';
-    }
-  | {
-      '@level'?: '4';
-      '@classId'?: '61176';
-      '#text'?: 'Wholesale trade services, except on a fee or contract basis, of cleaning materials';
-    }
-  | {
-      '@level'?: '3';
-      '@classId'?: '6118';
-      '#text'?: 'Wholesale trade services, except on a fee or contract basis, of machinery, equipment and supplies';
-    }
-  | {
-      '@level'?: '4';
-      '@classId'?: '61181';
-      '#text'?: 'Wholesale trade services, except on a fee or contract basis, of motor vehicles, motorcycles, snowmobiles and related parts and accessories';
-    }
-  | {
-      '@level'?: '4';
-      '@classId'?: '61182';
-      '#text'?: 'Wholesale trade services, except on a fee or contract basis, of other transport equipment, except bicycles';
-    }
-  | {
-      '@level'?: '4';
-      '@classId'?: '61183';
-      '#text'?: 'Wholesale trade services, except on a fee or contract basis, of office machinery and equipment including office furniture';
-    }
-  | {
-      '@level'?: '4';
-      '@classId'?: '61184';
-      '#text'?: 'Wholesale trade services, except on a fee or contract basis, of computers and packaged software';
-    }
-  | {
-      '@level'?: '4';
-      '@classId'?: '61185';
-      '#text'?: 'Wholesale trade services, except on a fee or contract basis, of electronic and telecommunications equipment and parts';
-    }
-  | {
-      '@level'?: '4';
-      '@classId'?: '61186';
-      '#text'?: 'Wholesale trade services, except on a fee or contract basis, of agricultural lawn and garden machinery and equipment, including tractors';
-    }
-  | {
-      '@level'?: '4';
-      '@classId'?: '61187';
-      '#text'?: 'Wholesale trade services, except on a fee or contract basis, of mining, construction and civil engineering machinery and equipment';
-    }
-  | {
-      '@level'?: '4';
-      '@classId'?: '61188';
-      '#text'?: 'Wholesale trade services, except on a fee or contract basis, of other industry-specific machinery and equipment and related operating supplies';
-    }
-  | {
-      '@level'?: '4';
-      '@classId'?: '61189';
-      '#text'?: 'Wholesale trade services, except on a fee or contract basis, of other machinery and equipment n.e.c.';
-    }
-  | {
-      '@level'?: '3';
-      '@classId'?: '6119';
-      '#text'?: 'Wholesale trade services, except on a fee or contract basis, of other products';
-    }
-  | {
-      '@level'?: '4';
-      '@classId'?: '61191';
-      '#text'?: 'Wholesale trade services, except on a fee or contract basis, of solid, liquid and gaseous fuels and related products';
-    }
-  | {
-      '@level'?: '4';
-      '@classId'?: '61192';
-      '#text'?: 'Wholesale trade services, except on a fee or contract basis, of metal ores and metal in primary forms';
-    }
-  | {
-      '@level'?: '4';
-      '@classId'?: '61193';
-      '#text'?: 'Wholesale trade services, except on a fee or contract basis, of wood in the rough';
-    }
-  | {
-      '@level'?: '4';
-      '@classId'?: '61194';
-      '#text'?: 'Wholesale trade services, except on a fee or contract basis, of paper and paperboard';
-    }
-  | {
-      '@level'?: '4';
-      '@classId'?: '61195';
-      '#text'?: 'Wholesale trade services, except on a fee or contract basis, of waste and scrap and materials for recycling';
-    }
-  | {
-      '@level'?: '4';
-      '@classId'?: '61197';
-      '#text'?: 'Wholesale trade services, except on a fee or contract basis, of electricity';
-    }
-  | {
-      '@level'?: '4';
-      '@classId'?: '61198';
-      '#text'?: 'Wholesale trade services, except on a fee or contract basis, of water';
-    }
-  | {
-      '@level'?: '4';
-      '@classId'?: '61199';
-      '#text'?: 'Wholesale trade services, except on a fee or contract basis, of non-metallic minerals and other products n.e.c.';
+      '@level'?: '1';
+      '@classId'?: '61';
+      '#text'?: 'Wholesale trade services, not on a fee or contract basis';
     }
   | {
       '@level'?: '2';
-      '@classId'?: '612';
-      '#text'?: 'Wholesale trade services on a fee or contract basis';
+      '@classId'?: '610';
+      '#text'?: 'Wholesale trade services, not on a fee or contract basis';
     }
   | {
       '@level'?: '3';
-      '@classId'?: '6121';
-      '#text'?: 'Wholesale trade services on a fee or contract basis, of raw agricultural products and live animals';
+      '@classId'?: '6101';
+      '#text'?: 'Wholesale trade services, not on a fee or contract basis, of raw agricultural products and live animals';
     }
   | {
       '@level'?: '4';
-      '@classId'?: '61211';
-      '#text'?: 'Wholesale trade services on a fee or contract basis, of grains and oilseeds and oleaginous fruits, seeds and animal feed';
+      '@classId'?: '61011';
+      '#text'?: 'Wholesale trade services, not on a fee or contract basis, of grains and oilseeds and oleaginous fruits, seeds and animal feed';
     }
   | {
       '@level'?: '4';
-      '@classId'?: '61212';
-      '#text'?: 'Wholesale trade services on a fee or contract basis, of flowers and plants';
+      '@classId'?: '61012';
+      '#text'?: 'Wholesale trade services, not on a fee or contract basis, of flowers and plants';
     }
   | {
       '@level'?: '4';
-      '@classId'?: '61213';
-      '#text'?: 'Wholesale trade services on a fee or contract basis, of unmanufactured tobacco';
+      '@classId'?: '61013';
+      '#text'?: 'Wholesale trade services, not on a fee or contract basis, of unmanufactured tobacco';
     }
   | {
       '@level'?: '4';
-      '@classId'?: '61214';
-      '#text'?: 'Wholesale trade services on a fee or contract basis, of live animals, including pet animals';
+      '@classId'?: '61014';
+      '#text'?: 'Wholesale trade services, not on a fee or contract basis, of live animals, including pet animals';
     }
   | {
       '@level'?: '4';
-      '@classId'?: '61215';
-      '#text'?: 'Wholesale trade services on a fee or contract basis, of hides, skins and leather';
+      '@classId'?: '61015';
+      '#text'?: 'Wholesale trade services, not on a fee or contract basis, of hides, skins and leather';
     }
   | {
       '@level'?: '4';
-      '@classId'?: '61219';
-      '#text'?: 'Wholesale trade services on a fee or contract basis, of agricultural raw materials n.e.c.';
+      '@classId'?: '61019';
+      '#text'?: 'Wholesale trade services, not on a fee or contract basis, of agricultural raw materials n.e.c.';
     }
   | {
       '@level'?: '3';
-      '@classId'?: '6122';
-      '#text'?: 'Wholesale trade services on a fee or contract basis, of food, beverages and tobacco';
+      '@classId'?: '6102';
+      '#text'?: 'Wholesale trade services, not on a fee or contract basis, of food, beverages and tobacco';
     }
   | {
       '@level'?: '4';
-      '@classId'?: '61221';
-      '#text'?: 'Wholesale trade services on a fee or contract basis, of fruits and vegetables';
+      '@classId'?: '61021';
+      '#text'?: 'Wholesale trade services, not on a fee or contract basis, of fruits and vegetables';
     }
   | {
       '@level'?: '4';
-      '@classId'?: '61222';
-      '#text'?: 'Wholesale trade services on a fee or contract basis, of dairy products, eggs and edible oils and fats';
+      '@classId'?: '61022';
+      '#text'?: 'Wholesale trade services, not on a fee or contract basis, of dairy products, eggs and edible oils and fats';
     }
   | {
       '@level'?: '4';
-      '@classId'?: '61223';
-      '#text'?: 'Wholesale trade services on a fee or contract basis, of meat, poultry and game';
+      '@classId'?: '61023';
+      '#text'?: 'Wholesale trade services, not on a fee or contract basis, of meat, poultry and game';
     }
   | {
       '@level'?: '4';
-      '@classId'?: '61224';
-      '#text'?: 'Wholesale trade services on a fee or contract basis, of fish and other seafood';
+      '@classId'?: '61024';
+      '#text'?: 'Wholesale trade services, not on a fee or contract basis, of fish and other seafood';
     }
   | {
       '@level'?: '4';
-      '@classId'?: '61225';
-      '#text'?: 'Wholesale trade services on a fee or contract basis, of sugar confectionery and bakery products';
+      '@classId'?: '61025';
+      '#text'?: 'Wholesale trade services, not on a fee or contract basis, of sugar confectionery and bakery products';
     }
   | {
       '@level'?: '4';
-      '@classId'?: '61226';
-      '#text'?: 'Wholesale trade services on a fee or contract basis, of beverages';
+      '@classId'?: '61026';
+      '#text'?: 'Wholesale trade services, not on a fee or contract basis, of beverages';
     }
   | {
       '@level'?: '4';
-      '@classId'?: '61227';
-      '#text'?: 'Wholesale trade services on a fee or contract basis, of coffee, tea and spices';
+      '@classId'?: '61027';
+      '#text'?: 'Wholesale trade services, not on a fee or contract basis, of coffee, tea and spices';
     }
   | {
       '@level'?: '4';
-      '@classId'?: '61228';
-      '#text'?: 'Wholesale trade services on a fee or contract basis, of tobacco products';
+      '@classId'?: '61028';
+      '#text'?: 'Wholesale trade services, not on a fee or contract basis, of tobacco products';
     }
   | {
       '@level'?: '4';
-      '@classId'?: '61229';
-      '#text'?: 'Wholesale trade services on a fee or contract basis, of food products n.e.c.';
+      '@classId'?: '61029';
+      '#text'?: 'Wholesale trade services, not on a fee or contract basis, of food products n.e.c.';
     }
   | {
       '@level'?: '3';
-      '@classId'?: '6123';
-      '#text'?: 'Wholesale trade services on a fee or contract basis, of textiles, clothing and footwear';
+      '@classId'?: '6103';
+      '#text'?: 'Wholesale trade services, not on a fee or contract basis, of textiles, clothing and footwear';
     }
   | {
       '@level'?: '4';
-      '@classId'?: '61231';
-      '#text'?: 'Wholesale trade services on a fee or contract basis, of yarn and fabrics';
+      '@classId'?: '61031';
+      '#text'?: 'Wholesale trade services, not on a fee or contract basis, of yarn and fabrics';
     }
   | {
       '@level'?: '4';
-      '@classId'?: '61232';
-      '#text'?: 'Wholesale trade services on a fee or contract basis, of household linens, curtains, net curtains and diverse household articles';
+      '@classId'?: '61032';
+      '#text'?: 'Wholesale trade services, not on a fee or contract basis, of household linens, curtains, net curtains and diverse household articles of textile materials';
     }
   | {
       '@level'?: '4';
-      '@classId'?: '61233';
-      '#text'?: 'Wholesale trade services on a fee or contract basis, of articles of clothing, articles of fur and clothing accessories';
+      '@classId'?: '61033';
+      '#text'?: 'Wholesale trade services, not on a fee or contract basis, of articles of clothing, articles of fur and clothing accessories';
     }
   | {
       '@level'?: '4';
-      '@classId'?: '61234';
-      '#text'?: 'Wholesale trade services on a fee or contract basis, of footwear';
+      '@classId'?: '61034';
+      '#text'?: 'Wholesale trade services, not on a fee or contract basis, of footwear';
     }
   | {
       '@level'?: '3';
-      '@classId'?: '6124';
-      '#text'?: 'Wholesale trade services on a fee or contract basis, of household appliances, articles and equipment';
+      '@classId'?: '6104';
+      '#text'?: 'Wholesale trade services, not on a fee or contract basis, of household appliances, articles and equipment';
     }
   | {
       '@level'?: '4';
-      '@classId'?: '61241';
-      '#text'?: 'Wholesale trade services on a fee or contract basis, of household furniture';
+      '@classId'?: '61041';
+      '#text'?: 'Wholesale trade services, not on a fee or contract basis, of household furniture';
     }
   | {
       '@level'?: '4';
-      '@classId'?: '61242';
-      '#text'?: 'Wholesale trade services on a fee or contract basis, of radio and television equipment and recorded audio and video disks and tapes';
+      '@classId'?: '61042';
+      '#text'?: 'Wholesale trade services, not on a fee or contract basis, of radio and television equipment and recorded audio and video disks and tapes';
     }
   | {
       '@level'?: '4';
-      '@classId'?: '61243';
-      '#text'?: 'Wholesale trade services on a fee or contract basis, of articles for lighting';
+      '@classId'?: '61043';
+      '#text'?: 'Wholesale trade services, not on a fee or contract basis, of articles for lighting';
     }
   | {
       '@level'?: '4';
-      '@classId'?: '61244';
-      '#text'?: 'Wholesale trade services on a fee or contract basis, of household appliances';
+      '@classId'?: '61044';
+      '#text'?: 'Wholesale trade services, not on a fee or contract basis, of household appliances';
     }
   | {
       '@level'?: '4';
-      '@classId'?: '61245';
-      '#text'?: 'Wholesale trade services on a fee or contract basis, of miscellaneous household utensils, cutlery, crockery, glassware, china and pottery';
+      '@classId'?: '61045';
+      '#text'?: 'Wholesale trade services, not on a fee or contract basis, of miscellaneous household utensils, cutlery, crockery, glassware, china and pottery';
     }
   | {
       '@level'?: '4';
-      '@classId'?: '61246';
-      '#text'?: "Wholesale trade services on a fee or contract basis, of wickerwork, cork goods, cooper\'s ware and other wooden ware";
+      '@classId'?: '61046';
+      '#text'?: "Wholesale trade services, not on a fee or contract basis, of wickerwork, cork goods, cooper\'s ware and other wooden ware";
     }
   | {
       '@level'?: '3';
-      '@classId'?: '6125';
-      '#text'?: 'Wholesale trade services on a fee or contract basis, of miscellaneous consumer goods';
+      '@classId'?: '6105';
+      '#text'?: 'Wholesale trade services, not on a fee or contract basis, of miscellaneous consumer goods';
     }
   | {
       '@level'?: '4';
-      '@classId'?: '61251';
-      '#text'?: 'Wholesale trade services on a fee or contract basis, of books, newspapers, magazines and stationery';
+      '@classId'?: '61051';
+      '#text'?: 'Wholesale trade services, not on a fee or contract basis, of books, newspapers, magazines and stationery';
     }
   | {
       '@level'?: '4';
-      '@classId'?: '61252';
-      '#text'?: 'Wholesale trade services on a fee or contract basis, of photographic, optical and precision equipment';
+      '@classId'?: '61052';
+      '#text'?: 'Wholesale trade services, not on a fee or contract basis, of photographic, optical and precision equipment';
     }
   | {
       '@level'?: '4';
-      '@classId'?: '61253';
-      '#text'?: 'Wholesale trade services on a fee or contract basis, of games and toys';
+      '@classId'?: '61053';
+      '#text'?: 'Wholesale trade services, not on a fee or contract basis, of games and toys';
     }
   | {
       '@level'?: '4';
-      '@classId'?: '61254';
-      '#text'?: 'Wholesale trade services on a fee or contract basis, of watches, clocks and jewellery';
+      '@classId'?: '61054';
+      '#text'?: 'Wholesale trade services, not on a fee or contract basis, of watches, clocks and jewellery';
     }
   | {
       '@level'?: '4';
-      '@classId'?: '61255';
-      '#text'?: 'Wholesale trade services on a fee or contract basis, of sports goods (incl. bicycles)';
+      '@classId'?: '61055';
+      '#text'?: 'Wholesale trade services, not on a fee or contract basis, of sports goods (incl. bicycles)';
     }
   | {
       '@level'?: '4';
-      '@classId'?: '61256';
-      '#text'?: 'Wholesale trade services on a fee or contract basis, of leather goods and travel accessories';
+      '@classId'?: '61056';
+      '#text'?: 'Wholesale trade services, not on a fee or contract basis, of leather goods and travel accessories';
     }
   | {
       '@level'?: '4';
-      '@classId'?: '61259';
-      '#text'?: 'Wholesale trade services on a fee or contract basis, of miscellaneous consumer goods n.e.c.';
+      '@classId'?: '61059';
+      '#text'?: 'Wholesale trade services, not on a fee or contract basis, of miscellaneous consumer goods n.e.c.';
     }
   | {
       '@level'?: '3';
-      '@classId'?: '6126';
-      '#text'?: 'Wholesale trade services on a fee or contract basis, of construction materials and hardware';
+      '@classId'?: '6106';
+      '#text'?: 'Wholesale trade services, not on a fee or contract basis, of construction materials and hardware';
     }
   | {
       '@level'?: '4';
-      '@classId'?: '61261';
-      '#text'?: 'Wholesale trade services on a fee or contract basis, of construction materials and flat glass';
+      '@classId'?: '61061';
+      '#text'?: 'Wholesale trade services, not on a fee or contract basis, of construction materials and flat glass';
     }
   | {
       '@level'?: '4';
-      '@classId'?: '61262';
-      '#text'?: 'Wholesale trade services on a fee or contract basis, of fittings, fixtures and ceramic sanitary fixtures';
+      '@classId'?: '61062';
+      '#text'?: 'Wholesale trade services, not on a fee or contract basis, of fittings, fixtures and ceramic sanitary fixtures';
     }
   | {
       '@level'?: '4';
-      '@classId'?: '61263';
-      '#text'?: 'Wholesale trade services on a fee or contract basis, of wallpaper and floor coverings';
+      '@classId'?: '61063';
+      '#text'?: 'Wholesale trade services, not on a fee or contract basis, of wallpaper and floor coverings';
     }
   | {
       '@level'?: '4';
-      '@classId'?: '61264';
-      '#text'?: 'Wholesale trade services on a fee or contract basis, of paints, varnishes and lacquers';
+      '@classId'?: '61064';
+      '#text'?: 'Wholesale trade services, not on a fee or contract basis, of paints, varnishes and lacquers';
     }
   | {
       '@level'?: '4';
-      '@classId'?: '61265';
-      '#text'?: 'Wholesale trade services on a fee or contract basis, of hardware and hand tools';
+      '@classId'?: '61065';
+      '#text'?: 'Wholesale trade services, not on a fee or contract basis, of hardware and hand tools';
     }
   | {
       '@level'?: '3';
-      '@classId'?: '6127';
-      '#text'?: 'Wholesale trade services on a fee or contract basis, of chemical and pharmaceutical products';
+      '@classId'?: '6107';
+      '#text'?: 'Wholesale trade services, not on a fee or contract basis, of chemical and pharmaceutical products';
     }
   | {
       '@level'?: '4';
-      '@classId'?: '61271';
-      '#text'?: 'Wholesale trade services on a fee or contract basis, of basic industrial chemicals and synthetic resins';
+      '@classId'?: '61071';
+      '#text'?: 'Wholesale trade services, not on a fee or contract basis, of basic industrial chemicals and synthetic resins';
     }
   | {
       '@level'?: '4';
-      '@classId'?: '61272';
-      '#text'?: 'Wholesale trade services on a fee or contract basis, of fertilizers and agrochemical products';
+      '@classId'?: '61072';
+      '#text'?: 'Wholesale trade services, not on a fee or contract basis, of fertilizers and agrochemical products';
     }
   | {
       '@level'?: '4';
-      '@classId'?: '61273';
-      '#text'?: 'Wholesale trade services on a fee or contract basis, of pharmaceutical products';
+      '@classId'?: '61073';
+      '#text'?: 'Wholesale trade services, not on a fee or contract basis, of pharmaceutical products';
     }
   | {
       '@level'?: '4';
-      '@classId'?: '61274';
-      '#text'?: 'Wholesale trade services on a fee or contract basis, of medical and orthopaedic goods';
+      '@classId'?: '61074';
+      '#text'?: 'Wholesale trade services, not on a fee or contract basis, of medical and orthopaedic goods';
     }
   | {
       '@level'?: '4';
-      '@classId'?: '61275';
-      '#text'?: 'Wholesale trade services on a fee or contract basis, of perfumery articles, cosmetic articles and toilet soaps';
+      '@classId'?: '61075';
+      '#text'?: 'Wholesale trade services, not on a fee or contract basis, of perfumery articles, cosmetic articles and toilet soaps';
     }
   | {
       '@level'?: '4';
-      '@classId'?: '61276';
-      '#text'?: 'Wholesale trade services on a fee or contract basis, of cleaning materials';
+      '@classId'?: '61076';
+      '#text'?: 'Wholesale trade services, not on a fee or contract basis, of cleaning materials';
     }
   | {
       '@level'?: '3';
-      '@classId'?: '6128';
-      '#text'?: 'Wholesale trade services on a fee or contract basis, of machinery, equipment and supplies';
+      '@classId'?: '6108';
+      '#text'?: 'Wholesale trade services, not on a fee or contract basis, of machinery, equipment and supplies';
     }
   | {
       '@level'?: '4';
-      '@classId'?: '61281';
-      '#text'?: 'Wholesale trade services on a fee or contract basis, of motor vehicles, motorcycles, snowmobiles and related parts and accessories';
+      '@classId'?: '61081';
+      '#text'?: 'Wholesale trade services, not on a fee or contract basis, of motor vehicles, motorcycles, snowmobiles and related parts and accessories';
     }
   | {
       '@level'?: '4';
-      '@classId'?: '61282';
-      '#text'?: 'Wholesale trade services on a fee or contract basis, of other transport equipment, except bicycles';
+      '@classId'?: '61082';
+      '#text'?: 'Wholesale trade services, not on a fee or contract basis, of other transport equipment, except bicycles';
     }
   | {
       '@level'?: '4';
-      '@classId'?: '61283';
-      '#text'?: 'Wholesale trade services on a fee or contract basis, of office machinery and equipment including office furniture';
+      '@classId'?: '61083';
+      '#text'?: 'Wholesale trade services, not on a fee or contract basis, of office machinery and equipment including office furniture';
     }
   | {
       '@level'?: '4';
-      '@classId'?: '61284';
-      '#text'?: 'Wholesale trade services on a fee or contract basis, of computers and packaged software';
+      '@classId'?: '61084';
+      '#text'?: 'Wholesale trade services, not on a fee or contract basis, of computers and packaged software';
     }
   | {
       '@level'?: '4';
-      '@classId'?: '61285';
-      '#text'?: 'Wholesale trade services on a fee or contract basis, of electronic and telecommunications equipment and parts';
+      '@classId'?: '61085';
+      '#text'?: 'Wholesale trade services, not on a fee or contract basis, of electronic and telecommunications equipment and parts';
     }
   | {
       '@level'?: '4';
-      '@classId'?: '61286';
-      '#text'?: 'Wholesale trade services on a fee or contract basis, of agricultural, lawn and garden machinery and equipment, including tractors';
+      '@classId'?: '61086';
+      '#text'?: 'Wholesale trade services, not on a fee or contract basis, of agricultural lawn and garden machinery and equipment, including tractors';
     }
   | {
       '@level'?: '4';
-      '@classId'?: '61287';
-      '#text'?: 'Wholesale trade services on a fee or contract basis, of mining, construction and civil engineering machinery and equipment';
+      '@classId'?: '61087';
+      '#text'?: 'Wholesale trade services, not on a fee or contract basis, of mining, construction and civil engineering machinery and equipment';
     }
   | {
       '@level'?: '4';
-      '@classId'?: '61288';
-      '#text'?: 'Wholesale trade services on a fee or contract basis, of other industry-specific machinery and equipment and related operating supplies';
+      '@classId'?: '61088';
+      '#text'?: 'Wholesale trade services, not on a fee or contract basis, of other industry-specific machinery and equipment and related operating supplies';
     }
   | {
       '@level'?: '4';
-      '@classId'?: '61289';
-      '#text'?: 'Wholesale trade services on a fee or contract basis, of other machinery and equipment n.e.c.';
+      '@classId'?: '61089';
+      '#text'?: 'Wholesale trade services, not on a fee or contract basis, of other machinery and equipment n.e.c.';
     }
   | {
       '@level'?: '3';
-      '@classId'?: '6129';
-      '#text'?: 'Wholesale trade services on a fee or contract basis, of other products';
+      '@classId'?: '6109';
+      '#text'?: 'Wholesale trade services, not on a fee or contract basis, of other products';
     }
   | {
       '@level'?: '4';
-      '@classId'?: '61291';
-      '#text'?: 'Wholesale trade services on a fee or contract basis, of solid, liquid and gaseous fuels and related products';
+      '@classId'?: '61091';
+      '#text'?: 'Wholesale trade services, not on a fee or contract basis, of solid, liquid and gaseous fuels and related products';
     }
   | {
       '@level'?: '4';
-      '@classId'?: '61292';
-      '#text'?: 'Wholesale trade services on a fee or contract basis, of metal ores and metal in primary forms';
+      '@classId'?: '61092';
+      '#text'?: 'Wholesale trade services, not on a fee or contract basis, of metal ores and metal in primary forms';
     }
   | {
       '@level'?: '4';
-      '@classId'?: '61293';
-      '#text'?: 'Wholesale trade services on a fee or contract basis, of wood in the rough';
+      '@classId'?: '61093';
+      '#text'?: 'Wholesale trade services, not on a fee or contract basis, of wood in the rough';
     }
   | {
       '@level'?: '4';
-      '@classId'?: '61294';
-      '#text'?: 'Wholesale trade services on a fee or contract basis, of paper and paperboard';
+      '@classId'?: '61094';
+      '#text'?: 'Wholesale trade services, not on a fee or contract basis, of paper and paperboard';
     }
   | {
       '@level'?: '4';
-      '@classId'?: '61295';
-      '#text'?: 'Wholesale trade services on a fee or contract basis, of waste and scrap and materials for recycling';
+      '@classId'?: '61095';
+      '#text'?: 'Wholesale trade services, not on a fee or contract basis, of waste and scrap and materials for recycling';
     }
   | {
       '@level'?: '4';
-      '@classId'?: '61297';
-      '#text'?: 'Wholesale trade services on a fee or contract basis, of electricity';
+      '@classId'?: '61097';
+      '#text'?: 'Wholesale trade services, not on a fee or contract basis, of electricity';
     }
   | {
       '@level'?: '4';
-      '@classId'?: '61298';
-      '#text'?: 'Wholesale trade services on a fee or contract basis, of water';
+      '@classId'?: '61098';
+      '#text'?: 'Wholesale trade services, not on a fee or contract basis, of water';
     }
   | {
       '@level'?: '4';
-      '@classId'?: '61299';
-      '#text'?: 'Wholesale trade services on a fee or contract basis, of non-metallic minerals and other products n.e.c.';
+      '@classId'?: '61099';
+      '#text'?: 'Wholesale trade services, not on a fee or contract basis, of non-metallic minerals and other products n.e.c.';
     }
   | { '@level'?: '1'; '@classId'?: '62'; '#text'?: 'Retail trade services' }
   | {
@@ -13747,331 +13689,6 @@ export type FlowsProductCategory =
       '#text'?: 'Other non-store retail trade services, of non-metallic minerals and other products n.e.c.';
     }
   | {
-      '@level'?: '2';
-      '@classId'?: '625';
-      '#text'?: 'Retail trade services on a fee or contract basis';
-    }
-  | {
-      '@level'?: '3';
-      '@classId'?: '6251';
-      '#text'?: 'Retail trade services on a fee or contract basis, of raw agricultural products and live animals';
-    }
-  | {
-      '@level'?: '4';
-      '@classId'?: '62511';
-      '#text'?: 'Retail trade services on a fee or contract basis, of grains and oilseeds and oleaginous fruits, seeds and animal feed';
-    }
-  | {
-      '@level'?: '4';
-      '@classId'?: '62512';
-      '#text'?: 'Retail trade services on a fee or contract basis, of flowers and plants';
-    }
-  | {
-      '@level'?: '4';
-      '@classId'?: '62514';
-      '#text'?: 'Retail trade services on a fee or contract basis, of live animals, including pet animals';
-    }
-  | {
-      '@level'?: '4';
-      '@classId'?: '62515';
-      '#text'?: 'Retail trade services on a fee or contract basis, of hides, skins and leather';
-    }
-  | {
-      '@level'?: '4';
-      '@classId'?: '62519';
-      '#text'?: 'Retail trade services on a fee or contract basis, of agricultural raw materials n.e.c.';
-    }
-  | {
-      '@level'?: '3';
-      '@classId'?: '6252';
-      '#text'?: 'Retail trade services on a fee or contract basis, of food, beverages and tobacco';
-    }
-  | {
-      '@level'?: '4';
-      '@classId'?: '62521';
-      '#text'?: 'Retail trade services on a fee or contract basis, of fruits and vegetables';
-    }
-  | {
-      '@level'?: '4';
-      '@classId'?: '62522';
-      '#text'?: 'Retail trade services on a fee or contract basis, of dairy products, eggs and edible oils and fats';
-    }
-  | {
-      '@level'?: '4';
-      '@classId'?: '62523';
-      '#text'?: 'Retail trade services on a fee or contract basis, of meat, poultry and game';
-    }
-  | {
-      '@level'?: '4';
-      '@classId'?: '62524';
-      '#text'?: 'Retail trade services on a fee or contract basis, of fish and other seafood';
-    }
-  | {
-      '@level'?: '4';
-      '@classId'?: '62525';
-      '#text'?: 'Retail trade services on a fee or contract basis, of sugar confectionery and bakery products';
-    }
-  | {
-      '@level'?: '4';
-      '@classId'?: '62526';
-      '#text'?: 'Retail trade services on a fee or contract basis, of beverages';
-    }
-  | {
-      '@level'?: '4';
-      '@classId'?: '62527';
-      '#text'?: 'Retail trade services on a fee or contract basis, of coffee, tea and spices';
-    }
-  | {
-      '@level'?: '4';
-      '@classId'?: '62528';
-      '#text'?: 'Retail trade services on a fee or contract basis, of tobacco products';
-    }
-  | {
-      '@level'?: '4';
-      '@classId'?: '62529';
-      '#text'?: 'Retail trade services on a fee or contract basis, of food products n.e.c.';
-    }
-  | {
-      '@level'?: '3';
-      '@classId'?: '6253';
-      '#text'?: 'Retail trade services on a fee or contract basis, of textiles, clothing and footwear';
-    }
-  | {
-      '@level'?: '4';
-      '@classId'?: '62531';
-      '#text'?: 'Retail trade services on a fee or contract basis, of yarn and fabrics';
-    }
-  | {
-      '@level'?: '4';
-      '@classId'?: '62532';
-      '#text'?: 'Retail trade services on a fee or contract basis, of household linens, curtains, net curtains and diverse household articles of textile materials';
-    }
-  | {
-      '@level'?: '4';
-      '@classId'?: '62533';
-      '#text'?: 'Retail trade services on a fee or contract basis, of articles of clothing, articles of fur and clothing accessories';
-    }
-  | {
-      '@level'?: '4';
-      '@classId'?: '62534';
-      '#text'?: 'Retail trade services on a fee or contract basis, of footwear';
-    }
-  | {
-      '@level'?: '3';
-      '@classId'?: '6254';
-      '#text'?: 'Retail trade services on a fee or contract basis, of household appliances, articles and equipment';
-    }
-  | {
-      '@level'?: '4';
-      '@classId'?: '62541';
-      '#text'?: 'Retail trade services on a fee or contract basis, of household furniture';
-    }
-  | {
-      '@level'?: '4';
-      '@classId'?: '62542';
-      '#text'?: 'Retail trade services on a fee or contract basis, of radio and television equipment and recorded audio and video disks and tapes';
-    }
-  | {
-      '@level'?: '4';
-      '@classId'?: '62543';
-      '#text'?: 'Retail trade services on a fee or contract basis, of articles for lighting';
-    }
-  | {
-      '@level'?: '4';
-      '@classId'?: '62544';
-      '#text'?: 'Retail trade services on a fee or contract basis, of household appliances';
-    }
-  | {
-      '@level'?: '4';
-      '@classId'?: '62545';
-      '#text'?: 'Retail trade services on a fee or contract basis, of miscellaneous household utensils, cutlery, crockery, glassware, china and pottery';
-    }
-  | {
-      '@level'?: '4';
-      '@classId'?: '62546';
-      '#text'?: "Retail trade services on a fee or contract basis, of wickerwork, cork goods, cooper\'s ware and other wooden ware";
-    }
-  | {
-      '@level'?: '3';
-      '@classId'?: '6255';
-      '#text'?: 'Retail trade services on a fee or contract basis, of miscellaneous consumer goods';
-    }
-  | {
-      '@level'?: '4';
-      '@classId'?: '62551';
-      '#text'?: 'Retail trade services on a fee or contract basis, of books, newspapers, magazines and stationery';
-    }
-  | {
-      '@level'?: '4';
-      '@classId'?: '62552';
-      '#text'?: 'Retail trade services on a fee or contract basis, of photographic, optical and precision equipment';
-    }
-  | {
-      '@level'?: '4';
-      '@classId'?: '62553';
-      '#text'?: 'Retail trade services on a fee or contract basis, of games and toys';
-    }
-  | {
-      '@level'?: '4';
-      '@classId'?: '62554';
-      '#text'?: 'Retail trade services on a fee or contract basis, of watches, clocks and jewellery';
-    }
-  | {
-      '@level'?: '4';
-      '@classId'?: '62555';
-      '#text'?: 'Retail trade services on a fee or contract basis, of sports goods (incl. bicycles)';
-    }
-  | {
-      '@level'?: '4';
-      '@classId'?: '62556';
-      '#text'?: 'Retail trade services on a fee or contract basis, of leather goods and travel accessories';
-    }
-  | {
-      '@level'?: '4';
-      '@classId'?: '62559';
-      '#text'?: 'Retail trade services on a fee or contract basis, of miscellaneous consumer goods n.e.c.';
-    }
-  | {
-      '@level'?: '3';
-      '@classId'?: '6256';
-      '#text'?: 'Retail trade services on a fee or contract basis, of construction materials and hardware';
-    }
-  | {
-      '@level'?: '4';
-      '@classId'?: '62561';
-      '#text'?: 'Retail trade services on a fee or contract basis, of construction materials and flat glass';
-    }
-  | {
-      '@level'?: '4';
-      '@classId'?: '62562';
-      '#text'?: 'Retail trade services on a fee or contract basis, of fittings, fixtures, and ceramic sanitary fixtures';
-    }
-  | {
-      '@level'?: '4';
-      '@classId'?: '62563';
-      '#text'?: 'Retail trade services on a fee or contract basis, of wallpaper and floor coverings';
-    }
-  | {
-      '@level'?: '4';
-      '@classId'?: '62564';
-      '#text'?: 'Retail trade services on a fee or contract basis, of paints, varnishes and lacquers';
-    }
-  | {
-      '@level'?: '4';
-      '@classId'?: '62565';
-      '#text'?: 'Retail trade services on a fee or contract basis, of hardware and hand tools';
-    }
-  | {
-      '@level'?: '3';
-      '@classId'?: '6257';
-      '#text'?: 'Retail trade services on a fee or contract basis, of chemical and pharmaceutical products';
-    }
-  | {
-      '@level'?: '4';
-      '@classId'?: '62572';
-      '#text'?: 'Retail trade services on a fee or contract basis, of fertilizers and agrochemical products';
-    }
-  | {
-      '@level'?: '4';
-      '@classId'?: '62573';
-      '#text'?: 'Retail trade services on a fee or contract basis, of pharmaceutical products';
-    }
-  | {
-      '@level'?: '4';
-      '@classId'?: '62574';
-      '#text'?: 'Retail trade services on a fee or contract basis, of medical and orthopaedic goods';
-    }
-  | {
-      '@level'?: '4';
-      '@classId'?: '62575';
-      '#text'?: 'Retail trade services on a fee or contract basis, of perfumery articles, cosmetic articles and toilet soaps';
-    }
-  | {
-      '@level'?: '4';
-      '@classId'?: '62576';
-      '#text'?: 'Retail trade services on a fee or contract basis, of cleaning materials';
-    }
-  | {
-      '@level'?: '3';
-      '@classId'?: '6258';
-      '#text'?: 'Retail trade services on a fee or contract basis, of machinery, equipment and supplies';
-    }
-  | {
-      '@level'?: '4';
-      '@classId'?: '62581';
-      '#text'?: 'Retail trade services on a fee or contract basis, of motor vehicles, motorcycles, snowmobiles and related parts and accessories';
-    }
-  | {
-      '@level'?: '4';
-      '@classId'?: '62582';
-      '#text'?: 'Retail trade services on a fee or contract basis, of other transport equipment, except bicycles';
-    }
-  | {
-      '@level'?: '4';
-      '@classId'?: '62583';
-      '#text'?: 'Retail trade services on a fee or contract basis, of office machinery and equipment including office furniture';
-    }
-  | {
-      '@level'?: '4';
-      '@classId'?: '62584';
-      '#text'?: 'Retail trade services on a fee or contract basis, of computers and packaged software';
-    }
-  | {
-      '@level'?: '4';
-      '@classId'?: '62585';
-      '#text'?: 'Retail trade services on a fee or contract basis, of electronic and telecommunications equipment and parts';
-    }
-  | {
-      '@level'?: '4';
-      '@classId'?: '62586';
-      '#text'?: 'Retail trade services on a fee or contract basis, of agricultural, lawn and garden machinery and equipment, including tractors';
-    }
-  | {
-      '@level'?: '4';
-      '@classId'?: '62587';
-      '#text'?: 'Retail trade services on a fee or contract basis, of mining, construction and civil engineering machinery and equipment';
-    }
-  | {
-      '@level'?: '4';
-      '@classId'?: '62588';
-      '#text'?: 'Retail trade services on a fee or contract basis, of other industry-specific machinery and equipment and related operating supplies';
-    }
-  | {
-      '@level'?: '4';
-      '@classId'?: '62589';
-      '#text'?: 'Retail trade services on a fee or contract basis, of other machinery and equipment n.e.c.';
-    }
-  | {
-      '@level'?: '3';
-      '@classId'?: '6259';
-      '#text'?: 'Retail trade services on a fee or contract basis, of other products';
-    }
-  | {
-      '@level'?: '4';
-      '@classId'?: '62591';
-      '#text'?: 'Retail trade services on a fee or contract basis, of solid, liquid and gaseous fuels and related products';
-    }
-  | {
-      '@level'?: '4';
-      '@classId'?: '62594';
-      '#text'?: 'Retail trade services on a fee or contract basis, of paper and paperboard';
-    }
-  | {
-      '@level'?: '4';
-      '@classId'?: '62597';
-      '#text'?: 'Retail trade services on a fee or contract basis, of electricity';
-    }
-  | {
-      '@level'?: '4';
-      '@classId'?: '62598';
-      '#text'?: 'Retail trade services on a fee or contract basis, of water';
-    }
-  | {
-      '@level'?: '4';
-      '@classId'?: '62599';
-      '#text'?: 'Retail trade services on a fee or contract basis, of non-metallic minerals and other products n.e.c.';
-    }
-  | {
       '@level'?: '1';
       '@classId'?: '63';
       '#text'?: 'Accommodation, food and beverage services';
@@ -14089,12 +13706,12 @@ export type FlowsProductCategory =
   | {
       '@level'?: '4';
       '@classId'?: '63111';
-      '#text'?: 'Room or unit accommodation services for visitors, with daily housekeeping services';
+      '#text'?: 'Room or unit accommodation services for visitors, with on-site reactive services';
     }
   | {
       '@level'?: '4';
       '@classId'?: '63112';
-      '#text'?: 'Room or unit accommodation services for visitors, without daily housekeeping services';
+      '#text'?: 'Room or unit accommodation services for visitors, without on-site reactive services';
     }
   | {
       '@level'?: '4';
@@ -14903,12 +14520,12 @@ export type FlowsProductCategory =
   | {
       '@level'?: '3';
       '@classId'?: '6791';
-      '#text'?: 'Freight transport agency services and other freight transport services';
+      '#text'?: 'Other freight transport services';
     }
   | {
       '@level'?: '4';
       '@classId'?: '67910';
-      '#text'?: 'Freight transport agency services and other freight transport services';
+      '#text'?: 'Other freight transport services';
     }
   | {
       '@level'?: '3';
@@ -14961,8 +14578,13 @@ export type FlowsProductCategory =
   | { '@level'?: '3'; '@classId'?: '6803'; '#text'?: 'Local delivery services' }
   | {
       '@level'?: '4';
-      '@classId'?: '68030';
-      '#text'?: 'Local delivery services';
+      '@classId'?: '68031';
+      '#text'?: 'Local delivery services for food';
+    }
+  | {
+      '@level'?: '4';
+      '@classId'?: '68039';
+      '#text'?: 'Local delivery services for items other than food';
     }
   | {
       '@level'?: '1';
@@ -15047,7 +14669,7 @@ export type FlowsProductCategory =
   | {
       '@level'?: '2';
       '@classId'?: '711';
-      '#text'?: 'Financial services, except investment banking, insurance services and pension services';
+      '#text'?: 'Financial services, except insurance services and pension services';
     }
   | {
       '@level'?: '3';
@@ -15063,7 +14685,7 @@ export type FlowsProductCategory =
   | {
       '@level'?: '4';
       '@classId'?: '71121';
-      '#text'?: 'Deposit services to corporate and institutional depositors';
+      '#text'?: 'Deposit services to business and institutional depositors';
     }
   | {
       '@level'?: '4';
@@ -15073,7 +14695,7 @@ export type FlowsProductCategory =
   | {
       '@level'?: '3';
       '@classId'?: '7113';
-      '#text'?: 'Credit-granting services';
+      '#text'?: 'Non-business credit-granting services';
     }
   | {
       '@level'?: '4';
@@ -15097,48 +14719,49 @@ export type FlowsProductCategory =
     }
   | {
       '@level'?: '4';
-      '@classId'?: '71135';
-      '#text'?: 'Non-mortgage loan services for business purposes';
-    }
-  | {
-      '@level'?: '4';
       '@classId'?: '71139';
       '#text'?: 'Other credit-granting services';
     }
   | {
       '@level'?: '3';
-      '@classId'?: '7114';
+      '@classId'?: '7115';
+      '#text'?: 'Business credit granting services';
+    }
+  | {
+      '@level'?: '4';
+      '@classId'?: '71151';
+      '#text'?: 'Loan services for business purposes';
+    }
+  | {
+      '@level'?: '4';
+      '@classId'?: '71152';
       '#text'?: 'Financial leasing services';
     }
   | {
       '@level'?: '4';
-      '@classId'?: '71140';
-      '#text'?: 'Financial leasing services';
+      '@classId'?: '71153';
+      '#text'?: 'International trade financing activities';
+    }
+  | {
+      '@level'?: '4';
+      '@classId'?: '71154';
+      '#text'?: 'Securitisation activities';
+    }
+  | { '@level'?: '4'; '@classId'?: '71155'; '#text'?: 'Factoring services' }
+  | {
+      '@level'?: '4';
+      '@classId'?: '71159';
+      '#text'?: 'Other business credit services';
     }
   | {
       '@level'?: '3';
       '@classId'?: '7119';
-      '#text'?: 'Other financial services, except investment banking, insurance services and pension services';
+      '#text'?: 'Other financial services, except insurance services and pension services';
     }
   | {
       '@level'?: '4';
       '@classId'?: '71190';
-      '#text'?: 'Other financial services, except investment banking, insurance services and pension services';
-    }
-  | {
-      '@level'?: '2';
-      '@classId'?: '712';
-      '#text'?: 'Investment banking services';
-    }
-  | {
-      '@level'?: '3';
-      '@classId'?: '7120';
-      '#text'?: 'Investment banking services';
-    }
-  | {
-      '@level'?: '4';
-      '@classId'?: '71200';
-      '#text'?: 'Investment banking services';
+      '#text'?: 'Other financial services, except insurance services and pension services';
     }
   | {
       '@level'?: '2';
@@ -15382,7 +15005,12 @@ export type FlowsProductCategory =
   | {
       '@level'?: '4';
       '@classId'?: '71593';
-      '#text'?: 'Financial transactions processing and clearinghouse services';
+      '#text'?: 'Financial transactions processing and clearinghouse services, excluding mobile money operators and digital wallets';
+    }
+  | {
+      '@level'?: '4';
+      '@classId'?: '71594';
+      '#text'?: 'Services of mobile money operators and digital wallets utilizing financial information';
     }
   | {
       '@level'?: '4';
@@ -15531,36 +15159,6 @@ export type FlowsProductCategory =
       '@level'?: '4';
       '@classId'?: '72213';
       '#text'?: 'Time-share property management services on a fee or contract basis';
-    }
-  | {
-      '@level'?: '3';
-      '@classId'?: '7222';
-      '#text'?: 'Building sales on a fee or contract basis';
-    }
-  | {
-      '@level'?: '4';
-      '@classId'?: '72221';
-      '#text'?: 'Residential building sales on a fee or contract basis, except of time-share ownership properties';
-    }
-  | {
-      '@level'?: '4';
-      '@classId'?: '72222';
-      '#text'?: 'Non-residential building sales on a fee or contract basis';
-    }
-  | {
-      '@level'?: '4';
-      '@classId'?: '72223';
-      '#text'?: 'Sale of time-share properties on a fee or contract basis';
-    }
-  | {
-      '@level'?: '3';
-      '@classId'?: '7223';
-      '#text'?: 'Land sales on a fee or contract basis';
-    }
-  | {
-      '@level'?: '4';
-      '@classId'?: '72230';
-      '#text'?: 'Land sales on a fee or contract basis';
     }
   | {
       '@level'?: '3';
@@ -15825,247 +15423,282 @@ export type FlowsProductCategory =
   | {
       '@level'?: '2';
       '@classId'?: '811';
-      '#text'?: 'Research and experimental development services in natural sciences and engineering';
+      '#text'?: 'Research and development services in natural sciences, engineering and technology';
     }
   | {
       '@level'?: '3';
       '@classId'?: '8111';
-      '#text'?: 'Basic research services in natural sciences and engineering';
+      '#text'?: 'Research and development services in natural sciences';
     }
   | {
       '@level'?: '4';
       '@classId'?: '81111';
-      '#text'?: 'Basic research services in physical sciences';
+      '#text'?: 'Research and development services in biological sciences';
     }
   | {
       '@level'?: '4';
       '@classId'?: '81112';
-      '#text'?: 'Basic research services in chemistry and biology';
+      '#text'?: 'Research and development services in chemical sciences';
     }
   | {
       '@level'?: '4';
       '@classId'?: '81113';
-      '#text'?: 'Basic research services in biotechnology';
+      '#text'?: 'Research and development services in computer and information sciences';
     }
   | {
       '@level'?: '4';
       '@classId'?: '81114';
-      '#text'?: 'Basic research services in engineering and technology';
+      '#text'?: 'Research and development services in earth and environmental sciences';
     }
   | {
       '@level'?: '4';
       '@classId'?: '81115';
-      '#text'?: 'Basic research services in medical sciences and pharmacy';
+      '#text'?: 'Reesarch and development services in mathematics';
     }
   | {
       '@level'?: '4';
       '@classId'?: '81116';
-      '#text'?: 'Basic research services in agricultural sciences';
+      '#text'?: 'Research and development services in physical sciences';
     }
   | {
       '@level'?: '4';
       '@classId'?: '81119';
-      '#text'?: 'Basic research services in other natural sciences';
+      '#text'?: 'Research and development services in other natural sciences';
     }
   | {
       '@level'?: '3';
       '@classId'?: '8112';
-      '#text'?: 'Applied research services in natural sciences and engineering';
+      '#text'?: 'Research and development services in engineering';
     }
   | {
       '@level'?: '4';
       '@classId'?: '81121';
-      '#text'?: 'Applied research services in physical sciences';
+      '#text'?: 'Research and development services in civil engineering';
     }
   | {
       '@level'?: '4';
       '@classId'?: '81122';
-      '#text'?: 'Applied research services in chemistry and biology';
+      '#text'?: 'Research and development services in chemical engineering';
     }
   | {
       '@level'?: '4';
       '@classId'?: '81123';
-      '#text'?: 'Applied research services in biotechnology';
+      '#text'?: 'Research and development services in electrical engineering';
     }
   | {
       '@level'?: '4';
       '@classId'?: '81124';
-      '#text'?: 'Applied research services in engineering and technology';
+      '#text'?: 'Research and development services in electronic engineering';
     }
   | {
       '@level'?: '4';
       '@classId'?: '81125';
-      '#text'?: 'Applied research services in medical sciences and pharmacy';
+      '#text'?: 'Research and development services in environmental engineering';
     }
   | {
       '@level'?: '4';
       '@classId'?: '81126';
-      '#text'?: 'Applied research services in agricultural sciences';
+      '#text'?: 'Research and development services in materials engineering';
+    }
+  | {
+      '@level'?: '4';
+      '@classId'?: '81127';
+      '#text'?: 'Research and development services in mechanical engineering';
+    }
+  | {
+      '@level'?: '4';
+      '@classId'?: '81128';
+      '#text'?: 'Research and development services in medical engineering';
     }
   | {
       '@level'?: '4';
       '@classId'?: '81129';
-      '#text'?: 'Applied research services in other natural sciences';
+      '#text'?: 'Research and development services in other engineering';
     }
   | {
       '@level'?: '3';
       '@classId'?: '8113';
-      '#text'?: 'Experimental development services in natural sciences and engineering';
+      '#text'?: 'Research and development services in technology';
     }
   | {
       '@level'?: '4';
       '@classId'?: '81131';
-      '#text'?: 'Experimental development services in physical sciences';
+      '#text'?: 'Research and development services in environmental biotechnology';
     }
   | {
       '@level'?: '4';
       '@classId'?: '81132';
-      '#text'?: 'Experimental development services in chemistry and biology';
+      '#text'?: 'Research and development services in industrial biotechnology';
     }
   | {
       '@level'?: '4';
       '@classId'?: '81133';
-      '#text'?: 'Experimental development services in biotechnology';
-    }
-  | {
-      '@level'?: '4';
-      '@classId'?: '81134';
-      '#text'?: 'Experimental development services in engineering and technology';
-    }
-  | {
-      '@level'?: '4';
-      '@classId'?: '81135';
-      '#text'?: 'Experimental development services in medical sciences and pharmacy';
-    }
-  | {
-      '@level'?: '4';
-      '@classId'?: '81136';
-      '#text'?: 'Experimental development services in agricultural sciences';
+      '#text'?: 'Research and development services in nanotechnology';
     }
   | {
       '@level'?: '4';
       '@classId'?: '81139';
-      '#text'?: 'Experimental development services in other natural sciences';
+      '#text'?: 'Research and development services in other technology';
+    }
+  | {
+      '@level'?: '3';
+      '@classId'?: '8114';
+      '#text'?: 'Research and development services in medical and health sciences';
+    }
+  | {
+      '@level'?: '4';
+      '@classId'?: '81141';
+      '#text'?: 'Research and development services in basic medicine';
+    }
+  | {
+      '@level'?: '4';
+      '@classId'?: '81142';
+      '#text'?: 'Research and development services in clinical medicine';
+    }
+  | {
+      '@level'?: '4';
+      '@classId'?: '81143';
+      '#text'?: 'Research and development services in health sciences';
+    }
+  | {
+      '@level'?: '4';
+      '@classId'?: '81144';
+      '#text'?: 'Research and development services in medical biotechnology';
+    }
+  | {
+      '@level'?: '4';
+      '@classId'?: '81149';
+      '#text'?: 'Research and development services in other medical and health sciences';
+    }
+  | {
+      '@level'?: '3';
+      '@classId'?: '8115';
+      '#text'?: 'Research and development services in agricultural and veterinary sciences';
+    }
+  | {
+      '@level'?: '4';
+      '@classId'?: '81151';
+      '#text'?: 'Research and develoment services in agricultural biotechnology';
+    }
+  | {
+      '@level'?: '4';
+      '@classId'?: '81152';
+      '#text'?: 'Research and development services in agricultural, fisheries and forestry sciences';
+    }
+  | {
+      '@level'?: '4';
+      '@classId'?: '81153';
+      '#text'?: 'Research and development services in animal and dairy sciences';
+    }
+  | {
+      '@level'?: '4';
+      '@classId'?: '81154';
+      '#text'?: 'Research and development services in veterinary sciences';
+    }
+  | {
+      '@level'?: '4';
+      '@classId'?: '81159';
+      '#text'?: 'Research and development services in other agricultural and veterinary sciences';
     }
   | {
       '@level'?: '2';
       '@classId'?: '812';
-      '#text'?: 'Research and experimental development services in social sciences and humanities';
+      '#text'?: 'Research and development services in social sciences and humanities';
     }
   | {
       '@level'?: '3';
       '@classId'?: '8121';
-      '#text'?: 'Basic research services in social sciences and humanities';
+      '#text'?: 'Research and development services in social sciences';
     }
   | {
       '@level'?: '4';
       '@classId'?: '81211';
-      '#text'?: 'Basic research services in psychology';
+      '#text'?: 'Research and development services in economics and business';
     }
   | {
       '@level'?: '4';
       '@classId'?: '81212';
-      '#text'?: 'Basic research services in economics';
+      '#text'?: 'Research and development services in education';
     }
   | {
       '@level'?: '4';
       '@classId'?: '81213';
-      '#text'?: 'Basic research services in law';
+      '#text'?: 'Research and development services in law';
     }
   | {
       '@level'?: '4';
       '@classId'?: '81214';
-      '#text'?: 'Basic research services in languages and literature';
+      '#text'?: 'Research and development services in media and communications';
+    }
+  | {
+      '@level'?: '4';
+      '@classId'?: '81215';
+      '#text'?: 'Research and development services in political sciences';
+    }
+  | {
+      '@level'?: '4';
+      '@classId'?: '81216';
+      '#text'?: 'Research and development services psychology and cognitive sciences';
+    }
+  | {
+      '@level'?: '4';
+      '@classId'?: '81217';
+      '#text'?: 'Research and development services in social and economic geography';
+    }
+  | {
+      '@level'?: '4';
+      '@classId'?: '81218';
+      '#text'?: 'Research and development services in sociology';
     }
   | {
       '@level'?: '4';
       '@classId'?: '81219';
-      '#text'?: 'Basic research services in other social sciences and humanities';
+      '#text'?: 'Research and development services in other social sciences';
     }
   | {
       '@level'?: '3';
       '@classId'?: '8122';
-      '#text'?: 'Applied research services in social sciences and humanities';
+      '#text'?: 'Research and development services in humanities and the arts';
     }
   | {
       '@level'?: '4';
       '@classId'?: '81221';
-      '#text'?: 'Applied research services in psychology';
+      '#text'?: 'Research and development services in arts (arts, history of arts, performing arts, music)';
     }
   | {
       '@level'?: '4';
       '@classId'?: '81222';
-      '#text'?: 'Applied research services in economics';
+      '#text'?: 'Research and development services in history and archaeology';
     }
   | {
       '@level'?: '4';
       '@classId'?: '81223';
-      '#text'?: 'Applied research services in law';
+      '#text'?: 'Research and development services in languages and literature';
     }
   | {
       '@level'?: '4';
       '@classId'?: '81224';
-      '#text'?: 'Applied research services in language and literature';
+      '#text'?: 'Research and development services in philosophy, ethics and religion';
     }
   | {
       '@level'?: '4';
       '@classId'?: '81229';
-      '#text'?: 'Applied research services on other social sciences and humanities';
-    }
-  | {
-      '@level'?: '3';
-      '@classId'?: '8123';
-      '#text'?: 'Experimental development services in social sciences and humanities';
-    }
-  | {
-      '@level'?: '4';
-      '@classId'?: '81231';
-      '#text'?: 'Experimental development services in psychology';
-    }
-  | {
-      '@level'?: '4';
-      '@classId'?: '81232';
-      '#text'?: 'Experimental development services in economics';
-    }
-  | {
-      '@level'?: '4';
-      '@classId'?: '81233';
-      '#text'?: 'Experimental development services in law';
-    }
-  | {
-      '@level'?: '4';
-      '@classId'?: '81234';
-      '#text'?: 'Experimental development services in languages and literature';
-    }
-  | {
-      '@level'?: '4';
-      '@classId'?: '81239';
-      '#text'?: 'Experimental development services in other social sciences and humanities';
+      '#text'?: 'Research and development services in other humanities';
     }
   | {
       '@level'?: '2';
       '@classId'?: '813';
-      '#text'?: 'Interdisciplinary research and experimental development services';
+      '#text'?: 'Interdisciplinary research and development services';
     }
   | {
       '@level'?: '3';
       '@classId'?: '8130';
-      '#text'?: 'Interdisciplinary research and experimental development services';
+      '#text'?: 'Interdisciplinary research and development services';
     }
   | {
       '@level'?: '4';
-      '@classId'?: '81301';
-      '#text'?: 'Interdisciplinary basic research services';
-    }
-  | {
-      '@level'?: '4';
-      '@classId'?: '81302';
-      '#text'?: 'Interdisciplinary applied research services';
-    }
-  | {
-      '@level'?: '4';
-      '@classId'?: '81303';
-      '#text'?: 'Interdisciplinary experimental development services';
+      '@classId'?: '81300';
+      '#text'?: 'Interdisciplinary research and development services';
     }
   | {
       '@level'?: '2';
@@ -16619,17 +16252,19 @@ export type FlowsProductCategory =
   | {
       '@level'?: '2';
       '@classId'?: '837';
-      '#text'?: 'Market research and public opinion polling services';
+      '#text'?: 'Data and data compilation';
     }
+  | { '@level'?: '3'; '@classId'?: '8371'; '#text'?: 'Data' }
+  | { '@level'?: '4'; '@classId'?: '83710'; '#text'?: 'Data' }
   | {
       '@level'?: '3';
-      '@classId'?: '8370';
-      '#text'?: 'Market research and public opinion polling services';
+      '@classId'?: '8372';
+      '#text'?: 'Compilation services of data';
     }
   | {
       '@level'?: '4';
-      '@classId'?: '83700';
-      '#text'?: 'Market research and public opinion polling services';
+      '@classId'?: '83720';
+      '#text'?: 'Compilation services of data';
     }
   | {
       '@level'?: '2';
@@ -16726,12 +16361,12 @@ export type FlowsProductCategory =
   | {
       '@level'?: '3';
       '@classId'?: '8394';
-      '#text'?: 'Original compilations of facts/information';
+      '#text'?: 'Market research and public opinion polling services';
     }
   | {
       '@level'?: '4';
       '@classId'?: '83940';
-      '#text'?: 'Original compilations of facts/information';
+      '#text'?: 'Market research and public opinion polling services';
     }
   | {
       '@level'?: '3';
@@ -16756,12 +16391,12 @@ export type FlowsProductCategory =
   | {
       '@level'?: '3';
       '@classId'?: '8399';
-      '#text'?: 'Other professional, technical and business services, n.e.c.';
+      '#text'?: 'Other professional, technical and business services, n.e.c., (excluding the compilation of data)';
     }
   | {
       '@level'?: '4';
       '@classId'?: '83990';
-      '#text'?: 'Other professional, technical and business services, n.e.c.';
+      '#text'?: 'Other professional, technical and business services, n.e.c., (excluding the compilation of data)';
     }
   | {
       '@level'?: '1';
@@ -17136,184 +16771,412 @@ export type FlowsProductCategory =
   | {
       '@level'?: '2';
       '@classId'?: '855';
-      '#text'?: 'Travel arrangement, tour operator and related services';
+      '#text'?: 'Intermediation services on goods';
     }
   | {
       '@level'?: '3';
       '@classId'?: '8551';
-      '#text'?: 'Reservation services for transportation';
+      '#text'?: 'Intermediation services for wholesale trade';
     }
   | {
       '@level'?: '4';
       '@classId'?: '85511';
-      '#text'?: 'Reservation services for air transportation';
+      '#text'?: 'Intermediation services for wholesale trade of raw agricultural products and live animals';
     }
   | {
       '@level'?: '4';
       '@classId'?: '85512';
-      '#text'?: 'Reservation services for rail transportation';
+      '#text'?: 'Intermediation services for wholesale trade of food, beverages and tobacco';
     }
   | {
       '@level'?: '4';
       '@classId'?: '85513';
-      '#text'?: 'Reservation services for bus transportation';
+      '#text'?: 'Intermediation services for wholesale trade of textiles, clothing and footwear';
     }
   | {
       '@level'?: '4';
       '@classId'?: '85514';
-      '#text'?: 'Reservation services for vehicle rental';
+      '#text'?: 'Intermediation services for wholesale trade of household appliances, articles and equipment';
+    }
+  | {
+      '@level'?: '4';
+      '@classId'?: '85515';
+      '#text'?: 'Intermediation services for wholesale trade of miscellaneous consumer goods';
+    }
+  | {
+      '@level'?: '4';
+      '@classId'?: '85516';
+      '#text'?: 'Intermediation services for wholesale trade of construction materials and hardware';
+    }
+  | {
+      '@level'?: '4';
+      '@classId'?: '85517';
+      '#text'?: 'Intermediation services for wholesale trade of chemical and pharmaceutical products';
+    }
+  | {
+      '@level'?: '4';
+      '@classId'?: '85518';
+      '#text'?: 'Intermediation services for wholesale trade of machinery, equipment and supplies';
     }
   | {
       '@level'?: '4';
       '@classId'?: '85519';
-      '#text'?: 'Other transportation arrangement and reservation services n.e.c.';
+      '#text'?: 'Intermediation services for wholesale trade of other products';
     }
   | {
       '@level'?: '3';
       '@classId'?: '8552';
-      '#text'?: 'Reservation services for accommodation, cruises and package tours';
+      '#text'?: 'Intermediation services for retail trade';
     }
   | {
       '@level'?: '4';
       '@classId'?: '85521';
-      '#text'?: 'Reservation services for accommodation';
+      '#text'?: 'Intermediation services for retail trade of raw agricultural products and live animals';
     }
   | {
       '@level'?: '4';
       '@classId'?: '85522';
-      '#text'?: 'Time-share exchange services';
+      '#text'?: 'Intermediation services for retail trade of food, beverages and tobacco';
     }
   | {
       '@level'?: '4';
       '@classId'?: '85523';
-      '#text'?: 'Reservation services for cruises';
+      '#text'?: 'Intermediation services for retail trade of textiles, clothing and footwear';
     }
   | {
       '@level'?: '4';
       '@classId'?: '85524';
-      '#text'?: 'Reservation services for package tours';
+      '#text'?: 'Intermediation services for retail trade of household appliances, articles and equipment';
+    }
+  | {
+      '@level'?: '4';
+      '@classId'?: '85525';
+      '#text'?: 'Intermediation services for retail trade of miscellaneous consumer goods';
+    }
+  | {
+      '@level'?: '4';
+      '@classId'?: '85526';
+      '#text'?: 'Intermediation services for retail trade of construction materials and hardware';
+    }
+  | {
+      '@level'?: '4';
+      '@classId'?: '85527';
+      '#text'?: 'Intermediation services for retail trade of chemical and pharmaceutical products';
+    }
+  | {
+      '@level'?: '4';
+      '@classId'?: '85528';
+      '#text'?: 'Intermediation services for retail trade of machinery, equipment and supplies';
+    }
+  | {
+      '@level'?: '4';
+      '@classId'?: '85529';
+      '#text'?: 'Intermediation services for retail trade of other products';
+    }
+  | {
+      '@level'?: '2';
+      '@classId'?: '856';
+      '#text'?: 'Intermediation services for accommodation, food and beverage, transport and electricity, gas and water distribution services';
     }
   | {
       '@level'?: '3';
-      '@classId'?: '8553';
-      '#text'?: 'Other reservation services';
+      '@classId'?: '8561';
+      '#text'?: 'Intermediation service for passenger transportation';
     }
   | {
       '@level'?: '4';
-      '@classId'?: '85531';
-      '#text'?: 'Reservation services for convention centres, congress centres and exhibition halls';
+      '@classId'?: '85610';
+      '#text'?: 'Intermediation service for passenger transportation';
     }
-  | {
-      '@level'?: '4';
-      '@classId'?: '85539';
-      '#text'?: 'Reservation services for event tickets, entertainment and recreational services and other reservation services';
-    }
-  | { '@level'?: '3'; '@classId'?: '8554'; '#text'?: 'Tour operator services' }
-  | { '@level'?: '4'; '@classId'?: '85540'; '#text'?: 'Tour operator services' }
-  | { '@level'?: '3'; '@classId'?: '8555'; '#text'?: 'Tourist guide services' }
-  | { '@level'?: '4'; '@classId'?: '85550'; '#text'?: 'Tourist guide services' }
   | {
       '@level'?: '3';
-      '@classId'?: '8556';
-      '#text'?: 'Tourism promotion and visitor information services';
+      '@classId'?: '8562';
+      '#text'?: 'Intermediation service for accommodation';
     }
   | {
       '@level'?: '4';
-      '@classId'?: '85561';
-      '#text'?: 'Tourism promotion services';
+      '@classId'?: '85620';
+      '#text'?: 'Intermediation service for accommodation';
+    }
+  | {
+      '@level'?: '3';
+      '@classId'?: '8563';
+      '#text'?: 'Intermediation services for freight transportation';
     }
   | {
       '@level'?: '4';
-      '@classId'?: '85562';
-      '#text'?: 'Visitor information services';
+      '@classId'?: '85630';
+      '#text'?: 'Intermediation services for freight transportation';
+    }
+  | {
+      '@level'?: '3';
+      '@classId'?: '8564';
+      '#text'?: 'Intermediation services for postal and courier activities';
+    }
+  | {
+      '@level'?: '4';
+      '@classId'?: '85640';
+      '#text'?: 'Intermediation services for postal and courier activities';
+    }
+  | {
+      '@level'?: '3';
+      '@classId'?: '8565';
+      '#text'?: 'Intermediation service for food and beverage services activities';
+    }
+  | {
+      '@level'?: '4';
+      '@classId'?: '85650';
+      '#text'?: 'Intermediation service for food and beverage services activities';
+    }
+  | {
+      '@level'?: '3';
+      '@classId'?: '8566';
+      '#text'?: 'Intermediation services for rental and leasing of other tangible goods and non-financial intangible assets';
+    }
+  | {
+      '@level'?: '4';
+      '@classId'?: '85660';
+      '#text'?: 'Intermediation services for rental and leasing of other tangible goods and non-financial intangible assets';
+    }
+  | {
+      '@level'?: '3';
+      '@classId'?: '8567';
+      '#text'?: 'Intermediation service for rental and leasing of cars, motorhomes and trailers';
+    }
+  | {
+      '@level'?: '4';
+      '@classId'?: '85670';
+      '#text'?: 'Intermediation service for rental and leasing of cars, motorhomes and trailers';
+    }
+  | {
+      '@level'?: '3';
+      '@classId'?: '8568';
+      '#text'?: 'Intermediation services to electricity, gas and water distribution';
+    }
+  | {
+      '@level'?: '4';
+      '@classId'?: '85681';
+      '#text'?: 'Intermediation services for electricity transmission';
+    }
+  | {
+      '@level'?: '4';
+      '@classId'?: '85682';
+      '#text'?: 'Intermediation services for electricity distribution';
+    }
+  | {
+      '@level'?: '4';
+      '@classId'?: '85683';
+      '#text'?: 'Intermediation services for the distribution of gas through mains';
+    }
+  | {
+      '@level'?: '4';
+      '@classId'?: '85684';
+      '#text'?: 'Intermediation services for the distribution of water through mains';
+    }
+  | {
+      '@level'?: '4';
+      '@classId'?: '85685';
+      '#text'?: 'Intermediation services for the distribution of steam, hot water and air-conditioning supply through mains';
+    }
+  | {
+      '@level'?: '4';
+      '@classId'?: '85686';
+      '#text'?: 'Intermediation services for the distribution of water, except through mains';
+    }
+  | {
+      '@level'?: '2';
+      '@classId'?: '857';
+      '#text'?: 'Intermediation for community, social and personal services';
+    }
+  | {
+      '@level'?: '3';
+      '@classId'?: '8571';
+      '#text'?: 'Intermediation service for courses and tutors';
+    }
+  | {
+      '@level'?: '4';
+      '@classId'?: '85710';
+      '#text'?: 'Intermediation service for courses and tutors';
+    }
+  | {
+      '@level'?: '3';
+      '@classId'?: '8572';
+      '#text'?: 'Intermediation service for medical, dental, and other human health services';
+    }
+  | {
+      '@level'?: '4';
+      '@classId'?: '85720';
+      '#text'?: 'Intermediation service for medical, dental, and other human health services';
+    }
+  | {
+      '@level'?: '3';
+      '@classId'?: '8573';
+      '#text'?: 'Intermediation service for residential care activities';
+    }
+  | {
+      '@level'?: '4';
+      '@classId'?: '85730';
+      '#text'?: 'Intermediation service for residential care activities';
+    }
+  | {
+      '@level'?: '3';
+      '@classId'?: '8579';
+      '#text'?: 'Other intermediation service for personal services';
+    }
+  | {
+      '@level'?: '4';
+      '@classId'?: '85790';
+      '#text'?: 'Other intermediation service for personal services';
+    }
+  | {
+      '@level'?: '2';
+      '@classId'?: '858';
+      '#text'?: 'Other intermediation services';
+    }
+  | {
+      '@level'?: '3';
+      '@classId'?: '8581';
+      '#text'?: 'Intermediation services for specialized construction services';
+    }
+  | {
+      '@level'?: '4';
+      '@classId'?: '85810';
+      '#text'?: 'Intermediation services for specialized construction services';
+    }
+  | {
+      '@level'?: '3';
+      '@classId'?: '8582';
+      '#text'?: 'Intermediation services for telecommunication';
+    }
+  | {
+      '@level'?: '4';
+      '@classId'?: '85820';
+      '#text'?: 'Intermediation services for telecommunication';
+    }
+  | {
+      '@level'?: '3';
+      '@classId'?: '8583';
+      '#text'?: 'Intermediation service for real estate';
+    }
+  | {
+      '@level'?: '4';
+      '@classId'?: '85830';
+      '#text'?: 'Intermediation service for real estate';
+    }
+  | {
+      '@level'?: '3';
+      '@classId'?: '8585';
+      '#text'?: 'Intermediation service for repair and maintenance of computers, personal and household goods, and motor vehicles and motorcycles';
+    }
+  | {
+      '@level'?: '4';
+      '@classId'?: '85850';
+      '#text'?: 'Intermediation service for repair and maintenance of computers, personal and household goods, and motor vehicles and motorcycles';
+    }
+  | {
+      '@level'?: '3';
+      '@classId'?: '8589';
+      '#text'?: 'Intermediation services for business support service activities n.e.c., except financial intermediation';
+    }
+  | {
+      '@level'?: '4';
+      '@classId'?: '85890';
+      '#text'?: 'Intermediation services for business support service activities n.e.c., except financial intermediation';
     }
   | { '@level'?: '2'; '@classId'?: '859'; '#text'?: 'Other support services' }
   | {
       '@level'?: '3';
       '@classId'?: '8591';
+      '#text'?: 'Credit reporting and collection agency services';
+    }
+  | {
+      '@level'?: '4';
+      '@classId'?: '85911';
       '#text'?: 'Credit reporting services';
     }
   | {
       '@level'?: '4';
-      '@classId'?: '85910';
-      '#text'?: 'Credit reporting services';
+      '@classId'?: '85912';
+      '#text'?: 'Collection agency services';
     }
   | {
       '@level'?: '3';
       '@classId'?: '8592';
-      '#text'?: 'Collection agency services';
+      '#text'?: 'Telephone based support services';
     }
   | {
       '@level'?: '4';
-      '@classId'?: '85920';
-      '#text'?: 'Collection agency services';
-    }
-  | {
-      '@level'?: '3';
-      '@classId'?: '8593';
-      '#text'?: 'Telephone-based support services';
-    }
-  | {
-      '@level'?: '4';
-      '@classId'?: '85931';
+      '@classId'?: '85921';
       '#text'?: 'Telephone call centre services';
     }
   | {
       '@level'?: '4';
-      '@classId'?: '85939';
+      '@classId'?: '85929';
       '#text'?: 'Other telephone-based support services';
     }
   | {
       '@level'?: '3';
-      '@classId'?: '8594';
+      '@classId'?: '8593';
+      '#text'?: 'Office administrative services';
+    }
+  | {
+      '@level'?: '4';
+      '@classId'?: '85931';
       '#text'?: 'Combined office administrative services';
     }
+  | { '@level'?: '4'; '@classId'?: '85932'; '#text'?: 'Duplicating services' }
+  | { '@level'?: '4'; '@classId'?: '85934'; '#text'?: 'Mailing services' }
   | {
       '@level'?: '4';
-      '@classId'?: '85940';
-      '#text'?: 'Combined office administrative services';
-    }
-  | {
-      '@level'?: '3';
-      '@classId'?: '8595';
-      '#text'?: 'Specialized office support services';
-    }
-  | { '@level'?: '4'; '@classId'?: '85951'; '#text'?: 'Duplicating services' }
-  | {
-      '@level'?: '4';
-      '@classId'?: '85952';
-      '#text'?: 'Mailing list compilation services';
-    }
-  | { '@level'?: '4'; '@classId'?: '85953'; '#text'?: 'Mailing services' }
-  | {
-      '@level'?: '4';
-      '@classId'?: '85954';
+      '@classId'?: '85939';
       '#text'?: 'Document preparation and other specialized office support services';
     }
   | {
       '@level'?: '3';
-      '@classId'?: '8596';
+      '@classId'?: '8594';
       '#text'?: 'Convention and trade show assistance and organization services';
     }
   | {
       '@level'?: '4';
-      '@classId'?: '85961';
+      '@classId'?: '85941';
       '#text'?: 'Convention assistance and organization services';
     }
   | {
       '@level'?: '4';
-      '@classId'?: '85962';
+      '@classId'?: '85942';
       '#text'?: 'Trade show assistance and organization services';
     }
   | {
       '@level'?: '3';
-      '@classId'?: '8597';
+      '@classId'?: '8595';
       '#text'?: 'Landscape care and maintenance services';
     }
   | {
       '@level'?: '4';
-      '@classId'?: '85970';
+      '@classId'?: '85950';
       '#text'?: 'Landscape care and maintenance services';
+    }
+  | {
+      '@level'?: '3';
+      '@classId'?: '8596';
+      '#text'?: 'Tourist operator and guide services';
+    }
+  | { '@level'?: '4'; '@classId'?: '85961'; '#text'?: 'Tour operator services' }
+  | { '@level'?: '4'; '@classId'?: '85962'; '#text'?: 'Tourist guide services' }
+  | {
+      '@level'?: '3';
+      '@classId'?: '8597';
+      '#text'?: 'Tourism promotion and visitor information services';
+    }
+  | {
+      '@level'?: '4';
+      '@classId'?: '85971';
+      '#text'?: 'Tourism promotion services';
+    }
+  | {
+      '@level'?: '4';
+      '@classId'?: '85972';
+      '#text'?: 'Visitor information services';
     }
   | {
       '@level'?: '3';
@@ -17474,66 +17337,6 @@ export type FlowsProductCategory =
       '@level'?: '4';
       '@classId'?: '86229';
       '#text'?: 'Other mining services on resources owned by others';
-    }
-  | {
-      '@level'?: '2';
-      '@classId'?: '863';
-      '#text'?: 'Support and operation services to electricity, gas and water distribution';
-    }
-  | {
-      '@level'?: '3';
-      '@classId'?: '8631';
-      '#text'?: 'Support services to electricity transmission and distribution';
-    }
-  | {
-      '@level'?: '4';
-      '@classId'?: '86311';
-      '#text'?: 'Electricity transmission services (on a fee or contract basis)';
-    }
-  | {
-      '@level'?: '4';
-      '@classId'?: '86312';
-      '#text'?: 'Electricity distribution services (on a fee or contract basis)';
-    }
-  | {
-      '@level'?: '3';
-      '@classId'?: '8632';
-      '#text'?: 'Gas distribution services through mains (on a fee or contract basis)';
-    }
-  | {
-      '@level'?: '4';
-      '@classId'?: '86320';
-      '#text'?: 'Gas distribution services through mains (on a fee or contract basis)';
-    }
-  | {
-      '@level'?: '3';
-      '@classId'?: '8633';
-      '#text'?: 'Water distribution services through mains (on a fee or contract basis)';
-    }
-  | {
-      '@level'?: '4';
-      '@classId'?: '86330';
-      '#text'?: 'Water distribution services through mains (on a fee or contract basis)';
-    }
-  | {
-      '@level'?: '3';
-      '@classId'?: '8634';
-      '#text'?: 'Distribution services of steam, hot water and air-conditioning supply through mains (on a fee or contract basis)';
-    }
-  | {
-      '@level'?: '4';
-      '@classId'?: '86340';
-      '#text'?: 'Distribution services of steam, hot water and air-conditioning supply through mains (on a fee or contract basis)';
-    }
-  | {
-      '@level'?: '3';
-      '@classId'?: '8635';
-      '#text'?: 'Water distribution services, except through mains (on a fee or contract basis)';
-    }
-  | {
-      '@level'?: '4';
-      '@classId'?: '86350';
-      '#text'?: 'Water distribution services, except through mains (on a fee or contract basis)';
     }
   | {
       '@level'?: '1';
@@ -18839,6 +18642,16 @@ export type FlowsProductCategory =
     }
   | {
       '@level'?: '3';
+      '@classId'?: '9114';
+      '#text'?: 'Public administrative services related to the provision on environmental services';
+    }
+  | {
+      '@level'?: '4';
+      '@classId'?: '91140';
+      '#text'?: 'Public administrative services related to the provision on environmental services';
+    }
+  | {
+      '@level'?: '3';
       '@classId'?: '9119';
       '#text'?: 'Other administrative services of the government';
     }
@@ -18988,16 +18801,26 @@ export type FlowsProductCategory =
   | {
       '@level'?: '2';
       '@classId'?: '921';
-      '#text'?: 'Pre-primary education services';
+      '#text'?: 'Early childhood and pre-primary education services';
     }
   | {
       '@level'?: '3';
-      '@classId'?: '9210';
+      '@classId'?: '9211';
+      '#text'?: 'Early childhood development services';
+    }
+  | {
+      '@level'?: '4';
+      '@classId'?: '92110';
+      '#text'?: 'Early childhood development services';
+    }
+  | {
+      '@level'?: '3';
+      '@classId'?: '9212';
       '#text'?: 'Pre-primary education services';
     }
   | {
       '@level'?: '4';
-      '@classId'?: '92100';
+      '@classId'?: '92120';
       '#text'?: 'Pre-primary education services';
     }
   | {
@@ -19093,22 +18916,57 @@ export type FlowsProductCategory =
   | {
       '@level'?: '3';
       '@classId'?: '9251';
-      '#text'?: 'First stage tertiary education services';
+      '#text'?: 'Short-cycle tertiary education services';
     }
   | {
       '@level'?: '4';
-      '@classId'?: '92510';
-      '#text'?: 'First stage tertiary education services';
+      '@classId'?: '92511';
+      '#text'?: 'Short-cycle tertiary general education services';
+    }
+  | {
+      '@level'?: '4';
+      '@classId'?: '92512';
+      '#text'?: 'Short-cycle tertiary vocational education services';
     }
   | {
       '@level'?: '3';
       '@classId'?: '9252';
-      '#text'?: 'Second stage tertiary education services';
+      '#text'?: 'Bachelors or equivalent education services';
     }
   | {
       '@level'?: '4';
       '@classId'?: '92520';
-      '#text'?: 'Second stage tertiary education services';
+      '#text'?: 'Bachelors or equivalent education services';
+    }
+  | {
+      '@level'?: '3';
+      '@classId'?: '9253';
+      '#text'?: 'Masters or equivalent education services';
+    }
+  | {
+      '@level'?: '4';
+      '@classId'?: '92530';
+      '#text'?: 'Masters or equivalent education services';
+    }
+  | {
+      '@level'?: '3';
+      '@classId'?: '9254';
+      '#text'?: 'Doctoral or equivalent education services';
+    }
+  | {
+      '@level'?: '4';
+      '@classId'?: '92540';
+      '#text'?: 'Doctoral or equivalent education services';
+    }
+  | {
+      '@level'?: '3';
+      '@classId'?: '9259';
+      '#text'?: 'Other tertiary education services';
+    }
+  | {
+      '@level'?: '4';
+      '@classId'?: '92590';
+      '#text'?: 'Other tertiary education services';
     }
   | {
       '@level'?: '2';
@@ -19566,6 +19424,26 @@ export type FlowsProductCategory =
       '@level'?: '4';
       '@classId'?: '94430';
       '#text'?: 'Building remediation services';
+    }
+  | {
+      '@level'?: '3';
+      '@classId'?: '9444';
+      '#text'?: 'Treatment of air pollution';
+    }
+  | {
+      '@level'?: '4';
+      '@classId'?: '94440';
+      '#text'?: 'Treatment of air pollution';
+    }
+  | {
+      '@level'?: '3';
+      '@classId'?: '9445';
+      '#text'?: 'Carbon capture and storage services';
+    }
+  | {
+      '@level'?: '4';
+      '@classId'?: '94450';
+      '#text'?: 'Carbon capture and storage services';
     }
   | {
       '@level'?: '3';
