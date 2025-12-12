@@ -1,5 +1,4 @@
 """Exports for auto-generated models."""
-# mypy: disable-error-code=assignment
 from __future__ import annotations
 
 from .tidas_data_types import StringMultiLangVariant0Item
@@ -4737,16 +4736,6 @@ from .tidas_flows_product_category import FlowsProductCategoryVariant4582
 from .tidas_flows_product_category import FlowsProductCategoryVariant4583
 from .tidas_flows_product_category import FlowsProductCategoryVariant4584
 from .tidas_flows_product_category import FlowsProductCategoryVariant4585
-from .tidas_flows_product_category import FlowsProductCategoryVariant4586
-from .tidas_flows_product_category import FlowsProductCategoryVariant4587
-from .tidas_flows_product_category import FlowsProductCategoryVariant4588
-from .tidas_flows_product_category import FlowsProductCategoryVariant4589
-from .tidas_flows_product_category import FlowsProductCategoryVariant4590
-from .tidas_flows_product_category import FlowsProductCategoryVariant4591
-from .tidas_flows_product_category import FlowsProductCategoryVariant4592
-from .tidas_flows_product_category import FlowsProductCategoryVariant4593
-from .tidas_flows_product_category import FlowsProductCategoryVariant4594
-from .tidas_flows_product_category import FlowsProductCategoryVariant4595
 from .tidas_flows_product_category import FlowsProductCategory
 from .tidas_lciamethods import CommonClassItemOption0
 from .tidas_lciamethods import CommonClassItemOption1
@@ -10566,16 +10555,6 @@ __all__ = [
     'FlowsProductCategoryVariant4583',
     'FlowsProductCategoryVariant4584',
     'FlowsProductCategoryVariant4585',
-    'FlowsProductCategoryVariant4586',
-    'FlowsProductCategoryVariant4587',
-    'FlowsProductCategoryVariant4588',
-    'FlowsProductCategoryVariant4589',
-    'FlowsProductCategoryVariant4590',
-    'FlowsProductCategoryVariant4591',
-    'FlowsProductCategoryVariant4592',
-    'FlowsProductCategoryVariant4593',
-    'FlowsProductCategoryVariant4594',
-    'FlowsProductCategoryVariant4595',
     'FlowsProductCategory',
     'CommonClassItemOption0',
     'CommonClassItemOption1',
