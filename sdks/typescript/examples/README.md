@@ -45,7 +45,10 @@ The examples use the published npm package instead of the local source code. To 
 
 ### 03-validation-modes/
 
-- **validation-config-demo.ts**: Comprehensive validation configuration demo with strict/weak/ignore modes
+- **validation-config-demo.ts**: Validation demo (strict/weak/ignore) using real process JSON. Pick modes by need:
+  - Strict: production/publishing/import pipelines needing full schema compliance
+  - Weak: data cleaning or assisted entry where non-critical issues become warnings
+  - Ignore: quick browsing/demo/perf checks when validation is handled elsewhere
 
 ## Key Features Demonstrated
 
