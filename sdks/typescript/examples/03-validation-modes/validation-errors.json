@@ -1,0 +1,1402 @@
+[
+  {
+    "label": "Strict validation with raw data",
+    "mode": "strict",
+    "validate": {
+      "success": false,
+      "issues": [
+        {
+          "expected": "number",
+          "code": "invalid_type",
+          "path": [
+            "processDataSet",
+            "processInformation",
+            "time",
+            "common:referenceYear"
+          ],
+          "message": "Invalid input: expected number, received string"
+        },
+        {
+          "code": "invalid_union",
+          "errors": [
+            [
+              {
+                "expected": "string",
+                "code": "invalid_type",
+                "path": [
+                  "@version"
+                ],
+                "message": "Invalid input: expected string, received undefined"
+              }
+            ],
+            [
+              {
+                "expected": "array",
+                "code": "invalid_type",
+                "path": [],
+                "message": "Invalid input: expected array, received object"
+              }
+            ]
+          ],
+          "path": [
+            "processDataSet",
+            "processInformation",
+            "technology",
+            "referenceToTechnologyFlowDiagrammOrPicture"
+          ],
+          "message": "Invalid input"
+        },
+        {
+          "code": "invalid_union",
+          "errors": [
+            [
+              {
+                "expected": "string",
+                "code": "invalid_type",
+                "path": [
+                  "@version"
+                ],
+                "message": "Invalid input: expected string, received undefined"
+              }
+            ],
+            [
+              {
+                "expected": "array",
+                "code": "invalid_type",
+                "path": [],
+                "message": "Invalid input: expected array, received object"
+              }
+            ]
+          ],
+          "path": [
+            "processDataSet",
+            "modellingAndValidation",
+            "dataSourcesTreatmentAndRepresentativeness",
+            "referenceToDataSource"
+          ],
+          "message": "Invalid input"
+        },
+        {
+          "code": "invalid_union",
+          "errors": [
+            [
+              {
+                "expected": "string",
+                "code": "invalid_type",
+                "path": [
+                  "@version"
+                ],
+                "message": "Invalid input: expected string, received undefined"
+              }
+            ],
+            [
+              {
+                "expected": "array",
+                "code": "invalid_type",
+                "path": [],
+                "message": "Invalid input: expected array, received object"
+              }
+            ]
+          ],
+          "path": [
+            "processDataSet",
+            "modellingAndValidation",
+            "validation",
+            "review",
+            "common:referenceToNameOfReviewerAndInstitution"
+          ],
+          "message": "Invalid input"
+        },
+        {
+          "code": "invalid_union",
+          "errors": [
+            [
+              {
+                "expected": "object",
+                "code": "invalid_type",
+                "path": [],
+                "message": "Invalid input: expected object, received undefined"
+              }
+            ],
+            [
+              {
+                "expected": "array",
+                "code": "invalid_type",
+                "path": [],
+                "message": "Invalid input: expected array, received undefined"
+              }
+            ]
+          ],
+          "path": [
+            "processDataSet",
+            "modellingAndValidation",
+            "complianceDeclarations",
+            "compliance"
+          ],
+          "message": "Invalid input"
+        },
+        {
+          "origin": "string",
+          "code": "invalid_format",
+          "format": "datetime",
+          "pattern": "/^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d(?:\\.\\d+)?)?(?:Z))$/",
+          "path": [
+            "processDataSet",
+            "administrativeInformation",
+            "dataEntryBy",
+            "common:timeStamp"
+          ],
+          "message": "Invalid ISO datetime"
+        },
+        {
+          "code": "invalid_union",
+          "errors": [
+            [
+              {
+                "expected": "string",
+                "code": "invalid_type",
+                "path": [
+                  "@type"
+                ],
+                "message": "Invalid input: expected string, received undefined"
+              },
+              {
+                "expected": "string",
+                "code": "invalid_type",
+                "path": [
+                  "@refObjectId"
+                ],
+                "message": "Invalid input: expected string, received undefined"
+              },
+              {
+                "expected": "string",
+                "code": "invalid_type",
+                "path": [
+                  "@version"
+                ],
+                "message": "Invalid input: expected string, received undefined"
+              },
+              {
+                "expected": "string",
+                "code": "invalid_type",
+                "path": [
+                  "@uri"
+                ],
+                "message": "Invalid input: expected string, received undefined"
+              }
+            ],
+            [
+              {
+                "expected": "array",
+                "code": "invalid_type",
+                "path": [],
+                "message": "Invalid input: expected array, received object"
+              }
+            ]
+          ],
+          "path": [
+            "processDataSet",
+            "administrativeInformation",
+            "dataEntryBy",
+            "common:referenceToConvertedOriginalDataSetFrom"
+          ],
+          "message": "Invalid input"
+        },
+        {
+          "code": "invalid_union",
+          "errors": [
+            [
+              {
+                "expected": "string",
+                "code": "invalid_type",
+                "path": [
+                  "@type"
+                ],
+                "message": "Invalid input: expected string, received undefined"
+              },
+              {
+                "expected": "string",
+                "code": "invalid_type",
+                "path": [
+                  "@refObjectId"
+                ],
+                "message": "Invalid input: expected string, received undefined"
+              },
+              {
+                "expected": "string",
+                "code": "invalid_type",
+                "path": [
+                  "@version"
+                ],
+                "message": "Invalid input: expected string, received undefined"
+              },
+              {
+                "expected": "string",
+                "code": "invalid_type",
+                "path": [
+                  "@uri"
+                ],
+                "message": "Invalid input: expected string, received undefined"
+              }
+            ],
+            [
+              {
+                "expected": "array",
+                "code": "invalid_type",
+                "path": [],
+                "message": "Invalid input: expected array, received object"
+              }
+            ]
+          ],
+          "path": [
+            "processDataSet",
+            "administrativeInformation",
+            "dataEntryBy",
+            "common:referenceToDataSetUseApproval"
+          ],
+          "message": "Invalid input"
+        },
+        {
+          "code": "invalid_union",
+          "errors": [
+            [
+              {
+                "expected": "string",
+                "code": "invalid_type",
+                "path": [
+                  "@version"
+                ],
+                "message": "Invalid input: expected string, received undefined"
+              }
+            ],
+            [
+              {
+                "expected": "array",
+                "code": "invalid_type",
+                "path": [],
+                "message": "Invalid input: expected array, received object"
+              }
+            ]
+          ],
+          "path": [
+            "processDataSet",
+            "administrativeInformation",
+            "publicationAndOwnership",
+            "common:referenceToOwnershipOfDataSet"
+          ],
+          "message": "Invalid input"
+        },
+        {
+          "code": "invalid_union",
+          "errors": [
+            [
+              {
+                "code": "invalid_value",
+                "values": [
+                  "true"
+                ],
+                "path": [],
+                "message": "Invalid input: expected \"true\""
+              }
+            ],
+            [
+              {
+                "code": "invalid_value",
+                "values": [
+                  "false"
+                ],
+                "path": [],
+                "message": "Invalid input: expected \"false\""
+              }
+            ]
+          ],
+          "path": [
+            "processDataSet",
+            "administrativeInformation",
+            "publicationAndOwnership",
+            "common:copyright"
+          ],
+          "message": "Invalid input"
+        },
+        {
+          "code": "invalid_union",
+          "errors": [
+            [
+              {
+                "expected": "string",
+                "code": "invalid_type",
+                "path": [
+                  "@version"
+                ],
+                "message": "Invalid input: expected string, received undefined"
+              }
+            ],
+            [
+              {
+                "expected": "array",
+                "code": "invalid_type",
+                "path": [],
+                "message": "Invalid input: expected array, received object"
+              }
+            ]
+          ],
+          "path": [
+            "processDataSet",
+            "exchanges",
+            "exchange",
+            0,
+            "referenceToFlowDataSet"
+          ],
+          "message": "Invalid input"
+        },
+        {
+          "code": "invalid_union",
+          "errors": [
+            [
+              {
+                "expected": "string",
+                "code": "invalid_type",
+                "path": [
+                  "@type"
+                ],
+                "message": "Invalid input: expected string, received undefined"
+              },
+              {
+                "expected": "string",
+                "code": "invalid_type",
+                "path": [
+                  "@refObjectId"
+                ],
+                "message": "Invalid input: expected string, received undefined"
+              },
+              {
+                "expected": "string",
+                "code": "invalid_type",
+                "path": [
+                  "@version"
+                ],
+                "message": "Invalid input: expected string, received undefined"
+              },
+              {
+                "expected": "string",
+                "code": "invalid_type",
+                "path": [
+                  "@uri"
+                ],
+                "message": "Invalid input: expected string, received undefined"
+              }
+            ],
+            [
+              {
+                "expected": "array",
+                "code": "invalid_type",
+                "path": [],
+                "message": "Invalid input: expected array, received object"
+              }
+            ]
+          ],
+          "path": [
+            "processDataSet",
+            "exchanges",
+            "exchange",
+            0,
+            "referencesToDataSource",
+            "referenceToDataSource"
+          ],
+          "message": "Invalid input"
+        },
+        {
+          "code": "invalid_union",
+          "errors": [
+            [
+              {
+                "expected": "string",
+                "code": "invalid_type",
+                "path": [
+                  "@version"
+                ],
+                "message": "Invalid input: expected string, received undefined"
+              }
+            ],
+            [
+              {
+                "expected": "array",
+                "code": "invalid_type",
+                "path": [],
+                "message": "Invalid input: expected array, received object"
+              }
+            ]
+          ],
+          "path": [
+            "processDataSet",
+            "exchanges",
+            "exchange",
+            1,
+            "referenceToFlowDataSet"
+          ],
+          "message": "Invalid input"
+        },
+        {
+          "code": "invalid_union",
+          "errors": [
+            [
+              {
+                "expected": "string",
+                "code": "invalid_type",
+                "path": [
+                  "@type"
+                ],
+                "message": "Invalid input: expected string, received undefined"
+              },
+              {
+                "expected": "string",
+                "code": "invalid_type",
+                "path": [
+                  "@refObjectId"
+                ],
+                "message": "Invalid input: expected string, received undefined"
+              },
+              {
+                "expected": "string",
+                "code": "invalid_type",
+                "path": [
+                  "@version"
+                ],
+                "message": "Invalid input: expected string, received undefined"
+              },
+              {
+                "expected": "string",
+                "code": "invalid_type",
+                "path": [
+                  "@uri"
+                ],
+                "message": "Invalid input: expected string, received undefined"
+              }
+            ],
+            [
+              {
+                "expected": "array",
+                "code": "invalid_type",
+                "path": [],
+                "message": "Invalid input: expected array, received object"
+              }
+            ]
+          ],
+          "path": [
+            "processDataSet",
+            "exchanges",
+            "exchange",
+            1,
+            "referencesToDataSource",
+            "referenceToDataSource"
+          ],
+          "message": "Invalid input"
+        },
+        {
+          "code": "invalid_union",
+          "errors": [
+            [
+              {
+                "expected": "string",
+                "code": "invalid_type",
+                "path": [
+                  "@version"
+                ],
+                "message": "Invalid input: expected string, received undefined"
+              }
+            ],
+            [
+              {
+                "expected": "array",
+                "code": "invalid_type",
+                "path": [],
+                "message": "Invalid input: expected array, received object"
+              }
+            ]
+          ],
+          "path": [
+            "processDataSet",
+            "exchanges",
+            "exchange",
+            2,
+            "referenceToFlowDataSet"
+          ],
+          "message": "Invalid input"
+        },
+        {
+          "code": "invalid_union",
+          "errors": [
+            [
+              {
+                "expected": "string",
+                "code": "invalid_type",
+                "path": [
+                  "@type"
+                ],
+                "message": "Invalid input: expected string, received undefined"
+              },
+              {
+                "expected": "string",
+                "code": "invalid_type",
+                "path": [
+                  "@refObjectId"
+                ],
+                "message": "Invalid input: expected string, received undefined"
+              },
+              {
+                "expected": "string",
+                "code": "invalid_type",
+                "path": [
+                  "@version"
+                ],
+                "message": "Invalid input: expected string, received undefined"
+              },
+              {
+                "expected": "string",
+                "code": "invalid_type",
+                "path": [
+                  "@uri"
+                ],
+                "message": "Invalid input: expected string, received undefined"
+              }
+            ],
+            [
+              {
+                "expected": "array",
+                "code": "invalid_type",
+                "path": [],
+                "message": "Invalid input: expected array, received object"
+              }
+            ]
+          ],
+          "path": [
+            "processDataSet",
+            "exchanges",
+            "exchange",
+            2,
+            "referencesToDataSource",
+            "referenceToDataSource"
+          ],
+          "message": "Invalid input"
+        }
+      ]
+    },
+    "validateEnhanced": {
+      "success": false,
+      "mode": "strict",
+      "issues": [
+        {
+          "expected": "number",
+          "code": "invalid_type",
+          "path": [
+            "processDataSet",
+            "processInformation",
+            "time",
+            "common:referenceYear"
+          ],
+          "message": "Invalid input: expected number, received string"
+        },
+        {
+          "code": "invalid_union",
+          "errors": [
+            [
+              {
+                "expected": "string",
+                "code": "invalid_type",
+                "path": [
+                  "@version"
+                ],
+                "message": "Invalid input: expected string, received undefined"
+              }
+            ],
+            [
+              {
+                "expected": "array",
+                "code": "invalid_type",
+                "path": [],
+                "message": "Invalid input: expected array, received object"
+              }
+            ]
+          ],
+          "path": [
+            "processDataSet",
+            "processInformation",
+            "technology",
+            "referenceToTechnologyFlowDiagrammOrPicture"
+          ],
+          "message": "Invalid input"
+        },
+        {
+          "code": "invalid_union",
+          "errors": [
+            [
+              {
+                "expected": "string",
+                "code": "invalid_type",
+                "path": [
+                  "@version"
+                ],
+                "message": "Invalid input: expected string, received undefined"
+              }
+            ],
+            [
+              {
+                "expected": "array",
+                "code": "invalid_type",
+                "path": [],
+                "message": "Invalid input: expected array, received object"
+              }
+            ]
+          ],
+          "path": [
+            "processDataSet",
+            "modellingAndValidation",
+            "dataSourcesTreatmentAndRepresentativeness",
+            "referenceToDataSource"
+          ],
+          "message": "Invalid input"
+        },
+        {
+          "code": "invalid_union",
+          "errors": [
+            [
+              {
+                "expected": "string",
+                "code": "invalid_type",
+                "path": [
+                  "@version"
+                ],
+                "message": "Invalid input: expected string, received undefined"
+              }
+            ],
+            [
+              {
+                "expected": "array",
+                "code": "invalid_type",
+                "path": [],
+                "message": "Invalid input: expected array, received object"
+              }
+            ]
+          ],
+          "path": [
+            "processDataSet",
+            "modellingAndValidation",
+            "validation",
+            "review",
+            "common:referenceToNameOfReviewerAndInstitution"
+          ],
+          "message": "Invalid input"
+        },
+        {
+          "code": "invalid_union",
+          "errors": [
+            [
+              {
+                "expected": "object",
+                "code": "invalid_type",
+                "path": [],
+                "message": "Invalid input: expected object, received undefined"
+              }
+            ],
+            [
+              {
+                "expected": "array",
+                "code": "invalid_type",
+                "path": [],
+                "message": "Invalid input: expected array, received undefined"
+              }
+            ]
+          ],
+          "path": [
+            "processDataSet",
+            "modellingAndValidation",
+            "complianceDeclarations",
+            "compliance"
+          ],
+          "message": "Invalid input"
+        },
+        {
+          "origin": "string",
+          "code": "invalid_format",
+          "format": "datetime",
+          "pattern": "/^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d(?:\\.\\d+)?)?(?:Z))$/",
+          "path": [
+            "processDataSet",
+            "administrativeInformation",
+            "dataEntryBy",
+            "common:timeStamp"
+          ],
+          "message": "Invalid ISO datetime"
+        },
+        {
+          "code": "invalid_union",
+          "errors": [
+            [
+              {
+                "expected": "string",
+                "code": "invalid_type",
+                "path": [
+                  "@type"
+                ],
+                "message": "Invalid input: expected string, received undefined"
+              },
+              {
+                "expected": "string",
+                "code": "invalid_type",
+                "path": [
+                  "@refObjectId"
+                ],
+                "message": "Invalid input: expected string, received undefined"
+              },
+              {
+                "expected": "string",
+                "code": "invalid_type",
+                "path": [
+                  "@version"
+                ],
+                "message": "Invalid input: expected string, received undefined"
+              },
+              {
+                "expected": "string",
+                "code": "invalid_type",
+                "path": [
+                  "@uri"
+                ],
+                "message": "Invalid input: expected string, received undefined"
+              }
+            ],
+            [
+              {
+                "expected": "array",
+                "code": "invalid_type",
+                "path": [],
+                "message": "Invalid input: expected array, received object"
+              }
+            ]
+          ],
+          "path": [
+            "processDataSet",
+            "administrativeInformation",
+            "dataEntryBy",
+            "common:referenceToConvertedOriginalDataSetFrom"
+          ],
+          "message": "Invalid input"
+        },
+        {
+          "code": "invalid_union",
+          "errors": [
+            [
+              {
+                "expected": "string",
+                "code": "invalid_type",
+                "path": [
+                  "@type"
+                ],
+                "message": "Invalid input: expected string, received undefined"
+              },
+              {
+                "expected": "string",
+                "code": "invalid_type",
+                "path": [
+                  "@refObjectId"
+                ],
+                "message": "Invalid input: expected string, received undefined"
+              },
+              {
+                "expected": "string",
+                "code": "invalid_type",
+                "path": [
+                  "@version"
+                ],
+                "message": "Invalid input: expected string, received undefined"
+              },
+              {
+                "expected": "string",
+                "code": "invalid_type",
+                "path": [
+                  "@uri"
+                ],
+                "message": "Invalid input: expected string, received undefined"
+              }
+            ],
+            [
+              {
+                "expected": "array",
+                "code": "invalid_type",
+                "path": [],
+                "message": "Invalid input: expected array, received object"
+              }
+            ]
+          ],
+          "path": [
+            "processDataSet",
+            "administrativeInformation",
+            "dataEntryBy",
+            "common:referenceToDataSetUseApproval"
+          ],
+          "message": "Invalid input"
+        },
+        {
+          "code": "invalid_union",
+          "errors": [
+            [
+              {
+                "expected": "string",
+                "code": "invalid_type",
+                "path": [
+                  "@version"
+                ],
+                "message": "Invalid input: expected string, received undefined"
+              }
+            ],
+            [
+              {
+                "expected": "array",
+                "code": "invalid_type",
+                "path": [],
+                "message": "Invalid input: expected array, received object"
+              }
+            ]
+          ],
+          "path": [
+            "processDataSet",
+            "administrativeInformation",
+            "publicationAndOwnership",
+            "common:referenceToOwnershipOfDataSet"
+          ],
+          "message": "Invalid input"
+        },
+        {
+          "code": "invalid_union",
+          "errors": [
+            [
+              {
+                "code": "invalid_value",
+                "values": [
+                  "true"
+                ],
+                "path": [],
+                "message": "Invalid input: expected \"true\""
+              }
+            ],
+            [
+              {
+                "code": "invalid_value",
+                "values": [
+                  "false"
+                ],
+                "path": [],
+                "message": "Invalid input: expected \"false\""
+              }
+            ]
+          ],
+          "path": [
+            "processDataSet",
+            "administrativeInformation",
+            "publicationAndOwnership",
+            "common:copyright"
+          ],
+          "message": "Invalid input"
+        },
+        {
+          "code": "invalid_union",
+          "errors": [
+            [
+              {
+                "expected": "string",
+                "code": "invalid_type",
+                "path": [
+                  "@version"
+                ],
+                "message": "Invalid input: expected string, received undefined"
+              }
+            ],
+            [
+              {
+                "expected": "array",
+                "code": "invalid_type",
+                "path": [],
+                "message": "Invalid input: expected array, received object"
+              }
+            ]
+          ],
+          "path": [
+            "processDataSet",
+            "exchanges",
+            "exchange",
+            0,
+            "referenceToFlowDataSet"
+          ],
+          "message": "Invalid input"
+        },
+        {
+          "code": "invalid_union",
+          "errors": [
+            [
+              {
+                "expected": "string",
+                "code": "invalid_type",
+                "path": [
+                  "@type"
+                ],
+                "message": "Invalid input: expected string, received undefined"
+              },
+              {
+                "expected": "string",
+                "code": "invalid_type",
+                "path": [
+                  "@refObjectId"
+                ],
+                "message": "Invalid input: expected string, received undefined"
+              },
+              {
+                "expected": "string",
+                "code": "invalid_type",
+                "path": [
+                  "@version"
+                ],
+                "message": "Invalid input: expected string, received undefined"
+              },
+              {
+                "expected": "string",
+                "code": "invalid_type",
+                "path": [
+                  "@uri"
+                ],
+                "message": "Invalid input: expected string, received undefined"
+              }
+            ],
+            [
+              {
+                "expected": "array",
+                "code": "invalid_type",
+                "path": [],
+                "message": "Invalid input: expected array, received object"
+              }
+            ]
+          ],
+          "path": [
+            "processDataSet",
+            "exchanges",
+            "exchange",
+            0,
+            "referencesToDataSource",
+            "referenceToDataSource"
+          ],
+          "message": "Invalid input"
+        },
+        {
+          "code": "invalid_union",
+          "errors": [
+            [
+              {
+                "expected": "string",
+                "code": "invalid_type",
+                "path": [
+                  "@version"
+                ],
+                "message": "Invalid input: expected string, received undefined"
+              }
+            ],
+            [
+              {
+                "expected": "array",
+                "code": "invalid_type",
+                "path": [],
+                "message": "Invalid input: expected array, received object"
+              }
+            ]
+          ],
+          "path": [
+            "processDataSet",
+            "exchanges",
+            "exchange",
+            1,
+            "referenceToFlowDataSet"
+          ],
+          "message": "Invalid input"
+        },
+        {
+          "code": "invalid_union",
+          "errors": [
+            [
+              {
+                "expected": "string",
+                "code": "invalid_type",
+                "path": [
+                  "@type"
+                ],
+                "message": "Invalid input: expected string, received undefined"
+              },
+              {
+                "expected": "string",
+                "code": "invalid_type",
+                "path": [
+                  "@refObjectId"
+                ],
+                "message": "Invalid input: expected string, received undefined"
+              },
+              {
+                "expected": "string",
+                "code": "invalid_type",
+                "path": [
+                  "@version"
+                ],
+                "message": "Invalid input: expected string, received undefined"
+              },
+              {
+                "expected": "string",
+                "code": "invalid_type",
+                "path": [
+                  "@uri"
+                ],
+                "message": "Invalid input: expected string, received undefined"
+              }
+            ],
+            [
+              {
+                "expected": "array",
+                "code": "invalid_type",
+                "path": [],
+                "message": "Invalid input: expected array, received object"
+              }
+            ]
+          ],
+          "path": [
+            "processDataSet",
+            "exchanges",
+            "exchange",
+            1,
+            "referencesToDataSource",
+            "referenceToDataSource"
+          ],
+          "message": "Invalid input"
+        },
+        {
+          "code": "invalid_union",
+          "errors": [
+            [
+              {
+                "expected": "string",
+                "code": "invalid_type",
+                "path": [
+                  "@version"
+                ],
+                "message": "Invalid input: expected string, received undefined"
+              }
+            ],
+            [
+              {
+                "expected": "array",
+                "code": "invalid_type",
+                "path": [],
+                "message": "Invalid input: expected array, received object"
+              }
+            ]
+          ],
+          "path": [
+            "processDataSet",
+            "exchanges",
+            "exchange",
+            2,
+            "referenceToFlowDataSet"
+          ],
+          "message": "Invalid input"
+        },
+        {
+          "code": "invalid_union",
+          "errors": [
+            [
+              {
+                "expected": "string",
+                "code": "invalid_type",
+                "path": [
+                  "@type"
+                ],
+                "message": "Invalid input: expected string, received undefined"
+              },
+              {
+                "expected": "string",
+                "code": "invalid_type",
+                "path": [
+                  "@refObjectId"
+                ],
+                "message": "Invalid input: expected string, received undefined"
+              },
+              {
+                "expected": "string",
+                "code": "invalid_type",
+                "path": [
+                  "@version"
+                ],
+                "message": "Invalid input: expected string, received undefined"
+              },
+              {
+                "expected": "string",
+                "code": "invalid_type",
+                "path": [
+                  "@uri"
+                ],
+                "message": "Invalid input: expected string, received undefined"
+              }
+            ],
+            [
+              {
+                "expected": "array",
+                "code": "invalid_type",
+                "path": [],
+                "message": "Invalid input: expected array, received object"
+              }
+            ]
+          ],
+          "path": [
+            "processDataSet",
+            "exchanges",
+            "exchange",
+            2,
+            "referencesToDataSource",
+            "referenceToDataSource"
+          ],
+          "message": "Invalid input"
+        }
+      ]
+    }
+  },
+  {
+    "label": "Weak validation with injected issues",
+    "mode": "weak",
+    "validate": {
+      "success": false,
+      "issues": [
+        {
+          "expected": "number",
+          "code": "invalid_type",
+          "path": [
+            "processDataSet",
+            "processInformation",
+            "time",
+            "common:referenceYear"
+          ],
+          "message": "Invalid input: expected number, received string"
+        }
+      ]
+    },
+    "validateEnhanced": {
+      "success": false,
+      "mode": "weak",
+      "issues": [
+        {
+          "expected": "number",
+          "code": "invalid_type",
+          "path": [
+            "processDataSet",
+            "processInformation",
+            "time",
+            "common:referenceYear"
+          ],
+          "message": "Invalid input: expected number, received string"
+        }
+      ],
+      "warnings": [
+        {
+          "path": [
+            "processDataSet",
+            "processInformation",
+            "technology",
+            "referenceToTechnologyFlowDiagrammOrPicture"
+          ],
+          "message": "Invalid input",
+          "code": "invalid_union",
+          "severity": "medium"
+        },
+        {
+          "path": [
+            "processDataSet",
+            "modellingAndValidation",
+            "dataSourcesTreatmentAndRepresentativeness",
+            "referenceToDataSource"
+          ],
+          "message": "Invalid input",
+          "code": "invalid_union",
+          "severity": "medium"
+        },
+        {
+          "path": [
+            "processDataSet",
+            "modellingAndValidation",
+            "validation",
+            "review",
+            "common:referenceToNameOfReviewerAndInstitution"
+          ],
+          "message": "Invalid input",
+          "code": "invalid_union",
+          "severity": "medium"
+        },
+        {
+          "path": [
+            "processDataSet",
+            "modellingAndValidation",
+            "complianceDeclarations",
+            "compliance"
+          ],
+          "message": "Invalid input",
+          "code": "invalid_union",
+          "severity": "medium"
+        },
+        {
+          "path": [
+            "processDataSet",
+            "administrativeInformation",
+            "dataEntryBy",
+            "common:timeStamp"
+          ],
+          "message": "Invalid ISO datetime",
+          "code": "invalid_format",
+          "severity": "medium"
+        },
+        {
+          "path": [
+            "processDataSet",
+            "administrativeInformation",
+            "dataEntryBy",
+            "common:referenceToConvertedOriginalDataSetFrom"
+          ],
+          "message": "Invalid input",
+          "code": "invalid_union",
+          "severity": "medium"
+        },
+        {
+          "path": [
+            "processDataSet",
+            "administrativeInformation",
+            "dataEntryBy",
+            "common:referenceToDataSetUseApproval"
+          ],
+          "message": "Invalid input",
+          "code": "invalid_union",
+          "severity": "medium"
+        },
+        {
+          "path": [
+            "processDataSet",
+            "administrativeInformation",
+            "publicationAndOwnership",
+            "common:referenceToOwnershipOfDataSet"
+          ],
+          "message": "Invalid input",
+          "code": "invalid_union",
+          "severity": "medium"
+        },
+        {
+          "path": [
+            "processDataSet",
+            "administrativeInformation",
+            "publicationAndOwnership",
+            "common:copyright"
+          ],
+          "message": "Invalid input",
+          "code": "invalid_union",
+          "severity": "medium"
+        },
+        {
+          "path": [
+            "processDataSet",
+            "exchanges",
+            "exchange",
+            "0",
+            "referenceToFlowDataSet"
+          ],
+          "message": "Invalid input",
+          "code": "invalid_union",
+          "severity": "medium"
+        },
+        {
+          "path": [
+            "processDataSet",
+            "exchanges",
+            "exchange",
+            "0",
+            "meanAmount"
+          ],
+          "message": "Invalid string: must match pattern /[+-]?(\\d+(\\.\\d*)?|\\.\\d+)([Ee][+-]?\\d+)?$/",
+          "code": "invalid_format",
+          "severity": "medium"
+        },
+        {
+          "path": [
+            "processDataSet",
+            "exchanges",
+            "exchange",
+            "0",
+            "referencesToDataSource",
+            "referenceToDataSource"
+          ],
+          "message": "Invalid input",
+          "code": "invalid_union",
+          "severity": "medium"
+        },
+        {
+          "path": [
+            "processDataSet",
+            "exchanges",
+            "exchange",
+            "1",
+            "referenceToFlowDataSet"
+          ],
+          "message": "Invalid input",
+          "code": "invalid_union",
+          "severity": "medium"
+        },
+        {
+          "path": [
+            "processDataSet",
+            "exchanges",
+            "exchange",
+            "1",
+            "referencesToDataSource",
+            "referenceToDataSource"
+          ],
+          "message": "Invalid input",
+          "code": "invalid_union",
+          "severity": "medium"
+        },
+        {
+          "path": [
+            "processDataSet",
+            "exchanges",
+            "exchange",
+            "2",
+            "referenceToFlowDataSet"
+          ],
+          "message": "Invalid input",
+          "code": "invalid_union",
+          "severity": "medium"
+        },
+        {
+          "path": [
+            "processDataSet",
+            "exchanges",
+            "exchange",
+            "2",
+            "referencesToDataSource",
+            "referenceToDataSource"
+          ],
+          "message": "Invalid input",
+          "code": "invalid_union",
+          "severity": "medium"
+        }
+      ]
+    }
+  },
+  {
+    "label": "Ignore validation (always passes)",
+    "mode": "ignore",
+    "validate": {
+      "success": true
+    },
+    "validateEnhanced": {
+      "success": true,
+      "mode": "ignore"
+    }
+  }
+]

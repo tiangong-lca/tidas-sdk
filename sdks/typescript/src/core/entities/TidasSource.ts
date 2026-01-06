@@ -139,27 +139,8 @@ export class TidasSource extends TidasEntity<Source> {
       );
     }
 
-    if (
-      !this.getNestedValue(
-        'sourceDataSet.sourceInformation.dataSetInformation.sourceCitation'
-      )
-    ) {
-      this.setNestedValue(
-        'sourceDataSet.sourceInformation.dataSetInformation.sourceCitation',
-        new MultiLangArray()
-      );
-    }
-
-    if (
-      !this.getNestedValue(
-        'sourceDataSet.sourceInformation.dataSetInformation.publicationType'
-      )
-    ) {
-      this.setNestedValue(
-        'sourceDataSet.sourceInformation.dataSetInformation.publicationType',
-        new MultiLangArray()
-      );
-    }
+    // Note: sourceCitation and publicationType are optional string fields, not multi-language arrays
+    // They should be set by the user when needed, not initialized with empty arrays
 
     if (
       !this.getNestedValue(

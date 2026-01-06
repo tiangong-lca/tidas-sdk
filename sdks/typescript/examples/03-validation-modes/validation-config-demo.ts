@@ -15,7 +15,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 
 import type { ZodIssue } from 'zod';
-import { createProcessFromJSON } from '@tiangong-lca/tidas-sdk/core';
+import { createProcessFromJSON, type ValidationMode } from '@tiangong-lca/tidas-sdk/core';
 
 type ValidationWarning = {
   severity: string;
@@ -28,7 +28,19 @@ const samplePath = path.resolve(
   __dirname,
   '../../../../test-data/tidas-example-process.json'
 );
+const outputPath = path.resolve(__dirname, 'validation-errors.json');
 const baseProcessData = JSON.parse(fs.readFileSync(samplePath, 'utf-8'));
+const collectedResults: Array<{
+  label: string;
+  mode: ValidationMode;
+  validate: { success: boolean; issues?: ZodIssue[] };
+  validateEnhanced: {
+    success: boolean;
+    mode: ValidationMode;
+    issues?: ZodIssue[];
+    warnings?: ValidationWarning[];
+  };
+}> = [];
 
 const cloneData = () => JSON.parse(JSON.stringify(baseProcessData));
 
@@ -40,6 +52,8 @@ const logIssues = (label: string, issues?: ZodIssue[]) => {
     console.log(
       `  ${index + 1}. [${issue.code}] ${pathText}: ${issue.message}`
     );
+    // Dump full issue object to keep complete context (including union details)
+    console.log(`      details: ${JSON.stringify(issue, null, 2)}`);
   });
 };
 
@@ -53,6 +67,8 @@ const logWarnings = (warnings?: ValidationWarning[]) => {
     );
   });
 };
+
+const toPlainIssue = (issue: ZodIssue) => JSON.parse(JSON.stringify(issue));
 
 const showValidation = (
   label: string,
@@ -86,6 +102,21 @@ const showValidation = (
     logIssues('Errors (validateEnhanced):', enhanced.error.issues);
   }
   logWarnings(enhanced.warnings);
+
+  collectedResults.push({
+    label,
+    mode,
+    validate: {
+      success: legacy.success,
+      issues: legacy.success ? undefined : legacy.error.issues.map(toPlainIssue),
+    },
+    validateEnhanced: {
+      success: enhanced.success,
+      mode: enhanced.mode,
+      issues: enhanced.success ? undefined : enhanced.error.issues.map(toPlainIssue),
+      warnings: enhanced.warnings,
+    },
+  });
 };
 
 console.log('=== TIDAS Validation Demo (process JSON) ===');
@@ -112,3 +143,5 @@ console.log('\nKey takeaways:');
 console.log('- use validate() for legacy success/error shape');
 console.log('- use validateEnhanced() to also get warnings and current mode');
 console.log('- mode can be set per-entity when creating from JSON');
+fs.writeFileSync(outputPath, JSON.stringify(collectedResults, null, 2));
+console.log('Validation details saved to:', outputPath);
