@@ -34,7 +34,15 @@ function deepWrapMultiLang(obj: any, seen = new WeakSet()): any {
   seen.add(obj);
 
   for (const key of Object.keys(obj)) {
+    // Skip private properties (starting with _) to avoid touching internal state like _schema
+    if (key.startsWith('_')) continue;
+
     const val = obj[key];
+
+    // Check if property is writable before attempting to modify
+    const descriptor = Object.getOwnPropertyDescriptor(obj, key);
+    const isWritable = !descriptor || descriptor.writable !== false;
+
     if (
       Array.isArray(val) &&
       val.length > 0 &&
@@ -50,14 +58,18 @@ function deepWrapMultiLang(obj: any, seen = new WeakSet()): any {
             : new MultiLangItemClass(item['@xml:lang'], item['#text'])
         );
       }
-      obj[key] = arr;
+      if (isWritable) {
+        obj[key] = arr;
+      }
     } else if (
       val &&
       typeof val === 'object' &&
       '@xml:lang' in val &&
       '#text' in val
     ) {
-      obj[key] = new MultiLangItemClass(val['@xml:lang'], val['#text']);
+      if (isWritable) {
+        obj[key] = new MultiLangItemClass(val['@xml:lang'], val['#text']);
+      }
     } else if (typeof val === 'object' && val !== null) {
       deepWrapMultiLang(val, seen);
     }
