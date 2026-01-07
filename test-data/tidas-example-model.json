@@ -1,0 +1,177 @@
+{
+    "lifeCycleModelDataSet": {
+        "@xmlns": "http://eplca.jrc.ec.europa.eu/ILCD/LifeCycleModel/2017",
+        "@xmlns:acme": "http://acme.com/custom",
+        "@xmlns:common": "http://lca.jrc.it/ILCD/Common",
+        "@xmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance",
+        "@locations": "../ILCDLocations.xml",
+        "@version": "1.1",
+        "@xsi:schemaLocation": "http://eplca.jrc.ec.europa.eu/ILCD/LifeCycleModel/2017 ../../schemas/ILCD_LifeCycleModelDataSet.xsd",
+        "lifeCycleModelInformation": {
+            "dataSetInformation": {
+                "common:UUID": "e05e869c-b9bc-4cc6-b672-85e4dfa8d208",
+                "name": {
+                    "baseName": {
+                        "#text": "1",
+                        "@xml:lang": "en"
+                    }
+                },
+                "classificationInformation": {
+                    "common:classification": {
+                        "common:class": [
+                            {
+                                "#text": "Agriculture, forestry and fishing",
+                                "@level": "0",
+                                "@classId": "A"
+                            },
+                            {
+                                "#text": "Crop and animal production, hunting and related service activities",
+                                "@level": "1",
+                                "@classId": "01"
+                            },
+                            {
+                                "#text": "Growing of non-perennial crops",
+                                "@level": "2",
+                                "@classId": "011"
+                            },
+                            {
+                                "#text": "Growing of cereals (except rice), leguminous crops and oil seeds",
+                                "@level": "3",
+                                "@classId": "0111"
+                            }
+                        ]
+                    }
+                }
+            },
+            "quantitativeReference": {
+                "referenceToReferenceProcess": "0"
+            },
+            "technology": {
+                "processes": {
+                    "processInstance": [
+                        {
+                            "@dataSetInternalID": "0",
+                            "referenceToProcess": {
+                                "@refObjectId": "53dad14e-3f72-49dd-a700-1d5a9ad6c8db",
+                                "@type": "process data set",
+                                "@uri": "../processes/53dad14e-3f72-49dd-a700-1d5a9ad6c8db.xml",
+                                "@version": "01.01.000",
+                                "common:shortDescription": [
+                                    {
+                                        "#text": "test-process1",
+                                        "@xml:lang": "en"
+                                    }
+                                ]
+                            },
+                            "connections": {
+                                "outputExchange": {
+                                    "@flowUUID": "794947fb-e9bd-4040-9a29-7eb6efa96540",
+                                    "downstreamProcess": {
+                                        "@flowUUID": "794947fb-e9bd-4040-9a29-7eb6efa96540",
+                                        "@id": "1"
+                                    }
+                                }
+                            }
+                        },
+                        {
+                            "@dataSetInternalID": "1",
+                            "referenceToProcess": {
+                                "@refObjectId": "9387ee7c-a581-4687-8b9f-5e7c71f9fc7b",
+                                "@type": "process data set",
+                                "@uri": "../processes/9387ee7c-a581-4687-8b9f-5e7c71f9fc7b.xml",
+                                "@version": "01.01.000",
+                                "common:shortDescription": [
+                                    {
+                                        "#text": "test-process2",
+                                        "@xml:lang": "en"
+                                    }
+                                ]
+                            }
+                        }
+                    ]
+                }
+            }
+        },
+        "administrativeInformation": {
+            "common:commissionerAndGoal": {
+                "common:referenceToCommissioner": {
+                    "@refObjectId": "4d362a56-793e-45f4-93f1-f44cf71a6250",
+                    "@type": "contact data set",
+                    "@uri": "../contacts/4d362a56-793e-45f4-93f1-f44cf71a6250.xml",
+                    "@version": "01.01.000",
+                    "common:shortDescription": [
+                        {
+                            "#text": "SiZhang ",
+                            "@xml:lang": "en"
+                        },
+                        {
+                            "#text": "张思",
+                            "@xml:lang": "zh"
+                        }
+                    ]
+                },
+                "common:intendedApplications": {
+                    "#text": "1",
+                    "@xml:lang": "en"
+                }
+            },
+            "dataEntryBy": {
+                "common:timeStamp": "2026-01-07T06:00:51.689Z",
+                "common:referenceToDataSetFormat": {
+                    "@refObjectId": "d2fd4783-6fb0-4af7-887d-fa9d25acc896",
+                    "@type": "source data set",
+                    "@uri": "../sources/d2fd4783-6fb0-4af7-887d-fa9d25acc896.xml",
+                    "@version": "01.01.000",
+                    "common:shortDescription": [
+                        {
+                            "#text": "Review report of“Shale gas development; Hydraulic fracturing; In shale formations”",
+                            "@xml:lang": "en"
+                        },
+                        {
+                            "#text": "\"页岩气开发; 水力压裂; 在页岩地层\"审查报告",
+                            "@xml:lang": "zh"
+                        }
+                    ]
+                },
+                "common:referenceToPersonOrEntityEnteringTheData": {
+                    "@refObjectId": "f9028cb5-dc58-4736-a962-b961840abce6",
+                    "@type": "contact data set",
+                    "@uri": "../contacts/f9028cb5-dc58-4736-a962-b961840abce6.xml",
+                    "@version": "01.01.000",
+                    "common:shortDescription": [
+                        {
+                            "#text": "王晓静",
+                            "@xml:lang": "zh"
+                        },
+                        {
+                            "#text": "Xiaojing Wang",
+                            "@xml:lang": "en"
+                        }
+                    ]
+                }
+            },
+            "publicationAndOwnership": {
+                "common:dataSetVersion": "01.01.000",
+                "common:permanentDataSetURI": "https://lcdn.tiangong.earth/datasetdetail/lifecyclemodel.xhtml?uuid=e05e869c-b9bc-4cc6-b672-85e4dfa8d208&version=01.01.000",
+                "common:referenceToOwnershipOfDataSet": {
+                    "@refObjectId": "611a4be6-8e7a-4b93-b3af-26b1ff640ca3",
+                    "@type": "contact data set",
+                    "@uri": "../contacts/611a4be6-8e7a-4b93-b3af-26b1ff640ca3.xml",
+                    "@version": "01.01.000",
+                    "common:shortDescription": [
+                        {
+                            "#text": "田欣悦",
+                            "@xml:lang": "zh"
+                        },
+                        {
+                            "#text": "tianxinyue",
+                            "@xml:lang": "en"
+                        }
+                    ]
+                },
+                "common:copyright": "true",
+                "common:licenseType": "Free of charge for all users and uses"
+            }
+        }
+    }
+}

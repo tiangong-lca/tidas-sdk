@@ -55,6 +55,11 @@ class TidasGlobalConfig {
     if (envIncludeWarnings !== undefined) {
       this._defaultValidationConfig.includeWarnings = envIncludeWarnings === 'true';
     }
+
+    const envDeepValidation = process.env.TIDAS_DEEP_VALIDATION;
+    if (envDeepValidation !== undefined) {
+      this._defaultValidationConfig.deepValidation = envDeepValidation === 'true';
+    }
   }
 }
 
