@@ -43,23 +43,30 @@ export const YearSchema = z.number().min(1000).max(9999);
 
 export const dateTimeSchema = z.string().datetime();
 
-const MultiLangArrayLikeSchema = z.any();
+// Multi-language item schema: { "#text": "value", "@xml:lang": "en" }
+const MultiLangItemSchema = z.object({
+  '#text': z.string(),
+  '@xml:lang': z.string(),
+});
 
-const MultiLangItemClassSchema = z.any();
+// Multi-language can be either a single item or an array of items
+const MultiLangArrayLikeSchema = z.array(MultiLangItemSchema);
+
+const MultiLangItemClassSchema = MultiLangItemSchema;
 
 export const StringMultiLangSchema = z.union([
-  MultiLangArrayLikeSchema,
-  MultiLangItemClassSchema,
+  MultiLangItemClassSchema,      // Single object
+  MultiLangArrayLikeSchema,      // Array of objects
 ]);
 
 export const STMultiLangSchema = z.union([
-  MultiLangArrayLikeSchema,
-  MultiLangItemClassSchema,
+  MultiLangItemClassSchema,      // Single object
+  MultiLangArrayLikeSchema,      // Array of objects
 ]);
 
 export const FTMultiLangSchema = z.union([
-  MultiLangArrayLikeSchema,
-  MultiLangItemClassSchema,
+  MultiLangItemClassSchema,      // Single object
+  MultiLangArrayLikeSchema,      // Array of objects
 ]);
 
 export const GlobalReferenceTypeSchema = z.union([
