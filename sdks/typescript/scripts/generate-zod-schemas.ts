@@ -202,31 +202,46 @@ async function postProcessZodSchema(schemaFile: string): Promise<void> {
     );
   }
 
-  // For tidas_data_types, apply specific constraint fixes
+  // For tidas_data_types, apply manual optimizations instead of automatic fixes
   if (schemaFile.includes('tidas_data_types')) {
-    // Fix StringMultiLang schemas - should have max(500)
-    fixedContent = fixedContent.replace(
-      /StringMultiLangSchema = z\.union\(\[([\s\S]*?)\]\);/g,
-      (_, unionContent) => {
-        const fixedUnion = unionContent.replace(
-          /('#text':\s*z\.string\(\)),/g,
-          "'#text': z.string().max(500),"
-        );
-        return `StringMultiLangSchema = z.union([${fixedUnion}]);`;
-      }
+    console.log('   ℹ️  Applying manual optimizations for tidas_data_types');
+
+    // Replace z.any() multi-lang schemas with proper typed schemas
+    const manualOptimizations = content.replace(
+      /const MultiLangArrayLikeSchema = z\.any\(\);[\s\S]*?const MultiLangItemClassSchema = z\.any\(\);[\s\S]*?export const StringMultiLangSchema = z\.union\(\[[\s\S]*?\]\);[\s\S]*?export const STMultiLangSchema = z\.union\(\[[\s\S]*?\]\);[\s\S]*?export const FTMultiLangSchema = z\.union\(\[[\s\S]*?\]\);/,
+      `// Multi-language item schema: { "#text": "value", "@xml:lang": "en" }
+const MultiLangItemSchema = z.object({
+  '#text': z.string(),
+  '@xml:lang': z.string(),
+});
+
+// Multi-language can be either a single item or an array of items
+const MultiLangArrayLikeSchema = z.array(MultiLangItemSchema);
+
+const MultiLangItemClassSchema = MultiLangItemSchema;
+
+export const StringMultiLangSchema = z.union([
+  MultiLangItemClassSchema,      // Single object
+  MultiLangArrayLikeSchema,      // Array of objects
+]);
+
+export const STMultiLangSchema = z.union([
+  MultiLangItemClassSchema,      // Single object
+  MultiLangArrayLikeSchema,      // Array of objects
+]);
+
+export const FTMultiLangSchema = z.union([
+  MultiLangItemClassSchema,      // Single object
+  MultiLangArrayLikeSchema,      // Array of objects
+]);`
     );
 
-    // Fix STMultiLang schemas - should have max(1000)
-    fixedContent = fixedContent.replace(
-      /STMultiLangSchema = z\.union\(\[([\s\S]*?)\]\);/g,
-      (_, unionContent) => {
-        const fixedUnion = unionContent.replace(
-          /('#text':\s*z\.string\(\)),/g,
-          "'#text': z.string().max(1000),"
-        );
-        return `STMultiLangSchema = z.union([${fixedUnion}]);`;
-      }
-    );
+    if (manualOptimizations !== content) {
+      fs.writeFileSync(schemaFile, manualOptimizations, 'utf8');
+      console.log('   🔧 Applied manual optimizations to tidas_data_types.schema.ts');
+    }
+
+    return; // Skip standard automatic fixes for this file
   }
 
   // Apply intelligent constraint fixes for all schemas
