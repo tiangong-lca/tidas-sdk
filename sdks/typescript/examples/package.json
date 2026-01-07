@@ -19,6 +19,6 @@
     "typescript": "^5.8.3"
   },
   "dependencies": {
-    "@tiangong-lca/tidas-sdk": "^0.1.21"
+    "@tiangong-lca/tidas-sdk": "^0.1.25"
   }
 }
