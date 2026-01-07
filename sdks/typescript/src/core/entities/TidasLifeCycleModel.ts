@@ -29,7 +29,7 @@ export class TidasLifeCycleModel extends TidasEntity<LifeCycleModel> {
     // Set required namespace attributes for TIDAS schema compliance
     this.setNestedValue(
       'lifeCycleModelDataSet.@xmlns',
-      'http://lca.jrc.it/ILCD/LifeCycleModel'
+      'http://eplca.jrc.ec.europa.eu/ILCD/LifeCycleModel/2017'
     );
     this.setNestedValue(
       'lifeCycleModelDataSet.@xmlns:common',
@@ -42,7 +42,7 @@ export class TidasLifeCycleModel extends TidasEntity<LifeCycleModel> {
     this.setNestedValue('lifeCycleModelDataSet.@version', '1.1');
     this.setNestedValue(
       'lifeCycleModelDataSet.@xsi:schemaLocation',
-      'http://lca.jrc.it/ILCD/LifeCycleModel ../../schemas/ILCD_LifeCycleModelDataSet.xsd'
+      'http://eplca.jrc.ec.europa.eu/ILCD/LifeCycleModel/2017 ../../schemas/ILCD_LifeCycleModelDataSet.xsd'
     );
 
     // Ensure required nested structure exists
