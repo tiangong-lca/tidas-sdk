@@ -109,9 +109,16 @@ console.log('\n=== Example 3: Process Creation ===');
 const process = createProcess();
 
 // Set process information
-process.processDataSet.processInformation.dataSetInformation.name.baseName = [
-  { '@xml:lang': 'en', '#text': 'Electricity production, wind power' },
-];
+process.processDataSet.processInformation.dataSetInformation.name = {
+  baseName: [
+    { '@xml:lang': 'en', '#text': 'Electricity production, wind power' },
+  ],
+  treatmentStandardsRoutes: [
+    { '@xml:lang': 'en', '#text': 'Wind power generation' },
+  ],
+  mixAndLocationTypes: [{ '@xml:lang': 'en', '#text': 'Country average' }],
+  'common:other': 'Wind power electricity generation process',
+};
 
 // Set technology information
 if (process.processDataSet.processInformation.technology) {
@@ -274,12 +281,15 @@ console.log('\n=== Example 8: Life Cycle Model Creation ===');
 const lifeCycleModel = createLifeCycleModel();
 
 // Set life cycle model information
-lifeCycleModel.lifeCycleModelDataSet.lifeCycleModelInformation.dataSetInformation.name.baseName =
-  [{ '@xml:lang': 'en', '#text': 'Wind Power Plant Life Cycle Model' }];
-
-lifeCycleModel.lifeCycleModelDataSet.lifeCycleModelInformation.dataSetInformation.name.treatmentStandardsRoutes =
-  [{ '@xml:lang': 'en', '#text': 'Wind LCM' }];
-
+lifeCycleModel.lifeCycleModelDataSet.lifeCycleModelInformation.dataSetInformation.name =
+  {
+    baseName: [
+      { '@xml:lang': 'en', '#text': 'Wind Power Plant Life Cycle Model' },
+    ],
+    treatmentStandardsRoutes: [{ '@xml:lang': 'en', '#text': 'Wind LCM' }],
+    mixAndLocationTypes: [{ '@xml:lang': 'en', '#text': 'Global' }],
+    'common:other': 'Life cycle model for wind power plants',
+  };
 // Set life cycle model comments
 lifeCycleModel.lifeCycleModelDataSet.lifeCycleModelInformation.dataSetInformation[
   'common:generalComment'

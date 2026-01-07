@@ -1,0 +1,91 @@
+{
+    "contactDataSet": {
+        "@xmlns:common": "http://lca.jrc.it/ILCD/Common",
+        "@xmlns": "http://lca.jrc.it/ILCD/Contact",
+        "@xmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance",
+        "@version": "1.1",
+        "@xsi:schemaLocation": "http://lca.jrc.it/ILCD/Contact ../../schemas/ILCD_ContactDataSet.xsd",
+        "contactInformation": {
+            "dataSetInformation": {
+                "common:UUID": "5e9ce347-252e-4a1b-9ee9-904bf1737b45",
+                "common:shortName": [
+                    {
+                        "#text": "test-sdk",
+                        "@xml:lang": "en"
+                    }
+                ],
+                "common:name": [
+                    {
+                        "#text": "1",
+                        "@xml:lang": "en"
+                    }
+                ],
+                "classificationInformation": {
+                    "common:classification": {
+                        "common:class": {
+                            "id": [
+                                "1"
+                            ],
+                            "value": [
+                                "Group of organisations, project"
+                            ]
+                        }
+                    }
+                },
+                "contactAddress": [],
+                "centralContactPoint": [],
+                "contactDescriptionOrComment": [],
+                "referenceToContact": {
+                    "common:shortDescription": []
+                },
+                "referenceToLogo": {
+                    "common:shortDescription": []
+                }
+            }
+        },
+        "administrativeInformation": {
+            "dataEntryBy": {
+                "common:timeStamp": "2026-01-06T07:54:19.721Z",
+                "common:referenceToDataSetFormat": {
+                    "@refObjectId": "a97a0155-0234-4b87-b4ce-a45da52f2a40",
+                    "@type": "source data set",
+                    "@uri": "../sources/a97a0155-0234-4b87-b4ce-a45da52f2a40.xml",
+                    "@version": "03.00.003",
+                    "common:shortDescription": [
+                        {
+                            "#text": "ILCD format",
+                            "@xml:lang": "en"
+                        },
+                        {
+                            "#text": "ILCD 数据格式",
+                            "@xml:lang": "zh"
+                        }
+                    ]
+                }
+            },
+            "publicationAndOwnership": {
+                "common:dataSetVersion": "01.01.000",
+                "common:referenceToOwnershipOfDataSet": {
+                    "@refObjectId": "4d362a56-793e-45f4-93f1-f44cf71a6250",
+                    "@type": "contact data set",
+                    "@uri": "../contacts/4d362a56-793e-45f4-93f1-f44cf71a6250.xml",
+                    "@version": "01.01.000",
+                    "common:shortDescription": [
+                        {
+                            "#text": "SiZhang ",
+                            "@xml:lang": "en"
+                        },
+                        {
+                            "#text": "张思",
+                            "@xml:lang": "zh"
+                        }
+                    ]
+                },
+                "common:referenceToPrecedingDataSetVersion": {
+                    "common:shortDescription": []
+                },
+                "common:permanentDataSetURI": "https://lcdn.tiangong.earth/datasetdetail/contact.xhtml?uuid=5e9ce347-252e-4a1b-9ee9-904bf1737b45&version=01.01.000"
+            }
+        }
+    }
+}
