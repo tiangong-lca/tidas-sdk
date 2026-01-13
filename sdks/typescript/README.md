@@ -238,6 +238,7 @@ npm run release:major
 ## 🤝 Contributing
 
 We welcome contributions! Please:
+
 1. Follow the development guidelines
 2. Add tests for new functionality
 3. Ensure all tests pass and code is properly formatted

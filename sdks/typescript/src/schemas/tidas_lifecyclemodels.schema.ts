@@ -135,10 +135,9 @@ export const LifecyclemodelsSchema = z.object({
                     outputExchange: z
                       .union([
                         z.object({
-                          '@dominant': z.union([
-                            z.literal('true'),
-                            z.literal('false'),
-                          ]),
+                          '@dominant': z
+                            .union([z.literal('true'), z.literal('false')])
+                            .optional(),
                           '@flowUUID': UUIDSchema,
                           downstreamProcess: z.union([
                             z.object({
@@ -166,10 +165,9 @@ export const LifecyclemodelsSchema = z.object({
                         }),
                         z.array(
                           z.object({
-                            '@dominant': z.union([
-                              z.literal('true'),
-                              z.literal('false'),
-                            ]),
+                            '@dominant': z
+                              .union([z.literal('true'), z.literal('false')])
+                              .optional(),
                             '@flowUUID': UUIDSchema,
                             downstreamProcess: z.union([
                               z.object({
@@ -247,10 +245,9 @@ export const LifecyclemodelsSchema = z.object({
                 connections: z.object({
                   outputExchange: z.union([
                     z.object({
-                      '@dominant': z.union([
-                        z.literal('true'),
-                        z.literal('false'),
-                      ]),
+                      '@dominant': z
+                        .union([z.literal('true'), z.literal('false')])
+                        .optional(),
                       '@flowUUID': UUIDSchema,
                       downstreamProcess: z.union([
                         z.object({
@@ -275,10 +272,9 @@ export const LifecyclemodelsSchema = z.object({
                     }),
                     z.array(
                       z.object({
-                        '@dominant': z.union([
-                          z.literal('true'),
-                          z.literal('false'),
-                        ]),
+                        '@dominant': z
+                          .union([z.literal('true'), z.literal('false')])
+                          .optional(),
                         '@flowUUID': UUIDSchema,
                         downstreamProcess: z.union([
                           z.object({

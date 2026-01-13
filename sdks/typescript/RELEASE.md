@@ -78,6 +78,11 @@ This will:
 
 - Update the version in `package.json`
 - Create a git commit with the new version
+
+```bash
+git commit -am "chore(typescript): release vX.Y.Z"
+```
+
 - Create a git tag
 
 ### 4. Publish to npm

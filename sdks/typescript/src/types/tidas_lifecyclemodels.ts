@@ -78,7 +78,7 @@ export interface Lifecyclemodels {
                 connections: {
                   outputExchange?:
                     | {
-                        '@dominant': 'true' | 'false';
+                        '@dominant'?: 'true' | 'false';
                         '@flowUUID': UUID;
                         downstreamProcess:
                           | {
@@ -95,7 +95,7 @@ export interface Lifecyclemodels {
                             }[];
                       }
                     | {
-                        '@dominant': 'true' | 'false';
+                        '@dominant'?: 'true' | 'false';
                         '@flowUUID': UUID;
                         downstreamProcess:
                           | {
@@ -132,7 +132,7 @@ export interface Lifecyclemodels {
                 connections: {
                   outputExchange:
                     | {
-                        '@dominant': 'true' | 'false';
+                        '@dominant'?: 'true' | 'false';
                         '@flowUUID': UUID;
                         downstreamProcess:
                           | {
@@ -149,7 +149,7 @@ export interface Lifecyclemodels {
                             }[];
                       }
                     | {
-                        '@dominant': 'true' | 'false';
+                        '@dominant'?: 'true' | 'false';
                         '@flowUUID': UUID;
                         downstreamProcess:
                           | {
