@@ -1,6 +1,6 @@
 [project]
 name = "tidas-sdk"
-version = "0.1.5"
+version = "0.1.6"
 description = "Python SDK for TIDAS/ILCD Life Cycle Assessment data"
 authors = [{ name = "Tiangong LCA Team" }]
 license = { text = "MIT" }
