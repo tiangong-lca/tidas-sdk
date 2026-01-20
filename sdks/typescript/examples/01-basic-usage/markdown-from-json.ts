@@ -60,3 +60,9 @@ preview('Life Cycle Model', lcmMd);
 
 console.log('\nFull process markdown preview:\n');
 console.log(processMd);
+
+console.log('\nFull flow markdown preview:\n');
+console.log(flowMd);
+
+console.log('\nFull life cycle model markdown preview:\n');
+console.log(lcmMd);
