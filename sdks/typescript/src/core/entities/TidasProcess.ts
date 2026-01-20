@@ -3,6 +3,12 @@ import { ProcessSchema } from '../../schemas';
 import { Process } from '../../types';
 import { ValidationConfig } from '../config/ValidationConfig';
 import { MultiLangArray } from '../../types/multi-lang-types';
+import {
+  ensureArray,
+  formatNumber,
+  joinTexts,
+  pickShortDescription,
+} from '../../utils/markdown';
 
 /**
  * TIDAS Process entity - pure data container
@@ -270,5 +276,209 @@ export class TidasProcess extends TidasEntity<Process> {
     //     'Reference flow(s)'
     //   );
     // }
+  }
+
+  toMarkdown(lang: string = 'en'): string {
+    const dataset = this.processDataSet;
+    const processInfo = dataset?.processInformation;
+    const dataInfo = processInfo?.dataSetInformation;
+    const quantRef = processInfo?.quantitativeReference;
+
+    const title = this.composeTitle(dataInfo, lang);
+    const lines: string[] = [`# ${title}`, '', '**Entity:** Process'];
+
+    const uuid = dataInfo?.['common:UUID'];
+    if (uuid) lines.push(`**UUID:** \`${uuid}\``);
+
+    const version = this.dataSetVersion(dataset);
+    if (version) lines.push(`**Version:** ${version}`);
+
+    const [locCode, geoDesc] = this.geography(processInfo, lang);
+    if (locCode) lines.push(`**Location:** ${locCode}`);
+
+    const { name: refFlowName, amount: refAmount } = this.referenceFlowSummary(dataset, quantRef, lang);
+    if (refFlowName) lines.push(`**Reference Flow:** ${refFlowName}`);
+    if (refAmount) lines.push(`**Amount:** ${refAmount}`);
+
+    const classification = this.classificationPath(dataInfo);
+    if (classification) lines.push(`**Classification:** ${classification}`);
+
+    const functionalUnit = joinTexts(quantRef?.functionalUnitOrOther, lang);
+    if (functionalUnit) lines.push(`**Functional Unit:** ${functionalUnit}`);
+
+    if (lines[lines.length - 1] !== '') lines.push('');
+
+    const description = joinTexts(dataInfo?.['common:generalComment'], lang);
+    if (description) lines.push('## Description', '', description, '');
+
+    const timeBlock = this.timeCoverage(processInfo, lang);
+    if (timeBlock) lines.push('## Time Coverage', '', timeBlock, '');
+
+    if (geoDesc) lines.push('## Geography', '', geoDesc, '');
+
+    const technology = this.technologyBlock(processInfo, lang);
+    if (technology) lines.push('## Technology', '', technology, '');
+
+    const methodology = this.methodology(dataset);
+    if (methodology) lines.push('## Methodology', '', methodology, '');
+
+    const dataSources = this.dataSources(dataset, lang);
+    if (dataSources) lines.push('## Data Sources', '', dataSources, '');
+
+    const { inputs, outputs } = this.exchangeLists(dataset, lang);
+    if (inputs.length) {
+      lines.push('## Main Inputs', '', ...inputs, '');
+    }
+    if (outputs.length) {
+      lines.push('## Main Outputs', '', ...outputs, '');
+    }
+
+    if (lines[lines.length - 1] === '') lines.pop();
+    return lines.join('\n');
+  }
+
+  private composeTitle(dataInfo: Process['processDataSet']['processInformation']['dataSetInformation'] | undefined, lang: string): string {
+    if (!dataInfo) return 'Process';
+    const nameObj = dataInfo.name;
+    const parts: string[] = [];
+    for (const field of ['baseName', 'mixAndLocationTypes', 'treatmentStandardsRoutes'] as const) {
+      const part = joinTexts((nameObj as any)?.[field], lang, ' | ');
+      if (part) parts.push(part);
+    }
+    return parts.length ? parts.join(' | ') : 'Process';
+  }
+
+  private referenceFlowSummary(
+    dataset: Process['processDataSet'],
+    quantRef: Process['processDataSet']['processInformation']['quantitativeReference'] | undefined,
+    lang: string
+  ): { name?: string; amount?: string } {
+    const refId = quantRef?.referenceToReferenceFlow;
+    if (refId === undefined || refId === null) return {};
+    const exchanges = ensureArray<any>((dataset as any)?.exchanges?.exchange);
+    const refExchange = exchanges.find(
+      item => String(item?.['@dataSetInternalID'] ?? item?.dataSetInternalId ?? '') === String(refId)
+    );
+    if (!refExchange) return {};
+    const refFlow = (refExchange as any).referenceToFlowDataSet;
+    const name = pickShortDescription(refFlow, lang);
+    const amount = formatNumber((refExchange as any).meanAmount);
+    return { name, amount };
+  }
+
+  private classificationPath(
+    dataInfo: Process['processDataSet']['processInformation']['dataSetInformation'] | undefined
+  ): string | undefined {
+    const classes = ensureArray<any>(
+      dataInfo?.classificationInformation?.['common:classification']?.['common:class']
+    );
+    if (!classes.length) return undefined;
+    const sorted = classes.slice().sort((a, b) => {
+      const aLevel = Number((a as any)['@level']);
+      const bLevel = Number((b as any)['@level']);
+      if (Number.isNaN(aLevel) && Number.isNaN(bLevel)) return 0;
+      if (Number.isNaN(aLevel)) return 1;
+      if (Number.isNaN(bLevel)) return -1;
+      return aLevel - bLevel;
+    });
+    const parts = sorted.map(entry => String((entry as any)['#text'] ?? '')).filter(Boolean);
+    return parts.length ? parts.join(' > ') : undefined;
+  }
+
+  private dataSetVersion(dataset: Process['processDataSet'] | undefined): string | undefined {
+    return dataset?.administrativeInformation?.publicationAndOwnership?.['common:dataSetVersion'];
+  }
+
+  private timeCoverage(
+    processInfo: Process['processDataSet']['processInformation'] | undefined,
+    lang: string
+  ): string | undefined {
+    const timeInfo = processInfo?.time;
+    if (!timeInfo) return undefined;
+    const year = (timeInfo as any)['common:referenceYear'];
+    const until = (timeInfo as any)['common:dataSetValidUntil'];
+    const desc = joinTexts((timeInfo as any)['common:timeRepresentativenessDescription'], lang);
+    const parts: string[] = [];
+    if (year || until) {
+      parts.push(`Reference Year: ${year ?? ''}${until ? ` | Valid Until: ${until}` : ''}`.trim());
+    }
+    if (desc) parts.push(desc);
+    return parts.length ? parts.join('\n') : undefined;
+  }
+
+  private geography(
+    processInfo: Process['processDataSet']['processInformation'] | undefined,
+    lang: string
+  ): [string | undefined, string | undefined] {
+    const location = processInfo?.geography?.locationOfOperationSupplyOrProduction;
+    const code = location?.['@location'];
+    const restrictions = joinTexts(location?.descriptionOfRestrictions, lang);
+    return [code, restrictions];
+  }
+
+  private technologyBlock(
+    processInfo: Process['processDataSet']['processInformation'] | undefined,
+    lang: string
+  ): string | undefined {
+    const tech = processInfo?.technology;
+    if (!tech) return undefined;
+    const applicability = joinTexts(tech.technologicalApplicability, lang);
+    const description = joinTexts(tech.technologyDescriptionAndIncludedProcesses, lang);
+    const parts = [applicability, description].filter(Boolean) as string[];
+    return parts.length ? parts.join('\n\n') : undefined;
+  }
+
+  private methodology(dataset: Process['processDataSet'] | undefined): string | undefined {
+    const lci = dataset?.modellingAndValidation?.LCIMethodAndAllocation;
+    if (!lci) return undefined;
+    const parts: string[] = [];
+    if (lci.typeOfDataSet) parts.push(`**Data Set Type:** ${lci.typeOfDataSet}`);
+    if ((lci as any).LCIMethodPrinciple) parts.push(`**LCI Method Principle:** ${(lci as any).LCIMethodPrinciple}`);
+    if ((lci as any).LCIMethodApproaches) parts.push(`**LCI Method Approach:** ${(lci as any).LCIMethodApproaches}`);
+    return parts.length ? parts.join('\n') : undefined;
+  }
+
+  private dataSources(dataset: Process['processDataSet'] | undefined, lang: string): string | undefined {
+    const dataSources = dataset?.modellingAndValidation?.dataSourcesTreatmentAndRepresentativeness;
+    if (!dataSources) return undefined;
+    const sampling = joinTexts((dataSources as any).samplingProcedure, lang);
+    const ref = (dataSources as any).referenceToDataSource;
+    const refText = pickShortDescription(ref, lang);
+    const parts = [sampling, refText].filter(Boolean) as string[];
+    return parts.length ? parts.join('\n\n') : undefined;
+  }
+
+  private exchangeLists(
+    dataset: Process['processDataSet'] | undefined,
+    lang: string
+  ): { inputs: string[]; outputs: string[] } {
+    const exchanges = ensureArray<any>((dataset as any)?.exchanges?.exchange);
+    if (!exchanges.length) return { inputs: [], outputs: [] };
+
+    const parseAmount = (item: any) => {
+      const parsed = Number(item?.meanAmount);
+      return Number.isFinite(parsed) ? parsed : undefined;
+    };
+
+    const sorted = exchanges
+      .slice()
+      .sort((a, b) => {
+        const aVal = parseAmount(a);
+        const bVal = parseAmount(b);
+        if (aVal === undefined && bVal === undefined) return 0;
+        if (aVal === undefined) return 1;
+        if (bVal === undefined) return -1;
+        return bVal - aVal;
+      });
+
+    const formatLine = (item: any) => {
+      const name = pickShortDescription(item?.referenceToFlowDataSet, lang) ?? `Flow ${item?.['@dataSetInternalID'] ?? ''}`.trim();
+      const amount = formatNumber(item?.meanAmount);
+      return `- ${name}: ${amount}`;
+    };
+
+    const inputs = sorted.filter(item => item?.exchangeDirection === 'Input').map(formatLine).slice(0, 10);
+    const outputs = sorted.filter(item => item?.exchangeDirection === 'Output').map(formatLine).slice(0, 10);
+    return { inputs, outputs };
   }
 }

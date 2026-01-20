@@ -8,6 +8,7 @@
     "test-imports": "tsx test-imports.ts",
     "run-basic": "tsx 01-basic-usage/entities-usage.ts",
     "run-simple": "tsx 01-basic-usage/simple-entities-demo.ts",
+    "run-markdown": "tsx 01-basic-usage/markdown-from-json.ts",
     "run-validation": "tsx 01-basic-usage/validation-config-demo.ts",
     "run-advanced": "tsx 02-advanced-features/advanced-usage-patterns.ts",
     "run-validation-modes": "tsx 03-validation-modes/validation-config-demo.ts",
