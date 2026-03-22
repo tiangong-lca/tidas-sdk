@@ -23,7 +23,7 @@ jobs:
         with:
           node-version: 22.14.0
           cache: npm
-          cache-dependency-path: package-lock.json
+          cache-dependency-path: sdks/typescript/package-lock.json
 
       - name: Upgrade npm for release parity
         run: npm install --global npm@11.5.1
