@@ -46,6 +46,7 @@ class JsonSchemaToTypeScript {
   private processedRefs: Set<string> = new Set();
   private referencedTypes: Set<string> = new Set();
   private currentFile?: string;
+  private rootSchema?: any;
 
   constructor(config: TypeScriptConfig) {
     this.config = config;
@@ -62,6 +63,7 @@ class JsonSchemaToTypeScript {
     this.processedRefs = new Set();
     this.referencedTypes = new Set();
     this.currentFile = currentFile;
+    this.rootSchema = schema;
 
     // --- 插入 MultiLangArray class 和 MultiLangItem type ---
     // 检查 schema 是否包含 *MultiLang 类型
@@ -164,16 +166,6 @@ class JsonSchemaToTypeScript {
     }
     this.processedRefs.add(name);
 
-    // 检查是否为 *MultiLang 类型
-    if (name.endsWith('MultiLang')) {
-      // 直接生成 type alias 指向 MultiLangArrayLike | MultiLangItemClass
-      this.typeDefinitions.set(
-        name,
-        `${this.config.exportStyle} type ${name} = MultiLangArrayLike | MultiLangItemClass;`
-      );
-      return;
-    }
-
     const tsType = this.getTypeScriptType(schema);
     if (schema.anyOf || schema.oneOf) {
       // For union types, create a simple type alias with JSDoc
@@ -183,9 +175,12 @@ class JsonSchemaToTypeScript {
         ? `${jsdoc}\n${this.config.exportStyle} type ${name} = ${tsType};`
         : `${this.config.exportStyle} type ${name} = ${tsType};`;
       this.typeDefinitions.set(name, definition);
-    } else if (schema.type === 'object' && schema.properties) {
+    } else if (this.normalizeObjectSchema(schema)) {
       // For objects, create an interface
-      const interfaceContent = this.processObject(schema, name);
+      const interfaceContent = this.processObject(
+        this.normalizeObjectSchema(schema),
+        name
+      );
       this.typeDefinitions.set(name, interfaceContent);
     } else {
       // For simple types, create a type alias with JSDoc
@@ -244,6 +239,144 @@ class JsonSchemaToTypeScript {
 
     lines.push('}');
     return lines.join('\n');
+  }
+
+  private resolveLocalRefSchema(refPath: string): any | null {
+    if (!refPath.startsWith('#/$defs/')) {
+      return null;
+    }
+
+    const refName = refPath.split('/').pop();
+    if (!refName) {
+      return null;
+    }
+
+    return this.rootSchema?.$defs?.[refName] ?? null;
+  }
+
+  private mergePropertySchema(base: any, extension: any): any {
+    if (!base || typeof base !== 'object') {
+      return { ...extension };
+    }
+    if (!extension || typeof extension !== 'object') {
+      return { ...base };
+    }
+
+    const merged: any = { ...base, ...extension };
+
+    if (base.properties || extension.properties) {
+      merged.properties = {
+        ...(base.properties || {}),
+        ...(extension.properties || {}),
+      };
+    }
+
+    if (base.required || extension.required) {
+      merged.required = Array.from(
+        new Set([...(base.required || []), ...(extension.required || [])])
+      );
+    }
+
+    if (base.not && extension.not) {
+      merged.not = { ...base.not, ...extension.not };
+    }
+
+    return merged;
+  }
+
+  private mergeObjectSchemas(base: any, extension: any): any {
+    const merged: any = {
+      ...(base || {}),
+      ...(extension || {}),
+    };
+
+    if ((base?.type === 'object') || (extension?.type === 'object')) {
+      merged.type = 'object';
+    }
+
+    const baseProperties = base?.properties || {};
+    const extensionProperties = extension?.properties || {};
+    const propertyNames = new Set([
+      ...Object.keys(baseProperties),
+      ...Object.keys(extensionProperties),
+    ]);
+
+    if (propertyNames.size > 0) {
+      merged.properties = {};
+      for (const propertyName of propertyNames) {
+        if (propertyName in baseProperties && propertyName in extensionProperties) {
+          merged.properties[propertyName] = this.mergePropertySchema(
+            baseProperties[propertyName],
+            extensionProperties[propertyName]
+          );
+          continue;
+        }
+
+        merged.properties[propertyName] =
+          extensionProperties[propertyName] ?? baseProperties[propertyName];
+      }
+    }
+
+    merged.required = Array.from(
+      new Set([...(base?.required || []), ...(extension?.required || [])])
+    );
+
+    if (base?.description && !extension?.description) {
+      merged.description = base.description;
+    }
+
+    return merged;
+  }
+
+  private normalizeObjectSchema(schema: any): any | null {
+    if (!schema || typeof schema !== 'object') {
+      return null;
+    }
+
+    let normalized: any = {};
+    let hasObjectShape = false;
+
+    if (schema.$ref) {
+      const refSchema = this.resolveLocalRefSchema(schema.$ref);
+      const normalizedRef = refSchema
+        ? this.normalizeObjectSchema(refSchema)
+        : null;
+      if (normalizedRef) {
+        normalized = this.mergeObjectSchemas(normalized, normalizedRef);
+        hasObjectShape = true;
+      }
+    }
+
+    if (Array.isArray(schema.allOf)) {
+      for (const entry of schema.allOf) {
+        const normalizedEntry = this.normalizeObjectSchema(entry);
+        if (!normalizedEntry) {
+          continue;
+        }
+        normalized = this.mergeObjectSchemas(normalized, normalizedEntry);
+        hasObjectShape = true;
+      }
+    }
+
+    if (schema.type === 'object' || schema.properties) {
+      normalized = this.mergeObjectSchemas(normalized, {
+        type: 'object',
+        properties: schema.properties || {},
+        required: schema.required || [],
+        description: schema.description,
+      });
+      hasObjectShape = true;
+    }
+
+    if (!hasObjectShape) {
+      return null;
+    }
+
+    if (schema.description) {
+      normalized.description = schema.description;
+    }
+
+    return normalized;
   }
 
   private hasConstraints(schema: any): boolean {
@@ -618,6 +751,21 @@ class JsonSchemaToTypeScript {
         return optionType;
       });
       return types.join(' | ');
+    }
+
+    // Handle allOf
+    if (schema.allOf) {
+      const normalizedObjectSchema = this.normalizeObjectSchema(schema);
+      if (normalizedObjectSchema) {
+        return this.getTypeScriptType(normalizedObjectSchema);
+      }
+
+      const intersectionTypes = schema.allOf
+        .map((entry: any) => this.getTypeScriptType(entry))
+        .filter((entry: string) => entry && entry !== 'any');
+      if (intersectionTypes.length > 0) {
+        return intersectionTypes.join(' & ');
+      }
     }
 
     // Handle arrays

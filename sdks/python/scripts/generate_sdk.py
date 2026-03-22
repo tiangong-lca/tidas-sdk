@@ -408,7 +408,7 @@ class SchemaConverter:
         if not current_parent_path:
             current_parent_path = self.model_paths.get(parent_class, tuple())
 
-        if self._is_multilang(prop_schema):
+        if self._is_multilang_container(prop_schema):
             self.needs_multilang = True
             type_hint = "MultiLangList"
             default_factory = "MultiLangList"
@@ -434,7 +434,7 @@ class SchemaConverter:
 
     def _default_factory(self, schema: dict[str, Any]) -> str | None:
         type_name = schema.get("type")
-        if self._is_multilang(schema):
+        if self._is_multilang_container(schema):
             return "MultiLangList"
         if type_name == "array":
             return "list"
@@ -653,10 +653,10 @@ class SchemaConverter:
         return to_pascal_case(stem)
 
     @staticmethod
-    def _is_multilang(schema: dict[str, Any]) -> bool:
+    def _is_multilang_container(schema: dict[str, Any]) -> bool:
         if isinstance(schema, list):
             return any(
-                SchemaConverter._is_multilang(item)
+                SchemaConverter._is_multilang_container(item)
                 for item in schema
                 if isinstance(item, dict)
             )
@@ -668,32 +668,47 @@ class SchemaConverter:
         if isinstance(title, str) and title.endswith("MultiLang"):
             return True
 
+        for key in ("anyOf", "oneOf"):
+            variants = schema.get(key)
+            if isinstance(variants, list):
+                return any(
+                    SchemaConverter._is_multilang_container(item)
+                    or SchemaConverter._is_multilang_item(item)
+                    for item in variants
+                    if isinstance(item, dict)
+                )
+
         if schema.get("type") == "array":
             items = schema.get("items", {})
             # items can be a schema or a list of schemas (tuples, anyOf style)
             if isinstance(items, list):
                 return any(
-                    SchemaConverter._is_multilang(item)
+                    SchemaConverter._is_multilang_container(item)
+                    or SchemaConverter._is_multilang_item(item)
                     for item in items
                     if isinstance(item, dict)
                 )
-            return SchemaConverter._is_multilang_object(items)
-
-        if schema.get("type") == "object":
-            return SchemaConverter._is_multilang_object(schema)
+            return SchemaConverter._is_multilang_item(items)
 
         return False
 
     @staticmethod
-    def _is_multilang_object(schema: dict[str, Any]) -> bool:
+    def _is_multilang_item(schema: dict[str, Any]) -> bool:
         if isinstance(schema, list):
             return any(
-                SchemaConverter._is_multilang_object(item)
+                SchemaConverter._is_multilang_item(item)
                 for item in schema
                 if isinstance(item, dict)
             )
         if not isinstance(schema, dict):
             return False
+
+        if "$ref" in schema and schema["$ref"].endswith("LocalizedTextItem"):
+            return True
+
+        if "$ref" in schema and re.search(r"LocalizedText(?:\d+)?Item$", schema["$ref"]):
+            return True
+
         properties = schema.get("properties", {})
         return "@xml:lang" in properties and "#text" in properties
 
@@ -723,12 +738,27 @@ class SchemaConverter:
                 candidate = self._resolve_ref(schema["$ref"])
                 if candidate and candidate[0].isupper() and candidate.isidentifier():
                     base_class = candidate
+                ref_schema = self._resolve_local_ref_schema(schema["$ref"])
+                if ref_schema is not None:
+                    normalized_ref = self._normalize_object_schema(ref_schema)
+                    properties = self._merge_property_maps(
+                        properties,
+                        normalized_ref["properties"],
+                    )
+                    required |= normalized_ref["required"]
+                    if not description:
+                        description = normalized_ref["description"]
+                    if normalized_ref["base_class"] and not base_class:
+                        base_class = normalized_ref["base_class"]
 
         all_of = schema.get("allOf")
         if isinstance(all_of, list):
             for part in all_of:
                 normalized = self._normalize_object_schema(part)
-                properties.update(normalized["properties"])
+                properties = self._merge_property_maps(
+                    properties,
+                    normalized["properties"],
+                )
                 required |= normalized["required"]
                 if not description:
                     description = normalized["description"]
@@ -736,7 +766,7 @@ class SchemaConverter:
                     base_class = normalized["base_class"]
 
         if "properties" in schema and isinstance(schema["properties"], dict):
-            properties.update(schema["properties"])
+            properties = self._merge_property_maps(properties, schema["properties"])
 
         required |= set(schema.get("required", []))
 
@@ -746,6 +776,56 @@ class SchemaConverter:
             "description": description,
             "base_class": base_class,
         }
+
+    def _resolve_local_ref_schema(self, ref: str) -> dict[str, Any] | None:
+        if not ref.startswith("#/$defs/"):
+            return None
+
+        ref_name = ref.split("/")[-1]
+        defs = self.schema.get("$defs", {})
+        resolved = defs.get(ref_name)
+        return resolved if isinstance(resolved, dict) else None
+
+    @staticmethod
+    def _merge_property_schema(base: Any, new: Any) -> dict[str, Any]:
+        if not isinstance(base, dict):
+            return dict(new) if isinstance(new, dict) else {}
+        if not isinstance(new, dict):
+            return dict(base)
+
+        merged = {**base, **new}
+
+        if "properties" in base or "properties" in new:
+            merged["properties"] = {
+                **(base.get("properties", {}) or {}),
+                **(new.get("properties", {}) or {}),
+            }
+
+        if "required" in base or "required" in new:
+            merged["required"] = list(
+                {
+                    *(base.get("required", []) or []),
+                    *(new.get("required", []) or []),
+                }
+            )
+
+        if "not" in base and "not" in new:
+            merged["not"] = {**base["not"], **new["not"]}
+
+        return merged
+
+    def _merge_property_maps(
+        self,
+        base: dict[str, Any],
+        new: dict[str, Any],
+    ) -> dict[str, Any]:
+        merged = dict(base)
+        for key, value in new.items():
+            if key in merged:
+                merged[key] = self._merge_property_schema(merged[key], value)
+            else:
+                merged[key] = value
+        return merged
 
     def _collect_constraints(self, schema: dict[str, Any]) -> dict[str, str]:
         constraints: dict[str, str] = {}
@@ -911,7 +991,7 @@ class SchemaConverter:
     def _infer_scalar(self, schema: Any) -> ScalarInfo | None:
         if not isinstance(schema, dict):
             return None
-        if self._is_multilang(schema):
+        if self._is_multilang_container(schema):
             return ScalarInfo(base_type="MultiLangList", needs_multilang=True, description=schema.get("description"))
         if "$ref" in schema:
             ref_scalar = self._lookup_scalar(schema["$ref"])

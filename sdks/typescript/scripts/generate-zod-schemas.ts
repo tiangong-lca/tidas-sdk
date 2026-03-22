@@ -206,33 +206,78 @@ async function postProcessZodSchema(schemaFile: string): Promise<void> {
   if (schemaFile.includes('tidas_data_types')) {
     console.log('   ℹ️  Applying manual optimizations for tidas_data_types');
 
-    // Replace z.any() multi-lang schemas with proper typed schemas
-    const manualOptimizations = content.replace(
-      /const MultiLangArrayLikeSchema = z\.any\(\);[\s\S]*?const MultiLangItemClassSchema = z\.any\(\);[\s\S]*?export const StringMultiLangSchema = z\.union\(\[[\s\S]*?\]\);[\s\S]*?export const STMultiLangSchema = z\.union\(\[[\s\S]*?\]\);[\s\S]*?export const FTMultiLangSchema = z\.union\(\[[\s\S]*?\]\);/,
-      `// Multi-language item schema: { "#text": "value", "@xml:lang": "en" }
-const MultiLangItemSchema = z.object({
-  '#text': z.string(),
+    let manualOptimizations = content.replace(
+      /export const LocalizedTextItemSchema = z\.object\(\{[\s\S]*?\}\);\n\nexport const LocalizedText500ItemSchema = z\.object\(\{[\s\S]*?\}\);\n\nexport const LocalizedText1000ItemSchema = z\.object\(\{[\s\S]*?\}\);\n/,
+      `const chineseCharacterPattern = /[\\u3400-\\u4DBF\\u4E00-\\u9FFF\\uF900-\\uFAFF]/;
+
+const addLocalizedTextLanguageChecks = (
+  value: { '@xml:lang': string; '#text': string },
+  ctx: z.RefinementCtx
+) => {
+  const lang = value['@xml:lang'];
+  const text = value['#text'];
+
+  if (/^[zZ][hH](?:-|$)/.test(lang) && !chineseCharacterPattern.test(text)) {
+    ctx.addIssue({
+      code: z.ZodIssueCode.custom,
+      path: ['#text'],
+      message:
+        "@xml:lang values starting with 'zh' must include at least one Chinese character",
+    });
+  }
+
+  if (/^[eE][nN](?:-|$)/.test(lang) && chineseCharacterPattern.test(text)) {
+    ctx.addIssue({
+      code: z.ZodIssueCode.custom,
+      path: ['#text'],
+      message:
+        "@xml:lang values starting with 'en' must not contain Chinese characters",
+    });
+  }
+};
+
+const LocalizedTextItemBaseSchema = z.object({
   '@xml:lang': z.string(),
+  '#text': z.string(),
 });
 
-// Multi-language can be either a single item or an array of items
-const MultiLangArrayLikeSchema = z.array(MultiLangItemSchema);
+export const LocalizedTextItemSchema = LocalizedTextItemBaseSchema.superRefine(
+  addLocalizedTextLanguageChecks
+);
 
-const MultiLangItemClassSchema = MultiLangItemSchema;
+export const LocalizedText500ItemSchema =
+  LocalizedTextItemBaseSchema.extend({
+    '#text': z.string().max(500),
+  }).superRefine(addLocalizedTextLanguageChecks);
 
-export const StringMultiLangSchema = z.union([
-  MultiLangItemClassSchema,      // Single object
-  MultiLangArrayLikeSchema,      // Array of objects
-]);
+export const LocalizedText1000ItemSchema =
+  LocalizedTextItemBaseSchema.extend({
+    '#text': z.string().max(1000),
+  }).superRefine(addLocalizedTextLanguageChecks);
+`
+    );
 
-export const STMultiLangSchema = z.union([
-  MultiLangItemClassSchema,      // Single object
-  MultiLangArrayLikeSchema,      // Array of objects
-]);
+    manualOptimizations = manualOptimizations.replace(
+      /export const StringMultiLangSchema = z\.union\(\[[\s\S]*?\]\);/,
+      `export const StringMultiLangSchema = z.union([
+  z.array(LocalizedText500ItemSchema),
+  LocalizedText500ItemSchema,
+]);`
+    );
 
-export const FTMultiLangSchema = z.union([
-  MultiLangItemClassSchema,      // Single object
-  MultiLangArrayLikeSchema,      // Array of objects
+    manualOptimizations = manualOptimizations.replace(
+      /export const STMultiLangSchema = z\.union\(\[[\s\S]*?\]\);/,
+      `export const STMultiLangSchema = z.union([
+  z.array(LocalizedText1000ItemSchema),
+  LocalizedText1000ItemSchema,
+]);`
+    );
+
+    manualOptimizations = manualOptimizations.replace(
+      /export const FTMultiLangSchema = z\.union\(\[[\s\S]*?\]\);/,
+      `export const FTMultiLangSchema = z.union([
+  z.array(LocalizedTextItemSchema),
+  LocalizedTextItemSchema,
 ]);`
     );
 
