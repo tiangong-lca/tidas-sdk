@@ -5,14 +5,6 @@ set -euo pipefail
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"
 TS_ROOT="$REPO_ROOT/sdks/typescript"
-TS_WORKSPACE="@tiangong-lca/tidas-sdk"
-
-run_ts_workspace() {
-    (
-        cd "$REPO_ROOT"
-        npm --workspace "$TS_WORKSPACE" "$@"
-    )
-}
 
 snapshot_path_state() {
     local target="$1"
@@ -37,14 +29,8 @@ require_stable_generation_output() {
 
 echo "[typescript] installing dependencies"
 (
-    cd "$REPO_ROOT"
-    echo "[typescript] dependency root: $(pwd)"
-    ls -la package.json package-lock.json
-
-    if ! npm ci; then
-        echo "[typescript] npm ci failed; falling back to npm install" >&2
-        npm install
-    fi
+    cd "$TS_ROOT"
+    npm ci --workspaces=false
 )
 
 before_generated_state="$(snapshot_path_state "sdks/typescript/src")"
@@ -55,18 +41,18 @@ TIDAS_TOOLS_SOURCE_MODE="${TIDAS_TOOLS_SOURCE_MODE:-clone}" \
 require_stable_generation_output "sdks/typescript/src" "$before_generated_state"
 
 echo "[typescript] lint"
-run_ts_workspace run lint
+(cd "$TS_ROOT" && npm run lint)
 
 echo "[typescript] typecheck"
-run_ts_workspace run typecheck
+(cd "$TS_ROOT" && npm run typecheck)
 
 echo "[typescript] test"
-run_ts_workspace test
+(cd "$TS_ROOT" && npm test)
 
 echo "[typescript] build"
-run_ts_workspace run build
+(cd "$TS_ROOT" && npm run build)
 
 echo "[typescript] pack dry run"
-run_ts_workspace pack --dry-run >/dev/null
+(cd "$TS_ROOT" && npm pack --dry-run >/dev/null)
 
 echo "[typescript] verification complete"
