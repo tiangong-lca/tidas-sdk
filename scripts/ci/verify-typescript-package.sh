@@ -38,7 +38,7 @@ require_stable_generation_output() {
 echo "[typescript] installing dependencies"
 (
     cd "$REPO_ROOT"
-    npm ci --workspace "$TS_WORKSPACE" --include-workspace-root=false
+    npm ci
 )
 
 before_generated_state="$(snapshot_path_state "sdks/typescript/src")"
