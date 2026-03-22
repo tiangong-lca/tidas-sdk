@@ -38,16 +38,11 @@ npm whoami
 git checkout main
 git pull origin main
 
-# Update submodule to latest version
-git submodule update --init --recursive
-git submodule update --remote
+# Refresh generated assets from tidas-tools
+./scripts/ci/generate-typescript-sdk.sh
 
-# Regenerate types and schemas from updated submodule
-npm run generate-types
-npm run generate-schemas
-
-# Bundle methodologies
-npm run bundle-methodologies
+# If you already have a local checkout, you can point the script at it explicitly
+TIDAS_TOOLS_PATH=../tidas-tools ./scripts/ci/generate-typescript-sdk.sh
 
 # Clean install dependencies
 npm ci
@@ -173,6 +168,7 @@ The published package includes:
 - Run `npm run clean` then `npm run build`
 - Check for TypeScript errors: `npm run typecheck`
 - Fix linting issues: `npm run lint:fix`
+- If asset regeneration fails, provide `TIDAS_TOOLS_PATH` or rerun `./scripts/ci/generate-typescript-sdk.sh` so it can sync a temporary `tidas-tools` checkout
 
 ### Version conflicts
 

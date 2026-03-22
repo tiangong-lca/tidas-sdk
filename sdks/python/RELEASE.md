@@ -42,14 +42,11 @@ git pull origin main
 Update the bundled schemas and regenerate Pydantic models whenever `tidas-tools` (or other schema sources) change:
 
 ```bash
-# Update submodules to pull latest schemas
-git submodule update --init --recursive
-git submodule update --remote tidas-tools
-
 # Regenerate Python SDK artifacts
-uv run python scripts/generate_sdk.py \
-  --schemas ../../tidas-tools/src/tidas_tools/tidas/schemas \
-  --output src/tidas_sdk/generated
+./scripts/ci/generate-python-sdk.sh
+
+# If you already have a local checkout, you can point the script at it explicitly
+TIDAS_TOOLS_PATH=../tidas-tools ./scripts/ci/generate-python-sdk.sh
 ```
 
 Inspect the resulting diffs under `src/tidas_sdk/generated` and rerun the verification step inside the script output if needed.

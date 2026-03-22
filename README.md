@@ -37,7 +37,7 @@ cd sdks/python && uv sync
 - **Status**: ✅ Production Ready
 - **Features**: Data format conversion, validation, export utilities
 - **Installation**: `pip install tidas-tools`
-- **Location**: `tidas-tools/`
+- **Repository**: external upstream package (`tiangong-lca/tidas-tools`)
 
 ### tidas-sdk (Python, Development)
 
@@ -53,9 +53,6 @@ tidas-sdk/
 ├── sdks/
 │   ├── typescript/           # TypeScript SDK (production)
 │   └── python/              # Python SDK (development)
-├── tidas-tools/             # Python utilities (production)
-├── docs/                    # Project documentation
-├── specs/                   # Feature specifications
 └── scripts/                 # Build utilities
 ```
 
@@ -93,13 +90,18 @@ uv run pytest
 uv run mypy .
 ```
 
-#### Tools Package
+#### Refresh Upstream TIDAS Sources
 
 ```bash
-cd tidas-tools
-uv sync
-uv run pytest
+./scripts/ci/generate-typescript-sdk.sh
+./scripts/ci/generate-python-sdk.sh
 ```
+
+Both generation scripts resolve `tidas-tools` in this order:
+
+1. `TIDAS_TOOLS_PATH`
+2. a sibling checkout at `../tidas-tools`
+3. a temporary clone of `tiangong-lca/tidas-tools`
 
 ## 🎯 Current Status
 
@@ -148,6 +150,7 @@ MIT License - see [LICENSE](./LICENSE) file for details.
 
 - **npm Package**: [@tiangong-lca/tidas-sdk](https://www.npmjs.com/package/@tiangong-lca/tidas-sdk)
 - **PyPI Package**: [tidas-tools](https://pypi.org/project/tidas-tools/)
+- **Upstream Schemas/Tools**: [github.com/tiangong-lca/tidas-tools](https://github.com/tiangong-lca/tidas-tools)
 - **Repository**: [github.com/tiangong-lca/tidas-sdk](https://github.com/tiangong-lca/tidas-sdk)
 
 ## 📞 Support

@@ -2,40 +2,61 @@
 
 # Python SDK generation script
 # Rebuilds the auto-generated Pydantic models from the JSON Schemas bundled in
-# the tidas-tools submodule.
+# the tidas-tools source repository.
 
 set -euo pipefail
 
-TIDAS_TOOLS_PATH="${TIDAS_TOOLS_PATH:-./tidas-tools}"
-PYTHON_SDK_ROOT="${PYTHON_SDK_ROOT:-./sdks/python}"
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+REPO_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"
+
+PYTHON_SDK_ROOT="${PYTHON_SDK_ROOT:-$REPO_ROOT/sdks/python}"
 OUTPUT_DIR="${OUTPUT_DIR:-$PYTHON_SDK_ROOT/src/tidas_sdk/generated}"
 GENERATOR="${GENERATOR:-$PYTHON_SDK_ROOT/scripts/generate_sdk.py}"
+source "$SCRIPT_DIR/lib/tidas-tools-source.sh"
 
-SCHEMAS_DIR="$TIDAS_TOOLS_PATH/src/tidas_tools/tidas/schemas"
+SCHEMAS_DIR="${TIDAS_TOOLS_PATH:-}/src/tidas_tools/tidas/schemas"
+PYTHON_RUNNER=()
 
-GREEN="$(tput setaf 2)"
-RED="$(tput setaf 1)"
-YELLOW="$(tput setaf 3)"
-BLUE="$(tput setaf 4)"
-NC="$(tput sgr0)"
+safe_tput() {
+    if [ -n "${TERM:-}" ] && command -v tput >/dev/null 2>&1; then
+        tput "$@" 2>/dev/null || true
+    fi
+}
+
+if [ -n "${TERM:-}" ] && command -v tput >/dev/null 2>&1; then
+    GREEN="$(safe_tput setaf 2)"
+    RED="$(safe_tput setaf 1)"
+    YELLOW="$(safe_tput setaf 3)"
+    BLUE="$(safe_tput setaf 4)"
+    NC="$(safe_tput sgr0)"
+else
+    GREEN=""
+    RED=""
+    YELLOW=""
+    BLUE=""
+    NC=""
+fi
 
 log() { printf "%b[INFO]%b %s\n" "$GREEN" "$NC" "$*" >&2; }
 warn() { printf "%b[WARN]%b %s\n" "$YELLOW" "$NC" "$*" >&2; }
 err() { printf "%b[ERR ]%b %s\n" "$RED" "$NC" "$*" >&2; }
 step() { printf "%b[STEP]%b %s\n" "$BLUE" "$NC" "$*" >&2; }
 
+run_python() {
+    "${PYTHON_RUNNER[@]}" "$@"
+}
+
 handle_error() {
+    cleanup_tidas_tools_source
     err "Failure on line $1"
     exit 1
 }
 
 trap 'handle_error $LINENO' ERR
+trap cleanup_tidas_tools_source EXIT
 
 validate_inputs() {
     step "Validating inputs..."
-    if [ ! -d "$TIDAS_TOOLS_PATH" ] || [ -z "$(ls -A "$TIDAS_TOOLS_PATH" 2>/dev/null)" ]; then
-        warn "tidas-tools appears empty. Did you run: git submodule update --init --recursive ?"
-    fi
     if [ ! -d "$SCHEMAS_DIR" ]; then
         err "Schema directory not found: $SCHEMAS_DIR"
         exit 1
@@ -51,24 +72,29 @@ validate_inputs() {
 
 check_dependencies() {
     step "Checking dependencies..."
-    if ! command -v python3 >/dev/null 2>&1; then
-        err "python3 not found in PATH"
+    if command -v uv >/dev/null 2>&1; then
+        PYTHON_RUNNER=(uv run python)
+    elif command -v python3 >/dev/null 2>&1; then
+        PYTHON_RUNNER=(python3)
+    else
+        err "Neither uv nor python3 was found in PATH"
         exit 1
     fi
-    python3 --version
+
+    run_python --version
 }
 
 generate_models() {
     step "Generating Python models..."
-    python3 "$GENERATOR" \
+    run_python "$GENERATOR" \
         --schemas "$SCHEMAS_DIR" \
         --output "$OUTPUT_DIR"
 }
 
 verify_generation() {
     step "Running basic verification..."
-    python3 -m compileall "$PYTHON_SDK_ROOT/src/tidas_sdk" >/dev/null
-    PYTHONPATH="$PYTHON_SDK_ROOT/src:${PYTHONPATH:-}" python3 - <<'PY'
+    run_python -m compileall "$PYTHON_SDK_ROOT/src/tidas_sdk" >/dev/null
+    PYTHONPATH="$PYTHON_SDK_ROOT/src:${PYTHONPATH:-}" run_python - <<'PY'
 try:
     from tidas_sdk import create_process
 except ModuleNotFoundError as exc:  # pragma: no cover - runtime guard
@@ -105,6 +131,9 @@ EOF
 
 main() {
     log "Starting Python SDK generation..."
+    resolve_tidas_tools_source "$REPO_ROOT"
+    TIDAS_TOOLS_PATH="$RESOLVED_TIDAS_TOOLS_PATH"
+    SCHEMAS_DIR="$TIDAS_TOOLS_PATH/src/tidas_tools/tidas/schemas"
     validate_inputs
     check_dependencies
     generate_models

@@ -4,7 +4,7 @@ Source: tidas_data_types.json
 """
 from __future__ import annotations
 
-from typing import Annotated
+from typing import Annotated, Any
 
 from pydantic import Field
 from tidas_sdk.core.base import TidasBaseModel
@@ -16,6 +16,8 @@ from datetime import datetime
 CASNumber = Annotated[str, Field(pattern='^[0-9]{2,7}-[0-9]{2}-[0-9]$')]
 # Free text with an unlimited length.
 FT = str
+# Language-tagged text with optional script checks for selected languages.
+LocalizedTextItem = MultiLangList
 # 1-digit integer number
 Int1 = Annotated[str, Field(pattern='^[0-9]$')]
 # 5-digit integer number
@@ -45,29 +47,13 @@ Year = Annotated[int, Field(ge=1000, le=9999)]
 # Date and time format acc. to ISO 8601
 DateTime = datetime
 
-class StringMultiLangVariant0Item(TidasBaseModel):
-    xml_lang: str = Field(default=..., alias='@xml:lang')
-    text: str = Field(default=..., alias='#text', max_length=500)
+class LocalizedText500Item(TidasBaseModel):
+    """Language-tagged text with a maximum length of 500 characters."""
+    text: Any | None = Field(default=None, alias='#text', max_length=500)
 
-class StringMultiLangVariant1(TidasBaseModel):
-    xml_lang: str = Field(default=..., alias='@xml:lang')
-    text: str = Field(default=..., alias='#text', max_length=500)
-
-class STMultiLangVariant0Item(TidasBaseModel):
-    xml_lang: str = Field(default=..., alias='@xml:lang')
-    text: str = Field(default=..., alias='#text', max_length=1000)
-
-class STMultiLangVariant1(TidasBaseModel):
-    xml_lang: str = Field(default=..., alias='@xml:lang')
-    text: str = Field(default=..., alias='#text', max_length=1000)
-
-class FTMultiLangVariant0Item(TidasBaseModel):
-    xml_lang: str = Field(default=..., alias='@xml:lang')
-    text: str = Field(default=..., alias='#text')
-
-class FTMultiLangVariant1(TidasBaseModel):
-    xml_lang: str = Field(default=..., alias='@xml:lang')
-    text: str = Field(default=..., alias='#text')
+class LocalizedText1000Item(TidasBaseModel):
+    """Language-tagged text with a maximum length of 1000 characters."""
+    text: Any | None = Field(default=None, alias='#text', max_length=1000)
 
 class GlobalReferenceTypeVariant0(TidasBaseModel):
     type: str = Field(default=..., alias='@type')
@@ -87,10 +73,10 @@ class DataTypes(TidasBaseModel):
     pass
 
 # Multi-language string with a maximum length of 500 characters
-StringMultiLang = list[StringMultiLangVariant0Item] | StringMultiLangVariant1
+StringMultiLang = list[LocalizedText500Item] | LocalizedText500Item
 # Multi-lang short text with a maximum length of 1000 characters.
-STMultiLang = list[STMultiLangVariant0Item] | STMultiLangVariant1
+STMultiLang = list[LocalizedText1000Item] | LocalizedText1000Item
 # Multi-lang free text with an unlimited length.
-FTMultiLang = list[FTMultiLangVariant0Item] | FTMultiLangVariant1
+FTMultiLang = list[LocalizedTextItem] | LocalizedTextItem
 # Represents a reference to another dataset or file. Either refObjectId and version, or uri, or both have to be specified.
 GlobalReferenceType = GlobalReferenceTypeVariant0 | list[GlobalReferenceTypeVariant1Item]

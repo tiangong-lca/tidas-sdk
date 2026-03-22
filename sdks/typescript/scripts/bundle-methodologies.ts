@@ -8,56 +8,56 @@ import { existsSync } from 'node:fs';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import yaml from 'yaml';
+import {
+  requireTidasToolsDir,
+  resolveTidasToolsDir,
+} from './resolve-tidas-tools-path.js';
 
-const TIDAS_TOOLS_DIR = path.join(
-  __dirname,
-  '../../../tidas-tools/src/tidas_tools/tidas/'
-);
-
-const METHODOLOGY_DIR = path.join(TIDAS_TOOLS_DIR, 'methodologies');
 const OUTPUT_DIR = path.join(__dirname, '../src/data');
 const OUTPUT_FILE = path.join(OUTPUT_DIR, 'bundled-methodologies.json');
 
-/**
- * Mapping of methodology files to their paths (potential files that might exist)
- */
-const methodologyFilesMapping: Record<string, string> = {
-  contacts: path.join(METHODOLOGY_DIR, 'tidas_contacts.yaml'),
-  contacts_category: path.join(METHODOLOGY_DIR, 'tidas_contacts_category.yaml'),
-  data_types: path.join(METHODOLOGY_DIR, 'tidas_data_types.yaml'),
-  flowproperties_category: path.join(
-    METHODOLOGY_DIR,
-    'tidas_flowproperties_category.yaml'
-  ),
-  flowproperties: path.join(METHODOLOGY_DIR, 'tidas_flowproperties.yaml'),
-  flows_elementary_category: path.join(
-    METHODOLOGY_DIR,
-    'tidas_flows_elementary_category.yaml'
-  ),
-  flows: path.join(METHODOLOGY_DIR, 'tidas_flows.yaml'),
-  lifecyclemodels: path.join(METHODOLOGY_DIR, 'tidas_lifecyclemodels.yaml'),
-  lciamethods: path.join(METHODOLOGY_DIR, 'tidas_lciamethods.yaml'),
-  lciamethods_category: path.join(
-    METHODOLOGY_DIR,
-    'tidas_lciamethods_category.yaml'
-  ),
-  locations_category: path.join(
-    METHODOLOGY_DIR,
-    'tidas_locations_category.yaml'
-  ),
-  processes: path.join(METHODOLOGY_DIR, 'tidas_processes.yaml'),
-  processes_category: path.join(
-    METHODOLOGY_DIR,
-    'tidas_processes_category.yaml'
-  ),
-  sources: path.join(METHODOLOGY_DIR, 'tidas_sources.yaml'),
-  sources_category: path.join(METHODOLOGY_DIR, 'tidas_sources_category.yaml'),
-  unitgroups: path.join(METHODOLOGY_DIR, 'tidas_unitgroups.yaml'),
-  unitgroups_category: path.join(
-    METHODOLOGY_DIR,
-    'tidas_unitgroups_category.yaml'
-  ),
-};
+function createMethodologyFilesMapping(methodologyDir: string) {
+  return {
+    contacts: path.join(methodologyDir, 'tidas_contacts.yaml'),
+    contacts_category: path.join(
+      methodologyDir,
+      'tidas_contacts_category.yaml'
+    ),
+    data_types: path.join(methodologyDir, 'tidas_data_types.yaml'),
+    flowproperties_category: path.join(
+      methodologyDir,
+      'tidas_flowproperties_category.yaml'
+    ),
+    flowproperties: path.join(methodologyDir, 'tidas_flowproperties.yaml'),
+    flows_elementary_category: path.join(
+      methodologyDir,
+      'tidas_flows_elementary_category.yaml'
+    ),
+    flows: path.join(methodologyDir, 'tidas_flows.yaml'),
+    lifecyclemodels: path.join(methodologyDir, 'tidas_lifecyclemodels.yaml'),
+    lciamethods: path.join(methodologyDir, 'tidas_lciamethods.yaml'),
+    lciamethods_category: path.join(
+      methodologyDir,
+      'tidas_lciamethods_category.yaml'
+    ),
+    locations_category: path.join(
+      methodologyDir,
+      'tidas_locations_category.yaml'
+    ),
+    processes: path.join(methodologyDir, 'tidas_processes.yaml'),
+    processes_category: path.join(
+      methodologyDir,
+      'tidas_processes_category.yaml'
+    ),
+    sources: path.join(methodologyDir, 'tidas_sources.yaml'),
+    sources_category: path.join(methodologyDir, 'tidas_sources_category.yaml'),
+    unitgroups: path.join(methodologyDir, 'tidas_unitgroups.yaml'),
+    unitgroups_category: path.join(
+      methodologyDir,
+      'tidas_unitgroups_category.yaml'
+    ),
+  };
+}
 
 /**
  * Read a methodology file and return the data as a JSON object.
@@ -70,6 +70,22 @@ async function readMethodologyFile(filePath: string) {
 async function main() {
   console.log('🚀 Starting methodology bundling process...');
 
+  const tidasToolsDir = resolveTidasToolsDir();
+  if (!tidasToolsDir && existsSync(OUTPUT_FILE)) {
+    console.warn(
+      '⚠️  No tidas-tools source checkout found. Keeping the existing bundled methodologies artifact.'
+    );
+    return;
+  }
+
+  const methodologyDir = path.join(
+    requireTidasToolsDir(
+      'Methodology bundling requires access to the upstream tidas-tools repository. Set TIDAS_TOOLS_PATH, place a sibling ../tidas-tools checkout next to this repo, or run ../../scripts/ci/generate-typescript-sdk.sh.'
+    ),
+    'methodologies'
+  );
+  const methodologyFilesMapping = createMethodologyFilesMapping(methodologyDir);
+
   // Ensure output directory exists
   if (!existsSync(OUTPUT_DIR)) {
     await fs.mkdir(OUTPUT_DIR, { recursive: true });
@@ -77,7 +93,7 @@ async function main() {
   }
 
   // Bundle all methodology files
-  const bundledData: Record<string, any> = {};
+  const bundledData: Record<string, unknown> = {};
   let processedCount = 0;
   let skippedCount = 0;
 
@@ -114,17 +130,15 @@ async function main() {
   };
 
   // Write the bundled data
-  await fs.writeFile(
-    OUTPUT_FILE,
-    JSON.stringify(finalBundle, null, 2),
-    'utf8'
-  );
+  await fs.writeFile(OUTPUT_FILE, JSON.stringify(finalBundle, null, 2), 'utf8');
 
   console.log(`\n🎉 Bundling completed!`);
   console.log(`📦 Output file: ${OUTPUT_FILE}`);
   console.log(`📊 Processed: ${processedCount} files`);
   console.log(`⏭️  Skipped: ${skippedCount} files`);
-  console.log(`📋 Bundled methodologies: ${Object.keys(bundledData).join(', ')}`);
+  console.log(
+    `📋 Bundled methodologies: ${Object.keys(bundledData).join(', ')}`
+  );
 
   // Generate TypeScript declaration file
   await generateTypeDeclaration(bundledData);
@@ -133,9 +147,9 @@ async function main() {
 /**
  * Generate TypeScript declaration file for the bundled data
  */
-async function generateTypeDeclaration(bundledData: Record<string, any>) {
+async function generateTypeDeclaration(bundledData: Record<string, unknown>) {
   const declarationPath = path.join(OUTPUT_DIR, 'bundled-methodologies.d.ts');
-  
+
   const lines: string[] = [
     '/**',
     ' * TypeScript declarations for bundled methodology data',

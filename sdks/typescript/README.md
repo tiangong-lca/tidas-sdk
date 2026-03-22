@@ -250,5 +250,5 @@ MIT License - see [LICENSE](../LICENSE) file for details.
 
 ## 🔗 Related Packages
 
-- [tidas-tools](https://pypi.org/project/tidas-tools/): Python utilities for TIDAS data
+- [tidas-tools](https://pypi.org/project/tidas-tools/): Python utilities and upstream schema/methodology source for TIDAS data
 - [tidas-python-sdk](../python/): Python SDK (in development)

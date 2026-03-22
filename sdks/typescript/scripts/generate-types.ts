@@ -10,11 +10,7 @@ import {
   JsonSchemaToTypeScript,
   createTidasConfig,
 } from './json-schema-to-typescript.js';
-
-const SCHEMAS_DIR = path.join(
-  __dirname,
-  '../../../tidas-tools/src/tidas_tools/tidas/schemas'
-);
+import { requireTidasToolsSchemaDir } from './resolve-tidas-tools-path.js';
 const OUTPUT_DIR = path.join(__dirname, '../src/types');
 
 // 新增：自动生成 multi-lang-types.ts
@@ -69,6 +65,10 @@ export type MultiLangItem = MultiLangItemClass;
 }
 
 async function main() {
+  const schemasDir = requireTidasToolsSchemaDir(
+    'Type generation requires access to the upstream tidas-tools schemas. Set TIDAS_TOOLS_PATH, place a sibling ../tidas-tools checkout next to this repo, or run ../../scripts/ci/generate-typescript-sdk.sh.'
+  );
+
   // Ensure output directory exists
   if (!fs.existsSync(OUTPUT_DIR)) {
     fs.mkdirSync(OUTPUT_DIR, { recursive: true });
@@ -83,7 +83,7 @@ async function main() {
 
   // Find all JSON schema files
   const schemaFiles = fs
-    .readdirSync(SCHEMAS_DIR)
+    .readdirSync(schemasDir)
     .filter((file) => file.endsWith('.json'))
     .sort();
 
@@ -92,7 +92,7 @@ async function main() {
 
   // Convert each schema file
   for (const schemaFile of schemaFiles) {
-    const inputPath = path.join(SCHEMAS_DIR, schemaFile);
+    const inputPath = path.join(schemasDir, schemaFile);
     const outputFile = schemaFile.replace('.json', '.ts');
     const outputPath = path.join(OUTPUT_DIR, outputFile);
 

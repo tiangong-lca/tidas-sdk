@@ -1,17 +1,14 @@
 """Exports for auto-generated models."""
 from __future__ import annotations
 
-from .tidas_data_types import StringMultiLangVariant0Item
-from .tidas_data_types import StringMultiLangVariant1
-from .tidas_data_types import STMultiLangVariant0Item
-from .tidas_data_types import STMultiLangVariant1
-from .tidas_data_types import FTMultiLangVariant0Item
-from .tidas_data_types import FTMultiLangVariant1
+from .tidas_data_types import LocalizedText500Item
+from .tidas_data_types import LocalizedText1000Item
 from .tidas_data_types import GlobalReferenceTypeVariant0
 from .tidas_data_types import GlobalReferenceTypeVariant1Item
 from .tidas_data_types import DataTypes
 from .tidas_data_types import CASNumber
 from .tidas_data_types import FT
+from .tidas_data_types import LocalizedTextItem
 from .tidas_data_types import Int1
 from .tidas_data_types import Int5
 from .tidas_data_types import Int6
@@ -5820,17 +5817,14 @@ from .tidas_unitgroups_category import UnitgroupsCategory
 from .tidas_unitgroups_category import UnitGroup
 
 __all__ = [
-    'StringMultiLangVariant0Item',
-    'StringMultiLangVariant1',
-    'STMultiLangVariant0Item',
-    'STMultiLangVariant1',
-    'FTMultiLangVariant0Item',
-    'FTMultiLangVariant1',
+    'LocalizedText500Item',
+    'LocalizedText1000Item',
     'GlobalReferenceTypeVariant0',
     'GlobalReferenceTypeVariant1Item',
     'DataTypes',
     'CASNumber',
     'FT',
+    'LocalizedTextItem',
     'Int1',
     'Int5',
     'Int6',

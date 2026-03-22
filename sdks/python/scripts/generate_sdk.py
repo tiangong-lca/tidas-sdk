@@ -12,6 +12,7 @@ from __future__ import annotations
 import argparse
 import json
 import keyword
+import os
 import re
 import shutil
 import sys
@@ -20,10 +21,25 @@ from pathlib import Path
 from typing import Any, Iterable
 
 # Ensure the SDK sources are importable when running the script directly.
-PROJECT_ROOT = Path(__file__).resolve().parents[2]
+PROJECT_ROOT = Path(__file__).resolve().parents[3]
 SRC_DIR = PROJECT_ROOT / "sdks/python/src"
 if str(SRC_DIR) not in sys.path:
     sys.path.insert(0, str(SRC_DIR))
+
+
+def resolve_default_schemas_dir() -> Path:
+    env_root = Path(value) if (value := os.environ.get("TIDAS_TOOLS_PATH")) else None
+    candidates = [
+        env_root / "src/tidas_tools/tidas/schemas" if env_root else None,
+        PROJECT_ROOT / "tidas-tools/src/tidas_tools/tidas/schemas",
+        PROJECT_ROOT.parent / "tidas-tools/src/tidas_tools/tidas/schemas",
+    ]
+
+    for candidate in candidates:
+        if candidate and candidate.is_dir():
+            return candidate
+
+    return PROJECT_ROOT.parent / "tidas-tools/src/tidas_tools/tidas/schemas"
 
 
 @dataclass
@@ -242,7 +258,7 @@ class SchemaGenerator:
         try:
             shutil.copy2(schema_path, destination)
         except FileNotFoundError:
-            # schema may not exist if submodule not initialized
+            # schema may be intentionally absent from a partial source checkout
             pass
 
 
@@ -1069,7 +1085,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--schemas",
         type=Path,
-        default=Path("../../tidas-tools/src/tidas_tools/tidas/schemas"),
+        default=resolve_default_schemas_dir(),
         help="Directory containing *.json schema files.",
     )
     parser.add_argument(
