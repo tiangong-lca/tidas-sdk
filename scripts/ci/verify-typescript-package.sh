@@ -38,7 +38,13 @@ require_stable_generation_output() {
 echo "[typescript] installing dependencies"
 (
     cd "$REPO_ROOT"
-    npm ci
+    echo "[typescript] dependency root: $(pwd)"
+    ls -la package.json package-lock.json
+
+    if ! npm ci; then
+        echo "[typescript] npm ci failed; falling back to npm install" >&2
+        npm install
+    fi
 )
 
 before_generated_state="$(snapshot_path_state "sdks/typescript/src")"
