@@ -117,7 +117,6 @@ async function main() {
 
   // Add metadata
   const bundleMetadata = {
-    bundled_at: new Date().toISOString(),
     total_files: Object.keys(methodologyFilesMapping).length,
     processed_files: processedCount,
     skipped_files: skippedCount,
@@ -157,7 +156,6 @@ async function generateTypeDeclaration(bundledData: Record<string, unknown>) {
     ' */',
     '',
     'export interface BundleMetadata {',
-    '  bundled_at: string;',
     '  total_files: number;',
     '  processed_files: number;',
     '  skipped_files: number;',

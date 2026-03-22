@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 
-# Local helper to build and publish the Python SDK to PyPI
-# without going through GitHub Actions.
+# Emergency-only local helper to build and publish the Python SDK to PyPI
+# without going through GitHub Actions. The default release path is the
+# tag-driven publish workflow in .github/workflows/publish.yml.
 
 set -euo pipefail
 
@@ -21,6 +22,9 @@ usage() {
 Usage: $0 [--repository-url URL] [--dry-run]
 
 Build and publish the Python SDK under: $PYTHON_SDK_ROOT
+
+This helper is a fallback path for maintainer emergencies only.
+Normal releases should go through GitHub Actions Trusted Publishing.
 
 Options:
   --repository-url URL  Override the default PyPI repository
@@ -67,6 +71,7 @@ if [ "${DRY_RUN}" -eq 0 ] && [ -z "${PYPI_API_TOKEN:-}" ]; then
 fi
 
 log "Using Python SDK root: $PYTHON_SDK_ROOT"
+warn "Local publish fallback in use. Prefer the tag-driven GitHub Actions release flow whenever possible."
 
 cd "$PYTHON_SDK_ROOT"
 

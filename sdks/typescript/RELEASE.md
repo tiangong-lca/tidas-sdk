@@ -1,193 +1,100 @@
-# Release Guide for @tiangong-lca/tidas-sdk
+# Release Guide for `@tiangong-lca/tidas-sdk`
 
-This guide provides step-by-step instructions for releasing the TIDAS TypeScript SDK to npm.
+This package is released through the repository-owned GitHub Actions flow in `.github/workflows/publish.yml`.
 
-## Prerequisites
+## Default Path
 
-- Node.js and npm installed
-- npm account with access to publish packages
-- Access to the `@tiangong-lca` organization on npm (or permission to create it)
+Use this sequence for normal releases:
 
-## Pre-release Checklist
-
-Before publishing, ensure all these items are completed:
-
-- [ ] All tests pass: `npm test`
-- [ ] Code lints successfully: `npm run lint`
-- [ ] TypeScript compilation succeeds: `npm run typecheck`
-- [ ] Build generates clean dist files: `npm run build`
-- [ ] Documentation is up to date
-- [ ] CHANGELOG.md is updated (if exists)
-
-## Release Steps
-
-### 1. Setup npm authentication
+1. Start from the latest `origin/main`.
+2. Prepare a release PR that includes:
+   - the TypeScript package version metadata bump
+   - any generated source updates required by upstream schema changes
+   - documentation updates that should ship with the release
+3. Run repository validation:
 
 ```bash
-# Login to npm (first time only)
-npm login
-
-# Verify you're logged in
-npm whoami
+./scripts/ci/verify-typescript-package.sh
 ```
 
-### 2. Prepare the release
+4. Merge the PR.
+5. Create a tag on the merged commit:
 
 ```bash
-# Ensure you're on the main branch
-git checkout main
-git pull origin main
-
-# Refresh generated assets from tidas-tools
-./scripts/ci/generate-typescript-sdk.sh
-
-# If you already have a local checkout, you can point the script at it explicitly
-TIDAS_TOOLS_PATH=../tidas-tools ./scripts/ci/generate-typescript-sdk.sh
-
-# Clean install dependencies
-npm ci
-
-# Run full build and checks
-npm run build
-npm run lint
-npm run typecheck
-npm test
+git tag typescript-vX.Y.Z
+git push origin typescript-vX.Y.Z
 ```
 
-### 3. Update version
+6. Approve the `npm-release` environment in GitHub Actions.
+7. Confirm the new version is visible on npm and installable.
 
-Choose the appropriate version bump:
+## Versioning
+
+- Use semantic versioning.
+- The Git tag must match `sdks/typescript/package.json` exactly:
+  - package version `0.1.30` -> tag `typescript-v0.1.30`
+- TypeScript and Python releases are independent. Do not wait for a Python release just to publish TypeScript.
+
+## Validation Details
+
+`./scripts/ci/verify-typescript-package.sh` performs the same checks expected by CI:
+
+- `npm ci`
+- regenerate TypeScript artifacts from `tidas-tools`
+- fail if generated source changes are not committed
+- `npm run lint`
+- `npm run typecheck`
+- `npm test`
+- `npm run build`
+- `npm pack --dry-run`
+
+If generation needs a specific local checkout of `tidas-tools`, provide it explicitly:
 
 ```bash
-# For bug fixes (0.1.0 → 0.1.1)
-npm version patch
-
-# For new features (0.1.0 → 0.2.0)
-npm version minor
-
-# For breaking changes (0.1.0 → 1.0.0)
-npm version major
+TIDAS_TOOLS_PATH=../tidas-tools ./scripts/ci/verify-typescript-package.sh
 ```
 
-This will:
+## Preparing the Version Bump
 
-- Update the version in `package.json`
-- Create a git commit with the new version
+If you want a local helper for version editing without publishing, use:
 
 ```bash
-git commit -am "chore(typescript): release vX.Y.Z"
+npm run release:prepare:patch
+npm run release:prepare:minor
+npm run release:prepare:major
 ```
 
-- Create a git tag
+These commands only update local version metadata files. They do not publish, create a git tag, or push anything.
 
-### 4. Publish to npm
+## Publish Automation
+
+The publish workflow:
+
+- only reacts to `typescript-v*` tags
+- validates that the tag matches the version in source control
+- reruns package verification
+- publishes with npm provenance enabled
+
+One-time maintainer configuration is documented in `../../docs/release-setup.md`.
+
+## Fallback Publishing
+
+Local `npm publish` is not the normal path.
+
+Only use a local fallback if GitHub Actions or trusted publishing is unavailable and a maintainer explicitly decides to bypass CI. If that happens:
+
+- record the reason in the release issue or PR
+- publish from the exact merged release commit
+- create the same `typescript-vX.Y.Z` tag after the manual publish if the version was successfully released
+
+## Post-Release Checklist
+
+- Confirm the npm package page shows the new version.
+- Smoke-test install if the change is high risk:
 
 ```bash
-# Publish the package (scoped packages need --access public)
-npm publish --access public
+npm install @tiangong-lca/tidas-sdk@X.Y.Z
 ```
 
-### 5. Push changes to repository
-
-```bash
-# Push the version commit and tag
-git push origin main --tags
-```
-
-### 6. Create GitHub release (optional)
-
-1. Go to your GitHub repository
-2. Click "Releases" → "Create a new release"
-3. Select the version tag you just created
-4. Add release notes describing changes
-5. Publish the release
-
-## Automated Release Scripts
-
-For convenience, you can add these scripts to your `package.json`:
-
-```json
-{
-  "scripts": {
-    "prepublishOnly": "npm run build && npm run lint && npm run typecheck",
-    "release:patch": "npm version patch && npm publish --access public && git push origin main --tags",
-    "release:minor": "npm version minor && npm publish --access public && git push origin main --tags",
-    "release:major": "npm version major && npm publish --access public && git push origin main --tags"
-  }
-}
-```
-
-Then you can simply run:
-
-```bash
-npm run release:patch   # for patch releases
-npm run release:minor   # for minor releases
-npm run release:major   # for major releases
-```
-
-## Package Information
-
-- **Package name**: `@tiangong-lca/tidas-sdk`
-- **Scope**: `@tiangong-lca`
-- **Registry**: npm public registry
-- **Access**: Public
-
-## Installation for Users
-
-Once published, users can install the package with:
-
-```bash
-npm install @tiangong-lca/tidas-sdk
-```
-
-Or with yarn:
-
-```bash
-yarn add @tiangong-lca/tidas-sdk
-```
-
-## Package Contents
-
-The published package includes:
-
-- `dist/` - Compiled JavaScript and TypeScript declaration files
-- `README.md` - Package documentation
-- `LICENSE` - MIT license file
-- `package.json` - Package metadata
-
-## Troubleshooting
-
-### Permission denied errors
-
-- Ensure you're logged in: `npm whoami`
-- Check if you have access to the `@tiangong-lca` organization
-- Contact the organization admin for access
-
-### Build errors before publish
-
-- Run `npm run clean` then `npm run build`
-- Check for TypeScript errors: `npm run typecheck`
-- Fix linting issues: `npm run lint:fix`
-- If asset regeneration fails, provide `TIDAS_TOOLS_PATH` or rerun `./scripts/ci/generate-typescript-sdk.sh` so it can sync a temporary `tidas-tools` checkout
-
-### Version conflicts
-
-- Check existing versions: `npm view @tiangong-lca/tidas-sdk versions --json`
-- Ensure you're incrementing from the latest version
-
-## Best Practices
-
-1. **Always test before publishing** - Run the full test suite
-2. **Use semantic versioning** - Follow semver guidelines for version bumps
-3. **Document changes** - Update README and/or CHANGELOG
-4. **Clean builds** - Always build from a clean state
-5. **Backup important releases** - Tag important releases in git
-6. **Monitor after publish** - Check that the package installs correctly
-
-## Support
-
-For issues with the release process, check:
-
-- [npm documentation](https://docs.npmjs.com/)
-- [Semantic Versioning](https://semver.org/)
-- Project issues in the GitHub repository
+- Create or update GitHub release notes if useful for consumers.
+- If the release is part of tracked `lca-workspace` delivery, complete the later submodule integration step.

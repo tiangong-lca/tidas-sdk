@@ -41,6 +41,9 @@ ts-to-zod-configs/
 # claude
 .claude/
 docs/
+!docs/
+docs/*
+!docs/release-setup.md
 CLAUDE.md
 
 # kiro

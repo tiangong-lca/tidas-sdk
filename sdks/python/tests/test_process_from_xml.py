@@ -1,4 +1,5 @@
 from pathlib import Path
+from typing import Any
 
 from tidas_sdk import TidasProcess, create_process_from_xml
 
@@ -38,6 +39,12 @@ def _write_xml(tmp_path: Path) -> Path:
     return xml_path
 
 
+def _extract_multilang_text(value: Any) -> str:
+    if isinstance(value, list):
+        return value[0]["#text"]
+    return value["#text"]
+
+
 def test_tidas_process_from_xml(tmp_path: Path) -> None:
     xml_path = _write_xml(tmp_path)
 
@@ -46,9 +53,9 @@ def test_tidas_process_from_xml(tmp_path: Path) -> None:
 
     info = dataset["processDataSet"]["processInformation"]
     assert info["dataSetInformation"]["common:UUID"] == "123e4567-e89b-12d3-a456-426614174000"
-    assert info["dataSetInformation"]["name"]["baseName"][0]["#text"] == "Sample Process"
+    assert _extract_multilang_text(info["dataSetInformation"]["name"]["baseName"]) == "Sample Process"
     assert info["quantitativeReference"]["@type"] == "Reference flow(s)"
-    assert info["quantitativeReference"]["functionalUnitOrOther"][0]["#text"] == "1 kg of output"
+    assert _extract_multilang_text(info["quantitativeReference"]["functionalUnitOrOther"]) == "1 kg of output"
 
     xml_output = process.to_xml()
     assert "<processDataSet" in xml_output
@@ -59,4 +66,9 @@ def test_factory_create_process_from_xml(tmp_path: Path) -> None:
     xml_path = _write_xml(tmp_path)
     process = create_process_from_xml(xml_path)
     dataset = process.to_json()
-    assert dataset["processDataSet"]["processInformation"]["dataSetInformation"]["name"]["baseName"][0]["#text"] == "Sample Process"
+    assert (
+        _extract_multilang_text(
+            dataset["processDataSet"]["processInformation"]["dataSetInformation"]["name"]["baseName"]
+        )
+        == "Sample Process"
+    )

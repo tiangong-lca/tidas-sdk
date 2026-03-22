@@ -9,6 +9,10 @@
     "bootstrap": "npm install --workspaces",
     "build:typescript": "npm --workspace @tiangong-lca/tidas-sdk run build",
     "test:typescript": "npm --workspace @tiangong-lca/tidas-sdk run test",
-    "release:patch:typescript": "npm --workspace @tiangong-lca/tidas-sdk run release:patch"
+    "verify:typescript": "./scripts/ci/verify-typescript-package.sh",
+    "verify:python": "./scripts/ci/verify-python-package.sh",
+    "release:prepare:patch:typescript": "npm --workspace @tiangong-lca/tidas-sdk run release:prepare:patch",
+    "release:prepare:minor:typescript": "npm --workspace @tiangong-lca/tidas-sdk run release:prepare:minor",
+    "release:prepare:major:typescript": "npm --workspace @tiangong-lca/tidas-sdk run release:prepare:major"
   }
 }

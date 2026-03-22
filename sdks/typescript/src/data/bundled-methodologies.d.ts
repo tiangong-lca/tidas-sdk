@@ -4,7 +4,6 @@
  */
 
 export interface BundleMetadata {
-  bundled_at: string;
   total_files: number;
   processed_files: number;
   skipped_files: number;

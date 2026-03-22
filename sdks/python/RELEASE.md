@@ -1,135 +1,87 @@
 # Release Guide for `tidas-sdk` (Python)
 
-This document describes the process for publishing the TIDAS Python SDK to PyPI using [uv](https://docs.astral.sh/uv/) for environment management and command execution.
+This package is released through the repository-owned GitHub Actions flow in `.github/workflows/publish.yml`.
 
-## Prerequisites
+## Default Path
 
-- Python 3.12 (matches the library target)
-- uv installed (`curl -LsSf https://astral.sh/uv/install.sh | sh`)
-- Access to the [tiangong-lca](https://pypi.org/user/tiangong-lca/) PyPI organization (or appropriate credentials)
-- Git access to the `tiangong-lca/tidas-sdk` repository
+Use this sequence for normal releases:
 
-## Pre-release Checklist
-
-Complete these steps before cutting a release:
-
-- [ ] Update `sdks/python/pyproject.toml` with the new version number
-- [ ] Regenerate code or schemas if upstream inputs changed
-- [ ] Documentation (`README.md`, `README-zh.md`, examples) reviewed for accuracy
-- [ ] Install dependencies: `uv sync --group dev`
-- [ ] Static checks succeed: `uv run ruff check`, `uv run ruff format --check`, `uv run mypy`
-- [ ] Tests pass: `uv run pytest`
-- [ ] Review `git diff` to ensure generated artifacts are committed
-
-## Release Steps
-
-### 1. Prepare the workspace
+1. Start from the latest `origin/main`.
+2. Prepare a release PR that includes:
+   - the `pyproject.toml` version bump
+   - any regenerated models required by upstream schema changes
+   - documentation updates that should ship with the release
+3. Run repository validation:
 
 ```bash
-cd sdks/python
-uv sync --group dev
+./scripts/ci/verify-python-package.sh
 ```
 
-Ensure the repository is up to date:
-
-```bash
-git checkout main
-git pull origin main
-```
-
-### 2. Refresh generated SDK code (if schemas changed)
-
-Update the bundled schemas and regenerate Pydantic models whenever `tidas-tools` (or other schema sources) change:
-
-```bash
-# Regenerate Python SDK artifacts
-./scripts/ci/generate-python-sdk.sh
-
-# If you already have a local checkout, you can point the script at it explicitly
-TIDAS_TOOLS_PATH=../tidas-tools ./scripts/ci/generate-python-sdk.sh
-```
-
-Inspect the resulting diffs under `src/tidas_sdk/generated` and rerun the verification step inside the script output if needed.
-
-### 3. Final verification
-
-```bash
-uv run ruff check src
-uv run ruff format --check src
-uv run mypy src
-uv run pytest
-```
-
-### 4. Bump the version
-
-1. Edit `pyproject.toml` and update the `[project] version` field.
-2. Optionally update `CHANGELOG.md` (if maintained) with release notes.
-3. Commit the version bump:
-
-```bash
-git commit -am "chore(python): release vX.Y.Z"
-```
-
-### 5. Build distributions
-
-```bash
-rm -rf dist build
-uv run python -m build
-uv run twine check dist/*
-```
-
-### 6. Publish to PyPI
-
-```bash
-# TestPyPI (optional dry run)
-uv run twine upload --repository testpypi dist/*
-
-# PyPI (official release)
-uv run twine upload dist/*
-```
-
-Provide credentials when prompted or configure a `.pypirc` file for automation.
-
-### 7. Tag and push
+4. Merge the PR.
+5. Create a tag on the merged commit:
 
 ```bash
 git tag python-vX.Y.Z
-git push origin main --tags
+git push origin python-vX.Y.Z
 ```
 
-### 8. Announce (optional)
+6. Approve the `pypi-release` environment in GitHub Actions.
+7. Confirm the new version is visible on PyPI and installable.
 
-- Create a GitHub release using the new tag and include key changes.
-- Notify dependent teams or community channels.
+## Versioning
 
-## Troubleshooting
+- Use semantic versioning.
+- The Git tag must match `sdks/python/pyproject.toml` exactly:
+  - package version `0.1.6` -> tag `python-v0.1.6`
+- Python and TypeScript releases are independent. Do not bundle them unless both packages actually need a release.
 
-### Upload fails with 403
+## Validation Details
 
-- Confirm you have publish rights on the organization.
-- Ensure two-factor authentication tokens are configured if enforced.
+`./scripts/ci/verify-python-package.sh` performs the same checks expected by CI:
 
-### Build artifacts missing files
+- `uv sync --group dev`
+- regenerate Python artifacts from `tidas-tools`
+- fail if generated source changes are not committed
+- `uv run ruff check src tests`
+- `uv run pytest`
+- `uv run python -m build`
+- `uv run twine check dist/*`
 
-- Verify `MANIFEST.in` (if present) and `[tool.setuptools.package-data]` include required assets.
-- Run builds from a clean tree (`git clean -xfd` for local cleanup if necessary).
-
-### Version already exists
-
-- Check published versions: `twine list tidas-sdk` or `pip install tidas-sdk==<version>` to confirm.
-- Increment the version in `pyproject.toml` and rebuild.
-
-## Useful Commands
+If generation needs a specific local checkout of `tidas-tools`, provide it explicitly:
 
 ```bash
-# Clean environment
-uv pip uninstall tidas-sdk
-
-# Install built wheel locally
-uv pip install dist/tidas_sdk-*.whl
-
-# Inspect package metadata
-uv run python -m importlib.metadata tidas-sdk
+TIDAS_TOOLS_PATH=../tidas-tools ./scripts/ci/verify-python-package.sh
 ```
 
-Keep this guide current—update when the release tooling or workflow changes.
+## Publish Automation
+
+The publish workflow:
+
+- only reacts to `python-v*` tags
+- validates that the tag matches the version in source control
+- rebuilds distributions from the tagged commit
+- publishes via PyPI Trusted Publishing after environment approval
+
+One-time maintainer configuration is documented in `../../docs/release-setup.md`.
+
+## Fallback Publishing
+
+Local publishing is not the normal path.
+
+The repository retains `scripts/ci/publish-python-sdk.sh` only as an emergency fallback for maintainers. Use it only when GitHub Actions or trusted publishing is unavailable and the release cannot wait. If that happens:
+
+- publish from the exact merged release commit
+- record the reason in the release issue or PR
+- create the matching `python-vX.Y.Z` tag after the manual release succeeds
+
+## Post-Release Checklist
+
+- Confirm the PyPI project page shows the new version.
+- Smoke-test install if the change is high risk:
+
+```bash
+uv pip install tidas-sdk==X.Y.Z
+```
+
+- Create or update GitHub release notes if useful for consumers.
+- If the release is part of tracked `lca-workspace` delivery, complete the later submodule integration step.

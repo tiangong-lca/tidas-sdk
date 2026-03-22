@@ -21,6 +21,18 @@ export type CASNumber = string;
  * Free text with an unlimited length.
  */
 export type FT = string;
+export interface LocalizedTextItem {
+  '@xml:lang': string;
+  '#text': string;
+}
+/**
+ * Language-tagged text with a maximum length of 500 characters.
+ */
+export type LocalizedText500Item = any;
+/**
+ * Language-tagged text with a maximum length of 1000 characters.
+ */
+export type LocalizedText1000Item = any;
 export type StringMultiLang = MultiLangArrayLike | MultiLangItemClass;
 /**
  * 1-digit integer number

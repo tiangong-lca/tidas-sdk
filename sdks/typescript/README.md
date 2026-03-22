@@ -215,24 +215,29 @@ const address = contact.address?.street; // Type: string | undefined
 
 ## 📖 Documentation
 
-- **Development Guidelines**: [../../CLAUDE.md](../../CLAUDE.md)
-- **Project Progress**: [../../docs/development-progress.md](../../docs/development-progress.md)
-- **Requirements**: [../../docs/requirement-design.md](../../docs/requirement-design.md)
-- **Release Notes**: [RELEASE.md](./RELEASE.md)
+- **Repository Workflow**: [../../AGENTS.md](../../AGENTS.md)
+- **Release Setup**: [../../docs/release-setup.md](../../docs/release-setup.md)
+- **Release Guide**: [RELEASE.md](./RELEASE.md)
 
 ## 🚀 Release
 
-Automated release process:
+Normal releases are tag-driven:
 
 ```bash
-# Patch release (x.y.Z)
-npm run release:patch
+# Validate the package before opening the release PR
+./scripts/ci/verify-typescript-package.sh
 
-# Minor release (x.Y.z)
-npm run release:minor
+# After the release PR merges, tag the exact merged commit
+git tag typescript-vX.Y.Z
+git push origin typescript-vX.Y.Z
+```
 
-# Major release (X.y.z)
-npm run release:major
+Version prep helpers are available if you want to update `package.json` locally before committing:
+
+```bash
+npm run release:prepare:patch
+npm run release:prepare:minor
+npm run release:prepare:major
 ```
 
 ## 🤝 Contributing
