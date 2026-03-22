@@ -3,11 +3,9 @@
 import { compileFromFile } from 'json-schema-to-typescript';
 import * as fs from 'fs';
 import * as path from 'path';
+import { requireTidasToolsSchemaDir } from './resolve-tidas-tools-path.js';
 
-const SCHEMA_DIR = path.join(
-  __dirname,
-  '../../../tidas-tools/src/tidas_tools/tidas/schemas'
-);
+const SCHEMA_DIR = requireTidasToolsSchemaDir();
 const OUTPUT_DIR = path.join(__dirname, '../src/types/generated');
 
 interface SchemaInfo {

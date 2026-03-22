@@ -1,15 +1,18 @@
 #!/usr/bin/env bash
 
 # TypeScript SDK 生成脚本
-# 功能: 从 tidas-tools submodule 重新生成 TypeScript SDK
+# 功能: 从 tidas-tools 源仓库重新生成 TypeScript SDK
 # 输出: 生成的文件列表和摘要
 
 set -euo pipefail
 
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+REPO_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"
+
 # 默认参数
-TIDAS_TOOLS_PATH="${TIDAS_TOOLS_PATH:-./tidas-tools}"
-OUTPUT_DIR="${OUTPUT_DIR:-./sdks/typescript/src}"
-SDK_ROOT="${SDK_ROOT:-./sdks/typescript}"
+OUTPUT_DIR="${OUTPUT_DIR:-$REPO_ROOT/sdks/typescript/src}"
+SDK_ROOT="${SDK_ROOT:-$REPO_ROOT/sdks/typescript}"
+source "$SCRIPT_DIR/lib/tidas-tools-source.sh"
 
 # 颜色输出
 RED='\033[0;31m'
@@ -38,19 +41,21 @@ log_step() {
 # 错误处理
 handle_error() {
     local line_no=$1
+    cleanup_tidas_tools_source
     log_error "Script failed at line $line_no"
     log_error "Command: $BASH_COMMAND"
     exit 1
 }
 
 trap 'handle_error $LINENO' ERR
+trap cleanup_tidas_tools_source EXIT
 
 # 验证输入
 validate_inputs() {
     log_step "Validating inputs..."
 
-    if [ ! -d "$TIDAS_TOOLS_PATH" ]; then
-        log_error "tidas-tools path not found: $TIDAS_TOOLS_PATH"
+    if [ ! -d "$TIDAS_TOOLS_PATH/src/tidas_tools/tidas/schemas" ]; then
+        log_error "tidas-tools schemas not found: $TIDAS_TOOLS_PATH/src/tidas_tools/tidas/schemas"
         exit 1
     fi
 
@@ -105,12 +110,6 @@ check_dependencies() {
         cd - > /dev/null
     fi
 
-    # 检查 tidas-tools 内容
-    if [ ! -f "$TIDAS_TOOLS_PATH/README.md" ]; then
-        log_warn "tidas-tools appears to be empty or not initialized"
-        log_warn "Run: git submodule update --init --recursive"
-    fi
-
     log_info "✓ All dependencies satisfied"
 }
 
@@ -125,7 +124,7 @@ generate_sdk() {
     # Step 1: Generate TypeScript types from JSON schemas
     if grep -q '"generate-types"' package.json; then
         log_info "Step 1/3: Generating TypeScript types from schemas..."
-        if npm run generate-types; then
+        if TIDAS_TOOLS_PATH="$TIDAS_TOOLS_PATH" npm run generate-types; then
             log_info "✓ TypeScript types generated successfully"
         else
             log_error "TypeScript type generation failed"
@@ -139,7 +138,7 @@ generate_sdk() {
     # Step 2: Generate Zod validation schemas
     if grep -q '"generate-schemas"' package.json; then
         log_info "Step 2/3: Generating Zod validation schemas..."
-        if npm run generate-schemas; then
+        if TIDAS_TOOLS_PATH="$TIDAS_TOOLS_PATH" npm run generate-schemas; then
             log_info "✓ Zod schemas generated successfully"
         else
             log_error "Zod schema generation failed"
@@ -153,7 +152,7 @@ generate_sdk() {
     # Step 3: Bundle methodologies (根据 build script)
     if grep -q '"bundle-methodologies"' package.json; then
         log_info "Step 3/3: Bundling LCIA methodologies..."
-        if npm run bundle-methodologies; then
+        if TIDAS_TOOLS_PATH="$TIDAS_TOOLS_PATH" npm run bundle-methodologies; then
             log_info "✓ Methodologies bundled successfully"
         else
             log_warn "Methodology bundling failed (non-critical)"
@@ -237,6 +236,8 @@ main() {
     log_info "Starting TypeScript SDK generation..."
     log_info "================================================"
 
+    resolve_tidas_tools_source "$REPO_ROOT"
+    TIDAS_TOOLS_PATH="$RESOLVED_TIDAS_TOOLS_PATH"
     validate_inputs
     check_dependencies
     generate_sdk
