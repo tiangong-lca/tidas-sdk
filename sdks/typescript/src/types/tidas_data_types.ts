@@ -4,13 +4,6 @@
  * and run the generation script to regenerate this file.
  */
 
-import {
-  MultiLangArray,
-  MultiLangArrayLike,
-  MultiLangItem,
-  MultiLangItemClass,
-} from './multi-lang-types';
-
 /**
  * CAS Number, leading zeros are requried.
  *
@@ -25,15 +18,24 @@ export interface LocalizedTextItem {
   '@xml:lang': string;
   '#text': string;
 }
+export interface LocalizedText500Item {
+  '@xml:lang': string;
+  /**
+   * @maxLength 500
+   */
+  '#text': string;
+}
+export interface LocalizedText1000Item {
+  '@xml:lang': string;
+  /**
+   * @maxLength 1000
+   */
+  '#text': string;
+}
 /**
- * Language-tagged text with a maximum length of 500 characters.
+ * Multi-language string with a maximum length of 500 characters
  */
-export type LocalizedText500Item = any;
-/**
- * Language-tagged text with a maximum length of 1000 characters.
- */
-export type LocalizedText1000Item = any;
-export type StringMultiLang = MultiLangArrayLike | MultiLangItemClass;
+export type StringMultiLang = LocalizedText500Item[] | LocalizedText500Item;
 /**
  * 1-digit integer number
  *
@@ -89,8 +91,14 @@ export type ST = string;
  * @maxLength 500
  */
 export type String = string;
-export type STMultiLang = MultiLangArrayLike | MultiLangItemClass;
-export type FTMultiLang = MultiLangArrayLike | MultiLangItemClass;
+/**
+ * Multi-lang short text with a maximum length of 1000 characters.
+ */
+export type STMultiLang = LocalizedText1000Item[] | LocalizedText1000Item;
+/**
+ * Multi-lang free text with an unlimited length.
+ */
+export type FTMultiLang = LocalizedTextItem[] | LocalizedTextItem;
 /**
  * Represents a reference to another dataset or file. In TIDAS, references must include type, refObjectId, version, uri, and shortDescription.
  */

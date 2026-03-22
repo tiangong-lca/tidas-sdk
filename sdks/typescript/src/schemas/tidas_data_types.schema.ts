@@ -5,14 +5,57 @@ export const CASNumberSchema = z.string().regex(/^[0-9]{2,7}-[0-9]{2}-[0-9]$/);
 
 export const FTSchema = z.string();
 
-export const LocalizedTextItemSchema = z.object({
+const chineseCharacterPattern = /[\u3400-\u4DBF\u4E00-\u9FFF\uF900-\uFAFF]/;
+
+const addLocalizedTextLanguageChecks = (
+  value: { '@xml:lang': string; '#text': string },
+  ctx: z.RefinementCtx
+) => {
+  const lang = value['@xml:lang'];
+  const text = value['#text'];
+
+  if (/^[zZ][hH](?:-|$)/.test(lang) && !chineseCharacterPattern.test(text)) {
+    ctx.addIssue({
+      code: z.ZodIssueCode.custom,
+      path: ['#text'],
+      message:
+        "@xml:lang values starting with 'zh' must include at least one Chinese character",
+    });
+  }
+
+  if (/^[eE][nN](?:-|$)/.test(lang) && chineseCharacterPattern.test(text)) {
+    ctx.addIssue({
+      code: z.ZodIssueCode.custom,
+      path: ['#text'],
+      message:
+        "@xml:lang values starting with 'en' must not contain Chinese characters",
+    });
+  }
+};
+
+const LocalizedTextItemBaseSchema = z.object({
   '@xml:lang': z.string(),
   '#text': z.string(),
 });
 
-export const LocalizedText500ItemSchema = z.any();
+export const LocalizedTextItemSchema = LocalizedTextItemBaseSchema.superRefine(
+  addLocalizedTextLanguageChecks
+);
 
-export const LocalizedText1000ItemSchema = z.any();
+export const LocalizedText500ItemSchema =
+  LocalizedTextItemBaseSchema.extend({
+    '#text': z.string().max(500),
+  }).superRefine(addLocalizedTextLanguageChecks);
+
+export const LocalizedText1000ItemSchema =
+  LocalizedTextItemBaseSchema.extend({
+    '#text': z.string().max(1000),
+  }).superRefine(addLocalizedTextLanguageChecks);
+
+export const StringMultiLangSchema = z.union([
+  z.array(LocalizedText500ItemSchema),
+  LocalizedText500ItemSchema,
+]);
 
 export const Int1Schema = z.string().regex(/^[0-9]$/);
 
@@ -38,44 +81,14 @@ export const STSchema = z.string().max(1000);
 
 export const StringSchema = z.string().min(1).max(500);
 
-export const GISSchema = z
-  .string()
-  .regex(
-    /^\s*[+-]?((90(\.0+)?)|([0-8]?\d(\.\d+)?))\s*;\s*[+-]?((180(\.0+)?)|((1[0-7]\d|[0-9]?\d)(\.\d+)?))\s*$/
-  );
-
-export const UUIDSchema = z
-  .string()
-  .regex(/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/);
-
-export const YearSchema = z.number().min(1000).max(9999);
-
-export const dateTimeSchema = z.string().datetime();
-
-// Multi-language item schema: { "#text": "value", "@xml:lang": "en" }
-const MultiLangItemSchema = z.object({
-  '#text': z.string(),
-  '@xml:lang': z.string(),
-});
-
-// Multi-language can be either a single item or an array of items
-const MultiLangArrayLikeSchema = z.array(MultiLangItemSchema);
-
-const MultiLangItemClassSchema = MultiLangItemSchema;
-
-export const StringMultiLangSchema = z.union([
-  MultiLangItemClassSchema,      // Single object
-  MultiLangArrayLikeSchema,      // Array of objects
-]);
-
 export const STMultiLangSchema = z.union([
-  MultiLangItemClassSchema,      // Single object
-  MultiLangArrayLikeSchema,      // Array of objects
+  z.array(LocalizedText1000ItemSchema),
+  LocalizedText1000ItemSchema,
 ]);
 
 export const FTMultiLangSchema = z.union([
-  MultiLangItemClassSchema,      // Single object
-  MultiLangArrayLikeSchema,      // Array of objects
+  z.array(LocalizedTextItemSchema),
+  LocalizedTextItemSchema,
 ]);
 
 export const GlobalReferenceTypeSchema = z.union([
@@ -96,3 +109,17 @@ export const GlobalReferenceTypeSchema = z.union([
     })
   ),
 ]);
+
+export const GISSchema = z
+  .string()
+  .regex(
+    /^\s*[+-]?((90(\.0+)?)|([0-8]?\d(\.\d+)?))\s*;\s*[+-]?((180(\.0+)?)|((1[0-7]\d|[0-9]?\d)(\.\d+)?))\s*$/
+  );
+
+export const UUIDSchema = z
+  .string()
+  .regex(/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/);
+
+export const YearSchema = z.number().min(1000).max(9999);
+
+export const dateTimeSchema = z.string().datetime();

@@ -4,7 +4,7 @@ Source: tidas_data_types.json
 """
 from __future__ import annotations
 
-from typing import Annotated, Any
+from typing import Annotated
 
 from pydantic import Field
 from tidas_sdk.core.base import TidasBaseModel
@@ -16,8 +16,6 @@ from datetime import datetime
 CASNumber = Annotated[str, Field(pattern='^[0-9]{2,7}-[0-9]{2}-[0-9]$')]
 # Free text with an unlimited length.
 FT = str
-# Language-tagged text with optional script checks for selected languages.
-LocalizedTextItem = MultiLangList
 # 1-digit integer number
 Int1 = Annotated[str, Field(pattern='^[0-9]$')]
 # 5-digit integer number
@@ -47,13 +45,20 @@ Year = Annotated[int, Field(ge=1000, le=9999)]
 # Date and time format acc. to ISO 8601
 DateTime = datetime
 
-class LocalizedText500Item(TidasBaseModel):
-    """Language-tagged text with a maximum length of 500 characters."""
-    text: Any | None = Field(default=None, alias='#text', max_length=500)
+class LocalizedTextItem(TidasBaseModel):
+    """Language-tagged text with optional script checks for selected languages."""
+    xml_lang: str = Field(default=..., alias='@xml:lang')
+    text: str = Field(default=..., alias='#text')
 
-class LocalizedText1000Item(TidasBaseModel):
+class LocalizedText500Item(LocalizedTextItem):
+    """Language-tagged text with a maximum length of 500 characters."""
+    xml_lang: str = Field(default=..., alias='@xml:lang')
+    text: str = Field(default=..., alias='#text', max_length=500)
+
+class LocalizedText1000Item(LocalizedTextItem):
     """Language-tagged text with a maximum length of 1000 characters."""
-    text: Any | None = Field(default=None, alias='#text', max_length=1000)
+    xml_lang: str = Field(default=..., alias='@xml:lang')
+    text: str = Field(default=..., alias='#text', max_length=1000)
 
 class GlobalReferenceTypeVariant0(TidasBaseModel):
     type: str = Field(default=..., alias='@type')
