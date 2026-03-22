@@ -33,7 +33,8 @@ echo "[typescript] installing dependencies"
 before_generated_state="$(snapshot_path_state "sdks/typescript/src")"
 
 echo "[typescript] regenerating package sources"
-"$REPO_ROOT/scripts/ci/generate-typescript-sdk.sh"
+TIDAS_TOOLS_SOURCE_MODE="${TIDAS_TOOLS_SOURCE_MODE:-clone}" \
+    "$REPO_ROOT/scripts/ci/generate-typescript-sdk.sh"
 require_stable_generation_output "sdks/typescript/src" "$before_generated_state"
 
 echo "[typescript] lint"

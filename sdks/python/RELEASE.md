@@ -50,7 +50,7 @@ git push origin python-vX.Y.Z
 If generation needs a specific local checkout of `tidas-tools`, provide it explicitly:
 
 ```bash
-TIDAS_TOOLS_PATH=../tidas-tools ./scripts/ci/verify-python-package.sh
+TIDAS_TOOLS_SOURCE_MODE=auto TIDAS_TOOLS_PATH=../tidas-tools ./scripts/ci/verify-python-package.sh
 ```
 
 ## Publish Automation

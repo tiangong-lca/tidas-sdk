@@ -33,7 +33,8 @@ echo "[python] syncing dependencies"
 before_generated_state="$(snapshot_path_state "sdks/python/src/tidas_sdk/generated")"
 
 echo "[python] regenerating package sources"
-"$REPO_ROOT/scripts/ci/generate-python-sdk.sh"
+TIDAS_TOOLS_SOURCE_MODE="${TIDAS_TOOLS_SOURCE_MODE:-clone}" \
+    "$REPO_ROOT/scripts/ci/generate-python-sdk.sh"
 require_stable_generation_output "sdks/python/src/tidas_sdk/generated" "$before_generated_state"
 
 echo "[python] ruff check"

@@ -4,6 +4,7 @@
 
 TIDAS_TOOLS_REPO_URL="${TIDAS_TOOLS_REPO_URL:-https://github.com/tiangong-lca/tidas-tools.git}"
 TIDAS_TOOLS_REF="${TIDAS_TOOLS_REF:-main}"
+TIDAS_TOOLS_SOURCE_MODE="${TIDAS_TOOLS_SOURCE_MODE:-auto}"
 
 RESOLVED_TIDAS_TOOLS_PATH=""
 RESOLVED_TIDAS_TOOLS_IS_TEMP=0
@@ -18,22 +19,32 @@ resolve_tidas_tools_source() {
     local repo_root="${1:?repo_root is required}"
     local -a candidates=()
 
-    if [ -n "${TIDAS_TOOLS_PATH:-}" ]; then
-        candidates+=("$TIDAS_TOOLS_PATH")
-    fi
+    case "$TIDAS_TOOLS_SOURCE_MODE" in
+        auto)
+            if [ -n "${TIDAS_TOOLS_PATH:-}" ]; then
+                candidates+=("$TIDAS_TOOLS_PATH")
+            fi
 
-    candidates+=(
-        "$repo_root/tidas-tools"
-        "$repo_root/../tidas-tools"
-    )
+            candidates+=(
+                "$repo_root/tidas-tools"
+                "$repo_root/../tidas-tools"
+            )
 
-    for candidate in "${candidates[@]}"; do
-        if is_tidas_tools_checkout "$candidate"; then
-            RESOLVED_TIDAS_TOOLS_PATH="$(cd "$candidate" && pwd)"
-            RESOLVED_TIDAS_TOOLS_IS_TEMP=0
-            return 0
-        fi
-    done
+            for candidate in "${candidates[@]}"; do
+                if is_tidas_tools_checkout "$candidate"; then
+                    RESOLVED_TIDAS_TOOLS_PATH="$(cd "$candidate" && pwd)"
+                    RESOLVED_TIDAS_TOOLS_IS_TEMP=0
+                    return 0
+                fi
+            done
+            ;;
+        clone)
+            ;;
+        *)
+            >&2 echo "[ERROR] Unsupported TIDAS_TOOLS_SOURCE_MODE: $TIDAS_TOOLS_SOURCE_MODE"
+            return 1
+            ;;
+    esac
 
     RESOLVED_TIDAS_TOOLS_PATH="$(mktemp -d "${TMPDIR:-/tmp}/tidas-tools.XXXXXX")"
     RESOLVED_TIDAS_TOOLS_IS_TEMP=1

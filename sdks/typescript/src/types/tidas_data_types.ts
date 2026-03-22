@@ -92,7 +92,7 @@ export type String = string;
 export type STMultiLang = MultiLangArrayLike | MultiLangItemClass;
 export type FTMultiLang = MultiLangArrayLike | MultiLangItemClass;
 /**
- * Represents a reference to another dataset or file. Either refObjectId and version, or uri, or both have to be specified.
+ * Represents a reference to another dataset or file. In TIDAS, references must include type, refObjectId, version, uri, and shortDescription.
  */
 export type GlobalReferenceType =
   | {

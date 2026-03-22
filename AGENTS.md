@@ -67,6 +67,8 @@ Run these before opening a release-prep PR when the corresponding package is aff
 ./scripts/ci/verify-python-package.sh
 ```
 
+These verification scripts default to a fresh temporary clone of `tiangong-lca/tidas-tools` so local validation matches CI. If you intentionally want to validate against a local checkout instead, set `TIDAS_TOOLS_SOURCE_MODE=auto` and optionally `TIDAS_TOOLS_PATH=/path/to/tidas-tools`.
+
 ## Local Publish Fallback
 
 Local publishing is an emergency-only fallback for platform outages or broken CI infrastructure.

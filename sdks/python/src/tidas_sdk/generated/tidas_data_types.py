@@ -57,14 +57,14 @@ class LocalizedText1000Item(TidasBaseModel):
 
 class GlobalReferenceTypeVariant0(TidasBaseModel):
     type: str = Field(default=..., alias='@type')
-    ref_object_id: str = Field(default=..., alias='@refObjectId', pattern='^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$')
+    ref_object_id: str = Field(default=..., alias='@refObjectId', pattern='^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$')
     version: str = Field(default=..., alias='@version')
     uri: str = Field(default=..., alias='@uri')
     common_short_description: MultiLangList = Field(default_factory=MultiLangList, alias='common:shortDescription')
 
 class GlobalReferenceTypeVariant1Item(TidasBaseModel):
     type: str = Field(default=..., alias='@type')
-    ref_object_id: str = Field(default=..., alias='@refObjectId', pattern='^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$')
+    ref_object_id: str = Field(default=..., alias='@refObjectId', pattern='^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$')
     version: str = Field(default=..., alias='@version')
     uri: str = Field(default=..., alias='@uri')
     common_short_description: MultiLangList = Field(default_factory=MultiLangList, alias='common:shortDescription')
@@ -78,5 +78,5 @@ StringMultiLang = list[LocalizedText500Item] | LocalizedText500Item
 STMultiLang = list[LocalizedText1000Item] | LocalizedText1000Item
 # Multi-lang free text with an unlimited length.
 FTMultiLang = list[LocalizedTextItem] | LocalizedTextItem
-# Represents a reference to another dataset or file. Either refObjectId and version, or uri, or both have to be specified.
+# Represents a reference to another dataset or file. In TIDAS, references must include type, refObjectId, version, uri, and shortDescription.
 GlobalReferenceType = GlobalReferenceTypeVariant0 | list[GlobalReferenceTypeVariant1Item]
