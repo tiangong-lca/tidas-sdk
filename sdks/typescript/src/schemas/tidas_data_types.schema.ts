@@ -5,6 +5,15 @@ export const CASNumberSchema = z.string().regex(/^[0-9]{2,7}-[0-9]{2}-[0-9]$/);
 
 export const FTSchema = z.string();
 
+export const LocalizedTextItemSchema = z.object({
+  '@xml:lang': z.string(),
+  '#text': z.string(),
+});
+
+export const LocalizedText500ItemSchema = z.any();
+
+export const LocalizedText1000ItemSchema = z.any();
+
 export const Int1Schema = z.string().regex(/^[0-9]$/);
 
 export const Int5Schema = z.string().regex(/^(0|[1-9]\d{0,4})$/);

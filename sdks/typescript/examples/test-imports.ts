@@ -4,23 +4,27 @@
  * Test script to verify all imports work correctly with the published npm package
  */
 
+import { createContact, createFlow } from '@tiangong-lca/tidas-sdk/core';
+import { ContactSchema } from '@tiangong-lca/tidas-sdk/schemas';
+import * as typeModule from '@tiangong-lca/tidas-sdk/types';
+
 console.log('🧪 Testing TIDAS SDK imports...\n');
 
 try {
   // Test core imports
   console.log('Testing core imports...');
-  const { createContact, createFlow } = require('@tiangong-lca/tidas-sdk/core');
   console.log('✅ Core imports successful');
 
   // Test type imports
   console.log('Testing type imports...');
-  // Note: Types are compile-time only, so we just check the module exists
-  require('@tiangong-lca/tidas-sdk/types');
+  console.log(
+    `✅ Type imports successful (${Object.keys(typeModule).length} runtime exports)`
+  );
   console.log('✅ Type imports successful');
 
   // Test schema imports
   console.log('Testing schema imports...');
-  const { ContactSchema } = require('@tiangong-lca/tidas-sdk/schemas');
+  void ContactSchema;
   console.log('✅ Schema imports successful');
 
   // Test basic functionality

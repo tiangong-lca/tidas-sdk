@@ -27,7 +27,7 @@ cd sdks/python && uv sync
 
 ### @tiangong-lca/tidas-sdk (TypeScript)
 
-- **Status**: ✅ Production Ready (v0.1.20)
+- **Status**: ✅ Production Ready
 - **Features**: Type-safe data manipulation, validation, schema generation
 - **Installation**: `npm install @tiangong-lca/tidas-sdk`
 - **Location**: `sdks/typescript/`
@@ -41,7 +41,7 @@ cd sdks/python && uv sync
 
 ### tidas-sdk (Python, Development)
 
-- **Status**: 🚧 In Development (v0.1.0)
+- **Status**: 🚧 In Development
 - **Features**: Pydantic-based data models, validation, utilities
 - **Installation**: Development only (from source)
 - **Location**: `sdks/python/`
@@ -58,10 +58,10 @@ tidas-sdk/
 
 ## 📚 Documentation
 
-- **Development Guidelines**: [CLAUDE.md](./CLAUDE.md)
-- **Development Progress**: [docs/development-progress.md](./docs/development-progress.md)
-- **Requirements & Design**: [docs/requirement-design.md](./docs/requirement-design.md)
-- **Technical Design**: [docs/technical-design.md](./docs/technical-design.md)
+- **Repository Workflow**: [AGENTS.md](./AGENTS.md)
+- **Release Setup**: [docs/release-setup.md](./docs/release-setup.md)
+- **TypeScript Release Guide**: [sdks/typescript/RELEASE.md](./sdks/typescript/RELEASE.md)
+- **Python Release Guide**: [sdks/python/RELEASE.md](./sdks/python/RELEASE.md)
 
 ## 🛠️ Development
 
@@ -103,6 +103,20 @@ Both generation scripts resolve `tidas-tools` in this order:
 2. a sibling checkout at `../tidas-tools`
 3. a temporary clone of `tiangong-lca/tidas-tools`
 
+### Release Workflow
+
+Normal releases are tag-driven and published by GitHub Actions:
+
+- TypeScript package: create `typescript-vX.Y.Z` on the merged release commit
+- Python package: create `python-vX.Y.Z` on the merged release commit
+
+Use these local verification commands before opening a release PR:
+
+```bash
+./scripts/ci/verify-typescript-package.sh
+./scripts/ci/verify-python-package.sh
+```
+
 ## 🎯 Current Status
 
 ### ✅ Completed
@@ -135,7 +149,7 @@ Both generation scripts resolve `tidas-tools` in this order:
 
 ## 🤝 Contributing
 
-We welcome contributions! Please see our development guidelines in [CLAUDE.md](./CLAUDE.md) for:
+We welcome contributions! Please see [AGENTS.md](./AGENTS.md) for:
 
 - Code style standards
 - Testing requirements
@@ -159,4 +173,4 @@ For questions, issues, or contributions:
 
 - Open an issue on GitHub
 - Check existing documentation
-- Review development progress in [docs/development-progress.md](./docs/development-progress.md)
+- Review the repository workflow in [AGENTS.md](./AGENTS.md)

@@ -434,7 +434,7 @@ export const LifecyclemodelsSchema = z.object({
         'common:timeStamp': dateTimeSchema,
         'common:referenceToDataSetFormat': GlobalReferenceTypeSchema,
         'common:referenceToPersonOrEntityEnteringTheData':
-          GlobalReferenceTypeSchema.optional(),
+          GlobalReferenceTypeSchema,
         'common:other': z.string().optional(),
       }),
       publicationAndOwnership: z.object({

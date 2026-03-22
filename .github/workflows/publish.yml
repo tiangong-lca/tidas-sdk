@@ -1,0 +1,100 @@
+name: Publish Packages
+
+on:
+  push:
+    tags:
+      - 'typescript-v*'
+      - 'python-v*'
+
+permissions:
+  contents: read
+
+jobs:
+  typescript-publish:
+    name: Publish TypeScript package
+    if: startsWith(github.ref_name, 'typescript-v')
+    runs-on: ubuntu-latest
+    environment: npm-release
+    permissions:
+      contents: read
+      id-token: write
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22.14.0
+          registry-url: https://registry.npmjs.org
+          cache: npm
+          cache-dependency-path: sdks/typescript/package-lock.json
+
+      - name: Upgrade npm for trusted publishing
+        run: npm install --global npm@11.5.1
+
+      - name: Validate release tag
+        run: ./scripts/ci/check-release-tag.sh typescript
+
+      - name: Verify TypeScript package
+        run: ./scripts/ci/verify-typescript-package.sh
+
+      - name: Publish to npm
+        working-directory: sdks/typescript
+        run: npm publish --access public --provenance
+
+  python-build:
+    name: Build Python distributions
+    if: startsWith(github.ref_name, 'python-v')
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Set up uv
+        uses: astral-sh/setup-uv@v6
+        with:
+          enable-cache: true
+
+      - name: Validate release tag
+        run: ./scripts/ci/check-release-tag.sh python
+
+      - name: Verify Python package
+        run: ./scripts/ci/verify-python-package.sh
+
+      - name: Upload Python distributions
+        uses: actions/upload-artifact@v4
+        with:
+          name: python-dist
+          path: sdks/python/dist/*
+          if-no-files-found: error
+
+  python-publish:
+    name: Publish Python package
+    if: startsWith(github.ref_name, 'python-v')
+    needs:
+      - python-build
+    runs-on: ubuntu-latest
+    environment: pypi-release
+    permissions:
+      contents: read
+      id-token: write
+
+    steps:
+      - name: Download Python distributions
+        uses: actions/download-artifact@v4
+        with:
+          name: python-dist
+          path: dist
+
+      - name: Publish to PyPI
+        uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          packages-dir: dist

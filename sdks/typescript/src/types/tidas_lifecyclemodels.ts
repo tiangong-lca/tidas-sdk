@@ -270,7 +270,7 @@ export interface Lifecyclemodels {
       dataEntryBy: {
         'common:timeStamp': dateTime;
         'common:referenceToDataSetFormat': GlobalReferenceType;
-        'common:referenceToPersonOrEntityEnteringTheData'?: GlobalReferenceType;
+        'common:referenceToPersonOrEntityEnteringTheData': GlobalReferenceType;
         'common:other'?: string;
       };
       publicationAndOwnership: {

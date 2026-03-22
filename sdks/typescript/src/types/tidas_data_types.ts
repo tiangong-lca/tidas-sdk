@@ -21,6 +21,18 @@ export type CASNumber = string;
  * Free text with an unlimited length.
  */
 export type FT = string;
+export interface LocalizedTextItem {
+  '@xml:lang': string;
+  '#text': string;
+}
+/**
+ * Language-tagged text with a maximum length of 500 characters.
+ */
+export type LocalizedText500Item = any;
+/**
+ * Language-tagged text with a maximum length of 1000 characters.
+ */
+export type LocalizedText1000Item = any;
 export type StringMultiLang = MultiLangArrayLike | MultiLangItemClass;
 /**
  * 1-digit integer number
@@ -80,7 +92,7 @@ export type String = string;
 export type STMultiLang = MultiLangArrayLike | MultiLangItemClass;
 export type FTMultiLang = MultiLangArrayLike | MultiLangItemClass;
 /**
- * Represents a reference to another dataset or file. Either refObjectId and version, or uri, or both have to be specified.
+ * Represents a reference to another dataset or file. In TIDAS, references must include type, refObjectId, version, uri, and shortDescription.
  */
 export type GlobalReferenceType =
   | {
