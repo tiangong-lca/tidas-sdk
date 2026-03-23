@@ -9,7 +9,8 @@ This repository publishes two independently versioned packages:
 
 - Start all new repo work from the latest `origin/main` unless the work is intentionally stacked on another branch.
 - Use a dedicated issue branch such as `feature/issue-<id>` or `chore/issue-<id>`.
-- Keep package release prep in a normal PR. Do not let GitHub Actions modify versions or push commits back to the repository.
+- Keep human-managed package release prep in a normal PR.
+- The upstream sync automation may push automation branches and open release-prep PRs when `tiangong-lca/tidas-tools` changes.
 - If this repo change is consumed by `lca-workspace`, complete the later submodule bump before treating the parent delivery as fully done.
 
 ## Release Model
@@ -24,11 +25,12 @@ Normal releases follow this path:
    - package docs if install or API guidance changed
 3. Let CI validate the package with the same commands used by release automation.
 4. Merge the PR.
-5. Create a tag on the merged commit:
+5. Let the repository automation create a tag on the merged commit:
    - TypeScript: `typescript-vX.Y.Z`
    - Python: `python-vX.Y.Z`
 6. GitHub Actions publishes from that immutable tagged commit after the protected release environment is approved.
-7. Verify the published package, create or update the GitHub Release note if needed, and close out the tracked issue / PR state.
+7. If the auto-tagging workflow is unavailable, a maintainer may create the matching tag manually as a fallback.
+8. Verify the published package, create or update the GitHub Release note if needed, and close out the tracked issue / PR state.
 
 Releases are package-specific. Do not force the TypeScript and Python packages to share a version number or a release date.
 
@@ -38,6 +40,13 @@ Repository workflows live under `.github/workflows/`:
 
 - `ci.yml`
   - validates package build, tests, generated artifacts, and packability on pull requests and `main`
+- `sync-from-tidas-tools.yml`
+  - regenerates SDK artifacts from an exact upstream `tiangong-lca/tidas-tools` commit
+  - bumps only affected package versions
+  - opens or updates a release-prep PR on an automation branch
+- `tag-release-from-merge.yml`
+  - watches pushes to `main`
+  - creates package tags when a merged commit changes package versions
 - `publish.yml`
   - publishes only from package tags
   - refuses to publish if the tag does not match the package version in source control
@@ -57,6 +66,8 @@ The publish workflow expects two GitHub environments:
 - `pypi-release`
 
 Both environments should require reviewer approval and should not allow self-review. The one-time registry and repository setup lives in `docs/release-setup.md`.
+
+Automation that pushes branches, opens PRs, or creates tags also requires the repository secret `TIDAS_RELEASE_AUTOMATION_TOKEN`.
 
 ## Local Validation
 

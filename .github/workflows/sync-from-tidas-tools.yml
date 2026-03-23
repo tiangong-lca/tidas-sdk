@@ -1,0 +1,349 @@
+name: Sync From tidas-tools
+
+on:
+  repository_dispatch:
+    types:
+      - tidas_tools_changed
+  workflow_dispatch:
+    inputs:
+      tidas_tools_sha:
+        description: Exact tiangong-lca/tidas-tools commit SHA to sync from. Leave empty to use main.
+        required: false
+        type: string
+      packages:
+        description: Package families to regenerate.
+        required: true
+        default: both
+        type: choice
+        options:
+          - both
+          - typescript
+          - python
+      typescript_bump:
+        description: TypeScript version bump level.
+        required: true
+        default: patch
+        type: choice
+        options:
+          - patch
+          - minor
+          - major
+      python_bump:
+        description: Python version bump level.
+        required: true
+        default: patch
+        type: choice
+        options:
+          - patch
+          - minor
+          - major
+      reason:
+        description: Optional note explaining why this sync is running.
+        required: false
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    env:
+      AUTOMATION_TOKEN: ${{ secrets.TIDAS_RELEASE_AUTOMATION_TOKEN }}
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Validate automation token
+        run: |
+          if [ -z "$AUTOMATION_TOKEN" ]; then
+            echo "error: missing TIDAS_RELEASE_AUTOMATION_TOKEN secret" >&2
+            exit 1
+          fi
+
+      - name: Resolve sync request
+        id: request
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          EVENT_PATH: ${{ github.event_path }}
+          INPUT_TIDAS_TOOLS_SHA: ${{ github.event.inputs.tidas_tools_sha }}
+          INPUT_PACKAGES: ${{ github.event.inputs.packages }}
+          INPUT_TYPESCRIPT_BUMP: ${{ github.event.inputs.typescript_bump }}
+          INPUT_PYTHON_BUMP: ${{ github.event.inputs.python_bump }}
+          INPUT_REASON: ${{ github.event.inputs.reason }}
+        run: |
+          python3 - <<'PY'
+          import json
+          import os
+          from pathlib import Path
+
+          event_name = os.environ["EVENT_NAME"]
+          outputs_path = Path(os.environ["GITHUB_OUTPUT"])
+
+          requested_sha = ""
+          requested_ref = "main"
+          requested_packages = {"typescript", "python"}
+          ts_bump = "patch"
+          py_bump = "patch"
+          reason = ""
+
+          if event_name == "repository_dispatch":
+              with Path(os.environ["EVENT_PATH"]).open("r", encoding="utf-8") as fh:
+                  payload = json.load(fh).get("client_payload", {})
+              requested_sha = str(payload.get("tidas_tools_sha", "") or "")
+              requested_ref = str(payload.get("tidas_tools_ref", "main") or "main")
+              packages = payload.get("packages", ["typescript", "python"])
+              if isinstance(packages, str):
+                  packages = [packages]
+              requested_packages = set(packages)
+              ts_bump = str(payload.get("typescript_bump", "patch") or "patch")
+              py_bump = str(payload.get("python_bump", "patch") or "patch")
+              reason = str(payload.get("reason", "") or "")
+          else:
+              requested_sha = os.environ.get("INPUT_TIDAS_TOOLS_SHA", "")
+              requested_ref = requested_sha or "main"
+              packages = os.environ.get("INPUT_PACKAGES", "both")
+              if packages == "typescript":
+                  requested_packages = {"typescript"}
+              elif packages == "python":
+                  requested_packages = {"python"}
+              else:
+                  requested_packages = {"typescript", "python"}
+              ts_bump = os.environ.get("INPUT_TYPESCRIPT_BUMP", "patch") or "patch"
+              py_bump = os.environ.get("INPUT_PYTHON_BUMP", "patch") or "patch"
+              reason = os.environ.get("INPUT_REASON", "") or ""
+
+          requested_typescript = "typescript" in requested_packages
+          requested_python = "python" in requested_packages
+
+          with outputs_path.open("a", encoding="utf-8") as fh:
+              fh.write(f"requested_sha={requested_sha}\n")
+              fh.write(f"requested_ref={requested_ref}\n")
+              fh.write(f"requested_typescript={'true' if requested_typescript else 'false'}\n")
+              fh.write(f"requested_python={'true' if requested_python else 'false'}\n")
+              fh.write(f"typescript_bump={ts_bump}\n")
+              fh.write(f"python_bump={py_bump}\n")
+              fh.write("reason<<EOF\n")
+              fh.write(f"{reason}\n")
+              fh.write("EOF\n")
+          PY
+
+      - name: Clone upstream tidas-tools
+        id: upstream
+        env:
+          REQUESTED_SHA: ${{ steps.request.outputs.requested_sha }}
+          REQUESTED_REF: ${{ steps.request.outputs.requested_ref }}
+        run: |
+          set -euo pipefail
+
+          UPSTREAM_DIR="$RUNNER_TEMP/tidas-tools-upstream"
+          CLONE_URL="https://x-access-token:${AUTOMATION_TOKEN}@github.com/tiangong-lca/tidas-tools.git"
+
+          rm -rf "$UPSTREAM_DIR"
+          git clone --quiet "$CLONE_URL" "$UPSTREAM_DIR"
+
+          if [ -n "$REQUESTED_SHA" ]; then
+            git -C "$UPSTREAM_DIR" checkout --detach "$REQUESTED_SHA"
+          else
+            git -C "$UPSTREAM_DIR" checkout --detach "$REQUESTED_REF"
+          fi
+
+          RESOLVED_SHA="$(git -C "$UPSTREAM_DIR" rev-parse HEAD)"
+          SHORT_SHA="${RESOLVED_SHA:0:7}"
+
+          {
+            echo "path=$UPSTREAM_DIR"
+            echo "resolved_sha=$RESOLVED_SHA"
+            echo "short_sha=$SHORT_SHA"
+            echo "branch_name=automation/tidas-tools-sync-$SHORT_SHA"
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Set up Node.js
+        if: steps.request.outputs.requested_typescript == 'true'
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22.14.0
+          cache: npm
+          cache-dependency-path: sdks/typescript/package-lock.json
+
+      - name: Upgrade npm for release parity
+        if: steps.request.outputs.requested_typescript == 'true'
+        run: npm install --global npm@11.5.1
+
+      - name: Set up Python
+        if: steps.request.outputs.requested_python == 'true'
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Set up uv
+        if: steps.request.outputs.requested_python == 'true'
+        uses: astral-sh/setup-uv@v6
+        with:
+          enable-cache: true
+
+      - name: Regenerate TypeScript SDK
+        if: steps.request.outputs.requested_typescript == 'true'
+        env:
+          TIDAS_TOOLS_SOURCE_MODE: auto
+          TIDAS_TOOLS_PATH: ${{ steps.upstream.outputs.path }}
+        run: ./scripts/ci/generate-typescript-sdk.sh
+
+      - name: Regenerate Python SDK
+        if: steps.request.outputs.requested_python == 'true'
+        env:
+          TIDAS_TOOLS_SOURCE_MODE: auto
+          TIDAS_TOOLS_PATH: ${{ steps.upstream.outputs.path }}
+        run: ./scripts/ci/generate-python-sdk.sh
+
+      - name: Detect changed packages
+        id: changes
+        run: |
+          set -euo pipefail
+
+          package_changed() {
+            local target="$1"
+            if [ -n "$(git status --porcelain -- "$target")" ]; then
+              echo "true"
+            else
+              echo "false"
+            fi
+          }
+
+          TS_CHANGED="$(package_changed sdks/typescript)"
+          PY_CHANGED="$(package_changed sdks/python)"
+
+          {
+            echo "typescript_changed=$TS_CHANGED"
+            echo "python_changed=$PY_CHANGED"
+          } >> "$GITHUB_OUTPUT"
+
+          if [ "$TS_CHANGED" = "true" ] || [ "$PY_CHANGED" = "true" ]; then
+            echo "any_changed=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "any_changed=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Stop when generated output is unchanged
+        if: steps.changes.outputs.any_changed != 'true'
+        env:
+          UPSTREAM_SHA: ${{ steps.upstream.outputs.resolved_sha }}
+        run: echo "No SDK artifacts changed for upstream $UPSTREAM_SHA."
+
+      - name: Bump TypeScript package version
+        if: steps.changes.outputs.typescript_changed == 'true'
+        env:
+          TYPESCRIPT_BUMP: ${{ steps.request.outputs.typescript_bump }}
+        run: npm run release:prepare:${TYPESCRIPT_BUMP}:typescript
+
+      - name: Bump Python package version
+        if: steps.changes.outputs.python_changed == 'true'
+        env:
+          PYTHON_BUMP: ${{ steps.request.outputs.python_bump }}
+        run: python3 ./scripts/ci/bump-python-version.py "$PYTHON_BUMP"
+
+      - name: Verify TypeScript package
+        if: steps.changes.outputs.typescript_changed == 'true'
+        env:
+          TIDAS_TOOLS_SOURCE_MODE: auto
+          TIDAS_TOOLS_PATH: ${{ steps.upstream.outputs.path }}
+        run: ./scripts/ci/verify-typescript-package.sh
+
+      - name: Verify Python package
+        if: steps.changes.outputs.python_changed == 'true'
+        env:
+          TIDAS_TOOLS_SOURCE_MODE: auto
+          TIDAS_TOOLS_PATH: ${{ steps.upstream.outputs.path }}
+        run: ./scripts/ci/verify-python-package.sh
+
+      - name: Collect release metadata
+        if: steps.changes.outputs.any_changed == 'true'
+        id: metadata
+        run: |
+          python3 - <<'PY'
+          import json
+          import os
+          import re
+          from pathlib import Path
+
+          outputs_path = Path(os.environ["GITHUB_OUTPUT"])
+          ts_version = json.loads(Path("sdks/typescript/package.json").read_text(encoding="utf-8"))["version"]
+          pyproject = Path("sdks/python/pyproject.toml").read_text(encoding="utf-8")
+          match = re.search(r'(?m)^version = "(?P<version>\d+\.\d+\.\d+)"$', pyproject)
+          if match is None:
+              raise SystemExit("error: could not locate Python package version")
+          py_version = match.group("version")
+
+          with outputs_path.open("a", encoding="utf-8") as fh:
+              fh.write(f"typescript_version={ts_version}\n")
+              fh.write(f"python_version={py_version}\n")
+          PY
+
+      - name: Compose pull request body
+        if: steps.changes.outputs.any_changed == 'true'
+        id: pr_body
+        env:
+          UPSTREAM_SHA: ${{ steps.upstream.outputs.resolved_sha }}
+          REQUEST_REASON: ${{ steps.request.outputs.reason }}
+          TYPESCRIPT_CHANGED: ${{ steps.changes.outputs.typescript_changed }}
+          PYTHON_CHANGED: ${{ steps.changes.outputs.python_changed }}
+          TYPESCRIPT_VERSION: ${{ steps.metadata.outputs.typescript_version }}
+          PYTHON_VERSION: ${{ steps.metadata.outputs.python_version }}
+          TYPESCRIPT_BUMP: ${{ steps.request.outputs.typescript_bump }}
+          PYTHON_BUMP: ${{ steps.request.outputs.python_bump }}
+        run: |
+          {
+            echo "body<<'EOF'"
+            echo "## Summary"
+            echo
+            echo "- Sync generated SDK artifacts from \`tiangong-lca/tidas-tools\` commit \`$UPSTREAM_SHA\`."
+            if [ "$TYPESCRIPT_CHANGED" = "true" ]; then
+              echo "- Release TypeScript package \`@tiangong-lca/tidas-sdk\` as \`$TYPESCRIPT_VERSION\` (\`$TYPESCRIPT_BUMP\` bump)."
+            fi
+            if [ "$PYTHON_CHANGED" = "true" ]; then
+              echo "- Release Python package \`tidas-sdk\` as \`$PYTHON_VERSION\` (\`$PYTHON_BUMP\` bump)."
+            fi
+            if [ -n "$REQUEST_REASON" ]; then
+              echo
+              echo "## Trigger reason"
+              echo
+              echo "$REQUEST_REASON"
+            fi
+            echo
+            echo "## Validation"
+            echo
+            if [ "$TYPESCRIPT_CHANGED" = "true" ]; then
+              echo "- \`./scripts/ci/verify-typescript-package.sh\`"
+            fi
+            if [ "$PYTHON_CHANGED" = "true" ]; then
+              echo "- \`./scripts/ci/verify-python-package.sh\`"
+            fi
+            echo "EOF"
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Create or update release-prep pull request
+        if: steps.changes.outputs.any_changed == 'true'
+        id: create_pr
+        uses: peter-evans/create-pull-request@v7
+        with:
+          token: ${{ secrets.TIDAS_RELEASE_AUTOMATION_TOKEN }}
+          add-paths: |
+            sdks/typescript
+            sdks/python
+          branch: ${{ steps.upstream.outputs.branch_name }}
+          base: main
+          delete-branch: false
+          commit-message: "chore: sync SDKs from tidas-tools ${{ steps.upstream.outputs.short_sha }}"
+          title: "chore: sync SDKs from tidas-tools ${{ steps.upstream.outputs.short_sha }}"
+          body: ${{ steps.pr_body.outputs.body }}
+          author: "tidas-sdk automation <actions@github.com>"
+          committer: "tidas-sdk automation <actions@github.com>"
+
+      - name: Report pull request
+        if: steps.changes.outputs.any_changed == 'true'
+        run: |
+          echo "Pull request number: ${{ steps.create_pr.outputs.pull-request-number }}"
+          echo "Pull request URL: ${{ steps.create_pr.outputs.pull-request-url }}"
