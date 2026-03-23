@@ -98,11 +98,21 @@ class TidasEntity(Generic[ModelT]):
         for key, value in data.items():
             setattr(self, key, deep_wrap_multilang(value))
 
-    def to_json(self, *, by_alias: bool = True, exclude_none: bool = True) -> dict[str, Any]:
+    def to_json(
+        self,
+        *,
+        by_alias: bool = True,
+        exclude_none: bool = True,
+        mode: Literal["python", "json"] = "python",
+    ) -> dict[str, Any]:
         """
         Convert entity contents to a JSON serialisable dict.
         """
-        result = self._model.model_dump(by_alias=by_alias, exclude_none=exclude_none)
+        result = self._model.model_dump(
+            by_alias=by_alias,
+            exclude_none=exclude_none,
+            mode=mode,
+        )
         return result
 
     def to_json_string(self, **kwargs: Any) -> str:
@@ -131,16 +141,16 @@ class TidasEntity(Generic[ModelT]):
         """
         Run validation using either Pydantic, JSON Schema, or both.
         """
-        data = self.to_json(by_alias=True, exclude_none=False)
+        jsonschema_data = self.to_json(by_alias=True, exclude_none=True, mode="json")
         success = True
 
         if mode in ("pydantic", "both"):
-            success = self._validate_with_pydantic(data) and success
+            success = self._validate_with_pydantic(jsonschema_data) and success
         else:
             object.__setattr__(self, "_last_pydantic_error", None)
 
         if mode in ("jsonschema", "both"):
-            success = self._validate_with_jsonschema(data) and success
+            success = self._validate_with_jsonschema(jsonschema_data) and success
         else:
             object.__setattr__(self, "_last_jsonschema_errors", None)
 
@@ -205,8 +215,13 @@ class TidasEntity(Generic[ModelT]):
 
         if errors:
             messages = []
+            seen: set[tuple[str, str]] = set()
             for error in errors:
                 path = self._format_error_path(error)
+                fingerprint = (path, error.message)
+                if fingerprint in seen:
+                    continue
+                seen.add(fingerprint)
                 messages.append(f"{path}: {error.message}")
             object.__setattr__(self, "_last_jsonschema_errors", messages)
             return False

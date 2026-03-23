@@ -53,3 +53,8 @@ def test_flow_jsonschema_validation_returns_validation_errors_not_execution_erro
     errors = entity.jsonschema_errors()
     assert errors
     assert all("Schema validation failed to execute" not in message for message in errors)
+    assert all("None is not of type 'string'" not in message for message in errors)
+    assert all("datetime.datetime" not in message for message in errors)
+    assert any("treatmentStandardsRoutes" in message for message in errors)
+    assert any("mixAndLocationTypes" in message for message in errors)
+    assert any("common:synonyms" in message for message in errors)
