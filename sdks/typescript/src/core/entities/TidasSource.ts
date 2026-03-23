@@ -3,6 +3,7 @@ import { SourceSchema } from '../../schemas';
 import { Source } from '../../types';
 import { ValidationConfig } from '../config/ValidationConfig';
 import { MultiLangArray } from '../../types/multi-lang-types';
+import { randomUUID } from '../../utils/uuid';
 
 /**
  * TIDAS Source entity - pure data container
@@ -64,7 +65,7 @@ export class TidasSource extends TidasEntity<Source> {
     ) {
       this.setNestedValue(
         'sourceDataSet.sourceInformation.dataSetInformation.common:UUID',
-        crypto.randomUUID()
+        randomUUID()
       );
     }
 

@@ -3,6 +3,7 @@ import { ContactSchema } from '../../schemas';
 import { Contact } from '../../types';
 import { ValidationConfig } from '../config/ValidationConfig';
 import { MultiLangArray } from '../../types/multi-lang-types';
+import { randomUUID } from '../../utils/uuid';
 
 /**
  * TIDAS Contact entity - simplified pure data container
@@ -64,7 +65,7 @@ export class TidasContact extends TidasEntity<Contact> {
     ) {
       this.setNestedValue(
         'contactDataSet.contactInformation.dataSetInformation.common:UUID',
-        crypto.randomUUID()
+        randomUUID()
       );
     }
 

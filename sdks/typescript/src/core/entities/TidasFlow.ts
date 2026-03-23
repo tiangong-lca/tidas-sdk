@@ -9,6 +9,7 @@ import {
   joinTexts,
   pickShortDescription,
 } from '../../utils/markdown';
+import { randomUUID } from '../../utils/uuid';
 
 /**
  * TIDAS Flow entity - pure data container
@@ -71,7 +72,7 @@ export class TidasFlow extends TidasEntity<Flow> {
     ) {
       this.setNestedValue(
         'flowDataSet.flowInformation.dataSetInformation.common:UUID',
-        crypto.randomUUID()
+        randomUUID()
       );
     }
 

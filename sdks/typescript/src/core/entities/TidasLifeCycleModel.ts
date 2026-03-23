@@ -9,6 +9,7 @@ import {
   joinTexts,
   pickShortDescription,
 } from '../../utils/markdown';
+import { randomUUID } from '../../utils/uuid';
 
 /**
  * TIDAS LifeCycleModel entity - pure data container
@@ -74,7 +75,7 @@ export class TidasLifeCycleModel extends TidasEntity<LifeCycleModel> {
     ) {
       this.setNestedValue(
         'lifeCycleModelDataSet.lifeCycleModelInformation.dataSetInformation.common:UUID',
-        crypto.randomUUID()
+        randomUUID()
       );
     }
 

@@ -3,6 +3,7 @@ import { FlowPropertySchema } from '../../schemas';
 import { FlowProperty } from '../../types';
 import { ValidationConfig } from '../config/ValidationConfig';
 import { MultiLangArray } from '../../types/multi-lang-types';
+import { randomUUID } from '../../utils/uuid';
 
 /**
  * TIDAS FlowProperty entity - pure data container
@@ -67,7 +68,7 @@ export class TidasFlowProperty extends TidasEntity<FlowProperty> {
     ) {
       this.setNestedValue(
         'flowPropertyDataSet.flowPropertiesInformation.dataSetInformation.common:UUID',
-        crypto.randomUUID()
+        randomUUID()
       );
     }
 
