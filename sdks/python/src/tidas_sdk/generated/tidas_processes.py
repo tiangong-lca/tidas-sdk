@@ -27,9 +27,9 @@ from datetime import datetime
 
 class ProcessInformationDataSetInformationName(TidasBaseModel):
     """General descriptive and specifying name of the process."""
-    base_name: MultiLangList = Field(default_factory=MultiLangList, alias='baseName')
-    treatment_standards_routes: MultiLangList = Field(default_factory=MultiLangList, alias='treatmentStandardsRoutes')
-    mix_and_location_types: MultiLangList = Field(default_factory=MultiLangList, alias='mixAndLocationTypes')
+    base_name: MultiLangList = Field(default=..., alias='baseName')
+    treatment_standards_routes: MultiLangList = Field(default=..., alias='treatmentStandardsRoutes')
+    mix_and_location_types: MultiLangList = Field(default=..., alias='mixAndLocationTypes')
     functional_unit_flow_properties: MultiLangList = Field(default_factory=MultiLangList, alias='functionalUnitFlowProperties')
     common_other: str | None = Field(default=None, alias='common:other')
 
@@ -73,7 +73,7 @@ class ProcessDataSetProcessInformationDataSetInformation(TidasBaseModel):
     common_synonyms: MultiLangList = Field(default_factory=MultiLangList, alias='common:synonyms', description='Synonyms / alternative names / brands of the good, service, or process. Separated by semicolon.')
     complementing_processes: ProcessInformationDataSetInformationComplementingProcesses | None = Field(default=None, alias='complementingProcesses')
     classification_information: ProcessInformationDataSetInformationClassificationInformation = Field(default=..., alias='classificationInformation', description='Hierarchical or flat classification of the good, service or function that is provided by this life cycle model; typically used to structure database contents in LCA software, among other purposes. (Note: This entry is NOT required for the identification of a Life cycle model, but it should nevertheless be avoided to use identical names for Life cycle model data sets in the same class. The ILCD classifications are defined in the ILCDClassifications.xml file, for common use.)')
-    common_general_comment: MultiLangList = Field(default_factory=MultiLangList, alias='common:generalComment', description='Free text for general information about the Flow data set. It may contain information about e.g. the use of the substance, good, service or process in a specific technology or industry-context, information sources used, data selection principles etc.')
+    common_general_comment: MultiLangList = Field(default=..., alias='common:generalComment', description='Free text for general information about the Flow data set. It may contain information about e.g. the use of the substance, good, service or process in a specific technology or industry-context, information sources used, data selection principles etc.')
     reference_to_external_documentation: GlobalReferenceType | None = Field(default=None, alias='referenceToExternalDocumentation', description='"Source data set(s)" of detailed LCA study on the process or product represented by this data set, as well as documents / files with overarching documentative information on technology, geographical and / or time aspects etc. (e.g. basic engineering studies, process simulation results, patents, plant documentation, model behind the parameterisation of the "Mathematical model" section, etc.) (Note: can indirectly reference to digital file.)')
     common_other: str | None = Field(default=None, alias='common:other')
 
@@ -110,7 +110,7 @@ class ProcessDataSetProcessInformationGeography(TidasBaseModel):
     common_other: str | None = Field(default=None, alias='common:other')
 
 class ProcessDataSetProcessInformationTechnology(TidasBaseModel):
-    technology_description_and_included_processes: MultiLangList = Field(default_factory=MultiLangList, alias='technologyDescriptionAndIncludedProcesses', description='Description of the technological characteristics including operating conditions of the process or product system. For the latter this includes the relevant upstream and downstream processes included in the data set. Professional terminology should be used.')
+    technology_description_and_included_processes: MultiLangList = Field(default=..., alias='technologyDescriptionAndIncludedProcesses', description='Description of the technological characteristics including operating conditions of the process or product system. For the latter this includes the relevant upstream and downstream processes included in the data set. Professional terminology should be used.')
     reference_to_included_processes: GlobalReferenceType | None = Field(default=None, alias='referenceToIncludedProcesses', description='"Process data set(s)" included in this data set, if any and available as separate data set(s).')
     technological_applicability: MultiLangList = Field(default_factory=MultiLangList, alias='technologicalApplicability', description='Description of the intended / possible applications of the good, service, or process. E.g. for which type of products the material, represented by this data set, is used. Examples: "This high purity chemical is used for analytical laboratories only." or "This technical quality bulk chemical is used for large scale synthesis in chemical industry.". Or: "This truck is used only for long-distance transport of liquid bulk chemicals".')
     reference_to_technology_pictogramme: GlobalReferenceType | None = Field(default=None, alias='referenceToTechnologyPictogramme', description='"Source data set" of the pictogramme of the good, service, technogy, plant etc. represented by this data set. For use in graphical user interfaces of LCA software.')
@@ -155,7 +155,7 @@ class ProcessDataSetModellingAndValidationLCIMethodAndAllocation(TidasBaseModel)
     common_other: str | None = Field(default=None, alias='common:other')
 
 class ProcessDataSetModellingAndValidationDataSourcesTreatmentAndRepresentativeness(TidasBaseModel):
-    data_cut_off_and_completeness_principles: MultiLangList = Field(default_factory=MultiLangList, alias='dataCutOffAndCompletenessPrinciples', description='Principles applied in data collection regarding completeness of (also intermediate) product and waste flows and of elementary flows. Examples are: cut-off rules, systematic exclusion of infrastructure, services or auxiliaries, etc. systematic exclusion of air in incineration processes, coling water, etc.')
+    data_cut_off_and_completeness_principles: MultiLangList = Field(default=..., alias='dataCutOffAndCompletenessPrinciples', description='Principles applied in data collection regarding completeness of (also intermediate) product and waste flows and of elementary flows. Examples are: cut-off rules, systematic exclusion of infrastructure, services or auxiliaries, etc. systematic exclusion of air in incineration processes, coling water, etc.')
     deviations_from_cut_off_and_completeness_principles: MultiLangList = Field(default_factory=MultiLangList, alias='deviationsFromCutOffAndCompletenessPrinciples', description='Short description of any deviations from the "Data completeness principles". In case of no (result relevant) deviations, "none" is entered.')
     data_selection_and_combination_principles: MultiLangList = Field(default_factory=MultiLangList, alias='dataSelectionAndCombinationPrinciples', description='Principles applied in data selection and in combination of data from different sources. Includes brief discussion of consistency of data sources regarding data itself, modelling, appropriateness. In case of averaging: Principles and data selection applied in horizontal and / or vertical averaging.')
     deviations_from_selection_and_combination_principles: MultiLangList = Field(default_factory=MultiLangList, alias='deviationsFromSelectionAndCombinationPrinciples', description='Short description of any deviations from the "Data selection and combination principles". In case of no (result relevant) deviations, "none" is entered.')
@@ -268,7 +268,7 @@ class ProcessDataSetAdministrativeInformationCommonCommissionerAndGoal(TidasBase
     """Basic information about goal and scope of the data set."""
     common_reference_to_commissioner: GlobalReferenceType = Field(default=..., alias='common:referenceToCommissioner', description='"Contact data set" of the commissioner / financing party of the data collection / compilation and of the data set modelling. For groups of commissioners, each single organisation should be named. For data set updates and for direct use of data from formerly commissioned studies, also the original commissioner should be named.')
     common_project: MultiLangList = Field(default_factory=MultiLangList, alias='common:project', description='Extract of the information items linked to goal and scope of LCIA method modeling.')
-    common_intended_applications: MultiLangList = Field(default_factory=MultiLangList, alias='common:intendedApplications', description='Documentation of the intended application(s) of data collection and data set modelling. This indicates / includes information on the level of detail, the specifidity, and the quality ambition in the effort.')
+    common_intended_applications: MultiLangList = Field(default=..., alias='common:intendedApplications', description='Documentation of the intended application(s) of data collection and data set modelling. This indicates / includes information on the level of detail, the specifidity, and the quality ambition in the effort.')
     common_other: str | None = Field(default=None, alias='common:other')
 
 class ProcessDataSetAdministrativeInformationDataGenerator(TidasBaseModel):

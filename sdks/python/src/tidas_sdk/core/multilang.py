@@ -3,6 +3,7 @@ Utilities for handling ILCD multi-language text arrays.
 """
 from __future__ import annotations
 
+import re
 from typing import Any, Iterable, MutableSequence, TypedDict
 
 
@@ -11,6 +12,8 @@ MultiLangItem = TypedDict(
     {"@xml:lang": str, "#text": str},
     total=False,
 )
+
+CHINESE_CHARACTER_PATTERN = re.compile(r"[\u3400-\u4DBF\u4E00-\u9FFF\uF900-\uFAFF]")
 
 
 class MultiLangList(list[MultiLangItem]):
@@ -32,6 +35,7 @@ class MultiLangList(list[MultiLangItem]):
         """
         Upsert the text for a specific locale.
         """
+        validate_multilang_item({"@xml:lang": lang, "#text": text})
         for entry in self:
             if entry.get("@xml:lang") == lang:
                 entry["#text"] = text
@@ -71,6 +75,29 @@ def _is_multilang_list(value: Any) -> bool:
     if not value:
         return False
     return all(_is_multilang_item(entry) for entry in value)
+
+
+def validate_multilang_item(value: MultiLangItem) -> None:
+    lang = value.get("@xml:lang")
+    text = value.get("#text")
+
+    if not isinstance(lang, str) or not isinstance(text, str):
+        return
+
+    if re.match(r"^[zZ][hH](?:-|$)", lang) and not CHINESE_CHARACTER_PATTERN.search(text):
+        raise ValueError(
+            "@xml:lang values starting with 'zh' must include at least one Chinese character"
+        )
+
+    if re.match(r"^[eE][nN](?:-|$)", lang) and CHINESE_CHARACTER_PATTERN.search(text):
+        raise ValueError(
+            "@xml:lang values starting with 'en' must not contain Chinese characters"
+        )
+
+
+def validate_multilang_entries(values: Iterable[MultiLangItem]) -> None:
+    for value in values:
+        validate_multilang_item(value)
 
 
 def wrap_multilang(value: Any) -> Any:

@@ -67,3 +67,17 @@ def test_multilang_aliases_reference_localized_text_models() -> None:
     assert get_origin(ft_array_type) is list
     assert get_args(ft_array_type) == (LocalizedTextItem,)
     assert ft_item_type is LocalizedTextItem
+
+
+def test_localized_text_item_rejects_en_text_with_chinese_characters() -> None:
+    with pytest.raises(ValidationError):
+        LocalizedTextItem.model_validate(
+            {"@xml:lang": "en", "#text": "天工LCA数据团队"}
+        )
+
+
+def test_localized_text_item_rejects_zh_text_without_chinese_characters() -> None:
+    with pytest.raises(ValidationError):
+        LocalizedTextItem.model_validate(
+            {"@xml:lang": "zh", "#text": "Tiangong LCA Data Team"}
+        )

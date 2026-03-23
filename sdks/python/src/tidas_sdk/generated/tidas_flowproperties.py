@@ -31,7 +31,7 @@ class FlowPropertiesInformationDataSetInformationClassificationInformation(Tidas
 
 class FlowPropertyDataSetFlowPropertiesInformationDataSetInformation(TidasBaseModel):
     common_uuid: UUID = Field(default=..., alias='common:UUID', description='Automatically generated Universally Unique Identifier of this data set. Together with the "Data set version", the UUID uniquely identifies each data set.')
-    common_name: MultiLangList = Field(default_factory=MultiLangList, alias='common:name', description='Name of flow property.')
+    common_name: MultiLangList = Field(default=..., alias='common:name', description='Name of flow property.')
     common_synonyms: MultiLangList = Field(default_factory=MultiLangList, alias='common:synonyms', description='Synonyms are alternative names for the "Name" of the Flow property.')
     classification_information: FlowPropertiesInformationDataSetInformationClassificationInformation = Field(default=..., alias='classificationInformation', description='Hierachical classification of the Flow property foreseen to be used to structure the Flow property content of the database. (Note: This entry is NOT required for the identification of the Flow property data set. It should nevertheless be avoided to use identical names for Flow properties in the same class.')
     common_general_comment: MultiLangList = Field(default_factory=MultiLangList, alias='common:generalComment', description='Free text for general information about the data set. It may contain comments on e.g. information sources used as well as general (internal, not reviewed) quality statements.')

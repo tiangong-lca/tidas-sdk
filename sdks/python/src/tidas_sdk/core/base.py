@@ -9,11 +9,12 @@ import json
 from pathlib import Path
 from typing import Any, ClassVar, Generic, Literal, Sequence, TypeVar, cast, get_args, get_origin
 
-from jsonschema import Draft202012Validator, ValidationError as JsonSchemaValidationError  # type: ignore[import-untyped]
-from pydantic import BaseModel, ConfigDict, ValidationError as PydanticValidationError
+from jsonschema import ValidationError as JsonSchemaValidationError, validators  # type: ignore[import-untyped]
+from pydantic import BaseModel, ConfigDict, ValidationError as PydanticValidationError, model_validator
+from referencing import Registry, Resource
 
-from .multilang import MultiLangList, deep_wrap_multilang
-from tidas_sdk.schemas import load_schema, schema_exists
+from .multilang import MultiLangList, deep_wrap_multilang, validate_multilang_entries
+from tidas_sdk.schemas import load_schema, load_schema_store, schema_exists
 
 
 class TidasBaseModel(BaseModel):
@@ -28,6 +29,17 @@ class TidasBaseModel(BaseModel):
         arbitrary_types_allowed=True,
         use_enum_values=True,
     )
+
+    @model_validator(mode="after")
+    def _validate_multilang_fields(self) -> "TidasBaseModel":
+        for field_name in self.__class__.model_fields:
+            try:
+                value = getattr(self, field_name)
+            except AttributeError:
+                continue
+            if isinstance(value, MultiLangList):
+                validate_multilang_entries(value)
+        return self
 
 
 ModelT = TypeVar("ModelT", bound=TidasBaseModel)
@@ -176,7 +188,12 @@ class TidasEntity(Generic[ModelT]):
 
         try:
             schema = load_schema(schema_name)
-            validator = Draft202012Validator(schema)
+            validator_cls = validators.validator_for(schema)
+            validator_cls.check_schema(schema)
+            validator = validator_cls(
+                schema,
+                registry=self._build_schema_registry(),
+            )
             errors = sorted(validator.iter_errors(data), key=lambda err: list(err.path))
         except Exception as exc:
             object.__setattr__(
@@ -201,6 +218,13 @@ class TidasEntity(Generic[ModelT]):
     def _format_error_path(error: JsonSchemaValidationError) -> str:
         path_segments = [str(segment) for segment in error.path]
         return "/".join(path_segments) if path_segments else "<root>"
+
+    @staticmethod
+    def _build_schema_registry() -> Registry:
+        registry = Registry()
+        for uri, schema in load_schema_store().items():
+            registry = registry.with_resource(uri, Resource.from_contents(schema))
+        return registry
 
     # -- loading helpers ------------------------------------------------------------------
 

@@ -22,9 +22,9 @@ from .tidas_locations_category import LocationsCategory
 from datetime import datetime
 
 class FlowInformationDataSetInformationName(TidasBaseModel):
-    base_name: MultiLangList = Field(default_factory=MultiLangList, alias='baseName')
-    treatment_standards_routes: MultiLangList = Field(default_factory=MultiLangList, alias='treatmentStandardsRoutes')
-    mix_and_location_types: MultiLangList = Field(default_factory=MultiLangList, alias='mixAndLocationTypes')
+    base_name: MultiLangList = Field(default=..., alias='baseName')
+    treatment_standards_routes: MultiLangList = Field(default=..., alias='treatmentStandardsRoutes')
+    mix_and_location_types: MultiLangList = Field(default=..., alias='mixAndLocationTypes')
     flow_properties: MultiLangList = Field(default_factory=MultiLangList, alias='flowProperties')
     common_other: str | None = Field(default=None, alias='common:other')
 
