@@ -9,6 +9,7 @@ import {
   joinTexts,
   pickShortDescription,
 } from '../../utils/markdown';
+import { randomUUID } from '../../utils/uuid';
 
 /**
  * TIDAS Process entity - pure data container
@@ -80,7 +81,7 @@ export class TidasProcess extends TidasEntity<Process> {
     ) {
       this.setNestedValue(
         'processDataSet.processInformation.dataSetInformation.common:UUID',
-        crypto.randomUUID()
+        randomUUID()
       );
     }
 

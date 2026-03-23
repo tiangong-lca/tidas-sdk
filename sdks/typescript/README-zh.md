@@ -225,8 +225,10 @@ clonedContact.contactDataSet.contactInformation.dataSetInformation['common:name'
   { '@xml:lang': 'zh', '#text': '张博士（副本）' }
 ];
 
+// 如需手动生成 UUID，可先从 @tiangong-lca/tidas-sdk/utils 引入 randomUUID
+
 // 为克隆体生成新的 UUID
-clonedContact.contactDataSet.contactInformation.dataSetInformation['common:UUID'] = crypto.randomUUID();
+clonedContact.contactDataSet.contactInformation.dataSetInformation['common:UUID'] = randomUUID();
 ```
 
 ### 7. 实体关系

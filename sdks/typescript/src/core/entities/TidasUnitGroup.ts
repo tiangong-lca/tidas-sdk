@@ -3,6 +3,7 @@ import { UnitGroupSchema } from '../../schemas';
 import { UnitGroup } from '../../types';
 import { ValidationConfig } from '../config/ValidationConfig';
 import { MultiLangArray } from '../../types/multi-lang-types';
+import { randomUUID } from '../../utils/uuid';
 
 /**
  * TIDAS UnitGroup entity - pure data container
@@ -68,7 +69,7 @@ export class TidasUnitGroup extends TidasEntity<UnitGroup> {
     ) {
       this.setNestedValue(
         'unitGroupDataSet.unitGroupInformation.dataSetInformation.common:UUID',
-        crypto.randomUUID()
+        randomUUID()
       );
     }
 

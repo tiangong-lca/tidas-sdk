@@ -23,6 +23,7 @@ import {
 } from '@tiangong-lca/tidas-sdk/core';
 
 import { Contact, Flow, Process } from '@tiangong-lca/tidas-sdk/types';
+import { randomUUID } from '@tiangong-lca/tidas-sdk/utils';
 
 // Example 1: Batch Entity Creation
 console.log('=== Example 1: Batch Entity Creation ===');
@@ -220,7 +221,7 @@ clonedContact.contactDataSet.contactInformation.dataSetInformation[
 // Generate new UUID for the clone
 clonedContact.contactDataSet.contactInformation.dataSetInformation[
   'common:UUID'
-] = crypto.randomUUID();
+] = randomUUID();
 
 const originalContactName =
   originalContact.contactDataSet.contactInformation.dataSetInformation[

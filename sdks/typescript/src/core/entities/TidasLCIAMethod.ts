@@ -3,6 +3,7 @@ import { LCIAMethodSchema } from '../../schemas';
 import { LCIAMethod } from '../../types';
 import { ValidationConfig } from '../config/ValidationConfig';
 import { MultiLangArray } from '../../types/multi-lang-types';
+import { randomUUID } from '../../utils/uuid';
 
 /**
  * TIDAS LCIAMethod entity - pure data container
@@ -68,7 +69,7 @@ export class TidasLCIAMethod extends TidasEntity<LCIAMethod> {
     ) {
       this.setNestedValue(
         'LCIAMethodDataSet.LCIAMethodInformation.dataSetInformation.common:UUID',
-        crypto.randomUUID()
+        randomUUID()
       );
     }
 
