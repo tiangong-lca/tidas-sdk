@@ -4,13 +4,17 @@ Source: tidas_data_types.json
 """
 from __future__ import annotations
 
+import re
+
 from typing import Annotated
 
-from pydantic import Field
+from pydantic import Field, model_validator
 from tidas_sdk.core.base import TidasBaseModel
 from tidas_sdk.core.multilang import MultiLangList
 
 from datetime import datetime
+
+CHINESE_CHARACTER_PATTERN = re.compile(r'[\u3400-\u4DBF\u4E00-\u9FFF\uF900-\uFAFF]')
 
 # CAS Number, leading zeros are requried.
 CASNumber = Annotated[str, Field(pattern='^[0-9]{2,7}-[0-9]{2}-[0-9]$')]
@@ -50,29 +54,53 @@ class LocalizedTextItem(TidasBaseModel):
     xml_lang: str = Field(default=..., alias='@xml:lang')
     text: str = Field(default=..., alias='#text')
 
+    @model_validator(mode='after')
+    def _validate_language_script(self) -> 'LocalizedTextItem':
+        if re.match(r'^[zZ][hH](?:-|$)', self.xml_lang) and not CHINESE_CHARACTER_PATTERN.search(self.text):
+            raise ValueError("@xml:lang values starting with 'zh' must include at least one Chinese character")
+        if re.match(r'^[eE][nN](?:-|$)', self.xml_lang) and CHINESE_CHARACTER_PATTERN.search(self.text):
+            raise ValueError("@xml:lang values starting with 'en' must not contain Chinese characters")
+        return self
+
 class LocalizedText500Item(LocalizedTextItem):
     """Language-tagged text with a maximum length of 500 characters."""
     xml_lang: str = Field(default=..., alias='@xml:lang')
     text: str = Field(default=..., alias='#text', max_length=500)
+
+    @model_validator(mode='after')
+    def _validate_language_script(self) -> 'LocalizedText500Item':
+        if re.match(r'^[zZ][hH](?:-|$)', self.xml_lang) and not CHINESE_CHARACTER_PATTERN.search(self.text):
+            raise ValueError("@xml:lang values starting with 'zh' must include at least one Chinese character")
+        if re.match(r'^[eE][nN](?:-|$)', self.xml_lang) and CHINESE_CHARACTER_PATTERN.search(self.text):
+            raise ValueError("@xml:lang values starting with 'en' must not contain Chinese characters")
+        return self
 
 class LocalizedText1000Item(LocalizedTextItem):
     """Language-tagged text with a maximum length of 1000 characters."""
     xml_lang: str = Field(default=..., alias='@xml:lang')
     text: str = Field(default=..., alias='#text', max_length=1000)
 
+    @model_validator(mode='after')
+    def _validate_language_script(self) -> 'LocalizedText1000Item':
+        if re.match(r'^[zZ][hH](?:-|$)', self.xml_lang) and not CHINESE_CHARACTER_PATTERN.search(self.text):
+            raise ValueError("@xml:lang values starting with 'zh' must include at least one Chinese character")
+        if re.match(r'^[eE][nN](?:-|$)', self.xml_lang) and CHINESE_CHARACTER_PATTERN.search(self.text):
+            raise ValueError("@xml:lang values starting with 'en' must not contain Chinese characters")
+        return self
+
 class GlobalReferenceTypeVariant0(TidasBaseModel):
     type: str = Field(default=..., alias='@type')
     ref_object_id: str = Field(default=..., alias='@refObjectId', pattern='^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$')
     version: str = Field(default=..., alias='@version')
     uri: str = Field(default=..., alias='@uri')
-    common_short_description: MultiLangList = Field(default_factory=MultiLangList, alias='common:shortDescription')
+    common_short_description: MultiLangList = Field(default=..., alias='common:shortDescription')
 
 class GlobalReferenceTypeVariant1Item(TidasBaseModel):
     type: str = Field(default=..., alias='@type')
     ref_object_id: str = Field(default=..., alias='@refObjectId', pattern='^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$')
     version: str = Field(default=..., alias='@version')
     uri: str = Field(default=..., alias='@uri')
-    common_short_description: MultiLangList = Field(default_factory=MultiLangList, alias='common:shortDescription')
+    common_short_description: MultiLangList = Field(default=..., alias='common:shortDescription')
 
 class DataTypes(TidasBaseModel):
     pass

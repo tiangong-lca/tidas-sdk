@@ -27,6 +27,14 @@ if str(SRC_DIR) not in sys.path:
     sys.path.insert(0, str(SRC_DIR))
 
 
+LOCALIZED_TEXT_MODEL_NAMES = {
+    "LocalizedTextItem",
+    "LocalizedText500Item",
+    "LocalizedText1000Item",
+}
+CHINESE_CHARACTER_PATTERN = r"[\u3400-\u4DBF\u4E00-\u9FFF\uF900-\uFAFF]"
+
+
 def resolve_default_schemas_dir() -> Path:
     env_root = Path(value) if (value := os.environ.get("TIDAS_TOOLS_PATH")) else None
     candidates = [
@@ -139,6 +147,9 @@ class SchemaGenerator:
         return converter.convert()
 
     def _render_module(self, source_name: str, artifact: ModuleArtifact) -> str:
+        needs_localized_text_validators = any(
+            model.name in LOCALIZED_TEXT_MODEL_NAMES for model in artifact.models
+        )
         lines = [
             '"""',
             "Auto generated file. DO NOT EDIT.",
@@ -148,12 +159,19 @@ class SchemaGenerator:
             "",
         ]
 
+        if needs_localized_text_validators:
+            lines.append("import re")
+            lines.append("")
+
         if artifact.typing_imports:
             imports = ", ".join(sorted(artifact.typing_imports))
             lines.append(f"from typing import {imports}")
             lines.append("")
 
-        lines.append("from pydantic import Field")
+        pydantic_imports = ["Field"]
+        if needs_localized_text_validators:
+            pydantic_imports.append("model_validator")
+        lines.append(f"from pydantic import {', '.join(pydantic_imports)}")
         lines.append("from tidas_sdk.core.base import TidasBaseModel")
         if artifact.needs_multilang:
             lines.append("from tidas_sdk.core.multilang import MultiLangList")
@@ -161,6 +179,12 @@ class SchemaGenerator:
         for import_line in sorted(artifact.standard_imports):
             lines.append(import_line)
         if artifact.standard_imports:
+            lines.append("")
+
+        if needs_localized_text_validators:
+            lines.append(
+                f"CHINESE_CHARACTER_PATTERN = re.compile(r'{CHINESE_CHARACTER_PATTERN}')"
+            )
             lines.append("")
 
         if artifact.scalar_definitions_pre:
@@ -187,8 +211,8 @@ class SchemaGenerator:
 
         return "\n".join(lines)
 
-    @staticmethod
-    def _render_model(model: ModelDef) -> list[str]:
+    @classmethod
+    def _render_model(cls, model: ModelDef) -> list[str]:
         base = model.base_class or "TidasBaseModel"
         lines: list[str] = [f"class {model.name}({base}):"]
         if model.description:
@@ -227,7 +251,27 @@ class SchemaGenerator:
             )
             lines.append(field_line)
 
+        validator_lines = cls._render_localized_text_validator(model.name)
+        if validator_lines:
+            lines.append("")
+            lines.extend(validator_lines)
+
         return lines
+
+    @staticmethod
+    def _render_localized_text_validator(model_name: str) -> list[str]:
+        if model_name not in LOCALIZED_TEXT_MODEL_NAMES:
+            return []
+
+        return [
+            "    @model_validator(mode='after')",
+            f"    def _validate_language_script(self) -> '{model_name}':",
+            "        if re.match(r'^[zZ][hH](?:-|$)', self.xml_lang) and not CHINESE_CHARACTER_PATTERN.search(self.text):",
+            "            raise ValueError(\"@xml:lang values starting with 'zh' must include at least one Chinese character\")",
+            "        if re.match(r'^[eE][nN](?:-|$)', self.xml_lang) and CHINESE_CHARACTER_PATTERN.search(self.text):",
+            "            raise ValueError(\"@xml:lang values starting with 'en' must not contain Chinese characters\")",
+            "        return self",
+        ]
 
     def _write_package_init(self) -> None:
         if not self.generated_index:
@@ -411,9 +455,12 @@ class SchemaConverter:
         if self._is_multilang_container(prop_schema):
             self.needs_multilang = True
             type_hint = "MultiLangList"
-            default_factory = "MultiLangList"
-            is_required = False
-            default_value = None
+            if is_required:
+                default_factory = None
+                default_value = "..."
+            else:
+                default_factory = "MultiLangList"
+                default_value = None
         else:
             type_hint = self._determine_type(current_parent_path, prop_name, prop_schema)
             default_factory = self._default_factory(prop_schema)
@@ -1159,6 +1206,7 @@ def sanitize_docstring(text: str) -> str:
 
 
 def parse_args() -> argparse.Namespace:
+    script_root = Path(__file__).resolve().parents[1]
     parser = argparse.ArgumentParser(
         description="Generate Python SDK models from JSON Schema files."
     )
@@ -1171,7 +1219,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--output",
         type=Path,
-        default=Path("../src/tidas_sdk/generated"),
+        default=script_root / "src/tidas_sdk/generated",
         help="Output directory for generated modules.",
     )
     return parser.parse_args()

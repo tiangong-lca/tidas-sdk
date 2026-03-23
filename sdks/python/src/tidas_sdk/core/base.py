@@ -9,11 +9,12 @@ import json
 from pathlib import Path
 from typing import Any, ClassVar, Generic, Literal, Sequence, TypeVar, cast, get_args, get_origin
 
-from jsonschema import Draft202012Validator, ValidationError as JsonSchemaValidationError  # type: ignore[import-untyped]
-from pydantic import BaseModel, ConfigDict, ValidationError as PydanticValidationError
+from jsonschema import ValidationError as JsonSchemaValidationError, validators  # type: ignore[import-untyped]
+from pydantic import BaseModel, ConfigDict, ValidationError as PydanticValidationError, model_validator
+from referencing import Registry, Resource
 
-from .multilang import MultiLangList, deep_wrap_multilang
-from tidas_sdk.schemas import load_schema, schema_exists
+from .multilang import MultiLangList, deep_wrap_multilang, validate_multilang_entries
+from tidas_sdk.schemas import load_schema, load_schema_store, schema_exists
 
 
 class TidasBaseModel(BaseModel):
@@ -28,6 +29,17 @@ class TidasBaseModel(BaseModel):
         arbitrary_types_allowed=True,
         use_enum_values=True,
     )
+
+    @model_validator(mode="after")
+    def _validate_multilang_fields(self) -> "TidasBaseModel":
+        for field_name in self.__class__.model_fields:
+            try:
+                value = getattr(self, field_name)
+            except AttributeError:
+                continue
+            if isinstance(value, MultiLangList):
+                validate_multilang_entries(value)
+        return self
 
 
 ModelT = TypeVar("ModelT", bound=TidasBaseModel)
@@ -86,11 +98,21 @@ class TidasEntity(Generic[ModelT]):
         for key, value in data.items():
             setattr(self, key, deep_wrap_multilang(value))
 
-    def to_json(self, *, by_alias: bool = True, exclude_none: bool = True) -> dict[str, Any]:
+    def to_json(
+        self,
+        *,
+        by_alias: bool = True,
+        exclude_none: bool = True,
+        mode: Literal["python", "json"] = "python",
+    ) -> dict[str, Any]:
         """
         Convert entity contents to a JSON serialisable dict.
         """
-        result = self._model.model_dump(by_alias=by_alias, exclude_none=exclude_none)
+        result = self._model.model_dump(
+            by_alias=by_alias,
+            exclude_none=exclude_none,
+            mode=mode,
+        )
         return result
 
     def to_json_string(self, **kwargs: Any) -> str:
@@ -119,16 +141,16 @@ class TidasEntity(Generic[ModelT]):
         """
         Run validation using either Pydantic, JSON Schema, or both.
         """
-        data = self.to_json(by_alias=True, exclude_none=False)
+        jsonschema_data = self.to_json(by_alias=True, exclude_none=True, mode="json")
         success = True
 
         if mode in ("pydantic", "both"):
-            success = self._validate_with_pydantic(data) and success
+            success = self._validate_with_pydantic(jsonschema_data) and success
         else:
             object.__setattr__(self, "_last_pydantic_error", None)
 
         if mode in ("jsonschema", "both"):
-            success = self._validate_with_jsonschema(data) and success
+            success = self._validate_with_jsonschema(jsonschema_data) and success
         else:
             object.__setattr__(self, "_last_jsonschema_errors", None)
 
@@ -176,7 +198,12 @@ class TidasEntity(Generic[ModelT]):
 
         try:
             schema = load_schema(schema_name)
-            validator = Draft202012Validator(schema)
+            validator_cls = validators.validator_for(schema)
+            validator_cls.check_schema(schema)
+            validator = validator_cls(
+                schema,
+                registry=self._build_schema_registry(),
+            )
             errors = sorted(validator.iter_errors(data), key=lambda err: list(err.path))
         except Exception as exc:
             object.__setattr__(
@@ -188,8 +215,13 @@ class TidasEntity(Generic[ModelT]):
 
         if errors:
             messages = []
+            seen: set[tuple[str, str]] = set()
             for error in errors:
                 path = self._format_error_path(error)
+                fingerprint = (path, error.message)
+                if fingerprint in seen:
+                    continue
+                seen.add(fingerprint)
                 messages.append(f"{path}: {error.message}")
             object.__setattr__(self, "_last_jsonschema_errors", messages)
             return False
@@ -201,6 +233,13 @@ class TidasEntity(Generic[ModelT]):
     def _format_error_path(error: JsonSchemaValidationError) -> str:
         path_segments = [str(segment) for segment in error.path]
         return "/".join(path_segments) if path_segments else "<root>"
+
+    @staticmethod
+    def _build_schema_registry() -> Registry:
+        registry = Registry()
+        for uri, schema in load_schema_store().items():
+            registry = registry.with_resource(uri, Resource.from_contents(schema))
+        return registry
 
     # -- loading helpers ------------------------------------------------------------------
 
