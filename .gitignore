@@ -44,6 +44,7 @@ docs/
 !docs/
 docs/*
 !docs/release-setup.md
+!docs/upstream-automation.md
 CLAUDE.md
 
 # kiro

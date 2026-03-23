@@ -2,6 +2,50 @@
 
 This document captures the one-time repository and registry configuration required for the `tidas-sdk` release workflows.
 
+## Cross-Repository Automation
+
+If you want `tiangong-lca/tidas-tools` changes to automatically rebuild and release the SDK packages in this repository, use the architecture described in [upstream-automation.md](./upstream-automation.md).
+
+Recommended model:
+
+- `tidas-tools` detects SDK-relevant upstream changes
+- `tidas-tools` dispatches into `tiangong-lca/tidas-sdk`
+- `tidas-sdk` regenerates SDKs from the exact upstream SHA and opens a release-prep PR
+- after merge, `tidas-sdk` creates package tags
+- the existing `publish.yml` workflow publishes from those tags
+
+Current workflow files:
+
+- `.github/workflows/sync-from-tidas-tools.yml`
+- `.github/workflows/tag-release-from-merge.yml`
+- `.github/workflows/publish.yml`
+
+Important constraint:
+
+- if tag creation is automated, do not rely on the default workflow `GITHUB_TOKEN` for those tag pushes
+- use a GitHub App token or fine-grained PAT so the downstream tag-triggered publish workflow can run as expected
+
+Operational preference:
+
+- keep registry ownership and Trusted Publishing configuration in `tiangong-lca/tidas-sdk`
+- keep `publish.yml` as the formal package release entrypoint
+- automate PR creation and tag creation, not cross-repository direct publishing
+
+Required secrets:
+
+- in `tiangong-lca/tidas-sdk`: `TIDAS_RELEASE_AUTOMATION_TOKEN`
+- in `tiangong-lca/tidas-tools`: `TIDAS_SDK_AUTOMATION_TOKEN`
+
+The current workflows expect a token that can:
+
+- read `tiangong-lca/tidas-tools`
+- push automation branches to `tiangong-lca/tidas-sdk`
+- open PRs in `tiangong-lca/tidas-sdk`
+- create tag refs in `tiangong-lca/tidas-sdk`
+- create a repository dispatch event from `tiangong-lca/tidas-tools` into `tiangong-lca/tidas-sdk`
+
+If you prefer a GitHub App instead of a PAT, keep the same secret names but update the workflows to mint an installation token at runtime.
+
 ## GitHub Repository
 
 Create these protected environments in `tiangong-lca/tidas-sdk`:

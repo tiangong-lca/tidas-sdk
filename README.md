@@ -60,6 +60,7 @@ tidas-sdk/
 
 - **Repository Workflow**: [AGENTS.md](./AGENTS.md)
 - **Release Setup**: [docs/release-setup.md](./docs/release-setup.md)
+- **Upstream Automation Design**: [docs/upstream-automation.md](./docs/upstream-automation.md)
 - **TypeScript Release Guide**: [sdks/typescript/RELEASE.md](./sdks/typescript/RELEASE.md)
 - **Python Release Guide**: [sdks/python/RELEASE.md](./sdks/python/RELEASE.md)
 
@@ -109,6 +110,8 @@ Normal releases are tag-driven and published by GitHub Actions:
 
 - TypeScript package: create `typescript-vX.Y.Z` on the merged release commit
 - Python package: create `python-vX.Y.Z` on the merged release commit
+
+If you want `tidas-tools` changes to automatically regenerate and release these packages, see [docs/upstream-automation.md](./docs/upstream-automation.md).
 
 Use these local verification commands before opening a release PR:
 

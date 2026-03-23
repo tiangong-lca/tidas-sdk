@@ -1,0 +1,255 @@
+# Upstream Automation Design
+
+This document describes the recommended cross-repository automation path for keeping `tidas-sdk` in sync with upstream changes from `tiangong-lca/tidas-tools`.
+
+This is a design document, not a statement that the repository already runs this automation today. The current production release path remains the existing tag-driven workflow until the automation workflows and repository settings are actually introduced.
+
+The goal is:
+
+1. `tidas-tools` changes in a way that affects generated SDK content.
+2. `tidas-sdk` regenerates the Python and TypeScript SDKs from the exact upstream commit.
+3. If generated output changes, `tidas-sdk` opens a release-prep PR.
+4. After the PR is merged, `tidas-sdk` creates package tags.
+5. Existing tag-driven release automation publishes the packages.
+
+## Design Principles
+
+- `tidas-sdk` remains the package-owning repository.
+- npm and PyPI publishing stay in `tidas-sdk/.github/workflows/publish.yml`.
+- `tidas-tools` should trigger sync, not publish packages directly.
+- Auto-generated code changes should still land through a normal PR for review and CI.
+- TypeScript and Python package versions stay independent.
+
+## Recommended Flow
+
+```text
+tidas-tools push/merge
+  -> detect SDK-relevant upstream change
+  -> repository_dispatch to tiangong-lca/tidas-sdk
+  -> tidas-sdk sync workflow regenerates SDKs from exact tidas-tools SHA
+  -> if no diff: stop
+  -> if diff: bump package versions, commit bot branch, open PR
+  -> merge PR
+  -> tidas-sdk post-merge workflow creates package tag(s)
+  -> publish.yml runs from package tag(s)
+  -> npm / PyPI release completes
+```
+
+## Why This Split
+
+This design keeps ownership aligned:
+
+- `tidas-tools` owns schemas, conversion logic, and the upstream trigger.
+- `tidas-sdk` owns generated artifacts, package versions, PR review, tags, and publishing.
+
+That avoids a fragile setup where one repository publishes another repository's packages or silently changes package metadata outside the owning repo.
+
+## Workflow Layout
+
+### 1. `tidas-tools`: upstream change detector
+
+Add a workflow in `tiangong-lca/tidas-tools` that runs on merges to `main` and filters for SDK-relevant paths.
+
+Recommended responsibilities:
+
+- decide whether the merged change should trigger SDK regeneration
+- determine which package families are affected:
+  - `typescript`
+  - `python`
+  - `both`
+- determine the default version bump:
+  - `patch`
+  - `minor`
+  - `major`
+- send a `repository_dispatch` event to `tiangong-lca/tidas-sdk`
+
+Recommended dispatch payload:
+
+```json
+{
+  "event_type": "tidas_tools_changed",
+  "client_payload": {
+    "tidas_tools_sha": "<merged commit sha>",
+    "tidas_tools_ref": "refs/heads/main",
+    "packages": ["typescript", "python"],
+    "typescript_bump": "patch",
+    "python_bump": "patch",
+    "reason": "schema update"
+  }
+}
+```
+
+Use `repository_dispatch` instead of `workflow_dispatch` so the sender does not need Actions write permission on the target repository.
+
+### 2. `tidas-sdk`: sync and release-prep PR
+
+Add a workflow in `tiangong-lca/tidas-sdk` that runs on:
+
+- `repository_dispatch` with type `tidas_tools_changed`
+- optional manual `workflow_dispatch` for recovery or re-run
+
+Current implementation file:
+
+- `.github/workflows/sync-from-tidas-tools.yml`
+
+Recommended responsibilities:
+
+1. check out `tidas-sdk`
+2. check out `tiangong-lca/tidas-tools` at `client_payload.tidas_tools_sha`
+3. regenerate SDKs with:
+   - `TIDAS_TOOLS_SOURCE_MODE=auto`
+   - `TIDAS_TOOLS_PATH=<checked out tools path>`
+4. run local parity checks:
+   - `./scripts/ci/verify-typescript-package.sh`
+   - `./scripts/ci/verify-python-package.sh`
+5. detect whether TypeScript and/or Python outputs changed
+6. bump only the affected package version(s)
+7. commit changes to a bot branch
+8. open or update a release-prep PR against `main`
+
+Recommended branch name:
+
+- `automation/tidas-tools-sync-<short-sha>`
+
+Recommended PR body content:
+
+- upstream `tidas-tools` commit SHA
+- affected packages
+- version bump choice
+- generation summary
+- verification commands used
+
+### 3. `tidas-sdk`: post-merge auto-tagging
+
+Add a workflow in `tiangong-lca/tidas-sdk` that runs after the automation PR merges to `main`.
+
+Current implementation file:
+
+- `.github/workflows/tag-release-from-merge.yml`
+
+Recommended responsibilities:
+
+1. inspect the merged commit
+2. detect which package version(s) changed compared with the previous `main` commit
+3. create release tag(s):
+   - `typescript-vX.Y.Z`
+   - `python-vX.Y.Z`
+4. push those tags
+
+Important constraint:
+
+If the repository still relies on tag pushes to trigger `publish.yml`, the tag push must be created with a GitHub App token or PAT. A tag created with the default workflow `GITHUB_TOKEN` may not trigger the downstream publish workflow as intended.
+
+### 4. `tidas-sdk`: existing publish workflow
+
+No architectural change is required for:
+
+- `.github/workflows/publish.yml`
+
+That workflow should remain the package publishing entrypoint because npm and PyPI Trusted Publishing both bind to the concrete repository workflow identity.
+
+## Required GitHub Configuration
+
+### Authentication
+
+Use one shared GitHub App installed on both repositories, or a tightly scoped fine-grained PAT if an App is not available yet.
+
+GitHub App is preferred because it is easier to audit and rotate.
+
+Recommended permissions:
+
+- `Contents: Read and write`
+- `Pull requests: Read and write`
+- `Metadata: Read`
+
+If you choose `workflow_dispatch` instead of `repository_dispatch`, also grant:
+
+- `Actions: Read and write`
+
+### Secrets
+
+In `tidas-tools`:
+
+- `TIDAS_SDK_AUTOMATION_TOKEN`
+  - fine-grained PAT today, or a future GitHub App installation token minted at runtime
+  - must be able to dispatch into `tiangong-lca/tidas-sdk`
+
+In `tidas-sdk`:
+
+- `TIDAS_RELEASE_AUTOMATION_TOKEN`
+  - fine-grained PAT today, or a future GitHub App installation token minted at runtime
+  - must be able to push automation branches, open PRs, and create release tags
+
+If the same GitHub App is used in both repositories, the workflows can mint installation tokens at runtime instead of storing long-lived PATs.
+
+### Environments and registries
+
+Keep the existing environments:
+
+- `npm-release`
+- `pypi-release`
+
+Keep Trusted Publishing bound to:
+
+- repository: `tiangong-lca/tidas-sdk`
+- workflow: `.github/workflows/publish.yml`
+
+If fully unattended publishing is desired, update environment protection rules and trusted publisher expectations deliberately. Otherwise keep release approvals in place and automate only up to tag creation.
+
+## Version Bump Policy
+
+Recommended default policy:
+
+- schema-compatible additive change: `minor`
+- generator-only fix with no API break: `patch`
+- breaking schema or generated API change: `major`
+
+Implementation options:
+
+- simple mode: `tidas-tools` dispatch payload explicitly includes bump levels
+- managed mode: `tidas-tools` labels PRs and the workflow maps labels to bump levels
+- conservative mode: default to `patch` and let reviewers adjust the release-prep PR before merge
+
+For the first implementation, conservative mode is the safest.
+
+## Change Detection Rules
+
+Recommended behavior inside the `tidas-sdk` sync workflow:
+
+- if no generated output changes, do not open a PR
+- if only TypeScript files changed, bump and release only TypeScript
+- if only Python files changed, bump and release only Python
+- if both changed, prepare both releases in one PR but create independent tags after merge
+
+Do not force both packages to release together when only one generated surface changed.
+
+## Failure Handling
+
+Recommended safeguards:
+
+- if generation fails, fail the workflow and leave logs in the workflow run
+- if verification fails, fail before opening a PR
+- if a matching automation PR already exists for the same upstream SHA, update it instead of opening duplicates
+- if release tags already exist, fail fast instead of force-pushing or retagging
+- if publishing fails after tag creation, recover through the normal tag-based release process instead of rewriting history
+
+## Minimal Rollout Plan
+
+Implement in this order:
+
+1. add the `tidas-sdk` sync workflow with manual `workflow_dispatch` only
+2. validate branch push, PR creation, generation, and diff detection
+3. add post-merge auto-tagging in `tidas-sdk`
+4. confirm tags created by the chosen token successfully trigger `publish.yml`
+5. add `tidas-tools` automatic dispatch on merge to `main`
+
+This sequence reduces risk because `tidas-sdk` can be proven end to end before `tidas-tools` starts triggering it automatically.
+
+## Non-Goals
+
+This design does not recommend:
+
+- publishing `tidas-sdk` packages directly from `tidas-tools`
+- bypassing PR review for generated artifact changes
+- replacing `publish.yml` with a reusable workflow
+- coupling Python and TypeScript to one mandatory shared version number
