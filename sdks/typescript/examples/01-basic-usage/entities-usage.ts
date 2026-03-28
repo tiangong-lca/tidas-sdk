@@ -57,10 +57,7 @@ contact.contactDataSet.contactInformation.dataSetInformation.email =
 contact.contactDataSet.contactInformation.dataSetInformation.telefax =
   '+1-555-0123';
 
-console.log(
-  'Contact name:',
-  contact.contactDataSet.contactInformation.dataSetInformation['common:name']
-);
+console.log('Contact names:', { en: enName, fr: frName });
 console.log(
   'Contact validation:',
   contact.validate().success ? 'PASSED' : 'FAILED'

@@ -68,7 +68,7 @@ export async function saveDiffToFile(
   original: any,
   improved: any,
   outputPath: string,
-  options?: {
+  _options?: {
     title?: string;
     description?: string;
     theme?: 'light' | 'dark';
@@ -103,12 +103,14 @@ export function generateDiffSummary(
 
       if (JSON.stringify(originalValue) !== JSON.stringify(improvedValue)) {
         summary.push(`📝 ${path}:`);
-        const originalStr = originalValue !== undefined 
-          ? JSON.stringify(originalValue, null, 2).substring(0, 100)
-          : 'undefined';
-        const improvedStr = improvedValue !== undefined
-          ? JSON.stringify(improvedValue, null, 2).substring(0, 100)
-          : 'undefined';
+        const originalStr =
+          originalValue !== undefined
+            ? JSON.stringify(originalValue, null, 2).substring(0, 100)
+            : 'undefined';
+        const improvedStr =
+          improvedValue !== undefined
+            ? JSON.stringify(improvedValue, null, 2).substring(0, 100)
+            : 'undefined';
         summary.push(`  Before: ${originalStr}...`);
         summary.push(`  After:  ${improvedStr}...`);
         summary.push('');

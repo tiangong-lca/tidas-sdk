@@ -230,8 +230,10 @@ export class TidasFlow extends TidasEntity<Flow> {
     const version = this.dataSetVersion(dataset);
     if (version) lines.push(`**Version:** ${version}`);
 
-    const { name: refPropName, value: refPropValue } = this.referencePropertySummary(dataset, lang);
-    if (refPropName || refPropValue) lines.push(`**Reference Property:** ${refPropName ?? 'N/A'}`);
+    const { name: refPropName, value: refPropValue } =
+      this.referencePropertySummary(dataset, lang);
+    if (refPropName || refPropValue)
+      lines.push(`**Reference Property:** ${refPropName ?? 'N/A'}`);
     if (refPropValue) lines.push(`**Property Mean:** ${refPropValue}`);
 
     const method = this.methodology(dataset);
@@ -248,30 +250,40 @@ export class TidasFlow extends TidasEntity<Flow> {
 
     if (lines[lines.length - 1] !== '') lines.push('');
 
-    const description = joinTexts((dataInfo as any)?.['common:generalComment'], lang);
+    const description = joinTexts(
+      (dataInfo as any)?.['common:generalComment'],
+      lang
+    );
     if (description) lines.push('## Description', '', description, '');
 
-    const geography = this.geography(flowInfo, lang);
+    const geography = this.geography(flowInfo);
     if (geography) lines.push('## Geography', '', geography, '');
 
     const technology = this.technology(flowInfo, lang);
     if (technology) lines.push('## Technology', '', technology, '');
 
     const flowProps = this.flowProperties(dataset, lang);
-    if (flowProps.length) lines.push('## Flow Properties', '', ...flowProps, '');
+    if (flowProps.length)
+      lines.push('## Flow Properties', '', ...flowProps, '');
 
     if (lines[lines.length - 1] === '') lines.pop();
     return lines.join('\n');
   }
 
   private composeTitle(
-    dataInfo: Flow['flowDataSet']['flowInformation']['dataSetInformation'] | undefined,
+    dataInfo:
+      | Flow['flowDataSet']['flowInformation']['dataSetInformation']
+      | undefined,
     lang: string
   ): string {
     if (!dataInfo) return 'Flow';
     const nameObj = dataInfo.name;
     const parts: string[] = [];
-    for (const field of ['baseName', 'mixAndLocationTypes', 'treatmentStandardsRoutes'] as const) {
+    for (const field of [
+      'baseName',
+      'mixAndLocationTypes',
+      'treatmentStandardsRoutes',
+    ] as const) {
       const part = joinTexts((nameObj as any)?.[field], lang, ' | ');
       if (part) parts.push(part);
     }
@@ -282,11 +294,13 @@ export class TidasFlow extends TidasEntity<Flow> {
     dataset: Flow['flowDataSet'],
     lang: string
   ): { name?: string; value?: string } {
-    const refId = dataset?.flowInformation?.quantitativeReference?.referenceToReferenceFlowProperty;
+    const refId =
+      dataset?.flowInformation?.quantitativeReference
+        ?.referenceToReferenceFlowProperty;
     if (refId === undefined || refId === null) return {};
     const properties = ensureArray<any>(dataset?.flowProperties?.flowProperty);
     const refItem = properties.find(
-      item => String(item?.['@dataSetInternalID'] ?? '') === String(refId)
+      (item) => String(item?.['@dataSetInternalID'] ?? '') === String(refId)
     );
     if (!refItem) return {};
     const refInfo = (refItem as any).referenceToFlowPropertyDataSet;
@@ -295,14 +309,20 @@ export class TidasFlow extends TidasEntity<Flow> {
     return { name, value };
   }
 
-  private classificationPath(dataInfo: Flow['flowDataSet']['flowInformation']['dataSetInformation'] | undefined): string | undefined {
+  private classificationPath(
+    dataInfo:
+      | Flow['flowDataSet']['flowInformation']['dataSetInformation']
+      | undefined
+  ): string | undefined {
     if (!dataInfo?.classificationInformation) return undefined;
     const classification = dataInfo.classificationInformation as any;
     const container =
       classification['common:elementaryFlowCategorization'] ??
       classification['common:classification'] ??
       classification.commonClassification;
-    const categories = ensureArray<any>(container?.['common:category'] ?? container?.['common:class']);
+    const categories = ensureArray<any>(
+      container?.['common:category'] ?? container?.['common:class']
+    );
     if (!categories.length) return undefined;
     const sorted = categories.slice().sort((a, b) => {
       const aLevel = Number((a as any)['@level']);
@@ -312,27 +332,41 @@ export class TidasFlow extends TidasEntity<Flow> {
       if (Number.isNaN(bLevel)) return -1;
       return aLevel - bLevel;
     });
-    const parts = sorted.map(entry => String((entry as any)['#text'] ?? '')).filter(Boolean);
+    const parts = sorted
+      .map((entry) => String((entry as any)['#text'] ?? ''))
+      .filter(Boolean);
     return parts.length ? parts.join(' > ') : undefined;
   }
 
-  private dataSetVersion(dataset: Flow['flowDataSet'] | undefined): string | undefined {
-    return dataset?.administrativeInformation?.publicationAndOwnership?.['common:dataSetVersion'];
+  private dataSetVersion(
+    dataset: Flow['flowDataSet'] | undefined
+  ): string | undefined {
+    return dataset?.administrativeInformation?.publicationAndOwnership?.[
+      'common:dataSetVersion'
+    ];
   }
 
-  private geography(flowInfo: Flow['flowDataSet']['flowInformation'] | undefined, lang: string): string | undefined {
+  private geography(
+    flowInfo: Flow['flowDataSet']['flowInformation'] | undefined
+  ): string | undefined {
     const location = flowInfo?.geography?.locationOfSupply;
     if (!location) return undefined;
     return `**Location of Supply:** ${location}`;
   }
 
-  private technology(flowInfo: Flow['flowDataSet']['flowInformation'] | undefined, lang: string): string | undefined {
+  private technology(
+    flowInfo: Flow['flowDataSet']['flowInformation'] | undefined,
+    lang: string
+  ): string | undefined {
     return joinTexts(flowInfo?.technology?.technologicalApplicability, lang);
   }
 
-  private flowProperties(dataset: Flow['flowDataSet'] | undefined, lang: string): string[] {
+  private flowProperties(
+    dataset: Flow['flowDataSet'] | undefined,
+    lang: string
+  ): string[] {
     const items = ensureArray<any>(dataset?.flowProperties?.flowProperty);
-    return items.map(item => {
+    return items.map((item) => {
       const ref = (item as any).referenceToFlowPropertyDataSet;
       const name = pickShortDescription(ref, lang) ?? 'Flow property';
       const mean = formatNumber((item as any).meanValue);
@@ -340,9 +374,13 @@ export class TidasFlow extends TidasEntity<Flow> {
     });
   }
 
-  private methodology(dataset: Flow['flowDataSet'] | undefined): string | undefined {
+  private methodology(
+    dataset: Flow['flowDataSet'] | undefined
+  ): string | undefined {
     const lci = dataset?.modellingAndValidation?.LCIMethod;
     if (!lci) return undefined;
-    return lci.typeOfDataSet ? `**Data Set Type:** ${lci.typeOfDataSet}` : undefined;
+    return lci.typeOfDataSet
+      ? `**Data Set Type:** ${lci.typeOfDataSet}`
+      : undefined;
   }
 }

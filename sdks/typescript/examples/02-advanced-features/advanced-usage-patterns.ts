@@ -11,18 +11,14 @@
 import {
   createContactsBatch,
   createFlowsBatch,
-  createProcessesBatch,
   createContact,
   createFlow,
   createProcess,
   createUnitGroup,
   createFlowProperty,
-  TidasContact,
-  TidasFlow,
-  TidasProcess,
 } from '@tiangong-lca/tidas-sdk/core';
 
-import { Contact, Flow, Process } from '@tiangong-lca/tidas-sdk/types';
+import { Contact } from '@tiangong-lca/tidas-sdk/types';
 import { randomUUID } from '@tiangong-lca/tidas-sdk/utils';
 
 // Example 1: Batch Entity Creation
