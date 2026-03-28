@@ -29,6 +29,11 @@
       "types": "./dist/utils/index.d.ts",
       "import": "./dist/utils/index.js",
       "require": "./dist/utils/index.js"
+    },
+    "./parity": {
+      "types": "./dist/parity/index.d.ts",
+      "import": "./dist/parity/index.js",
+      "require": "./dist/parity/index.js"
     }
   },
   "scripts": {
@@ -83,8 +88,8 @@
     "jest": "^30.0.4",
     "prettier": "^3.6.2",
     "ts-jest": "^29.4.0",
-    "tsx": "^4.7.0",
     "ts-node": "^10.9.2",
+    "tsx": "^4.7.0",
     "typescript": "^5.8.3",
     "typescript-eslint": "^8.36.0"
   },

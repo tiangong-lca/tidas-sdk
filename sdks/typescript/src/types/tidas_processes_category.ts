@@ -591,7 +591,7 @@ export type ProcessesCategory =
   | {
       '@level'?: '3';
       '@classId'?: '1622';
-      '#text'?: "Manufacture of builders\' carpentry and joinery";
+      '#text'?: "Manufacture of builders' carpentry and joinery";
     }
   | {
       '@level'?: '3';

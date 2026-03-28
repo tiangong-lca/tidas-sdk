@@ -2704,12 +2704,12 @@ export type FlowsProductCategory =
   | {
       '@level'?: '3';
       '@classId'?: '2318';
-      '#text'?: "Mixes and doughs for the preparation of bakers\' wares";
+      '#text'?: "Mixes and doughs for the preparation of bakers' wares";
     }
   | {
       '@level'?: '4';
       '@classId'?: '23180';
-      '#text'?: "Mixes and doughs for the preparation of bakers\' wares";
+      '#text'?: "Mixes and doughs for the preparation of bakers' wares";
     }
   | {
       '@level'?: '2';
@@ -2802,12 +2802,12 @@ export type FlowsProductCategory =
   | {
       '@level'?: '3';
       '@classId'?: '2349';
-      '#text'?: "Bread and other bakers\' wares";
+      '#text'?: "Bread and other bakers' wares";
     }
   | {
       '@level'?: '4';
       '@classId'?: '23490';
-      '#text'?: "Bread and other bakers\' wares";
+      '#text'?: "Bread and other bakers' wares";
     }
   | { '@level'?: '2'; '@classId'?: '235'; '#text'?: 'Sugar and molasses' }
   | { '@level'?: '3'; '@classId'?: '2351'; '#text'?: 'Raw cane or beet sugar' }
@@ -4003,22 +4003,22 @@ export type FlowsProductCategory =
   | {
       '@level'?: '4';
       '@classId'?: '28221';
-      '#text'?: "Men\'s or boys\' suits, coats, jackets, trousers, shorts and the like, knitted or crocheted";
+      '#text'?: "Men's or boys' suits, coats, jackets, trousers, shorts and the like, knitted or crocheted";
     }
   | {
       '@level'?: '4';
       '@classId'?: '28222';
-      '#text'?: "Men\'s or boys\' shirts, underpants, pyjamas, dressing gowns and similar articles, knitted or crocheted";
+      '#text'?: "Men's or boys' shirts, underpants, pyjamas, dressing gowns and similar articles, knitted or crocheted";
     }
   | {
       '@level'?: '4';
       '@classId'?: '28223';
-      '#text'?: "Women\'s or girls\' suits, coats, jackets, dresses, skirts, trousers, shorts and the like, knitted or crocheted";
+      '#text'?: "Women's or girls' suits, coats, jackets, dresses, skirts, trousers, shorts and the like, knitted or crocheted";
     }
   | {
       '@level'?: '4';
       '@classId'?: '28224';
-      '#text'?: "Women\'s or girls\' blouses, shirts, petticoats, panties, nightdresses, dressing gowns and similar articles, knitted or crocheted";
+      '#text'?: "Women's or girls' blouses, shirts, petticoats, panties, nightdresses, dressing gowns and similar articles, knitted or crocheted";
     }
   | {
       '@level'?: '4';
@@ -4033,7 +4033,7 @@ export type FlowsProductCategory =
   | {
       '@level'?: '4';
       '@classId'?: '28227';
-      '#text'?: "Babies\' garments and clothing accessories, knitted or crocheted";
+      '#text'?: "Babies' garments and clothing accessories, knitted or crocheted";
     }
   | {
       '@level'?: '4';
@@ -4053,27 +4053,27 @@ export type FlowsProductCategory =
   | {
       '@level'?: '4';
       '@classId'?: '28231';
-      '#text'?: "Men\'s or boys\' suits, coats, jackets, trousers, shorts and the like, of textile fabric, not knitted or crocheted";
+      '#text'?: "Men's or boys' suits, coats, jackets, trousers, shorts and the like, of textile fabric, not knitted or crocheted";
     }
   | {
       '@level'?: '4';
       '@classId'?: '28232';
-      '#text'?: "Men\'s or boys\' shirts, singlets, underpants, pyjamas, dressing gowns and similar articles, of textile fabric, not knitted or crocheted";
+      '#text'?: "Men's or boys' shirts, singlets, underpants, pyjamas, dressing gowns and similar articles, of textile fabric, not knitted or crocheted";
     }
   | {
       '@level'?: '4';
       '@classId'?: '28233';
-      '#text'?: "Women\'s or girls\' suits, coats, jackets, dresses, skirts, trousers, shorts and the like, of textile fabric, not knitted or crocheted";
+      '#text'?: "Women's or girls' suits, coats, jackets, dresses, skirts, trousers, shorts and the like, of textile fabric, not knitted or crocheted";
     }
   | {
       '@level'?: '4';
       '@classId'?: '28234';
-      '#text'?: "Women\'s or girls\' blouses, shirts, singlets, petticoats, panties, nightdresses, dressing gowns and similar articles, of textile fabric, not knitted or crocheted";
+      '#text'?: "Women's or girls' blouses, shirts, singlets, petticoats, panties, nightdresses, dressing gowns and similar articles, of textile fabric, not knitted or crocheted";
     }
   | {
       '@level'?: '4';
       '@classId'?: '28235';
-      '#text'?: "Babies\' garments and clothing accessories, of textile fabric, not knitted or crocheted";
+      '#text'?: "Babies' garments and clothing accessories, of textile fabric, not knitted or crocheted";
     }
   | {
       '@level'?: '4';
@@ -4597,14 +4597,14 @@ export type FlowsProductCategory =
   | {
       '@level'?: '2';
       '@classId'?: '316';
-      '#text'?: "Builders\' joinery and carpentry of wood (including cellular wood panels, assembled parquet panels, shingles and shakes)";
+      '#text'?: "Builders' joinery and carpentry of wood (including cellular wood panels, assembled parquet panels, shingles and shakes)";
     }
   | { '@level'?: '3'; '@classId'?: '3161'; '#text'?: 'Cellular board' }
   | { '@level'?: '4'; '@classId'?: '31610'; '#text'?: 'Cellular board' }
   | {
       '@level'?: '3';
       '@classId'?: '3162';
-      '#text'?: "Builder\'s joinery and carpentry of wood";
+      '#text'?: "Builder's joinery and carpentry of wood";
     }
   | {
       '@level'?: '4';
@@ -4644,17 +4644,17 @@ export type FlowsProductCategory =
   | {
       '@level'?: '4';
       '@classId'?: '31629';
-      '#text'?: "Other builder\'s joinery and carpentry of wood and bamboo";
+      '#text'?: "Other builder's joinery and carpentry of wood and bamboo";
     }
   | {
       '@level'?: '2';
       '@classId'?: '317';
-      '#text'?: "Packing cases, boxes, crates, drums and similar packings, of wood; cable-drums of wood; pallets, box pallets and other load boards, of wood; casks, barrels, vats, tubs and other coopers\' products and parts thereof, of wood (including staves)";
+      '#text'?: "Packing cases, boxes, crates, drums and similar packings, of wood; cable-drums of wood; pallets, box pallets and other load boards, of wood; casks, barrels, vats, tubs and other coopers' products and parts thereof, of wood (including staves)";
     }
   | {
       '@level'?: '3';
       '@classId'?: '3170';
-      '#text'?: "Packing cases, boxes, crates, drums and similar packings, of wood; cable-drums of wood; pallets, box pallets and other load boards, of wood; casks, barrels, vats, tubs and other coopers\' products and parts thereof, of wood (including staves)";
+      '#text'?: "Packing cases, boxes, crates, drums and similar packings, of wood; cable-drums of wood; pallets, box pallets and other load boards, of wood; casks, barrels, vats, tubs and other coopers' products and parts thereof, of wood (including staves)";
     }
   | {
       '@level'?: '4';
@@ -4669,7 +4669,7 @@ export type FlowsProductCategory =
   | {
       '@level'?: '4';
       '@classId'?: '31703';
-      '#text'?: "Casks, barrels, vats, tubs and other coopers\' products and parts thereof, of wood, including staves";
+      '#text'?: "Casks, barrels, vats, tubs and other coopers' products and parts thereof, of wood, including staves";
     }
   | {
       '@level'?: '4';
@@ -4943,7 +4943,7 @@ export type FlowsProductCategory =
   | {
       '@level'?: '4';
       '@classId'?: '32292';
-      '#text'?: "Children\'s books, in print";
+      '#text'?: "Children's books, in print";
     }
   | {
       '@level'?: '4';
@@ -5569,17 +5569,17 @@ export type FlowsProductCategory =
   | {
       '@level'?: '2';
       '@classId'?: '344';
-      '#text'?: "Activated natural mineral products; animal black; tall oil; terpenic oils produced by the treatment of coniferous woods; crude dipentene; crude para-cymene; pine oil; rosin and resin acids, and derivatives thereof; rosin spirit and rosin oils; rum gums; wood tar; wood tar oils; wood creosote; wood naphtha; vegetable pitch; brewers\' pitch";
+      '#text'?: "Activated natural mineral products; animal black; tall oil; terpenic oils produced by the treatment of coniferous woods; crude dipentene; crude para-cymene; pine oil; rosin and resin acids, and derivatives thereof; rosin spirit and rosin oils; rum gums; wood tar; wood tar oils; wood creosote; wood naphtha; vegetable pitch; brewers' pitch";
     }
   | {
       '@level'?: '3';
       '@classId'?: '3440';
-      '#text'?: "Activated natural mineral products; animal black; tall oil; terpenic oils produced by the treatment of coniferous woods; crude dipentene; crude para-cymene; pine oil; rosin and resin acids, and derivatives thereof; rosin spirit and rosin oils; rum gums; wood tar; wood tar oils; wood creosote; wood naphtha; vegetable pitch; brewers\' pitch";
+      '#text'?: "Activated natural mineral products; animal black; tall oil; terpenic oils produced by the treatment of coniferous woods; crude dipentene; crude para-cymene; pine oil; rosin and resin acids, and derivatives thereof; rosin spirit and rosin oils; rum gums; wood tar; wood tar oils; wood creosote; wood naphtha; vegetable pitch; brewers' pitch";
     }
   | {
       '@level'?: '4';
       '@classId'?: '34400';
-      '#text'?: "Activated natural mineral products; animal black; tall oil; terpenic oils produced by the treatment of coniferous woods; crude dipentene; crude para-cymene; pine oil; rosin and resin acids, and derivatives thereof; rosin spirit and rosin oils; rum gums; wood tar; wood tar oils; wood creosote; wood naphtha; vegetable pitch; brewers\' pitch";
+      '#text'?: "Activated natural mineral products; animal black; tall oil; terpenic oils produced by the treatment of coniferous woods; crude dipentene; crude para-cymene; pine oil; rosin and resin acids, and derivatives thereof; rosin spirit and rosin oils; rum gums; wood tar; wood tar oils; wood creosote; wood naphtha; vegetable pitch; brewers' pitch";
     }
   | {
       '@level'?: '2';
@@ -5715,7 +5715,7 @@ export type FlowsProductCategory =
   | {
       '@level'?: '4';
       '@classId'?: '34644';
-      '#text'?: "Fertilizers containing two nutrients: nitrogen and phosphorus; other than diammonium phosphate and monoammonium phosphate\'";
+      '#text'?: "Fertilizers containing two nutrients: nitrogen and phosphorus; other than diammonium phosphate and monoammonium phosphate'";
     }
   | {
       '@level'?: '4';
@@ -5848,7 +5848,7 @@ export type FlowsProductCategory =
   | {
       '@level'?: '2';
       '@classId'?: '351';
-      '#text'?: "Paints and varnishes and related products; artists\' colours; ink";
+      '#text'?: "Paints and varnishes and related products; artists' colours; ink";
     }
   | {
       '@level'?: '3';
@@ -5863,12 +5863,12 @@ export type FlowsProductCategory =
   | {
       '@level'?: '3';
       '@classId'?: '3512';
-      '#text'?: "Artists\', students\' or signboard painters\' colours, modifying tints, amusement colours and the like";
+      '#text'?: "Artists', students' or signboard painters' colours, modifying tints, amusement colours and the like";
     }
   | {
       '@level'?: '4';
       '@classId'?: '35120';
-      '#text'?: "Artists\', students\' or signboard painters\' colours, modifying tints, amusement colours and the like";
+      '#text'?: "Artists', students' or signboard painters' colours, modifying tints, amusement colours and the like";
     }
   | { '@level'?: '3'; '@classId'?: '3513'; '#text'?: 'Printing ink' }
   | { '@level'?: '4'; '@classId'?: '35130'; '#text'?: 'Printing ink' }
@@ -6392,12 +6392,12 @@ export type FlowsProductCategory =
   | {
       '@level'?: '3';
       '@classId'?: '3695';
-      '#text'?: "Builders\' ware of plastics n.e.c.";
+      '#text'?: "Builders' ware of plastics n.e.c.";
     }
   | {
       '@level'?: '4';
       '@classId'?: '36950';
-      '#text'?: "Builders\' ware of plastics n.e.c.";
+      '#text'?: "Builders' ware of plastics n.e.c.";
     }
   | {
       '@level'?: '3';
@@ -7113,12 +7113,12 @@ export type FlowsProductCategory =
   | {
       '@level'?: '3';
       '@classId'?: '3851';
-      '#text'?: "Dolls\' carriages; wheeled toys designed to be ridden by children";
+      '#text'?: "Dolls' carriages; wheeled toys designed to be ridden by children";
     }
   | {
       '@level'?: '4';
       '@classId'?: '38510';
-      '#text'?: "Dolls\' carriages; wheeled toys designed to be ridden by children";
+      '#text'?: "Dolls' carriages; wheeled toys designed to be ridden by children";
     }
   | {
       '@level'?: '3';
@@ -7297,7 +7297,7 @@ export type FlowsProductCategory =
   | {
       '@level'?: '3';
       '@classId'?: '3896';
-      '#text'?: "Paintings, drawings and pastels; original engravings, prints and lithographs; original sculptures and statuary, in any material; postage or revenue stamps, stamp-postmarks, first-day covers, postal stationery (stamped paper) and the like; collections and collectors\' pieces of zoological, botanical, mineralogical, anatomical, historical, ethnographic or numismatic interest; antiques";
+      '#text'?: "Paintings, drawings and pastels; original engravings, prints and lithographs; original sculptures and statuary, in any material; postage or revenue stamps, stamp-postmarks, first-day covers, postal stationery (stamped paper) and the like; collections and collectors' pieces of zoological, botanical, mineralogical, anatomical, historical, ethnographic or numismatic interest; antiques";
     }
   | {
       '@level'?: '4';
@@ -7312,7 +7312,7 @@ export type FlowsProductCategory =
   | {
       '@level'?: '4';
       '@classId'?: '38963';
-      '#text'?: "Collections and collectors\' pieces of zoological, botanical, mineralogical, anatomical, historical, ethnographic or numismatic interest; antiques";
+      '#text'?: "Collections and collectors' pieces of zoological, botanical, mineralogical, anatomical, historical, ethnographic or numismatic interest; antiques";
     }
   | {
       '@level'?: '3';
@@ -7376,12 +7376,12 @@ export type FlowsProductCategory =
   | {
       '@level'?: '3';
       '@classId'?: '3911';
-      '#text'?: "Raw offal, inedible (including pigs\' bristles, horse hair, animal guts, bird skins, feathers, bones and ivory)";
+      '#text'?: "Raw offal, inedible (including pigs' bristles, horse hair, animal guts, bird skins, feathers, bones and ivory)";
     }
   | {
       '@level'?: '4';
       '@classId'?: '39110';
-      '#text'?: "Raw offal, inedible (including pigs\' bristles, horse hair, animal guts, bird skins, feathers, bones and ivory)";
+      '#text'?: "Raw offal, inedible (including pigs' bristles, horse hair, animal guts, bird skins, feathers, bones and ivory)";
     }
   | {
       '@level'?: '3';
@@ -8546,7 +8546,7 @@ export type FlowsProductCategory =
   | {
       '@level'?: '4';
       '@classId'?: '42998';
-      '#text'?: "Ships\' propellers and blades therefor";
+      '#text'?: "Ships' propellers and blades therefor";
     }
   | { '@level'?: '4'; '@classId'?: '42999'; '#text'?: 'Metal goods n.e.c.' }
   | { '@level'?: '1'; '@classId'?: '43'; '#text'?: 'General-purpose machinery' }
@@ -10792,12 +10792,12 @@ export type FlowsProductCategory =
   | {
       '@level'?: '3';
       '@classId'?: '4818';
-      '#text'?: "Medical, surgical, dental or veterinary furniture; barbers\' chairs and similar chairs, having rotating as well as both reclining and elevating movements";
+      '#text'?: "Medical, surgical, dental or veterinary furniture; barbers' chairs and similar chairs, having rotating as well as both reclining and elevating movements";
     }
   | {
       '@level'?: '4';
       '@classId'?: '48180';
-      '#text'?: "Medical, surgical, dental or veterinary furniture; barbers\' chairs and similar chairs, having rotating as well as both reclining and elevating movements";
+      '#text'?: "Medical, surgical, dental or veterinary furniture; barbers' chairs and similar chairs, having rotating as well as both reclining and elevating movements";
     }
   | {
       '@level'?: '2';
@@ -12215,7 +12215,7 @@ export type FlowsProductCategory =
   | {
       '@level'?: '4';
       '@classId'?: '61046';
-      '#text'?: "Wholesale trade services, not on a fee or contract basis, of wickerwork, cork goods, cooper\'s ware and other wooden ware";
+      '#text'?: "Wholesale trade services, not on a fee or contract basis, of wickerwork, cork goods, cooper's ware and other wooden ware";
     }
   | {
       '@level'?: '3';
@@ -12561,7 +12561,7 @@ export type FlowsProductCategory =
   | {
       '@level'?: '4';
       '@classId'?: '62146';
-      '#text'?: "Non-specialized store retail trade services, of wickerwork, cork goods, cooper\'s ware and other wooden ware";
+      '#text'?: "Non-specialized store retail trade services, of wickerwork, cork goods, cooper's ware and other wooden ware";
     }
   | {
       '@level'?: '3';
@@ -12876,7 +12876,7 @@ export type FlowsProductCategory =
   | {
       '@level'?: '4';
       '@classId'?: '62246';
-      '#text'?: "Specialized store retail trade services, of wickerwork, cork goods, cooper\'s ware and other wooden ware";
+      '#text'?: "Specialized store retail trade services, of wickerwork, cork goods, cooper's ware and other wooden ware";
     }
   | {
       '@level'?: '3';
@@ -13191,7 +13191,7 @@ export type FlowsProductCategory =
   | {
       '@level'?: '4';
       '@classId'?: '62346';
-      '#text'?: "Mail order or Internet retail trade services, of wickerwork, cork goods, cooper\'s ware and other wooden ware";
+      '#text'?: "Mail order or Internet retail trade services, of wickerwork, cork goods, cooper's ware and other wooden ware";
     }
   | {
       '@level'?: '3';
@@ -13506,7 +13506,7 @@ export type FlowsProductCategory =
   | {
       '@level'?: '4';
       '@classId'?: '62446';
-      '#text'?: "Other non-store retail trade services, of wickerwork, cork goods, cooper\'s ware and other wooden ware";
+      '#text'?: "Other non-store retail trade services, of wickerwork, cork goods, cooper's ware and other wooden ware";
     }
   | {
       '@level'?: '3';
@@ -18770,12 +18770,12 @@ export type FlowsProductCategory =
   | {
       '@level'?: '3';
       '@classId'?: '9132';
-      '#text'?: "Administrative services related to government employee pension schemes; old-age disability or survivors\' benefit schemes, other than for government employees";
+      '#text'?: "Administrative services related to government employee pension schemes; old-age disability or survivors' benefit schemes, other than for government employees";
     }
   | {
       '@level'?: '4';
       '@classId'?: '91320';
-      '#text'?: "Administrative services related to government employee pension schemes; old-age disability or survivors\' benefit schemes, other than for government employees";
+      '#text'?: "Administrative services related to government employee pension schemes; old-age disability or survivors' benefit schemes, other than for government employees";
     }
   | {
       '@level'?: '3';
@@ -19992,12 +19992,12 @@ export type FlowsProductCategory =
   | {
       '@level'?: '3';
       '@classId'?: '9721';
-      '#text'?: "Hairdressing and barbers\' services";
+      '#text'?: "Hairdressing and barbers' services";
     }
   | {
       '@level'?: '4';
       '@classId'?: '97210';
-      '#text'?: "Hairdressing and barbers\' services";
+      '#text'?: "Hairdressing and barbers' services";
     }
   | {
       '@level'?: '3';

@@ -65,24 +65,6 @@ class JsonSchemaToTypeScript {
     this.currentFile = currentFile;
     this.rootSchema = schema;
 
-    // --- 插入 MultiLangArray class 和 MultiLangItem type ---
-    // 检查 schema 是否包含 *MultiLang 类型
-    let needsMultiLangClass = false;
-    const scanForMultiLang = (obj: any) => {
-      if (!obj || typeof obj !== 'object') return;
-      if (
-        obj.title &&
-        typeof obj.title === 'string' &&
-        obj.title.endsWith('MultiLang')
-      ) {
-        needsMultiLangClass = true;
-      }
-      for (const v of Object.values(obj)) {
-        scanForMultiLang(v);
-      }
-    };
-    scanForMultiLang(schema);
-
     // Process $defs first if they exist
     if (schema.$defs) {
       for (const [defName, defSchema] of Object.entries(schema.$defs)) {
@@ -290,7 +272,7 @@ class JsonSchemaToTypeScript {
       ...(extension || {}),
     };
 
-    if ((base?.type === 'object') || (extension?.type === 'object')) {
+    if (base?.type === 'object' || extension?.type === 'object') {
       merged.type = 'object';
     }
 
@@ -304,7 +286,10 @@ class JsonSchemaToTypeScript {
     if (propertyNames.size > 0) {
       merged.properties = {};
       for (const propertyName of propertyNames) {
-        if (propertyName in baseProperties && propertyName in extensionProperties) {
+        if (
+          propertyName in baseProperties &&
+          propertyName in extensionProperties
+        ) {
           merged.properties[propertyName] = this.mergePropertySchema(
             baseProperties[propertyName],
             extensionProperties[propertyName]
@@ -708,7 +693,6 @@ class JsonSchemaToTypeScript {
         const escapedValue = constValue
           .replace(/\\/g, '\\\\') // Escape backslashes first
           .replace(/"/g, '\\"') // Escape double quotes
-          .replace(/'/g, "\\'") // Escape single quotes
           .replace(/\n/g, '\\n') // Escape newlines
           .replace(/\r/g, '\\r') // Escape carriage returns
           .replace(/\t/g, '\\t'); // Escape tabs
@@ -727,7 +711,6 @@ class JsonSchemaToTypeScript {
             const escapedValue = v
               .replace(/\\/g, '\\\\') // Escape backslashes first
               .replace(/"/g, '\\"') // Escape double quotes
-              .replace(/'/g, "\\'") // Escape single quotes
               .replace(/\n/g, '\\n') // Escape newlines
               .replace(/\r/g, '\\r') // Escape carriage returns
               .replace(/\t/g, '\\t'); // Escape tabs

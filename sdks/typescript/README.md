@@ -15,6 +15,7 @@ TypeScript SDK for TIDAS (TianGong Life Cycle Assessment data format) providing 
 - ✅ **Property Access**: Convenient API for accessing nested properties
 - ✅ **Object Utilities**: Factory functions and manipulation utilities
 - ✅ **JSON Conversion**: Seamless serialization/deserialization
+- ✅ **tidas-tools Parity APIs**: Package-level validation compatibility
 
 ## 📦 Installation
 
@@ -31,8 +32,8 @@ import { createTidasContact, TidasContact } from '@tiangong-lca/tidas-sdk';
 
 // Create a contact using factory function
 const contact = createTidasContact({
-  name: "Example Organization",
-  email: "contact@example.com"
+  name: 'Example Organization',
+  email: 'contact@example.com',
 });
 
 // Access properties with type safety
@@ -45,16 +46,16 @@ const json = contact.toJSON();
 ### Advanced Usage
 
 ```typescript
-import { 
+import {
   TidasProcess,
   createTidasProcess,
-  validateTidasData
+  validateTidasData,
 } from '@tiangong-lca/tidas-sdk';
 
 // Create and validate complex objects
 const process = createTidasProcess({
-  name: "Manufacturing Process",
-  description: "Production of electronic components"
+  name: 'Manufacturing Process',
+  description: 'Production of electronic components',
 });
 
 // Validate data
@@ -64,13 +65,24 @@ if (!validation.success) {
 }
 ```
 
+### tidas-tools Parity APIs
+
+```typescript
+import { validatePackageDir } from '@tiangong-lca/tidas-sdk/parity';
+
+const report = validatePackageDir('/path/to/tidas-package');
+if (!report.ok) {
+  console.error(report.issues);
+}
+```
+
 ## 🏗️ Architecture
 
 ### Module Structure
 
 ```typescript
 // Core imports
-import { 
+import {
   // Types
   TidasContact,
   TidasProcess,
@@ -86,7 +98,7 @@ import {
   // Utilities
   validateTidasData,
   convertToJSON,
-  convertFromJSON
+  convertFromJSON,
 } from '@tiangong-lca/tidas-sdk';
 
 // Individual modules

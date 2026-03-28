@@ -1,10 +1,11 @@
-import { createProcess,createContact } from '../../src/core/factories';
+import { createProcess, createContact } from '../../src/core/factories';
 
-const tidasData = createContact()
-console.log(tidasData.contactDataSet)
-tidasData.contactDataSet.administrativeInformation.publicationAndOwnership['common:dataSetVersion'] = '1.0.0'
-console.log(tidasData.contactDataSet)
-
+const tidasData = createContact();
+console.log(tidasData.contactDataSet);
+tidasData.contactDataSet.administrativeInformation.publicationAndOwnership[
+  'common:dataSetVersion'
+] = '1.0.0';
+console.log(tidasData.contactDataSet);
 
 const defaultProcess = createProcess();
 console.log(JSON.stringify(defaultProcess, null, 2));
@@ -374,6 +375,11 @@ const processJson = {
     },
   },
 };
+
+console.log(
+  'Sample process JSON version:',
+  processJson.processDataSet['@version']
+);
 
 defaultProcess.processDataSet.processInformation.dataSetInformation.classificationInformation =
   {

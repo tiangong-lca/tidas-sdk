@@ -2,7 +2,6 @@ import { TidasEntity } from '../base/TidasEntity';
 import { UnitGroupSchema } from '../../schemas';
 import { UnitGroup } from '../../types';
 import { ValidationConfig } from '../config/ValidationConfig';
-import { MultiLangArray } from '../../types/multi-lang-types';
 import { randomUUID } from '../../utils/uuid';
 
 /**
