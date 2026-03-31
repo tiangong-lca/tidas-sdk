@@ -1,7 +1,7 @@
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
-import { validatePackageDir } from './validate';
+import { categoryValidate, validatePackageDir } from './validate';
 
 function packageRoot() {
   return path.resolve(__dirname, '../..');
@@ -157,8 +157,15 @@ function makeCustomInvalidFlowPackage() {
   return dir;
 }
 
+function makeInvalidSourcesCategory() {
+  const dir = makeTempDir('tidas-sdk-validate-sources-');
+  fs.mkdirSync(path.join(dir, 'sources'), { recursive: true });
+  fs.writeFileSync(path.join(dir, 'sources/bad.json'), '{}', 'utf8');
+  return dir;
+}
+
 describe('package validation parity', () => {
-  it('matches the tidas-tools issue count for the example flow package', () => {
+  it('uses runtime JSON schemas for the example flow package', () => {
     const inputDir = makeFlowPackageFromExample();
     const report = validatePackageDir(inputDir);
     const locations = report.issues.map((issue) => issue.location);
@@ -187,12 +194,55 @@ describe('package validation parity', () => {
     );
   });
 
-  it('emits localized text and classification hierarchy issues on top of schema issues', () => {
+  it('reports root-level required-property errors from JSON Schema', () => {
+    const inputDir = makeInvalidSourcesCategory();
+    const report = validatePackageDir(inputDir);
+
+    expect(report.ok).toBe(false);
+    expect(report.summary.issue_count).toBe(1);
+    expect(report.issues).toEqual([
+      expect.objectContaining({
+        issue_code: 'schema_error',
+        category: 'sources',
+        location: '<root>',
+        context: expect.objectContaining({
+          validator: 'required',
+        }),
+        message:
+          "Schema Error at <root>: 'sourceDataSet' is a required property",
+      }),
+    ]);
+  });
+
+  it('avoids cascading classification issues when the schema structure is missing', () => {
+    const inputDir = makeInvalidSourcesCategory();
+    const report = categoryValidate(path.join(inputDir, 'sources'), 'sources', false);
+
+    expect(report.summary.issue_count).toBe(1);
+    expect(report.issues.map((issue) => issue.issue_code)).toEqual([
+      'schema_error',
+    ]);
+  });
+
+  it('adds localized text and classification hierarchy issues on top of schema issues', () => {
     const inputDir = makeCustomInvalidFlowPackage();
     const report = validatePackageDir(inputDir);
     const issueCodes = report.issues.map((issue) => issue.issue_code);
 
-    expect(report.summary.issue_count).toBe(3);
+    expect(report.summary.issue_count).toBeGreaterThan(3);
+    expect(
+      report.issues.filter((issue) => issue.issue_code === 'schema_error').length
+    ).toBeGreaterThan(0);
+    expect(
+      report.issues.filter(
+        (issue) => issue.issue_code === 'localized_text_language_error'
+      ).length
+    ).toBe(1);
+    expect(
+      report.issues.filter(
+        (issue) => issue.issue_code === 'classification_hierarchy_error'
+      ).length
+    ).toBeGreaterThan(0);
     expect(issueCodes).toEqual(
       expect.arrayContaining([
         'schema_error',
