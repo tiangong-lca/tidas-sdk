@@ -121,6 +121,14 @@ function toLocation(pathParts: Array<string | number>) {
   return pathParts.length === 0 ? '<root>' : pathParts.join('/');
 }
 
+function normalizeSchemaMessage(error: ValidationError) {
+  if (error.name === 'required' && typeof error.argument === 'string') {
+    return `'${error.argument}' is a required property`;
+  }
+
+  return error.message;
+}
+
 function createSchemaIssue(
   category: string,
   filePath: string,
@@ -131,8 +139,9 @@ function createSchemaIssue(
     validator: error.name,
   };
 
-  if (error.argument !== undefined) {
-    context.argument = error.argument;
+  const normalizedArgument = normalizeErrorArgument(error.argument);
+  if (normalizedArgument !== undefined) {
+    context.argument = normalizedArgument;
   }
 
   return {
@@ -141,9 +150,50 @@ function createSchemaIssue(
     category,
     file_path: filePath,
     location,
-    message: `Schema Error at ${location}: ${error.message}`,
+    message: `Schema Error at ${location}: ${normalizeSchemaMessage(error)}`,
     context,
   };
+}
+
+function isJsonPrimitive(value: unknown) {
+  return (
+    value === null ||
+    typeof value === 'string' ||
+    typeof value === 'number' ||
+    typeof value === 'boolean'
+  );
+}
+
+function normalizeErrorArgument(argument: unknown) {
+  if (argument === undefined) {
+    return undefined;
+  }
+
+  if (isJsonPrimitive(argument)) {
+    return argument;
+  }
+
+  if (Array.isArray(argument)) {
+    return argument.every((item) => isJsonPrimitive(item)) ? argument : undefined;
+  }
+
+  if (
+    argument &&
+    typeof argument === 'object' &&
+    'id' in argument &&
+    'length' in argument
+  ) {
+    const errorDetail = argument as {
+      id?: unknown;
+      length?: unknown;
+    };
+    return {
+      id: errorDetail.id,
+      length: errorDetail.length,
+    };
+  }
+
+  return undefined;
 }
 
 function createValidationErrorIssue(

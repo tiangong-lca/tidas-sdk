@@ -200,18 +200,20 @@ describe('package validation parity', () => {
 
     expect(report.ok).toBe(false);
     expect(report.summary.issue_count).toBe(1);
-    expect(report.issues).toEqual([
-      expect.objectContaining({
-        issue_code: 'schema_error',
-        category: 'sources',
-        location: '<root>',
-        context: expect.objectContaining({
-          validator: 'required',
+    expect(report.issues).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          issue_code: 'schema_error',
+          category: 'sources',
+          location: '<root>',
+          context: expect.objectContaining({
+            validator: 'required',
+            argument: 'sourceDataSet',
+          }),
+          message: expect.stringContaining('sourceDataSet'),
         }),
-        message:
-          "Schema Error at <root>: 'sourceDataSet' is a required property",
-      }),
-    ]);
+      ])
+    );
   });
 
   it('avoids cascading classification issues when the schema structure is missing', () => {
@@ -228,6 +230,9 @@ describe('package validation parity', () => {
     const inputDir = makeCustomInvalidFlowPackage();
     const report = validatePackageDir(inputDir);
     const issueCodes = report.issues.map((issue) => issue.issue_code);
+    const schemaLocations = report.issues
+      .filter((issue) => issue.issue_code === 'schema_error')
+      .map((issue) => issue.location);
 
     expect(report.summary.issue_count).toBeGreaterThan(3);
     expect(
@@ -248,6 +253,13 @@ describe('package validation parity', () => {
         'schema_error',
         'localized_text_language_error',
         'classification_hierarchy_error',
+      ])
+    );
+    expect(schemaLocations).toEqual(
+      expect.arrayContaining([
+        'flowDataSet/flowInformation/dataSetInformation/name/baseName',
+        'flowDataSet/flowInformation/dataSetInformation/classificationInformation/common:classification/common:class/0',
+        'flowDataSet/flowInformation/dataSetInformation/classificationInformation/common:classification/common:class',
       ])
     );
     expect(report.issues).toEqual(
