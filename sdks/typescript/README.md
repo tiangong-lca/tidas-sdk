@@ -16,12 +16,16 @@ TypeScript SDK for TIDAS (TianGong Life Cycle Assessment data format) providing 
 - ✅ **Object Utilities**: Factory functions and manipulation utilities
 - ✅ **JSON Conversion**: Seamless serialization/deserialization
 - ✅ **tidas-tools Parity APIs**: Package-level validation compatibility
+- ✅ **XML Conversion**: `xmltodict`-backed XML <-> JS object helpers
+- ✅ **Directory Tools**: Batch `.json <-> .xml` conversion plus runtime asset copying
 
 ## 📦 Installation
 
 ```bash
 npm install @tiangong-lca/tidas-sdk
 ```
+
+Node.js `24+` is required.
 
 ## 🔧 Quick Start
 
@@ -75,6 +79,32 @@ if (!report.ok) {
   console.error(report.issues);
 }
 ```
+
+### XML Conversion APIs
+
+```typescript
+import { datasetFromXml, datasetToXml } from '@tiangong-lca/tidas-sdk/xml';
+
+const dataset = datasetFromXml(xmlPayload);
+const xml = datasetToXml(dataset);
+```
+
+### Directory Conversion Tools
+
+```typescript
+import { convertDirectory } from '@tiangong-lca/tidas-sdk/tools';
+
+await convertDirectory('./input', './output', { toXml: true });
+await convertDirectory('./eilcd-data', './tidas-output', { toXml: false });
+```
+
+`convertDirectory()` mirrors the non-export behavior of `tidas-tools convert.py`:
+
+- converts `.json -> .xml` or `.xml -> .json`
+- copies non-converted files into `output/data`
+- copies the packaged `schemas/`, `stylesheets/`, or `methodologies/` assets into the output root
+
+Database export, ZIP publishing, and S3-related workflows remain in `tidas-tools`.
 
 ## 🏗️ Architecture
 
@@ -164,6 +194,9 @@ npm run test:coverage
 # Build
 npm run clean
 npm run build
+
+# Refresh packaged runtime assets from the upstream tidas-tools checkout
+npm run sync-runtime-assets
 ```
 
 ### Testing

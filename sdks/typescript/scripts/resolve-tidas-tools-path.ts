@@ -19,18 +19,18 @@ function isToolsRoot(candidate: string) {
   return existsSync(path.join(candidate, 'src/tidas_tools/tidas'));
 }
 
-export function resolveTidasToolsDir() {
+export function resolveTidasToolsRepoRoot() {
   for (const candidate of candidateRoots()) {
     if (isToolsRoot(candidate)) {
-      return path.join(candidate, 'src/tidas_tools/tidas');
+      return candidate;
     }
   }
 
   return null;
 }
 
-export function requireTidasToolsDir(message?: string) {
-  const resolved = resolveTidasToolsDir();
+export function requireTidasToolsRepoRoot(message?: string) {
+  const resolved = resolveTidasToolsRepoRoot();
 
   if (!resolved) {
     throw new Error(
@@ -40,6 +40,24 @@ export function requireTidasToolsDir(message?: string) {
   }
 
   return resolved;
+}
+
+export function resolveTidasToolsPackageDir() {
+  const repoRoot = resolveTidasToolsRepoRoot();
+  return repoRoot ? path.join(repoRoot, 'src/tidas_tools') : null;
+}
+
+export function requireTidasToolsPackageDir(message?: string) {
+  return path.join(requireTidasToolsRepoRoot(message), 'src/tidas_tools');
+}
+
+export function resolveTidasToolsDir() {
+  const packageDir = resolveTidasToolsPackageDir();
+  return packageDir ? path.join(packageDir, 'tidas') : null;
+}
+
+export function requireTidasToolsDir(message?: string) {
+  return path.join(requireTidasToolsPackageDir(message), 'tidas');
 }
 
 export function requireTidasToolsSchemaDir(message?: string) {

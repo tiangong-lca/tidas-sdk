@@ -12,6 +12,8 @@
 npm install @tiangong-lca/tidas-sdk
 ```
 
+需要 Node.js `24+`。
+
 ### 基本用法
 
 ```typescript
@@ -69,10 +71,14 @@ import * from '@tiangong-lca/tidas-sdk';
 - **运行时验证**：基于 Zod 的验证，支持可配置模式（严格/宽松/忽略）
 - **8 种实体类型**：支持所有核心 TIDAS 实体
 - **JSON 互操作性**：对象与 JSON 之间的无缝转换
+- **XML 转换**：基于 `xmltodict` 的 XML <-> JS 对象双向机械转换
+- **目录工具**：批量 `.json <-> .xml` 转换，并自动复制 `schemas/`、`stylesheets/`、`methodologies/` 等静态资源
 - **批量操作**：高效处理多个实体
 - **多语言支持**：内置多语言文本字段支持
 - **性能优化**：为性能关键场景提供可配置验证
 - **AI 驱动的建议**：使用 TIDAS 方法规则改进数据质量
+
+数据库导出、ZIP 发布、S3 下载等功能仍保留在 `tidas-tools`，不在 TypeScript SDK 的职责范围内。
 
 ## 📚 使用指南
 

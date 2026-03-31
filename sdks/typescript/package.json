@@ -34,15 +34,27 @@
       "types": "./dist/parity/index.d.ts",
       "import": "./dist/parity/index.js",
       "require": "./dist/parity/index.js"
+    },
+    "./xml": {
+      "types": "./dist/xml/index.d.ts",
+      "import": "./dist/xml/index.js",
+      "require": "./dist/xml/index.js"
+    },
+    "./tools": {
+      "types": "./dist/tools/index.d.ts",
+      "import": "./dist/tools/index.js",
+      "require": "./dist/tools/index.js"
     }
   },
   "scripts": {
-    "build": "tsx scripts/bundle-methodologies.ts && tsc",
+    "build": "tsx scripts/bundle-methodologies.ts && tsc && tsx scripts/copy-runtime-assets.ts",
     "dev": "tsc --watch",
     "clean": "rm -rf dist",
     "prebuild": "npm run clean",
     "prepublishOnly": "npm run lint && npm run typecheck && npm test && npm run build",
     "bundle-methodologies": "tsx scripts/bundle-methodologies.ts",
+    "sync-runtime-assets": "tsx scripts/sync-runtime-assets.ts",
+    "copy-runtime-assets": "tsx scripts/copy-runtime-assets.ts",
     "generate-types": "tsx scripts/generate-types.ts",
     "generate-schemas": "tsx scripts/generate-zod-schemas.ts",
     "lint": "eslint .",
@@ -99,12 +111,13 @@
     "LICENSE"
   ],
   "engines": {
-    "node": ">=14.0.0"
+    "node": ">=24.0.0"
   },
   "dependencies": {
     "@langchain/core": "^0.3.72",
     "langchain": "^0.3.31",
     "ts-to-zod": "^3.15.0",
+    "xmltodict": "^1.0.5",
     "yaml": "^2.8.1",
     "zod": "^4.0.5"
   }

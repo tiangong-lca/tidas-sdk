@@ -34,6 +34,8 @@ export * from './types';
 // === Zod Schemas and Validation ===
 export * from './schemas';
 export * from './parity';
+export * from './xml';
+export * from './tools';
 
 export {
   // Zod validation functions
