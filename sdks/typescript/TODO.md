@@ -23,3 +23,7 @@ Status:
 - [x] Phase 5: Add tests for XML round-trip, asset copying, and directory conversion
 - [x] Phase 6: Update docs, package exports, and verification scripts as needed
 - [x] Phase 7: Run validation (`lint`, `typecheck`, `test`, `build`) and finalize
+- [x] Phase 8: Push `feature/issue-19` for review
+- [ ] Phase 9: Open PR for the SDK migration and sync project state
+- [ ] Phase 10: Merge the SDK migration PR
+- [ ] Phase 11: Update workspace integration state after merge
