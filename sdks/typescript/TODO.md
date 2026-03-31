@@ -25,5 +25,5 @@ Status:
 - [x] Phase 7: Run validation (`lint`, `typecheck`, `test`, `build`) and finalize
 - [x] Phase 8: Push `feature/issue-19` for review
 - [x] Phase 9: Open PR for the SDK migration and sync project state
-- [ ] Phase 10: Merge the SDK migration PR
-- [ ] Phase 11: Update workspace integration state after merge
+- [x] Phase 10: Merge the SDK migration PR
+- [x] Phase 11: Update workspace integration state after merge
