@@ -115,6 +115,7 @@
   },
   "dependencies": {
     "@langchain/core": "^0.3.72",
+    "jsonschema": "^1.5.0",
     "langchain": "^0.3.31",
     "ts-to-zod": "^3.15.0",
     "xmltodict": "^1.0.5",
