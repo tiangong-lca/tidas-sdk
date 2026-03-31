@@ -28,14 +28,14 @@ cd sdks/python && uv sync
 ### @tiangong-lca/tidas-sdk (TypeScript)
 
 - **Status**: ✅ Production Ready
-- **Features**: Type-safe data manipulation, validation, schema generation
+- **Features**: Type-safe data manipulation, validation, XML conversion, directory tools, schema generation
 - **Installation**: `npm install @tiangong-lca/tidas-sdk`
 - **Location**: `sdks/typescript/`
 
 ### tidas-tools (Python)
 
 - **Status**: ✅ Production Ready
-- **Features**: Data format conversion, validation, export utilities
+- **Features**: Database/export utilities, legacy Python conversion workflow, upstream schemas/assets
 - **Installation**: `pip install tidas-tools`
 - **Repository**: external upstream package (`tiangong-lca/tidas-tools`)
 
@@ -68,7 +68,7 @@ tidas-sdk/
 
 ### Prerequisites
 
-- **TypeScript SDK**: Node.js 14+, npm
+- **TypeScript SDK**: Node.js 24+, npm
 - **Python SDK/Tools**: Python 3.8+, uv (recommended)
 
 ### Setup
@@ -104,6 +104,8 @@ Both generation scripts resolve `tidas-tools` in this order:
 2. a sibling checkout at `../tidas-tools`
 3. a temporary clone of `tiangong-lca/tidas-tools`
 
+For the TypeScript package, this refresh also syncs the packaged runtime conversion assets copied from `tidas-tools/src/tidas_tools/{tidas,eilcd}`.
+
 ### Release Workflow
 
 Normal releases are tag-driven and published by GitHub Actions:
@@ -126,6 +128,7 @@ Use these local verification commands before opening a release PR:
 
 - TypeScript SDK with full TIDAS schema support
 - Data validation using Zod schemas
+- XML conversion and directory tooling for the non-export `tidas-tools` workflow
 - Property access and manipulation utilities
 - Python tools for data conversion and validation
 - Comprehensive type generation from JSON schemas

@@ -123,7 +123,7 @@ generate_sdk() {
 
     # Step 1: Generate TypeScript types from JSON schemas
     if grep -q '"generate-types"' package.json; then
-        log_info "Step 1/3: Generating TypeScript types from schemas..."
+        log_info "Step 1/4: Generating TypeScript types from schemas..."
         if TIDAS_TOOLS_PATH="$TIDAS_TOOLS_PATH" npm run generate-types; then
             log_info "✓ TypeScript types generated successfully"
         else
@@ -137,7 +137,7 @@ generate_sdk() {
 
     # Step 2: Generate Zod validation schemas
     if grep -q '"generate-schemas"' package.json; then
-        log_info "Step 2/3: Generating Zod validation schemas..."
+        log_info "Step 2/4: Generating Zod validation schemas..."
         if TIDAS_TOOLS_PATH="$TIDAS_TOOLS_PATH" npm run generate-schemas; then
             log_info "✓ Zod schemas generated successfully"
         else
@@ -151,11 +151,22 @@ generate_sdk() {
 
     # Step 3: Bundle methodologies (根据 build script)
     if grep -q '"bundle-methodologies"' package.json; then
-        log_info "Step 3/3: Bundling LCIA methodologies..."
+        log_info "Step 3/4: Bundling LCIA methodologies..."
         if TIDAS_TOOLS_PATH="$TIDAS_TOOLS_PATH" npm run bundle-methodologies; then
             log_info "✓ Methodologies bundled successfully"
         else
             log_warn "Methodology bundling failed (non-critical)"
+        fi
+    fi
+
+    if grep -q '"sync-runtime-assets"' package.json; then
+        log_info "Step 4/4: Syncing runtime conversion assets..."
+        if TIDAS_TOOLS_PATH="$TIDAS_TOOLS_PATH" npm run sync-runtime-assets; then
+            log_info "✓ Runtime assets synced successfully"
+        else
+            log_error "Runtime asset sync failed"
+            cd - > /dev/null
+            exit 1
         fi
     fi
 
@@ -188,6 +199,8 @@ generate_summary() {
     local generated_ts_files=$(find "$OUTPUT_DIR" -name "*.ts" -type f 2>/dev/null | wc -l | tr -d ' ')
     local types_count=0
     local schemas_count=0
+    local runtime_assets_dir="$OUTPUT_DIR/runtime-assets"
+    local runtime_assets_count=0
 
     if [ -d "$types_dir" ]; then
         types_count=$(find "$types_dir" -name "*.ts" -type f 2>/dev/null | wc -l | tr -d ' ')
@@ -195,6 +208,10 @@ generate_summary() {
 
     if [ -d "$schemas_dir" ]; then
         schemas_count=$(find "$schemas_dir" -name "*.ts" -type f 2>/dev/null | wc -l | tr -d ' ')
+    fi
+
+    if [ -d "$runtime_assets_dir" ]; then
+        runtime_assets_count=$(find "$runtime_assets_dir" -type f 2>/dev/null | wc -l | tr -d ' ')
     fi
 
     local generated_js_files=0
@@ -213,14 +230,16 @@ Output:           $OUTPUT_DIR
 TypeScript files: $generated_ts_files files total
   - Types:        $types_count files ($types_dir)
   - Schemas:      $schemas_count files ($schemas_dir)
-Compiled files:   $generated_js_files JS files (if built)
-Status:           SUCCESS
+  - Runtime assets:$runtime_assets_count files ($runtime_assets_dir)
+  Compiled files:   $generated_js_files JS files (if built)
+  Status:           SUCCESS
 ================================================================================
 
 Generation includes:
   ✅ TypeScript types from TIDAS JSON schemas
   ✅ Zod validation schemas for runtime type checking
   ✅ Bundled LCIA methodologies
+  ✅ Runtime assets for XML conversion and directory tools
 
 Next steps:
 1. Run validation: cd sdks/typescript && npm run lint
