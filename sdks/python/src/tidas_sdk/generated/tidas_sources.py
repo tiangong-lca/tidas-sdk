@@ -26,7 +26,7 @@ class DataSetInformationClassificationInformationCommonClassification(TidasBaseM
     common_other: str | None = Field(default=None, alias='common:other')
 
 class SourceInformationDataSetInformationClassificationInformation(TidasBaseModel):
-    """Hierachical classification of the Source foreseen to be used to structure the Source content of the database. (Note: This entry is NOT required for the identification of a Source. It should nevertheless be avoided to use identical names for Source in the same class."""
+    """Hierarchical classification of the Source foreseen to be used to structure the Source content of the database. (Note: This entry is NOT required for the identification of a Source. It should nevertheless be avoided to use identical names for Source in the same class."""
     common_classification: DataSetInformationClassificationInformationCommonClassification = Field(default=..., alias='common:classification')
 
 class SourceInformationDataSetInformationReferenceToDigitalFile(TidasBaseModel):
@@ -36,7 +36,7 @@ class SourceInformationDataSetInformationReferenceToDigitalFile(TidasBaseModel):
 class SourceDataSetSourceInformationDataSetInformation(TidasBaseModel):
     common_uuid: UUID = Field(default=..., alias='common:UUID', description='Automatically generated Universally Unique Identifier of this data set. Together with the "Data set version", the UUID uniquely identifies each data set.')
     common_short_name: MultiLangList = Field(default=..., alias='common:shortName', description='Short name for the "Source citation", i.e. for the bibliographical reference or reference to internal data sources used.')
-    classification_information: SourceInformationDataSetInformationClassificationInformation = Field(default=..., alias='classificationInformation', description='Hierachical classification of the Source foreseen to be used to structure the Source content of the database. (Note: This entry is NOT required for the identification of a Source. It should nevertheless be avoided to use identical names for Source in the same class.')
+    classification_information: SourceInformationDataSetInformationClassificationInformation = Field(default=..., alias='classificationInformation', description='Hierarchical classification of the Source foreseen to be used to structure the Source content of the database. (Note: This entry is NOT required for the identification of a Source. It should nevertheless be avoided to use identical names for Source in the same class.')
     source_citation: str | None = Field(default=None, alias='sourceCitation', description='Bibliographical reference or reference to internal data source. Also used in order to reference to databases and tools, data set formats, conformity systems, pictures etc..')
     publication_type: Literal['Undefined', 'Article in periodical', 'Chapter in anthology', 'Monograph', 'Direct measurement', 'Oral communication', 'Personal written communication', 'Questionnaire', 'Software or database', 'Other unpublished and grey literature'] | None = Field(default=None, alias='publicationType', description='Bibliographic publication type of the source.')
     source_description_or_comment: MultiLangList = Field(default_factory=MultiLangList, alias='sourceDescriptionOrComment', description='Free text for additional description of the source. In case of use of published data it may contain a brief summary of the publication and the kind of medium used (e.g. CD-ROM, hard copy).')
