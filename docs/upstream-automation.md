@@ -103,7 +103,7 @@ Recommended responsibilities:
    - `./scripts/ci/verify-typescript-package.sh`
    - `./scripts/ci/verify-python-package.sh`
 5. detect whether TypeScript and/or Python outputs changed
-6. bump only the affected package version(s)
+6. bump only the affected package version(s) to the next unpublished version in the target registry
 7. commit changes to a bot branch
 8. open or update a release-prep PR against `main`
 
@@ -131,10 +131,11 @@ Recommended responsibilities:
 
 1. inspect the merged commit
 2. detect which package version(s) changed compared with the previous `main` commit
-3. create release tag(s):
+3. fail early if a target package version already exists in npm or PyPI
+4. create release tag(s):
    - `typescript-vX.Y.Z`
    - `python-vX.Y.Z`
-4. push those tags
+5. push those tags
 
 Important constraint:
 

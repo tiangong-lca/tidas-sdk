@@ -233,17 +233,45 @@ jobs:
           UPSTREAM_SHA: ${{ steps.upstream.outputs.resolved_sha }}
         run: echo "No SDK artifacts changed for upstream $UPSTREAM_SHA."
 
+      - name: Resolve TypeScript release version
+        if: steps.changes.outputs.typescript_changed == 'true'
+        id: typescript_release
+        env:
+          TYPESCRIPT_BUMP: ${{ steps.request.outputs.typescript_bump }}
+        run: |
+          set -euo pipefail
+          TYPESCRIPT_VERSION="$(
+            python3 ./scripts/ci/release-version.py next-version \
+              --package typescript \
+              --part "$TYPESCRIPT_BUMP"
+          )"
+          echo "version=$TYPESCRIPT_VERSION" >> "$GITHUB_OUTPUT"
+
       - name: Bump TypeScript package version
         if: steps.changes.outputs.typescript_changed == 'true'
         env:
-          TYPESCRIPT_BUMP: ${{ steps.request.outputs.typescript_bump }}
-        run: npm run release:prepare:${TYPESCRIPT_BUMP}:typescript
+          TYPESCRIPT_VERSION: ${{ steps.typescript_release.outputs.version }}
+        run: npm --workspace @tiangong-lca/tidas-sdk version "$TYPESCRIPT_VERSION" --no-git-tag-version
+
+      - name: Resolve Python release version
+        if: steps.changes.outputs.python_changed == 'true'
+        id: python_release
+        env:
+          PYTHON_BUMP: ${{ steps.request.outputs.python_bump }}
+        run: |
+          set -euo pipefail
+          PYTHON_VERSION="$(
+            python3 ./scripts/ci/release-version.py next-version \
+              --package python \
+              --part "$PYTHON_BUMP"
+          )"
+          echo "version=$PYTHON_VERSION" >> "$GITHUB_OUTPUT"
 
       - name: Bump Python package version
         if: steps.changes.outputs.python_changed == 'true'
         env:
-          PYTHON_BUMP: ${{ steps.request.outputs.python_bump }}
-        run: python3 ./scripts/ci/bump-python-version.py "$PYTHON_BUMP"
+          PYTHON_VERSION: ${{ steps.python_release.outputs.version }}
+        run: python3 ./scripts/ci/bump-python-version.py --version "$PYTHON_VERSION"
 
       - name: Verify TypeScript package
         if: steps.changes.outputs.typescript_changed == 'true'

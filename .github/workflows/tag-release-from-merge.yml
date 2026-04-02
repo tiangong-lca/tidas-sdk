@@ -41,6 +41,24 @@ jobs:
         if: steps.release.outputs.any_changed != 'true'
         run: echo "No package version changes detected on main."
 
+      - name: Check TypeScript registry version availability
+        if: steps.release.outputs.typescript_changed == 'true'
+        env:
+          TYPESCRIPT_VERSION: ${{ steps.release.outputs.typescript_version }}
+        run: |
+          python3 ./scripts/ci/release-version.py assert-unpublished \
+            --package typescript \
+            --version "$TYPESCRIPT_VERSION"
+
+      - name: Check Python registry version availability
+        if: steps.release.outputs.python_changed == 'true'
+        env:
+          PYTHON_VERSION: ${{ steps.release.outputs.python_version }}
+        run: |
+          python3 ./scripts/ci/release-version.py assert-unpublished \
+            --package python \
+            --version "$PYTHON_VERSION"
+
       - name: Create TypeScript release tag
         if: steps.release.outputs.typescript_changed == 'true'
         env:
