@@ -184,10 +184,11 @@ If the same GitHub App is used in both repositories, the workflows can mint inst
 
 ### Environments and registries
 
-Keep the existing environments:
+Keep the existing protected release environment:
 
-- `npm-release`
 - `pypi-release`
+
+`npm-release` is optional and should only be added if TypeScript publishes are later gated behind a GitHub environment. If that happens, update the npm Trusted Publisher configuration to use the same environment name.
 
 Keep Trusted Publishing bound to:
 

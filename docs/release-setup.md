@@ -48,16 +48,17 @@ If you prefer a GitHub App instead of a PAT, keep the same secret names but upda
 
 ## GitHub Repository
 
-Create these protected environments in `tiangong-lca/tidas-sdk`:
+Create this protected environment in `tiangong-lca/tidas-sdk`:
 
-- `npm-release`
 - `pypi-release`
 
-Recommended settings for both environments:
+Recommended settings:
 
 - required reviewers enabled
 - prevent self-review enabled
 - only maintainers who can approve package releases listed as reviewers
+
+`npm-release` is optional. The current TypeScript publish job uses npm Trusted Publishing without a GitHub deployment environment. Only create `npm-release` if you later decide to gate npm publishes with a GitHub environment, and update the npm Trusted Publisher configuration to match.
 
 The publish workflow file is fixed at:
 
@@ -72,9 +73,10 @@ Configure Trusted Publishing for `@tiangong-lca/tidas-sdk` on npm with:
 - organization or user: `tiangong-lca`
 - repository: `tidas-sdk`
 - workflow filename: `publish.yml`
-- environment name: `npm-release`
 
 The TypeScript publish job expects tags named `typescript-vX.Y.Z`.
+
+Leave the environment name unset unless the workflow is explicitly updated to use a GitHub environment for npm releases.
 
 ## PyPI Trusted Publisher
 

@@ -60,12 +60,11 @@ Do not move formal package publishing into reusable workflows. PyPI Trusted Publ
 
 ## Protected Release Environments
 
-The publish workflow expects two GitHub environments:
+The publish workflow currently requires one GitHub environment:
 
-- `npm-release`
 - `pypi-release`
 
-Both environments should require reviewer approval and should not allow self-review. The one-time registry and repository setup lives in `docs/release-setup.md`.
+`pypi-release` should require reviewer approval and should not allow self-review. `npm-release` is optional and should only be added if TypeScript publishes are later gated with a GitHub environment. The one-time registry and repository setup lives in `docs/release-setup.md`.
 
 Automation that pushes branches, opens PRs, or creates tags also requires the repository secret `TIDAS_RELEASE_AUTOMATION_TOKEN`.
 

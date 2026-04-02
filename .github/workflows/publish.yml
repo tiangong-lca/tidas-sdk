@@ -14,7 +14,6 @@ jobs:
     name: Publish TypeScript package
     if: startsWith(github.ref_name, 'typescript-v')
     runs-on: ubuntu-latest
-    environment: npm-release
     permissions:
       contents: read
       id-token: write
