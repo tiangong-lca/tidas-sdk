@@ -43,10 +43,12 @@ Repository workflows live under `.github/workflows/`:
 - `sync-from-tidas-tools.yml`
   - regenerates SDK artifacts from an exact upstream `tiangong-lca/tidas-tools` commit
   - bumps only affected package versions
+  - resolves the next unpublished registry version when repository metadata lags npm or PyPI
   - opens or updates a release-prep PR on an automation branch
 - `tag-release-from-merge.yml`
   - watches pushes to `main`
   - creates package tags when a merged commit changes package versions
+  - refuses to create release tags for package versions that already exist in the target registry
 - `publish.yml`
   - publishes only from package tags
   - refuses to publish if the tag does not match the package version in source control

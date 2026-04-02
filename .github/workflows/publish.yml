@@ -36,6 +36,9 @@ jobs:
       - name: Validate release tag
         run: ./scripts/ci/check-release-tag.sh typescript
 
+      - name: Check TypeScript registry version availability
+        run: python3 ./scripts/ci/release-version.py assert-unpublished --package typescript
+
       - name: Verify TypeScript package
         run: ./scripts/ci/verify-typescript-package.sh
 
@@ -64,6 +67,9 @@ jobs:
 
       - name: Validate release tag
         run: ./scripts/ci/check-release-tag.sh python
+
+      - name: Check Python registry version availability
+        run: python3 ./scripts/ci/release-version.py assert-unpublished --package python
 
       - name: Verify Python package
         run: ./scripts/ci/verify-python-package.sh
