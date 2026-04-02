@@ -38,7 +38,7 @@ class DataSetInformationClassificationInformationCommonClassification(TidasBaseM
     common_class: CommonClassificationCommonClassOption1 | list[CommonClassItemOption0 | CommonClassItemOption1] = Field(default=..., alias='common:class')
 
 class ContactInformationDataSetInformationClassificationInformation(TidasBaseModel):
-    """Hierachical classification of the contact foreseen to be used to structure the contact content of the database. (Note: This entry is NOT required for the identification of the contact data set. It should nevertheless be avoided to use identical names for contacts in the same class."""
+    """Hierarchical classification of the contact foreseen to be used to structure the contact content of the database. (Note: This entry is NOT required for the identification of the contact data set. It should nevertheless be avoided to use identical names for contacts in the same class."""
     common_classification: DataSetInformationClassificationInformationCommonClassification = Field(default=..., alias='common:classification', description='Optional statistical or other classification of the data set. Typically also used for structuring LCA databases.')
     common_other: str | None = Field(default=None, alias='common:other')
 
@@ -46,7 +46,7 @@ class ContactDataSetContactInformationDataSetInformation(TidasBaseModel):
     common_uuid: UUID = Field(default=..., alias='common:UUID', description="Automatically generated Universally Unique Identifier of this data set. Together with the 'Data set version', the UUID uniquely identifies each data set.")
     common_short_name: MultiLangList = Field(default=..., alias='common:shortName', description="Short name for the contact, that is used for display e.g. of links to this data set (especially in case the full name of the contact is rather long, e.g. 'FAO' for 'Food and Agriculture Organization').")
     common_name: MultiLangList = Field(default=..., alias='common:name', description='Name of the person, working group, organisation, or database network, which is represented by this contact data set.')
-    classification_information: ContactInformationDataSetInformationClassificationInformation = Field(default=..., alias='classificationInformation', description='Hierachical classification of the contact foreseen to be used to structure the contact content of the database. (Note: This entry is NOT required for the identification of the contact data set. It should nevertheless be avoided to use identical names for contacts in the same class.')
+    classification_information: ContactInformationDataSetInformationClassificationInformation = Field(default=..., alias='classificationInformation', description='Hierarchical classification of the contact foreseen to be used to structure the contact content of the database. (Note: This entry is NOT required for the identification of the contact data set. It should nevertheless be avoided to use identical names for contacts in the same class.')
     contact_address: MultiLangList = Field(default_factory=MultiLangList, alias='contactAddress', description="Mail address of the contact; specific for the person, working group, or department. [Note: A general contact point to the organisation is to be given in 'General contact point'.]")
     email: String | None = Field(default=None, alias='email')
     telephone: String | None = Field(default=None, alias='telephone')
