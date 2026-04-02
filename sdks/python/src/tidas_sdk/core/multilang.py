@@ -116,10 +116,17 @@ def deep_wrap_multilang(payload: Any) -> Any:
     Recursively walk payloads (dict/list) and wrap multi-language nodes.
     """
     if isinstance(payload, dict):
-        return {k: deep_wrap_multilang(v) for k, v in payload.items()}
+        return wrap_multilang({k: deep_wrap_multilang(v) for k, v in payload.items()})
     if isinstance(payload, list):
-        wrapped = [deep_wrap_multilang(item) for item in payload]
-        if _is_multilang_list(wrapped):
-            return MultiLangList(wrapped)
-        return wrapped
+        wrapped_items = [deep_wrap_multilang(item) for item in payload]
+        flattened_items: list[MultiLangItem] = []
+        for item in wrapped_items:
+            if isinstance(item, MultiLangList):
+                flattened_items.extend(item.to_plain_list())
+                continue
+            if _is_multilang_item(item):
+                flattened_items.append(item)
+                continue
+            return wrapped_items
+        return MultiLangList(flattened_items) if flattened_items else wrapped_items
     return payload
