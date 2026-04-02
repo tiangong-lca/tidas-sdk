@@ -25,8 +25,10 @@ git tag typescript-vX.Y.Z
 git push origin typescript-vX.Y.Z
 ```
 
-6. Approve the `npm-release` environment in GitHub Actions.
+6. Confirm the publish workflow completes successfully.
 7. Confirm the new version is visible on npm and installable.
+
+If the repository later adds a protected GitHub environment for npm releases, approve that environment before the publish job runs.
 
 ## Versioning
 
