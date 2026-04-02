@@ -295,8 +295,9 @@ jobs:
           TYPESCRIPT_BUMP: ${{ steps.request.outputs.typescript_bump }}
           PYTHON_BUMP: ${{ steps.request.outputs.python_bump }}
         run: |
+          BODY_DELIMITER="PR_BODY_$(date +%s%N)"
           {
-            echo "body<<'EOF'"
+            echo "body<<$BODY_DELIMITER"
             echo "## Summary"
             echo
             echo "- Sync generated SDK artifacts from \`tiangong-lca/tidas-tools\` commit \`$UPSTREAM_SHA\`."
@@ -321,7 +322,7 @@ jobs:
             if [ "$PYTHON_CHANGED" = "true" ]; then
               echo "- \`./scripts/ci/verify-python-package.sh\`"
             fi
-            echo "EOF"
+            echo "$BODY_DELIMITER"
           } >> "$GITHUB_OUTPUT"
 
       - name: Create or update release-prep pull request
