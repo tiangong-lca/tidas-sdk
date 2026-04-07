@@ -4,10 +4,10 @@ import { z } from 'zod';
 import {
   GlobalReferenceTypeSchema,
   LevelTypeSchema,
-  RequiredStringMultiLangSchema,
   STSchema,
   STMultiLangSchema,
   StringSchema,
+  RequiredStringMultiLangSchema,
   UUIDSchema,
   dateTimeSchema,
 } from './tidas_data_types.schema';

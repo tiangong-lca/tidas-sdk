@@ -260,10 +260,25 @@ export const LocalizedText1000ItemSchema =
 
     manualOptimizations = manualOptimizations.replace(
       /export const StringMultiLangSchema = z\.union\(\[[\s\S]*?\]\);/,
-      `export const StringMultiLangSchema = z.union([
+      `const addRequiredMultiLangIssue = (
+  value: unknown,
+  ctx: z.RefinementCtx
+) => {
+  if (Array.isArray(value) && value.length === 0) {
+    ctx.addIssue({
+      code: z.ZodIssueCode.custom,
+      message: 'Required',
+    });
+  }
+};
+
+export const StringMultiLangSchema = z.union([
   z.array(LocalizedText500ItemSchema),
   LocalizedText500ItemSchema,
-]);`
+]);
+
+export const RequiredStringMultiLangSchema =
+  StringMultiLangSchema.superRefine(addRequiredMultiLangIssue);`
     );
 
     manualOptimizations = manualOptimizations.replace(
@@ -271,7 +286,10 @@ export const LocalizedText1000ItemSchema =
       `export const STMultiLangSchema = z.union([
   z.array(LocalizedText1000ItemSchema),
   LocalizedText1000ItemSchema,
-]);`
+]);
+
+export const RequiredSTMultiLangSchema =
+  STMultiLangSchema.superRefine(addRequiredMultiLangIssue);`
     );
 
     manualOptimizations = manualOptimizations.replace(
@@ -279,7 +297,10 @@ export const LocalizedText1000ItemSchema =
       `export const FTMultiLangSchema = z.union([
   z.array(LocalizedTextItemSchema),
   LocalizedTextItemSchema,
-]);`
+]);
+
+export const RequiredFTMultiLangSchema =
+  FTMultiLangSchema.superRefine(addRequiredMultiLangIssue);`
     );
 
     if (manualOptimizations !== content) {
@@ -317,7 +338,10 @@ export const LocalizedText1000ItemSchema =
     }
   );
 
-  fixedContent = newContent3;
+  fixedContent = applyRequiredLocalizedTextSchemaOverrides(
+    schemaFile,
+    newContent3
+  );
   const hasChanges = fixedContent !== content;
 
   if (hasChanges) {
@@ -326,6 +350,55 @@ export const LocalizedText1000ItemSchema =
       `   🔧 Applied constraint fixes to ${path.basename(schemaFile)}`
     );
   }
+}
+
+function applyRequiredLocalizedTextSchemaOverrides(
+  schemaFile: string,
+  content: string
+): string {
+  const fileName = path.basename(schemaFile);
+
+  if (fileName === 'tidas_contacts.schema.ts') {
+    return content
+      .replace(
+        /(\s+)StringMultiLangSchema,\n/,
+        '$1RequiredStringMultiLangSchema,\n'
+      )
+      .replace(
+        /'common:shortName': StringMultiLangSchema,/g,
+        "'common:shortName': RequiredStringMultiLangSchema,"
+      )
+      .replace(
+        /'common:name': StringMultiLangSchema,/g,
+        "'common:name': RequiredStringMultiLangSchema,"
+      );
+  }
+
+  if (fileName === 'tidas_sources.schema.ts') {
+    return content
+      .replace(
+        /(\s+)StringMultiLangSchema,\n/,
+        '$1RequiredStringMultiLangSchema,\n'
+      )
+      .replace(
+        /'common:shortName': StringMultiLangSchema,/g,
+        "'common:shortName': RequiredStringMultiLangSchema,"
+      );
+  }
+
+  if (fileName === 'tidas_flowproperties.schema.ts') {
+    return content
+      .replace(
+        /(\s+)StringMultiLangSchema,\n/,
+        '$1RequiredStringMultiLangSchema,\n'
+      )
+      .replace(
+        /'common:name': StringMultiLangSchema,/g,
+        "'common:name': RequiredStringMultiLangSchema,"
+      );
+  }
+
+  return content;
 }
 
 /**
