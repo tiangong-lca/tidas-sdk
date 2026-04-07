@@ -13,6 +13,7 @@ import {
   STMultiLangSchema,
   StringSchema,
   StringMultiLangSchema,
+  RequiredStringMultiLangSchema,
   UUIDSchema,
   dateTimeSchema,
 } from './tidas_data_types.schema';
@@ -33,7 +34,7 @@ export const LciamethodsSchema = z.object({
     LCIAMethodInformation: z.object({
       dataSetInformation: z.object({
         'common:UUID': UUIDSchema,
-        'common:name': StringMultiLangSchema,
+        'common:name': RequiredStringMultiLangSchema,
         methodology: z.string().optional(),
         classificationInformation: z.object({
           'common:classification': z.object({

@@ -7,7 +7,7 @@ import {
   STSchema,
   STMultiLangSchema,
   StringSchema,
-  StringMultiLangSchema,
+  RequiredStringMultiLangSchema,
   UUIDSchema,
   dateTimeSchema,
 } from './tidas_data_types.schema';
@@ -24,8 +24,8 @@ export const ContactsSchema = z.object({
     contactInformation: z.object({
       dataSetInformation: z.object({
         'common:UUID': UUIDSchema,
-        'common:shortName': StringMultiLangSchema,
-        'common:name': StringMultiLangSchema,
+        'common:shortName': RequiredStringMultiLangSchema,
+        'common:name': RequiredStringMultiLangSchema,
         classificationInformation: z.object({
           'common:classification': z.object({
             'common:class': z.union([

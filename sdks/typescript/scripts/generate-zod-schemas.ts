@@ -260,10 +260,25 @@ export const LocalizedText1000ItemSchema =
 
     manualOptimizations = manualOptimizations.replace(
       /export const StringMultiLangSchema = z\.union\(\[[\s\S]*?\]\);/,
-      `export const StringMultiLangSchema = z.union([
+      `const addRequiredMultiLangIssue = (
+  value: unknown,
+  ctx: z.RefinementCtx
+) => {
+  if (Array.isArray(value) && value.length === 0) {
+    ctx.addIssue({
+      code: z.ZodIssueCode.custom,
+      message: 'Required',
+    });
+  }
+};
+
+export const StringMultiLangSchema = z.union([
   z.array(LocalizedText500ItemSchema),
   LocalizedText500ItemSchema,
-]);`
+]);
+
+export const RequiredStringMultiLangSchema =
+  StringMultiLangSchema.superRefine(addRequiredMultiLangIssue);`
     );
 
     manualOptimizations = manualOptimizations.replace(
@@ -271,7 +286,10 @@ export const LocalizedText1000ItemSchema =
       `export const STMultiLangSchema = z.union([
   z.array(LocalizedText1000ItemSchema),
   LocalizedText1000ItemSchema,
-]);`
+]);
+
+export const RequiredSTMultiLangSchema =
+  STMultiLangSchema.superRefine(addRequiredMultiLangIssue);`
     );
 
     manualOptimizations = manualOptimizations.replace(
@@ -279,7 +297,10 @@ export const LocalizedText1000ItemSchema =
       `export const FTMultiLangSchema = z.union([
   z.array(LocalizedTextItemSchema),
   LocalizedTextItemSchema,
-]);`
+]);
+
+export const RequiredFTMultiLangSchema =
+  FTMultiLangSchema.superRefine(addRequiredMultiLangIssue);`
     );
 
     if (manualOptimizations !== content) {
@@ -317,7 +338,7 @@ export const LocalizedText1000ItemSchema =
     }
   );
 
-  fixedContent = newContent3;
+  fixedContent = applyRequiredLocalizedTextSchemaOverrides(newContent3);
   const hasChanges = fixedContent !== content;
 
   if (hasChanges) {
@@ -326,6 +347,101 @@ export const LocalizedText1000ItemSchema =
       `   🔧 Applied constraint fixes to ${path.basename(schemaFile)}`
     );
   }
+}
+
+function applyRequiredLocalizedTextSchemaOverrides(
+  content: string
+): string {
+  let updatedContent = content;
+
+  const requiredLocalizedTextSchemaMappings = [
+    {
+      baseSchemaName: 'StringMultiLangSchema',
+      requiredSchemaName: 'RequiredStringMultiLangSchema',
+    },
+  ];
+
+  for (const { baseSchemaName, requiredSchemaName } of
+    requiredLocalizedTextSchemaMappings) {
+    updatedContent = updatedContent.replace(
+      new RegExp(`(:\\s*)${baseSchemaName}(,)`, 'g'),
+      `$1${requiredSchemaName}$2`
+    );
+
+    updatedContent = syncRequiredLocalizedTextSchemaImport(
+      updatedContent,
+      baseSchemaName,
+      requiredSchemaName
+    );
+  }
+
+  return updatedContent;
+}
+
+function syncRequiredLocalizedTextSchemaImport(
+  content: string,
+  baseSchemaName: string,
+  requiredSchemaName: string
+): string {
+  const importPattern =
+    /import \{\n([\s\S]*?)\n\} from '\.\/tidas_data_types\.schema';/;
+  const importMatch = importPattern.exec(content);
+
+  if (!importMatch) {
+    return content;
+  }
+
+  const importBlock = importMatch[0];
+  const importLines = importMatch[1]
+    .split('\n')
+    .map((line) => line.trim())
+    .filter(Boolean)
+    .map((line) => line.replace(/,$/, ''));
+
+  const contentWithoutImport = content.slice(
+    content.indexOf(importBlock) + importBlock.length
+  );
+  const usesBaseSchema = hasIdentifierReference(
+    contentWithoutImport,
+    baseSchemaName
+  );
+  const usesRequiredSchema = hasIdentifierReference(
+    contentWithoutImport,
+    requiredSchemaName
+  );
+
+  if (!usesRequiredSchema) {
+    return content;
+  }
+
+  if (!importLines.includes(requiredSchemaName)) {
+    const baseImportIndex = importLines.indexOf(baseSchemaName);
+
+    if (baseImportIndex >= 0) {
+      importLines.splice(baseImportIndex + 1, 0, requiredSchemaName);
+    } else {
+      importLines.push(requiredSchemaName);
+    }
+  }
+
+  if (!usesBaseSchema) {
+    const baseImportIndex = importLines.indexOf(baseSchemaName);
+
+    if (baseImportIndex >= 0) {
+      importLines.splice(baseImportIndex, 1);
+    }
+  }
+
+  const updatedImportBlock = `import {\n${importLines
+    .map((line) => `  ${line},`)
+    .join('\n')}\n} from './tidas_data_types.schema';`;
+
+  return content.replace(importBlock, updatedImportBlock);
+}
+
+function hasIdentifierReference(content: string, identifier: string): boolean {
+  const escapedIdentifier = identifier.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  return new RegExp(`\\b${escapedIdentifier}\\b`).test(content);
 }
 
 /**

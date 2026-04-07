@@ -5,7 +5,7 @@ import {
   FTMultiLangSchema,
   GlobalReferenceTypeSchema,
   LevelTypeSchema,
-  StringMultiLangSchema,
+  RequiredStringMultiLangSchema,
   UUIDSchema,
   dateTimeSchema,
 } from './tidas_data_types.schema';
@@ -22,7 +22,7 @@ export const SourcesSchema = z.object({
     sourceInformation: z.object({
       dataSetInformation: z.object({
         'common:UUID': UUIDSchema,
-        'common:shortName': StringMultiLangSchema,
+        'common:shortName': RequiredStringMultiLangSchema,
         classificationInformation: z.object({
           'common:classification': z.object({
             'common:class': z.object({
