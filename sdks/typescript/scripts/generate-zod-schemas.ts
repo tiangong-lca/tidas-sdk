@@ -401,8 +401,14 @@ function syncRequiredLocalizedTextSchemaImport(
   const contentWithoutImport = content.slice(
     content.indexOf(importBlock) + importBlock.length
   );
-  const usesBaseSchema = contentWithoutImport.includes(baseSchemaName);
-  const usesRequiredSchema = contentWithoutImport.includes(requiredSchemaName);
+  const usesBaseSchema = hasIdentifierReference(
+    contentWithoutImport,
+    baseSchemaName
+  );
+  const usesRequiredSchema = hasIdentifierReference(
+    contentWithoutImport,
+    requiredSchemaName
+  );
 
   if (!usesRequiredSchema) {
     return content;
@@ -431,6 +437,11 @@ function syncRequiredLocalizedTextSchemaImport(
     .join('\n')}\n} from './tidas_data_types.schema';`;
 
   return content.replace(importBlock, updatedImportBlock);
+}
+
+function hasIdentifierReference(content: string, identifier: string): boolean {
+  const escapedIdentifier = identifier.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  return new RegExp(`\\b${escapedIdentifier}\\b`).test(content);
 }
 
 /**
