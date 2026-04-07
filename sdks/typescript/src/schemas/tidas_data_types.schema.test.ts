@@ -1,6 +1,9 @@
 import {
   LocalizedText500ItemSchema,
   LocalizedTextItemSchema,
+  RequiredFTMultiLangSchema,
+  RequiredSTMultiLangSchema,
+  RequiredStringMultiLangSchema,
   STMultiLangSchema,
   StringMultiLangSchema,
 } from './tidas_data_types.schema';
@@ -51,6 +54,17 @@ describe('localized text schemas', () => {
         },
       ]).success
     ).toBe(true);
+  });
+
+  it('keeps optional localized arrays compatible with empty defaults', () => {
+    expect(StringMultiLangSchema.safeParse([]).success).toBe(true);
+    expect(STMultiLangSchema.safeParse([]).success).toBe(true);
+  });
+
+  it('rejects empty arrays for required localized text variants', () => {
+    expect(RequiredStringMultiLangSchema.safeParse([]).success).toBe(false);
+    expect(RequiredSTMultiLangSchema.safeParse([]).success).toBe(false);
+    expect(RequiredFTMultiLangSchema.safeParse([]).success).toBe(false);
   });
 
   it('preserves max length limits for localized text variants', () => {

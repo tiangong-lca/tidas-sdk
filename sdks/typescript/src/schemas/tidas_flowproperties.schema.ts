@@ -5,7 +5,7 @@ import {
   FTMultiLangSchema,
   GlobalReferenceTypeSchema,
   LevelTypeSchema,
-  StringMultiLangSchema,
+  RequiredStringMultiLangSchema,
   UUIDSchema,
 } from './tidas_data_types.schema';
 
@@ -21,7 +21,7 @@ export const FlowpropertiesSchema = z.object({
     flowPropertiesInformation: z.object({
       dataSetInformation: z.object({
         'common:UUID': UUIDSchema,
-        'common:name': StringMultiLangSchema,
+        'common:name': RequiredStringMultiLangSchema,
         'common:synonyms': FTMultiLangSchema.optional(),
         classificationInformation: z.object({
           'common:classification': z.object({

@@ -52,10 +52,25 @@ export const LocalizedText1000ItemSchema =
     '#text': z.string().max(1000),
   }).superRefine(addLocalizedTextLanguageChecks);
 
+const addRequiredMultiLangIssue = (
+  value: unknown,
+  ctx: z.RefinementCtx
+) => {
+  if (Array.isArray(value) && value.length === 0) {
+    ctx.addIssue({
+      code: z.ZodIssueCode.custom,
+      message: 'Required',
+    });
+  }
+};
+
 export const StringMultiLangSchema = z.union([
   z.array(LocalizedText500ItemSchema),
   LocalizedText500ItemSchema,
 ]);
+
+export const RequiredStringMultiLangSchema =
+  StringMultiLangSchema.superRefine(addRequiredMultiLangIssue);
 
 export const Int1Schema = z.string().regex(/^[0-9]$/);
 
@@ -86,10 +101,16 @@ export const STMultiLangSchema = z.union([
   LocalizedText1000ItemSchema,
 ]);
 
+export const RequiredSTMultiLangSchema =
+  STMultiLangSchema.superRefine(addRequiredMultiLangIssue);
+
 export const FTMultiLangSchema = z.union([
   z.array(LocalizedTextItemSchema),
   LocalizedTextItemSchema,
 ]);
+
+export const RequiredFTMultiLangSchema =
+  FTMultiLangSchema.superRefine(addRequiredMultiLangIssue);
 
 export const GlobalReferenceTypeSchema = z.union([
   z.object({
