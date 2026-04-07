@@ -338,10 +338,7 @@ export const RequiredFTMultiLangSchema =
     }
   );
 
-  fixedContent = applyRequiredLocalizedTextSchemaOverrides(
-    schemaFile,
-    newContent3
-  );
+  fixedContent = applyRequiredLocalizedTextSchemaOverrides(newContent3);
   const hasChanges = fixedContent !== content;
 
   if (hasChanges) {
@@ -353,52 +350,87 @@ export const RequiredFTMultiLangSchema =
 }
 
 function applyRequiredLocalizedTextSchemaOverrides(
-  schemaFile: string,
   content: string
 ): string {
-  const fileName = path.basename(schemaFile);
+  let updatedContent = content;
 
-  if (fileName === 'tidas_contacts.schema.ts') {
-    return content
-      .replace(
-        /(\s+)StringMultiLangSchema,\n/,
-        '$1RequiredStringMultiLangSchema,\n'
-      )
-      .replace(
-        /'common:shortName': StringMultiLangSchema,/g,
-        "'common:shortName': RequiredStringMultiLangSchema,"
-      )
-      .replace(
-        /'common:name': StringMultiLangSchema,/g,
-        "'common:name': RequiredStringMultiLangSchema,"
-      );
+  const requiredLocalizedTextSchemaMappings = [
+    {
+      baseSchemaName: 'StringMultiLangSchema',
+      requiredSchemaName: 'RequiredStringMultiLangSchema',
+    },
+  ];
+
+  for (const { baseSchemaName, requiredSchemaName } of
+    requiredLocalizedTextSchemaMappings) {
+    updatedContent = updatedContent.replace(
+      new RegExp(`(:\\s*)${baseSchemaName}(,)`, 'g'),
+      `$1${requiredSchemaName}$2`
+    );
+
+    updatedContent = syncRequiredLocalizedTextSchemaImport(
+      updatedContent,
+      baseSchemaName,
+      requiredSchemaName
+    );
   }
 
-  if (fileName === 'tidas_sources.schema.ts') {
-    return content
-      .replace(
-        /(\s+)StringMultiLangSchema,\n/,
-        '$1RequiredStringMultiLangSchema,\n'
-      )
-      .replace(
-        /'common:shortName': StringMultiLangSchema,/g,
-        "'common:shortName': RequiredStringMultiLangSchema,"
-      );
+  return updatedContent;
+}
+
+function syncRequiredLocalizedTextSchemaImport(
+  content: string,
+  baseSchemaName: string,
+  requiredSchemaName: string
+): string {
+  const importPattern =
+    /import \{\n([\s\S]*?)\n\} from '\.\/tidas_data_types\.schema';/;
+  const importMatch = importPattern.exec(content);
+
+  if (!importMatch) {
+    return content;
   }
 
-  if (fileName === 'tidas_flowproperties.schema.ts') {
-    return content
-      .replace(
-        /(\s+)StringMultiLangSchema,\n/,
-        '$1RequiredStringMultiLangSchema,\n'
-      )
-      .replace(
-        /'common:name': StringMultiLangSchema,/g,
-        "'common:name': RequiredStringMultiLangSchema,"
-      );
+  const importBlock = importMatch[0];
+  const importLines = importMatch[1]
+    .split('\n')
+    .map((line) => line.trim())
+    .filter(Boolean)
+    .map((line) => line.replace(/,$/, ''));
+
+  const contentWithoutImport = content.slice(
+    content.indexOf(importBlock) + importBlock.length
+  );
+  const usesBaseSchema = contentWithoutImport.includes(baseSchemaName);
+  const usesRequiredSchema = contentWithoutImport.includes(requiredSchemaName);
+
+  if (!usesRequiredSchema) {
+    return content;
   }
 
-  return content;
+  if (!importLines.includes(requiredSchemaName)) {
+    const baseImportIndex = importLines.indexOf(baseSchemaName);
+
+    if (baseImportIndex >= 0) {
+      importLines.splice(baseImportIndex + 1, 0, requiredSchemaName);
+    } else {
+      importLines.push(requiredSchemaName);
+    }
+  }
+
+  if (!usesBaseSchema) {
+    const baseImportIndex = importLines.indexOf(baseSchemaName);
+
+    if (baseImportIndex >= 0) {
+      importLines.splice(baseImportIndex, 1);
+    }
+  }
+
+  const updatedImportBlock = `import {\n${importLines
+    .map((line) => `  ${line},`)
+    .join('\n')}\n} from './tidas_data_types.schema';`;
+
+  return content.replace(importBlock, updatedImportBlock);
 }
 
 /**

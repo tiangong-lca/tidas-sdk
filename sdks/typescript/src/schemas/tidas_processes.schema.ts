@@ -13,6 +13,7 @@ import {
   RealSchema,
   StringSchema,
   StringMultiLangSchema,
+  RequiredStringMultiLangSchema,
   UUIDSchema,
   YearSchema,
   dateTimeSchema,
@@ -31,9 +32,9 @@ export const ProcessesSchema = z.object({
       dataSetInformation: z.object({
         'common:UUID': UUIDSchema,
         name: z.object({
-          baseName: StringMultiLangSchema,
-          treatmentStandardsRoutes: StringMultiLangSchema,
-          mixAndLocationTypes: StringMultiLangSchema,
+          baseName: RequiredStringMultiLangSchema,
+          treatmentStandardsRoutes: RequiredStringMultiLangSchema,
+          mixAndLocationTypes: RequiredStringMultiLangSchema,
           functionalUnitFlowProperties: StringMultiLangSchema.optional(),
           'common:other': z.string().optional(),
         }),

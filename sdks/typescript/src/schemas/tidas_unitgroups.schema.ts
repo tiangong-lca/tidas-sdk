@@ -9,6 +9,7 @@ import {
   RealSchema,
   StringSchema,
   StringMultiLangSchema,
+  RequiredStringMultiLangSchema,
   UUIDSchema,
   dateTimeSchema,
 } from './tidas_data_types.schema';
@@ -25,7 +26,7 @@ export const UnitgroupsSchema = z.object({
     unitGroupInformation: z.object({
       dataSetInformation: z.object({
         'common:UUID': UUIDSchema,
-        'common:name': StringMultiLangSchema,
+        'common:name': RequiredStringMultiLangSchema,
         classificationInformation: z.object({
           'common:classification': z.object({
             'common:class': z.object({

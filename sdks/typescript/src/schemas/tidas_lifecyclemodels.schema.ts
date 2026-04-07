@@ -8,6 +8,7 @@ import {
   MatVSchema,
   RealSchema,
   StringMultiLangSchema,
+  RequiredStringMultiLangSchema,
   UUIDSchema,
   dateTimeSchema,
 } from './tidas_data_types.schema';
@@ -29,9 +30,9 @@ export const LifecyclemodelsSchema = z.object({
       dataSetInformation: z.object({
         'common:UUID': UUIDSchema,
         name: z.object({
-          baseName: StringMultiLangSchema,
-          treatmentStandardsRoutes: StringMultiLangSchema,
-          mixAndLocationTypes: StringMultiLangSchema,
+          baseName: RequiredStringMultiLangSchema,
+          treatmentStandardsRoutes: RequiredStringMultiLangSchema,
+          mixAndLocationTypes: RequiredStringMultiLangSchema,
           functionalUnitFlowProperties: StringMultiLangSchema.optional(),
           'common:other': z.string().optional(),
         }),
