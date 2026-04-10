@@ -132,39 +132,10 @@ export const LifecyclemodelsSchema = z.object({
                         .optional(),
                     })
                     .optional(),
-                  connections: z.object({
-                    outputExchange: z
-                      .union([
-                        z.object({
-                          '@dominant': z
-                            .union([z.literal('true'), z.literal('false')])
-                            .optional(),
-                          '@flowUUID': UUIDSchema,
-                          downstreamProcess: z.union([
-                            z.object({
-                              '@id': z.string(),
-                              '@flowUUID': UUIDSchema,
-                              '@location': z.string().optional(),
-                              '@dominant': z
-                                .union([z.literal('true'), z.literal('false')])
-                                .optional(),
-                            }),
-                            z.array(
-                              z.object({
-                                '@id': z.string(),
-                                '@flowUUID': UUIDSchema,
-                                '@location': z.string().optional(),
-                                '@dominant': z
-                                  .union([
-                                    z.literal('true'),
-                                    z.literal('false'),
-                                  ])
-                                  .optional(),
-                              })
-                            ),
-                          ]),
-                        }),
-                        z.array(
+                  connections: z
+                    .object({
+                      outputExchange: z
+                        .union([
                           z.object({
                             '@dominant': z
                               .union([z.literal('true'), z.literal('false')])
@@ -196,11 +167,45 @@ export const LifecyclemodelsSchema = z.object({
                                 })
                               ),
                             ]),
-                          })
-                        ),
-                      ])
-                      .optional(),
-                  }),
+                          }),
+                          z.array(
+                            z.object({
+                              '@dominant': z
+                                .union([z.literal('true'), z.literal('false')])
+                                .optional(),
+                              '@flowUUID': UUIDSchema,
+                              downstreamProcess: z.union([
+                                z.object({
+                                  '@id': z.string(),
+                                  '@flowUUID': UUIDSchema,
+                                  '@location': z.string().optional(),
+                                  '@dominant': z
+                                    .union([
+                                      z.literal('true'),
+                                      z.literal('false'),
+                                    ])
+                                    .optional(),
+                                }),
+                                z.array(
+                                  z.object({
+                                    '@id': z.string(),
+                                    '@flowUUID': UUIDSchema,
+                                    '@location': z.string().optional(),
+                                    '@dominant': z
+                                      .union([
+                                        z.literal('true'),
+                                        z.literal('false'),
+                                      ])
+                                      .optional(),
+                                  })
+                                ),
+                              ]),
+                            })
+                          ),
+                        ])
+                        .optional(),
+                    })
+                    .optional(),
                   'common:other': z.string().optional(),
                 })
               ),
@@ -243,35 +248,9 @@ export const LifecyclemodelsSchema = z.object({
                       .optional(),
                   })
                   .optional(),
-                connections: z.object({
-                  outputExchange: z.union([
-                    z.object({
-                      '@dominant': z
-                        .union([z.literal('true'), z.literal('false')])
-                        .optional(),
-                      '@flowUUID': UUIDSchema,
-                      downstreamProcess: z.union([
-                        z.object({
-                          '@id': z.string(),
-                          '@flowUUID': UUIDSchema,
-                          '@location': z.string().optional(),
-                          '@dominant': z
-                            .union([z.literal('true'), z.literal('false')])
-                            .optional(),
-                        }),
-                        z.array(
-                          z.object({
-                            '@id': z.string(),
-                            '@flowUUID': UUIDSchema,
-                            '@location': z.string().optional(),
-                            '@dominant': z
-                              .union([z.literal('true'), z.literal('false')])
-                              .optional(),
-                          })
-                        ),
-                      ]),
-                    }),
-                    z.array(
+                connections: z
+                  .object({
+                    outputExchange: z.union([
                       z.object({
                         '@dominant': z
                           .union([z.literal('true'), z.literal('false')])
@@ -297,10 +276,41 @@ export const LifecyclemodelsSchema = z.object({
                             })
                           ),
                         ]),
-                      })
-                    ),
-                  ]),
-                }),
+                      }),
+                      z.array(
+                        z.object({
+                          '@dominant': z
+                            .union([z.literal('true'), z.literal('false')])
+                            .optional(),
+                          '@flowUUID': UUIDSchema,
+                          downstreamProcess: z.union([
+                            z.object({
+                              '@id': z.string(),
+                              '@flowUUID': UUIDSchema,
+                              '@location': z.string().optional(),
+                              '@dominant': z
+                                .union([z.literal('true'), z.literal('false')])
+                                .optional(),
+                            }),
+                            z.array(
+                              z.object({
+                                '@id': z.string(),
+                                '@flowUUID': UUIDSchema,
+                                '@location': z.string().optional(),
+                                '@dominant': z
+                                  .union([
+                                    z.literal('true'),
+                                    z.literal('false'),
+                                  ])
+                                  .optional(),
+                              })
+                            ),
+                          ]),
+                        })
+                      ),
+                    ]),
+                  })
+                  .optional(),
                 'common:other': z.string().optional(),
               }),
             ])

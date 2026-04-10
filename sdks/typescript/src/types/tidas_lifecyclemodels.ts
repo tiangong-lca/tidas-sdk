@@ -75,7 +75,7 @@ export interface Lifecyclemodels {
                 parameters?: {
                   parameter?: { '@name'?: MatV } | { '@name'?: MatV }[];
                 };
-                connections: {
+                connections?: {
                   outputExchange?:
                     | {
                         '@dominant'?: 'true' | 'false';
@@ -129,7 +129,7 @@ export interface Lifecyclemodels {
                     | { '@name'?: string; parameter?: Real }
                     | { '@name'?: string; parameter?: Real }[];
                 };
-                connections: {
+                connections?: {
                   outputExchange:
                     | {
                         '@dominant'?: 'true' | 'false';
