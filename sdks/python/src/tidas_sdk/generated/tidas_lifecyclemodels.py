@@ -147,7 +147,7 @@ class ProcessesProcessInstanceItem(TidasBaseModel):
     scaling_factors: Real | None = Field(default=None, alias='scalingFactors', description='A multiplicative scaling factor for the entire inventory of this process instance, used e.g. to scale the "Reference process" to the aimed-at amount of product (and thereby indirectly the entire inventory of the life cycle model). Note: Care is to be taken that models are not over- or under-specified - note that each process instance scaling is reducing the model\'s degree of freedom by one.')
     groups: ProcessInstanceItemGroups | None = Field(default=None, alias='groups', description='Group(s) to which this process instance belongs.')
     parameters: ProcessInstanceItemParameters | None = Field(default=None, alias='parameters', description='Set of parameters of this process instance with parameter values (changed or unchanged from those in the underlying process data set).')
-    connections: ProcessInstanceItemConnections = Field(default=..., alias='connections', description='Connection information among process instances, via connecting product or waste flow exchanges.')
+    connections: ProcessInstanceItemConnections | None = Field(default=None, alias='connections', description='Connection information among process instances, via connecting product or waste flow exchanges.')
     common_other: str | None = Field(default=None, alias='common:other')
 
 class GroupsMemberOfOption02(TidasBaseModel):
@@ -217,7 +217,7 @@ class ProcessesProcessInstanceOption1(TidasBaseModel):
     scaling_factors: Real | None = Field(default=None, alias='scalingFactors', description='A multiplicative scaling factor for the entire inventory of this process instance, used e.g. to scale the "Reference process" to the aimed-at amount of product (and thereby indirectly the entire inventory of the life cycle model). Note: Care is to be taken that models are not over- or under-specified - note that each process instance scaling is reducing the model\'s degree of freedom by one.')
     groups: ProcessInstanceOption1Groups | None = Field(default=None, alias='groups', description='Group(s) to which this process instance belongs.')
     parameters: ProcessInstanceOption1Parameters | None = Field(default=None, alias='parameters', description='Set of parameters of this process instance with parameter values (changed or unchanged from those in the underlying process data set).')
-    connections: ProcessInstanceOption1Connections = Field(default=..., alias='connections', description='Connection information among process instances, via connecting product or waste flow exchanges.')
+    connections: ProcessInstanceOption1Connections | None = Field(default=None, alias='connections', description='Connection information among process instances, via connecting product or waste flow exchanges.')
     common_other: str | None = Field(default=None, alias='common:other')
 
 class LifeCycleModelInformationTechnologyProcesses(TidasBaseModel):
