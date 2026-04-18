@@ -10,6 +10,7 @@ export default tseslint.config(
       'coverage/**',
       '*.js',
       '!src/**/*.js',
+      'src/schemas/ts-to-zod-configs/**',
       'test/**',
     ],
   },

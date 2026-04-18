@@ -1,100 +1,105 @@
-# AGENTS.md — tidas-sdk Release & Delivery Guide
+---
+title: tidas-sdk AI Working Guide
+docType: contract
+scope: repo
+status: active
+authoritative: true
+owner: tidas-sdk
+language: en
+whenToUse:
+  - when a task may change generated TypeScript or Python SDK surfaces, package release automation, or the upstream-refresh workflow
+  - when routing work from the workspace root into tidas-sdk
+  - when deciding whether a change belongs here, in tidas-tools, in tidas, or in lca-workspace
+whenToUpdate:
+  - when package ownership or upstream-generation rules change
+  - when release or verification scripts change
+  - when the repo-local AI bootstrap docs under ai/ change
+checkPaths:
+  - AGENTS.md
+  - README.md
+  - docs/**
+  - ai/**/*.md
+  - ai/**/*.yaml
+  - package.json
+  - scripts/ci/**
+  - sdks/typescript/**
+  - sdks/python/**
+  - .github/workflows/**
+lastReviewedAt: 2026-04-18
+lastReviewedCommit: 5deaf6884cb7d78d9d23213fc0a90f6c2867af35
+related:
+  - ai/repo.yaml
+  - ai/task-router.md
+  - ai/validation.md
+  - ai/architecture.md
+  - docs/release-setup.md
+  - docs/upstream-automation.md
+---
 
-This repository publishes two independently versioned packages:
+## Repo Contract
 
-- `@tiangong-lca/tidas-sdk` from `sdks/typescript/`
-- `tidas-sdk` from `sdks/python/`
+`tidas-sdk` owns the generated developer package surface for TIDAS: the published TypeScript package, the in-repo Python SDK, and the release automation that verifies and publishes them. Start here when the task may change SDK outputs, package metadata, or upstream-refresh automation.
 
-## Default Delivery Rules
+## AI Load Order
 
-- Start all new repo work from the latest `origin/main` unless the work is intentionally stacked on another branch.
-- Use a dedicated issue branch such as `feature/issue-<id>` or `chore/issue-<id>`.
-- Keep human-managed package release prep in a normal PR.
-- The upstream sync automation may push automation branches and open release-prep PRs when `tiangong-lca/tidas-tools` changes.
-- If this repo change is consumed by `lca-workspace`, complete the later submodule bump before treating the parent delivery as fully done.
+Load docs in this order:
 
-## Release Model
+1. `AGENTS.md`
+2. `ai/repo.yaml`
+3. `ai/task-router.md`
+4. `ai/validation.md`
+5. `ai/architecture.md`
+6. `docs/upstream-automation.md` or `docs/release-setup.md` only when the task touches automation or publishing
 
-Normal releases follow this path:
+Do not assume the spec docs site is the immediate executable upstream. In current practice, `tidas-tools` is the generation upstream for both SDK packages.
 
-1. Open a release-prep PR from `origin/main`.
-2. Update only the package that is being released:
-   - version metadata
-   - release notes / changelog content when maintained
-   - generated artifacts if upstream schemas changed
-   - package docs if install or API guidance changed
-3. Let CI validate the package with the same commands used by release automation.
-4. Merge the PR.
-5. Let the repository automation create a tag on the merged commit:
-   - TypeScript: `typescript-vX.Y.Z`
-   - Python: `python-vX.Y.Z`
-6. GitHub Actions publishes from that immutable tagged commit after the protected release environment is approved.
-7. If the auto-tagging workflow is unavailable, a maintainer may create the matching tag manually as a fallback.
-8. Verify the published package, create or update the GitHub Release note if needed, and close out the tracked issue / PR state.
+## Repo Ownership
 
-Releases are package-specific. Do not force the TypeScript and Python packages to share a version number or a release date.
+This repo owns:
 
-## CI/CD Contract
+- `sdks/typescript/**` for the published `@tiangong-lca/tidas-sdk` package
+- `sdks/python/**` for the in-repo Python SDK surface
+- `scripts/ci/**` for generation, verify, and publish helpers
+- `.github/workflows/**` for CI, upstream sync, tag automation, and publish workflows
+- `docs/release-setup.md` and `docs/upstream-automation.md` for release and automation contracts
 
-Repository workflows live under `.github/workflows/`:
+This repo does not own:
 
-- `ci.yml`
-  - validates package build, tests, generated artifacts, and packability on pull requests and `main`
-- `sync-from-tidas-tools.yml`
-  - regenerates SDK artifacts from an exact upstream `tiangong-lca/tidas-tools` commit
-  - bumps only affected package versions
-  - resolves the next unpublished registry version when repository metadata lags npm or PyPI
-  - opens or updates a release-prep PR on an automation branch
-- `tag-release-from-merge.yml`
-  - watches pushes to `main`
-  - creates package tags when a merged commit changes package versions
-  - refuses to create release tags for package versions that already exist in the target registry
-- `publish.yml`
-  - publishes only from package tags
-  - refuses to publish if the tag does not match the package version in source control
+- standalone conversion, export, or batch validation tooling
+- the public spec/docs site
+- workspace integration state after merge
 
-Package tags are the only supported path for routine publishing:
+Route those tasks to:
 
-- `typescript-v*` triggers npm publish for `@tiangong-lca/tidas-sdk`
-- `python-v*` triggers PyPI publish for `tidas-sdk`
+- `tidas-tools` for generation upstream, runtime assets, methodologies, and standalone tooling behavior
+- `tidas` for spec/docs-site content
+- `lca-workspace` for root integration after merge
 
-Do not move formal package publishing into reusable workflows. PyPI Trusted Publishing currently requires a concrete workflow file in `.github/workflows/publish.yml`.
+## Runtime Facts
 
-## Protected Release Environments
+- Root package manager: `npm`
+- Published packages:
+  - `@tiangong-lca/tidas-sdk` from `sdks/typescript/`
+  - `tidas-sdk` from `sdks/python/`
+- The canonical verification scripts are:
+  - `./scripts/ci/verify-typescript-package.sh`
+  - `./scripts/ci/verify-python-package.sh`
+- The upstream refresh helpers are:
+  - `./scripts/ci/generate-typescript-sdk.sh`
+  - `./scripts/ci/generate-python-sdk.sh`
 
-The publish workflow currently requires one GitHub environment:
+## Hard Boundaries
 
-- `pypi-release`
+- Do not treat `tidas` as the immediate code-generation upstream when the actual refresh path depends on `tidas-tools`
+- Do not move standalone conversion or export logic into the SDK packages
+- Do not treat a merged repo PR here as workspace-delivery complete if the root repo still needs a submodule bump
 
-`pypi-release` should require reviewer approval and should not allow self-review. `npm-release` is optional and should only be added if TypeScript publishes are later gated with a GitHub environment. The one-time registry and repository setup lives in `docs/release-setup.md`.
+## Workspace Integration
 
-Automation that pushes branches, opens PRs, or creates tags also requires the repository secret `TIDAS_RELEASE_AUTOMATION_TOKEN`.
+A merged PR in `tidas-sdk` is repo-complete, not delivery-complete.
 
-## Local Validation
+If the change must ship through the workspace:
 
-Run these before opening a release-prep PR when the corresponding package is affected:
-
-```bash
-./scripts/ci/verify-typescript-package.sh
-./scripts/ci/verify-python-package.sh
-```
-
-These verification scripts default to a fresh temporary clone of `tiangong-lca/tidas-tools` so local validation matches CI. If you intentionally want to validate against a local checkout instead, set `TIDAS_TOOLS_SOURCE_MODE=auto` and optionally `TIDAS_TOOLS_PATH=/path/to/tidas-tools`.
-
-## Local Publish Fallback
-
-Local publishing is an emergency-only fallback for platform outages or broken CI infrastructure.
-
-- Preferred path: GitHub Actions + Trusted Publishing
-- Fallback path: local maintainer publish with an issue / PR comment recording why CI release was bypassed
-
-The existing `scripts/ci/publish-python-sdk.sh` helper is retained only for that fallback path. If a manual fallback release happens, update the durable GitHub record in the same working session.
-
-## Post-Release Checklist
-
-- Confirm the registry shows the new version.
-- Confirm install / metadata sanity:
-  - npm: package page, provenance badge, install smoke test if needed
-  - PyPI: project page, version metadata, install smoke test if needed
-- Create or update release notes for the tagged commit when useful.
-- If the package release was part of tracked workspace delivery, complete the later `lca-workspace` integration step and move the related Project / Issue / PR items to `Done`.
+1. merge the child PR into `tidas-sdk`
+2. update the `lca-workspace` submodule pointer deliberately
+3. complete any later workspace-level validation that depends on the updated SDK snapshot

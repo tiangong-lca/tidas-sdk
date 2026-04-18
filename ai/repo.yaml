@@ -1,0 +1,161 @@
+{
+  "version": 1,
+  "lastReviewedAt": "2026-04-18",
+  "lastReviewedCommit": "5deaf6884cb7d78d9d23213fc0a90f6c2867af35",
+  "repo": {
+    "id": "tidas-sdk",
+    "path": "tidas-sdk",
+    "canonicalRepo": "tiangong-lca/tidas-sdk",
+    "purpose": "Generated TypeScript and Python SDK repository for TIDAS.",
+    "entryDoc": "AGENTS.md",
+    "taskRouterDoc": "ai/task-router.md",
+    "validationDoc": "ai/validation.md",
+    "architectureDoc": "ai/architecture.md",
+    "readmeDoc": "README.md",
+    "defaultBranch": "main",
+    "dailyTrunk": "main",
+    "routinePrBase": "main",
+    "branchModel": "M1",
+    "workspaceIntegrationRequired": true,
+    "rootIntegrationRule": "lca-workspace/main may bump merged main-branch SDK snapshots when the workspace intends to ship the updated package surfaces.",
+    "trackedBy": {
+      "workspaceParentIssue": "https://github.com/tiangong-lca/workspace/issues/73",
+      "repoIssue": "https://github.com/tiangong-lca/tidas-sdk/issues/45"
+    },
+    "runtime": {
+      "rootPackageManager": "npm",
+      "publishedPackages": [
+        {
+          "name": "@tiangong-lca/tidas-sdk",
+          "path": "sdks/typescript"
+        },
+        {
+          "name": "tidas-sdk",
+          "path": "sdks/python"
+        }
+      ],
+      "baselineValidationCommands": [
+        "./scripts/ci/verify-typescript-package.sh",
+        "./scripts/ci/verify-python-package.sh"
+      ],
+      "generationCommands": [
+        "./scripts/ci/generate-typescript-sdk.sh",
+        "./scripts/ci/generate-python-sdk.sh"
+      ],
+      "releaseTags": [
+        "typescript-v<version>",
+        "python-v<version>"
+      ]
+    },
+    "sourceOfTruth": {
+      "stableManualEditPaths": [
+        {
+          "path": "scripts/ci/**",
+          "role": "generation, verification, tagging, and publish helpers"
+        },
+        {
+          "path": "docs/release-setup.md",
+          "role": "registry and GitHub release-environment setup contract"
+        },
+        {
+          "path": "docs/upstream-automation.md",
+          "role": "upstream refresh and release automation design"
+        },
+        {
+          "path": "sdks/typescript/package.json",
+          "role": "TypeScript package metadata"
+        },
+        {
+          "path": "sdks/typescript/src/**",
+          "role": "TypeScript package source, generated types, schemas, runtime assets, and tools"
+        },
+        {
+          "path": "sdks/typescript/scripts/**",
+          "role": "TypeScript generation and runtime-asset sync helpers"
+        },
+        {
+          "path": "sdks/typescript/examples/**",
+          "role": "TypeScript package usage examples"
+        },
+        {
+          "path": "sdks/python/pyproject.toml",
+          "role": "Python package metadata"
+        },
+        {
+          "path": "sdks/python/src/**",
+          "role": "Python SDK source and generated models"
+        },
+        {
+          "path": "sdks/python/scripts/**",
+          "role": "Python generation helpers"
+        },
+        {
+          "path": "sdks/python/tests/**",
+          "role": "Python SDK tests"
+        }
+      ],
+      "nonOwnerBoundaries": [
+        {
+          "repo": "tidas-tools",
+          "doesNotOwn": [
+            "standalone conversion CLI",
+            "standalone export CLI",
+            "upstream runtime schemas and methodologies"
+          ]
+        },
+        {
+          "repo": "tidas",
+          "doesNotOwn": [
+            "public spec/docs-site content"
+          ]
+        },
+        {
+          "repo": "lca-workspace",
+          "doesNotOwn": [
+            "root integration state",
+            "submodule pointer updates"
+          ]
+        }
+      ]
+    },
+    "taskHotspots": [
+      {
+        "topic": "upstream generation and package verification",
+        "paths": [
+          "scripts/ci/**",
+          "docs/upstream-automation.md",
+          ".github/workflows/**"
+        ]
+      },
+      {
+        "topic": "TypeScript package surfaces and runtime assets",
+        "paths": [
+          "sdks/typescript/src/**",
+          "sdks/typescript/scripts/**",
+          "sdks/typescript/package.json",
+          "sdks/typescript/examples/**"
+        ]
+      },
+      {
+        "topic": "Python package surfaces and generated models",
+        "paths": [
+          "sdks/python/src/**",
+          "sdks/python/scripts/**",
+          "sdks/python/tests/**",
+          "sdks/python/pyproject.toml"
+        ]
+      }
+    ],
+    "validation": {
+      "baselineLocalCommands": [
+        "./scripts/ci/verify-typescript-package.sh",
+        "./scripts/ci/verify-python-package.sh"
+      ],
+      "notes": [
+        "Generation scripts resolve tidas-tools from TIDAS_TOOLS_PATH, a sibling ../tidas-tools checkout, or a temporary clone.",
+        "If the task changes only one package, still record whether the other package verification was run or intentionally deferred.",
+        "AI-doc changes should still run the root warning-only ai-doc-lint."
+      ]
+    }
+  }
+}
