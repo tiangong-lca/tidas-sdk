@@ -55,6 +55,7 @@ When working inside `tidas-sdk`, load docs in this order:
 | Change verify, tag, or publish flow | `scripts/ci/verify-*.sh`, `scripts/ci/check-release-tag.sh`, `scripts/ci/release-version.py`, `.github/workflows/**` | `ai/validation.md`, `docs/release-setup.md`, `docs/upstream-automation.md` | Tag-driven release is the normal path. |
 | Change spec/docs-site wording only | `tidas`, not this repo | root `ai/task-router.md` | Public spec docs live in `tidas`. |
 | Change standalone conversion, export, or methodology assets | `tidas-tools`, not this repo | root `ai/task-router.md` | `tidas-tools` is the executable upstream for current package refreshes. |
+| Change repo-local AI-doc maintenance only | `AGENTS.md`, `ai/**`, `.github/workflows/ai-doc-lint.yml`, `.github/scripts/ai-doc-lint.*` | `ai/validation.md` when present, otherwise `ai/repo.yaml` | Keep the repo-local maintenance gate aligned with root `ai/ci-lint-spec.md` and `ai/review-matrix.md`. |
 | Decide whether work is delivery-complete after merge | root workspace docs, not repo code paths | root `AGENTS.md`, `_docs/workspace-branch-policy-contract.md` | Root integration remains a separate phase. |
 
 ## Wrong Turns To Avoid

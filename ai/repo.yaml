@@ -154,7 +154,7 @@
       "notes": [
         "Generation scripts resolve tidas-tools from TIDAS_TOOLS_PATH, a sibling ../tidas-tools checkout, or a temporary clone.",
         "If the task changes only one package, still record whether the other package verification was run or intentionally deferred.",
-        "AI-doc changes should still run the root warning-only ai-doc-lint."
+        "AI-doc changes should still run the repo-local ai-doc-lint workflow or the equivalent local node command."
       ]
     }
   }

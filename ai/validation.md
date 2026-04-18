@@ -52,7 +52,7 @@ These scripts are the best repo-wide proof because they mirror CI expectations a
 | Python package source, scripts, or tests | `./scripts/ci/verify-python-package.sh` | run one focused pytest or generation step when the change is isolated | Record if the Python package still depends on generated artifacts from a specific upstream commit. |
 | shared generation helpers under `scripts/ci/**` | run both verify scripts | run the matching `generate-*.sh` path if the task explicitly changes refresh behavior | Generation changes can affect both packages even if only one output changed. |
 | release setup, tag, or publish workflows | run both verify scripts | inspect `.github/workflows/**` and record any tag or environment assumptions checked locally | Tag creation and registry publication are separate from local package verification. |
-| AI docs only | run the root warning-only `ai-doc-lint` against touched files | do one scenario-based routing check from root into this repo | Refresh review metadata even when prose-only docs change. |
+| AI docs only | run repo-local `ai-doc-lint` against touched files or the equivalent local PR check | do one scenario-based routing check from root into this repo | Refresh review metadata even when prose-only docs change. |
 
 ## Upstream Resolution Notes
 
