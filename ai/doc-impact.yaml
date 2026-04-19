@@ -1,0 +1,205 @@
+{
+  "version": 1,
+  "lastReviewedAt": "2026-04-18",
+  "lastReviewedCommit": "5deaf6884cb7d78d9d23213fc0a90f6c2867af35",
+  "rules": [
+    {
+      "id": "tidas-sdk-bootstrap-contract",
+      "scope": "repo",
+      "repo": "tidas-sdk",
+      "triggers": [
+        {
+          "path": "AGENTS.md",
+          "kind": "doc-contract"
+        },
+        {
+          "path": "README.md",
+          "kind": "doc-entry"
+        },
+        {
+          "path": "docs/**",
+          "kind": "doc-maintainer"
+        },
+        {
+          "path": "ai/**",
+          "kind": "doc-ai-layer"
+        }
+      ],
+      "requiredDocs": [
+        {
+          "path": "AGENTS.md",
+          "mode": "review_or_update"
+        },
+        {
+          "path": "ai/repo.yaml",
+          "mode": "review_or_update"
+        },
+        {
+          "path": "ai/task-router.md",
+          "mode": "review_or_update"
+        }
+      ],
+      "reason": "Entry guidance, repo facts, and routing docs must stay aligned."
+    },
+    {
+      "id": "tidas-sdk-typescript-contract",
+      "scope": "repo",
+      "repo": "tidas-sdk",
+      "triggers": [
+        {
+          "path": "sdks/typescript/**",
+          "kind": "typescript-package"
+        }
+      ],
+      "requiredDocs": [
+        {
+          "path": "AGENTS.md",
+          "mode": "review_or_update"
+        },
+        {
+          "path": "ai/repo.yaml",
+          "mode": "review_or_update"
+        },
+        {
+          "path": "ai/task-router.md",
+          "mode": "review_or_update"
+        },
+        {
+          "path": "ai/validation.md",
+          "mode": "review_or_update"
+        },
+        {
+          "path": "ai/architecture.md",
+          "mode": "review_or_update"
+        }
+      ],
+      "reason": "TypeScript package changes alter generated SDK surfaces, runtime assets, and local verification expectations."
+    },
+    {
+      "id": "tidas-sdk-python-contract",
+      "scope": "repo",
+      "repo": "tidas-sdk",
+      "triggers": [
+        {
+          "path": "sdks/python/**",
+          "kind": "python-package"
+        }
+      ],
+      "requiredDocs": [
+        {
+          "path": "AGENTS.md",
+          "mode": "review_or_update"
+        },
+        {
+          "path": "ai/repo.yaml",
+          "mode": "review_or_update"
+        },
+        {
+          "path": "ai/task-router.md",
+          "mode": "review_or_update"
+        },
+        {
+          "path": "ai/validation.md",
+          "mode": "review_or_update"
+        },
+        {
+          "path": "ai/architecture.md",
+          "mode": "review_or_update"
+        }
+      ],
+      "reason": "Python package changes alter generated SDK surfaces and local verification expectations."
+    },
+    {
+      "id": "tidas-sdk-generation-and-release-contract",
+      "scope": "repo",
+      "repo": "tidas-sdk",
+      "triggers": [
+        {
+          "path": "scripts/ci/**",
+          "kind": "generation-or-release"
+        },
+        {
+          "path": ".github/workflows/ci.yml",
+          "kind": "ci"
+        },
+        {
+          "path": ".github/workflows/publish.yml",
+          "kind": "ci"
+        },
+        {
+          "path": ".github/workflows/sync-from-tidas-tools.yml",
+          "kind": "ci"
+        },
+        {
+          "path": ".github/workflows/tag-release-from-merge.yml",
+          "kind": "ci"
+        },
+        {
+          "path": "package.json",
+          "kind": "workspace-runtime"
+        }
+      ],
+      "requiredDocs": [
+        {
+          "path": "AGENTS.md",
+          "mode": "review_or_update"
+        },
+        {
+          "path": "ai/repo.yaml",
+          "mode": "review_or_update"
+        },
+        {
+          "path": "ai/task-router.md",
+          "mode": "review_or_update"
+        },
+        {
+          "path": "ai/validation.md",
+          "mode": "review_or_update"
+        },
+        {
+          "path": "ai/architecture.md",
+          "mode": "review_or_update"
+        }
+      ],
+      "reason": "Generation, verification, and release automation changes affect both package surfaces and the repo's executable contract."
+    },
+    {
+      "id": "tidas-sdk-ai-doc-maintenance-contract",
+      "scope": "repo",
+      "repo": "tidas-sdk",
+      "triggers": [
+        {
+          "path": ".github/workflows/ai-doc-lint.yml",
+          "kind": "automation"
+        },
+        {
+          "path": ".github/scripts/ai-doc-lint.mjs",
+          "kind": "automation"
+        },
+        {
+          "path": ".github/scripts/ai-doc-lint.test.mjs",
+          "kind": "automation"
+        }
+      ],
+      "requiredDocs": [
+        {
+          "path": "AGENTS.md",
+          "mode": "review_or_update"
+        },
+        {
+          "path": "ai/repo.yaml",
+          "mode": "review_or_update"
+        },
+        {
+          "path": "ai/doc-impact.yaml",
+          "mode": "review_or_update"
+        },
+        {
+          "path": "ai/validation.md",
+          "mode": "review_or_update"
+        }
+      ],
+      "reason": "Repo-local AI doc maintenance automation changes alter the maintenance gate and should refresh the AI contract docs."
+    }
+  ]
+}
