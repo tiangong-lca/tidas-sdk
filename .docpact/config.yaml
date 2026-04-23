@@ -1,0 +1,391 @@
+version: 1
+layout: repo
+lastReviewedAt: 2026-04-23
+lastReviewedCommit: c146296931a18042dfa7f8e433c2ff2b35438601
+
+catalog:
+  repos:
+    - id: tidas-sdk
+      path: .
+      canonicalRepo: tiangong-lca/tidas-sdk
+      entryDoc: AGENTS.md
+      workflowDocs:
+        - docs/agents/repo-validation.md
+        - docs/agents/repo-architecture.md
+        - docs/release-setup.md
+        - docs/upstream-automation.md
+      workspaceIntegrationRequired: true
+
+ownership:
+  domains:
+    - id: repo-governance-and-docs
+      paths:
+        include:
+          - AGENTS.md
+          - README.md
+          - .docpact/config.yaml
+          - docs/agents/**
+          - docs/release-setup.md
+          - docs/upstream-automation.md
+          - .github/workflows/ai-doc-lint.yml
+      ownerRepo: tidas-sdk
+    - id: typescript-package-surface
+      paths:
+        include:
+          - sdks/typescript/package.json
+          - sdks/typescript/package-lock.json
+          - sdks/typescript/README.md
+          - sdks/typescript/README-zh.md
+          - sdks/typescript/RELEASE.md
+          - sdks/typescript/examples/**
+          - sdks/typescript/scripts/**
+          - sdks/typescript/src/**
+          - sdks/typescript/jest.config.js
+          - sdks/typescript/eslint.config.mjs
+          - sdks/typescript/tsconfig.json
+          - sdks/typescript/tsconfig.zod.json
+      ownerRepo: tidas-sdk
+    - id: python-package-surface
+      paths:
+        include:
+          - sdks/python/pyproject.toml
+          - sdks/python/README.md
+          - sdks/python/README-zh.md
+          - sdks/python/RELEASE.md
+          - sdks/python/examples/**
+          - sdks/python/scripts/**
+          - sdks/python/src/**
+          - sdks/python/tests/**
+      ownerRepo: tidas-sdk
+    - id: generation-and-release-automation
+      paths:
+        include:
+          - package.json
+          - scripts/ci/**
+          - .github/workflows/ci.yml
+          - .github/workflows/publish.yml
+          - .github/workflows/sync-from-tidas-tools.yml
+          - .github/workflows/tag-release-from-merge.yml
+      ownerRepo: tidas-sdk
+
+coverage:
+  include:
+    - AGENTS.md
+    - README.md
+    - .docpact/config.yaml
+    - docs/agents/**
+    - docs/release-setup.md
+    - docs/upstream-automation.md
+    - package.json
+    - scripts/ci/**
+    - sdks/typescript/package.json
+    - sdks/typescript/package-lock.json
+    - sdks/typescript/README.md
+    - sdks/typescript/README-zh.md
+    - sdks/typescript/RELEASE.md
+    - sdks/typescript/examples/**
+    - sdks/typescript/scripts/**
+    - sdks/typescript/src/**
+    - sdks/typescript/jest.config.js
+    - sdks/typescript/eslint.config.mjs
+    - sdks/typescript/tsconfig.json
+    - sdks/typescript/tsconfig.zod.json
+    - sdks/python/pyproject.toml
+    - sdks/python/README.md
+    - sdks/python/README-zh.md
+    - sdks/python/RELEASE.md
+    - sdks/python/examples/**
+    - sdks/python/scripts/**
+    - sdks/python/src/**
+    - sdks/python/tests/**
+    - .github/workflows/ai-doc-lint.yml
+    - .github/workflows/ci.yml
+    - .github/workflows/publish.yml
+    - .github/workflows/sync-from-tidas-tools.yml
+    - .github/workflows/tag-release-from-merge.yml
+  exclude:
+    - .git/**
+    - .github/scripts/**
+    - node_modules/**
+    - sdks/typescript/node_modules/**
+    - sdks/typescript/dist/**
+    - sdks/python/.coverage
+    - sdks/python/.mypy_cache/**
+    - sdks/python/.pytest_cache/**
+    - sdks/python/.ruff_cache/**
+    - sdks/python/.venv/**
+    - sdks/python/dist/**
+    - sdks/python/htmlcov/**
+    - scripts/ci/__pycache__/**
+
+freshness:
+  warn_after_commits: 40
+  warn_after_days: 60
+  critical_after_days: 120
+
+routing:
+  intents:
+    typescript-sdk:
+      paths:
+        - sdks/typescript/package.json
+        - sdks/typescript/package-lock.json
+        - sdks/typescript/README.md
+        - sdks/typescript/README-zh.md
+        - sdks/typescript/RELEASE.md
+        - sdks/typescript/examples/**
+        - sdks/typescript/scripts/**
+        - sdks/typescript/src/**
+        - sdks/typescript/jest.config.js
+        - sdks/typescript/eslint.config.mjs
+        - sdks/typescript/tsconfig.json
+        - sdks/typescript/tsconfig.zod.json
+    python-sdk:
+      paths:
+        - sdks/python/pyproject.toml
+        - sdks/python/README.md
+        - sdks/python/README-zh.md
+        - sdks/python/RELEASE.md
+        - sdks/python/examples/**
+        - sdks/python/scripts/**
+        - sdks/python/src/**
+        - sdks/python/tests/**
+    generation-and-release:
+      paths:
+        - package.json
+        - scripts/ci/**
+        - .github/workflows/ci.yml
+        - .github/workflows/publish.yml
+        - .github/workflows/sync-from-tidas-tools.yml
+        - .github/workflows/tag-release-from-merge.yml
+    upstream-refresh:
+      paths:
+        - scripts/ci/generate-typescript-sdk.sh
+        - scripts/ci/generate-python-sdk.sh
+        - scripts/ci/lib/tidas-tools-source.sh
+        - docs/upstream-automation.md
+    release-setup:
+      paths:
+        - docs/release-setup.md
+        - .github/workflows/publish.yml
+        - .github/workflows/tag-release-from-merge.yml
+    proof:
+      paths:
+        - docs/agents/repo-validation.md
+        - docs/release-setup.md
+        - docs/upstream-automation.md
+        - package.json
+        - scripts/ci/**
+        - sdks/typescript/package.json
+        - sdks/typescript/scripts/**
+        - sdks/typescript/src/**
+        - sdks/python/pyproject.toml
+        - sdks/python/scripts/**
+        - sdks/python/src/**
+        - sdks/python/tests/**
+        - .github/workflows/ci.yml
+        - .github/workflows/publish.yml
+        - .github/workflows/sync-from-tidas-tools.yml
+        - .github/workflows/tag-release-from-merge.yml
+    repo-docs:
+      paths:
+        - AGENTS.md
+        - README.md
+        - .docpact/config.yaml
+        - docs/agents/**
+        - docs/release-setup.md
+        - docs/upstream-automation.md
+    root-integration:
+      paths:
+        - AGENTS.md
+
+docInventory:
+  include:
+    - AGENTS.md
+    - README.md
+    - .docpact/config.yaml
+    - docs/agents/repo-validation.md
+    - docs/agents/repo-architecture.md
+    - docs/release-setup.md
+    - docs/upstream-automation.md
+
+repo:
+  id: tidas-sdk
+  owner: tidas-sdk
+
+rules:
+  - id: tidas-sdk-bootstrap-contract
+    scope: repo
+    repo: tidas-sdk
+    triggers:
+      - path: AGENTS.md
+        kind: doc-contract
+      - path: .docpact/config.yaml
+        kind: doc-ai-layer
+      - path: docs/agents/repo-validation.md
+        kind: deep-doc
+      - path: docs/agents/repo-architecture.md
+        kind: deep-doc
+    requiredDocs:
+      - path: AGENTS.md
+        mode: review_or_update
+      - path: .docpact/config.yaml
+        mode: review_or_update
+      - path: docs/agents/repo-validation.md
+        mode: review_or_update
+      - path: docs/agents/repo-architecture.md
+        mode: review_or_update
+    reason: Repo entry guidance, machine-readable routing, and retained internal source docs must stay aligned.
+  - id: tidas-sdk-readme-contract
+    scope: repo
+    repo: tidas-sdk
+    triggers:
+      - path: README.md
+        kind: repo-landing
+    requiredDocs:
+      - path: AGENTS.md
+        mode: review_or_update
+      - path: README.md
+        mode: review_or_update
+      - path: .docpact/config.yaml
+        mode: review_or_update
+    reason: Repo landing text should stay aligned with the current contract and AI entry surface.
+  - id: tidas-sdk-typescript-package-contract
+    scope: repo
+    repo: tidas-sdk
+    triggers:
+      - path: sdks/typescript/package.json
+        kind: package-metadata
+      - path: sdks/typescript/package-lock.json
+        kind: package-lock
+      - path: sdks/typescript/README.md
+        kind: package-doc
+      - path: sdks/typescript/README-zh.md
+        kind: package-doc
+      - path: sdks/typescript/RELEASE.md
+        kind: package-doc
+      - path: sdks/typescript/examples/**
+        kind: package-example
+      - path: sdks/typescript/scripts/**
+        kind: package-script
+      - path: sdks/typescript/src/**
+        kind: package-source
+      - path: sdks/typescript/jest.config.js
+        kind: package-test-config
+      - path: sdks/typescript/eslint.config.mjs
+        kind: package-runtime
+      - path: sdks/typescript/tsconfig.json
+        kind: package-runtime
+      - path: sdks/typescript/tsconfig.zod.json
+        kind: package-runtime
+    requiredDocs:
+      - path: AGENTS.md
+        mode: review_or_update
+      - path: .docpact/config.yaml
+        mode: review_or_update
+      - path: docs/agents/repo-validation.md
+        mode: review_or_update
+      - path: docs/agents/repo-architecture.md
+        mode: review_or_update
+      - path: docs/upstream-automation.md
+        mode: review_or_update
+    reason: TypeScript package changes alter generated SDK surfaces, runtime assets, and upstream-refresh assumptions.
+  - id: tidas-sdk-python-package-contract
+    scope: repo
+    repo: tidas-sdk
+    triggers:
+      - path: sdks/python/pyproject.toml
+        kind: package-metadata
+      - path: sdks/python/README.md
+        kind: package-doc
+      - path: sdks/python/README-zh.md
+        kind: package-doc
+      - path: sdks/python/RELEASE.md
+        kind: package-doc
+      - path: sdks/python/examples/**
+        kind: package-example
+      - path: sdks/python/scripts/**
+        kind: package-script
+      - path: sdks/python/src/**
+        kind: package-source
+      - path: sdks/python/tests/**
+        kind: package-test
+    requiredDocs:
+      - path: AGENTS.md
+        mode: review_or_update
+      - path: .docpact/config.yaml
+        mode: review_or_update
+      - path: docs/agents/repo-validation.md
+        mode: review_or_update
+      - path: docs/agents/repo-architecture.md
+        mode: review_or_update
+      - path: docs/upstream-automation.md
+        mode: review_or_update
+    reason: Python package changes alter generated SDK surfaces and upstream-refresh expectations.
+  - id: tidas-sdk-generation-and-release-contract
+    scope: repo
+    repo: tidas-sdk
+    triggers:
+      - path: package.json
+        kind: workspace-runtime
+      - path: scripts/ci/**
+        kind: generation-or-release
+      - path: .github/workflows/ci.yml
+        kind: automation
+      - path: .github/workflows/publish.yml
+        kind: automation
+      - path: .github/workflows/sync-from-tidas-tools.yml
+        kind: automation
+      - path: .github/workflows/tag-release-from-merge.yml
+        kind: automation
+    requiredDocs:
+      - path: AGENTS.md
+        mode: review_or_update
+      - path: README.md
+        mode: review_or_update
+      - path: .docpact/config.yaml
+        mode: review_or_update
+      - path: docs/agents/repo-validation.md
+        mode: review_or_update
+      - path: docs/agents/repo-architecture.md
+        mode: review_or_update
+      - path: docs/release-setup.md
+        mode: review_or_update
+      - path: docs/upstream-automation.md
+        mode: review_or_update
+    reason: Generation, verification, tagging, and publish automation changes affect both package surfaces and the repo's executable contract.
+  - id: tidas-sdk-automation-docs-contract
+    scope: repo
+    repo: tidas-sdk
+    triggers:
+      - path: docs/release-setup.md
+        kind: release-doc
+      - path: docs/upstream-automation.md
+        kind: automation-doc
+    requiredDocs:
+      - path: AGENTS.md
+        mode: review_or_update
+      - path: .docpact/config.yaml
+        mode: review_or_update
+      - path: docs/agents/repo-validation.md
+        mode: review_or_update
+      - path: docs/agents/repo-architecture.md
+        mode: review_or_update
+      - path: docs/release-setup.md
+        mode: review_or_update
+      - path: docs/upstream-automation.md
+        mode: review_or_update
+    reason: Release and automation design docs should stay aligned with the repo contract, proof expectations, and topology map.
+  - id: tidas-sdk-doc-maintenance-contract
+    scope: repo
+    repo: tidas-sdk
+    triggers:
+      - path: .github/workflows/ai-doc-lint.yml
+        kind: automation
+    requiredDocs:
+      - path: AGENTS.md
+        mode: review_or_update
+      - path: .docpact/config.yaml
+        mode: review_or_update
+      - path: docs/agents/repo-validation.md
+        mode: review_or_update
+    reason: Repo-local documentation maintenance automation must stay aligned with the repo contract and governed-doc rules.

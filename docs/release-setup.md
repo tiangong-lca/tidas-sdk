@@ -1,3 +1,30 @@
+---
+title: tidas-sdk Release Setup
+docType: guide
+scope: repo
+status: active
+authoritative: false
+owner: tidas-sdk
+language: en
+whenToUse:
+  - when a task changes release environments, trusted publishing, registry prerequisites, or tag-to-publish workflow behavior
+  - when reviewing the release-setup governed doc referenced by docpact routing
+whenToUpdate:
+  - when publish workflow identity, environment names, secret names, or trusted-publishing prerequisites change
+checkPaths:
+  - docs/release-setup.md
+  - .github/workflows/publish.yml
+  - .github/workflows/tag-release-from-merge.yml
+  - .docpact/config.yaml
+lastReviewedAt: 2026-04-23
+lastReviewedCommit: c146296931a18042dfa7f8e433c2ff2b35438601
+related:
+  - ../AGENTS.md
+  - ../.docpact/config.yaml
+  - ./upstream-automation.md
+  - ./agents/repo-validation.md
+---
+
 # Release Setup
 
 This document captures the one-time repository and registry configuration required for the `tidas-sdk` release workflows.
@@ -101,4 +128,4 @@ If the PyPI project does not exist yet, register a pending publisher first so th
 
 - `publish.yml` validates that the Git tag matches the package version before upload.
 - npm and PyPI releases are independent; configure both publishers even if only one package is released initially.
-- If a repository or package rename ever happens, update both the workflow and the trusted publisher registration before the next release.
+- if a repository or package rename ever happens, update both the workflow and the trusted publisher registration before the next release.
