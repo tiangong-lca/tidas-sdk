@@ -1,75 +1,112 @@
+---
+title: tidas-sdk README
+docType: guide
+scope: repo
+status: active
+authoritative: false
+owner: tidas-sdk
+language: en
+whenToUse:
+  - when you need the repo landing context, package overview, or basic setup commands
+  - when deciding which retained AI docs to read next inside tidas-sdk
+whenToUpdate:
+  - when package overview, setup commands, or release guidance changes
+  - when the retained AI docs entry surface changes
+checkPaths:
+  - README.md
+  - AGENTS.md
+  - .docpact/config.yaml
+  - docs/agents/**
+  - docs/release-setup.md
+  - docs/upstream-automation.md
+  - package.json
+  - scripts/ci/**
+  - sdks/typescript/**
+  - sdks/python/**
+lastReviewedAt: 2026-04-23
+lastReviewedCommit: c146296931a18042dfa7f8e433c2ff2b35438601
+related:
+  - AGENTS.md
+  - .docpact/config.yaml
+  - docs/agents/repo-validation.md
+  - docs/agents/repo-architecture.md
+  - docs/release-setup.md
+  - docs/upstream-automation.md
+---
+
 # TIDAS SDKs
 
-A comprehensive multi-language SDK project for TIDAS (TianGong Life Cycle Assessment data format), providing implementations for working with ILCD/TIDAS data across multiple programming languages.
+A multi-language SDK repository for TIDAS (TianGong Life Cycle Assessment data format), providing the generated TypeScript package, the in-repo Python SDK, and the automation that refreshes and releases them from `tidas-tools`.
 
-## 🚀 Quick Start
+## AI Docs Entry
 
-### TypeScript SDK (Recommended)
+For AI-first repo work, load docs in this order:
+
+1. [AGENTS.md](./AGENTS.md)
+2. [.docpact/config.yaml](./.docpact/config.yaml)
+3. [docs/agents/repo-validation.md](./docs/agents/repo-validation.md) or [docs/agents/repo-architecture.md](./docs/agents/repo-architecture.md)
+4. [docs/upstream-automation.md](./docs/upstream-automation.md) or [docs/release-setup.md](./docs/release-setup.md) when automation or publishing is part of the task
+
+## Quick Start
+
+### TypeScript SDK
 
 ```bash
 npm install @tiangong-lca/tidas-sdk
 ```
 
-### Python Tools
+### Python SDK (Development)
+
+```bash
+cd sdks/python && uv sync
+```
+
+### Upstream Tools
+
+`tidas-tools` remains the executable upstream for generation, runtime assets, and standalone tooling behavior:
 
 ```bash
 pip install tidas-tools
 ```
 
-### Python SDK (Development)
-
-```bash
-# Development version - install from source
-cd sdks/python && uv sync
-```
-
-## 📦 Available Packages
+## Available Packages
 
 ### @tiangong-lca/tidas-sdk (TypeScript)
 
-- **Status**: ✅ Production Ready
-- **Features**: Type-safe data manipulation, validation, XML conversion, directory tools, schema generation
-- **Installation**: `npm install @tiangong-lca/tidas-sdk`
-- **Location**: `sdks/typescript/`
-
-### tidas-tools (Python)
-
-- **Status**: ✅ Production Ready
-- **Features**: Database/export utilities, legacy Python conversion workflow, upstream schemas/assets
-- **Installation**: `pip install tidas-tools`
-- **Repository**: external upstream package (`tiangong-lca/tidas-tools`)
+- Status: production package
+- Features: type-safe data manipulation, validation, XML conversion, directory tools, and packaged runtime assets
+- Installation: `npm install @tiangong-lca/tidas-sdk`
+- Location: `sdks/typescript/`
 
 ### tidas-sdk (Python, Development)
 
-- **Status**: 🚧 In Development
-- **Features**: Pydantic-based data models, validation, utilities
-- **Installation**: Development only (from source)
-- **Location**: `sdks/python/`
+- Status: in development
+- Features: generated Python models, validation helpers, and utilities
+- Installation: source-only for now
+- Location: `sdks/python/`
 
-## 🏗️ Project Structure
+### tidas-tools (External Upstream)
 
-```
-tidas-sdk/
-├── sdks/
-│   ├── typescript/           # TypeScript SDK (production)
-│   └── python/              # Python SDK (development)
-└── scripts/                 # Build utilities
-```
+- Status: separate upstream package
+- Role: generation source, upstream schemas/assets, and standalone conversion / export tooling
+- Repository: `tiangong-lca/tidas-tools`
 
-## 📚 Documentation
+## Documentation
 
-- **Repository Workflow**: [AGENTS.md](./AGENTS.md)
-- **Release Setup**: [docs/release-setup.md](./docs/release-setup.md)
-- **Upstream Automation Design**: [docs/upstream-automation.md](./docs/upstream-automation.md)
-- **TypeScript Release Guide**: [sdks/typescript/RELEASE.md](./sdks/typescript/RELEASE.md)
-- **Python Release Guide**: [sdks/python/RELEASE.md](./sdks/python/RELEASE.md)
+- Repository Contract: [AGENTS.md](./AGENTS.md)
+- Validation Guide: [docs/agents/repo-validation.md](./docs/agents/repo-validation.md)
+- Architecture Notes: [docs/agents/repo-architecture.md](./docs/agents/repo-architecture.md)
+- Release Setup: [docs/release-setup.md](./docs/release-setup.md)
+- Upstream Automation Design: [docs/upstream-automation.md](./docs/upstream-automation.md)
+- TypeScript Release Guide: [sdks/typescript/RELEASE.md](./sdks/typescript/RELEASE.md)
+- Python Release Guide: [sdks/python/RELEASE.md](./sdks/python/RELEASE.md)
 
-## 🛠️ Development
+## Development
 
 ### Prerequisites
 
-- **TypeScript SDK**: Node.js 24+, npm
-- **Python SDK/Tools**: Python 3.8+, uv (recommended)
+- TypeScript SDK: Node.js 24+, npm
+- Python SDK: Python 3.12+, uv
 
 ### Setup
 
@@ -110,10 +147,8 @@ For the TypeScript package, this refresh also syncs the packaged runtime convers
 
 Normal releases are tag-driven and published by GitHub Actions:
 
-- TypeScript package: create `typescript-vX.Y.Z` on the merged release commit
-- Python package: create `python-vX.Y.Z` on the merged release commit
-
-If you want `tidas-tools` changes to automatically regenerate and release these packages, see [docs/upstream-automation.md](./docs/upstream-automation.md).
+- TypeScript package: `typescript-vX.Y.Z`
+- Python package: `python-vX.Y.Z`
 
 Use these local verification commands before opening a release PR:
 
@@ -122,61 +157,27 @@ Use these local verification commands before opening a release PR:
 ./scripts/ci/verify-python-package.sh
 ```
 
-## 🎯 Current Status
+If you want `tidas-tools` changes to automatically regenerate and release these packages, see [docs/upstream-automation.md](./docs/upstream-automation.md).
 
-### ✅ Completed
+## Current Status
 
-- TypeScript SDK with full TIDAS schema support
-- Data validation using Zod schemas
+### Completed
+
+- TypeScript SDK with committed schemas and runtime assets
 - XML conversion and directory tooling for the non-export `tidas-tools` workflow
-- Property access and manipulation utilities
-- Python tools for data conversion and validation
-- Comprehensive type generation from JSON schemas
+- Python SDK code generation and validation helpers
+- Tag-driven release automation for TypeScript and Python packages
 
-### 🚧 In Development
+### In Progress
 
-- Python SDK implementation with Pydantic models
-- Test coverage improvements
-- Additional language implementations (Java planned)
+- Python SDK maturation and test coverage improvements
+- cross-repository automation from `tidas-tools` into `tidas-sdk`
 
-### 📋 Roadmap
+## Contributing
 
-#### Short Term
+Review [AGENTS.md](./AGENTS.md) first for:
 
-- Complete Python SDK development
-- Improve test coverage across all packages
-- Enhanced documentation and examples
-
-#### Long Term
-
-- Java SDK implementation
-- Performance optimizations
-- Additional utility tools
-
-## 🤝 Contributing
-
-We welcome contributions! Please see [AGENTS.md](./AGENTS.md) for:
-
-- Code style standards
-- Testing requirements
-- Development workflow
-- Getting started instructions
-
-## 📄 License
-
-MIT License - see [LICENSE](./LICENSE) file for details.
-
-## 🔗 Links
-
-- **npm Package**: [@tiangong-lca/tidas-sdk](https://www.npmjs.com/package/@tiangong-lca/tidas-sdk)
-- **PyPI Package**: [tidas-tools](https://pypi.org/project/tidas-tools/)
-- **Upstream Schemas/Tools**: [github.com/tiangong-lca/tidas-tools](https://github.com/tiangong-lca/tidas-tools)
-- **Repository**: [github.com/tiangong-lca/tidas-sdk](https://github.com/tiangong-lca/tidas-sdk)
-
-## 📞 Support
-
-For questions, issues, or contributions:
-
-- Open an issue on GitHub
-- Check existing documentation
-- Review the repository workflow in [AGENTS.md](./AGENTS.md)
+- repo boundaries
+- validation expectations
+- branch and delivery rules
+- workspace integration expectations

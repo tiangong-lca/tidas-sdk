@@ -1,3 +1,31 @@
+---
+title: tidas-sdk Upstream Automation Design
+docType: guide
+scope: repo
+status: active
+authoritative: false
+owner: tidas-sdk
+language: en
+whenToUse:
+  - when a task changes cross-repo automation between tidas-tools and tidas-sdk
+  - when reviewing how upstream generation and release-prep PRs should work
+whenToUpdate:
+  - when upstream trigger shape, dispatch payload, sync workflow layout, or automation authentication changes
+checkPaths:
+  - docs/upstream-automation.md
+  - scripts/ci/**
+  - .github/workflows/sync-from-tidas-tools.yml
+  - .github/workflows/tag-release-from-merge.yml
+  - .docpact/config.yaml
+lastReviewedAt: 2026-04-23
+lastReviewedCommit: c146296931a18042dfa7f8e433c2ff2b35438601
+related:
+  - ../AGENTS.md
+  - ../.docpact/config.yaml
+  - ./release-setup.md
+  - ./agents/repo-architecture.md
+---
+
 # Upstream Automation Design
 
 This document describes the recommended cross-repository automation path for keeping `tidas-sdk` in sync with upstream changes from `tiangong-lca/tidas-tools`.
@@ -17,7 +45,7 @@ The goal is:
 - `tidas-sdk` remains the package-owning repository.
 - npm and PyPI publishing stay in `tidas-sdk/.github/workflows/publish.yml`.
 - `tidas-tools` should trigger sync, not publish packages directly.
-- Auto-generated code changes should still land through a normal PR for review and CI.
+- auto-generated code changes should still land through a normal PR for review and CI.
 - TypeScript and Python package versions stay independent.
 
 ## Recommended Flow
@@ -234,24 +262,3 @@ Recommended safeguards:
 - if a matching automation PR already exists for the same upstream SHA, update it instead of opening duplicates
 - if release tags already exist, fail fast instead of force-pushing or retagging
 - if publishing fails after tag creation, recover through the normal tag-based release process instead of rewriting history
-
-## Minimal Rollout Plan
-
-Implement in this order:
-
-1. add the `tidas-sdk` sync workflow with manual `workflow_dispatch` only
-2. validate branch push, PR creation, generation, and diff detection
-3. add post-merge auto-tagging in `tidas-sdk`
-4. confirm tags created by the chosen token successfully trigger `publish.yml`
-5. add `tidas-tools` automatic dispatch on merge to `main`
-
-This sequence reduces risk because `tidas-sdk` can be proven end to end before `tidas-tools` starts triggering it automatically.
-
-## Non-Goals
-
-This design does not recommend:
-
-- publishing `tidas-sdk` packages directly from `tidas-tools`
-- bypassing PR review for generated artifact changes
-- replacing `publish.yml` with a reusable workflow
-- coupling Python and TypeScript to one mandatory shared version number
