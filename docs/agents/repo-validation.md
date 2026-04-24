@@ -24,7 +24,7 @@ checkPaths:
   - docs/upstream-automation.md
   - .github/workflows/**
 lastReviewedAt: 2026-04-24
-lastReviewedCommit: bd4958bcc4e0e3dd271abb86f5037d32b6fd4d5a
+lastReviewedCommit: b87ff191df5655e61a8e151bbc674c0855e53710
 related:
   - ../../AGENTS.md
   - ../../.docpact/config.yaml
