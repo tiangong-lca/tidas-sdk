@@ -210,6 +210,10 @@ async function postProcessZodSchema(schemaFile: string): Promise<void> {
     let manualOptimizations = content.replace(
       /export const LocalizedTextItemSchema = z\.object\(\{[\s\S]*?\}\);\n\nexport const LocalizedText500ItemSchema = z\.object\(\{[\s\S]*?\}\);\n\nexport const LocalizedText1000ItemSchema = z\.object\(\{[\s\S]*?\}\);\n/,
       `const chineseCharacterPattern = /[\\u3400-\\u4DBF\\u4E00-\\u9FFF\\uF900-\\uFAFF]/;
+const LOCALIZED_TEXT_ZH_MUST_INCLUDE_CHINESE_CHARACTER_CODE =
+  'localized_text_zh_must_include_chinese_character';
+const LOCALIZED_TEXT_EN_MUST_NOT_CONTAIN_CHINESE_CHARACTER_CODE =
+  'localized_text_en_must_not_contain_chinese_character';
 
 const addLocalizedTextLanguageChecks = (
   value: { '@xml:lang': string; '#text': string },
@@ -224,6 +228,9 @@ const addLocalizedTextLanguageChecks = (
       path: ['#text'],
       message:
         "@xml:lang values starting with 'zh' must include at least one Chinese character",
+      params: {
+        validationCode: LOCALIZED_TEXT_ZH_MUST_INCLUDE_CHINESE_CHARACTER_CODE,
+      },
     });
   }
 
@@ -233,6 +240,9 @@ const addLocalizedTextLanguageChecks = (
       path: ['#text'],
       message:
         "@xml:lang values starting with 'en' must not contain Chinese characters",
+      params: {
+        validationCode: LOCALIZED_TEXT_EN_MUST_NOT_CONTAIN_CHINESE_CHARACTER_CODE,
+      },
     });
   }
 };
