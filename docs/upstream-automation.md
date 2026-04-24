@@ -17,8 +17,8 @@ checkPaths:
   - .github/workflows/sync-from-tidas-tools.yml
   - .github/workflows/tag-release-from-merge.yml
   - .docpact/config.yaml
-lastReviewedAt: 2026-04-23
-lastReviewedCommit: c146296931a18042dfa7f8e433c2ff2b35438601
+lastReviewedAt: 2026-04-24
+lastReviewedCommit: bd4958bcc4e0e3dd271abb86f5037d32b6fd4d5a
 related:
   - ../AGENTS.md
   - ../.docpact/config.yaml
@@ -134,6 +134,12 @@ Recommended responsibilities:
 6. bump only the affected package version(s) to the next unpublished version in the target registry
 7. commit changes to a bot branch
 8. open or update a release-prep PR against `main`
+
+Validation-contract safeguard for TypeScript refreshes:
+
+- when regeneration touches localized-text schemas or validation helpers, keep the post-processing that injects `params.validationCode` into custom localized-text issues
+- confirm the committed TypeScript package still normalizes raw Zod issues into stable `validationIssues` codes for downstream consumers
+- call this out in the release-prep PR when the machine-readable validation contract changes
 
 Recommended branch name:
 

@@ -26,8 +26,8 @@ checkPaths:
   - sdks/typescript/**
   - sdks/python/**
   - .github/workflows/**
-lastReviewedAt: 2026-04-23
-lastReviewedCommit: c146296931a18042dfa7f8e433c2ff2b35438601
+lastReviewedAt: 2026-04-24
+lastReviewedCommit: bd4958bcc4e0e3dd271abb86f5037d32b6fd4d5a
 related:
   - .docpact/config.yaml
   - docs/agents/repo-validation.md
@@ -40,6 +40,8 @@ related:
 ## Repo Contract
 
 `tidas-sdk` owns the generated developer package surface for TIDAS: the published TypeScript package, the in-repo Python SDK, and the generation / verification / release automation that keeps them aligned with `tidas-tools`.
+
+For the TypeScript package, that ownership now includes the machine-readable validation contract exposed by `validateEnhanced()`: downstream callers should expect a stable `validationIssues` array with normalized `code`, `path`, `severity`, optional `params`, and `rawCode`, rather than parsing raw Zod messages when stable behavior matters.
 
 ## Documentation Roles
 
@@ -69,7 +71,8 @@ Read in this order:
 - minimum proof and upstream-resolution notes live in `docs/agents/repo-validation.md`
 - stable path groups, upstream handoffs, and release topology live in `docs/agents/repo-architecture.md`
 - repo-local documentation maintenance is enforced by `.github/workflows/ai-doc-lint.yml` with `docpact lint`
-- the main routing intents are `typescript-sdk`, `python-sdk`, `generation-and-release`, `upstream-refresh`, `release-setup`, `proof`, `repo-docs`, and `root-integration`
+- the main routing intents are `typescript-sdk`, `validation-contract`, `python-sdk`, `generation-and-release`, `upstream-refresh`, `release-setup`, `proof`, `repo-docs`, and `root-integration`
+- TypeScript validation normalization is owned by `sdks/typescript/src/core/config/ValidationConfig.ts`, while schema-level custom issue codes for generated localized-text checks are injected from `sdks/typescript/scripts/generate-zod-schemas.ts` into committed schema output under `sdks/typescript/src/schemas/**`
 
 ## Minimal Execution Facts
 
@@ -98,6 +101,7 @@ The authoritative path-level ownership map lives in `.docpact/config.yaml`.
 At a human-readable level, this repo owns:
 
 - `sdks/typescript/**` for the TypeScript package source, examples, runtime assets, and package-local release docs
+- `sdks/typescript/src/core/config/ValidationConfig.ts` for the normalized validation issue contract returned by `validateEnhanced()`
 - `sdks/python/**` for the Python SDK source, tests, schemas, and package-local release docs
 - `package.json`, `scripts/ci/**`, and `.github/workflows/{ci,publish,sync-from-tidas-tools,tag-release-from-merge}.yml` for generation, verification, tagging, and publish automation
 - `README.md`, `docs/agents/**`, `docs/release-setup.md`, `docs/upstream-automation.md`, `.docpact/**`, and `.github/workflows/ai-doc-lint.yml` for repo-local governance and retained docs
@@ -128,6 +132,7 @@ Route those tasks to:
 
 - do not treat `tidas` as the immediate code-generation upstream when package refresh behavior actually depends on `tidas-tools`
 - TypeScript runtime assets mirror non-export upstream assets from `tidas-tools/src/tidas_tools/{tidas,eilcd}`
+- generated localized-text checks in the TypeScript schemas must keep emitting stable custom validation codes so downstream UIs can map them without parsing prose
 - Python generated models refresh from `tidas-tools`, not from the public docs repository
 - generated build output under `sdks/typescript/dist/**`, `sdks/python/dist/**`, and `sdks/python/htmlcov/**` is useful for packaging checks but is not the first durable edit surface
 - merged repo PRs here are repo-complete, not workspace-delivery complete

@@ -1,7 +1,7 @@
 version: 1
 layout: repo
-lastReviewedAt: 2026-04-23
-lastReviewedCommit: c146296931a18042dfa7f8e433c2ff2b35438601
+lastReviewedAt: 2026-04-24
+lastReviewedCommit: bd4958bcc4e0e3dd271abb86f5037d32b6fd4d5a
 
 catalog:
   repos:
@@ -139,6 +139,13 @@ routing:
         - sdks/typescript/eslint.config.mjs
         - sdks/typescript/tsconfig.json
         - sdks/typescript/tsconfig.zod.json
+    validation-contract:
+      paths:
+        - sdks/typescript/scripts/generate-zod-schemas.ts
+        - sdks/typescript/src/core/config/ValidationConfig.ts
+        - sdks/typescript/src/schemas/tidas_data_types.schema.ts
+        - docs/agents/repo-validation.md
+        - docs/agents/repo-architecture.md
     python-sdk:
       paths:
         - sdks/python/pyproject.toml
@@ -288,7 +295,7 @@ rules:
         mode: review_or_update
       - path: docs/upstream-automation.md
         mode: review_or_update
-    reason: TypeScript package changes alter generated SDK surfaces, runtime assets, and upstream-refresh assumptions.
+    reason: TypeScript package changes alter generated SDK surfaces, the normalized validation issue contract, runtime assets, and upstream-refresh assumptions.
   - id: tidas-sdk-python-package-contract
     scope: repo
     repo: tidas-sdk
