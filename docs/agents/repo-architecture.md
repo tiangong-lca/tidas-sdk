@@ -15,20 +15,19 @@ whenToUpdate:
   - when new release automation makes the current map misleading
   - when stable versus generated paths move
 checkPaths:
-  - ai/architecture.md
-  - ai/repo.yaml
+  - docs/agents/repo-architecture.md
+  - .docpact/config.yaml
   - scripts/ci/**
   - sdks/typescript/**
   - sdks/python/**
   - .github/workflows/**
-lastReviewedAt: 2026-04-18
-lastReviewedCommit: 5deaf6884cb7d78d9d23213fc0a90f6c2867af35
+lastReviewedAt: 2026-04-23
+lastReviewedCommit: c146296931a18042dfa7f8e433c2ff2b35438601
 related:
-  - ../AGENTS.md
-  - ./repo.yaml
-  - ./task-router.md
-  - ./validation.md
-  - ../docs/upstream-automation.md
+  - ../../AGENTS.md
+  - ../../.docpact/config.yaml
+  - ./repo-validation.md
+  - ../upstream-automation.md
 ---
 
 ## Repo Shape
@@ -38,7 +37,7 @@ This repo packages two SDK surfaces under one root:
 - `sdks/typescript/`
 - `sdks/python/`
 
-The root owns generation, verification, and release automation.
+The root owns generation, verification, tagging, and publish automation.
 
 ## Stable Vs Generated Paths
 
@@ -47,9 +46,9 @@ The root owns generation, verification, and release automation.
 | `scripts/ci/**` | stable generation, verify, tag, and publish helpers |
 | `docs/release-setup.md` | stable release-environment contract |
 | `docs/upstream-automation.md` | stable upstream-sync design contract |
-| `sdks/typescript/src/**` | TypeScript package source, including generated types, schemas, and runtime assets committed in-package |
+| `sdks/typescript/src/**` | TypeScript package source, including generated types, schemas, and committed runtime assets |
 | `sdks/typescript/scripts/**` | TypeScript generation and asset-sync helpers |
-| `sdks/python/src/**` | Python SDK source and generated models committed in-package |
+| `sdks/python/src/**` | Python SDK source and committed generated models |
 | `sdks/python/scripts/**` | Python generation helpers |
 | `sdks/python/tests/**` | Python SDK tests |
 | `sdks/typescript/dist/**` | generated build output, useful for packaging checks but not the first edit surface |
@@ -64,7 +63,7 @@ The practical executable chain today is:
 
 Important consequences:
 
-- TypeScript runtime assets mirror `tidas-tools/src/tidas_tools/{tidas,eilcd}`
+- TypeScript runtime assets mirror the non-export upstream assets under `tidas-tools/src/tidas_tools/{tidas,eilcd}`
 - Python generated models also refresh from `tidas-tools`
 - `tidas` remains important for public spec/docs content, but it is not the immediate generation source for current package refreshes
 
@@ -76,7 +75,7 @@ The TypeScript package owns developer-facing APIs plus packaged runtime assets a
 
 ### Python package
 
-The Python package owns generated Pydantic-style SDK surfaces and validation helpers that are published separately from standalone `tidas-tools`.
+The Python package owns generated SDK surfaces and validation helpers that are published separately from standalone `tidas-tools`.
 
 ## Release Automation
 

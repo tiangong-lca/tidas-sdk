@@ -15,22 +15,22 @@ whenToUpdate:
   - when change categories require different proof
   - when release automation or upstream-resolution behavior changes
 checkPaths:
-  - ai/validation.md
-  - ai/task-router.md
+  - docs/agents/repo-validation.md
+  - .docpact/config.yaml
   - scripts/ci/**
   - sdks/typescript/**
   - sdks/python/**
-  - docs/**
+  - docs/release-setup.md
+  - docs/upstream-automation.md
   - .github/workflows/**
-lastReviewedAt: 2026-04-18
-lastReviewedCommit: 5deaf6884cb7d78d9d23213fc0a90f6c2867af35
+lastReviewedAt: 2026-04-23
+lastReviewedCommit: c146296931a18042dfa7f8e433c2ff2b35438601
 related:
-  - ../AGENTS.md
-  - ./repo.yaml
-  - ./task-router.md
-  - ./architecture.md
-  - ../docs/release-setup.md
-  - ../docs/upstream-automation.md
+  - ../../AGENTS.md
+  - ../../.docpact/config.yaml
+  - ./repo-architecture.md
+  - ../release-setup.md
+  - ../upstream-automation.md
 ---
 
 ## Default Baseline
@@ -42,17 +42,17 @@ Unless the change is doc-only, the canonical verification scripts are:
 ./scripts/ci/verify-python-package.sh
 ```
 
-These scripts are the best repo-wide proof because they mirror CI expectations and upstream-resolution behavior.
+These scripts are the best repo-wide proof because they mirror CI expectations and current upstream-resolution behavior.
 
 ## Validation Matrix
 
 | Change type | Minimum local proof | Additional proof when risk is higher | Notes |
 | --- | --- | --- | --- |
-| TypeScript package source or scripts | `./scripts/ci/verify-typescript-package.sh` | run the relevant example or focused local package script if the change touches one narrow feature | This verify script covers build, tests, generated artifacts, and packability. |
+| TypeScript package source, examples, or package scripts | `./scripts/ci/verify-typescript-package.sh` | run one focused example or narrow package command when the change is isolated | This verify script covers build, tests, generated artifacts, and packability. |
 | Python package source, scripts, or tests | `./scripts/ci/verify-python-package.sh` | run one focused pytest or generation step when the change is isolated | Record if the Python package still depends on generated artifacts from a specific upstream commit. |
 | shared generation helpers under `scripts/ci/**` | run both verify scripts | run the matching `generate-*.sh` path if the task explicitly changes refresh behavior | Generation changes can affect both packages even if only one output changed. |
 | release setup, tag, or publish workflows | run both verify scripts | inspect `.github/workflows/**` and record any tag or environment assumptions checked locally | Tag creation and registry publication are separate from local package verification. |
-| AI docs only | run repo-local `ai-doc-lint` against touched files or the equivalent local PR check | do one scenario-based routing check from root into this repo | Refresh review metadata even when prose-only docs change. |
+| repo contract or governed-doc changes only | `docpact validate-config --root . --strict` and `docpact lint --root . --staged --mode enforce` | run one focused route check such as `docpact route --root . --intent repo-docs --format text` or `upstream-refresh` when the change touches release / automation docs | Refresh review evidence even when prose-only governed docs change. |
 
 ## Upstream Resolution Notes
 
@@ -62,9 +62,8 @@ Facts that matter:
   1. `TIDAS_TOOLS_PATH`
   2. sibling `../tidas-tools`
   3. temporary clone
-- This means local verification may exercise different upstream content depending on the environment
-
-If you intentionally validate against a local checkout, record that in the PR note.
+- this means local verification may exercise different upstream content depending on the environment
+- if you intentionally validate against a local checkout, record that in the PR note
 
 ## Minimum PR Note Quality
 

@@ -1,5 +1,5 @@
 ---
-title: tidas-sdk AI Working Guide
+title: tidas-sdk Repo Contract
 docType: contract
 scope: repo
 status: active
@@ -13,87 +13,142 @@ whenToUse:
 whenToUpdate:
   - when package ownership or upstream-generation rules change
   - when release or verification scripts change
-  - when the repo-local AI bootstrap docs under ai/ change
+  - when repo-local documentation governance changes
 checkPaths:
   - AGENTS.md
   - README.md
-  - docs/**
-  - ai/**/*.md
-  - ai/**/*.yaml
+  - .docpact/**/*.yaml
+  - docs/agents/**
+  - docs/release-setup.md
+  - docs/upstream-automation.md
   - package.json
   - scripts/ci/**
   - sdks/typescript/**
   - sdks/python/**
   - .github/workflows/**
-lastReviewedAt: 2026-04-18
-lastReviewedCommit: 5deaf6884cb7d78d9d23213fc0a90f6c2867af35
+lastReviewedAt: 2026-04-23
+lastReviewedCommit: c146296931a18042dfa7f8e433c2ff2b35438601
 related:
-  - ai/repo.yaml
-  - ai/task-router.md
-  - ai/validation.md
-  - ai/architecture.md
+  - .docpact/config.yaml
+  - docs/agents/repo-validation.md
+  - docs/agents/repo-architecture.md
   - docs/release-setup.md
   - docs/upstream-automation.md
+  - README.md
 ---
 
 ## Repo Contract
 
-`tidas-sdk` owns the generated developer package surface for TIDAS: the published TypeScript package, the in-repo Python SDK, and the release automation that verifies and publishes them. Start here when the task may change SDK outputs, package metadata, or upstream-refresh automation.
+`tidas-sdk` owns the generated developer package surface for TIDAS: the published TypeScript package, the in-repo Python SDK, and the generation / verification / release automation that keeps them aligned with `tidas-tools`.
 
-## AI Load Order
+## Documentation Roles
 
-Load docs in this order:
+| Document | Owns | Does not own |
+| --- | --- | --- |
+| `AGENTS.md` | repo contract, branch and delivery rules, hard boundaries, minimal execution facts | full path map, proof matrix, or long setup prose |
+| `.docpact/config.yaml` | machine-readable repo facts, routing intents, governed-doc rules, ownership, coverage, and freshness | explanatory prose or long-form walkthroughs |
+| `docs/agents/repo-validation.md` | minimum proof by change type, upstream-resolution notes, PR validation note shape | repo contract, branch policy truth, or topology explanations |
+| `docs/agents/repo-architecture.md` | compact repo shape, stable path map, upstream flow, release model, and common misreads | checklist-style proof guidance or operator setup commands |
+| `docs/release-setup.md` | registry setup, release environment, trusted publishing, and release workflow prerequisites | path ownership, routing semantics, or package topology |
+| `docs/upstream-automation.md` | cross-repo automation design for `tidas-tools -> tidas-sdk` refreshes | current package validation baseline or branch-policy truth |
+| `README.md` | repo landing context, package overview, basic setup commands, and AI docs entry | machine-readable routing or lint semantics |
+
+## Load Order
+
+Read in this order:
 
 1. `AGENTS.md`
-2. `ai/repo.yaml`
-3. `ai/task-router.md`
-4. `ai/validation.md`
-5. `ai/architecture.md`
-6. `docs/upstream-automation.md` or `docs/release-setup.md` only when the task touches automation or publishing
+2. `.docpact/config.yaml`
+3. `docs/agents/repo-validation.md` or `docs/agents/repo-architecture.md`
+4. `docs/upstream-automation.md` or `docs/release-setup.md` only when automation or publishing is part of the task
+5. package-local docs under `sdks/typescript/**` or `sdks/python/**` only when the task is already narrowed to one package surface
 
-Do not assume the spec docs site is the immediate executable upstream. In current practice, `tidas-tools` is the generation upstream for both SDK packages.
+## Operational Pointers
 
-## Repo Ownership
+- path-level ownership, routing intents, governed-doc inventory, and lint rules live in `.docpact/config.yaml`
+- minimum proof and upstream-resolution notes live in `docs/agents/repo-validation.md`
+- stable path groups, upstream handoffs, and release topology live in `docs/agents/repo-architecture.md`
+- repo-local documentation maintenance is enforced by `.github/workflows/ai-doc-lint.yml` with `docpact lint`
+- the main routing intents are `typescript-sdk`, `python-sdk`, `generation-and-release`, `upstream-refresh`, `release-setup`, `proof`, `repo-docs`, and `root-integration`
 
-This repo owns:
+## Minimal Execution Facts
 
-- `sdks/typescript/**` for the published `@tiangong-lca/tidas-sdk` package
-- `sdks/python/**` for the in-repo Python SDK surface
-- `scripts/ci/**` for generation, verify, and publish helpers
-- `.github/workflows/**` for CI, upstream sync, tag automation, and publish workflows
-- `docs/release-setup.md` and `docs/upstream-automation.md` for release and automation contracts
+Keep these entry-level facts in `AGENTS.md`. Use `README.md`, `docs/agents/repo-validation.md`, and the release / automation docs for fuller detail.
+
+- root package manager: `npm`
+- routine branch base: `main`
+- routine PR base: `main`
+- published packages:
+  - `@tiangong-lca/tidas-sdk` from `sdks/typescript/`
+  - `tidas-sdk` from `sdks/python/`
+- canonical verification baseline:
+  - `./scripts/ci/verify-typescript-package.sh`
+  - `./scripts/ci/verify-python-package.sh`
+- upstream refresh helpers:
+  - `./scripts/ci/generate-typescript-sdk.sh`
+  - `./scripts/ci/generate-python-sdk.sh`
+- release tags:
+  - `typescript-v<version>`
+  - `python-v<version>`
+
+## Ownership Boundaries
+
+The authoritative path-level ownership map lives in `.docpact/config.yaml`.
+
+At a human-readable level, this repo owns:
+
+- `sdks/typescript/**` for the TypeScript package source, examples, runtime assets, and package-local release docs
+- `sdks/python/**` for the Python SDK source, tests, schemas, and package-local release docs
+- `package.json`, `scripts/ci/**`, and `.github/workflows/{ci,publish,sync-from-tidas-tools,tag-release-from-merge}.yml` for generation, verification, tagging, and publish automation
+- `README.md`, `docs/agents/**`, `docs/release-setup.md`, `docs/upstream-automation.md`, `.docpact/**`, and `.github/workflows/ai-doc-lint.yml` for repo-local governance and retained docs
 
 This repo does not own:
 
-- standalone conversion, export, or batch validation tooling
-- the public spec/docs site
+- standalone conversion, export, or methodology tooling behavior
+- public spec/docs-site wording
 - workspace integration state after merge
 
 Route those tasks to:
 
 - `tidas-tools` for generation upstream, runtime assets, methodologies, and standalone tooling behavior
-- `tidas` for spec/docs-site content
+- `tidas` for public spec/docs-site content
 - `lca-workspace` for root integration after merge
 
-## Runtime Facts
+## Branch And Delivery Facts
 
-- Repo-local AI-doc maintenance is enforced by `.github/workflows/ai-doc-lint.yml` using the vendored `.github/scripts/ai-doc-lint.*` files.
-- Root package manager: `npm`
-- Published packages:
-  - `@tiangong-lca/tidas-sdk` from `sdks/typescript/`
-  - `tidas-sdk` from `sdks/python/`
-- The canonical verification scripts are:
-  - `./scripts/ci/verify-typescript-package.sh`
-  - `./scripts/ci/verify-python-package.sh`
-- The upstream refresh helpers are:
-  - `./scripts/ci/generate-typescript-sdk.sh`
-  - `./scripts/ci/generate-python-sdk.sh`
+- GitHub default branch: `main`
+- true daily trunk: `main`
+- routine branch base: `main`
+- routine PR base: `main`
+- branch model: `M1`
+
+`tidas-sdk` does not use a separate promote line. Normal implementation merges to `main`, and later workspace delivery still requires a root submodule bump when the updated SDK snapshot should ship through `lca-workspace`.
+
+## Operational Invariants
+
+- do not treat `tidas` as the immediate code-generation upstream when package refresh behavior actually depends on `tidas-tools`
+- TypeScript runtime assets mirror non-export upstream assets from `tidas-tools/src/tidas_tools/{tidas,eilcd}`
+- Python generated models refresh from `tidas-tools`, not from the public docs repository
+- generated build output under `sdks/typescript/dist/**`, `sdks/python/dist/**`, and `sdks/python/htmlcov/**` is useful for packaging checks but is not the first durable edit surface
+- merged repo PRs here are repo-complete, not workspace-delivery complete
+
+## Documentation Update Rules
+
+- if a machine-readable repo fact, routing intent, or governed-doc rule changes, update `.docpact/config.yaml`
+- if a human-readable repo contract, branch rule, or hard boundary changes, update `AGENTS.md`
+- if proof expectations or upstream-resolution notes change, update `docs/agents/repo-validation.md`
+- if repo shape, stable path groups, or upstream handoff explanations change, update `docs/agents/repo-architecture.md`
+- if registry setup or trusted-publishing prerequisites change, update `docs/release-setup.md`
+- if cross-repo sync design or automation responsibilities change, update `docs/upstream-automation.md`
+- if landing context or basic setup commands change, update `README.md`
+- do not copy the same rule into multiple docs just to make it easier to find
 
 ## Hard Boundaries
 
-- Do not treat `tidas` as the immediate code-generation upstream when the actual refresh path depends on `tidas-tools`
-- Do not move standalone conversion or export logic into the SDK packages
-- Do not treat a merged repo PR here as workspace-delivery complete if the root repo still needs a submodule bump
+- do not treat `tidas` as the immediate generation upstream for current SDK refreshes
+- do not move standalone conversion or export logic into the SDK packages
+- do not treat generated output as the only durable source of truth when generation behavior changes
+- do not treat a merged repo PR here as workspace-delivery complete if the root repo still needs a submodule bump
 
 ## Workspace Integration
 

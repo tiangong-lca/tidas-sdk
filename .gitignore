@@ -43,6 +43,8 @@ ts-to-zod-configs/
 docs/
 !docs/
 docs/*
+!docs/agents/
+!docs/agents/**
 !docs/release-setup.md
 !docs/upstream-automation.md
 CLAUDE.md
@@ -98,3 +100,4 @@ coverage.xml
 
 # codex
 .codex/
+.docpact/runs/
