@@ -16,8 +16,8 @@ checkPaths:
   - .github/workflows/publish.yml
   - .github/workflows/tag-release-from-merge.yml
   - .docpact/config.yaml
-lastReviewedAt: 2026-04-23
-lastReviewedCommit: c146296931a18042dfa7f8e433c2ff2b35438601
+lastReviewedAt: 2026-04-24
+lastReviewedCommit: 1ca6b7249b8c390276d0f2e7f3d944be24df1daa
 related:
   - ../AGENTS.md
   - ../.docpact/config.yaml
@@ -57,6 +57,7 @@ Operational preference:
 - keep registry ownership and Trusted Publishing configuration in `tiangong-lca/tidas-sdk`
 - keep `publish.yml` as the formal package release entrypoint
 - automate PR creation and tag creation, not cross-repository direct publishing
+- if a release-prep PR changes the machine-readable TypeScript validation contract, call that out explicitly so downstream consumers can review any UI or API mapping impact before tagging
 
 Required secrets:
 

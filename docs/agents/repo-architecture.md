@@ -21,8 +21,8 @@ checkPaths:
   - sdks/typescript/**
   - sdks/python/**
   - .github/workflows/**
-lastReviewedAt: 2026-04-23
-lastReviewedCommit: c146296931a18042dfa7f8e433c2ff2b35438601
+lastReviewedAt: 2026-04-24
+lastReviewedCommit: bd4958bcc4e0e3dd271abb86f5037d32b6fd4d5a
 related:
   - ../../AGENTS.md
   - ../../.docpact/config.yaml
@@ -72,6 +72,13 @@ Important consequences:
 ### TypeScript package
 
 The TypeScript package owns developer-facing APIs plus packaged runtime assets and helpers for the non-export portion of the `tidas-tools` workflow.
+
+It also owns the stable validation contract that downstream apps consume:
+
+- generated schemas can emit custom Zod issues for localized-text checks
+- `sdks/typescript/scripts/generate-zod-schemas.ts` is responsible for preserving the custom validation-code injection during regeneration
+- `sdks/typescript/src/core/config/ValidationConfig.ts` normalizes raw Zod issues into the `validationIssues` payload returned by `validateEnhanced()`
+- downstream consumers should rely on normalized issue codes instead of parsing free-form error text when they need stable programmatic behavior
 
 ### Python package
 

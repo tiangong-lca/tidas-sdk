@@ -25,6 +25,42 @@ export interface ValidationWarning {
   severity: 'low' | 'medium' | 'high';
 }
 
+export type ValidationIssueSeverity = 'error' | 'warning' | 'info';
+
+export type ValidationIssueParamValue =
+  | string
+  | number
+  | boolean
+  | null
+  | undefined;
+
+export type ValidationIssueCode =
+  | 'required_missing'
+  | 'string_too_short'
+  | 'string_too_long'
+  | 'array_too_small'
+  | 'array_too_large'
+  | 'number_too_small'
+  | 'number_too_large'
+  | 'invalid_type'
+  | 'invalid_format'
+  | 'invalid_value'
+  | 'unrecognized_keys'
+  | 'invalid_union'
+  | 'localized_text_zh_must_include_chinese_character'
+  | 'localized_text_en_must_not_contain_chinese_character'
+  | 'custom'
+  | 'unknown';
+
+export interface NormalizedValidationIssue {
+  code: ValidationIssueCode;
+  path: Array<string | number>;
+  params?: Record<string, ValidationIssueParamValue>;
+  severity: ValidationIssueSeverity;
+  message?: string;
+  rawCode?: string;
+}
+
 /**
  * Enhanced validation result type
  */
@@ -32,15 +68,41 @@ export type EnhancedValidationResult<T> =
   | {
       success: true;
       data: T;
+      validationIssues: NormalizedValidationIssue[];
       warnings?: ValidationWarning[];
       mode: ValidationMode;
     }
   | {
       success: false;
       error: z.ZodError;
+      validationIssues: NormalizedValidationIssue[];
       warnings?: ValidationWarning[];
       mode: ValidationMode;
     };
+
+type ZodIssueLike = z.ZodIssue & {
+  exact?: boolean;
+  expected?: string;
+  format?: string;
+  inclusive?: boolean;
+  input?: unknown;
+  keys?: string[];
+  maximum?: number;
+  minimum?: number;
+  origin?: string;
+  params?: Record<string, ValidationIssueParamValue>;
+  values?: unknown[];
+};
+
+const LOCALIZED_TEXT_ZH_MUST_INCLUDE_CHINESE_CHARACTER_CODE =
+  'localized_text_zh_must_include_chinese_character';
+const LOCALIZED_TEXT_EN_MUST_NOT_CONTAIN_CHINESE_CHARACTER_CODE =
+  'localized_text_en_must_not_contain_chinese_character';
+
+const KNOWN_CUSTOM_VALIDATION_CODES = new Set<ValidationIssueCode>([
+  LOCALIZED_TEXT_ZH_MUST_INCLUDE_CHINESE_CHARACTER_CODE,
+  LOCALIZED_TEXT_EN_MUST_NOT_CONTAIN_CHINESE_CHARACTER_CODE,
+]);
 
 /**
  * Error severity classification
@@ -66,6 +128,238 @@ const CRITICAL_ERROR_PATTERNS = [
  * Validation utilities class
  */
 export class ValidationUtils {
+  private static getPath(path: z.ZodIssue['path']): Array<string | number> {
+    return path.map((segment) =>
+      typeof segment === 'string' || typeof segment === 'number'
+        ? segment
+        : String(segment)
+    );
+  }
+
+  private static getInputType(input: unknown): string {
+    if (input === undefined) {
+      return 'undefined';
+    }
+
+    if (input === null) {
+      return 'null';
+    }
+
+    if (Array.isArray(input)) {
+      return 'array';
+    }
+
+    return typeof input;
+  }
+
+  private static getValueAtPath(
+    source: unknown,
+    path: Array<string | number>
+  ): unknown {
+    return path.reduce<unknown>((currentValue, segment) => {
+      if (currentValue === null || currentValue === undefined) {
+        return undefined;
+      }
+
+      return (currentValue as Record<string | number, unknown>)[segment];
+    }, source);
+  }
+
+  private static getTooBigCode(issue: ZodIssueLike): ValidationIssueCode {
+    if (issue.origin === 'string') {
+      return 'string_too_long';
+    }
+
+    if (issue.origin === 'array') {
+      return 'array_too_large';
+    }
+
+    if (issue.origin === 'number' || issue.origin === 'bigint') {
+      return 'number_too_large';
+    }
+
+    return 'unknown';
+  }
+
+  private static getTooSmallCode(issue: ZodIssueLike): ValidationIssueCode {
+    if (issue.origin === 'string') {
+      return 'string_too_short';
+    }
+
+    if (issue.origin === 'array') {
+      return 'array_too_small';
+    }
+
+    if (issue.origin === 'number' || issue.origin === 'bigint') {
+      return 'number_too_small';
+    }
+
+    return 'unknown';
+  }
+
+  private static getTooBigParams(
+    issue: ZodIssueLike,
+    actualInput?: unknown
+  ): Record<string, ValidationIssueParamValue> | undefined {
+    const inputValue = issue.input !== undefined ? issue.input : actualInput;
+    const params: Record<string, ValidationIssueParamValue> = {
+      exact: issue.exact,
+      inclusive: issue.inclusive,
+      maximum: issue.maximum,
+      origin: issue.origin,
+    };
+
+    if (issue.origin === 'string' && typeof inputValue === 'string') {
+      params.actualLength = inputValue.length;
+    } else if (issue.origin === 'array' && Array.isArray(inputValue)) {
+      params.actualLength = inputValue.length;
+    } else if (
+      (issue.origin === 'number' || issue.origin === 'bigint') &&
+      (typeof inputValue === 'number' || typeof inputValue === 'bigint')
+    ) {
+      params.actual = Number(inputValue);
+    }
+
+    return Object.values(params).some((value) => value !== undefined) ? params : undefined;
+  }
+
+  private static getTooSmallParams(
+    issue: ZodIssueLike,
+    actualInput?: unknown
+  ): Record<string, ValidationIssueParamValue> | undefined {
+    const inputValue = issue.input !== undefined ? issue.input : actualInput;
+    const params: Record<string, ValidationIssueParamValue> = {
+      exact: issue.exact,
+      inclusive: issue.inclusive,
+      minimum: issue.minimum,
+      origin: issue.origin,
+    };
+
+    if (issue.origin === 'string' && typeof inputValue === 'string') {
+      params.actualLength = inputValue.length;
+    } else if (issue.origin === 'array' && Array.isArray(inputValue)) {
+      params.actualLength = inputValue.length;
+    } else if (
+      (issue.origin === 'number' || issue.origin === 'bigint') &&
+      (typeof inputValue === 'number' || typeof inputValue === 'bigint')
+    ) {
+      params.actual = Number(inputValue);
+    }
+
+    return Object.values(params).some((value) => value !== undefined) ? params : undefined;
+  }
+
+  private static getValidationIssueCode(issue: ZodIssueLike): ValidationIssueCode {
+    switch (issue.code) {
+      case 'invalid_type':
+        return issue.input === undefined ? 'required_missing' : 'invalid_type';
+      case 'too_big':
+        return this.getTooBigCode(issue);
+      case 'too_small':
+        return this.getTooSmallCode(issue);
+      case 'invalid_format':
+        return 'invalid_format';
+      case 'invalid_value':
+        return 'invalid_value';
+      case 'unrecognized_keys':
+        return 'unrecognized_keys';
+      case 'invalid_union':
+        return 'invalid_union';
+      case 'custom': {
+        const validationCode =
+          typeof issue.params?.validationCode === 'string'
+            ? issue.params.validationCode
+            : undefined;
+
+        return validationCode && KNOWN_CUSTOM_VALIDATION_CODES.has(validationCode as ValidationIssueCode)
+          ? (validationCode as ValidationIssueCode)
+          : 'custom';
+      }
+      default:
+        return 'unknown';
+    }
+  }
+
+  private static getValidationIssueParams(
+    issue: ZodIssueLike,
+    code: ValidationIssueCode,
+    sourceData?: unknown
+  ): Record<string, ValidationIssueParamValue> | undefined {
+    const actualInput =
+      issue.input !== undefined
+        ? issue.input
+        : this.getValueAtPath(sourceData, this.getPath(issue.path));
+
+    switch (code) {
+      case 'required_missing':
+        return issue.expected
+          ? {
+              expected: issue.expected,
+            }
+          : undefined;
+      case 'invalid_type':
+        return {
+          expected: issue.expected,
+          received: this.getInputType(issue.input),
+        };
+      case 'string_too_long':
+      case 'array_too_large':
+      case 'number_too_large':
+        return this.getTooBigParams(issue, actualInput);
+      case 'string_too_short':
+      case 'array_too_small':
+      case 'number_too_small':
+        return this.getTooSmallParams(issue, actualInput);
+      case 'invalid_format':
+        return issue.format
+          ? {
+              format: issue.format,
+            }
+          : undefined;
+      case 'invalid_value':
+        return Array.isArray(issue.values)
+          ? {
+              allowedValues: issue.values.join(', '),
+            }
+          : undefined;
+      case 'unrecognized_keys':
+        return Array.isArray(issue.keys) && issue.keys.length > 0
+          ? {
+              keys: issue.keys.join(', '),
+            }
+          : undefined;
+      default:
+        return undefined;
+    }
+  }
+
+  static normalizeIssue(
+    issue: z.ZodIssue,
+    sourceData?: unknown,
+    severity: ValidationIssueSeverity = 'error'
+  ): NormalizedValidationIssue {
+    const issueLike = issue as ZodIssueLike;
+    const code = this.getValidationIssueCode(issueLike);
+    const params = this.getValidationIssueParams(issueLike, code, sourceData);
+
+    return {
+      code,
+      path: this.getPath(issue.path),
+      params,
+      severity,
+      message: issue.message,
+      rawCode: issue.code,
+    };
+  }
+
+  static normalizeIssues(
+    issues: z.ZodIssue[],
+    sourceData?: unknown,
+    severity: ValidationIssueSeverity = 'error'
+  ): NormalizedValidationIssue[] {
+    return issues.map((issue) => this.normalizeIssue(issue, sourceData, severity));
+  }
+
   /**
    * Categorize Zod error by severity
    */
@@ -136,6 +430,7 @@ export class ValidationUtils {
       return {
         success: true,
         data: result.data,
+        validationIssues: [],
         mode: config.mode,
       };
     }
@@ -160,6 +455,7 @@ export class ValidationUtils {
       return {
         success: false,
         error: criticalError,
+        validationIssues: this.normalizeIssues(criticalErrors, data),
         warnings: config.includeWarnings ? warnings : undefined,
         mode: config.mode,
       };
@@ -169,6 +465,7 @@ export class ValidationUtils {
     return {
       success: true,
       data: data as T, // Accept data as-is for weak validation
+      validationIssues: [],
       warnings: config.includeWarnings ? warnings : undefined,
       mode: config.mode,
     };
@@ -299,6 +596,7 @@ export class ValidationUtils {
       return {
         success: true,
         data: standardResult.data,
+        validationIssues: [],
         mode: config.mode,
       };
     }
@@ -351,6 +649,7 @@ export class ValidationUtils {
     return {
       success: false,
       error: enhancedError,
+      validationIssues: this.normalizeIssues(allIssues, data),
       mode: config.mode,
     };
   }
@@ -375,12 +674,14 @@ export class ValidationUtils {
           return {
             success: true,
             data: strictResult.data,
+            validationIssues: [],
             mode: config.mode,
           };
         } else {
           return {
             success: false,
             error: strictResult.error,
+            validationIssues: this.normalizeIssues(strictResult.error.issues, data),
             mode: config.mode,
           };
         }
@@ -393,6 +694,7 @@ export class ValidationUtils {
         return {
           success: true,
           data: data as T,
+          validationIssues: [],
           mode: config.mode,
         };
 
