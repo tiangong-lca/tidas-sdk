@@ -260,7 +260,7 @@ export interface Lifecyclemodels {
       'common:commissionerAndGoal': {
         'common:referenceToCommissioner': GlobalReferenceType;
         'common:project'?: StringMultiLang;
-        'common:intendedApplications'?: FTMultiLang;
+        'common:intendedApplications': FTMultiLang;
         'common:other'?: string;
       };
       dataGenerator?: {
