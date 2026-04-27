@@ -431,7 +431,7 @@ export const LifecyclemodelsSchema = z.object({
       'common:commissionerAndGoal': z.object({
         'common:referenceToCommissioner': GlobalReferenceTypeSchema,
         'common:project': StringMultiLangSchema.optional(),
-        'common:intendedApplications': FTMultiLangSchema.optional(),
+        'common:intendedApplications': FTMultiLangSchema,
         'common:other': z.string().optional(),
       }),
       dataGenerator: z
