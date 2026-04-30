@@ -2,6 +2,7 @@
 import { z } from 'zod';
 
 import {
+  CommonOtherSchema,
   FTMultiLangSchema,
   GlobalReferenceTypeSchema,
   Int5Schema,
@@ -34,17 +35,17 @@ export const UnitgroupsSchema = z.object({
               '@classId': z.string(),
               '#text': z.string(),
             }),
-            'common:other': z.string().optional(),
+            'common:other': CommonOtherSchema.optional(),
           }),
         }),
         'common:generalComment': FTMultiLangSchema.optional(),
-        'common:other': z.string().optional(),
+        'common:other': CommonOtherSchema.optional(),
       }),
       quantitativeReference: z.object({
         referenceToReferenceUnit: Int5Schema,
-        'common:other': z.string().optional(),
+        'common:other': CommonOtherSchema.optional(),
       }),
-      'common:other': z.string().optional(),
+      'common:other': CommonOtherSchema.optional(),
     }),
     modellingAndValidation: z.object({
       complianceDeclarations: z.object({
@@ -56,7 +57,7 @@ export const UnitgroupsSchema = z.object({
               z.literal('Not compliant'),
               z.literal('Not defined'),
             ]),
-            'common:other': z.string().optional(),
+            'common:other': CommonOtherSchema.optional(),
           }),
           z.array(
             z.object({
@@ -66,19 +67,19 @@ export const UnitgroupsSchema = z.object({
                 z.literal('Not compliant'),
                 z.literal('Not defined'),
               ]),
-              'common:other': z.string().optional(),
+              'common:other': CommonOtherSchema.optional(),
             })
           ),
         ]),
-        'common:other': z.string().optional(),
+        'common:other': CommonOtherSchema.optional(),
       }),
-      'common:other': z.string().optional(),
+      'common:other': CommonOtherSchema.optional(),
     }),
     administrativeInformation: z.object({
       dataEntryBy: z.object({
         'common:timeStamp': dateTimeSchema,
         'common:referenceToDataSetFormat': GlobalReferenceTypeSchema,
-        'common:other': z.string().optional(),
+        'common:other': CommonOtherSchema.optional(),
       }),
       publicationAndOwnership: z.object({
         'common:dataSetVersion': z.string(),
@@ -86,9 +87,9 @@ export const UnitgroupsSchema = z.object({
           GlobalReferenceTypeSchema.optional(),
         'common:permanentDataSetURI': z.string().optional(),
         'common:referenceToOwnershipOfDataSet': GlobalReferenceTypeSchema,
-        'common:other': z.string().optional(),
+        'common:other': CommonOtherSchema.optional(),
       }),
-      'common:other': z.string().optional(),
+      'common:other': CommonOtherSchema.optional(),
     }),
     units: z
       .object({
@@ -99,7 +100,7 @@ export const UnitgroupsSchema = z.object({
               name: StringSchema.optional(),
               meanValue: RealSchema.optional(),
               generalComment: StringMultiLangSchema.optional(),
-              'common:other': z.string().optional(),
+              'common:other': CommonOtherSchema.optional(),
             }),
             z.array(
               z.object({
@@ -111,9 +112,9 @@ export const UnitgroupsSchema = z.object({
             ),
           ])
           .optional(),
-        'common:other': z.string().optional(),
+        'common:other': CommonOtherSchema.optional(),
       })
       .optional(),
-    'common:other': z.string().optional(),
+    'common:other': CommonOtherSchema.optional(),
   }),
 });

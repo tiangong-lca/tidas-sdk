@@ -3,6 +3,7 @@ import { z } from 'zod';
 
 import {
   CASNumberSchema,
+  CommonOtherSchema,
   FTMultiLangSchema,
   GlobalReferenceTypeSchema,
   Int5Schema,
@@ -37,23 +38,23 @@ export const FlowsSchema = z.object({
           treatmentStandardsRoutes: RequiredStringMultiLangSchema,
           mixAndLocationTypes: RequiredStringMultiLangSchema,
           flowProperties: StringMultiLangSchema.optional(),
-          'common:other': z.string().optional(),
+          'common:other': CommonOtherSchema.optional(),
         }),
         'common:synonyms': FTMultiLangSchema.optional(),
         classificationInformation: z.union([z.any(), z.any()]),
         CASNumber: CASNumberSchema.optional(),
         sumFormula: StringSchema.optional(),
         'common:generalComment': FTMultiLangSchema.optional(),
-        'common:other': z.string().optional(),
+        'common:other': CommonOtherSchema.optional(),
       }),
       quantitativeReference: z.object({
         referenceToReferenceFlowProperty: Int5Schema,
-        'common:other': z.string().optional(),
+        'common:other': CommonOtherSchema.optional(),
       }),
       geography: z
         .object({
           locationOfSupply: LocationsCategorySchema.optional(),
-          'common:other': z.string().optional(),
+          'common:other': CommonOtherSchema.optional(),
         })
         .optional(),
       technology: z
@@ -61,10 +62,10 @@ export const FlowsSchema = z.object({
           technologicalApplicability: FTMultiLangSchema.optional(),
           referenceToTechnicalSpecification:
             GlobalReferenceTypeSchema.optional(),
-          'common:other': z.string().optional(),
+          'common:other': CommonOtherSchema.optional(),
         })
         .optional(),
-      'common:other': z.string().optional(),
+      'common:other': CommonOtherSchema.optional(),
     }),
     modellingAndValidation: z.object({
       LCIMethod: z.object({
@@ -73,7 +74,7 @@ export const FlowsSchema = z.object({
           z.literal('Product flow'),
           z.literal('Waste flow'),
         ]),
-        'common:other': z.string().optional(),
+        'common:other': CommonOtherSchema.optional(),
       }),
       complianceDeclarations: z.object({
         compliance: z.union([
@@ -84,7 +85,7 @@ export const FlowsSchema = z.object({
               z.literal('Not compliant'),
               z.literal('Not defined'),
             ]),
-            'common:other': z.string().optional(),
+            'common:other': CommonOtherSchema.optional(),
           }),
           z.array(
             z.object({
@@ -94,13 +95,13 @@ export const FlowsSchema = z.object({
                 z.literal('Not compliant'),
                 z.literal('Not defined'),
               ]),
-              'common:other': z.string().optional(),
+              'common:other': CommonOtherSchema.optional(),
             })
           ),
         ]),
-        'common:other': z.string().optional(),
+        'common:other': CommonOtherSchema.optional(),
       }),
-      'common:other': z.string().optional(),
+      'common:other': CommonOtherSchema.optional(),
     }),
     administrativeInformation: z.object({
       dataEntryBy: z.object({
@@ -108,7 +109,7 @@ export const FlowsSchema = z.object({
         'common:referenceToDataSetFormat': GlobalReferenceTypeSchema,
         'common:referenceToPersonOrEntityEnteringTheData':
           GlobalReferenceTypeSchema.optional(),
-        'common:other': z.string().optional(),
+        'common:other': CommonOtherSchema.optional(),
       }),
       publicationAndOwnership: z.object({
         'common:dataSetVersion': z.string(),
@@ -116,9 +117,9 @@ export const FlowsSchema = z.object({
           GlobalReferenceTypeSchema.optional(),
         'common:permanentDataSetURI': z.string().optional(),
         'common:referenceToOwnershipOfDataSet': GlobalReferenceTypeSchema,
-        'common:other': z.string().optional(),
+        'common:other': CommonOtherSchema.optional(),
       }),
-      'common:other': z.string().optional(),
+      'common:other': CommonOtherSchema.optional(),
     }),
     flowProperties: z.object({
       flowProperty: z.union([
@@ -147,7 +148,7 @@ export const FlowsSchema = z.object({
             ])
             .optional(),
           generalComment: StringMultiLangSchema.optional(),
-          'common:other': z.string().optional(),
+          'common:other': CommonOtherSchema.optional(),
         }),
         z.array(
           z.object({
@@ -175,12 +176,12 @@ export const FlowsSchema = z.object({
               ])
               .optional(),
             generalComment: StringMultiLangSchema.optional(),
-            'common:other': z.string().optional(),
+            'common:other': CommonOtherSchema.optional(),
           })
         ),
       ]),
-      'common:other': z.string().optional(),
+      'common:other': CommonOtherSchema.optional(),
     }),
-    'common:other': z.string().optional(),
+    'common:other': CommonOtherSchema.optional(),
   }),
 });

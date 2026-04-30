@@ -5,6 +5,7 @@
  */
 
 import type {
+  CommonOther,
   FTMultiLang,
   GlobalReferenceType,
   LevelType,
@@ -31,22 +32,22 @@ export interface Flowproperties {
               '@classId': string;
               '#text': string;
             };
-            'common:other'?: string;
+            'common:other'?: CommonOther;
           };
         };
         'common:generalComment'?: FTMultiLang;
-        'common:other'?: string;
+        'common:other'?: CommonOther;
       };
       quantitativeReference: {
         referenceToReferenceUnitGroup: GlobalReferenceType;
-        'common:other'?: string;
+        'common:other'?: CommonOther;
       };
-      'common:other'?: string;
+      'common:other'?: CommonOther;
     };
     modellingAndValidation?: {
       dataSourcesTreatmentAndRepresentativeness?: {
         referenceToDataSource?: GlobalReferenceType;
-        'common:other'?: string;
+        'common:other'?: CommonOther;
       };
       complianceDeclarations: {
         compliance:
@@ -64,25 +65,25 @@ export interface Flowproperties {
                 | 'Not compliant'
                 | 'Not defined';
             }[];
-        'common:other'?: string;
+        'common:other'?: CommonOther;
       };
-      'common:other'?: string;
+      'common:other'?: CommonOther;
     };
     administrativeInformation: {
       dataEntryBy: {
         'common:timeStamp': string;
         'common:referenceToDataSetFormat': GlobalReferenceType;
-        'common:other'?: string;
+        'common:other'?: CommonOther;
       };
       publicationAndOwnership: {
         'common:dataSetVersion': string;
         'common:referenceToPrecedingDataSetVersion'?: GlobalReferenceType;
         'common:permanentDataSetURI'?: string;
         'common:referenceToOwnershipOfDataSet': GlobalReferenceType;
-        'common:other'?: string;
+        'common:other'?: CommonOther;
       };
-      'common:other'?: string;
+      'common:other'?: CommonOther;
     };
-    'common:other'?: string;
+    'common:other'?: CommonOther;
   };
 }

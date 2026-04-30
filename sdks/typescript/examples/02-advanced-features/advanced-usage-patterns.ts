@@ -124,7 +124,7 @@ combustionProcess.processDataSet.exchanges.exchange = [
     meanAmount: '2.75', // kg CO2 per kWh natural gas
     resultingAmount: '2.75',
     dataDerivationTypeStatus: 'Calculated',
-    'common:other': 'kg CO2 per kWh natural gas',
+    'common:other': { 'ext:note': 'kg CO2 per kWh natural gas' },
   },
 ];
 

@@ -5,6 +5,7 @@
  */
 
 import type {
+  CommonOther,
   FTMultiLang,
   GlobalReferenceType,
   LevelType,
@@ -31,7 +32,7 @@ export interface Sources {
               '@classId': string;
               '#text': string;
             };
-            'common:other'?: string;
+            'common:other'?: CommonOther;
           };
         };
         sourceCitation?: string;
@@ -50,25 +51,25 @@ export interface Sources {
         referenceToDigitalFile?: { '@uri'?: string };
         referenceToContact?: GlobalReferenceType;
         referenceToLogo?: GlobalReferenceType;
-        'common:other'?: string;
+        'common:other'?: CommonOther;
       };
-      'common:other'?: string;
+      'common:other'?: CommonOther;
     };
     administrativeInformation: {
       dataEntryBy: {
         'common:timeStamp': dateTime;
         'common:referenceToDataSetFormat': GlobalReferenceType;
-        'common:other'?: string;
+        'common:other'?: CommonOther;
       };
       publicationAndOwnership: {
         'common:dataSetVersion': string;
         'common:referenceToPrecedingDataSetVersion'?: GlobalReferenceType;
         'common:permanentDataSetURI'?: string;
         'common:referenceToOwnershipOfDataSet': GlobalReferenceType;
-        'common:other'?: string;
+        'common:other'?: CommonOther;
       };
-      'common:other'?: string;
+      'common:other'?: CommonOther;
     };
-    'common:other'?: string;
+    'common:other'?: CommonOther;
   };
 }
