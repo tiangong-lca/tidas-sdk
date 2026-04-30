@@ -5,6 +5,7 @@
  */
 
 import type {
+  CommonOther,
   FTMultiLang,
   GIS,
   GlobalReferenceType,
@@ -39,7 +40,7 @@ export interface Lciamethods {
               { '@level': LevelType; '@classId': string; '#text': string },
               { '@level': LevelType; '@classId': string; '#text': string },
             ];
-            'common:other'?: string;
+            'common:other'?: CommonOther;
           };
         };
         impactCategory?:
@@ -67,17 +68,17 @@ export interface Lciamethods {
         impactIndicator?: String;
         'common:generalComment'?: FTMultiLang;
         referenceToExternalDocumentation?: GlobalReferenceType;
-        'common:other'?: string;
+        'common:other'?: CommonOther;
       };
       quantitativeReference: {
         referenceQuantity: GlobalReferenceType;
-        'common:other'?: string;
+        'common:other'?: CommonOther;
       };
       time: {
         referenceYear: STMultiLang;
         duration: STMultiLang;
         timeRepresentativenessDescription: FTMultiLang;
-        'common:other'?: string;
+        'common:other'?: CommonOther;
       };
       geography?: {
         interventionLocation?:
@@ -90,7 +91,7 @@ export interface Lciamethods {
           | { '#text'?: string; '@latitudeAndLongitude'?: GIS }
           | string;
         geographicalRepresentativenessDescription?: FTMultiLang;
-        'common:other'?: string;
+        'common:other'?: CommonOther;
       };
       impactModel: {
         modelName: ST;
@@ -99,9 +100,9 @@ export interface Lciamethods {
         referenceToIncludedMethods?: GlobalReferenceType;
         consideredMechanisms?: STMultiLang;
         referenceToMethodologyFlowChart?: GlobalReferenceType;
-        'common:other'?: string;
+        'common:other'?: CommonOther;
       };
-      'common:other'?: string;
+      'common:other'?: CommonOther;
     };
     modellingAndValidation: {
       useAdviceForDataSet?: STMultiLang;
@@ -133,7 +134,7 @@ export interface Lciamethods {
       };
       dataSources: {
         referenceToDataSource: GlobalReferenceType;
-        'common:other'?: string;
+        'common:other'?: CommonOther;
       };
       completeness?: {
         completenessImpactCoverage?: Perc;
@@ -239,9 +240,9 @@ export interface Lciamethods {
           'common:referenceToNameOfReviewerAndInstitution'?: GlobalReferenceType;
           'common:otherReviewDetails'?: FTMultiLang;
           'common:referenceToCompleteReviewReport'?: GlobalReferenceType;
-          'common:other'?: string;
+          'common:other'?: CommonOther;
         };
-        'common:other'?: string;
+        'common:other'?: CommonOther;
       };
       complianceDeclarations: {
         compliance:
@@ -271,7 +272,7 @@ export interface Lciamethods {
                 | 'Fully compliant'
                 | 'Not compliant'
                 | 'Not defined';
-              'common:other'?: string;
+              'common:other'?: CommonOther;
             }
           | {
               'common:referenceToComplianceSystem': GlobalReferenceType;
@@ -299,22 +300,22 @@ export interface Lciamethods {
                 | 'Fully compliant'
                 | 'Not compliant'
                 | 'Not defined';
-              'common:other'?: string;
+              'common:other'?: CommonOther;
             }[];
-        'common:other'?: string;
+        'common:other'?: CommonOther;
       };
-      'common:other'?: string;
+      'common:other'?: CommonOther;
     };
     administrativeInformation: {
       'common:commissionerAndGoal'?: {
         'common:referenceToCommissioner'?: GlobalReferenceType;
         'common:project'?: StringMultiLang;
         'common:intendedApplications'?: FTMultiLang;
-        'common:other'?: string;
+        'common:other'?: CommonOther;
       };
       dataGenerator: {
         'common:referenceToPersonOrEntityGeneratingTheDataSet': GlobalReferenceType;
-        'common:other'?: string;
+        'common:other'?: CommonOther;
       };
       dataEntryBy: {
         'common:timeStamp': dateTime;
@@ -331,7 +332,7 @@ export interface Lciamethods {
             | 'Not recommended';
           meaning: FTMultiLang;
         };
-        'common:other'?: string;
+        'common:other'?: CommonOther;
       };
       publicationAndOwnership: {
         'common:dateOfLastRevision': dateTime;
@@ -351,9 +352,9 @@ export interface Lciamethods {
         'common:referenceToOwnershipOfDataSet': GlobalReferenceType;
         'common:copyright'?: 'true' | 'false';
         'common:accessRestrictions'?: FTMultiLang;
-        'common:other'?: string;
+        'common:other'?: CommonOther;
       };
-      'common:other'?: string;
+      'common:other'?: CommonOther;
     };
     characterisationFactors: {
       factor:
@@ -386,7 +387,7 @@ export interface Lciamethods {
               | 'Not recommended';
             referenceToDataSource?: GlobalReferenceType;
             generalComment?: StringMultiLang;
-            'common:other'?: string;
+            'common:other'?: CommonOther;
           }
         | {
             referenceToFlowDataSet: GlobalReferenceType;
@@ -420,8 +421,8 @@ export interface Lciamethods {
             };
             generalComment?: StringMultiLang;
           }[];
-      'common:other'?: string;
+      'common:other'?: CommonOther;
     };
-    'common:other'?: string;
+    'common:other'?: CommonOther;
   };
 }

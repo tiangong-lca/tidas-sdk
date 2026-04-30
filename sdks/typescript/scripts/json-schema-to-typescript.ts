@@ -157,6 +157,12 @@ class JsonSchemaToTypeScript {
         ? `${jsdoc}\n${this.config.exportStyle} type ${name} = ${tsType};`
         : `${this.config.exportStyle} type ${name} = ${tsType};`;
       this.typeDefinitions.set(name, definition);
+    } else if (this.isDictionarySchema(schema)) {
+      const jsdoc = this.generateJSDoc(schema);
+      const definition = jsdoc
+        ? `${jsdoc}\n${this.config.exportStyle} type ${name} = ${tsType};`
+        : `${this.config.exportStyle} type ${name} = ${tsType};`;
+      this.typeDefinitions.set(name, definition);
     } else if (this.normalizeObjectSchema(schema)) {
       // For objects, create an interface
       const interfaceContent = this.processObject(
@@ -264,6 +270,18 @@ class JsonSchemaToTypeScript {
     }
 
     return merged;
+  }
+
+  private isDictionarySchema(schema: any): boolean {
+    if (!schema || typeof schema !== 'object') {
+      return false;
+    }
+
+    if (schema.properties && Object.keys(schema.properties).length > 0) {
+      return false;
+    }
+
+    return Boolean(schema.patternProperties || schema.additionalProperties);
   }
 
   private mergeObjectSchemas(base: any, extension: any): any {
@@ -768,6 +786,11 @@ class JsonSchemaToTypeScript {
 
     // Handle objects
     if (schema.type === 'object' || (!schema.type && schema.properties)) {
+      const dictionaryValueType = this.getDictionaryValueType(schema);
+      if (dictionaryValueType && !schema.properties) {
+        return `{ [key: string]: ${dictionaryValueType} }`;
+      }
+
       if (schema.properties) {
         // Inline object type - format nicely for complex objects
         const properties = schema.properties;
@@ -821,6 +844,35 @@ class JsonSchemaToTypeScript {
     // Handle basic types
     const jsonType = schema.type || 'any';
     return this.config.typeMappings[jsonType] || 'any';
+  }
+
+  private getDictionaryValueType(schema: any): string | null {
+    const optionTypes: string[] = [];
+
+    if (
+      schema.patternProperties &&
+      typeof schema.patternProperties === 'object'
+    ) {
+      for (const valueSchema of Object.values(schema.patternProperties)) {
+        optionTypes.push(this.getTypeScriptType(valueSchema));
+      }
+    }
+
+    if (
+      schema.additionalProperties &&
+      typeof schema.additionalProperties === 'object'
+    ) {
+      optionTypes.push(this.getTypeScriptType(schema.additionalProperties));
+    } else if (schema.additionalProperties === true) {
+      optionTypes.push('any');
+    }
+
+    const deduped = Array.from(new Set(optionTypes.filter(Boolean)));
+    if (deduped.length === 0) {
+      return null;
+    }
+
+    return deduped.join(' | ');
   }
 
   private generateInterfaceName(filename: string): string {
@@ -907,6 +959,8 @@ function createTidasConfig(): TypeScriptConfig {
       String: 'tidas_data_types',
       STMultiLang: 'tidas_data_types',
       FTMultiLang: 'tidas_data_types',
+      AnyXmlElement: 'tidas_data_types',
+      CommonOther: 'tidas_data_types',
       GlobalReferenceType: 'tidas_data_types',
       GIS: 'tidas_data_types',
       Year: 'tidas_data_types',

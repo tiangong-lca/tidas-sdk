@@ -381,6 +381,10 @@ class SchemaConverter:
     def _register_definitions(self) -> None:
         for def_name, def_schema in self.schema.get("$defs", {}).items():
             pointer = f"#/$defs/{def_name}"
+            extension_scalar = self._handle_extension_container_scalar(def_name, def_schema)
+            if extension_scalar:
+                self._register_scalar(def_name, pointer, extension_scalar)
+                continue
             union_scalar = self._handle_union_definition(def_name, def_schema)
             if union_scalar:
                 self._register_scalar(def_name, pointer, union_scalar)
@@ -620,6 +624,17 @@ class SchemaConverter:
         if type_name == "object":
             if schema.get("properties"):
                 return self._inline_model(parent_path + (prop_name,), schema, qualifier=qualifier)
+            pattern_properties = schema.get("patternProperties")
+            if isinstance(pattern_properties, dict) and pattern_properties:
+                value_types = {
+                    self._determine_type(
+                        parent_path + (prop_name,), "value", value_schema
+                    )
+                    for value_schema in pattern_properties.values()
+                    if isinstance(value_schema, dict)
+                }
+                if value_types:
+                    return f"dict[str, {' | '.join(sorted(value_types))}]"
             additional = schema.get("additionalProperties")
             if isinstance(additional, dict):
                 value_type = self._determine_type(
@@ -904,6 +919,56 @@ class SchemaConverter:
 
         return constraints
 
+    @staticmethod
+    def _handle_extension_container_scalar(
+        name: str, schema: dict[str, Any]
+    ) -> ScalarInfo | None:
+        if name == "AnyXmlElement":
+            return ScalarInfo(
+                base_type="Any",
+                description=schema.get("description"),
+                typing_imports={"Any"},
+            )
+        if name == "CommonOther":
+            definition = """_COMMON_OTHER_NAMESPACE_DECLARATION_PATTERN = re.compile(
+    r'^@xmlns(:[A-Za-z_][A-Za-z0-9_.-]*)?$'
+)
+_COMMON_OTHER_EXTENSION_ELEMENT_PATTERN = re.compile(
+    r'^(?!(common|xmlns):)([A-Za-z_][A-Za-z0-9_.-]*:)?[A-Za-z_][A-Za-z0-9_.-]*$'
+)
+
+def _validate_common_other(value: dict[str, AnyXmlElement]) -> dict[str, AnyXmlElement]:
+    has_extension_element = False
+
+    for key, entry_value in value.items():
+        if _COMMON_OTHER_NAMESPACE_DECLARATION_PATTERN.fullmatch(key):
+            if not isinstance(entry_value, str):
+                raise ValueError("Namespace declarations in common:other must be strings")
+            continue
+
+        if _COMMON_OTHER_EXTENSION_ELEMENT_PATTERN.fullmatch(key):
+            has_extension_element = True
+            continue
+
+        raise ValueError(
+            "common:other entries must be namespace declarations or non-common extension elements"
+        )
+
+    if not has_extension_element:
+        raise ValueError("common:other must include at least one non-common extension element")
+
+    return value
+
+CommonOther = Annotated[dict[str, AnyXmlElement], AfterValidator(_validate_common_other)]"""
+            return ScalarInfo(
+                base_type="dict[str, AnyXmlElement]",
+                description=schema.get("description"),
+                definition=definition,
+                typing_imports={"Annotated"},
+                standard_imports={"from pydantic import AfterValidator"},
+            )
+        return None
+
     def _handle_union_definition(self, name: str, schema: dict[str, Any]) -> ScalarInfo | None:
         if not isinstance(schema, dict):
             return None
@@ -999,12 +1064,13 @@ class SchemaConverter:
     def _register_scalar(self, name: str, pointer: str, scalar: ScalarInfo) -> None:
         alias = normalize_alias_name(name)
         scalar.alias = alias
-        if scalar.constraints:
-            args = ", ".join(f"{k}={v}" for k, v in scalar.constraints.items())
-            scalar.definition = f"{alias} = Annotated[{scalar.base_type}, Field({args})]"
-            self.typing_imports.add("Annotated")
-        else:
-            scalar.definition = f"{alias} = {scalar.base_type}"
+        if not scalar.definition:
+            if scalar.constraints:
+                args = ", ".join(f"{k}={v}" for k, v in scalar.constraints.items())
+                scalar.definition = f"{alias} = Annotated[{scalar.base_type}, Field({args})]"
+                self.typing_imports.add("Annotated")
+            else:
+                scalar.definition = f"{alias} = {scalar.base_type}"
 
         self.scalar_aliases[pointer] = scalar
         self.scalar_aliases[name] = scalar

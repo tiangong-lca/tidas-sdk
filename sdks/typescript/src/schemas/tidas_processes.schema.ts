@@ -2,6 +2,7 @@
 import { z } from 'zod';
 
 import {
+  CommonOtherSchema,
   FTMultiLangSchema,
   GISSchema,
   GlobalReferenceTypeSchema,
@@ -36,7 +37,7 @@ export const ProcessesSchema = z.object({
           treatmentStandardsRoutes: RequiredStringMultiLangSchema,
           mixAndLocationTypes: RequiredStringMultiLangSchema,
           functionalUnitFlowProperties: StringMultiLangSchema.optional(),
-          'common:other': z.string().optional(),
+          'common:other': CommonOtherSchema.optional(),
         }),
         identifierOfSubDataSet: StringSchema.optional(),
         'common:synonyms': FTMultiLangSchema.optional(),
@@ -70,12 +71,12 @@ export const ProcessesSchema = z.object({
                 '#text': z.string(),
               }),
             ]),
-            'common:other': z.string().optional(),
+            'common:other': CommonOtherSchema.optional(),
           }),
         }),
         'common:generalComment': FTMultiLangSchema,
         referenceToExternalDocumentation: GlobalReferenceTypeSchema.optional(),
-        'common:other': z.string().optional(),
+        'common:other': CommonOtherSchema.optional(),
       }),
       quantitativeReference: z.object({
         '@type': z.union([
@@ -86,31 +87,31 @@ export const ProcessesSchema = z.object({
         ]),
         referenceToReferenceFlow: Int6Schema,
         functionalUnitOrOther: StringMultiLangSchema.optional(),
-        'common:other': z.string().optional(),
+        'common:other': CommonOtherSchema.optional(),
       }),
       time: z.object({
         'common:referenceYear': YearSchema,
         'common:dataSetValidUntil': YearSchema.optional(),
         'common:timeRepresentativenessDescription':
           FTMultiLangSchema.optional(),
-        'common:other': z.string().optional(),
+        'common:other': CommonOtherSchema.optional(),
       }),
       geography: z.object({
         locationOfOperationSupplyOrProduction: z.object({
           '@location': LocationsCategorySchema,
           '@latitudeAndLongitude': GISSchema.optional(),
           descriptionOfRestrictions: FTMultiLangSchema.optional(),
-          'common:other': z.string().optional(),
+          'common:other': CommonOtherSchema.optional(),
         }),
         subLocationOfOperationSupplyOrProduction: z
           .object({
             '@subLocation': LocationsCategorySchema.optional(),
             '@latitudeAndLongitude': GISSchema.optional(),
             descriptionOfRestrictions: FTMultiLangSchema.optional(),
-            'common:other': z.string().optional(),
+            'common:other': CommonOtherSchema.optional(),
           })
           .optional(),
-        'common:other': z.string().optional(),
+        'common:other': CommonOtherSchema.optional(),
       }),
       technology: z
         .object({
@@ -121,7 +122,7 @@ export const ProcessesSchema = z.object({
             GlobalReferenceTypeSchema.optional(),
           referenceToTechnologyFlowDiagrammOrPicture:
             GlobalReferenceTypeSchema.optional(),
-          'common:other': z.string().optional(),
+          'common:other': CommonOtherSchema.optional(),
         })
         .optional(),
       mathematicalRelations: z
@@ -145,13 +146,13 @@ export const ProcessesSchema = z.object({
                 .optional(),
               relativeStandardDeviation95In: PercSchema.optional(),
               comment: StringMultiLangSchema.optional(),
-              'common:other': z.string().optional(),
+              'common:other': CommonOtherSchema.optional(),
             })
             .optional(),
-          'common:other': z.string().optional(),
+          'common:other': CommonOtherSchema.optional(),
         })
         .optional(),
-      'common:other': z.string().optional(),
+      'common:other': CommonOtherSchema.optional(),
     }),
     modellingAndValidation: z.object({
       LCIMethodAndAllocation: z.object({
@@ -205,7 +206,7 @@ export const ProcessesSchema = z.object({
         modellingConstants: FTMultiLangSchema.optional(),
         deviationsFromModellingConstants: FTMultiLangSchema.optional(),
         referenceToLCAMethodDetails: GlobalReferenceTypeSchema.optional(),
-        'common:other': z.string().optional(),
+        'common:other': CommonOtherSchema.optional(),
       }),
       dataSourcesTreatmentAndRepresentativeness: z
         .object({
@@ -228,7 +229,7 @@ export const ProcessesSchema = z.object({
           dataCollectionPeriod: StringMultiLangSchema.optional(),
           uncertaintyAdjustments: FTMultiLangSchema.optional(),
           useAdviceForDataSet: FTMultiLangSchema.optional(),
-          'common:other': z.string().optional(),
+          'common:other': CommonOtherSchema.optional(),
         })
         .optional(),
       completeness: z
@@ -278,7 +279,7 @@ export const ProcessesSchema = z.object({
             })
             .optional(),
           completenessOtherProblemField: FTMultiLangSchema.optional(),
-          'common:other': z.string().optional(),
+          'common:other': CommonOtherSchema.optional(),
         })
         .optional(),
       validation: z.object({
@@ -459,9 +460,9 @@ export const ProcessesSchema = z.object({
           'common:otherReviewDetails': FTMultiLangSchema.optional(),
           'common:referenceToCompleteReviewReport':
             GlobalReferenceTypeSchema.optional(),
-          'common:other': z.string().optional(),
+          'common:other': CommonOtherSchema.optional(),
         }),
-        'common:other': z.string().optional(),
+        'common:other': CommonOtherSchema.optional(),
       }),
       complianceDeclarations: z.object({
         compliance: z.union([
@@ -497,7 +498,7 @@ export const ProcessesSchema = z.object({
               z.literal('Not compliant'),
               z.literal('Not defined'),
             ]),
-            'common:other': z.string().optional(),
+            'common:other': CommonOtherSchema.optional(),
           }),
           z.array(
             z.object({
@@ -532,26 +533,26 @@ export const ProcessesSchema = z.object({
                 z.literal('Not compliant'),
                 z.literal('Not defined'),
               ]),
-              'common:other': z.string().optional(),
+              'common:other': CommonOtherSchema.optional(),
             })
           ),
         ]),
-        'common:other': z.string().optional(),
+        'common:other': CommonOtherSchema.optional(),
       }),
-      'common:other': z.string().optional(),
+      'common:other': CommonOtherSchema.optional(),
     }),
     administrativeInformation: z.object({
       'common:commissionerAndGoal': z.object({
         'common:referenceToCommissioner': GlobalReferenceTypeSchema,
         'common:project': StringMultiLangSchema.optional(),
         'common:intendedApplications': FTMultiLangSchema,
-        'common:other': z.string().optional(),
+        'common:other': CommonOtherSchema.optional(),
       }),
       dataGenerator: z
         .object({
           'common:referenceToPersonOrEntityGeneratingTheDataSet':
             GlobalReferenceTypeSchema.optional(),
-          'common:other': z.string().optional(),
+          'common:other': CommonOtherSchema.optional(),
         })
         .optional(),
       dataEntryBy: z.object({
@@ -563,7 +564,7 @@ export const ProcessesSchema = z.object({
           GlobalReferenceTypeSchema,
         'common:referenceToDataSetUseApproval':
           GlobalReferenceTypeSchema.optional(),
-        'common:other': z.string().optional(),
+        'common:other': CommonOtherSchema.optional(),
       }),
       publicationAndOwnership: z.object({
         'common:dateOfLastRevision': z.string().optional(),
@@ -600,9 +601,9 @@ export const ProcessesSchema = z.object({
           z.literal('Other'),
         ]),
         'common:accessRestrictions': FTMultiLangSchema.optional(),
-        'common:other': z.string().optional(),
+        'common:other': CommonOtherSchema.optional(),
       }),
-      'common:other': z.string().optional(),
+      'common:other': CommonOtherSchema.optional(),
     }),
     exchanges: z.object({
       exchange: z.array(
@@ -662,14 +663,14 @@ export const ProcessesSchema = z.object({
           referencesToDataSource: z
             .object({
               referenceToDataSource: GlobalReferenceTypeSchema.optional(),
-              'common:other': z.string().optional(),
+              'common:other': CommonOtherSchema.optional(),
             })
             .optional(),
           generalComment: StringMultiLangSchema.optional(),
-          'common:other': z.string().optional(),
+          'common:other': CommonOtherSchema.optional(),
         })
       ),
-      'common:other': z.string().optional(),
+      'common:other': CommonOtherSchema.optional(),
     }),
     LCIAResults: z
       .object({
@@ -690,7 +691,7 @@ export const ProcessesSchema = z.object({
                 .optional(),
               relativeStandardDeviation95In: PercSchema.optional(),
               generalComment: StringMultiLangSchema.optional(),
-              'common:other': z.string().optional(),
+              'common:other': CommonOtherSchema.optional(),
             }),
             z.array(
               z.object({
@@ -708,14 +709,14 @@ export const ProcessesSchema = z.object({
                   .optional(),
                 relativeStandardDeviation95In: PercSchema.optional(),
                 generalComment: StringMultiLangSchema.optional(),
-                'common:other': z.string().optional(),
+                'common:other': CommonOtherSchema.optional(),
               })
             ),
           ])
           .optional(),
-        'common:other': z.string().optional(),
+        'common:other': CommonOtherSchema.optional(),
       })
       .optional(),
-    'common:other': z.string().optional(),
+    'common:other': CommonOtherSchema.optional(),
   }),
 });

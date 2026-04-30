@@ -4,12 +4,13 @@ Source: tidas_processes.json
 """
 from __future__ import annotations
 
-from typing import Literal
+from typing import Annotated, Literal
 
 from pydantic import Field
 from tidas_sdk.core.base import TidasBaseModel
 from tidas_sdk.core.multilang import MultiLangList
 
+from .tidas_data_types import CommonOther
 from .tidas_data_types import DateTime
 from .tidas_data_types import GIS
 from .tidas_data_types import GlobalReferenceType
@@ -24,6 +25,7 @@ from .tidas_data_types import UUID
 from .tidas_data_types import Year
 from .tidas_locations_category import LocationsCategory
 from datetime import datetime
+from pydantic import AfterValidator
 
 class ProcessInformationDataSetInformationName(TidasBaseModel):
     """General descriptive and specifying name of the process."""
@@ -31,7 +33,7 @@ class ProcessInformationDataSetInformationName(TidasBaseModel):
     treatment_standards_routes: MultiLangList = Field(default=..., alias='treatmentStandardsRoutes')
     mix_and_location_types: MultiLangList = Field(default=..., alias='mixAndLocationTypes')
     functional_unit_flow_properties: MultiLangList = Field(default_factory=MultiLangList, alias='functionalUnitFlowProperties')
-    common_other: str | None = Field(default=None, alias='common:other')
+    common_other: CommonOther | None = Field(default=None, alias='common:other')
 
 class ProcessInformationDataSetInformationComplementingProcesses(TidasBaseModel):
     reference_to_complementing_process: GlobalReferenceType | None = Field(default=None, alias='referenceToComplementingProcess')
@@ -59,7 +61,7 @@ class CommonClassItemOption3(TidasBaseModel):
 class DataSetInformationClassificationInformationCommonClassification(TidasBaseModel):
     """Optional statistical or other classification of the data set. Typically also used for structuring LCA databases."""
     common_class: list[CommonClassItemOption0 | CommonClassItemOption1 | CommonClassItemOption2 | CommonClassItemOption3] = Field(default_factory=list, alias='common:class')
-    common_other: str | None = Field(default=None, alias='common:other')
+    common_other: CommonOther | None = Field(default=None, alias='common:other')
 
 class ProcessInformationDataSetInformationClassificationInformation(TidasBaseModel):
     """Hierarchical or flat classification of the good, service or function that is provided by this life cycle model; typically used to structure database contents in LCA software, among other purposes. (Note: This entry is NOT required for the identification of a Life cycle model, but it should nevertheless be avoided to use identical names for Life cycle model data sets in the same class. The ILCD classifications are defined in the ILCDClassifications.xml file, for common use.)"""
@@ -75,39 +77,39 @@ class ProcessDataSetProcessInformationDataSetInformation(TidasBaseModel):
     classification_information: ProcessInformationDataSetInformationClassificationInformation = Field(default=..., alias='classificationInformation', description='Hierarchical or flat classification of the good, service or function that is provided by this life cycle model; typically used to structure database contents in LCA software, among other purposes. (Note: This entry is NOT required for the identification of a Life cycle model, but it should nevertheless be avoided to use identical names for Life cycle model data sets in the same class. The ILCD classifications are defined in the ILCDClassifications.xml file, for common use.)')
     common_general_comment: MultiLangList = Field(default=..., alias='common:generalComment', description='Free text for general information about the Flow data set. It may contain information about e.g. the use of the substance, good, service or process in a specific technology or industry-context, information sources used, data selection principles etc.')
     reference_to_external_documentation: GlobalReferenceType | None = Field(default=None, alias='referenceToExternalDocumentation', description='"Source data set(s)" of detailed LCA study on the process or product represented by this data set, as well as documents / files with overarching documentative information on technology, geographical and / or time aspects etc. (e.g. basic engineering studies, process simulation results, patents, plant documentation, model behind the parameterisation of the "Mathematical model" section, etc.) (Note: can indirectly reference to digital file.)')
-    common_other: str | None = Field(default=None, alias='common:other')
+    common_other: CommonOther | None = Field(default=None, alias='common:other')
 
 class ProcessDataSetProcessInformationQuantitativeReference(TidasBaseModel):
     """This section names the quantitative reference used for this data set, i.e. the reference to which the inputs and outputs quantiatively relate."""
     type: Literal['Reference flow(s)', 'Functional unit', 'Other parameter', 'Production period'] = Field(default=..., alias='@type')
     reference_to_reference_flow: Int6 = Field(default=..., alias='referenceToReferenceFlow')
     functional_unit_or_other: MultiLangList = Field(default_factory=MultiLangList, alias='functionalUnitOrOther')
-    common_other: str | None = Field(default=None, alias='common:other')
+    common_other: CommonOther | None = Field(default=None, alias='common:other')
 
 class ProcessDataSetProcessInformationTime(TidasBaseModel):
     common_reference_year: Year = Field(default=..., alias='common:referenceYear', description='Reference year when the emission is assumed to take place, i.e. the start year of the time period for which the impact is modelled. For time-independent models "time independent" should be stated.')
     common_data_set_valid_until: Year | None = Field(default=None, alias='common:dataSetValidUntil', description='End year of the time period for which the data set is still valid / sufficiently representative. This date also determines when a data set revision / remodelling is required or recommended due to expected relevant changes in environmentally or technically relevant inventory values, including in the background system.')
     common_time_representativeness_description: MultiLangList = Field(default_factory=MultiLangList, alias='common:timeRepresentativenessDescription', description='Description of the valid time span of the data set including information on limited usability within sub-time spans, if any.')
-    common_other: str | None = Field(default=None, alias='common:other')
+    common_other: CommonOther | None = Field(default=None, alias='common:other')
 
 class ProcessInformationGeographyLocationOfOperationSupplyOrProduction(TidasBaseModel):
     """Location, country or region the data set represents. [Note 1: This field does not refer to e.g. the country in which a specific site is located that is represented by this data set but to the actually represented country, region, or site. Note 2: Entry can be of type \"two-letter ISO 3166 country code\" for countries, \"seven-letter regional codes\" for regions or continents, or \"market areas and market organisations\", as predefined for the ILCD. Also a name for e.g. a specific plant etc. can be given here (e.g. \"FR, Lyon, XY Company, Z Site\"; user defined). Note 3: The fact whether the entry refers to production or to consumption / supply has to be stated in the name-field \"Mix and location types\" e.g. as \"Production mix\".]"""
     location: LocationsCategory = Field(default=..., alias='@location')
     latitude_and_longitude: GIS | None = Field(default=None, alias='@latitudeAndLongitude', description='Geographical latitude and longitude reference of "Location" / "Sub-location". For area-type locations (e.g. countries, continents) the field is empty.')
     description_of_restrictions: MultiLangList = Field(default_factory=MultiLangList, alias='descriptionOfRestrictions', description='Further explanations about additional aspects of the location: e.g. a company and/or site description and address, whether for certain sub-areas within the "Location" the data set is not valid, whether data is only valid for certain regions within the location indicated, or whether certain elementary flows or intermediate product flows are extrapolated from another geographical area.')
-    common_other: str | None = Field(default=None, alias='common:other')
+    common_other: CommonOther | None = Field(default=None, alias='common:other')
 
 class ProcessInformationGeographySubLocationOfOperationSupplyOrProduction(TidasBaseModel):
     """One or more geographical sub-unit(s) of the stated \"Location\". Such sub-units can be e.g. the sampling sites of a company-average data set, the countries of a region-average data set, or specific sites in a country-average data set. [Note: For single site data sets this field is empty and the site is named in the \"Location\" field.]"""
     sub_location: LocationsCategory | None = Field(default=None, alias='@subLocation')
     latitude_and_longitude: GIS | None = Field(default=None, alias='@latitudeAndLongitude', description='Geographical latitude and longitude reference of "Location" / "Sub-location". For area-type locations (e.g. countries, continents) the field is empty.')
     description_of_restrictions: MultiLangList = Field(default_factory=MultiLangList, alias='descriptionOfRestrictions', description='Further explanations about additional aspects of the location: e.g. a company and/or site description and address, whether for certain sub-areas within the "Location" the data set is not valid, whether data is only valid for certain regions within the location indicated, or whether certain elementary flows or intermediate product flows are extrapolated from another geographical area.')
-    common_other: str | None = Field(default=None, alias='common:other')
+    common_other: CommonOther | None = Field(default=None, alias='common:other')
 
 class ProcessDataSetProcessInformationGeography(TidasBaseModel):
     location_of_operation_supply_or_production: ProcessInformationGeographyLocationOfOperationSupplyOrProduction = Field(default=..., alias='locationOfOperationSupplyOrProduction', description='Location, country or region the data set represents. [Note 1: This field does not refer to e.g. the country in which a specific site is located that is represented by this data set but to the actually represented country, region, or site. Note 2: Entry can be of type "two-letter ISO 3166 country code" for countries, "seven-letter regional codes" for regions or continents, or "market areas and market organisations", as predefined for the ILCD. Also a name for e.g. a specific plant etc. can be given here (e.g. "FR, Lyon, XY Company, Z Site"; user defined). Note 3: The fact whether the entry refers to production or to consumption / supply has to be stated in the name-field "Mix and location types" e.g. as "Production mix".]')
     sub_location_of_operation_supply_or_production: ProcessInformationGeographySubLocationOfOperationSupplyOrProduction | None = Field(default=None, alias='subLocationOfOperationSupplyOrProduction', description='One or more geographical sub-unit(s) of the stated "Location". Such sub-units can be e.g. the sampling sites of a company-average data set, the countries of a region-average data set, or specific sites in a country-average data set. [Note: For single site data sets this field is empty and the site is named in the "Location" field.]')
-    common_other: str | None = Field(default=None, alias='common:other')
+    common_other: CommonOther | None = Field(default=None, alias='common:other')
 
 class ProcessDataSetProcessInformationTechnology(TidasBaseModel):
     technology_description_and_included_processes: MultiLangList = Field(default=..., alias='technologyDescriptionAndIncludedProcesses', description='Description of the technological characteristics including operating conditions of the process or product system. For the latter this includes the relevant upstream and downstream processes included in the data set. Professional terminology should be used.')
@@ -115,7 +117,7 @@ class ProcessDataSetProcessInformationTechnology(TidasBaseModel):
     technological_applicability: MultiLangList = Field(default_factory=MultiLangList, alias='technologicalApplicability', description='Description of the intended / possible applications of the good, service, or process. E.g. for which type of products the material, represented by this data set, is used. Examples: "This high purity chemical is used for analytical laboratories only." or "This technical quality bulk chemical is used for large scale synthesis in chemical industry.". Or: "This truck is used only for long-distance transport of liquid bulk chemicals".')
     reference_to_technology_pictogramme: GlobalReferenceType | None = Field(default=None, alias='referenceToTechnologyPictogramme', description='"Source data set" of the pictogramme of the good, service, technogy, plant etc. represented by this data set. For use in graphical user interfaces of LCA software.')
     reference_to_technology_flow_diagramm_or_picture: GlobalReferenceType | None = Field(default=None, alias='referenceToTechnologyFlowDiagrammOrPicture', description='"Source data set" of the flow diagramm(s) and/or photo(s) of the good, service, technology, plant etc represented by this data set. For clearer illustration and documentation of data set.')
-    common_other: str | None = Field(default=None, alias='common:other')
+    common_other: CommonOther | None = Field(default=None, alias='common:other')
 
 class ProcessInformationMathematicalRelationsVariableParameter(TidasBaseModel):
     name: MatV | None = Field(default=None, alias='@name', description='Name of the variable parameter in the mathematical model.')
@@ -126,12 +128,12 @@ class ProcessInformationMathematicalRelationsVariableParameter(TidasBaseModel):
     uncertainty_distribution_type: Literal['undefined', 'log-normal', 'normal', 'triangular', 'uniform'] | None = Field(default=None, alias='uncertaintyDistributionType', description='Defines the kind of uncertainty distribution that is valid for this particular object or parameter.')
     relative_standard_deviation95_in: Perc | None = Field(default=None, alias='relativeStandardDeviation95In')
     comment: MultiLangList = Field(default_factory=MultiLangList, alias='comment')
-    common_other: str | None = Field(default=None, alias='common:other')
+    common_other: CommonOther | None = Field(default=None, alias='common:other')
 
 class ProcessDataSetProcessInformationMathematicalRelations(TidasBaseModel):
     model_description: MultiLangList = Field(default_factory=MultiLangList, alias='modelDescription', description='Description of the model(s) represented in this section of mathematical relations. Can cover information on restrictions, model strenghts and weaknesses, etc. (Note: Also see information provided on the level of the individual formula in field "Comment" and in the general process description in the fields in section "Technology".)')
     variable_parameter: ProcessInformationMathematicalRelationsVariableParameter | None = Field(default=None, alias='variableParameter')
-    common_other: str | None = Field(default=None, alias='common:other')
+    common_other: CommonOther | None = Field(default=None, alias='common:other')
 
 class ProcessesProcessDataSetProcessInformation(TidasBaseModel):
     """Corresponds to the ISO/TS 14048 section \"Process description\". It comprises the following six sub-sections: 1) \"Data set information\" for data set identification and overarching information items, 2) \"Quantitative reference\", 3) \"Time\", 4) \"Geography\", 5) \"Technology\" and 6) \"Mathematical relations\"."""
@@ -141,7 +143,7 @@ class ProcessesProcessDataSetProcessInformation(TidasBaseModel):
     geography: ProcessDataSetProcessInformationGeography = Field(default=..., alias='geography')
     technology: ProcessDataSetProcessInformationTechnology | None = Field(default=None, alias='technology')
     mathematical_relations: ProcessDataSetProcessInformationMathematicalRelations | None = Field(default=None, alias='mathematicalRelations')
-    common_other: str | None = Field(default=None, alias='common:other')
+    common_other: CommonOther | None = Field(default=None, alias='common:other')
 
 class ProcessDataSetModellingAndValidationLCIMethodAndAllocation(TidasBaseModel):
     type_of_data_set: Literal['Unit process, single operation', 'Unit process, black box', 'LCI result', 'Partly terminated system', 'Avoided product system'] = Field(default=..., alias='typeOfDataSet', description='Type of the data set regarding systematic inclusion/exclusion of upstream or downstream processes, transparency and internal (hidden) multi-functionality, and the completeness of modelling.')
@@ -152,7 +154,7 @@ class ProcessDataSetModellingAndValidationLCIMethodAndAllocation(TidasBaseModel)
     modelling_constants: MultiLangList = Field(default_factory=MultiLangList, alias='modellingConstants', description='Short identification and description of constants applied in LCI modelling other than allocation / substitution, e.g. systematic setting of recycling quota, use of gross or net calorific value, etc.')
     deviations_from_modelling_constants: MultiLangList = Field(default_factory=MultiLangList, alias='deviationsFromModellingConstants', description='Short description of data set specific deviations from the "Modelling constants" if any, including in the possibly included background system.')
     reference_to_lca_method_details: GlobalReferenceType | None = Field(default=None, alias='referenceToLCAMethodDetails', description='"Source data set"(s) where the generally used LCA methods including the LCI method principles and specific approaches, the modelling constants details, as well as any other applied methodological conventions are described.')
-    common_other: str | None = Field(default=None, alias='common:other')
+    common_other: CommonOther | None = Field(default=None, alias='common:other')
 
 class ProcessDataSetModellingAndValidationDataSourcesTreatmentAndRepresentativeness(TidasBaseModel):
     data_cut_off_and_completeness_principles: MultiLangList = Field(default=..., alias='dataCutOffAndCompletenessPrinciples', description='Principles applied in data collection regarding completeness of (also intermediate) product and waste flows and of elementary flows. Examples are: cut-off rules, systematic exclusion of infrastructure, services or auxiliaries, etc. systematic exclusion of air in incineration processes, coling water, etc.')
@@ -169,7 +171,7 @@ class ProcessDataSetModellingAndValidationDataSourcesTreatmentAndRepresentativen
     data_collection_period: MultiLangList = Field(default_factory=MultiLangList, alias='dataCollectionPeriod', description='Date(s) or time period(s) when the data was collected. Note that this does NOT refer to e.g. the publication dates of papers or books from which the data may stem, but to the original data collection period.')
     uncertainty_adjustments: MultiLangList = Field(default_factory=MultiLangList, alias='uncertaintyAdjustments', description='Description of methods, sources, and assumptions made in uncertainty adjustment. [Note: For data sets where the additional uncertainty due to lacking representativeness has been included in the quantified uncertainty values, this field also reports the original representativeness, the additional uncertainty, and the procedure by which the overall uncertainty was assessed or calculated.]')
     use_advice_for_data_set: MultiLangList = Field(default_factory=MultiLangList, alias='useAdviceForDataSet', description='Specific methodological advice for data set users that requires attention. E.g. on inclusion/exclusion of recycling e.g. in material data sets, specific use phase behavior to be modelled, and other methodological advices. See also field "Technological applicability".')
-    common_other: str | None = Field(default=None, alias='common:other')
+    common_other: CommonOther | None = Field(default=None, alias='common:other')
 
 class ModellingAndValidationCompletenessCompletenessElementaryFlows(TidasBaseModel):
     """Completeness of the elementary flows in the Inputs and Outputs section of this data set from impact perspective, regarding addressing the individual mid-point problem field / impact category given. The completeness refers to the state-of-the-art of scientific knowledge whether or not an individual elementary flow contributes to the respective mid-point topic in a relevant way, which is e.g. the basis for the ILCD reference elementary flows. [Note: The \"Completeness\" statement does not automatically mean that related LCIA methods exist or reference the elementary flows of this data set. Hence for direct applicability of existing LCIA methods, check the field \"Supported LCIA method data sets\".]"""
@@ -181,7 +183,7 @@ class ProcessDataSetModellingAndValidationCompleteness(TidasBaseModel):
     reference_to_supported_impact_assessment_methods: GlobalReferenceType | None = Field(default=None, alias='referenceToSupportedImpactAssessmentMethods', description='"LCIA methods data sets" that can be applied to the elementary flows in the Inputs and Outputs section, i.e. ALL these flows are referenced by the respective LCIA method data set (if they are of environmental relevance and a characterisation factor is defined for the respective flow). [Note: Applicability is not given if the inventoty contains some elementary flows with the same meaning as referenced in the LCIA method data set but in a different nomenclature (and hence carry no characterisation factor), or if the flows are sum indicators or flow groups that are addressed differently in the LCIA method data set.]')
     completeness_elementary_flows: ModellingAndValidationCompletenessCompletenessElementaryFlows | None = Field(default=None, alias='completenessElementaryFlows', description='Completeness of the elementary flows in the Inputs and Outputs section of this data set from impact perspective, regarding addressing the individual mid-point problem field / impact category given. The completeness refers to the state-of-the-art of scientific knowledge whether or not an individual elementary flow contributes to the respective mid-point topic in a relevant way, which is e.g. the basis for the ILCD reference elementary flows. [Note: The "Completeness" statement does not automatically mean that related LCIA methods exist or reference the elementary flows of this data set. Hence for direct applicability of existing LCIA methods, check the field "Supported LCIA method data sets".]')
     completeness_other_problem_field: MultiLangList = Field(default_factory=MultiLangList, alias='completenessOtherProblemField', description='Completeness of coverage of elementary flows that contribute to other problem fields that are named here as free text, preferably using the same terminology as for the specified environmental problems.')
-    common_other: str | None = Field(default=None, alias='common:other')
+    common_other: CommonOther | None = Field(default=None, alias='common:other')
 
 class Option0CommonMethodOption0(TidasBaseModel):
     name: Literal['Validation of data sources', 'Sample tests on calculations', 'Energy balance', 'Element balance', 'Cross-check with other source', 'Cross-check with other data set', 'Expert judgement', 'Mass balance', 'Compliance with legal limits', 'Compliance with ISO 14040 to 14044', 'Documentation', 'Evidence collection by means of plant visits and/or interviews'] = Field(default=..., alias='@name')
@@ -224,12 +226,12 @@ class ModellingAndValidationValidationReview(TidasBaseModel):
     common_reference_to_name_of_reviewer_and_institution: GlobalReferenceType | None = Field(default=None, alias='common:referenceToNameOfReviewerAndInstitution', description='"Contact data set" of reviewer. The full name of reviewer(s) and institution(s) as well as a contact address and/or email should be provided in that contact data set.')
     common_other_review_details: MultiLangList = Field(default_factory=MultiLangList, alias='common:otherReviewDetails', description='Further information from the review process, especially comments received from third parties once the data set has been published or additional reviewer comments from an additional external review.')
     common_reference_to_complete_review_report: GlobalReferenceType | None = Field(default=None, alias='common:referenceToCompleteReviewReport', description='"Source data set" of the complete review report.')
-    common_other: str | None = Field(default=None, alias='common:other')
+    common_other: CommonOther | None = Field(default=None, alias='common:other')
 
 class ProcessDataSetModellingAndValidationValidation(TidasBaseModel):
     """Review information on LCIA method."""
     review: ModellingAndValidationValidationReview = Field(default=..., alias='review', description='Type of review that has been performed regarding independency and type of review process.')
-    common_other: str | None = Field(default=None, alias='common:other')
+    common_other: CommonOther | None = Field(default=None, alias='common:other')
 
 class ComplianceDeclarationsComplianceOption0(TidasBaseModel):
     common_reference_to_compliance_system: GlobalReferenceType = Field(default=..., alias='common:referenceToComplianceSystem', description='"Source data set" of the "Compliance system" that is declared to be met by the data set.')
@@ -239,7 +241,7 @@ class ComplianceDeclarationsComplianceOption0(TidasBaseModel):
     common_review_compliance: Literal['Fully compliant', 'Not compliant', 'Not defined'] = Field(default=..., alias='common:reviewCompliance', description='Review/Verification compliance of this data set with the respective requirements set by the "compliance system" refered to.')
     common_documentation_compliance: Literal['Fully compliant', 'Not compliant', 'Not defined'] = Field(default=..., alias='common:documentationCompliance', description='Documentation/Reporting compliance of this data set with the respective requirements set by the "compliance system" refered to.')
     common_quality_compliance: Literal['Fully compliant', 'Not compliant', 'Not defined'] = Field(default=..., alias='common:qualityCompliance', description='Quality compliance of this data set with the respective requirements set by the "compliance system" refered to.')
-    common_other: str | None = Field(default=None, alias='common:other')
+    common_other: CommonOther | None = Field(default=None, alias='common:other')
 
 class ComplianceDeclarationsComplianceItem(TidasBaseModel):
     common_reference_to_compliance_system: GlobalReferenceType = Field(default=..., alias='common:referenceToComplianceSystem', description='"Source data set" of the "Compliance system" that is declared to be met by the data set.')
@@ -249,12 +251,12 @@ class ComplianceDeclarationsComplianceItem(TidasBaseModel):
     common_review_compliance: Literal['Fully compliant', 'Not compliant', 'Not defined'] = Field(default=..., alias='common:reviewCompliance', description='Review/Verification compliance of this data set with the respective requirements set by the "compliance system" refered to.')
     common_documentation_compliance: Literal['Fully compliant', 'Not compliant', 'Not defined'] = Field(default=..., alias='common:documentationCompliance', description='Documentation/Reporting compliance of this data set with the respective requirements set by the "compliance system" refered to.')
     common_quality_compliance: Literal['Fully compliant', 'Not compliant', 'Not defined'] = Field(default=..., alias='common:qualityCompliance', description='Quality compliance of this data set with the respective requirements set by the "compliance system" refered to.')
-    common_other: str | None = Field(default=None, alias='common:other')
+    common_other: CommonOther | None = Field(default=None, alias='common:other')
 
 class ProcessDataSetModellingAndValidationComplianceDeclarations(TidasBaseModel):
     """Statements on compliance of several data set aspects with compliance requirements as defined by the referenced compliance system (e.g. an EPD scheme, handbook of a national or international data network such as the ILCD, etc.)."""
     compliance: ComplianceDeclarationsComplianceOption0 | list[ComplianceDeclarationsComplianceItem] = Field(default=..., alias='compliance', description='One compliance declaration. Multiple declarations may be provided.')
-    common_other: str | None = Field(default=None, alias='common:other')
+    common_other: CommonOther | None = Field(default=None, alias='common:other')
 
 class ProcessesProcessDataSetModellingAndValidation(TidasBaseModel):
     lci_method_and_allocation: ProcessDataSetModellingAndValidationLCIMethodAndAllocation = Field(default=..., alias='LCIMethodAndAllocation')
@@ -262,19 +264,19 @@ class ProcessesProcessDataSetModellingAndValidation(TidasBaseModel):
     completeness: ProcessDataSetModellingAndValidationCompleteness | None = Field(default=None, alias='completeness')
     validation: ProcessDataSetModellingAndValidationValidation = Field(default=..., alias='validation', description='Review information on LCIA method.')
     compliance_declarations: ProcessDataSetModellingAndValidationComplianceDeclarations = Field(default=..., alias='complianceDeclarations', description='Statements on compliance of several data set aspects with compliance requirements as defined by the referenced compliance system (e.g. an EPD scheme, handbook of a national or international data network such as the ILCD, etc.).')
-    common_other: str | None = Field(default=None, alias='common:other')
+    common_other: CommonOther | None = Field(default=None, alias='common:other')
 
 class ProcessDataSetAdministrativeInformationCommonCommissionerAndGoal(TidasBaseModel):
     """Basic information about goal and scope of the data set."""
     common_reference_to_commissioner: GlobalReferenceType = Field(default=..., alias='common:referenceToCommissioner', description='"Contact data set" of the commissioner / financing party of the data collection / compilation and of the data set modelling. For groups of commissioners, each single organisation should be named. For data set updates and for direct use of data from formerly commissioned studies, also the original commissioner should be named.')
     common_project: MultiLangList = Field(default_factory=MultiLangList, alias='common:project', description='Extract of the information items linked to goal and scope of LCIA method modeling.')
     common_intended_applications: MultiLangList = Field(default=..., alias='common:intendedApplications', description='Documentation of the intended application(s) of data collection and data set modelling. This indicates / includes information on the level of detail, the specifidity, and the quality ambition in the effort.')
-    common_other: str | None = Field(default=None, alias='common:other')
+    common_other: CommonOther | None = Field(default=None, alias='common:other')
 
 class ProcessDataSetAdministrativeInformationDataGenerator(TidasBaseModel):
     """Expert(s), that compiled and modelled the data set as well as internal administrative information linked to the data generation activity."""
     common_reference_to_person_or_entity_generating_the_data_set: GlobalReferenceType | None = Field(default=None, alias='common:referenceToPersonOrEntityGeneratingTheDataSet', description='"Contact data set" of the person(s), working group(s), organisation(s) or database network, that generated the data set, i.e. being responsible for its correctness regarding methods, inventory, and documentation.')
-    common_other: str | None = Field(default=None, alias='common:other')
+    common_other: CommonOther | None = Field(default=None, alias='common:other')
 
 class ProcessDataSetAdministrativeInformationDataEntryBy(TidasBaseModel):
     """Staff or entity, that documented the generated data set, entering the information into the database; plus administrative information linked to the data entry activity."""
@@ -283,7 +285,7 @@ class ProcessDataSetAdministrativeInformationDataEntryBy(TidasBaseModel):
     common_reference_to_converted_original_data_set_from: GlobalReferenceType | None = Field(default=None, alias='common:referenceToConvertedOriginalDataSetFrom', description='"Source data set" of the database or data set publication from which this data set has been obtained by conversion. This can cover e.g. conversion to a different format, applying a different nomenclature, mapping of flow names, conversion of units, etc. This may however not have changed or re-modeled the Inputs and Outputs, i.e. obtaining the same LCIA results. This entry is required for converted data sets stemming originally from other LCA databases (e.g. when re-publishing data from IISI, ILCD etc. databases). [Note: Identically re-published data sets are identied in the field "Unchanged re-publication of:" in the section "Publication and Ownership".]')
     common_reference_to_person_or_entity_entering_the_data: GlobalReferenceType = Field(default=..., alias='common:referenceToPersonOrEntityEnteringTheData', description='"Contact data set" of the responsible person or entity that has documented this data set, i.e. entered the data and the descriptive information.')
     common_reference_to_data_set_use_approval: GlobalReferenceType | None = Field(default=None, alias='common:referenceToDataSetUseApproval', description='"Source data set": Names exclusively the producer or operator of the good, service or technology represented by this data set, which officially has approved this data set in all its parts. In case of nationally or internationally averaged data sets, this will be the respective business association. If no official approval has been given, the entry "No official approval by producer or operator" is to be entered and the reference will point to an empty "Contact data set". [Notes: The producer or operator may only be named here, if a written approval of this data set was given. A recognition of this data set by any other organisation then the producer/operator of the good, service, or process is not to be stated here, but as a "review" in the validation section.]')
-    common_other: str | None = Field(default=None, alias='common:other')
+    common_other: CommonOther | None = Field(default=None, alias='common:other')
 
 class ProcessDataSetAdministrativeInformationPublicationAndOwnership(TidasBaseModel):
     """Information related to publication and version management of the data set including copyright and access restrictions."""
@@ -300,7 +302,7 @@ class ProcessDataSetAdministrativeInformationPublicationAndOwnership(TidasBaseMo
     common_reference_to_entities_with_exclusive_access: GlobalReferenceType | None = Field(default=None, alias='common:referenceToEntitiesWithExclusiveAccess', description='"Contact data set" of those entities or persons (or groups of these), to which an exclusive access to this data set is granted. Mainly intended to be used in confidentiality management in projects. [Note: See also field "Access and use restrictions".]')
     common_license_type: Literal['Free of charge for all users and uses', 'Free of charge for some user types or use types', 'Free of charge for members only', 'License fee', 'Other'] = Field(default=..., alias='common:licenseType', description='Type of license that applies to the access and use of this data set.')
     common_access_restrictions: MultiLangList = Field(default_factory=MultiLangList, alias='common:accessRestrictions', description='Access restrictions / use conditions for this data set as free text or referring to e.g. license conditions. In case of no restrictions "None" is entered.')
-    common_other: str | None = Field(default=None, alias='common:other')
+    common_other: CommonOther | None = Field(default=None, alias='common:other')
 
 class ProcessesProcessDataSetAdministrativeInformation(TidasBaseModel):
     """Information on data set management and administration."""
@@ -308,7 +310,7 @@ class ProcessesProcessDataSetAdministrativeInformation(TidasBaseModel):
     data_generator: ProcessDataSetAdministrativeInformationDataGenerator | None = Field(default=None, alias='dataGenerator', description='Expert(s), that compiled and modelled the data set as well as internal administrative information linked to the data generation activity.')
     data_entry_by: ProcessDataSetAdministrativeInformationDataEntryBy = Field(default=..., alias='dataEntryBy', description='Staff or entity, that documented the generated data set, entering the information into the database; plus administrative information linked to the data entry activity.')
     publication_and_ownership: ProcessDataSetAdministrativeInformationPublicationAndOwnership = Field(default=..., alias='publicationAndOwnership', description='Information related to publication and version management of the data set including copyright and access restrictions.')
-    common_other: str | None = Field(default=None, alias='common:other')
+    common_other: CommonOther | None = Field(default=None, alias='common:other')
 
 class ItemAllocationsAllocation(TidasBaseModel):
     """specifies one allocation of this exchange (see the attributes of this tag below)"""
@@ -322,7 +324,7 @@ class ExchangeItemAllocations(TidasBaseModel):
 class ExchangeItemReferencesToDataSource(TidasBaseModel):
     """\"Source data set\" of data source(s) used for the value of this specific Input or Output, especially if differing from the general data source used for this data set."""
     reference_to_data_source: GlobalReferenceType | None = Field(default=None, alias='referenceToDataSource', description='"Source data set" of data source(s) used for the value of this specific Input or Output, especially if differing from the general data source used for this data set.')
-    common_other: str | None = Field(default=None, alias='common:other')
+    common_other: CommonOther | None = Field(default=None, alias='common:other')
 
 class ExchangesExchangeItem(TidasBaseModel):
     data_set_internal_id: Int6 = Field(default=..., alias='@dataSetInternalID')
@@ -342,11 +344,11 @@ class ExchangesExchangeItem(TidasBaseModel):
     data_derivation_type_status: Literal['Measured', 'Calculated', 'Estimated', 'Unknown derivation', 'Missing important', 'Missing unimportant'] = Field(default=..., alias='dataDerivationTypeStatus')
     references_to_data_source: ExchangeItemReferencesToDataSource | None = Field(default=None, alias='referencesToDataSource', description='"Source data set" of data source(s) used for the value of this specific Input or Output, especially if differing from the general data source used for this data set.')
     general_comment: MultiLangList = Field(default_factory=MultiLangList, alias='generalComment', description='General comment on this specific Input or Output, e.g. commenting on the data sources used and their specific representatuveness etc., on the status of "finalisation" of an entry as workflow information, etc.')
-    common_other: str | None = Field(default=None, alias='common:other')
+    common_other: CommonOther | None = Field(default=None, alias='common:other')
 
 class ProcessesProcessDataSetExchanges(TidasBaseModel):
     exchange: list[ExchangesExchangeItem] = Field(default_factory=list, alias='exchange')
-    common_other: str | None = Field(default=None, alias='common:other')
+    common_other: CommonOther | None = Field(default=None, alias='common:other')
 
 class LCIAResultsLCIAResultOption0(TidasBaseModel):
     reference_to_lcia_method_data_set: GlobalReferenceType | None = Field(default=None, alias='referenceToLCIAMethodDataSet', description='"LCIA method data set" applied to calculate the LCIA results.')
@@ -354,7 +356,7 @@ class LCIAResultsLCIAResultOption0(TidasBaseModel):
     uncertainty_distribution_type: Literal['undefined', 'log-normal', 'normal', 'triangular', 'uniform'] | None = Field(default=None, alias='uncertaintyDistributionType')
     relative_standard_deviation95_in: Perc | None = Field(default=None, alias='relativeStandardDeviation95In', description='The resulting overall uncertainty of the calculated variable value considering uncertainty of measurements, modelling, appropriateness etc. [Notes: For log-normal distribution the square of the geometric standard deviation (SDg^2) is stated. Mean value times SDg^2 equals the 97.5% value (= Maximum value), Mean value divided by SDg^2 equals the 2.5% value (= Minimum value). For normal distribution the doubled standard deviation value (2*SD) is entered. Mean value plus 2*SD equals 97.5% value (= Maximum value), Mean value minus 2*SD equals 2.5% value (= Minimum value). This data field remains empty when uniform or triangular uncertainty distribution is applied.]')
     general_comment: MultiLangList = Field(default_factory=MultiLangList, alias='generalComment', description='General comment on this specific Input or Output, e.g. commenting on the data sources used and their specific representatuveness etc., on the status of "finalisation" of an entry as workflow information, etc.')
-    common_other: str | None = Field(default=None, alias='common:other')
+    common_other: CommonOther | None = Field(default=None, alias='common:other')
 
 class LCIAResultsLCIAResultItem(TidasBaseModel):
     reference_to_lcia_method_data_set: GlobalReferenceType | None = Field(default=None, alias='referenceToLCIAMethodDataSet', description='"LCIA method data set" applied to calculate the LCIA results.')
@@ -362,11 +364,11 @@ class LCIAResultsLCIAResultItem(TidasBaseModel):
     uncertainty_distribution_type: Literal['undefined', 'log-normal', 'normal', 'triangular', 'uniform'] | None = Field(default=None, alias='uncertaintyDistributionType')
     relative_standard_deviation95_in: Perc | None = Field(default=None, alias='relativeStandardDeviation95In', description='The resulting overall uncertainty of the calculated variable value considering uncertainty of measurements, modelling, appropriateness etc. [Notes: For log-normal distribution the square of the geometric standard deviation (SDg^2) is stated. Mean value times SDg^2 equals the 97.5% value (= Maximum value), Mean value divided by SDg^2 equals the 2.5% value (= Minimum value). For normal distribution the doubled standard deviation value (2*SD) is entered. Mean value plus 2*SD equals 97.5% value (= Maximum value), Mean value minus 2*SD equals 2.5% value (= Minimum value). This data field remains empty when uniform or triangular uncertainty distribution is applied.]')
     general_comment: MultiLangList = Field(default_factory=MultiLangList, alias='generalComment', description='General comment on this specific Input or Output, e.g. commenting on the data sources used and their specific representatuveness etc., on the status of "finalisation" of an entry as workflow information, etc.')
-    common_other: str | None = Field(default=None, alias='common:other')
+    common_other: CommonOther | None = Field(default=None, alias='common:other')
 
 class ProcessesProcessDataSetLCIAResults(TidasBaseModel):
     lcia_result: LCIAResultsLCIAResultOption0 | list[LCIAResultsLCIAResultItem] | None = Field(default=None, alias='LCIAResult')
-    common_other: str | None = Field(default=None, alias='common:other')
+    common_other: CommonOther | None = Field(default=None, alias='common:other')
 
 class ProcessesProcessDataSet(TidasBaseModel):
     xmlns_common: Literal['http://lca.jrc.it/ILCD/Common'] = Field(default=..., alias='@xmlns:common')
@@ -380,7 +382,7 @@ class ProcessesProcessDataSet(TidasBaseModel):
     administrative_information: ProcessesProcessDataSetAdministrativeInformation = Field(default=..., alias='administrativeInformation', description='Information on data set management and administration.')
     exchanges: ProcessesProcessDataSetExchanges = Field(default=..., alias='exchanges')
     lcia_results: ProcessesProcessDataSetLCIAResults | None = Field(default=None, alias='LCIAResults')
-    common_other: str | None = Field(default=None, alias='common:other')
+    common_other: CommonOther | None = Field(default=None, alias='common:other')
 
 class Processes(TidasBaseModel):
     process_data_set: ProcessesProcessDataSet = Field(default=..., alias='processDataSet')
