@@ -2,6 +2,7 @@
 import { z } from 'zod';
 
 import {
+  CommonOtherSchema,
   FTMultiLangSchema,
   GISSchema,
   GlobalReferenceTypeSchema,
@@ -55,7 +56,7 @@ export const LciamethodsSchema = z.object({
                 '#text': z.string(),
               }),
             ]),
-            'common:other': z.string().optional(),
+            'common:other': CommonOtherSchema.optional(),
           }),
         }),
         impactCategory: z
@@ -89,17 +90,17 @@ export const LciamethodsSchema = z.object({
         impactIndicator: StringSchema.optional(),
         'common:generalComment': FTMultiLangSchema.optional(),
         referenceToExternalDocumentation: GlobalReferenceTypeSchema.optional(),
-        'common:other': z.string().optional(),
+        'common:other': CommonOtherSchema.optional(),
       }),
       quantitativeReference: z.object({
         referenceQuantity: GlobalReferenceTypeSchema,
-        'common:other': z.string().optional(),
+        'common:other': CommonOtherSchema.optional(),
       }),
       time: z.object({
         referenceYear: STMultiLangSchema,
         duration: STMultiLangSchema,
         timeRepresentativenessDescription: FTMultiLangSchema,
-        'common:other': z.string().optional(),
+        'common:other': CommonOtherSchema.optional(),
       }),
       geography: z
         .object({
@@ -132,7 +133,7 @@ export const LciamethodsSchema = z.object({
             .optional(),
           geographicalRepresentativenessDescription:
             FTMultiLangSchema.optional(),
-          'common:other': z.string().optional(),
+          'common:other': CommonOtherSchema.optional(),
         })
         .optional(),
       impactModel: z.object({
@@ -142,9 +143,9 @@ export const LciamethodsSchema = z.object({
         referenceToIncludedMethods: GlobalReferenceTypeSchema.optional(),
         consideredMechanisms: STMultiLangSchema.optional(),
         referenceToMethodologyFlowChart: GlobalReferenceTypeSchema.optional(),
-        'common:other': z.string().optional(),
+        'common:other': CommonOtherSchema.optional(),
       }),
-      'common:other': z.string().optional(),
+      'common:other': CommonOtherSchema.optional(),
     }),
     modellingAndValidation: z.object({
       useAdviceForDataSet: STMultiLangSchema.optional(),
@@ -184,7 +185,7 @@ export const LciamethodsSchema = z.object({
       }),
       dataSources: z.object({
         referenceToDataSource: GlobalReferenceTypeSchema,
-        'common:other': z.string().optional(),
+        'common:other': CommonOtherSchema.optional(),
       }),
       completeness: z
         .object({
@@ -328,9 +329,9 @@ export const LciamethodsSchema = z.object({
           'common:otherReviewDetails': FTMultiLangSchema.optional(),
           'common:referenceToCompleteReviewReport':
             GlobalReferenceTypeSchema.optional(),
-          'common:other': z.string().optional(),
+          'common:other': CommonOtherSchema.optional(),
         }),
-        'common:other': z.string().optional(),
+        'common:other': CommonOtherSchema.optional(),
       }),
       complianceDeclarations: z.object({
         compliance: z.union([
@@ -366,7 +367,7 @@ export const LciamethodsSchema = z.object({
               z.literal('Not compliant'),
               z.literal('Not defined'),
             ]),
-            'common:other': z.string().optional(),
+            'common:other': CommonOtherSchema.optional(),
           }),
           z.array(
             z.object({
@@ -401,13 +402,13 @@ export const LciamethodsSchema = z.object({
                 z.literal('Not compliant'),
                 z.literal('Not defined'),
               ]),
-              'common:other': z.string().optional(),
+              'common:other': CommonOtherSchema.optional(),
             })
           ),
         ]),
-        'common:other': z.string().optional(),
+        'common:other': CommonOtherSchema.optional(),
       }),
-      'common:other': z.string().optional(),
+      'common:other': CommonOtherSchema.optional(),
     }),
     administrativeInformation: z.object({
       'common:commissionerAndGoal': z
@@ -416,13 +417,13 @@ export const LciamethodsSchema = z.object({
             GlobalReferenceTypeSchema.optional(),
           'common:project': StringMultiLangSchema.optional(),
           'common:intendedApplications': FTMultiLangSchema.optional(),
-          'common:other': z.string().optional(),
+          'common:other': CommonOtherSchema.optional(),
         })
         .optional(),
       dataGenerator: z.object({
         'common:referenceToPersonOrEntityGeneratingTheDataSet':
           GlobalReferenceTypeSchema,
-        'common:other': z.string().optional(),
+        'common:other': CommonOtherSchema.optional(),
       }),
       dataEntryBy: z.object({
         'common:timeStamp': dateTimeSchema,
@@ -442,7 +443,7 @@ export const LciamethodsSchema = z.object({
           ]),
           meaning: FTMultiLangSchema,
         }),
-        'common:other': z.string().optional(),
+        'common:other': CommonOtherSchema.optional(),
       }),
       publicationAndOwnership: z.object({
         'common:dateOfLastRevision': dateTimeSchema,
@@ -469,9 +470,9 @@ export const LciamethodsSchema = z.object({
           .union([z.literal('true'), z.literal('false')])
           .optional(),
         'common:accessRestrictions': FTMultiLangSchema.optional(),
-        'common:other': z.string().optional(),
+        'common:other': CommonOtherSchema.optional(),
       }),
-      'common:other': z.string().optional(),
+      'common:other': CommonOtherSchema.optional(),
     }),
     characterisationFactors: z.object({
       factor: z.union([
@@ -511,7 +512,7 @@ export const LciamethodsSchema = z.object({
           ]),
           referenceToDataSource: GlobalReferenceTypeSchema.optional(),
           generalComment: StringMultiLangSchema.optional(),
-          'common:other': z.string().optional(),
+          'common:other': CommonOtherSchema.optional(),
         }),
         z.array(
           z.object({
@@ -560,8 +561,8 @@ export const LciamethodsSchema = z.object({
           })
         ),
       ]),
-      'common:other': z.string().optional(),
+      'common:other': CommonOtherSchema.optional(),
     }),
-    'common:other': z.string().optional(),
+    'common:other': CommonOtherSchema.optional(),
   }),
 });

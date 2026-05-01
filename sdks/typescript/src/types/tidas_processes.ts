@@ -5,6 +5,7 @@
  */
 
 import type {
+  CommonOther,
   FTMultiLang,
   GIS,
   GlobalReferenceType,
@@ -38,7 +39,7 @@ export interface Processes {
           treatmentStandardsRoutes: StringMultiLang;
           mixAndLocationTypes: StringMultiLang;
           functionalUnitFlowProperties?: StringMultiLang;
-          'common:other'?: string;
+          'common:other'?: CommonOther;
         };
         identifierOfSubDataSet?: String;
         'common:synonyms'?: FTMultiLang;
@@ -53,12 +54,12 @@ export interface Processes {
               { '@level': LevelType; '@classId': string; '#text': string },
               { '@level': LevelType; '@classId': string; '#text': string },
             ];
-            'common:other'?: string;
+            'common:other'?: CommonOther;
           };
         };
         'common:generalComment': FTMultiLang;
         referenceToExternalDocumentation?: GlobalReferenceType;
-        'common:other'?: string;
+        'common:other'?: CommonOther;
       };
       quantitativeReference: {
         '@type':
@@ -68,28 +69,28 @@ export interface Processes {
           | 'Production period';
         referenceToReferenceFlow: Int6;
         functionalUnitOrOther?: StringMultiLang;
-        'common:other'?: string;
+        'common:other'?: CommonOther;
       };
       time: {
         'common:referenceYear': Year;
         'common:dataSetValidUntil'?: Year;
         'common:timeRepresentativenessDescription'?: FTMultiLang;
-        'common:other'?: string;
+        'common:other'?: CommonOther;
       };
       geography: {
         locationOfOperationSupplyOrProduction: {
           '@location': LocationsCategory;
           '@latitudeAndLongitude'?: GIS;
           descriptionOfRestrictions?: FTMultiLang;
-          'common:other'?: string;
+          'common:other'?: CommonOther;
         };
         subLocationOfOperationSupplyOrProduction?: {
           '@subLocation'?: LocationsCategory;
           '@latitudeAndLongitude'?: GIS;
           descriptionOfRestrictions?: FTMultiLang;
-          'common:other'?: string;
+          'common:other'?: CommonOther;
         };
-        'common:other'?: string;
+        'common:other'?: CommonOther;
       };
       technology?: {
         technologyDescriptionAndIncludedProcesses: FTMultiLang;
@@ -97,7 +98,7 @@ export interface Processes {
         technologicalApplicability?: FTMultiLang;
         referenceToTechnologyPictogramme?: GlobalReferenceType;
         referenceToTechnologyFlowDiagrammOrPicture?: GlobalReferenceType;
-        'common:other'?: string;
+        'common:other'?: CommonOther;
       };
       mathematicalRelations?: {
         modelDescription?: FTMultiLang;
@@ -115,11 +116,11 @@ export interface Processes {
             | 'uniform';
           relativeStandardDeviation95In?: Perc;
           comment?: StringMultiLang;
-          'common:other'?: string;
+          'common:other'?: CommonOther;
         };
-        'common:other'?: string;
+        'common:other'?: CommonOther;
       };
-      'common:other'?: string;
+      'common:other'?: CommonOther;
     };
     modellingAndValidation: {
       LCIMethodAndAllocation: {
@@ -164,7 +165,7 @@ export interface Processes {
         modellingConstants?: FTMultiLang;
         deviationsFromModellingConstants?: FTMultiLang;
         referenceToLCAMethodDetails?: GlobalReferenceType;
-        'common:other'?: string;
+        'common:other'?: CommonOther;
       };
       dataSourcesTreatmentAndRepresentativeness?: {
         dataCutOffAndCompletenessPrinciples: FTMultiLang;
@@ -181,7 +182,7 @@ export interface Processes {
         dataCollectionPeriod?: StringMultiLang;
         uncertaintyAdjustments?: FTMultiLang;
         useAdviceForDataSet?: FTMultiLang;
-        'common:other'?: string;
+        'common:other'?: CommonOther;
       };
       completeness?: {
         completenessProductModel?:
@@ -217,7 +218,7 @@ export interface Processes {
             | 'No statement';
         };
         completenessOtherProblemField?: FTMultiLang;
-        'common:other'?: string;
+        'common:other'?: CommonOther;
       };
       validation: {
         review: {
@@ -358,9 +359,9 @@ export interface Processes {
           'common:referenceToNameOfReviewerAndInstitution'?: GlobalReferenceType;
           'common:otherReviewDetails'?: FTMultiLang;
           'common:referenceToCompleteReviewReport'?: GlobalReferenceType;
-          'common:other'?: string;
+          'common:other'?: CommonOther;
         };
-        'common:other'?: string;
+        'common:other'?: CommonOther;
       };
       complianceDeclarations: {
         compliance:
@@ -390,7 +391,7 @@ export interface Processes {
                 | 'Fully compliant'
                 | 'Not compliant'
                 | 'Not defined';
-              'common:other'?: string;
+              'common:other'?: CommonOther;
             }
           | {
               'common:referenceToComplianceSystem': GlobalReferenceType;
@@ -418,22 +419,22 @@ export interface Processes {
                 | 'Fully compliant'
                 | 'Not compliant'
                 | 'Not defined';
-              'common:other'?: string;
+              'common:other'?: CommonOther;
             }[];
-        'common:other'?: string;
+        'common:other'?: CommonOther;
       };
-      'common:other'?: string;
+      'common:other'?: CommonOther;
     };
     administrativeInformation: {
       'common:commissionerAndGoal': {
         'common:referenceToCommissioner': GlobalReferenceType;
         'common:project'?: StringMultiLang;
         'common:intendedApplications': FTMultiLang;
-        'common:other'?: string;
+        'common:other'?: CommonOther;
       };
       dataGenerator?: {
         'common:referenceToPersonOrEntityGeneratingTheDataSet'?: GlobalReferenceType;
-        'common:other'?: string;
+        'common:other'?: CommonOther;
       };
       dataEntryBy: {
         'common:timeStamp': dateTime;
@@ -441,7 +442,7 @@ export interface Processes {
         'common:referenceToConvertedOriginalDataSetFrom'?: GlobalReferenceType;
         'common:referenceToPersonOrEntityEnteringTheData': GlobalReferenceType;
         'common:referenceToDataSetUseApproval'?: GlobalReferenceType;
-        'common:other'?: string;
+        'common:other'?: CommonOther;
       };
       publicationAndOwnership: {
         'common:dateOfLastRevision'?: string;
@@ -470,9 +471,9 @@ export interface Processes {
           | 'License fee'
           | 'Other';
         'common:accessRestrictions'?: FTMultiLang;
-        'common:other'?: string;
+        'common:other'?: CommonOther;
       };
-      'common:other'?: string;
+      'common:other'?: CommonOther;
     };
     exchanges: {
       exchange: {
@@ -516,12 +517,12 @@ export interface Processes {
           | 'Missing unimportant';
         referencesToDataSource?: {
           referenceToDataSource?: GlobalReferenceType;
-          'common:other'?: string;
+          'common:other'?: CommonOther;
         };
         generalComment?: StringMultiLang;
-        'common:other'?: string;
+        'common:other'?: CommonOther;
       }[];
-      'common:other'?: string;
+      'common:other'?: CommonOther;
     };
     LCIAResults?: {
       LCIAResult?:
@@ -536,7 +537,7 @@ export interface Processes {
               | 'uniform';
             relativeStandardDeviation95In?: Perc;
             generalComment?: StringMultiLang;
-            'common:other'?: string;
+            'common:other'?: CommonOther;
           }
         | {
             referenceToLCIAMethodDataSet?: GlobalReferenceType;
@@ -549,10 +550,10 @@ export interface Processes {
               | 'uniform';
             relativeStandardDeviation95In?: Perc;
             generalComment?: StringMultiLang;
-            'common:other'?: string;
+            'common:other'?: CommonOther;
           }[];
-      'common:other'?: string;
+      'common:other'?: CommonOther;
     };
-    'common:other'?: string;
+    'common:other'?: CommonOther;
   };
 }

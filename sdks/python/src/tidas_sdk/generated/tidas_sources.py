@@ -4,17 +4,19 @@ Source: tidas_sources.json
 """
 from __future__ import annotations
 
-from typing import Literal
+from typing import Annotated, Literal
 
 from pydantic import Field
 from tidas_sdk.core.base import TidasBaseModel
 from tidas_sdk.core.multilang import MultiLangList
 
+from .tidas_data_types import CommonOther
 from .tidas_data_types import DateTime
 from .tidas_data_types import GlobalReferenceType
 from .tidas_data_types import LevelType
 from .tidas_data_types import UUID
 from datetime import datetime
+from pydantic import AfterValidator
 
 class ClassificationInformationCommonClassificationCommonClass(TidasBaseModel):
     level: LevelType = Field(default=..., alias='@level')
@@ -23,7 +25,7 @@ class ClassificationInformationCommonClassificationCommonClass(TidasBaseModel):
 
 class DataSetInformationClassificationInformationCommonClassification(TidasBaseModel):
     common_class: ClassificationInformationCommonClassificationCommonClass = Field(default=..., alias='common:class')
-    common_other: str | None = Field(default=None, alias='common:other')
+    common_other: CommonOther | None = Field(default=None, alias='common:other')
 
 class SourceInformationDataSetInformationClassificationInformation(TidasBaseModel):
     """Hierarchical classification of the Source foreseen to be used to structure the Source content of the database. (Note: This entry is NOT required for the identification of a Source. It should nevertheless be avoided to use identical names for Source in the same class."""
@@ -43,16 +45,16 @@ class SourceDataSetSourceInformationDataSetInformation(TidasBaseModel):
     reference_to_digital_file: SourceInformationDataSetInformationReferenceToDigitalFile | None = Field(default=None, alias='referenceToDigitalFile', description='Link to a digital file of the source (www-address or intranet-path; relative or absolue path). (Info: Allows direct access to e.g. complete reports of further documentation, which may also be digitally attached to this data set and exchanged jointly with the XML file.)')
     reference_to_contact: GlobalReferenceType | None = Field(default=None, alias='referenceToContact', description='"Contact data set"s of working groups, organisations or database networks to which EITHER this person or entity OR this database, data set format, or compliance system belongs. [Note: This does not necessarily imply a legally binding relationship, but may also be a voluntary membership.]')
     reference_to_logo: GlobalReferenceType | None = Field(default=None, alias='referenceToLogo', description='"Source data set" of the logo of the organisation or source to be used in reports etc.')
-    common_other: str | None = Field(default=None, alias='common:other')
+    common_other: CommonOther | None = Field(default=None, alias='common:other')
 
 class SourcesSourceDataSetSourceInformation(TidasBaseModel):
     data_set_information: SourceDataSetSourceInformationDataSetInformation = Field(default=..., alias='dataSetInformation')
-    common_other: str | None = Field(default=None, alias='common:other')
+    common_other: CommonOther | None = Field(default=None, alias='common:other')
 
 class SourceDataSetAdministrativeInformationDataEntryBy(TidasBaseModel):
     common_time_stamp: DateTime = Field(default=..., alias='common:timeStamp', description="Date and time stamp of data set generation, typically an automated entry ('last saved').")
     common_reference_to_data_set_format: GlobalReferenceType = Field(default=..., alias='common:referenceToDataSetFormat', description='"Source data set" of the used version of the ILCD format. If additional data format fields have been integrated into the data set file, using the "namespace" option, the used format namespace(s) are to be given. This is the case if the data sets carries additional information as specified by other, particular LCA formats, e.g. of other database networks or LCA softwares.')
-    common_other: str | None = Field(default=None, alias='common:other')
+    common_other: CommonOther | None = Field(default=None, alias='common:other')
 
 class SourceDataSetAdministrativeInformationPublicationAndOwnership(TidasBaseModel):
     """Information related to publication and version management of the data set including copyright and access restrictions."""
@@ -60,13 +62,13 @@ class SourceDataSetAdministrativeInformationPublicationAndOwnership(TidasBaseMod
     common_reference_to_preceding_data_set_version: GlobalReferenceType | None = Field(default=None, alias='common:referenceToPrecedingDataSetVersion', description='Last preceding data set, which was replaced by this version. In TIDAS, this reference includes the preceding data set URI, UUID, and version number.')
     common_permanent_data_set_uri: str | None = Field(default=None, alias='common:permanentDataSetURI', description="URI (i.e. an internet address) of the original of this data set. [Note: This equally globally unique identifier supports users and software tools to identify and retrieve the original version of a data set via the internet or to check for available updates. The URI must not represent an existing WWW address, but it should be unique and point to the data access point, e.g. by combining the data owner's www path with the data set's UUID, e.g. http://www.mycompany.com/lca/processes/50f12420-8855-12db-b606-0900210c9a66.]")
     common_reference_to_ownership_of_data_set: GlobalReferenceType = Field(default=..., alias='common:referenceToOwnershipOfDataSet', description='"Contact data set" of the person or entity who owns this data set. (Note: this is not necessarily the publisher of the data set.)')
-    common_other: str | None = Field(default=None, alias='common:other')
+    common_other: CommonOther | None = Field(default=None, alias='common:other')
 
 class SourcesSourceDataSetAdministrativeInformation(TidasBaseModel):
     """Information on data set management and administration."""
     data_entry_by: SourceDataSetAdministrativeInformationDataEntryBy = Field(default=..., alias='dataEntryBy')
     publication_and_ownership: SourceDataSetAdministrativeInformationPublicationAndOwnership = Field(default=..., alias='publicationAndOwnership', description='Information related to publication and version management of the data set including copyright and access restrictions.')
-    common_other: str | None = Field(default=None, alias='common:other')
+    common_other: CommonOther | None = Field(default=None, alias='common:other')
 
 class SourcesSourceDataSet(TidasBaseModel):
     xmlns_common: Literal['http://lca.jrc.it/ILCD/Common'] = Field(default=..., alias='@xmlns:common')
@@ -76,7 +78,7 @@ class SourcesSourceDataSet(TidasBaseModel):
     xsi_schema_location: Literal['http://lca.jrc.it/ILCD/Source ../../schemas/ILCD_SourceDataSet.xsd'] = Field(default=..., alias='@xsi:schemaLocation')
     source_information: SourcesSourceDataSetSourceInformation = Field(default=..., alias='sourceInformation')
     administrative_information: SourcesSourceDataSetAdministrativeInformation = Field(default=..., alias='administrativeInformation', description='Information on data set management and administration.')
-    common_other: str | None = Field(default=None, alias='common:other')
+    common_other: CommonOther | None = Field(default=None, alias='common:other')
 
 class Sources(TidasBaseModel):
     source_data_set: SourcesSourceDataSet = Field(default=..., alias='sourceDataSet')

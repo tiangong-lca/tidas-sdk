@@ -5,6 +5,7 @@
  */
 
 import type {
+  CommonOther,
   FTMultiLang,
   GlobalReferenceType,
   Int5,
@@ -34,17 +35,17 @@ export interface Unitgroups {
               '@classId': string;
               '#text': string;
             };
-            'common:other'?: string;
+            'common:other'?: CommonOther;
           };
         };
         'common:generalComment'?: FTMultiLang;
-        'common:other'?: string;
+        'common:other'?: CommonOther;
       };
       quantitativeReference: {
         referenceToReferenceUnit: Int5;
-        'common:other'?: string;
+        'common:other'?: CommonOther;
       };
-      'common:other'?: string;
+      'common:other'?: CommonOther;
     };
     modellingAndValidation: {
       complianceDeclarations: {
@@ -55,7 +56,7 @@ export interface Unitgroups {
                 | 'Fully compliant'
                 | 'Not compliant'
                 | 'Not defined';
-              'common:other'?: string;
+              'common:other'?: CommonOther;
             }
           | {
               'common:referenceToComplianceSystem': GlobalReferenceType;
@@ -63,26 +64,26 @@ export interface Unitgroups {
                 | 'Fully compliant'
                 | 'Not compliant'
                 | 'Not defined';
-              'common:other'?: string;
+              'common:other'?: CommonOther;
             }[];
-        'common:other'?: string;
+        'common:other'?: CommonOther;
       };
-      'common:other'?: string;
+      'common:other'?: CommonOther;
     };
     administrativeInformation: {
       dataEntryBy: {
         'common:timeStamp': dateTime;
         'common:referenceToDataSetFormat': GlobalReferenceType;
-        'common:other'?: string;
+        'common:other'?: CommonOther;
       };
       publicationAndOwnership: {
         'common:dataSetVersion': string;
         'common:referenceToPrecedingDataSetVersion'?: GlobalReferenceType;
         'common:permanentDataSetURI'?: string;
         'common:referenceToOwnershipOfDataSet': GlobalReferenceType;
-        'common:other'?: string;
+        'common:other'?: CommonOther;
       };
-      'common:other'?: string;
+      'common:other'?: CommonOther;
     };
     units?: {
       unit?:
@@ -91,7 +92,7 @@ export interface Unitgroups {
             name?: String;
             meanValue?: Real;
             generalComment?: StringMultiLang;
-            'common:other'?: string;
+            'common:other'?: CommonOther;
           }
         | {
             '@dataSetInternalID'?: Int5;
@@ -99,8 +100,8 @@ export interface Unitgroups {
             meanValue?: Real;
             generalComment?: StringMultiLang;
           }[];
-      'common:other'?: string;
+      'common:other'?: CommonOther;
     };
-    'common:other'?: string;
+    'common:other'?: CommonOther;
   };
 }

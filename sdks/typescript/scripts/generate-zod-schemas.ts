@@ -313,6 +313,8 @@ export const RequiredFTMultiLangSchema =
   FTMultiLangSchema.superRefine(addRequiredMultiLangIssue);`
     );
 
+    manualOptimizations = applyCommonOtherSchemaOverrides(manualOptimizations);
+
     if (manualOptimizations !== content) {
       fs.writeFileSync(schemaFile, manualOptimizations, 'utf8');
       console.log('   🔧 Applied manual optimizations to tidas_data_types.schema.ts');
@@ -357,6 +359,114 @@ export const RequiredFTMultiLangSchema =
       `   🔧 Applied constraint fixes to ${path.basename(schemaFile)}`
     );
   }
+}
+
+function applyCommonOtherSchemaOverrides(content: string): string {
+  const anyXmlElementSchema = `export const AnyXmlElementSchema: z.ZodType<AnyXmlElement> = z.lazy(() =>
+  z.union([
+    z.null(),
+    z.string(),
+    z.number(),
+    z.boolean(),
+    z.array(AnyXmlElementSchema),
+    z.record(z.string(), AnyXmlElementSchema),
+  ])
+);`;
+
+  const commonOtherSchema = `const commonOtherNamespaceDeclarationPattern =
+  /^@xmlns(:[A-Za-z_][A-Za-z0-9_.-]*)?$/;
+const commonOtherExtensionElementPattern =
+  /^(?!(common|xmlns):)([A-Za-z_][A-Za-z0-9_.-]*:)?[A-Za-z_][A-Za-z0-9_.-]*$/;
+
+export const CommonOtherSchema = z
+  .record(z.string(), AnyXmlElementSchema)
+  .superRefine((value, ctx) => {
+    let hasExtensionElement = false;
+
+    for (const [key, entryValue] of Object.entries(value)) {
+      if (commonOtherNamespaceDeclarationPattern.test(key)) {
+        if (typeof entryValue !== 'string') {
+          ctx.addIssue({
+            code: z.ZodIssueCode.custom,
+            path: [key],
+            message: 'Namespace declarations in common:other must be strings',
+          });
+        }
+        continue;
+      }
+
+      if (commonOtherExtensionElementPattern.test(key)) {
+        hasExtensionElement = true;
+        continue;
+      }
+
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        path: [key],
+        message:
+          'common:other entries must be namespace declarations or non-common extension elements',
+      });
+    }
+
+    if (!hasExtensionElement) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message:
+          'common:other must include at least one non-common extension element',
+      });
+    }
+  });`;
+
+  let updatedContent = replaceExportedSchema(
+    content,
+    'AnyXmlElementSchema',
+    anyXmlElementSchema
+  );
+  updatedContent = replaceExportedSchema(
+    updatedContent,
+    'CommonOtherSchema',
+    commonOtherSchema
+  );
+
+  return updatedContent;
+}
+
+function replaceExportedSchema(
+  content: string,
+  schemaName: string,
+  replacement: string
+): string {
+  const marker = `export const ${schemaName}`;
+  const startIndex = content.indexOf(marker);
+
+  if (startIndex === -1) {
+    const fallbackMarker = 'export const GlobalReferenceTypeSchema';
+    const fallbackIndex = content.indexOf(fallbackMarker);
+
+    if (fallbackIndex === -1) {
+      return `${content.trimEnd()}\n\n${replacement}\n`;
+    }
+
+    return `${content.slice(0, fallbackIndex)}${replacement}\n\n${content.slice(
+      fallbackIndex
+    )}`;
+  }
+
+  const nextExportIndex = content.indexOf(
+    '\n\nexport const ',
+    startIndex + marker.length
+  );
+  const nextPrivateConstIndex = content.indexOf(
+    '\n\nconst ',
+    startIndex + marker.length
+  );
+  const candidateEndIndexes = [nextExportIndex, nextPrivateConstIndex].filter(
+    (index) => index !== -1
+  );
+  const endIndex =
+    candidateEndIndexes.length > 0 ? Math.min(...candidateEndIndexes) : content.length;
+
+  return `${content.slice(0, startIndex)}${replacement}${content.slice(endIndex)}`;
 }
 
 function applyRequiredLocalizedTextSchemaOverrides(

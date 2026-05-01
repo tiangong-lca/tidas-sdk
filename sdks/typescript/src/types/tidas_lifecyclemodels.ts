@@ -5,6 +5,7 @@
  */
 
 import type {
+  CommonOther,
   FTMultiLang,
   GlobalReferenceType,
   LevelType,
@@ -32,7 +33,7 @@ export interface Lifecyclemodels {
           treatmentStandardsRoutes: StringMultiLang;
           mixAndLocationTypes: StringMultiLang;
           functionalUnitFlowProperties?: StringMultiLang;
-          'common:other'?: string;
+          'common:other'?: CommonOther;
         };
         classificationInformation: {
           'common:classification': {
@@ -42,17 +43,17 @@ export interface Lifecyclemodels {
               { '@level': LevelType; '@classId': string; '#text': string },
               { '@level': LevelType; '@classId': string; '#text': string },
             ];
-            'common:other'?: string;
+            'common:other'?: CommonOther;
           };
         };
         referenceToResultingProcess?: GlobalReferenceType;
         'common:generalComment'?: FTMultiLang;
         referenceToExternalDocumentation?: GlobalReferenceType;
-        'common:other'?: string;
+        'common:other'?: CommonOther;
       };
       quantitativeReference: {
         referenceToReferenceProcess: string;
-        'common:other'?: string;
+        'common:other'?: CommonOther;
       };
       technology: {
         groupDeclarations?: {
@@ -112,7 +113,7 @@ export interface Lifecyclemodels {
                             }[];
                       }[];
                 };
-                'common:other'?: string;
+                'common:other'?: CommonOther;
               }[]
             | {
                 '@dataSetInternalID': string;
@@ -166,17 +167,17 @@ export interface Lifecyclemodels {
                             }[];
                       }[];
                 };
-                'common:other'?: string;
+                'common:other'?: CommonOther;
               };
         };
         referenceToDiagram?: GlobalReferenceType;
-        'common:other'?: string;
+        'common:other'?: CommonOther;
       };
     };
     modellingAndValidation: {
       dataSourcesTreatmentEtc?: {
         useAdviceForDataSet?: FTMultiLang;
-        'common:other'?: string;
+        'common:other'?: CommonOther;
       };
       validation: {
         review:
@@ -184,15 +185,15 @@ export interface Lifecyclemodels {
               'common:referenceToNameOfReviewerAndInstitution': GlobalReferenceType;
               'common:otherReviewDetails'?: FTMultiLang;
               'common:referenceToCompleteReviewReport'?: GlobalReferenceType;
-              'common:other'?: string;
+              'common:other'?: CommonOther;
             }
           | {
               'common:referenceToNameOfReviewerAndInstitution': GlobalReferenceType;
               'common:otherReviewDetails'?: FTMultiLang;
               'common:referenceToCompleteReviewReport'?: GlobalReferenceType;
-              'common:other'?: string;
+              'common:other'?: CommonOther;
             }[];
-        'common:other'?: string;
+        'common:other'?: CommonOther;
       };
       complianceDeclarations: {
         compliance:
@@ -222,7 +223,7 @@ export interface Lifecyclemodels {
                 | 'Fully compliant'
                 | 'Not compliant'
                 | 'Not defined';
-              'common:other'?: string;
+              'common:other'?: CommonOther;
             }
           | {
               'common:referenceToComplianceSystem': GlobalReferenceType;
@@ -250,28 +251,28 @@ export interface Lifecyclemodels {
                 | 'Fully compliant'
                 | 'Not compliant'
                 | 'Not defined';
-              'common:other'?: string;
+              'common:other'?: CommonOther;
             }[];
-        'common:other'?: string;
+        'common:other'?: CommonOther;
       };
-      'common:other'?: string;
+      'common:other'?: CommonOther;
     };
     administrativeInformation: {
       'common:commissionerAndGoal': {
         'common:referenceToCommissioner': GlobalReferenceType;
         'common:project'?: StringMultiLang;
         'common:intendedApplications': FTMultiLang;
-        'common:other'?: string;
+        'common:other'?: CommonOther;
       };
       dataGenerator?: {
         'common:referenceToPersonOrEntityGeneratingTheDataSet'?: GlobalReferenceType;
-        'common:other'?: string;
+        'common:other'?: CommonOther;
       };
       dataEntryBy: {
         'common:timeStamp': dateTime;
         'common:referenceToDataSetFormat': GlobalReferenceType;
         'common:referenceToPersonOrEntityEnteringTheData': GlobalReferenceType;
-        'common:other'?: string;
+        'common:other'?: CommonOther;
       };
       publicationAndOwnership: {
         'common:dataSetVersion': string;
@@ -287,10 +288,10 @@ export interface Lifecyclemodels {
           | 'License fee'
           | 'Other';
         'common:accessRestrictions'?: FTMultiLang;
-        'common:other'?: string;
+        'common:other'?: CommonOther;
       };
-      'common:other'?: string;
+      'common:other'?: CommonOther;
     };
-    'common:other'?: string;
+    'common:other'?: CommonOther;
   };
 }

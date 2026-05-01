@@ -100,6 +100,20 @@ export type STMultiLang = LocalizedText1000Item[] | LocalizedText1000Item;
  */
 export type FTMultiLang = LocalizedTextItem[] | LocalizedTextItem;
 /**
+ * JSON representation of an arbitrary XML element payload.
+ */
+export type AnyXmlElement =
+  | null
+  | string
+  | number
+  | boolean
+  | AnyXmlElement[]
+  | { [key: string]: AnyXmlElement };
+/**
+ * ILCD common:other extension container. The container must include at least one non-common extension element; namespace declarations are allowed but do not count as extension content.
+ */
+export type CommonOther = { [key: string]: string | AnyXmlElement };
+/**
  * Represents a reference to another dataset or file. In TIDAS, references must include type, refObjectId, version, uri, and shortDescription.
  */
 export type GlobalReferenceType =

@@ -2,6 +2,7 @@
 import { z } from 'zod';
 
 import {
+  CommonOtherSchema,
   FTMultiLangSchema,
   GlobalReferenceTypeSchema,
   LevelTypeSchema,
@@ -30,7 +31,7 @@ export const SourcesSchema = z.object({
               '@classId': z.string(),
               '#text': z.string(),
             }),
-            'common:other': z.string().optional(),
+            'common:other': CommonOtherSchema.optional(),
           }),
         }),
         sourceCitation: z.string().optional(),
@@ -56,15 +57,15 @@ export const SourcesSchema = z.object({
           .optional(),
         referenceToContact: GlobalReferenceTypeSchema.optional(),
         referenceToLogo: GlobalReferenceTypeSchema.optional(),
-        'common:other': z.string().optional(),
+        'common:other': CommonOtherSchema.optional(),
       }),
-      'common:other': z.string().optional(),
+      'common:other': CommonOtherSchema.optional(),
     }),
     administrativeInformation: z.object({
       dataEntryBy: z.object({
         'common:timeStamp': dateTimeSchema,
         'common:referenceToDataSetFormat': GlobalReferenceTypeSchema,
-        'common:other': z.string().optional(),
+        'common:other': CommonOtherSchema.optional(),
       }),
       publicationAndOwnership: z.object({
         'common:dataSetVersion': z.string(),
@@ -72,10 +73,10 @@ export const SourcesSchema = z.object({
           GlobalReferenceTypeSchema.optional(),
         'common:permanentDataSetURI': z.string().optional(),
         'common:referenceToOwnershipOfDataSet': GlobalReferenceTypeSchema,
-        'common:other': z.string().optional(),
+        'common:other': CommonOtherSchema.optional(),
       }),
-      'common:other': z.string().optional(),
+      'common:other': CommonOtherSchema.optional(),
     }),
-    'common:other': z.string().optional(),
+    'common:other': CommonOtherSchema.optional(),
   }),
 });

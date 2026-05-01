@@ -2,6 +2,7 @@
 import { z } from 'zod';
 
 import {
+  CommonOtherSchema,
   FTMultiLangSchema,
   GlobalReferenceTypeSchema,
   LevelTypeSchema,
@@ -30,24 +31,24 @@ export const FlowpropertiesSchema = z.object({
               '@classId': z.string(),
               '#text': z.string(),
             }),
-            'common:other': z.string().optional(),
+            'common:other': CommonOtherSchema.optional(),
           }),
         }),
         'common:generalComment': FTMultiLangSchema.optional(),
-        'common:other': z.string().optional(),
+        'common:other': CommonOtherSchema.optional(),
       }),
       quantitativeReference: z.object({
         referenceToReferenceUnitGroup: GlobalReferenceTypeSchema,
-        'common:other': z.string().optional(),
+        'common:other': CommonOtherSchema.optional(),
       }),
-      'common:other': z.string().optional(),
+      'common:other': CommonOtherSchema.optional(),
     }),
     modellingAndValidation: z
       .object({
         dataSourcesTreatmentAndRepresentativeness: z
           .object({
             referenceToDataSource: GlobalReferenceTypeSchema.optional(),
-            'common:other': z.string().optional(),
+            'common:other': CommonOtherSchema.optional(),
           })
           .optional(),
         complianceDeclarations: z.object({
@@ -71,16 +72,16 @@ export const FlowpropertiesSchema = z.object({
               })
             ),
           ]),
-          'common:other': z.string().optional(),
+          'common:other': CommonOtherSchema.optional(),
         }),
-        'common:other': z.string().optional(),
+        'common:other': CommonOtherSchema.optional(),
       })
       .optional(),
     administrativeInformation: z.object({
       dataEntryBy: z.object({
         'common:timeStamp': z.string(),
         'common:referenceToDataSetFormat': GlobalReferenceTypeSchema,
-        'common:other': z.string().optional(),
+        'common:other': CommonOtherSchema.optional(),
       }),
       publicationAndOwnership: z.object({
         'common:dataSetVersion': z.string(),
@@ -88,10 +89,10 @@ export const FlowpropertiesSchema = z.object({
           GlobalReferenceTypeSchema.optional(),
         'common:permanentDataSetURI': z.string().optional(),
         'common:referenceToOwnershipOfDataSet': GlobalReferenceTypeSchema,
-        'common:other': z.string().optional(),
+        'common:other': CommonOtherSchema.optional(),
       }),
-      'common:other': z.string().optional(),
+      'common:other': CommonOtherSchema.optional(),
     }),
-    'common:other': z.string().optional(),
+    'common:other': CommonOtherSchema.optional(),
   }),
 });

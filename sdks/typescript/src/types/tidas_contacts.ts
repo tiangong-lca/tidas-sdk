@@ -5,6 +5,7 @@
  */
 
 import type {
+  CommonOther,
   GlobalReferenceType,
   LevelType,
   ST,
@@ -36,7 +37,7 @@ export interface Contacts {
                 ]
               | { '@level': LevelType; '@classId': string; '#text': string };
           };
-          'common:other'?: string;
+          'common:other'?: CommonOther;
         };
         contactAddress?: STMultiLang;
         email?: String;
@@ -47,26 +48,26 @@ export interface Contacts {
         contactDescriptionOrComment?: STMultiLang;
         referenceToContact?: GlobalReferenceType;
         referenceToLogo?: GlobalReferenceType;
-        'common:other'?: string;
+        'common:other'?: CommonOther;
       };
-      'common:other'?: string;
+      'common:other'?: CommonOther;
     };
     administrativeInformation: {
       dataEntryBy: {
         'common:timeStamp': dateTime;
         'common:referenceToDataSetFormat': GlobalReferenceType;
-        'common:other'?: string;
+        'common:other'?: CommonOther;
       };
       publicationAndOwnership: {
         'common:dataSetVersion': string;
         'common:referenceToPrecedingDataSetVersion'?: GlobalReferenceType;
         'common:permanentDataSetURI'?: string;
         'common:referenceToOwnershipOfDataSet': GlobalReferenceType;
-        'common:other'?: string;
+        'common:other'?: CommonOther;
       };
-      'common:other'?: string;
+      'common:other'?: CommonOther;
     };
-    'common:other'?: string;
+    'common:other'?: CommonOther;
   };
-  'common:other'?: string;
+  'common:other'?: CommonOther;
 }

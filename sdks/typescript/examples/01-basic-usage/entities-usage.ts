@@ -86,7 +86,7 @@ flow.flowDataSet.flowInformation.dataSetInformation.name = {
   treatmentStandardsRoutes: [{ '@xml:lang': 'en', '#text': 'Standard CO2' }],
   mixAndLocationTypes: [{ '@xml:lang': 'en', '#text': 'Global average' }],
   flowProperties: [{ '@xml:lang': 'en', '#text': 'Mass' }],
-  'common:other': 'Carbon dioxide',
+  'common:other': { 'ext:note': 'Carbon dioxide' },
 };
 
 flow.flowDataSet.flowInformation.dataSetInformation['common:synonyms'] = [
@@ -114,7 +114,9 @@ process.processDataSet.processInformation.dataSetInformation.name = {
     { '@xml:lang': 'en', '#text': 'Wind power generation' },
   ],
   mixAndLocationTypes: [{ '@xml:lang': 'en', '#text': 'Country average' }],
-  'common:other': 'Wind power electricity generation process',
+  'common:other': {
+    'ext:note': 'Wind power electricity generation process',
+  },
 };
 
 // Set technology information
@@ -285,7 +287,7 @@ lifeCycleModel.lifeCycleModelDataSet.lifeCycleModelInformation.dataSetInformatio
     ],
     treatmentStandardsRoutes: [{ '@xml:lang': 'en', '#text': 'Wind LCM' }],
     mixAndLocationTypes: [{ '@xml:lang': 'en', '#text': 'Global' }],
-    'common:other': 'Life cycle model for wind power plants',
+    'common:other': { 'ext:note': 'Life cycle model for wind power plants' },
   };
 // Set life cycle model comments
 lifeCycleModel.lifeCycleModelDataSet.lifeCycleModelInformation.dataSetInformation[

@@ -23,8 +23,8 @@ checkPaths:
   - docs/release-setup.md
   - docs/upstream-automation.md
   - .github/workflows/**
-lastReviewedAt: 2026-04-24
-lastReviewedCommit: b87ff191df5655e61a8e151bbc674c0855e53710
+lastReviewedAt: 2026-04-30
+lastReviewedCommit: cda3fc26524f4c9e2636ff14c00528b3e7503620
 related:
   - ../../AGENTS.md
   - ../../.docpact/config.yaml

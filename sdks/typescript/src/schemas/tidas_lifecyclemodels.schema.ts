@@ -2,6 +2,7 @@
 import { z } from 'zod';
 
 import {
+  CommonOtherSchema,
   FTMultiLangSchema,
   GlobalReferenceTypeSchema,
   LevelTypeSchema,
@@ -34,7 +35,7 @@ export const LifecyclemodelsSchema = z.object({
           treatmentStandardsRoutes: RequiredStringMultiLangSchema,
           mixAndLocationTypes: RequiredStringMultiLangSchema,
           functionalUnitFlowProperties: StringMultiLangSchema.optional(),
-          'common:other': z.string().optional(),
+          'common:other': CommonOtherSchema.optional(),
         }),
         classificationInformation: z.object({
           'common:classification': z.object({
@@ -60,17 +61,17 @@ export const LifecyclemodelsSchema = z.object({
                 '#text': z.string(),
               }),
             ]),
-            'common:other': z.string().optional(),
+            'common:other': CommonOtherSchema.optional(),
           }),
         }),
         referenceToResultingProcess: GlobalReferenceTypeSchema.optional(),
         'common:generalComment': FTMultiLangSchema.optional(),
         referenceToExternalDocumentation: GlobalReferenceTypeSchema.optional(),
-        'common:other': z.string().optional(),
+        'common:other': CommonOtherSchema.optional(),
       }),
       quantitativeReference: z.object({
         referenceToReferenceProcess: z.string(),
-        'common:other': z.string().optional(),
+        'common:other': CommonOtherSchema.optional(),
       }),
       technology: z.object({
         groupDeclarations: z
@@ -206,7 +207,7 @@ export const LifecyclemodelsSchema = z.object({
                         .optional(),
                     })
                     .optional(),
-                  'common:other': z.string().optional(),
+                  'common:other': CommonOtherSchema.optional(),
                 })
               ),
               z.object({
@@ -311,20 +312,20 @@ export const LifecyclemodelsSchema = z.object({
                     ]),
                   })
                   .optional(),
-                'common:other': z.string().optional(),
+                'common:other': CommonOtherSchema.optional(),
               }),
             ])
             .optional(),
         }),
         referenceToDiagram: GlobalReferenceTypeSchema.optional(),
-        'common:other': z.string().optional(),
+        'common:other': CommonOtherSchema.optional(),
       }),
     }),
     modellingAndValidation: z.object({
       dataSourcesTreatmentEtc: z
         .object({
           useAdviceForDataSet: FTMultiLangSchema.optional(),
-          'common:other': z.string().optional(),
+          'common:other': CommonOtherSchema.optional(),
         })
         .optional(),
       validation: z.object({
@@ -335,7 +336,7 @@ export const LifecyclemodelsSchema = z.object({
             'common:otherReviewDetails': FTMultiLangSchema.optional(),
             'common:referenceToCompleteReviewReport':
               GlobalReferenceTypeSchema.optional(),
-            'common:other': z.string().optional(),
+            'common:other': CommonOtherSchema.optional(),
           }),
           z.array(
             z.object({
@@ -344,11 +345,11 @@ export const LifecyclemodelsSchema = z.object({
               'common:otherReviewDetails': FTMultiLangSchema.optional(),
               'common:referenceToCompleteReviewReport':
                 GlobalReferenceTypeSchema.optional(),
-              'common:other': z.string().optional(),
+              'common:other': CommonOtherSchema.optional(),
             })
           ),
         ]),
-        'common:other': z.string().optional(),
+        'common:other': CommonOtherSchema.optional(),
       }),
       complianceDeclarations: z.object({
         compliance: z.union([
@@ -384,7 +385,7 @@ export const LifecyclemodelsSchema = z.object({
               z.literal('Not compliant'),
               z.literal('Not defined'),
             ]),
-            'common:other': z.string().optional(),
+            'common:other': CommonOtherSchema.optional(),
           }),
           z.array(
             z.object({
@@ -419,26 +420,26 @@ export const LifecyclemodelsSchema = z.object({
                 z.literal('Not compliant'),
                 z.literal('Not defined'),
               ]),
-              'common:other': z.string().optional(),
+              'common:other': CommonOtherSchema.optional(),
             })
           ),
         ]),
-        'common:other': z.string().optional(),
+        'common:other': CommonOtherSchema.optional(),
       }),
-      'common:other': z.string().optional(),
+      'common:other': CommonOtherSchema.optional(),
     }),
     administrativeInformation: z.object({
       'common:commissionerAndGoal': z.object({
         'common:referenceToCommissioner': GlobalReferenceTypeSchema,
         'common:project': StringMultiLangSchema.optional(),
         'common:intendedApplications': FTMultiLangSchema,
-        'common:other': z.string().optional(),
+        'common:other': CommonOtherSchema.optional(),
       }),
       dataGenerator: z
         .object({
           'common:referenceToPersonOrEntityGeneratingTheDataSet':
             GlobalReferenceTypeSchema.optional(),
-          'common:other': z.string().optional(),
+          'common:other': CommonOtherSchema.optional(),
         })
         .optional(),
       dataEntryBy: z.object({
@@ -446,7 +447,7 @@ export const LifecyclemodelsSchema = z.object({
         'common:referenceToDataSetFormat': GlobalReferenceTypeSchema,
         'common:referenceToPersonOrEntityEnteringTheData':
           GlobalReferenceTypeSchema,
-        'common:other': z.string().optional(),
+        'common:other': CommonOtherSchema.optional(),
       }),
       publicationAndOwnership: z.object({
         'common:dataSetVersion': z.string(),
@@ -465,10 +466,10 @@ export const LifecyclemodelsSchema = z.object({
           z.literal('Other'),
         ]),
         'common:accessRestrictions': FTMultiLangSchema.optional(),
-        'common:other': z.string().optional(),
+        'common:other': CommonOtherSchema.optional(),
       }),
-      'common:other': z.string().optional(),
+      'common:other': CommonOtherSchema.optional(),
     }),
-    'common:other': z.string().optional(),
+    'common:other': CommonOtherSchema.optional(),
   }),
 });

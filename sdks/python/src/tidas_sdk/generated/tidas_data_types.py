@@ -6,13 +6,14 @@ from __future__ import annotations
 
 import re
 
-from typing import Annotated
+from typing import Annotated, Any
 
 from pydantic import Field, model_validator
 from tidas_sdk.core.base import TidasBaseModel
 from tidas_sdk.core.multilang import MultiLangList
 
 from datetime import datetime
+from pydantic import AfterValidator
 
 CHINESE_CHARACTER_PATTERN = re.compile(r'[\u3400-\u4DBF\u4E00-\u9FFF\uF900-\uFAFF]')
 
@@ -40,6 +41,39 @@ Real = Annotated[str, Field(pattern='[+-]?(\\d+(\\.\\d*)?|\\.\\d+)([Ee][+-]?\\d+
 ST = Annotated[str, Field(max_length=1000)]
 # String with a maximum length of 500 characters. Must have a minimum length of 1.
 String = Annotated[str, Field(min_length=1, max_length=500)]
+# JSON representation of an arbitrary XML element payload.
+AnyXmlElement = Any
+# ILCD common:other extension container. The container must include at least one non-common extension element; namespace declarations are allowed but do not count as extension content.
+_COMMON_OTHER_NAMESPACE_DECLARATION_PATTERN = re.compile(
+    r'^@xmlns(:[A-Za-z_][A-Za-z0-9_.-]*)?$'
+)
+_COMMON_OTHER_EXTENSION_ELEMENT_PATTERN = re.compile(
+    r'^(?!(common|xmlns):)([A-Za-z_][A-Za-z0-9_.-]*:)?[A-Za-z_][A-Za-z0-9_.-]*$'
+)
+
+def _validate_common_other(value: dict[str, AnyXmlElement]) -> dict[str, AnyXmlElement]:
+    has_extension_element = False
+
+    for key, entry_value in value.items():
+        if _COMMON_OTHER_NAMESPACE_DECLARATION_PATTERN.fullmatch(key):
+            if not isinstance(entry_value, str):
+                raise ValueError("Namespace declarations in common:other must be strings")
+            continue
+
+        if _COMMON_OTHER_EXTENSION_ELEMENT_PATTERN.fullmatch(key):
+            has_extension_element = True
+            continue
+
+        raise ValueError(
+            "common:other entries must be namespace declarations or non-common extension elements"
+        )
+
+    if not has_extension_element:
+        raise ValueError("common:other must include at least one non-common extension element")
+
+    return value
+
+CommonOther = Annotated[dict[str, AnyXmlElement], AfterValidator(_validate_common_other)]
 # Global geographical reference in Latitude and LongitudeExamples: "+42.42;-180", "0;0", "13.22 ; -3"
 GIS = Annotated[str, Field(pattern='^\\s*[+-]?((90(\\.0+)?)|([0-8]?\\d(\\.\\d+)?))\\s*;\\s*[+-]?((180(\\.0+)?)|((1[0-7]\\d|[0-9]?\\d)(\\.\\d+)?))\\s*$')]
 # Unique Universal Identifier, 16-byte hex number

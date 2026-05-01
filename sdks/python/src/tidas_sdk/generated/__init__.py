@@ -19,6 +19,8 @@ from .tidas_data_types import MatV
 from .tidas_data_types import Real
 from .tidas_data_types import ST
 from .tidas_data_types import String
+from .tidas_data_types import AnyXmlElement
+from .tidas_data_types import CommonOther
 from .tidas_data_types import GIS
 from .tidas_data_types import UUID
 from .tidas_data_types import Year
@@ -5835,6 +5837,8 @@ __all__ = [
     'Real',
     'ST',
     'String',
+    'AnyXmlElement',
+    'CommonOther',
     'GIS',
     'UUID',
     'Year',

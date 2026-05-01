@@ -17,8 +17,8 @@ checkPaths:
   - .github/workflows/sync-from-tidas-tools.yml
   - .github/workflows/tag-release-from-merge.yml
   - .docpact/config.yaml
-lastReviewedAt: 2026-04-24
-lastReviewedCommit: bd4958bcc4e0e3dd271abb86f5037d32b6fd4d5a
+lastReviewedAt: 2026-04-30
+lastReviewedCommit: cda3fc26524f4c9e2636ff14c00528b3e7503620
 related:
   - ../AGENTS.md
   - ../.docpact/config.yaml

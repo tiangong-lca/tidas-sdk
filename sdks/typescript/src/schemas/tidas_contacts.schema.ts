@@ -2,6 +2,7 @@
 import { z } from 'zod';
 
 import {
+  CommonOtherSchema,
   GlobalReferenceTypeSchema,
   LevelTypeSchema,
   STSchema,
@@ -48,7 +49,7 @@ export const ContactsSchema = z.object({
               }),
             ]),
           }),
-          'common:other': z.string().optional(),
+          'common:other': CommonOtherSchema.optional(),
         }),
         contactAddress: STMultiLangSchema.optional(),
         email: StringSchema.optional(),
@@ -59,15 +60,15 @@ export const ContactsSchema = z.object({
         contactDescriptionOrComment: STMultiLangSchema.optional(),
         referenceToContact: GlobalReferenceTypeSchema.optional(),
         referenceToLogo: GlobalReferenceTypeSchema.optional(),
-        'common:other': z.string().optional(),
+        'common:other': CommonOtherSchema.optional(),
       }),
-      'common:other': z.string().optional(),
+      'common:other': CommonOtherSchema.optional(),
     }),
     administrativeInformation: z.object({
       dataEntryBy: z.object({
         'common:timeStamp': dateTimeSchema,
         'common:referenceToDataSetFormat': GlobalReferenceTypeSchema,
-        'common:other': z.string().optional(),
+        'common:other': CommonOtherSchema.optional(),
       }),
       publicationAndOwnership: z.object({
         'common:dataSetVersion': z.string(),
@@ -75,11 +76,11 @@ export const ContactsSchema = z.object({
           GlobalReferenceTypeSchema.optional(),
         'common:permanentDataSetURI': z.string().optional(),
         'common:referenceToOwnershipOfDataSet': GlobalReferenceTypeSchema,
-        'common:other': z.string().optional(),
+        'common:other': CommonOtherSchema.optional(),
       }),
-      'common:other': z.string().optional(),
+      'common:other': CommonOtherSchema.optional(),
     }),
-    'common:other': z.string().optional(),
+    'common:other': CommonOtherSchema.optional(),
   }),
-  'common:other': z.string().optional(),
+  'common:other': CommonOtherSchema.optional(),
 });

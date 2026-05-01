@@ -6,6 +6,7 @@
 
 import type {
   CASNumber,
+  CommonOther,
   FTMultiLang,
   GlobalReferenceType,
   Int5,
@@ -35,34 +36,34 @@ export interface Flows {
           treatmentStandardsRoutes: StringMultiLang;
           mixAndLocationTypes: StringMultiLang;
           flowProperties?: StringMultiLang;
-          'common:other'?: string;
+          'common:other'?: CommonOther;
         };
         'common:synonyms'?: FTMultiLang;
         classificationInformation: any | any;
         CASNumber?: CASNumber;
         sumFormula?: String;
         'common:generalComment'?: FTMultiLang;
-        'common:other'?: string;
+        'common:other'?: CommonOther;
       };
       quantitativeReference: {
         referenceToReferenceFlowProperty: Int5;
-        'common:other'?: string;
+        'common:other'?: CommonOther;
       };
       geography?: {
         locationOfSupply?: LocationsCategory;
-        'common:other'?: string;
+        'common:other'?: CommonOther;
       };
       technology?: {
         technologicalApplicability?: FTMultiLang;
         referenceToTechnicalSpecification?: GlobalReferenceType;
-        'common:other'?: string;
+        'common:other'?: CommonOther;
       };
-      'common:other'?: string;
+      'common:other'?: CommonOther;
     };
     modellingAndValidation: {
       LCIMethod: {
         typeOfDataSet: 'Elementary flow' | 'Product flow' | 'Waste flow';
-        'common:other'?: string;
+        'common:other'?: CommonOther;
       };
       complianceDeclarations: {
         compliance:
@@ -72,7 +73,7 @@ export interface Flows {
                 | 'Fully compliant'
                 | 'Not compliant'
                 | 'Not defined';
-              'common:other'?: string;
+              'common:other'?: CommonOther;
             }
           | {
               'common:referenceToComplianceSystem': GlobalReferenceType;
@@ -80,27 +81,27 @@ export interface Flows {
                 | 'Fully compliant'
                 | 'Not compliant'
                 | 'Not defined';
-              'common:other'?: string;
+              'common:other'?: CommonOther;
             }[];
-        'common:other'?: string;
+        'common:other'?: CommonOther;
       };
-      'common:other'?: string;
+      'common:other'?: CommonOther;
     };
     administrativeInformation: {
       dataEntryBy: {
         'common:timeStamp': dateTime;
         'common:referenceToDataSetFormat': GlobalReferenceType;
         'common:referenceToPersonOrEntityEnteringTheData'?: GlobalReferenceType;
-        'common:other'?: string;
+        'common:other'?: CommonOther;
       };
       publicationAndOwnership: {
         'common:dataSetVersion': string;
         'common:referenceToPrecedingDataSetVersion'?: GlobalReferenceType;
         'common:permanentDataSetURI'?: string;
         'common:referenceToOwnershipOfDataSet': GlobalReferenceType;
-        'common:other'?: string;
+        'common:other'?: CommonOther;
       };
-      'common:other'?: string;
+      'common:other'?: CommonOther;
     };
     flowProperties: {
       flowProperty:
@@ -123,7 +124,7 @@ export interface Flows {
               | 'Estimated'
               | 'Unknown derivation';
             generalComment?: StringMultiLang;
-            'common:other'?: string;
+            'common:other'?: CommonOther;
           }
         | {
             '@dataSetInternalID': Int5;
@@ -144,10 +145,10 @@ export interface Flows {
               | 'Estimated'
               | 'Unknown derivation';
             generalComment?: StringMultiLang;
-            'common:other'?: string;
+            'common:other'?: CommonOther;
           }[];
-      'common:other'?: string;
+      'common:other'?: CommonOther;
     };
-    'common:other'?: string;
+    'common:other'?: CommonOther;
   };
 }
