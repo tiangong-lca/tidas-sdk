@@ -26,8 +26,8 @@ checkPaths:
   - sdks/typescript/**
   - sdks/python/**
   - .github/workflows/**
-lastReviewedAt: 2026-04-30
-lastReviewedCommit: cda3fc26524f4c9e2636ff14c00528b3e7503620
+lastReviewedAt: 2026-05-03
+lastReviewedCommit: 9ee586e8401d726fe81402c09e7bffaa3b4aad2c
 related:
   - .docpact/config.yaml
   - docs/agents/repo-validation.md
