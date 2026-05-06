@@ -1,39 +1,3 @@
----
-title: tidas-sdk README
-docType: guide
-scope: repo
-status: active
-authoritative: false
-owner: tidas-sdk
-language: en
-whenToUse:
-  - when you need the repo landing context, package overview, or basic setup commands
-  - when deciding which retained AI docs to read next inside tidas-sdk
-whenToUpdate:
-  - when package overview, setup commands, or release guidance changes
-  - when the retained AI docs entry surface changes
-checkPaths:
-  - README.md
-  - AGENTS.md
-  - .docpact/config.yaml
-  - docs/agents/**
-  - docs/release-setup.md
-  - docs/upstream-automation.md
-  - package.json
-  - scripts/ci/**
-  - sdks/typescript/**
-  - sdks/python/**
-lastReviewedAt: 2026-04-23
-lastReviewedCommit: c146296931a18042dfa7f8e433c2ff2b35438601
-related:
-  - AGENTS.md
-  - .docpact/config.yaml
-  - docs/agents/repo-validation.md
-  - docs/agents/repo-architecture.md
-  - docs/release-setup.md
-  - docs/upstream-automation.md
----
-
 # TIDAS SDKs
 
 A multi-language SDK repository for TIDAS (TianGong Life Cycle Assessment data format), providing the generated TypeScript package, the in-repo Python SDK, and the automation that refreshes and releases them from `tidas-tools`.
