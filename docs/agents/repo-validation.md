@@ -23,8 +23,11 @@ checkPaths:
   - docs/release-setup.md
   - docs/upstream-automation.md
   - .github/workflows/**
-lastReviewedAt: 2026-05-06
-lastReviewedCommit: 644631323d7d2e104d68460291234a24cd79c369
+  - .githooks/pre-push
+  - scripts/docpact-gate.sh
+  - scripts/install-git-hooks.sh
+lastReviewedAt: 2026-05-08
+lastReviewedCommit: b75cbb322953167bec40232c914846739dc00408
 related:
   - ../../AGENTS.md
   - ../../.docpact/config.yaml
@@ -79,3 +82,13 @@ A good PR note for this repo should say:
 1. which verify scripts ran
 2. whether generation used a local `tidas-tools` checkout or the default resolution path
 3. whether tag or publish proof is deferred to GitHub Actions
+
+## Local Docpact Push Gate
+
+Install the versioned local hook once per checkout:
+
+```bash
+./scripts/install-git-hooks.sh
+```
+
+The `pre-push` hook runs `scripts/docpact-gate.sh`, which performs strict config validation and `docpact lint --mode enforce` before the push leaves the machine. The default comparison base is `origin/main`. Override it for unusual stacks with `DOCPACT_BASE_REF=<ref>` or `scripts/docpact-gate.sh --base <ref>`. The gate writes its detailed report to a temporary file so normal pushes do not create `.docpact/runs/` artifacts.

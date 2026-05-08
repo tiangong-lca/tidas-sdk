@@ -21,8 +21,11 @@ checkPaths:
   - sdks/typescript/**
   - sdks/python/**
   - .github/workflows/**
-lastReviewedAt: 2026-05-06
-lastReviewedCommit: 644631323d7d2e104d68460291234a24cd79c369
+  - .githooks/pre-push
+  - scripts/docpact-gate.sh
+  - scripts/install-git-hooks.sh
+lastReviewedAt: 2026-05-08
+lastReviewedCommit: b75cbb322953167bec40232c914846739dc00408
 related:
   - ../../AGENTS.md
   - ../../.docpact/config.yaml
@@ -103,3 +106,7 @@ This release model is part of the repo architecture, not just a release checklis
 - standalone conversion and export still belong in `tidas-tools`
 - generated build outputs are not the only durable source of truth
 - a merged child PR does not finish workspace delivery
+
+## Local Docpact Push Gate
+
+This repository has a versioned local `pre-push` hook under `.githooks/pre-push` that delegates to `scripts/docpact-gate.sh`. The hook is a local developer guard for docpact config validation and enforced doc-governance linting; CI remains the authoritative PR enforcement path.
