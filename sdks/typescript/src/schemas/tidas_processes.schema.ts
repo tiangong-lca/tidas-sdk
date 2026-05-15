@@ -224,7 +224,7 @@ export const ProcessesSchema = z.object({
             GlobalReferenceTypeSchema.optional(),
           referenceToDataSource: GlobalReferenceTypeSchema,
           percentageSupplyOrProductionCovered: PercSchema.optional(),
-          annualSupplyOrProductionVolume: StringMultiLangSchema.optional(),
+          annualSupplyOrProductionVolume: RealSchema,
           samplingProcedure: FTMultiLangSchema.optional(),
           dataCollectionPeriod: StringMultiLangSchema.optional(),
           uncertaintyAdjustments: FTMultiLangSchema.optional(),
