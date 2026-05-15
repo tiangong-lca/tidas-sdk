@@ -177,7 +177,7 @@ export interface Processes {
         referenceToDataHandlingPrinciples?: GlobalReferenceType;
         referenceToDataSource: GlobalReferenceType;
         percentageSupplyOrProductionCovered?: Perc;
-        annualSupplyOrProductionVolume?: StringMultiLang;
+        annualSupplyOrProductionVolume: Real;
         samplingProcedure?: FTMultiLang;
         dataCollectionPeriod?: StringMultiLang;
         uncertaintyAdjustments?: FTMultiLang;
