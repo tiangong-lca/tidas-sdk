@@ -480,7 +480,7 @@ export interface Processes {
       exchange: {
         '@dataSetInternalID': Int6;
         referenceToFlowDataSet: GlobalReferenceType;
-        location?: String;
+        location?: LocationsCategory | String;
         functionType?:
           | 'General reminder flow'
           | 'Allocation reminder flow'
