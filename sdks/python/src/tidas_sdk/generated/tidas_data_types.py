@@ -109,6 +109,11 @@ class LocalizedText500Item(LocalizedTextItem):
             raise ValueError("@xml:lang values starting with 'en' must not contain Chinese characters")
         return self
 
+class AnnualSupplyOrProductionVolumeTextItem(LocalizedText500Item):
+    """Language-tagged annual supply or production volume text. The text must start with a real number followed by whitespace and a non-empty unit or context suffix."""
+    xml_lang: str = Field(default=..., alias='@xml:lang')
+    text: str = Field(default=..., alias='#text', max_length=500, pattern='^[+-]?(\\d+(\\.\\d*)?|\\.\\d+)([Ee][+-]?\\d+)?\\s+\\S.*$')
+
 class LocalizedText1000Item(LocalizedTextItem):
     """Language-tagged text with a maximum length of 1000 characters."""
     xml_lang: str = Field(default=..., alias='@xml:lang')
@@ -139,6 +144,8 @@ class GlobalReferenceTypeVariant1Item(TidasBaseModel):
 class DataTypes(TidasBaseModel):
     pass
 
+# Multi-language annual supply or production volume text with a numeric prefix and unit or context suffix.
+AnnualSupplyOrProductionVolumeMultiLang = list[AnnualSupplyOrProductionVolumeTextItem] | AnnualSupplyOrProductionVolumeTextItem
 # Multi-language string with a maximum length of 500 characters
 StringMultiLang = list[LocalizedText500Item] | LocalizedText500Item
 # Multi-lang short text with a maximum length of 1000 characters.

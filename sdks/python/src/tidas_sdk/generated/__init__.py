@@ -3,6 +3,7 @@ from __future__ import annotations
 
 from .tidas_data_types import LocalizedTextItem
 from .tidas_data_types import LocalizedText500Item
+from .tidas_data_types import AnnualSupplyOrProductionVolumeTextItem
 from .tidas_data_types import LocalizedText1000Item
 from .tidas_data_types import GlobalReferenceTypeVariant0
 from .tidas_data_types import GlobalReferenceTypeVariant1Item
@@ -25,6 +26,7 @@ from .tidas_data_types import GIS
 from .tidas_data_types import UUID
 from .tidas_data_types import Year
 from .tidas_data_types import DateTime
+from .tidas_data_types import AnnualSupplyOrProductionVolumeMultiLang
 from .tidas_data_types import StringMultiLang
 from .tidas_data_types import STMultiLang
 from .tidas_data_types import FTMultiLang
@@ -5821,6 +5823,7 @@ from .tidas_unitgroups_category import UnitGroup
 __all__ = [
     'LocalizedTextItem',
     'LocalizedText500Item',
+    'AnnualSupplyOrProductionVolumeTextItem',
     'LocalizedText1000Item',
     'GlobalReferenceTypeVariant0',
     'GlobalReferenceTypeVariant1Item',
@@ -5843,6 +5846,7 @@ __all__ = [
     'UUID',
     'Year',
     'DateTime',
+    'AnnualSupplyOrProductionVolumeMultiLang',
     'StringMultiLang',
     'STMultiLang',
     'FTMultiLang',

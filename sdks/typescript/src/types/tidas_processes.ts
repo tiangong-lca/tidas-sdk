@@ -5,6 +5,7 @@
  */
 
 import type {
+  AnnualSupplyOrProductionVolumeMultiLang,
   CommonOther,
   FTMultiLang,
   GIS,
@@ -177,7 +178,7 @@ export interface Processes {
         referenceToDataHandlingPrinciples?: GlobalReferenceType;
         referenceToDataSource: GlobalReferenceType;
         percentageSupplyOrProductionCovered?: Perc;
-        annualSupplyOrProductionVolume: Real;
+        annualSupplyOrProductionVolume: AnnualSupplyOrProductionVolumeMultiLang;
         samplingProcedure?: FTMultiLang;
         dataCollectionPeriod?: StringMultiLang;
         uncertaintyAdjustments?: FTMultiLang;

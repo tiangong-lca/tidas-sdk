@@ -25,6 +25,20 @@ export interface LocalizedText500Item {
    */
   '#text': string;
 }
+export interface AnnualSupplyOrProductionVolumeTextItem {
+  '@xml:lang': string;
+  /**
+   * @maxLength 500
+   * @pattern ^[+-]?(\d+(\.\d*)?|\.\d+)([Ee][+-]?\d+)?\s+\S.*$
+   */
+  '#text': string;
+}
+/**
+ * Multi-language annual supply or production volume text with a numeric prefix and unit or context suffix.
+ */
+export type AnnualSupplyOrProductionVolumeMultiLang =
+  | AnnualSupplyOrProductionVolumeTextItem[]
+  | AnnualSupplyOrProductionVolumeTextItem;
 export interface LocalizedText1000Item {
   '@xml:lang': string;
   /**

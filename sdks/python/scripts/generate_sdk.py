@@ -32,6 +32,11 @@ LOCALIZED_TEXT_MODEL_NAMES = {
     "LocalizedText500Item",
     "LocalizedText1000Item",
 }
+GENERIC_MULTILANG_REF_NAMES = {
+    "StringMultiLang",
+    "STMultiLang",
+    "FTMultiLang",
+}
 CHINESE_CHARACTER_PATTERN = r"[\u3400-\u4DBF\u4E00-\u9FFF\uF900-\uFAFF]"
 
 
@@ -723,11 +728,11 @@ class SchemaConverter:
                 if isinstance(item, dict)
             )
 
-        if schema.get("$ref", "").endswith("MultiLang"):
+        if SchemaConverter._is_generic_multilang_ref(schema.get("$ref", "")):
             return True
 
         title = schema.get("title", "")
-        if isinstance(title, str) and title.endswith("MultiLang"):
+        if isinstance(title, str) and title in GENERIC_MULTILANG_REF_NAMES:
             return True
 
         for key in ("anyOf", "oneOf"):
@@ -753,6 +758,12 @@ class SchemaConverter:
             return SchemaConverter._is_multilang_item(items)
 
         return False
+
+    @staticmethod
+    def _is_generic_multilang_ref(ref: str) -> bool:
+        if not ref:
+            return False
+        return ref.split("/")[-1] in GENERIC_MULTILANG_REF_NAMES
 
     @staticmethod
     def _is_multilang_item(schema: dict[str, Any]) -> bool:
