@@ -612,7 +612,7 @@ export const ProcessesSchema = z.object({
         z.object({
           '@dataSetInternalID': Int6Schema,
           referenceToFlowDataSet: GlobalReferenceTypeSchema,
-          location: StringSchema.optional(),
+          location: z.union([LocationsCategorySchema, StringSchema]).optional(),
           functionType: z
             .union([
               z.literal('General reminder flow'),
