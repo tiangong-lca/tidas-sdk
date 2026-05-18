@@ -2,6 +2,7 @@
 import { z } from 'zod';
 
 import {
+  AnnualSupplyOrProductionVolumeMultiLangSchema,
   CommonOtherSchema,
   FTMultiLangSchema,
   GISSchema,
@@ -224,7 +225,8 @@ export const ProcessesSchema = z.object({
             GlobalReferenceTypeSchema.optional(),
           referenceToDataSource: GlobalReferenceTypeSchema,
           percentageSupplyOrProductionCovered: PercSchema.optional(),
-          annualSupplyOrProductionVolume: RealSchema,
+          annualSupplyOrProductionVolume:
+            AnnualSupplyOrProductionVolumeMultiLangSchema,
           samplingProcedure: FTMultiLangSchema.optional(),
           dataCollectionPeriod: StringMultiLangSchema.optional(),
           uncertaintyAdjustments: FTMultiLangSchema.optional(),

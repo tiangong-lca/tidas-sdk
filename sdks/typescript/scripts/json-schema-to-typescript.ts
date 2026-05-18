@@ -45,6 +45,7 @@ class JsonSchemaToTypeScript {
   private typeDefinitions: Map<string, string> = new Map();
   private processedRefs: Set<string> = new Set();
   private referencedTypes: Set<string> = new Set();
+  private referencedTypeSources: Map<string, string> = new Map();
   private currentFile?: string;
   private rootSchema?: any;
 
@@ -62,6 +63,7 @@ class JsonSchemaToTypeScript {
     this.typeDefinitions = new Map();
     this.processedRefs = new Set();
     this.referencedTypes = new Set();
+    this.referencedTypeSources = new Map();
     this.currentFile = currentFile;
     this.rootSchema = schema;
 
@@ -652,8 +654,11 @@ class JsonSchemaToTypeScript {
     // Group imports by file
     const importsByFile: Record<string, string[]> = {};
     for (const typeName of this.referencedTypes) {
-      if (typeName in this.config.importMappings) {
-        const fileName = this.config.importMappings[typeName];
+      const fileName =
+        this.referencedTypeSources.get(typeName) ??
+        this.config.importMappings[typeName];
+
+      if (fileName) {
         // Don't import from the same file
         const currentFileStem = this.currentFile
           ? path.parse(this.currentFile).name
@@ -690,13 +695,16 @@ class JsonSchemaToTypeScript {
         // External reference with specific definition
         const parts = refPath.split('#/$defs/');
         const typeName = parts[1];
+        const fileName = path.parse(parts[0]).name;
         this.referencedTypes.add(typeName);
+        this.referencedTypeSources.set(typeName, fileName);
         return typeName;
       } else if (refPath.includes('.json')) {
         // External reference - use type name from file
         const fileStem = path.parse(refPath).name;
         const typeName = this.generateInterfaceName(fileStem);
         this.referencedTypes.add(typeName);
+        this.referencedTypeSources.set(typeName, fileStem);
         return typeName;
       } else {
         return 'any';

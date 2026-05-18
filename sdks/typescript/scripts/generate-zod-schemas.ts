@@ -207,66 +207,7 @@ async function postProcessZodSchema(schemaFile: string): Promise<void> {
   if (schemaFile.includes('tidas_data_types')) {
     console.log('   ℹ️  Applying manual optimizations for tidas_data_types');
 
-    let manualOptimizations = content.replace(
-      /export const LocalizedTextItemSchema = z\.object\(\{[\s\S]*?\}\);\n\nexport const LocalizedText500ItemSchema = z\.object\(\{[\s\S]*?\}\);\n\nexport const LocalizedText1000ItemSchema = z\.object\(\{[\s\S]*?\}\);\n/,
-      `const chineseCharacterPattern = /[\\u3400-\\u4DBF\\u4E00-\\u9FFF\\uF900-\\uFAFF]/;
-const LOCALIZED_TEXT_ZH_MUST_INCLUDE_CHINESE_CHARACTER_CODE =
-  'localized_text_zh_must_include_chinese_character';
-const LOCALIZED_TEXT_EN_MUST_NOT_CONTAIN_CHINESE_CHARACTER_CODE =
-  'localized_text_en_must_not_contain_chinese_character';
-
-const addLocalizedTextLanguageChecks = (
-  value: { '@xml:lang': string; '#text': string },
-  ctx: z.RefinementCtx
-) => {
-  const lang = value['@xml:lang'];
-  const text = value['#text'];
-
-  if (/^[zZ][hH](?:-|$)/.test(lang) && !chineseCharacterPattern.test(text)) {
-    ctx.addIssue({
-      code: z.ZodIssueCode.custom,
-      path: ['#text'],
-      message:
-        "@xml:lang values starting with 'zh' must include at least one Chinese character",
-      params: {
-        validationCode: LOCALIZED_TEXT_ZH_MUST_INCLUDE_CHINESE_CHARACTER_CODE,
-      },
-    });
-  }
-
-  if (/^[eE][nN](?:-|$)/.test(lang) && chineseCharacterPattern.test(text)) {
-    ctx.addIssue({
-      code: z.ZodIssueCode.custom,
-      path: ['#text'],
-      message:
-        "@xml:lang values starting with 'en' must not contain Chinese characters",
-      params: {
-        validationCode: LOCALIZED_TEXT_EN_MUST_NOT_CONTAIN_CHINESE_CHARACTER_CODE,
-      },
-    });
-  }
-};
-
-const LocalizedTextItemBaseSchema = z.object({
-  '@xml:lang': z.string(),
-  '#text': z.string(),
-});
-
-export const LocalizedTextItemSchema = LocalizedTextItemBaseSchema.superRefine(
-  addLocalizedTextLanguageChecks
-);
-
-export const LocalizedText500ItemSchema =
-  LocalizedTextItemBaseSchema.extend({
-    '#text': z.string().max(500),
-  }).superRefine(addLocalizedTextLanguageChecks);
-
-export const LocalizedText1000ItemSchema =
-  LocalizedTextItemBaseSchema.extend({
-    '#text': z.string().max(1000),
-  }).superRefine(addLocalizedTextLanguageChecks);
-`
-    );
+    let manualOptimizations = applyLocalizedTextSchemaOverrides(content);
 
     manualOptimizations = manualOptimizations.replace(
       /export const StringMultiLangSchema = z\.union\(\[[\s\S]*?\]\);/,
@@ -359,6 +300,95 @@ export const RequiredFTMultiLangSchema =
       `   🔧 Applied constraint fixes to ${path.basename(schemaFile)}`
     );
   }
+}
+
+function applyLocalizedTextSchemaOverrides(content: string): string {
+  const localizedTextPrelude = `const chineseCharacterPattern = /[\\u3400-\\u4DBF\\u4E00-\\u9FFF\\uF900-\\uFAFF]/;
+const LOCALIZED_TEXT_ZH_MUST_INCLUDE_CHINESE_CHARACTER_CODE =
+  'localized_text_zh_must_include_chinese_character';
+const LOCALIZED_TEXT_EN_MUST_NOT_CONTAIN_CHINESE_CHARACTER_CODE =
+  'localized_text_en_must_not_contain_chinese_character';
+
+const addLocalizedTextLanguageChecks = (
+  value: { '@xml:lang': string; '#text': string },
+  ctx: z.RefinementCtx
+) => {
+  const lang = value['@xml:lang'];
+  const text = value['#text'];
+
+  if (/^[zZ][hH](?:-|$)/.test(lang) && !chineseCharacterPattern.test(text)) {
+    ctx.addIssue({
+      code: z.ZodIssueCode.custom,
+      path: ['#text'],
+      message:
+        "@xml:lang values starting with 'zh' must include at least one Chinese character",
+      params: {
+        validationCode: LOCALIZED_TEXT_ZH_MUST_INCLUDE_CHINESE_CHARACTER_CODE,
+      },
+    });
+  }
+
+  if (/^[eE][nN](?:-|$)/.test(lang) && chineseCharacterPattern.test(text)) {
+    ctx.addIssue({
+      code: z.ZodIssueCode.custom,
+      path: ['#text'],
+      message:
+        "@xml:lang values starting with 'en' must not contain Chinese characters",
+      params: {
+        validationCode: LOCALIZED_TEXT_EN_MUST_NOT_CONTAIN_CHINESE_CHARACTER_CODE,
+      },
+    });
+  }
+};
+
+const LocalizedTextItemBaseSchema = z.object({
+  '@xml:lang': z.string(),
+  '#text': z.string(),
+});
+
+export const LocalizedTextItemSchema = LocalizedTextItemBaseSchema.superRefine(
+  addLocalizedTextLanguageChecks
+);`;
+
+  let updatedContent = replaceExportedSchema(
+    content,
+    'LocalizedTextItemSchema',
+    localizedTextPrelude
+  );
+
+  updatedContent = replaceExportedSchema(
+    updatedContent,
+    'LocalizedText500ItemSchema',
+    `export const LocalizedText500ItemSchema =
+  LocalizedTextItemBaseSchema.extend({
+    '#text': z.string().max(500),
+  }).superRefine(addLocalizedTextLanguageChecks);`
+  );
+
+  if (updatedContent.includes('export const AnnualSupplyOrProductionVolumeTextItemSchema')) {
+    updatedContent = replaceExportedSchema(
+      updatedContent,
+      'AnnualSupplyOrProductionVolumeTextItemSchema',
+      `export const AnnualSupplyOrProductionVolumeTextItemSchema =
+  LocalizedTextItemBaseSchema.extend({
+    '#text': z
+      .string()
+      .max(500)
+      .regex(/^[+-]?(\\d+(\\.\\d*)?|\\.\\d+)([Ee][+-]?\\d+)?\\s+\\S.*$/),
+  }).superRefine(addLocalizedTextLanguageChecks);`
+    );
+  }
+
+  updatedContent = replaceExportedSchema(
+    updatedContent,
+    'LocalizedText1000ItemSchema',
+    `export const LocalizedText1000ItemSchema =
+  LocalizedTextItemBaseSchema.extend({
+    '#text': z.string().max(1000),
+  }).superRefine(addLocalizedTextLanguageChecks);`
+  );
+
+  return updatedContent;
 }
 
 function applyCommonOtherSchemaOverrides(content: string): string {

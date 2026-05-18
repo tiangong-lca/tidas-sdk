@@ -8,6 +8,8 @@ from pydantic import ValidationError
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 
 from tidas_sdk.generated.tidas_data_types import (
+    AnnualSupplyOrProductionVolumeMultiLang,
+    AnnualSupplyOrProductionVolumeTextItem,
     FTMultiLang,
     LocalizedText1000Item,
     LocalizedText500Item,
@@ -67,6 +69,25 @@ def test_multilang_aliases_reference_localized_text_models() -> None:
     assert get_origin(ft_array_type) is list
     assert get_args(ft_array_type) == (LocalizedTextItem,)
     assert ft_item_type is LocalizedTextItem
+
+
+def test_annual_supply_volume_alias_preserves_patterned_item_type() -> None:
+    annual_array_type, annual_item_type = get_args(
+        AnnualSupplyOrProductionVolumeMultiLang
+    )
+
+    assert get_origin(annual_array_type) is list
+    assert get_args(annual_array_type) == (AnnualSupplyOrProductionVolumeTextItem,)
+    assert annual_item_type is AnnualSupplyOrProductionVolumeTextItem
+
+    AnnualSupplyOrProductionVolumeTextItem.model_validate(
+        {"@xml:lang": "en", "#text": "12.5 kg reference flow"}
+    )
+
+    with pytest.raises(ValidationError):
+        AnnualSupplyOrProductionVolumeTextItem.model_validate(
+            {"@xml:lang": "en", "#text": "12.5"}
+        )
 
 
 def test_localized_text_item_rejects_en_text_with_chinese_characters() -> None:

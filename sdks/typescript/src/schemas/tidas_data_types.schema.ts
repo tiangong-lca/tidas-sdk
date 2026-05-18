@@ -58,6 +58,19 @@ export const LocalizedText500ItemSchema =
     '#text': z.string().max(500),
   }).superRefine(addLocalizedTextLanguageChecks);
 
+export const AnnualSupplyOrProductionVolumeTextItemSchema =
+  LocalizedTextItemBaseSchema.extend({
+    '#text': z
+      .string()
+      .max(500)
+      .regex(/^[+-]?(\d+(\.\d*)?|\.\d+)([Ee][+-]?\d+)?\s+\S.*$/),
+  }).superRefine(addLocalizedTextLanguageChecks);
+
+export const AnnualSupplyOrProductionVolumeMultiLangSchema = z.union([
+  z.array(AnnualSupplyOrProductionVolumeTextItemSchema),
+  AnnualSupplyOrProductionVolumeTextItemSchema,
+]);
+
 export const LocalizedText1000ItemSchema =
   LocalizedTextItemBaseSchema.extend({
     '#text': z.string().max(1000),
