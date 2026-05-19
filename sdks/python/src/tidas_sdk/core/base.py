@@ -9,12 +9,21 @@ import json
 from pathlib import Path
 from typing import Any, ClassVar, Generic, Literal, Sequence, TypeVar, cast, get_args, get_origin
 
-from jsonschema import ValidationError as JsonSchemaValidationError, validators  # type: ignore[import-untyped]
+from jsonschema import FormatChecker, ValidationError as JsonSchemaValidationError, validators  # type: ignore[import-untyped]
 from pydantic import BaseModel, ConfigDict, ValidationError as PydanticValidationError, model_validator
 from referencing import Registry, Resource
 
+from .cas_number import is_valid_cas_number
 from .multilang import MultiLangList, deep_wrap_multilang, validate_multilang_entries
 from tidas_sdk.schemas import load_schema, load_schema_store, schema_exists
+
+
+_FORMAT_CHECKER = FormatChecker()
+
+
+@_FORMAT_CHECKER.checks("cas-number")
+def _is_jsonschema_cas_number(value: object) -> bool:
+    return not isinstance(value, str) or is_valid_cas_number(value)
 
 
 class TidasBaseModel(BaseModel):
@@ -203,6 +212,7 @@ class TidasEntity(Generic[ModelT]):
             validator = validator_cls(
                 schema,
                 registry=self._build_schema_registry(),
+                format_checker=_FORMAT_CHECKER,
             )
             errors = sorted(validator.iter_errors(data), key=lambda err: list(err.path))
         except Exception as exc:

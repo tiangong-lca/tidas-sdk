@@ -164,6 +164,22 @@ function makeInvalidSourcesCategory() {
   return dir;
 }
 
+function makeInvalidCASNumberFlowPackage() {
+  const dir = makeTempDir('tidas-sdk-validate-cas-');
+  fs.mkdirSync(path.join(dir, 'flows'), { recursive: true });
+  const payload = JSON.parse(
+    fs.readFileSync(testDataPath('tidas-example-flow.json'), 'utf8')
+  );
+
+  payload.flowDataSet.flowInformation.dataSetInformation.CASNumber = '64-17-6';
+  fs.writeFileSync(
+    path.join(dir, 'flows/bad-cas.json'),
+    JSON.stringify(payload, null, 2),
+    'utf8'
+  );
+  return dir;
+}
+
 describe('package validation parity', () => {
   it('uses runtime JSON schemas for the example flow package', () => {
     const inputDir = makeFlowPackageFromExample();
@@ -213,6 +229,25 @@ describe('package validation parity', () => {
             argument: 'sourceDataSet',
           }),
           message: expect.stringContaining('sourceDataSet'),
+        }),
+      ])
+    );
+  });
+
+  it('enforces CAS number check digits through runtime JSON Schema formats', () => {
+    const inputDir = makeInvalidCASNumberFlowPackage();
+    const report = validatePackageDir(inputDir);
+
+    expect(report.ok).toBe(false);
+    expect(report.issues).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          issue_code: 'schema_error',
+          location: 'flowDataSet/flowInformation/dataSetInformation/CASNumber',
+          context: expect.objectContaining({
+            validator: 'format',
+            argument: 'cas-number',
+          }),
         }),
       ])
     );

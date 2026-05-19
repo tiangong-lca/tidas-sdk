@@ -9,6 +9,7 @@ export * from './factories';
 // Validation configuration system
 export * from './config/ValidationConfig';
 export * from './config/GlobalConfig';
+export * from './validation/cas-number';
 
 // Zod Proxy for true property access with Schema validation
 // export {

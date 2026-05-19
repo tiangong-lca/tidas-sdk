@@ -22,6 +22,7 @@ from .tidas_data_types import UUID
 from .tidas_locations_category import LocationsCategory
 from datetime import datetime
 from pydantic import AfterValidator
+from tidas_sdk.core.cas_number import validate_cas_number_check_digit
 
 class FlowInformationDataSetInformationName(TidasBaseModel):
     base_name: MultiLangList = Field(default=..., alias='baseName')

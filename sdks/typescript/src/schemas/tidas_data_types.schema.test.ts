@@ -1,8 +1,30 @@
 import {
   AnnualSupplyOrProductionVolumeMultiLangSchema,
   AnnualSupplyOrProductionVolumeTextItemSchema,
+  CASNumberSchema,
   CommonOtherSchema,
 } from './tidas_data_types.schema';
+import { ValidationUtils } from '../core/config/ValidationConfig';
+
+describe('CASNumberSchema', () => {
+  it('accepts CAS numbers with a valid check digit', () => {
+    expect(CASNumberSchema.safeParse('64-17-5').success).toBe(true);
+    expect(CASNumberSchema.safeParse('007732-18-5').success).toBe(true);
+  });
+
+  it('rejects invalid format and invalid check digits', () => {
+    expect(CASNumberSchema.safeParse('2023600').success).toBe(false);
+
+    const result = CASNumberSchema.safeParse('64-17-6');
+
+    expect(result.success).toBe(false);
+    if (!result.success) {
+      expect(
+        ValidationUtils.normalizeIssues(result.error.issues)[0]?.code
+      ).toBe('cas_number_checksum_error');
+    }
+  });
+});
 
 describe('CommonOtherSchema', () => {
   it('accepts namespace declarations plus non-common extension elements', () => {

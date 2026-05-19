@@ -1078,7 +1078,17 @@ CommonOther = Annotated[dict[str, AnyXmlElement], AfterValidator(_validate_commo
         if not scalar.definition:
             if scalar.constraints:
                 args = ", ".join(f"{k}={v}" for k, v in scalar.constraints.items())
-                scalar.definition = f"{alias} = Annotated[{scalar.base_type}, Field({args})]"
+                cas_validator_import = (
+                    "from tidas_sdk.core.cas_number import validate_cas_number_check_digit"
+                )
+                if cas_validator_import in scalar.standard_imports:
+                    scalar.definition = (
+                        f"{alias} = Annotated[{scalar.base_type}, Field({args}), "
+                        "AfterValidator(validate_cas_number_check_digit)]"
+                    )
+                    scalar.standard_imports.add("from pydantic import AfterValidator")
+                else:
+                    scalar.definition = f"{alias} = Annotated[{scalar.base_type}, Field({args})]"
                 self.typing_imports.add("Annotated")
             else:
                 scalar.definition = f"{alias} = {scalar.base_type}"
@@ -1167,6 +1177,17 @@ CommonOther = Annotated[dict[str, AnyXmlElement], AfterValidator(_validate_commo
                 return ScalarInfo(
                     base_type="time",
                     standard_imports={"from datetime import time"},
+                    description=schema.get("description"),
+                )
+            if fmt == "cas-number":
+                constraints = self._collect_constraints(schema)
+                return ScalarInfo(
+                    base_type="str",
+                    constraints=constraints,
+                    standard_imports={
+                        "from pydantic import AfterValidator",
+                        "from tidas_sdk.core.cas_number import validate_cas_number_check_digit",
+                    },
                     description=schema.get("description"),
                 )
             constraints = self._collect_constraints(schema)
