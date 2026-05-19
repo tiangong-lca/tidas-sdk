@@ -22,6 +22,13 @@ def _payload_with_required_name_fields() -> dict[str, object]:
     return payload
 
 
+def _payload_with_invalid_cas_number() -> dict[str, object]:
+    payload = _payload_with_required_name_fields()
+    data_set_info = payload["flowDataSet"]["flowInformation"]["dataSetInformation"]
+    data_set_info["CASNumber"] = "64-17-6"
+    return payload
+
+
 def test_flow_pydantic_validation_rejects_missing_required_name_fields() -> None:
     entity = create_flow(_load_payload())
 
@@ -58,3 +65,13 @@ def test_flow_jsonschema_validation_returns_validation_errors_not_execution_erro
     assert any("treatmentStandardsRoutes" in message for message in errors)
     assert any("mixAndLocationTypes" in message for message in errors)
     assert any("common:synonyms" in message for message in errors)
+
+
+def test_flow_jsonschema_validation_rejects_invalid_cas_check_digit() -> None:
+    entity = create_flow(_payload_with_invalid_cas_number())
+
+    assert entity.validate(mode="jsonschema") is False
+
+    errors = entity.jsonschema_errors()
+    assert errors
+    assert any("CASNumber" in message and "cas-number" in message for message in errors)

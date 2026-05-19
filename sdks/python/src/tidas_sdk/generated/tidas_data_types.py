@@ -14,11 +14,12 @@ from tidas_sdk.core.multilang import MultiLangList
 
 from datetime import datetime
 from pydantic import AfterValidator
+from tidas_sdk.core.cas_number import validate_cas_number_check_digit
 
 CHINESE_CHARACTER_PATTERN = re.compile(r'[\u3400-\u4DBF\u4E00-\u9FFF\uF900-\uFAFF]')
 
 # CAS Number, leading zeros are requried.
-CASNumber = Annotated[str, Field(pattern='^[0-9]{2,7}-[0-9]{2}-[0-9]$')]
+CASNumber = Annotated[str, Field(pattern='^[0-9]{2,7}-[0-9]{2}-[0-9]$'), AfterValidator(validate_cas_number_check_digit)]
 # Free text with an unlimited length.
 FT = str
 # 1-digit integer number

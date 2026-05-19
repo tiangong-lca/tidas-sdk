@@ -8,6 +8,7 @@
  * CAS Number, leading zeros are requried.
  *
  * @pattern ^[0-9]{2,7}-[0-9]{2}-[0-9]$
+ * @format cas-number
  */
 export type CASNumber = string;
 /**

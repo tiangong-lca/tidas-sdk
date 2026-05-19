@@ -208,6 +208,7 @@ async function postProcessZodSchema(schemaFile: string): Promise<void> {
     console.log('   ℹ️  Applying manual optimizations for tidas_data_types');
 
     let manualOptimizations = applyLocalizedTextSchemaOverrides(content);
+    manualOptimizations = applyCASNumberSchemaOverrides(manualOptimizations);
 
     manualOptimizations = manualOptimizations.replace(
       /export const StringMultiLangSchema = z\.union\(\[[\s\S]*?\]\);/,
@@ -389,6 +390,43 @@ export const LocalizedTextItemSchema = LocalizedTextItemBaseSchema.superRefine(
   );
 
   return updatedContent;
+}
+
+function applyCASNumberSchemaOverrides(content: string): string {
+  const helperImport = `import {
+  CAS_NUMBER_CHECKSUM_ERROR_CODE,
+  CAS_NUMBER_PATTERN,
+  isValidCASNumber,
+} from './../core/validation/cas-number';`;
+
+  let updatedContent = content;
+  if (!updatedContent.includes("from './../core/validation/cas-number'")) {
+    updatedContent = updatedContent.replace(
+      "import { z } from 'zod';\n",
+      `import { z } from 'zod';\n${helperImport}\n`
+    );
+  }
+
+  return replaceExportedSchema(
+    updatedContent,
+    'CASNumberSchema',
+    `export const CASNumberSchema = z
+  .string()
+  .regex(CAS_NUMBER_PATTERN)
+  .superRefine((value, ctx) => {
+    if (!CAS_NUMBER_PATTERN.test(value) || isValidCASNumber(value)) {
+      return;
+    }
+
+    ctx.addIssue({
+      code: z.ZodIssueCode.custom,
+      message: 'CASNumber check digit is invalid',
+      params: {
+        validationCode: CAS_NUMBER_CHECKSUM_ERROR_CODE,
+      },
+    });
+  });`
+  );
 }
 
 function applyCommonOtherSchemaOverrides(content: string): string {

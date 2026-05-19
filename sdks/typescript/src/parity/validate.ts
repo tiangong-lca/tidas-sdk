@@ -7,6 +7,7 @@ import {
   type ValidationError,
   Validator,
 } from 'jsonschema';
+import { isValidCASNumber } from '../core/validation/cas-number';
 import { resolveRuntimeAssetDir } from '../tools/runtime-assets';
 import { SUPPORTED_CATEGORIES, type SupportedCategory } from './constants';
 import {
@@ -78,6 +79,8 @@ function loadSchemaRegistry(baseDir = __dirname): LoadedSchemaRegistry {
   }
 
   const validator = new Validator();
+  validator.customFormats['cas-number'] = (input: unknown) =>
+    typeof input !== 'string' || isValidCASNumber(input);
   const rootSchemas = new Map<SupportedCategory, JsonSchema>();
 
   for (const fileName of readdirSync(schemasDir).sort()) {
