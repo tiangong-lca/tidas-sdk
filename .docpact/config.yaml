@@ -72,6 +72,7 @@ ownership:
       paths:
         include:
           - .githooks/**
+          - scripts/docpact
           - scripts/docpact-gate.sh
           - scripts/install-git-hooks.sh
       ownerRepo: tidas-sdk
@@ -79,6 +80,7 @@ ownership:
 coverage:
   include:
     - .githooks/**
+    - scripts/docpact
     - scripts/docpact-gate.sh
     - scripts/install-git-hooks.sh
     - AGENTS.md
@@ -139,6 +141,7 @@ routing:
     local-docpact-gate:
       paths:
         - .githooks/pre-push
+        - scripts/docpact
         - scripts/docpact-gate.sh
         - scripts/install-git-hooks.sh
     typescript-sdk:
@@ -416,6 +419,8 @@ rules:
     triggers:
       - path: .githooks/pre-push
         kind: local-git-hook
+      - path: scripts/docpact
+        kind: local-automation
       - path: scripts/docpact-gate.sh
         kind: local-automation
       - path: scripts/install-git-hooks.sh
