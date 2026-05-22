@@ -1,3 +1,28 @@
+---
+title: TIDAS SDKs
+docType: guide
+scope: repo
+status: active
+authoritative: false
+owner: tidas-sdk
+language: en
+whenToUse:
+  - when getting oriented to the tidas-sdk repository
+  - when looking for package locations, setup commands, or verification entrypoints
+whenToUpdate:
+  - when package status, setup commands, generation flow, or verification entrypoints change
+checkPaths:
+  - README.md
+  - AGENTS.md
+  - docs/agents/repo-validation.md
+  - docs/agents/repo-architecture.md
+  - sdks/typescript/**
+  - sdks/python/**
+  - scripts/ci/**
+lastReviewedAt: 2026-05-22
+lastReviewedCommit: 893aa12cab10d0a6791e8c8aa42bb2624d665ee8
+---
+
 # TIDAS SDKs
 
 A multi-language SDK repository for TIDAS (TianGong Life Cycle Assessment data format), providing the generated TypeScript package, the in-repo Python SDK, and the automation that refreshes and releases them from `tidas-tools`.

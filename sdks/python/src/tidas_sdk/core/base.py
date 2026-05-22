@@ -1,22 +1,41 @@
 """
 Core abstractions shared by all generated entities.
 """
+
 from __future__ import annotations
 
 from collections.abc import Mapping, MutableSequence
 from copy import deepcopy
+from dataclasses import dataclass
+from functools import lru_cache
 import json
 from pathlib import Path
-from typing import Any, ClassVar, Generic, Literal, Sequence, TypeVar, cast, get_args, get_origin
+from typing import (
+    Any,
+    ClassVar,
+    Generic,
+    Literal,
+    Protocol,
+    Sequence,
+    TypeVar,
+    cast,
+    get_args,
+    get_origin,
+)
 
+import fastjsonschema  # type: ignore[import-untyped]
 from jsonschema import FormatChecker, ValidationError as JsonSchemaValidationError, validators  # type: ignore[import-untyped]
-from pydantic import BaseModel, ConfigDict, ValidationError as PydanticValidationError, model_validator
+from pydantic import (
+    BaseModel,
+    ConfigDict,
+    ValidationError as PydanticValidationError,
+    model_validator,
+)
 from referencing import Registry, Resource
 
 from .cas_number import is_valid_cas_number
 from .multilang import MultiLangList, deep_wrap_multilang, validate_multilang_entries
 from tidas_sdk.schemas import load_schema, load_schema_store, schema_exists
-
 
 _FORMAT_CHECKER = FormatChecker()
 
@@ -54,6 +73,98 @@ class TidasBaseModel(BaseModel):
 ModelT = TypeVar("ModelT", bound=TidasBaseModel)
 
 ValidationMode = Literal["pydantic", "jsonschema", "both"]
+
+
+class FastJsonSchemaValidator(Protocol):
+    def __call__(self, data: Any) -> Any:
+        """
+        Validate data and return the validated payload when it passes.
+        """
+
+
+@dataclass(frozen=True)
+class JsonSchemaValidators:
+    strict_validator: Any
+    fast_validator: FastJsonSchemaValidator | None
+
+
+def _fast_jsonschema_schema_handler(uri: str) -> dict[str, Any]:
+    schema_name = Path(uri.split("#", 1)[0]).name
+    if not schema_name:
+        raise fastjsonschema.JsonSchemaDefinitionException(
+            f"Unsupported empty schema reference: {uri}"
+        )
+    schema = load_schema(schema_name)
+    return _normalize_fast_jsonschema_schema({**schema, "$id": schema_name})
+
+
+def _normalize_fast_jsonschema_schema(node: Any) -> Any:
+    if isinstance(node, dict):
+        normalized = {
+            key: _normalize_fast_jsonschema_schema(value) for key, value in node.items()
+        }
+        if normalized.get("then") == {}:
+            normalized.pop("then")
+        if normalized.get("else") == {}:
+            normalized.pop("else")
+        return normalized
+    if isinstance(node, list):
+        return [_normalize_fast_jsonschema_schema(value) for value in node]
+    return node
+
+
+@lru_cache(maxsize=1)
+def _fast_jsonschema_handlers() -> dict[str, Any]:
+    handlers: dict[str, Any] = {"": _fast_jsonschema_schema_handler}
+    for schema_name in load_schema_store():
+        if not schema_name.endswith(".json"):
+            continue
+        normalized_name = Path(schema_name).name
+        handlers[normalized_name] = _fast_jsonschema_schema_handler
+        handlers[f"./{normalized_name}"] = _fast_jsonschema_schema_handler
+    return handlers
+
+
+def _compile_fast_jsonschema_definition(
+    schema_name: str, schema_definition: dict[str, Any]
+) -> FastJsonSchemaValidator:
+    schema = _normalize_fast_jsonschema_schema(
+        {**schema_definition, "$id": schema_name}
+    )
+    return cast(
+        FastJsonSchemaValidator,
+        fastjsonschema.compile(
+            schema,
+            handlers=_fast_jsonschema_handlers(),
+            formats={"cas-number": _is_jsonschema_cas_number},
+            use_default=False,
+        ),
+    )
+
+
+@lru_cache(maxsize=1)
+def _build_cached_schema_registry() -> Registry:
+    registry = Registry()
+    for uri, schema in load_schema_store().items():
+        registry = registry.with_resource(uri, Resource.from_contents(schema))
+    return registry
+
+
+@lru_cache(maxsize=None)
+def _get_jsonschema_validator(schema_name: str) -> JsonSchemaValidators:
+    schema = load_schema(schema_name)
+    validator_cls = validators.validator_for(schema)
+    validator_cls.check_schema(schema)
+    strict_validator = validator_cls(
+        schema,
+        registry=_build_cached_schema_registry(),
+        format_checker=_FORMAT_CHECKER,
+    )
+    try:
+        fast_validator = _compile_fast_jsonschema_definition(schema_name, schema)
+    except Exception:
+        fast_validator = None
+    return JsonSchemaValidators(strict_validator, fast_validator)
 
 
 class TidasEntity(Generic[ModelT]):
@@ -169,7 +280,9 @@ class TidasEntity(Generic[ModelT]):
         """
         Access the cached validation error from the previous run (if any).
         """
-        return cast(PydanticValidationError | None, getattr(self, "_last_pydantic_error", None))
+        return cast(
+            PydanticValidationError | None, getattr(self, "_last_pydantic_error", None)
+        )
 
     def jsonschema_errors(self) -> list[str] | None:
         """
@@ -206,15 +319,21 @@ class TidasEntity(Generic[ModelT]):
             return False
 
         try:
-            schema = load_schema(schema_name)
-            validator_cls = validators.validator_for(schema)
-            validator_cls.check_schema(schema)
-            validator = validator_cls(
-                schema,
-                registry=self._build_schema_registry(),
-                format_checker=_FORMAT_CHECKER,
+            validator = _get_jsonschema_validator(schema_name)
+            if validator.fast_validator is not None:
+                try:
+                    validator.fast_validator(data)
+                    object.__setattr__(self, "_last_jsonschema_errors", [])
+                    return True
+                except fastjsonschema.JsonSchemaValueException:
+                    pass
+                except fastjsonschema.JsonSchemaException:
+                    pass
+
+            errors = sorted(
+                validator.strict_validator.iter_errors(data),
+                key=lambda err: list(err.path),
             )
-            errors = sorted(validator.iter_errors(data), key=lambda err: list(err.path))
         except Exception as exc:
             object.__setattr__(
                 self,
@@ -246,10 +365,7 @@ class TidasEntity(Generic[ModelT]):
 
     @staticmethod
     def _build_schema_registry() -> Registry:
-        registry = Registry()
-        for uri, schema in load_schema_store().items():
-            registry = registry.with_resource(uri, Resource.from_contents(schema))
-        return registry
+        return _build_cached_schema_registry()
 
     # -- loading helpers ------------------------------------------------------------------
 
@@ -353,11 +469,15 @@ class TidasEntity(Generic[ModelT]):
             if nested_cls is None:
                 return value
             return [
-                nested_cls.model_construct(
-                    **self._prepare_partial_payload(nested_cls, cast(Mapping[str, Any], item))
+                (
+                    nested_cls.model_construct(
+                        **self._prepare_partial_payload(
+                            nested_cls, cast(Mapping[str, Any], item)
+                        )
+                    )
+                    if isinstance(item, Mapping)
+                    else item
                 )
-                if isinstance(item, Mapping)
-                else item
                 for item in value
             ]
         return value
@@ -406,7 +526,9 @@ class TidasEntity(Generic[ModelT]):
             return value
         if isinstance(value, TidasBaseModel):
             return self._collect_runtime_payload(value)
-        if isinstance(value, Sequence) and not isinstance(value, (str, bytes, bytearray)):
+        if isinstance(value, Sequence) and not isinstance(
+            value, (str, bytes, bytearray)
+        ):
             items: list[Any] = []
             for item in value:
                 if isinstance(item, MultiLangList):
