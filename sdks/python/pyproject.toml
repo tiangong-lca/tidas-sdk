@@ -1,6 +1,6 @@
 [project]
 name = "tidas-sdk"
-version = "0.2.9"
+version = "0.2.10"
 description = "Python SDK for TIDAS/ILCD Life Cycle Assessment data"
 authors = [{ name = "Tiangong LCA Team" }]
 license = { text = "MIT" }
@@ -11,6 +11,7 @@ dependencies = [
     "loguru>=0.7.0",
     "typing-extensions>=4.0.0; python_version<'3.10'",
     "jsonschema>=4.19.0",
+    "fastjsonschema>=2.21.2",
 ]
 keywords = ["tidas", "ilcd", "lca", "life-cycle-assessment"]
 

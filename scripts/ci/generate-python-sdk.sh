@@ -73,7 +73,7 @@ validate_inputs() {
 check_dependencies() {
     step "Checking dependencies..."
     if command -v uv >/dev/null 2>&1; then
-        PYTHON_RUNNER=(uv run python)
+        PYTHON_RUNNER=(uv --directory "$PYTHON_SDK_ROOT" run python)
     elif command -v python3 >/dev/null 2>&1; then
         PYTHON_RUNNER=(python3)
     else

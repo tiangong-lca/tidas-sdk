@@ -4,20 +4,30 @@ import json
 from copy import deepcopy
 from pathlib import Path
 
-from tidas_sdk import create_flow
+import fastjsonschema
+import pytest
 
+from tidas_sdk import create_flow
+from tidas_sdk.core.base import (
+    _compile_fast_jsonschema_definition,
+    _get_jsonschema_validator,
+)
 
 FIXTURES_DIR = Path(__file__).resolve().parent / "fixtures"
 
 
 def _load_payload() -> dict[str, object]:
-    return json.loads((FIXTURES_DIR / "flow-validation-parity.json").read_text(encoding="utf-8"))
+    return json.loads(
+        (FIXTURES_DIR / "flow-validation-parity.json").read_text(encoding="utf-8")
+    )
 
 
 def _payload_with_required_name_fields() -> dict[str, object]:
     payload = deepcopy(_load_payload())
     name = payload["flowDataSet"]["flowInformation"]["dataSetInformation"]["name"]
-    name["treatmentStandardsRoutes"] = [{"@xml:lang": "en", "#text": "tar, syngas, char"}]
+    name["treatmentStandardsRoutes"] = [
+        {"@xml:lang": "en", "#text": "tar, syngas, char"}
+    ]
     name["mixAndLocationTypes"] = [{"@xml:lang": "en", "#text": "at plant"}]
     return payload
 
@@ -38,7 +48,10 @@ def test_flow_pydantic_validation_rejects_missing_required_name_fields() -> None
     assert error is not None
 
     rendered = str(error)
-    assert "treatmentStandardsRoutes" in rendered or "treatment_standards_routes" in rendered
+    assert (
+        "treatmentStandardsRoutes" in rendered
+        or "treatment_standards_routes" in rendered
+    )
     assert "mixAndLocationTypes" in rendered or "mix_and_location_types" in rendered
 
 
@@ -52,14 +65,18 @@ def test_flow_pydantic_validation_rejects_invalid_localized_text() -> None:
     assert "must not contain Chinese characters" in str(error)
 
 
-def test_flow_jsonschema_validation_returns_validation_errors_not_execution_errors() -> None:
+def test_flow_jsonschema_validation_returns_validation_errors_not_execution_errors() -> (
+    None
+):
     entity = create_flow(_load_payload())
 
     assert entity.validate(mode="jsonschema") is False
 
     errors = entity.jsonschema_errors()
     assert errors
-    assert all("Schema validation failed to execute" not in message for message in errors)
+    assert all(
+        "Schema validation failed to execute" not in message for message in errors
+    )
     assert all("None is not of type 'string'" not in message for message in errors)
     assert all("datetime.datetime" not in message for message in errors)
     assert any("treatmentStandardsRoutes" in message for message in errors)
@@ -75,3 +92,44 @@ def test_flow_jsonschema_validation_rejects_invalid_cas_check_digit() -> None:
     errors = entity.jsonschema_errors()
     assert errors
     assert any("CASNumber" in message and "cas-number" in message for message in errors)
+
+
+def test_flow_jsonschema_validator_is_cached_with_fast_path() -> None:
+    validator = _get_jsonschema_validator("tidas_flows.json")
+
+    assert validator is _get_jsonschema_validator("tidas_flows.json")
+    assert validator.fast_validator is not None
+
+
+def test_fast_jsonschema_validation_supports_refs_and_cas_format() -> None:
+    validator = _compile_fast_jsonschema_definition(
+        "test_schema.json",
+        {
+            "$schema": "http://json-schema.org/draft-07/schema#",
+            "type": "object",
+            "properties": {"cas": {"$ref": "tidas_data_types.json#/$defs/CASNumber"}},
+            "required": ["cas"],
+        },
+    )
+
+    assert validator({"cas": "64-17-5"}) == {"cas": "64-17-5"}
+
+    with pytest.raises(fastjsonschema.JsonSchemaValueException) as exc_info:
+        validator({"cas": "64-17-6"})
+
+    assert exc_info.value.rule == "format"
+
+
+def test_fast_jsonschema_validation_does_not_apply_defaults() -> None:
+    validator = _compile_fast_jsonschema_definition(
+        "test_defaults.json",
+        {
+            "$schema": "http://json-schema.org/draft-07/schema#",
+            "type": "object",
+            "properties": {"name": {"type": "string", "default": "generated"}},
+        },
+    )
+    payload: dict[str, object] = {}
+
+    assert validator(payload) == {}
+    assert payload == {}
