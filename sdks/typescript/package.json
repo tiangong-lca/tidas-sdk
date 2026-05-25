@@ -1,6 +1,6 @@
 {
   "name": "@tiangong-lca/tidas-sdk",
-  "version": "0.1.40",
+  "version": "0.1.41",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "module": "./dist/index.js",
@@ -114,9 +114,7 @@
     "node": ">=24.0.0"
   },
   "dependencies": {
-    "@langchain/core": "^0.3.72",
     "jsonschema": "^1.5.0",
-    "langchain": "^0.3.31",
     "ts-to-zod": "^3.15.0",
     "xmltodict": "^1.0.5",
     "yaml": "^2.8.1",

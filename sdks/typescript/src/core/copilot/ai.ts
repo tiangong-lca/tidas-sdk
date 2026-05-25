@@ -1,6 +1,3 @@
-import { ChatOpenAI } from '@langchain/openai';
-import { PromptTemplate } from '@langchain/core/prompts';
-import { JsonOutputParser } from '@langchain/core/output_parsers';
 import {
   generateSchema,
   validateSchema,
@@ -14,63 +11,299 @@ import {
   availableMethodologies,
 } from './base';
 
+type ChatRole = 'system' | 'user' | 'assistant';
+
+type ChatMessage = {
+  role: ChatRole;
+  content: string;
+};
+
+type ChatCompletionOptions = {
+  temperature?: number;
+};
+
+type OpenAIChatResult = {
+  text: string;
+  raw: unknown;
+};
+
+const DEFAULT_OPENAI_BASE_URL = 'https://api.openai.com/v1';
+const DEFAULT_OPENAI_CHAT_MODEL = 'gpt-4.1-mini';
+const DEFAULT_REQUEST_TIMEOUT_MS = 120_000;
+
 /**
  * Model configuration object
  * @param model - The model to use
  * @param apiKey - The API key to use
- * @param baseURL - The base URL to use
+ * @param baseURL - The OpenAI-compatible base URL to use
+ * @param baseUrl - Alias for baseURL
+ * @param temperature - Sampling temperature for chat completions
+ * @param timeoutMs - Request timeout in milliseconds
  */
 export type ModelConfig = {
   model?: string;
   apiKey?: string;
   baseURL?: string;
+  baseUrl?: string;
+  temperature?: number;
+  timeoutMs?: number;
 };
 
-async function getModel(modelConfig: ModelConfig) {
-  const chat_model = new ChatOpenAI({
-    model: modelConfig.model || process.env.OPENAI_CHAT_MODEL,
-    configuration: {
-      apiKey: modelConfig.apiKey || process.env.OPENAI_API_KEY,
-      baseURL: modelConfig.baseURL || process.env.OPENAI_BASE_URL,
-    },
-  });
-  return chat_model;
+function getConfiguredApiKey(modelConfig: ModelConfig): string {
+  const apiKey = modelConfig.apiKey || process.env.OPENAI_API_KEY;
+  if (!apiKey) {
+    throw new Error('Missing OPENAI_API_KEY environment variable');
+  }
+  return apiKey;
+}
+
+function getConfiguredBaseUrl(modelConfig: ModelConfig): string {
+  return (
+    modelConfig.baseURL ||
+    modelConfig.baseUrl ||
+    process.env.OPENAI_BASE_URL ||
+    DEFAULT_OPENAI_BASE_URL
+  );
+}
+
+function getConfiguredModel(modelConfig: ModelConfig): string {
+  return (
+    modelConfig.model ||
+    process.env.OPENAI_CHAT_MODEL ||
+    DEFAULT_OPENAI_CHAT_MODEL
+  );
+}
+
+function resolveChatCompletionsUrl(baseUrl: string): string {
+  const trimmed = baseUrl.replace(/\/+$/, '');
+  if (/\/chat\/completions$/i.test(trimmed)) {
+    return trimmed;
+  }
+  return `${trimmed}/chat/completions`;
+}
+
+function readTextContent(content: unknown): string {
+  if (typeof content === 'string') {
+    return content;
+  }
+
+  if (!Array.isArray(content)) {
+    return '';
+  }
+
+  return content
+    .map((part) => {
+      if (typeof part === 'string') {
+        return part;
+      }
+
+      if (!part || typeof part !== 'object') {
+        return '';
+      }
+
+      const partRecord = part as Record<string, unknown>;
+      if (typeof partRecord.text === 'string') {
+        return partRecord.text;
+      }
+
+      if (typeof partRecord.content === 'string') {
+        return partRecord.content;
+      }
+
+      return '';
+    })
+    .join('');
+}
+
+function extractOutputText(response: unknown): string {
+  if (!response || typeof response !== 'object') {
+    return '';
+  }
+
+  const asRecord = response as Record<string, unknown>;
+  const outputText = asRecord.output_text;
+  if (typeof outputText === 'string' && outputText.trim()) {
+    return outputText.trim();
+  }
+
+  const choices = asRecord.choices;
+  if (Array.isArray(choices)) {
+    for (const choice of choices) {
+      if (!choice || typeof choice !== 'object') {
+        continue;
+      }
+
+      const choiceRecord = choice as Record<string, unknown>;
+      const message = choiceRecord.message;
+      if (message && typeof message === 'object') {
+        const content = (message as Record<string, unknown>).content;
+        const text = readTextContent(content).trim();
+        if (text) {
+          return text;
+        }
+      }
+
+      const text = readTextContent(choiceRecord.text).trim();
+      if (text) {
+        return text;
+      }
+    }
+  }
+
+  const output = asRecord.output;
+  if (Array.isArray(output)) {
+    for (const item of output) {
+      if (!item || typeof item !== 'object') {
+        continue;
+      }
+
+      const content = (item as Record<string, unknown>).content;
+      const text = readTextContent(content).trim();
+      if (text) {
+        return text;
+      }
+    }
+  }
+
+  return '';
+}
+
+async function openAICompatibleChat(
+  messages: ChatMessage[],
+  modelConfig: ModelConfig = {},
+  options: ChatCompletionOptions = {}
+): Promise<OpenAIChatResult> {
+  const apiKey = getConfiguredApiKey(modelConfig);
+  const url = resolveChatCompletionsUrl(getConfiguredBaseUrl(modelConfig));
+  const timeoutMs = modelConfig.timeoutMs ?? DEFAULT_REQUEST_TIMEOUT_MS;
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), timeoutMs);
+
+  const requestBody = {
+    model: getConfiguredModel(modelConfig),
+    messages,
+    temperature: options.temperature ?? modelConfig.temperature ?? 0,
+  };
+
+  try {
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${apiKey}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(requestBody),
+      signal: controller.signal,
+    });
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      throw new Error(
+        `OpenAI-compatible chat completion request failed: ${response.status} ${response.statusText}: ${errorText.substring(0, 1000)}`
+      );
+    }
+
+    const raw = (await response.json()) as unknown;
+    const text = extractOutputText(raw);
+    if (!text) {
+      throw new Error('OpenAI-compatible response did not contain output text');
+    }
+
+    return { text, raw };
+  } finally {
+    clearTimeout(timeout);
+  }
+}
+
+class OpenAICompatibleChatModel {
+  constructor(private readonly modelConfig: ModelConfig) {}
+
+  async invoke(
+    input: string | ChatMessage[],
+    options?: ChatCompletionOptions
+  ): Promise<{ content: string; raw: unknown }> {
+    const messages =
+      typeof input === 'string'
+        ? [{ role: 'user' as const, content: input }]
+        : input;
+    const result = await openAICompatibleChat(
+      messages,
+      this.modelConfig,
+      options
+    );
+    return { content: result.text, raw: result.raw };
+  }
+}
+
+async function getModel(modelConfig: ModelConfig = {}) {
+  return new OpenAICompatibleChatModel(modelConfig);
+}
+
+function stripSingleCodeFence(text: string): string {
+  const trimmed = text.trim();
+  const fenced = trimmed.match(/^```(?:json)?\s*([\s\S]*?)\s*```$/i);
+  return fenced?.[1] ? fenced[1].trim() : trimmed;
+}
+
+function parseJsonValue(text: string): any {
+  const normalized = stripSingleCodeFence(text);
+  const candidates = [normalized];
+  const objectStart = normalized.indexOf('{');
+  const objectEnd = normalized.lastIndexOf('}');
+  if (objectStart >= 0 && objectEnd > objectStart) {
+    candidates.push(normalized.slice(objectStart, objectEnd + 1));
+  }
+
+  const arrayStart = normalized.indexOf('[');
+  const arrayEnd = normalized.lastIndexOf(']');
+  if (arrayStart >= 0 && arrayEnd > arrayStart) {
+    candidates.push(normalized.slice(arrayStart, arrayEnd + 1));
+  }
+
+  let lastError: unknown;
+  for (const candidate of [...new Set(candidates)]) {
+    try {
+      return JSON.parse(candidate);
+    } catch (error) {
+      lastError = error;
+    }
+  }
+
+  console.error('Invalid JSON format Error:', JSON.stringify(lastError));
+  throw new Error(`Invalid JSON format: ${normalized.substring(0, 100)}...`);
 }
 
 /**
  * Custom extractor
  *
- * Extracts JSON content from a string where
- * JSON is embedded between ```json and ``` tags.
+ * Extracts JSON content from a string or model response. It accepts fenced JSON
+ * blocks and direct JSON so OpenAI-compatible providers do not need a heavyweight
+ * output parser dependency.
  */
 const extractJson = (output: any, schema: Schema, returnSingle = true): any => {
-  const text =
-    typeof output === 'string'
-      ? output
-      : ((output.content || output.toString()) as string);
+  if (typeof output !== 'string') {
+    if (validateSchema(output, schema)) {
+      return output;
+    }
+
+    if (output && typeof output === 'object' && 'content' in output) {
+      output = (output as { content?: unknown }).content;
+    }
+  }
+
+  const text = typeof output === 'string' ? output : JSON.stringify(output);
   // Define the regular expression pattern to match JSON blocks
-  const pattern = /```json(.*?)```/gs;
+  const pattern = /```(?:json)?\s*([\s\S]*?)```/gi;
 
   // Find all non-overlapping matches of the pattern in the string
-  const matches = text.match(pattern);
-
-  if (!matches || matches.length === 0) {
-    throw new Error('No JSON blocks found in AI response');
-  }
+  const matches = [...text.matchAll(pattern)];
+  const jsonBlocks =
+    matches.length > 0 ? matches.map((match) => match[1] || '') : [text];
 
   // Process each match, attempting to parse it as JSON
   try {
-    const results = matches.map((match) => {
-      // Remove the markdown code block syntax to isolate the JSON string
-      const jsonStr = match.replace(/```json|```/g, '').trim();
-
-      let jsonData;
-      try {
-        jsonData = JSON.parse(jsonStr);
-      } catch (parseError) {
-        console.error('Invalid JSON format Error:', JSON.stringify(parseError));
-        throw new Error(`Invalid JSON format: ${jsonStr.substring(0, 100)}...`);
-      }
+    const results = jsonBlocks.map((jsonStr) => {
+      const jsonData = parseJsonValue(jsonStr);
 
       const isValid = validateSchema(jsonData, schema);
       if (!isValid) {
@@ -111,18 +344,24 @@ async function fixJsonDataWithAI(
     `;
   const schema = generateSchema(originalData);
   const model = await getModel(modelConfig || {});
-  const parser = new JsonOutputParser();
-  const prompt = new PromptTemplate({
-    template: fixPrompt,
-    inputVariables: ['originalData', 'data', 'schema'],
-  });
-  const chain = prompt.pipe(model).pipe(parser);
-  const result = await chain.invoke({
-    originalData: JSON.stringify(originalData),
-    data: JSON.stringify(data),
-    schema: JSON.stringify(schema),
-  });
-  return extractJson(result, schema);
+  const result = await model.invoke(
+    [
+      {
+        role: 'system',
+        content:
+          'You repair JSON while preserving the exact structure described by the provided schema.',
+      },
+      {
+        role: 'user',
+        content: fixPrompt
+          .replace('{originalData}', JSON.stringify(originalData))
+          .replace('{data}', JSON.stringify(data))
+          .replace('{schema}', JSON.stringify(schema)),
+      },
+    ],
+    { temperature: 0 }
+  );
+  return extractJson(result.content, schema);
 }
 
 /**
@@ -280,36 +519,36 @@ Make sure to wrap the answer in \`\`\`json and \`\`\` tags
 
 `;
 
-  // Initialize the AI model
-  const model = await getModel(modelConfig || {});
-
-  // Create the prompt template with input variables
-  const prompt = new PromptTemplate({
-    template: suggestPrompt,
-    inputVariables: ['data', 'methodology', 'schema'],
-  });
-
   // Generate schema from the input data to ensure structure preservation
   const schema = generateSchema(data);
 
-  // Create parser for JSON output
-  const parser = new JsonOutputParser();
-
-  // Build the processing chain
-  const chain = prompt.pipe(model).pipe(parser);
+  // Initialize the AI model
+  const model = await getModel(modelConfig || {});
 
   // Invoke the AI model with the formatted inputs
-  const result = await chain.invoke({
-    data: JSON.stringify(data),
-    methodology: JSON.stringify(methodology),
-    schema: JSON.stringify(schema),
-  });
+  const result = await model.invoke(
+    [
+      {
+        role: 'system',
+        content:
+          'You improve TIDAS/LCA JSON content and return only valid JSON with the original structure preserved.',
+      },
+      {
+        role: 'user',
+        content: suggestPrompt
+          .replace('{data}', JSON.stringify(data))
+          .replace('{methodology}', JSON.stringify(methodology))
+          .replace('{schema}', JSON.stringify(schema)),
+      },
+    ],
+    { temperature: modelConfig?.temperature ?? 0 }
+  );
 
   // Log performance metrics
   const endTime = Date.now();
   console.log(`Suggestion took ${endTime - startTime}ms`);
 
-  return result;
+  return extractJson(result.content, schema);
 }
 
 /**
@@ -392,102 +631,58 @@ Provide a detailed review with the following structure:
 
 Output your answer as JSON in this exact format:
 \`\`\`json
-{{
+{
   "review_comment": "Your detailed review here",
   "review_score": 75
-}}
+}
 \`\`\`
 `;
 
-  // Initialize the AI model with structured output
+  // Initialize the AI model
   const model = await getModel(modelConfig || {});
-
-  // Define the output schema using Zod
-  const { z } = await import('zod');
-  const reviewSchema = z.object({
-    review_comment: z
-      .string()
-      .describe(
-        'Detailed review comment with compliance assessment and suggestions'
-      ),
-    review_score: z
-      .number()
-      .min(0)
-      .max(100)
-      .describe('Compliance score from 0-100'),
-  });
-
-  // Configure model with structured output
-  const modelWithStructure = model.withStructuredOutput(reviewSchema, {
-    name: 'review_output',
-  });
-
-  // Create the prompt template with input variables
-  const prompt = new PromptTemplate({
-    template: reviewPrompt,
-    inputVariables: ['data', 'methodology'],
-  });
-
-  // Build the processing chain
-  const chain = prompt.pipe(modelWithStructure);
+  const reviewSchema: Schema = {
+    type: 'object',
+    properties: {
+      review_comment: { type: 'string' },
+      review_score: { type: 'number' },
+    },
+  };
 
   try {
     // Invoke the AI model with the formatted inputs
-    const result = await chain.invoke({
-      data: JSON.stringify(data, null, 2),
-      methodology: JSON.stringify(methodology, null, 2),
-    });
+    const result = await model.invoke(
+      [
+        {
+          role: 'system',
+          content:
+            'You review TIDAS/LCA JSON against methodology rules and return only valid JSON.',
+        },
+        {
+          role: 'user',
+          content: reviewPrompt
+            .replace('{data}', JSON.stringify(data, null, 2))
+            .replace('{methodology}', JSON.stringify(methodology, null, 2)),
+        },
+      ],
+      { temperature: modelConfig?.temperature ?? 0 }
+    );
+    const parsed = extractJson(result.content, reviewSchema) as {
+      review_comment: string;
+      review_score: number;
+    };
+
+    if (parsed.review_score < 0 || parsed.review_score > 100) {
+      throw new Error('Review score must be between 0 and 100');
+    }
 
     // Log performance metrics
     const endTime = Date.now();
     console.log(`Review completed in ${endTime - startTime}ms`);
-    console.log(`Review score: ${result.review_score}/100`);
+    console.log(`Review score: ${parsed.review_score}/100`);
 
-    return result;
+    return parsed;
   } catch (error) {
-    console.error('Review failed:', error);
-
-    // Fallback to parsing from regular output if structured output fails
-    try {
-      const prompt = new PromptTemplate({
-        template: reviewPrompt,
-        inputVariables: ['data', 'methodology'],
-      });
-
-      const chain = prompt.pipe(model);
-      const result = await chain.invoke({
-        data: JSON.stringify(data, null, 2),
-        methodology: JSON.stringify(methodology, null, 2),
-      });
-
-      // Extract JSON from the response
-      const text = result.content as string;
-      const jsonMatch = text.match(/```json\s*([\s\S]*?)\s*```/);
-      if (jsonMatch && jsonMatch[1]) {
-        const parsed = JSON.parse(jsonMatch[1]);
-
-        // Validate the structure
-        if (
-          typeof parsed.review_comment === 'string' &&
-          typeof parsed.review_score === 'number' &&
-          parsed.review_score >= 0 &&
-          parsed.review_score <= 100
-        ) {
-          const endTime = Date.now();
-          console.log(
-            `Review completed in ${endTime - startTime}ms (fallback mode)`
-          );
-          console.log(`Review score: ${parsed.review_score}/100`);
-          return parsed;
-        }
-      }
-
-      throw new Error(
-        'Failed to extract valid review structure from AI response'
-      );
-    } catch (fallbackError) {
-      throw new Error(`Review failed: ${(fallbackError as Error).message}`);
-    }
+    throw new Error(`Review failed: ${(error as Error).message}`);
   }
 }
 
@@ -525,6 +720,7 @@ export async function suggestEntireObject(
   options?: {
     skipPaths?: string[];
     maxRetries?: number;
+    modelConfig?: ModelConfig;
   }
 ): Promise<any> {
   const startTime = Date.now();
@@ -629,7 +825,11 @@ export async function suggestEntireObject(
       // Apply suggestion with retry
       for (let retry = 1; retry <= opts.maxRetries; retry++) {
         try {
-          const suggestedValue = await suggest(currentValue, rule);
+          const suggestedValue = await suggest(
+            currentValue,
+            rule,
+            opts.modelConfig
+          );
 
           // Validate structure is preserved
           const originalSchema = generateSchema(currentValue);

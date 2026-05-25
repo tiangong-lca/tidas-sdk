@@ -217,6 +217,7 @@ export async function suggestData(
         {
           skipPaths: options?.skipPaths,
           maxRetries: options?.maxRetries,
+          modelConfig: options?.modelConfig,
         }
       );
 
