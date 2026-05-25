@@ -488,6 +488,7 @@ export abstract class TidasEntity<T = any> {
         {
           skipPaths: options?.skipPaths,
           maxRetries: options?.maxRetries,
+          modelConfig: options?.modelConfig,
         }
       );
 

@@ -288,6 +288,9 @@ import { createProcess, suggestData } from '@tiangong-lca/tidas-sdk';
 
 // 设置 OpenAI API 密钥（必需）
 process.env.OPENAI_API_KEY = 'your-api-key';
+// 可选：使用 OpenAI-compatible 服务
+process.env.OPENAI_BASE_URL = 'https://api.openai.com/v1';
+process.env.OPENAI_CHAT_MODEL = 'gpt-4.1-mini';
 
 // 方法 1：使用实体的 suggest 方法
 const process = createProcess({ processDataSet: { /* 不完整的数据 */ } });
@@ -307,7 +310,11 @@ const improvedResult = await suggestData(
   {
     skipPaths: ['administrativeInformation'],  // 跳过某些路径
     maxRetries: 2,                              // 验证失败时重试
-    outputDiffSummary: true
+    outputDiffSummary: true,
+    modelConfig: {
+      baseURL: process.env.OPENAI_BASE_URL,     // 兼容 OpenAI-style /v1 API
+      model: process.env.OPENAI_CHAT_MODEL,
+    },
   }
 );
 
