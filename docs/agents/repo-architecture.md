@@ -97,7 +97,7 @@ The normal release path is:
 3. let automation create:
    - `typescript-v<version>`
    - `python-v<version>`
-4. let publish workflows ship from the immutable tag
+4. let publish workflows ship from the immutable tag after package verification
 
 This release model is part of the repo architecture, not just a release checklist.
 
@@ -110,4 +110,4 @@ This release model is part of the repo architecture, not just a release checklis
 
 ## Local Docpact Push Gate
 
-This repository has a versioned local `pre-push` hook under `.githooks/pre-push` that delegates to `scripts/docpact-gate.sh`. The gate resolves the CLI through `scripts/docpact`, so local agent shells do not need bare `docpact` on `PATH`. The hook is a local developer guard for docpact config validation and enforced doc-governance linting; CI remains the authoritative PR enforcement path.
+This repository has a versioned local `pre-push` hook under `.githooks/pre-push` that delegates to `scripts/docpact-gate.sh` and then runs both package verification scripts. The gate resolves the CLI through `scripts/docpact`, so local agent shells do not need bare `docpact` on `PATH`. The hook is the local guard for docpact config validation, enforced doc-governance linting, and package tests; the GitHub `CI` workflow is manual-dispatch only.

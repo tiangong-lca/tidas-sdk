@@ -51,12 +51,14 @@ Important constraint:
 
 - if tag creation is automated, do not rely on the default workflow `GITHUB_TOKEN` for those tag pushes
 - use a GitHub App token or fine-grained PAT so the downstream tag-triggered publish workflow can run as expected
+- tag creation runs the relevant package verification script before creating a package tag
 
 Operational preference:
 
 - keep registry ownership and Trusted Publishing configuration in `tiangong-lca/tidas-sdk`
 - keep `publish.yml` as the formal package release entrypoint
 - automate PR creation and tag creation, not cross-repository direct publishing
+- keep `.github/workflows/ci.yml` as manual-dispatch only; ordinary pushes rely on the local pre-push gate
 - if a release-prep PR changes the machine-readable TypeScript validation contract, call that out explicitly so downstream consumers can review any UI or API mapping impact before tagging
 
 Required secrets:

@@ -45,7 +45,7 @@ The goal is:
 - `tidas-sdk` remains the package-owning repository.
 - npm and PyPI publishing stay in `tidas-sdk/.github/workflows/publish.yml`.
 - `tidas-tools` should trigger sync, not publish packages directly.
-- auto-generated code changes should still land through a normal PR for review and CI.
+- auto-generated code changes should still land through a normal PR for review and local/release verification.
 - TypeScript and Python package versions stay independent.
 
 ## Recommended Flow
