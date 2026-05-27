@@ -146,6 +146,8 @@ Use these local verification commands before opening a release PR:
 ./scripts/ci/verify-python-package.sh
 ```
 
+The local `pre-push` hook runs docpact and then both verification scripts. The repository `CI` workflow is manual-dispatch only; package tags and publish workflows still verify the relevant package before release.
+
 If you want `tidas-tools` changes to automatically regenerate and release these packages, see [docs/upstream-automation.md](./docs/upstream-automation.md).
 
 ## Current Status

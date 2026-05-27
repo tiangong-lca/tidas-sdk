@@ -2,4 +2,10 @@
 set -eu
 
 repo_root="$(git rev-parse --show-toplevel)"
-exec "$repo_root/scripts/docpact-gate.sh" "$@"
+cd "$repo_root"
+
+"$repo_root/scripts/docpact-gate.sh" "$@"
+
+echo "Running local test gate: verify TypeScript and Python packages"
+./scripts/ci/verify-typescript-package.sh
+./scripts/ci/verify-python-package.sh

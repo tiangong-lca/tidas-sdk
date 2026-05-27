@@ -41,6 +41,38 @@ jobs:
         if: steps.release.outputs.any_changed != 'true'
         run: echo "No package version changes detected on main."
 
+      - name: Set up Node.js
+        if: steps.release.outputs.typescript_changed == 'true'
+        uses: actions/setup-node@v6
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: sdks/typescript/package-lock.json
+
+      - name: Upgrade npm for release parity
+        if: steps.release.outputs.typescript_changed == 'true'
+        run: npm install --global npm@11.5.1
+
+      - name: Verify TypeScript package before release tag
+        if: steps.release.outputs.typescript_changed == 'true'
+        run: ./scripts/ci/verify-typescript-package.sh
+
+      - name: Set up Python
+        if: steps.release.outputs.python_changed == 'true'
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Set up uv
+        if: steps.release.outputs.python_changed == 'true'
+        uses: astral-sh/setup-uv@v6
+        with:
+          enable-cache: true
+
+      - name: Verify Python package before release tag
+        if: steps.release.outputs.python_changed == 'true'
+        run: ./scripts/ci/verify-python-package.sh
+
       - name: Check TypeScript registry version availability
         if: steps.release.outputs.typescript_changed == 'true'
         env:
