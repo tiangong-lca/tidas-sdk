@@ -20,7 +20,7 @@ checkPaths:
   - sdks/python/**
   - scripts/ci/**
 lastReviewedAt: 2026-05-28
-lastReviewedCommit: b78a3a680b40dff93a7edb464bc7fbd103619352
+lastReviewedCommit: 2decb1bcb0fc5e5cb24d552b27ddc24cac1eff9a
 ---
 
 # TIDAS SDKs

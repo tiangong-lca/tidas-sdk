@@ -18,7 +18,7 @@ checkPaths:
   - .github/workflows/tag-release-from-merge.yml
   - .docpact/config.yaml
 lastReviewedAt: 2026-05-28
-lastReviewedCommit: b78a3a680b40dff93a7edb464bc7fbd103619352
+lastReviewedCommit: 2decb1bcb0fc5e5cb24d552b27ddc24cac1eff9a
 related:
   - ../AGENTS.md
   - ../.docpact/config.yaml
