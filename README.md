@@ -19,8 +19,8 @@ checkPaths:
   - sdks/typescript/**
   - sdks/python/**
   - scripts/ci/**
-lastReviewedAt: 2026-05-22
-lastReviewedCommit: 893aa12cab10d0a6791e8c8aa42bb2624d665ee8
+lastReviewedAt: 2026-05-28
+lastReviewedCommit: d7b9e3eb06c279e9a1c09e76eece9a75ed694cc3
 ---
 
 # TIDAS SDKs
