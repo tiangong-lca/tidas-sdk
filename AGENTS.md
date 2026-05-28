@@ -74,7 +74,7 @@ Read in this order:
 - path-level ownership, routing intents, governed-doc inventory, and lint rules live in `.docpact/config.yaml`
 - minimum proof and upstream-resolution notes live in `docs/agents/repo-validation.md`
 - stable path groups, upstream handoffs, and release topology live in `docs/agents/repo-architecture.md`
-- repo-local documentation maintenance is enforced by `.github/workflows/ai-doc-lint.yml` with `docpact lint`
+- repo-local documentation maintenance is enforced locally by the pre-push docpact gate; `.github/workflows/ai-doc-lint.yml` is manual-dispatch fallback
 - the main routing intents are `typescript-sdk`, `validation-contract`, `python-sdk`, `generation-and-release`, `upstream-refresh`, `release-setup`, `proof`, `repo-docs`, and `root-integration`
 - TypeScript validation normalization is owned by `sdks/typescript/src/core/config/ValidationConfig.ts`, while schema-level custom issue codes for generated localized-text checks are injected from `sdks/typescript/scripts/generate-zod-schemas.ts` into committed schema output under `sdks/typescript/src/schemas/**`
 
