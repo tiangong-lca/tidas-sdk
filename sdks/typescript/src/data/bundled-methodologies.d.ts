@@ -16,6 +16,10 @@ export interface BundledMethodologies {
     flows?: any;
     processes?: any;
   };
+  methodologyTexts: {
+    flows?: string;
+    processes?: string;
+  };
 }
 
 declare const bundledMethodologies: BundledMethodologies;

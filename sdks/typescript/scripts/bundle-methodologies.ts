@@ -60,11 +60,14 @@ function createMethodologyFilesMapping(methodologyDir: string) {
 }
 
 /**
- * Read a methodology file and return the data as a JSON object.
+ * Read a methodology file and return both the parsed data and original YAML text.
  */
 async function readMethodologyFile(filePath: string) {
-  const file = await fs.readFile(filePath, 'utf8');
-  return yaml.parse(file);
+  const text = await fs.readFile(filePath, 'utf8');
+  return {
+    data: yaml.parse(text),
+    text,
+  };
 }
 
 async function main() {
@@ -94,6 +97,7 @@ async function main() {
 
   // Bundle all methodology files
   const bundledData: Record<string, unknown> = {};
+  const bundledTexts: Record<string, string> = {};
   let processedCount = 0;
   let skippedCount = 0;
 
@@ -101,8 +105,9 @@ async function main() {
     try {
       if (existsSync(filePath)) {
         console.log(`📖 Reading ${key} from ${filePath}`);
-        const data = await readMethodologyFile(filePath);
+        const { data, text } = await readMethodologyFile(filePath);
         bundledData[key] = data;
+        bundledTexts[key] = text;
         processedCount++;
         console.log(`✓ Successfully bundled ${key}`);
       } else {
@@ -126,6 +131,7 @@ async function main() {
   const finalBundle = {
     _metadata: bundleMetadata,
     methodologies: bundledData,
+    methodologyTexts: bundledTexts,
   };
 
   // Write the bundled data
@@ -170,6 +176,15 @@ async function generateTypeDeclaration(bundledData: Record<string, unknown>) {
   // Add type for each methodology
   for (const key of Object.keys(bundledData)) {
     lines.push(`    ${key}?: any;`);
+  }
+
+  lines.push(
+    '  };',
+    '  methodologyTexts: {',
+  );
+
+  for (const key of Object.keys(bundledData)) {
+    lines.push(`    ${key}?: string;`);
   }
 
   lines.push(

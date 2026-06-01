@@ -36,6 +36,7 @@ export * from './schemas';
 export * from './parity';
 export * from './xml';
 export * from './tools';
+export * from './contracts';
 
 export {
   // Zod validation functions
