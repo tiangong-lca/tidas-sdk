@@ -73,6 +73,7 @@ export const FlowsSchema = z.object({
           z.literal('Elementary flow'),
           z.literal('Product flow'),
           z.literal('Waste flow'),
+          z.literal('Other flow'),
         ]),
         'common:other': CommonOtherSchema.optional(),
       }),

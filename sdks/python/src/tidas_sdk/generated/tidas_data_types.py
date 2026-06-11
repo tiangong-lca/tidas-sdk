@@ -22,6 +22,8 @@ CHINESE_CHARACTER_PATTERN = re.compile(r'[\u3400-\u4DBF\u4E00-\u9FFF\uF900-\uFAF
 CASNumber = Annotated[str, Field(pattern='^[0-9]{2,7}-[0-9]{2}-[0-9]$'), AfterValidator(validate_cas_number_check_digit)]
 # Free text with an unlimited length.
 FT = str
+# TIDAS Languages enumeration.
+Languages = str
 # 1-digit integer number
 Int1 = Annotated[str, Field(pattern='^[0-9]$')]
 # 5-digit integer number
@@ -86,7 +88,7 @@ DateTime = datetime
 
 class LocalizedTextItem(TidasBaseModel):
     """Language-tagged text with optional script checks for selected languages."""
-    xml_lang: str = Field(default=..., alias='@xml:lang')
+    xml_lang: Languages = Field(default=..., alias='@xml:lang')
     text: str = Field(default=..., alias='#text')
 
     @model_validator(mode='after')
@@ -99,7 +101,7 @@ class LocalizedTextItem(TidasBaseModel):
 
 class LocalizedText500Item(LocalizedTextItem):
     """Language-tagged text with a maximum length of 500 characters."""
-    xml_lang: str = Field(default=..., alias='@xml:lang')
+    xml_lang: Languages = Field(default=..., alias='@xml:lang')
     text: str = Field(default=..., alias='#text', max_length=500)
 
     @model_validator(mode='after')
@@ -112,12 +114,12 @@ class LocalizedText500Item(LocalizedTextItem):
 
 class AnnualSupplyOrProductionVolumeTextItem(LocalizedText500Item):
     """Language-tagged annual supply or production volume text. The text must start with a real number followed by whitespace and a non-empty unit or context suffix."""
-    xml_lang: str = Field(default=..., alias='@xml:lang')
+    xml_lang: Languages = Field(default=..., alias='@xml:lang')
     text: str = Field(default=..., alias='#text', max_length=500, pattern='^[+-]?(\\d+(\\.\\d*)?|\\.\\d+)([Ee][+-]?\\d+)?\\s+\\S.*$')
 
 class LocalizedText1000Item(LocalizedTextItem):
     """Language-tagged text with a maximum length of 1000 characters."""
-    xml_lang: str = Field(default=..., alias='@xml:lang')
+    xml_lang: Languages = Field(default=..., alias='@xml:lang')
     text: str = Field(default=..., alias='#text', max_length=1000)
 
     @model_validator(mode='after')

@@ -84,6 +84,7 @@ export const LciamethodsSchema = z.object({
             z.literal('Natural resources'),
             z.literal('Natural environment'),
             z.literal('Human health'),
+            z.literal('Man-made environment'),
             z.literal('Other'),
           ])
           .optional(),
@@ -228,9 +229,7 @@ export const LciamethodsSchema = z.object({
                       z.literal('Cross-check with other data set'),
                       z.literal('Expert judgement'),
                       z.literal('Mass balance'),
-                      z.literal(
-                        'Compliance with legal limitsRegulated Inputs and Outputs e.g. emission data are validated for compliance with legal limits, typically after relating and scaling the data to the regulated processes/sites etc.'
-                      ),
+                      z.literal('Compliance with legal limits'),
                       z.literal('Compliance with ISO 14040 to 14044'),
                       z.literal('Documentation'),
                       z.literal(
@@ -249,9 +248,7 @@ export const LciamethodsSchema = z.object({
                         z.literal('Cross-check with other data set'),
                         z.literal('Expert judgement'),
                         z.literal('Mass balance'),
-                        z.literal(
-                          'Compliance with legal limitsRegulated Inputs and Outputs e.g. emission data are validated for compliance with legal limits, typically after relating and scaling the data to the regulated processes/sites etc.'
-                        ),
+                        z.literal('Compliance with legal limits'),
                         z.literal('Compliance with ISO 14040 to 14044'),
                         z.literal('Documentation'),
                         z.literal(
@@ -286,9 +283,7 @@ export const LciamethodsSchema = z.object({
                         z.literal('Cross-check with other data set'),
                         z.literal('Expert judgement'),
                         z.literal('Mass balance'),
-                        z.literal(
-                          'Compliance with legal limitsRegulated Inputs and Outputs e.g. emission data are validated for compliance with legal limits, typically after relating and scaling the data to the regulated processes/sites etc.'
-                        ),
+                        z.literal('Compliance with legal limits'),
                         z.literal('Compliance with ISO 14040 to 14044'),
                         z.literal('Documentation'),
                         z.literal(
@@ -307,9 +302,7 @@ export const LciamethodsSchema = z.object({
                           z.literal('Cross-check with other data set'),
                           z.literal('Expert judgement'),
                           z.literal('Mass balance'),
-                          z.literal(
-                            'Compliance with legal limitsRegulated Inputs and Outputs e.g. emission data are validated for compliance with legal limits, typically after relating and scaling the data to the regulated processes/sites etc.'
-                          ),
+                          z.literal('Compliance with legal limits'),
                           z.literal('Compliance with ISO 14040 to 14044'),
                           z.literal('Documentation'),
                           z.literal(
@@ -487,7 +480,7 @@ export const LciamethodsSchema = z.object({
             .union([
               z.literal('undefined'),
               z.literal('log-normal'),
-              z.literal('normalisation'),
+              z.literal('normal'),
               z.literal('triangular'),
               z.literal('uniform'),
             ])
@@ -529,7 +522,7 @@ export const LciamethodsSchema = z.object({
               .union([
                 z.literal('undefined'),
                 z.literal('log-normal'),
-                z.literal('normalisation'),
+                z.literal('normal'),
                 z.literal('triangular'),
                 z.literal('uniform'),
               ])
