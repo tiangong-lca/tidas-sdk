@@ -27,6 +27,194 @@ export const CASNumberSchema = z
 
 export const FTSchema = z.string();
 
+export const LanguagesSchema = z.union([
+  z.literal('aa'),
+  z.literal('ab'),
+  z.literal('ae'),
+  z.literal('af'),
+  z.literal('ak'),
+  z.literal('am'),
+  z.literal('an'),
+  z.literal('ar'),
+  z.literal('as'),
+  z.literal('av'),
+  z.literal('ay'),
+  z.literal('az'),
+  z.literal('ba'),
+  z.literal('be'),
+  z.literal('bg'),
+  z.literal('bh'),
+  z.literal('bi'),
+  z.literal('bm'),
+  z.literal('bn'),
+  z.literal('bo'),
+  z.literal('br'),
+  z.literal('bs'),
+  z.literal('ca'),
+  z.literal('ce'),
+  z.literal('ch'),
+  z.literal('co'),
+  z.literal('cr'),
+  z.literal('cs'),
+  z.literal('cu'),
+  z.literal('cv'),
+  z.literal('cy'),
+  z.literal('da'),
+  z.literal('de'),
+  z.literal('dv'),
+  z.literal('dz'),
+  z.literal('ee'),
+  z.literal('el'),
+  z.literal('en'),
+  z.literal('eo'),
+  z.literal('es'),
+  z.literal('et'),
+  z.literal('eu'),
+  z.literal('fa'),
+  z.literal('ff'),
+  z.literal('fi'),
+  z.literal('fj'),
+  z.literal('fo'),
+  z.literal('fr'),
+  z.literal('fy'),
+  z.literal('ga'),
+  z.literal('gd'),
+  z.literal('gl'),
+  z.literal('gn'),
+  z.literal('gu'),
+  z.literal('gv'),
+  z.literal('ha'),
+  z.literal('he'),
+  z.literal('hi'),
+  z.literal('ho'),
+  z.literal('hr'),
+  z.literal('ht'),
+  z.literal('hu'),
+  z.literal('hy'),
+  z.literal('hz'),
+  z.literal('ia'),
+  z.literal('id'),
+  z.literal('ie'),
+  z.literal('ig'),
+  z.literal('ii'),
+  z.literal('ik'),
+  z.literal('io'),
+  z.literal('is'),
+  z.literal('it'),
+  z.literal('iu'),
+  z.literal('ja'),
+  z.literal('jv'),
+  z.literal('ka'),
+  z.literal('kg'),
+  z.literal('ki'),
+  z.literal('kj'),
+  z.literal('kk'),
+  z.literal('kl'),
+  z.literal('km'),
+  z.literal('kn'),
+  z.literal('ko'),
+  z.literal('kr'),
+  z.literal('ks'),
+  z.literal('ku'),
+  z.literal('kv'),
+  z.literal('kw'),
+  z.literal('ky'),
+  z.literal('la'),
+  z.literal('lb'),
+  z.literal('lg'),
+  z.literal('li'),
+  z.literal('ln'),
+  z.literal('lo'),
+  z.literal('lt'),
+  z.literal('lu'),
+  z.literal('lv'),
+  z.literal('mg'),
+  z.literal('mh'),
+  z.literal('mi'),
+  z.literal('mk'),
+  z.literal('ml'),
+  z.literal('mn'),
+  z.literal('mo'),
+  z.literal('mr'),
+  z.literal('ms'),
+  z.literal('mt'),
+  z.literal('my'),
+  z.literal('na'),
+  z.literal('nb'),
+  z.literal('nd'),
+  z.literal('ne'),
+  z.literal('ng'),
+  z.literal('nl'),
+  z.literal('nn'),
+  z.literal('no'),
+  z.literal('nr'),
+  z.literal('nv'),
+  z.literal('ny'),
+  z.literal('oc'),
+  z.literal('oj'),
+  z.literal('om'),
+  z.literal('or'),
+  z.literal('os'),
+  z.literal('pa'),
+  z.literal('pi'),
+  z.literal('pl'),
+  z.literal('ps'),
+  z.literal('pt'),
+  z.literal('qu'),
+  z.literal('rm'),
+  z.literal('rn'),
+  z.literal('ro'),
+  z.literal('ru'),
+  z.literal('rw'),
+  z.literal('sa'),
+  z.literal('sc'),
+  z.literal('sd'),
+  z.literal('se'),
+  z.literal('sg'),
+  z.literal('si'),
+  z.literal('sk'),
+  z.literal('sl'),
+  z.literal('sm'),
+  z.literal('sn'),
+  z.literal('so'),
+  z.literal('sq'),
+  z.literal('sr'),
+  z.literal('ss'),
+  z.literal('st'),
+  z.literal('su'),
+  z.literal('sv'),
+  z.literal('sw'),
+  z.literal('ta'),
+  z.literal('te'),
+  z.literal('tg'),
+  z.literal('th'),
+  z.literal('ti'),
+  z.literal('tk'),
+  z.literal('tl'),
+  z.literal('tn'),
+  z.literal('to'),
+  z.literal('tr'),
+  z.literal('ts'),
+  z.literal('tt'),
+  z.literal('tw'),
+  z.literal('ty'),
+  z.literal('ug'),
+  z.literal('uk'),
+  z.literal('ur'),
+  z.literal('uz'),
+  z.literal('ve'),
+  z.literal('vi'),
+  z.literal('vo'),
+  z.literal('wa'),
+  z.literal('wo'),
+  z.literal('xh'),
+  z.literal('yi'),
+  z.literal('yo'),
+  z.literal('za'),
+  z.literal('zh'),
+  z.literal('zu'),
+]);
+
 const chineseCharacterPattern = /[\u3400-\u4DBF\u4E00-\u9FFF\uF900-\uFAFF]/;
 const LOCALIZED_TEXT_ZH_MUST_INCLUDE_CHINESE_CHARACTER_CODE =
   'localized_text_zh_must_include_chinese_character';
@@ -58,10 +246,10 @@ const addLocalizedTextLanguageChecks = (
     ctx.addIssue({
       code: z.ZodIssueCode.custom,
       path: ['#text'],
-      message: "@xml:lang value 'en' must not contain Chinese characters",
+      message:
+        "@xml:lang value 'en' must not contain Chinese characters",
       params: {
-        validationCode:
-          LOCALIZED_TEXT_EN_MUST_NOT_CONTAIN_CHINESE_CHARACTER_CODE,
+        validationCode: LOCALIZED_TEXT_EN_MUST_NOT_CONTAIN_CHINESE_CHARACTER_CODE,
       },
     });
   }
@@ -76,9 +264,10 @@ export const LocalizedTextItemSchema = LocalizedTextItemBaseSchema.superRefine(
   addLocalizedTextLanguageChecks
 );
 
-export const LocalizedText500ItemSchema = LocalizedTextItemBaseSchema.extend({
-  '#text': z.string().max(500),
-}).superRefine(addLocalizedTextLanguageChecks);
+export const LocalizedText500ItemSchema =
+  LocalizedTextItemBaseSchema.extend({
+    '#text': z.string().max(500),
+  }).superRefine(addLocalizedTextLanguageChecks);
 
 export const AnnualSupplyOrProductionVolumeTextItemSchema =
   LocalizedTextItemBaseSchema.extend({
@@ -93,11 +282,15 @@ export const AnnualSupplyOrProductionVolumeMultiLangSchema = z.union([
   AnnualSupplyOrProductionVolumeTextItemSchema,
 ]);
 
-export const LocalizedText1000ItemSchema = LocalizedTextItemBaseSchema.extend({
-  '#text': z.string().max(1000),
-}).superRefine(addLocalizedTextLanguageChecks);
+export const LocalizedText1000ItemSchema =
+  LocalizedTextItemBaseSchema.extend({
+    '#text': z.string().max(1000),
+  }).superRefine(addLocalizedTextLanguageChecks);
 
-const addRequiredMultiLangIssue = (value: unknown, ctx: z.RefinementCtx) => {
+const addRequiredMultiLangIssue = (
+  value: unknown,
+  ctx: z.RefinementCtx
+) => {
   if (Array.isArray(value) && value.length === 0) {
     ctx.addIssue({
       code: z.ZodIssueCode.custom,
@@ -111,9 +304,8 @@ export const StringMultiLangSchema = z.union([
   LocalizedText500ItemSchema,
 ]);
 
-export const RequiredStringMultiLangSchema = StringMultiLangSchema.superRefine(
-  addRequiredMultiLangIssue
-);
+export const RequiredStringMultiLangSchema =
+  StringMultiLangSchema.superRefine(addRequiredMultiLangIssue);
 
 export const Int1Schema = z.string().regex(/^[0-9]$/);
 
@@ -144,18 +336,16 @@ export const STMultiLangSchema = z.union([
   LocalizedText1000ItemSchema,
 ]);
 
-export const RequiredSTMultiLangSchema = STMultiLangSchema.superRefine(
-  addRequiredMultiLangIssue
-);
+export const RequiredSTMultiLangSchema =
+  STMultiLangSchema.superRefine(addRequiredMultiLangIssue);
 
 export const FTMultiLangSchema = z.union([
   z.array(LocalizedTextItemSchema),
   LocalizedTextItemSchema,
 ]);
 
-export const RequiredFTMultiLangSchema = FTMultiLangSchema.superRefine(
-  addRequiredMultiLangIssue
-);
+export const RequiredFTMultiLangSchema =
+  FTMultiLangSchema.superRefine(addRequiredMultiLangIssue);
 
 export const AnyXmlElementSchema: z.ZodType<AnyXmlElement> = z.lazy(() =>
   z.union([
