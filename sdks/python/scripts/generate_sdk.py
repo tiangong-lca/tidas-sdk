@@ -1197,6 +1197,14 @@ CommonOther = Annotated[dict[str, AnyXmlElement], AfterValidator(_validate_commo
                 )
             return None
 
+        if "enum" in schema and isinstance(schema["enum"], list):
+            literals = ", ".join(repr(value) for value in schema["enum"])
+            return ScalarInfo(
+                base_type=f"Literal[{literals}]",
+                typing_imports={"Literal"},
+                description=schema.get("description"),
+            )
+
         schema_type = schema.get("type")
         if schema_type == "string":
             fmt = schema.get("format")
@@ -1251,14 +1259,6 @@ CommonOther = Annotated[dict[str, AnyXmlElement], AfterValidator(_validate_commo
             )
         if schema_type == "boolean":
             return ScalarInfo(base_type="bool", description=schema.get("description"))
-
-        if "enum" in schema and isinstance(schema["enum"], list):
-            literals = ", ".join(repr(value) for value in schema["enum"])
-            return ScalarInfo(
-                base_type=f"Literal[{literals}]",
-                typing_imports={"Literal"},
-                description=schema.get("description"),
-            )
 
         return None
 
