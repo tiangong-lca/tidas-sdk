@@ -3,7 +3,7 @@ import {
   AnnualSupplyOrProductionVolumeTextItemSchema,
   CASNumberSchema,
   CommonOtherSchema,
-  IlcdLanguageCodeSchema,
+  TidasLanguageCodeSchema,
   LocalizedTextItemSchema,
 } from './tidas_data_types.schema';
 import { ValidationUtils } from '../core/config/ValidationConfig';
@@ -63,10 +63,10 @@ describe('CommonOtherSchema', () => {
 });
 
 describe('LocalizedTextItemSchema', () => {
-  it('accepts ILCD language enumeration values', () => {
-    expect(IlcdLanguageCodeSchema.safeParse('en').success).toBe(true);
-    expect(IlcdLanguageCodeSchema.safeParse('de').success).toBe(true);
-    expect(IlcdLanguageCodeSchema.safeParse('zh').success).toBe(true);
+  it('accepts TIDAS language enumeration values', () => {
+    expect(TidasLanguageCodeSchema.safeParse('en').success).toBe(true);
+    expect(TidasLanguageCodeSchema.safeParse('de').success).toBe(true);
+    expect(TidasLanguageCodeSchema.safeParse('zh').success).toBe(true);
     expect(
       LocalizedTextItemSchema.safeParse({
         '@xml:lang': 'de',
@@ -75,7 +75,7 @@ describe('LocalizedTextItemSchema', () => {
     ).toBe(true);
   });
 
-  it('rejects language codes outside the ILCD enumeration', () => {
+  it('rejects language codes outside the TIDAS enumeration', () => {
     const result = LocalizedTextItemSchema.safeParse({
       '@xml:lang': 'en-US',
       '#text': 'English title',
@@ -85,7 +85,7 @@ describe('LocalizedTextItemSchema', () => {
     if (!result.success) {
       expect(
         ValidationUtils.normalizeIssues(result.error.issues)[0]?.code
-      ).toBe('localized_text_language_not_in_ilcd_enum');
+      ).toBe('localized_text_language_not_in_tidas_enum');
     }
   });
 

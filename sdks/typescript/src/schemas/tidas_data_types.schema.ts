@@ -5,7 +5,7 @@ import {
   CAS_NUMBER_PATTERN,
   isValidCASNumber,
 } from './../core/validation/cas-number';
-import { ILCD_LANGUAGE_CODES } from './../core/validation/ilcd-languages';
+import { TIDAS_LANGUAGE_CODES } from './../core/validation/tidas-languages';
 import { type AnyXmlElement } from './../types/tidas_data_types';
 
 export const CASNumberSchema = z
@@ -33,7 +33,7 @@ const LOCALIZED_TEXT_ZH_MUST_INCLUDE_CHINESE_CHARACTER_CODE =
 const LOCALIZED_TEXT_EN_MUST_NOT_CONTAIN_CHINESE_CHARACTER_CODE =
   'localized_text_en_must_not_contain_chinese_character';
 
-export const IlcdLanguageCodeSchema = z.enum(ILCD_LANGUAGE_CODES);
+export const TidasLanguageCodeSchema = z.enum(TIDAS_LANGUAGE_CODES);
 
 const addLocalizedTextLanguageChecks = (
   value: { '@xml:lang': string; '#text': string },
@@ -68,7 +68,7 @@ const addLocalizedTextLanguageChecks = (
 };
 
 const LocalizedTextItemBaseSchema = z.object({
-  '@xml:lang': IlcdLanguageCodeSchema,
+  '@xml:lang': TidasLanguageCodeSchema,
   '#text': z.string(),
 });
 

@@ -306,14 +306,14 @@ export const RequiredFTMultiLangSchema =
 }
 
 function applyLocalizedTextSchemaOverrides(content: string): string {
-  const languageImport = `import { ILCD_LANGUAGE_CODES } from './../core/validation/ilcd-languages';`;
+  const languageImport = `import { TIDAS_LANGUAGE_CODES } from './../core/validation/tidas-languages';`;
   const localizedTextPrelude = `const chineseCharacterPattern = /[\\u3400-\\u4DBF\\u4E00-\\u9FFF\\uF900-\\uFAFF]/;
 const LOCALIZED_TEXT_ZH_MUST_INCLUDE_CHINESE_CHARACTER_CODE =
   'localized_text_zh_must_include_chinese_character';
 const LOCALIZED_TEXT_EN_MUST_NOT_CONTAIN_CHINESE_CHARACTER_CODE =
   'localized_text_en_must_not_contain_chinese_character';
 
-export const IlcdLanguageCodeSchema = z.enum(ILCD_LANGUAGE_CODES);
+export const TidasLanguageCodeSchema = z.enum(TIDAS_LANGUAGE_CODES);
 
 const addLocalizedTextLanguageChecks = (
   value: { '@xml:lang': string; '#text': string },
@@ -348,7 +348,7 @@ const addLocalizedTextLanguageChecks = (
 };
 
 const LocalizedTextItemBaseSchema = z.object({
-  '@xml:lang': IlcdLanguageCodeSchema,
+  '@xml:lang': TidasLanguageCodeSchema,
   '#text': z.string(),
 });
 
@@ -357,7 +357,7 @@ export const LocalizedTextItemSchema = LocalizedTextItemBaseSchema.superRefine(
 );`;
 
   let updatedContent = content;
-  if (!updatedContent.includes("from './../core/validation/ilcd-languages'")) {
+  if (!updatedContent.includes("from './../core/validation/tidas-languages'")) {
     updatedContent = updatedContent.replace(
       "import { z } from 'zod';\n",
       `import { z } from 'zod';\n${languageImport}\n`

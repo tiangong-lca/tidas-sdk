@@ -10,7 +10,7 @@ export * from './factories';
 export * from './config/ValidationConfig';
 export * from './config/GlobalConfig';
 export * from './validation/cas-number';
-export * from './validation/ilcd-languages';
+export * from './validation/tidas-languages';
 
 // Zod Proxy for true property access with Schema validation
 // export {

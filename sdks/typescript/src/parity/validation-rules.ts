@@ -1,5 +1,5 @@
 import { CHINESE_CHARACTER_RE } from './constants';
-import { ILCD_LANGUAGE_CODE_SET } from '../core/validation/ilcd-languages';
+import { TIDAS_LANGUAGE_CODE_SET } from '../core/validation/tidas-languages';
 import type { ValidationIssue } from './report';
 
 interface ClassificationValidationResult {
@@ -219,9 +219,9 @@ export function validateLocalizedTextLanguageConstraints(
     const location = currentPath || '<root>';
 
     if (typeof language === 'string') {
-      if (!ILCD_LANGUAGE_CODE_SET.has(language)) {
+      if (!TIDAS_LANGUAGE_CODE_SET.has(language)) {
         errors.push(
-          `Localized text error at ${location}: @xml:lang '${language}' is not an ILCD Languages enumeration value`
+          `Localized text error at ${location}: @xml:lang '${language}' is not a TIDAS Languages enumeration value`
         );
       }
     }
@@ -317,8 +317,8 @@ export function collectLocalizedTextIssues(
       filePath,
       location,
       message,
-      message.includes('is not an ILCD Languages enumeration value')
-        ? 'localized_text_language_not_in_ilcd_enum'
+      message.includes('is not a TIDAS Languages enumeration value')
+        ? 'localized_text_language_not_in_tidas_enum'
         : 'localized_text_language_error'
     );
   });

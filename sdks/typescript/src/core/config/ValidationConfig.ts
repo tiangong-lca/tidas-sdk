@@ -47,7 +47,7 @@ export type ValidationIssueCode =
   | 'invalid_value'
   | 'unrecognized_keys'
   | 'invalid_union'
-  | 'localized_text_language_not_in_ilcd_enum'
+  | 'localized_text_language_not_in_tidas_enum'
   | 'localized_text_zh_must_include_chinese_character'
   | 'localized_text_en_must_not_contain_chinese_character'
   | 'cas_number_checksum_error'
@@ -275,7 +275,7 @@ export class ValidationUtils {
         return 'invalid_format';
       case 'invalid_value':
         return this.isXmlLangPath(issue)
-          ? 'localized_text_language_not_in_ilcd_enum'
+          ? 'localized_text_language_not_in_tidas_enum'
           : 'invalid_value';
       case 'unrecognized_keys':
         return 'unrecognized_keys';
@@ -336,7 +336,7 @@ export class ValidationUtils {
             }
           : undefined;
       case 'invalid_value':
-      case 'localized_text_language_not_in_ilcd_enum':
+      case 'localized_text_language_not_in_tidas_enum':
         return Array.isArray(issue.values)
           ? {
               allowedValues: issue.values.join(', '),

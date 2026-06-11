@@ -62,7 +62,7 @@ class FlowsFlowDataSetFlowInformation(TidasBaseModel):
     common_other: CommonOther | None = Field(default=None, alias='common:other')
 
 class FlowDataSetModellingAndValidationLCIMethod(TidasBaseModel):
-    type_of_data_set: Literal['Elementary flow', 'Product flow', 'Waste flow'] = Field(default=..., alias='typeOfDataSet')
+    type_of_data_set: Literal['Elementary flow', 'Product flow', 'Waste flow', 'Other flow'] = Field(default=..., alias='typeOfDataSet')
     common_other: CommonOther | None = Field(default=None, alias='common:other')
 
 class ComplianceDeclarationsComplianceOption0(TidasBaseModel):

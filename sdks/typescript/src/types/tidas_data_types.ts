@@ -16,7 +16,7 @@ export type CASNumber = string;
  */
 export type FT = string;
 /**
- * ILCD 1.1 common Languages enumeration.
+ * TIDAS Languages enumeration.
  */
 export type Languages =
   | 'aa'

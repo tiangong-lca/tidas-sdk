@@ -1,5 +1,5 @@
 """
-Utilities for handling ILCD multi-language text arrays.
+Utilities for handling TIDAS multi-language text arrays.
 """
 
 from __future__ import annotations
@@ -14,7 +14,7 @@ MultiLangItem = TypedDict(
 )
 
 CHINESE_CHARACTER_PATTERN = re.compile(r"[\u3400-\u4DBF\u4E00-\u9FFF\uF900-\uFAFF]")
-ILCD_LANGUAGE_CODES = frozenset(
+TIDAS_LANGUAGE_CODES = frozenset(
     (
         "aa",
         "ab",
@@ -276,9 +276,9 @@ def validate_multilang_item(value: MultiLangItem) -> None:
     if not isinstance(lang, str) or not isinstance(text, str):
         return
 
-    if lang not in ILCD_LANGUAGE_CODES:
+    if lang not in TIDAS_LANGUAGE_CODES:
         raise ValueError(
-            f"@xml:lang '{lang}' is not an ILCD Languages enumeration value"
+            f"@xml:lang '{lang}' is not a TIDAS Languages enumeration value"
         )
 
     if lang == "zh" and not CHINESE_CHARACTER_PATTERN.search(text):

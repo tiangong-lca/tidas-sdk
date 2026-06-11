@@ -36,7 +36,7 @@ def test_localized_text_item_requires_schema_fields() -> None:
         LocalizedTextItem.model_validate({"@xml:lang": "en"})
 
 
-def test_localized_text_item_enforces_ilcd_language_enum() -> None:
+def test_localized_text_item_enforces_tidas_language_enum() -> None:
     language_values = set(get_args(Languages))
 
     assert {"en", "de", "zh"}.issubset(language_values)
@@ -110,7 +110,7 @@ def test_localized_text_item_rejects_zh_text_without_chinese_characters() -> Non
         )
 
 
-def test_multilang_list_rejects_non_ilcd_language_code() -> None:
+def test_multilang_list_rejects_non_tidas_language_code() -> None:
     values = MultiLangList()
 
     with pytest.raises(ValueError):

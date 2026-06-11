@@ -292,7 +292,7 @@ describe('package validation parity', () => {
     expect(
       report.issues.filter(
         (issue) =>
-          issue.issue_code === 'localized_text_language_not_in_ilcd_enum'
+          issue.issue_code === 'localized_text_language_not_in_tidas_enum'
       ).length
     ).toBe(1);
     expect(
@@ -304,7 +304,7 @@ describe('package validation parity', () => {
       expect.arrayContaining([
         'schema_error',
         'localized_text_language_error',
-        'localized_text_language_not_in_ilcd_enum',
+        'localized_text_language_not_in_tidas_enum',
         'classification_hierarchy_error',
       ])
     );
@@ -323,7 +323,7 @@ describe('package validation parity', () => {
             'flowDataSet/flowInformation/dataSetInformation/name/baseName/0',
         }),
         expect.objectContaining({
-          issue_code: 'localized_text_language_not_in_ilcd_enum',
+          issue_code: 'localized_text_language_not_in_tidas_enum',
           location:
             'flowDataSet/flowInformation/dataSetInformation/name/baseName/1',
         }),
