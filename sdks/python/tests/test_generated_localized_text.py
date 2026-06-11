@@ -11,12 +11,14 @@ from tidas_sdk.generated.tidas_data_types import (
     AnnualSupplyOrProductionVolumeMultiLang,
     AnnualSupplyOrProductionVolumeTextItem,
     FTMultiLang,
+    Languages,
     LocalizedText1000Item,
     LocalizedText500Item,
     LocalizedTextItem,
     STMultiLang,
     StringMultiLang,
 )
+from tidas_sdk.core.multilang import MultiLangList
 
 
 def test_localized_text_item_requires_schema_fields() -> None:
@@ -34,23 +36,27 @@ def test_localized_text_item_requires_schema_fields() -> None:
         LocalizedTextItem.model_validate({"@xml:lang": "en"})
 
 
+def test_localized_text_item_enforces_ilcd_language_enum() -> None:
+    language_values = set(get_args(Languages))
+
+    assert {"en", "de", "zh"}.issubset(language_values)
+    assert "en-US" not in language_values
+
+    LocalizedTextItem.model_validate({"@xml:lang": "de", "#text": "Deutscher Titel"})
+
+    with pytest.raises(ValidationError):
+        LocalizedTextItem.model_validate({"@xml:lang": "en-US", "#text": "English"})
+
+
 def test_localized_text_specializations_preserve_max_length() -> None:
-    LocalizedText500Item.model_validate(
-        {"@xml:lang": "fr", "#text": "a" * 500}
-    )
-    LocalizedText1000Item.model_validate(
-        {"@xml:lang": "fr", "#text": "a" * 1000}
-    )
+    LocalizedText500Item.model_validate({"@xml:lang": "fr", "#text": "a" * 500})
+    LocalizedText1000Item.model_validate({"@xml:lang": "fr", "#text": "a" * 1000})
 
     with pytest.raises(ValidationError):
-        LocalizedText500Item.model_validate(
-            {"@xml:lang": "fr", "#text": "a" * 501}
-        )
+        LocalizedText500Item.model_validate({"@xml:lang": "fr", "#text": "a" * 501})
 
     with pytest.raises(ValidationError):
-        LocalizedText1000Item.model_validate(
-            {"@xml:lang": "fr", "#text": "a" * 1001}
-        )
+        LocalizedText1000Item.model_validate({"@xml:lang": "fr", "#text": "a" * 1001})
 
 
 def test_multilang_aliases_reference_localized_text_models() -> None:
@@ -102,3 +108,10 @@ def test_localized_text_item_rejects_zh_text_without_chinese_characters() -> Non
         LocalizedTextItem.model_validate(
             {"@xml:lang": "zh", "#text": "Tiangong LCA Data Team"}
         )
+
+
+def test_multilang_list_rejects_non_ilcd_language_code() -> None:
+    values = MultiLangList()
+
+    with pytest.raises(ValueError):
+        values.set_text("English title", "en-US")

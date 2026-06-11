@@ -259,7 +259,9 @@ export const RequiredFTMultiLangSchema =
 
     if (manualOptimizations !== content) {
       fs.writeFileSync(schemaFile, manualOptimizations, 'utf8');
-      console.log('   🔧 Applied manual optimizations to tidas_data_types.schema.ts');
+      console.log(
+        '   🔧 Applied manual optimizations to tidas_data_types.schema.ts'
+      );
     }
 
     return; // Skip standard automatic fixes for this file
@@ -304,11 +306,14 @@ export const RequiredFTMultiLangSchema =
 }
 
 function applyLocalizedTextSchemaOverrides(content: string): string {
+  const languageImport = `import { ILCD_LANGUAGE_CODES } from './../core/validation/ilcd-languages';`;
   const localizedTextPrelude = `const chineseCharacterPattern = /[\\u3400-\\u4DBF\\u4E00-\\u9FFF\\uF900-\\uFAFF]/;
 const LOCALIZED_TEXT_ZH_MUST_INCLUDE_CHINESE_CHARACTER_CODE =
   'localized_text_zh_must_include_chinese_character';
 const LOCALIZED_TEXT_EN_MUST_NOT_CONTAIN_CHINESE_CHARACTER_CODE =
   'localized_text_en_must_not_contain_chinese_character';
+
+export const IlcdLanguageCodeSchema = z.enum(ILCD_LANGUAGE_CODES);
 
 const addLocalizedTextLanguageChecks = (
   value: { '@xml:lang': string; '#text': string },
@@ -317,24 +322,24 @@ const addLocalizedTextLanguageChecks = (
   const lang = value['@xml:lang'];
   const text = value['#text'];
 
-  if (/^[zZ][hH](?:-|$)/.test(lang) && !chineseCharacterPattern.test(text)) {
+  if (lang === 'zh' && !chineseCharacterPattern.test(text)) {
     ctx.addIssue({
       code: z.ZodIssueCode.custom,
       path: ['#text'],
       message:
-        "@xml:lang values starting with 'zh' must include at least one Chinese character",
+        "@xml:lang value 'zh' must include at least one Chinese character",
       params: {
         validationCode: LOCALIZED_TEXT_ZH_MUST_INCLUDE_CHINESE_CHARACTER_CODE,
       },
     });
   }
 
-  if (/^[eE][nN](?:-|$)/.test(lang) && chineseCharacterPattern.test(text)) {
+  if (lang === 'en' && chineseCharacterPattern.test(text)) {
     ctx.addIssue({
       code: z.ZodIssueCode.custom,
       path: ['#text'],
       message:
-        "@xml:lang values starting with 'en' must not contain Chinese characters",
+        "@xml:lang value 'en' must not contain Chinese characters",
       params: {
         validationCode: LOCALIZED_TEXT_EN_MUST_NOT_CONTAIN_CHINESE_CHARACTER_CODE,
       },
@@ -343,7 +348,7 @@ const addLocalizedTextLanguageChecks = (
 };
 
 const LocalizedTextItemBaseSchema = z.object({
-  '@xml:lang': z.string(),
+  '@xml:lang': IlcdLanguageCodeSchema,
   '#text': z.string(),
 });
 
@@ -351,8 +356,16 @@ export const LocalizedTextItemSchema = LocalizedTextItemBaseSchema.superRefine(
   addLocalizedTextLanguageChecks
 );`;
 
-  let updatedContent = replaceExportedSchema(
-    content,
+  let updatedContent = content;
+  if (!updatedContent.includes("from './../core/validation/ilcd-languages'")) {
+    updatedContent = updatedContent.replace(
+      "import { z } from 'zod';\n",
+      `import { z } from 'zod';\n${languageImport}\n`
+    );
+  }
+
+  updatedContent = replaceExportedSchema(
+    updatedContent,
     'LocalizedTextItemSchema',
     localizedTextPrelude
   );
@@ -366,7 +379,11 @@ export const LocalizedTextItemSchema = LocalizedTextItemBaseSchema.superRefine(
   }).superRefine(addLocalizedTextLanguageChecks);`
   );
 
-  if (updatedContent.includes('export const AnnualSupplyOrProductionVolumeTextItemSchema')) {
+  if (
+    updatedContent.includes(
+      'export const AnnualSupplyOrProductionVolumeTextItemSchema'
+    )
+  ) {
     updatedContent = replaceExportedSchema(
       updatedContent,
       'AnnualSupplyOrProductionVolumeTextItemSchema',
@@ -532,14 +549,14 @@ function replaceExportedSchema(
     (index) => index !== -1
   );
   const endIndex =
-    candidateEndIndexes.length > 0 ? Math.min(...candidateEndIndexes) : content.length;
+    candidateEndIndexes.length > 0
+      ? Math.min(...candidateEndIndexes)
+      : content.length;
 
   return `${content.slice(0, startIndex)}${replacement}${content.slice(endIndex)}`;
 }
 
-function applyRequiredLocalizedTextSchemaOverrides(
-  content: string
-): string {
+function applyRequiredLocalizedTextSchemaOverrides(content: string): string {
   let updatedContent = content;
 
   const requiredLocalizedTextSchemaMappings = [
@@ -549,8 +566,10 @@ function applyRequiredLocalizedTextSchemaOverrides(
     },
   ];
 
-  for (const { baseSchemaName, requiredSchemaName } of
-    requiredLocalizedTextSchemaMappings) {
+  for (const {
+    baseSchemaName,
+    requiredSchemaName,
+  } of requiredLocalizedTextSchemaMappings) {
     updatedContent = updatedContent.replace(
       new RegExp(`(:\\s*)${baseSchemaName}(,)`, 'g'),
       `$1${requiredSchemaName}$2`

@@ -1,4 +1,5 @@
 import { CHINESE_CHARACTER_RE } from './constants';
+import { ILCD_LANGUAGE_CODE_SET } from '../core/validation/ilcd-languages';
 import type { ValidationIssue } from './report';
 
 interface ClassificationValidationResult {
@@ -217,23 +218,24 @@ export function validateLocalizedTextLanguageConstraints(
     const text = currentNode['#text'];
     const location = currentPath || '<root>';
 
+    if (typeof language === 'string') {
+      if (!ILCD_LANGUAGE_CODE_SET.has(language)) {
+        errors.push(
+          `Localized text error at ${location}: @xml:lang '${language}' is not an ILCD Languages enumeration value`
+        );
+      }
+    }
+
     if (typeof language === 'string' && typeof text === 'string') {
-      const normalizedLanguage = language.toLowerCase();
       const hasChinese = CHINESE_CHARACTER_RE.test(text);
 
-      if (
-        (normalizedLanguage === 'zh' || normalizedLanguage.startsWith('zh-')) &&
-        !hasChinese
-      ) {
+      if (language === 'zh' && !hasChinese) {
         errors.push(
           `Localized text error at ${location}: @xml:lang '${language}' must include at least one Chinese character`
         );
       }
 
-      if (
-        (normalizedLanguage === 'en' || normalizedLanguage.startsWith('en-')) &&
-        hasChinese
-      ) {
+      if (language === 'en' && hasChinese) {
         errors.push(
           `Localized text error at ${location}: @xml:lang '${language}' must not contain Chinese characters`
         );
@@ -315,7 +317,9 @@ export function collectLocalizedTextIssues(
       filePath,
       location,
       message,
-      'localized_text_language_error'
+      message.includes('is not an ILCD Languages enumeration value')
+        ? 'localized_text_language_not_in_ilcd_enum'
+        : 'localized_text_language_error'
     );
   });
 }

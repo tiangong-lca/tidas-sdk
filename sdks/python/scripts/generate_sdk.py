@@ -7,6 +7,7 @@ Compared to off-the-shelf tools this script gives us the levers required for:
     * automatic MultiLangList wiring
     * incremental evolution as the schema surface grows
 """
+
 from __future__ import annotations
 
 import argparse
@@ -128,11 +129,14 @@ class SchemaGenerator:
             export_names = [model.name for model in artifact.models]
             export_names.extend(
                 scalar.alias
-                for scalar in artifact.scalar_definitions_pre + artifact.scalar_definitions_post
+                for scalar in artifact.scalar_definitions_pre
+                + artifact.scalar_definitions_post
                 if scalar.alias
             )
             self.generated_index.append((module_name, export_names))
-            print(f"✓ Generated {target_path.relative_to(self.config.output_dir.parent)}")
+            print(
+                f"✓ Generated {target_path.relative_to(self.config.output_dir.parent)}"
+            )
             for warning in artifact.warnings:
                 print(f"  ⚠ {warning}")
             self._copy_schema(schema_path)
@@ -271,10 +275,10 @@ class SchemaGenerator:
         return [
             "    @model_validator(mode='after')",
             f"    def _validate_language_script(self) -> '{model_name}':",
-            "        if re.match(r'^[zZ][hH](?:-|$)', self.xml_lang) and not CHINESE_CHARACTER_PATTERN.search(self.text):",
-            "            raise ValueError(\"@xml:lang values starting with 'zh' must include at least one Chinese character\")",
-            "        if re.match(r'^[eE][nN](?:-|$)', self.xml_lang) and CHINESE_CHARACTER_PATTERN.search(self.text):",
-            "            raise ValueError(\"@xml:lang values starting with 'en' must not contain Chinese characters\")",
+            "        if self.xml_lang == 'zh' and not CHINESE_CHARACTER_PATTERN.search(self.text):",
+            "            raise ValueError(\"@xml:lang value 'zh' must include at least one Chinese character\")",
+            "        if self.xml_lang == 'en' and CHINESE_CHARACTER_PATTERN.search(self.text):",
+            "            raise ValueError(\"@xml:lang value 'en' must not contain Chinese characters\")",
             "        return self",
         ]
 
@@ -386,7 +390,9 @@ class SchemaConverter:
     def _register_definitions(self) -> None:
         for def_name, def_schema in self.schema.get("$defs", {}).items():
             pointer = f"#/$defs/{def_name}"
-            extension_scalar = self._handle_extension_container_scalar(def_name, def_schema)
+            extension_scalar = self._handle_extension_container_scalar(
+                def_name, def_schema
+            )
             if extension_scalar:
                 self._register_scalar(def_name, pointer, extension_scalar)
                 continue
@@ -399,7 +405,9 @@ class SchemaConverter:
                 self._register_scalar(def_name, pointer, scalar)
                 continue
             alias_tokens = (def_name,)
-            class_name = self._ensure_model(def_schema, alias_tokens, name_hint=def_name)
+            class_name = self._ensure_model(
+                def_schema, alias_tokens, name_hint=def_name
+            )
             self.ref_map[pointer] = class_name
 
     def _ensure_model(
@@ -434,7 +442,9 @@ class SchemaConverter:
         fields: list[FieldDef] = []
         for prop_name, prop_schema in properties.items():
             is_required = prop_name in required
-            field = self._build_field(class_name, path_tokens, prop_name, prop_schema, is_required)
+            field = self._build_field(
+                class_name, path_tokens, prop_name, prop_schema, is_required
+            )
             fields.append(field)
 
         return ModelDef(
@@ -471,9 +481,13 @@ class SchemaConverter:
                 default_factory = "MultiLangList"
                 default_value = None
         else:
-            type_hint = self._determine_type(current_parent_path, prop_name, prop_schema)
+            type_hint = self._determine_type(
+                current_parent_path, prop_name, prop_schema
+            )
             default_factory = self._default_factory(prop_schema)
-            default_value = self._default_value(prop_schema, is_required, default_factory)
+            default_value = self._default_value(
+                prop_schema, is_required, default_factory
+            )
 
         constraints = self._collect_constraints(prop_schema)
 
@@ -495,7 +509,9 @@ class SchemaConverter:
         if type_name == "array":
             return "list"
         if type_name == "object" and schema.get("properties"):
-            return None  # prefer nested model default None unless schema supplies default
+            return (
+                None  # prefer nested model default None unless schema supplies default
+            )
         if isinstance(schema.get("default"), (list, dict)):
             self.warnings.append(
                 f"{self.module_name}: skipped mutable default for {schema.get('title', 'field')}"
@@ -523,7 +539,9 @@ class SchemaConverter:
     ) -> str:
         if isinstance(schema, list):
             option_types = {
-                self._determine_type(parent_path, prop_name, option, qualifier=f"option{i}")
+                self._determine_type(
+                    parent_path, prop_name, option, qualifier=f"option{i}"
+                )
                 for i, option in enumerate(schema)
                 if isinstance(option, (dict, list))
             }
@@ -600,7 +618,9 @@ class SchemaConverter:
             # Fall back to schema without allOf (constraints only)
             reduced_schema = {k: v for k, v in schema.items() if k != "allOf"}
             if reduced_schema:
-                return self._determine_type(parent_path, prop_name, reduced_schema, qualifier=qualifier)
+                return self._determine_type(
+                    parent_path, prop_name, reduced_schema, qualifier=qualifier
+                )
             self.warnings.append(
                 f"{self.module_name}: unsupported allOf on {prop_name}, using Any"
             )
@@ -623,12 +643,16 @@ class SchemaConverter:
 
         if type_name == "array":
             item_schema = schema.get("items", {})
-            item_type = self._determine_type(parent_path + (prop_name,), "item", item_schema)
+            item_type = self._determine_type(
+                parent_path + (prop_name,), "item", item_schema
+            )
             return f"list[{item_type}]"
 
         if type_name == "object":
             if schema.get("properties"):
-                return self._inline_model(parent_path + (prop_name,), schema, qualifier=qualifier)
+                return self._inline_model(
+                    parent_path + (prop_name,), schema, qualifier=qualifier
+                )
             pattern_properties = schema.get("patternProperties")
             if isinstance(pattern_properties, dict) and pattern_properties:
                 value_types = {
@@ -779,7 +803,9 @@ class SchemaConverter:
         if "$ref" in schema and schema["$ref"].endswith("LocalizedTextItem"):
             return True
 
-        if "$ref" in schema and re.search(r"LocalizedText(?:\d+)?Item$", schema["$ref"]):
+        if "$ref" in schema and re.search(
+            r"LocalizedText(?:\d+)?Item$", schema["$ref"]
+        ):
             return True
 
         properties = schema.get("properties", {})
@@ -980,7 +1006,9 @@ CommonOther = Annotated[dict[str, AnyXmlElement], AfterValidator(_validate_commo
             )
         return None
 
-    def _handle_union_definition(self, name: str, schema: dict[str, Any]) -> ScalarInfo | None:
+    def _handle_union_definition(
+        self, name: str, schema: dict[str, Any]
+    ) -> ScalarInfo | None:
         if not isinstance(schema, dict):
             return None
         for key in ("oneOf", "anyOf"):
@@ -1009,7 +1037,11 @@ CommonOther = Annotated[dict[str, AnyXmlElement], AfterValidator(_validate_commo
                 literal_values: list[str] = []
                 other_types: list[str] = []
                 for expr in ordered:
-                    if expr.startswith("Literal[") and expr.endswith("]") and "|" not in expr:
+                    if (
+                        expr.startswith("Literal[")
+                        and expr.endswith("]")
+                        and "|" not in expr
+                    ):
                         inner = expr[len("Literal[") : -1].strip()
                         if inner:
                             for value in inner.split(","):
@@ -1078,9 +1110,7 @@ CommonOther = Annotated[dict[str, AnyXmlElement], AfterValidator(_validate_commo
         if not scalar.definition:
             if scalar.constraints:
                 args = ", ".join(f"{k}={v}" for k, v in scalar.constraints.items())
-                cas_validator_import = (
-                    "from tidas_sdk.core.cas_number import validate_cas_number_check_digit"
-                )
+                cas_validator_import = "from tidas_sdk.core.cas_number import validate_cas_number_check_digit"
                 if cas_validator_import in scalar.standard_imports:
                     scalar.definition = (
                         f"{alias} = Annotated[{scalar.base_type}, Field({args}), "
@@ -1088,7 +1118,9 @@ CommonOther = Annotated[dict[str, AnyXmlElement], AfterValidator(_validate_commo
                     )
                     scalar.standard_imports.add("from pydantic import AfterValidator")
                 else:
-                    scalar.definition = f"{alias} = Annotated[{scalar.base_type}, Field({args})]"
+                    scalar.definition = (
+                        f"{alias} = Annotated[{scalar.base_type}, Field({args})]"
+                    )
                 self.typing_imports.add("Annotated")
             else:
                 scalar.definition = f"{alias} = {scalar.base_type}"
@@ -1126,7 +1158,11 @@ CommonOther = Annotated[dict[str, AnyXmlElement], AfterValidator(_validate_commo
         if not isinstance(schema, dict):
             return None
         if self._is_multilang_container(schema):
-            return ScalarInfo(base_type="MultiLangList", needs_multilang=True, description=schema.get("description"))
+            return ScalarInfo(
+                base_type="MultiLangList",
+                needs_multilang=True,
+                description=schema.get("description"),
+            )
         if "$ref" in schema:
             ref_scalar = self._lookup_scalar(schema["$ref"])
             if ref_scalar:
@@ -1140,11 +1176,14 @@ CommonOther = Annotated[dict[str, AnyXmlElement], AfterValidator(_validate_commo
 
         if "anyOf" in schema and isinstance(schema["anyOf"], list):
             options = [
-                self._infer_scalar(option) for option in schema["anyOf"] if isinstance(option, (dict, list))
+                self._infer_scalar(option)
+                for option in schema["anyOf"]
+                if isinstance(option, (dict, list))
             ]
             options = [opt for opt in options if opt is not None]
             if options and all(
-                (opt.alias or opt.base_type) == (options[0].alias or options[0].base_type)
+                (opt.alias or opt.base_type)
+                == (options[0].alias or options[0].base_type)
                 for opt in options
             ):
                 combined_imports: set[str] = set()
@@ -1191,19 +1230,35 @@ CommonOther = Annotated[dict[str, AnyXmlElement], AfterValidator(_validate_commo
                     description=schema.get("description"),
                 )
             constraints = self._collect_constraints(schema)
-            return ScalarInfo(base_type="str", constraints=constraints, description=schema.get("description"))
+            return ScalarInfo(
+                base_type="str",
+                constraints=constraints,
+                description=schema.get("description"),
+            )
         if schema_type == "integer":
             constraints = self._collect_constraints(schema)
-            return ScalarInfo(base_type="int", constraints=constraints, description=schema.get("description"))
+            return ScalarInfo(
+                base_type="int",
+                constraints=constraints,
+                description=schema.get("description"),
+            )
         if schema_type == "number":
             constraints = self._collect_constraints(schema)
-            return ScalarInfo(base_type="float", constraints=constraints, description=schema.get("description"))
+            return ScalarInfo(
+                base_type="float",
+                constraints=constraints,
+                description=schema.get("description"),
+            )
         if schema_type == "boolean":
             return ScalarInfo(base_type="bool", description=schema.get("description"))
 
         if "enum" in schema and isinstance(schema["enum"], list):
             literals = ", ".join(repr(value) for value in schema["enum"])
-            return ScalarInfo(base_type=f"Literal[{literals}]", typing_imports={"Literal"}, description=schema.get("description"))
+            return ScalarInfo(
+                base_type=f"Literal[{literals}]",
+                typing_imports={"Literal"},
+                description=schema.get("description"),
+            )
 
         return None
 
@@ -1243,7 +1298,9 @@ CommonOther = Annotated[dict[str, AnyXmlElement], AfterValidator(_validate_commo
         return base
 
     @staticmethod
-    def _merge_inline_schema(base: dict[str, Any], new: dict[str, Any]) -> dict[str, Any]:
+    def _merge_inline_schema(
+        base: dict[str, Any], new: dict[str, Any]
+    ) -> dict[str, Any]:
         merged = {**base}
         if "properties" in new:
             merged.setdefault("properties", {})
@@ -1261,7 +1318,9 @@ def _split_camel(value: str) -> list[str]:
     value = re.sub(r"[^0-9A-Za-z]+", " ", value)
     value = re.sub(r"([A-Z]+)([A-Z][a-z])", r"\1 \2", value)
     value = re.sub(r"([a-z0-9])([A-Z])", r"\1 \2", value)
-    tokens = [token for token in value.replace("@", " ").replace("#", " ").split() if token]
+    tokens = [
+        token for token in value.replace("@", " ").replace("#", " ").split() if token
+    ]
     return tokens
 
 

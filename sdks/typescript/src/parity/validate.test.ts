@@ -55,6 +55,10 @@ function makeCustomInvalidFlowPackage() {
                     '@xml:lang': 'en',
                     '#text': 'English 中文',
                   },
+                  {
+                    '@xml:lang': 'en-US',
+                    '#text': 'Regional English',
+                  },
                 ],
                 treatmentStandardsRoutes: [
                   {
@@ -255,7 +259,11 @@ describe('package validation parity', () => {
 
   it('avoids cascading classification issues when the schema structure is missing', () => {
     const inputDir = makeInvalidSourcesCategory();
-    const report = categoryValidate(path.join(inputDir, 'sources'), 'sources', false);
+    const report = categoryValidate(
+      path.join(inputDir, 'sources'),
+      'sources',
+      false
+    );
 
     expect(report.summary.issue_count).toBe(1);
     expect(report.issues.map((issue) => issue.issue_code)).toEqual([
@@ -273,11 +281,18 @@ describe('package validation parity', () => {
 
     expect(report.summary.issue_count).toBeGreaterThan(3);
     expect(
-      report.issues.filter((issue) => issue.issue_code === 'schema_error').length
+      report.issues.filter((issue) => issue.issue_code === 'schema_error')
+        .length
     ).toBeGreaterThan(0);
     expect(
       report.issues.filter(
         (issue) => issue.issue_code === 'localized_text_language_error'
+      ).length
+    ).toBe(1);
+    expect(
+      report.issues.filter(
+        (issue) =>
+          issue.issue_code === 'localized_text_language_not_in_ilcd_enum'
       ).length
     ).toBe(1);
     expect(
@@ -289,6 +304,7 @@ describe('package validation parity', () => {
       expect.arrayContaining([
         'schema_error',
         'localized_text_language_error',
+        'localized_text_language_not_in_ilcd_enum',
         'classification_hierarchy_error',
       ])
     );
@@ -305,6 +321,11 @@ describe('package validation parity', () => {
           issue_code: 'localized_text_language_error',
           location:
             'flowDataSet/flowInformation/dataSetInformation/name/baseName/0',
+        }),
+        expect.objectContaining({
+          issue_code: 'localized_text_language_not_in_ilcd_enum',
+          location:
+            'flowDataSet/flowInformation/dataSetInformation/name/baseName/1',
         }),
         expect.objectContaining({
           issue_code: 'classification_hierarchy_error',

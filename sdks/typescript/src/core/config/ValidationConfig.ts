@@ -47,6 +47,7 @@ export type ValidationIssueCode =
   | 'invalid_value'
   | 'unrecognized_keys'
   | 'invalid_union'
+  | 'localized_text_language_not_in_ilcd_enum'
   | 'localized_text_zh_must_include_chinese_character'
   | 'localized_text_en_must_not_contain_chinese_character'
   | 'cas_number_checksum_error'
@@ -223,7 +224,9 @@ export class ValidationUtils {
       params.actual = Number(inputValue);
     }
 
-    return Object.values(params).some((value) => value !== undefined) ? params : undefined;
+    return Object.values(params).some((value) => value !== undefined)
+      ? params
+      : undefined;
   }
 
   private static getTooSmallParams(
@@ -249,10 +252,18 @@ export class ValidationUtils {
       params.actual = Number(inputValue);
     }
 
-    return Object.values(params).some((value) => value !== undefined) ? params : undefined;
+    return Object.values(params).some((value) => value !== undefined)
+      ? params
+      : undefined;
   }
 
-  private static getValidationIssueCode(issue: ZodIssueLike): ValidationIssueCode {
+  private static isXmlLangPath(issue: ZodIssueLike): boolean {
+    return issue.path[issue.path.length - 1] === '@xml:lang';
+  }
+
+  private static getValidationIssueCode(
+    issue: ZodIssueLike
+  ): ValidationIssueCode {
     switch (issue.code) {
       case 'invalid_type':
         return issue.input === undefined ? 'required_missing' : 'invalid_type';
@@ -263,7 +274,9 @@ export class ValidationUtils {
       case 'invalid_format':
         return 'invalid_format';
       case 'invalid_value':
-        return 'invalid_value';
+        return this.isXmlLangPath(issue)
+          ? 'localized_text_language_not_in_ilcd_enum'
+          : 'invalid_value';
       case 'unrecognized_keys':
         return 'unrecognized_keys';
       case 'invalid_union':
@@ -274,7 +287,10 @@ export class ValidationUtils {
             ? issue.params.validationCode
             : undefined;
 
-        return validationCode && KNOWN_CUSTOM_VALIDATION_CODES.has(validationCode as ValidationIssueCode)
+        return validationCode &&
+          KNOWN_CUSTOM_VALIDATION_CODES.has(
+            validationCode as ValidationIssueCode
+          )
           ? (validationCode as ValidationIssueCode)
           : 'custom';
       }
@@ -320,6 +336,7 @@ export class ValidationUtils {
             }
           : undefined;
       case 'invalid_value':
+      case 'localized_text_language_not_in_ilcd_enum':
         return Array.isArray(issue.values)
           ? {
               allowedValues: issue.values.join(', '),
@@ -360,7 +377,9 @@ export class ValidationUtils {
     sourceData?: unknown,
     severity: ValidationIssueSeverity = 'error'
   ): NormalizedValidationIssue[] {
-    return issues.map((issue) => this.normalizeIssue(issue, sourceData, severity));
+    return issues.map((issue) =>
+      this.normalizeIssue(issue, sourceData, severity)
+    );
   }
 
   /**
@@ -684,7 +703,10 @@ export class ValidationUtils {
           return {
             success: false,
             error: strictResult.error,
-            validationIssues: this.normalizeIssues(strictResult.error.issues, data),
+            validationIssues: this.normalizeIssues(
+              strictResult.error.issues,
+              data
+            ),
             mode: config.mode,
           };
         }

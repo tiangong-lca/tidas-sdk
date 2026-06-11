@@ -6,7 +6,7 @@ from __future__ import annotations
 
 import re
 
-from typing import Annotated, Any
+from typing import Annotated, Any, Literal
 
 from pydantic import Field, model_validator
 from tidas_sdk.core.base import TidasBaseModel
@@ -22,6 +22,8 @@ CHINESE_CHARACTER_PATTERN = re.compile(r'[\u3400-\u4DBF\u4E00-\u9FFF\uF900-\uFAF
 CASNumber = Annotated[str, Field(pattern='^[0-9]{2,7}-[0-9]{2}-[0-9]$'), AfterValidator(validate_cas_number_check_digit)]
 # Free text with an unlimited length.
 FT = str
+# ILCD 1.1 common Languages enumeration.
+Languages = Literal['aa', 'ab', 'ae', 'af', 'ak', 'am', 'an', 'ar', 'as', 'av', 'ay', 'az', 'ba', 'be', 'bg', 'bh', 'bi', 'bm', 'bn', 'bo', 'br', 'bs', 'ca', 'ce', 'ch', 'co', 'cr', 'cs', 'cu', 'cv', 'cy', 'da', 'de', 'dv', 'dz', 'ee', 'el', 'en', 'eo', 'es', 'et', 'eu', 'fa', 'ff', 'fi', 'fj', 'fo', 'fr', 'fy', 'ga', 'gd', 'gl', 'gn', 'gu', 'gv', 'ha', 'he', 'hi', 'ho', 'hr', 'ht', 'hu', 'hy', 'hz', 'ia', 'id', 'ie', 'ig', 'ii', 'ik', 'io', 'is', 'it', 'iu', 'ja', 'jv', 'ka', 'kg', 'ki', 'kj', 'kk', 'kl', 'km', 'kn', 'ko', 'kr', 'ks', 'ku', 'kv', 'kw', 'ky', 'la', 'lb', 'lg', 'li', 'ln', 'lo', 'lt', 'lu', 'lv', 'mg', 'mh', 'mi', 'mk', 'ml', 'mn', 'mo', 'mr', 'ms', 'mt', 'my', 'na', 'nb', 'nd', 'ne', 'ng', 'nl', 'nn', 'no', 'nr', 'nv', 'ny', 'oc', 'oj', 'om', 'or', 'os', 'pa', 'pi', 'pl', 'ps', 'pt', 'qu', 'rm', 'rn', 'ro', 'ru', 'rw', 'sa', 'sc', 'sd', 'se', 'sg', 'si', 'sk', 'sl', 'sm', 'sn', 'so', 'sq', 'sr', 'ss', 'st', 'su', 'sv', 'sw', 'ta', 'te', 'tg', 'th', 'ti', 'tk', 'tl', 'tn', 'to', 'tr', 'ts', 'tt', 'tw', 'ty', 'ug', 'uk', 'ur', 'uz', 've', 'vi', 'vo', 'wa', 'wo', 'xh', 'yi', 'yo', 'za', 'zh', 'zu']
 # 1-digit integer number
 Int1 = Annotated[str, Field(pattern='^[0-9]$')]
 # 5-digit integer number
@@ -86,46 +88,46 @@ DateTime = datetime
 
 class LocalizedTextItem(TidasBaseModel):
     """Language-tagged text with optional script checks for selected languages."""
-    xml_lang: str = Field(default=..., alias='@xml:lang')
+    xml_lang: Languages = Field(default=..., alias='@xml:lang')
     text: str = Field(default=..., alias='#text')
 
     @model_validator(mode='after')
     def _validate_language_script(self) -> 'LocalizedTextItem':
-        if re.match(r'^[zZ][hH](?:-|$)', self.xml_lang) and not CHINESE_CHARACTER_PATTERN.search(self.text):
-            raise ValueError("@xml:lang values starting with 'zh' must include at least one Chinese character")
-        if re.match(r'^[eE][nN](?:-|$)', self.xml_lang) and CHINESE_CHARACTER_PATTERN.search(self.text):
-            raise ValueError("@xml:lang values starting with 'en' must not contain Chinese characters")
+        if self.xml_lang == 'zh' and not CHINESE_CHARACTER_PATTERN.search(self.text):
+            raise ValueError("@xml:lang value 'zh' must include at least one Chinese character")
+        if self.xml_lang == 'en' and CHINESE_CHARACTER_PATTERN.search(self.text):
+            raise ValueError("@xml:lang value 'en' must not contain Chinese characters")
         return self
 
 class LocalizedText500Item(LocalizedTextItem):
     """Language-tagged text with a maximum length of 500 characters."""
-    xml_lang: str = Field(default=..., alias='@xml:lang')
+    xml_lang: Languages = Field(default=..., alias='@xml:lang')
     text: str = Field(default=..., alias='#text', max_length=500)
 
     @model_validator(mode='after')
     def _validate_language_script(self) -> 'LocalizedText500Item':
-        if re.match(r'^[zZ][hH](?:-|$)', self.xml_lang) and not CHINESE_CHARACTER_PATTERN.search(self.text):
-            raise ValueError("@xml:lang values starting with 'zh' must include at least one Chinese character")
-        if re.match(r'^[eE][nN](?:-|$)', self.xml_lang) and CHINESE_CHARACTER_PATTERN.search(self.text):
-            raise ValueError("@xml:lang values starting with 'en' must not contain Chinese characters")
+        if self.xml_lang == 'zh' and not CHINESE_CHARACTER_PATTERN.search(self.text):
+            raise ValueError("@xml:lang value 'zh' must include at least one Chinese character")
+        if self.xml_lang == 'en' and CHINESE_CHARACTER_PATTERN.search(self.text):
+            raise ValueError("@xml:lang value 'en' must not contain Chinese characters")
         return self
 
 class AnnualSupplyOrProductionVolumeTextItem(LocalizedText500Item):
     """Language-tagged annual supply or production volume text. The text must start with a real number followed by whitespace and a non-empty unit or context suffix."""
-    xml_lang: str = Field(default=..., alias='@xml:lang')
+    xml_lang: Languages = Field(default=..., alias='@xml:lang')
     text: str = Field(default=..., alias='#text', max_length=500, pattern='^[+-]?(\\d+(\\.\\d*)?|\\.\\d+)([Ee][+-]?\\d+)?\\s+\\S.*$')
 
 class LocalizedText1000Item(LocalizedTextItem):
     """Language-tagged text with a maximum length of 1000 characters."""
-    xml_lang: str = Field(default=..., alias='@xml:lang')
+    xml_lang: Languages = Field(default=..., alias='@xml:lang')
     text: str = Field(default=..., alias='#text', max_length=1000)
 
     @model_validator(mode='after')
     def _validate_language_script(self) -> 'LocalizedText1000Item':
-        if re.match(r'^[zZ][hH](?:-|$)', self.xml_lang) and not CHINESE_CHARACTER_PATTERN.search(self.text):
-            raise ValueError("@xml:lang values starting with 'zh' must include at least one Chinese character")
-        if re.match(r'^[eE][nN](?:-|$)', self.xml_lang) and CHINESE_CHARACTER_PATTERN.search(self.text):
-            raise ValueError("@xml:lang values starting with 'en' must not contain Chinese characters")
+        if self.xml_lang == 'zh' and not CHINESE_CHARACTER_PATTERN.search(self.text):
+            raise ValueError("@xml:lang value 'zh' must include at least one Chinese character")
+        if self.xml_lang == 'en' and CHINESE_CHARACTER_PATTERN.search(self.text):
+            raise ValueError("@xml:lang value 'en' must not contain Chinese characters")
         return self
 
 class GlobalReferenceTypeVariant0(TidasBaseModel):

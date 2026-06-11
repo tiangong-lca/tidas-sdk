@@ -5,6 +5,7 @@ import {
   CAS_NUMBER_PATTERN,
   isValidCASNumber,
 } from './../core/validation/cas-number';
+import { ILCD_LANGUAGE_CODES } from './../core/validation/ilcd-languages';
 import { type AnyXmlElement } from './../types/tidas_data_types';
 
 export const CASNumberSchema = z
@@ -32,6 +33,8 @@ const LOCALIZED_TEXT_ZH_MUST_INCLUDE_CHINESE_CHARACTER_CODE =
 const LOCALIZED_TEXT_EN_MUST_NOT_CONTAIN_CHINESE_CHARACTER_CODE =
   'localized_text_en_must_not_contain_chinese_character';
 
+export const IlcdLanguageCodeSchema = z.enum(ILCD_LANGUAGE_CODES);
+
 const addLocalizedTextLanguageChecks = (
   value: { '@xml:lang': string; '#text': string },
   ctx: z.RefinementCtx
@@ -39,33 +42,33 @@ const addLocalizedTextLanguageChecks = (
   const lang = value['@xml:lang'];
   const text = value['#text'];
 
-  if (/^[zZ][hH](?:-|$)/.test(lang) && !chineseCharacterPattern.test(text)) {
+  if (lang === 'zh' && !chineseCharacterPattern.test(text)) {
     ctx.addIssue({
       code: z.ZodIssueCode.custom,
       path: ['#text'],
       message:
-        "@xml:lang values starting with 'zh' must include at least one Chinese character",
+        "@xml:lang value 'zh' must include at least one Chinese character",
       params: {
         validationCode: LOCALIZED_TEXT_ZH_MUST_INCLUDE_CHINESE_CHARACTER_CODE,
       },
     });
   }
 
-  if (/^[eE][nN](?:-|$)/.test(lang) && chineseCharacterPattern.test(text)) {
+  if (lang === 'en' && chineseCharacterPattern.test(text)) {
     ctx.addIssue({
       code: z.ZodIssueCode.custom,
       path: ['#text'],
-      message:
-        "@xml:lang values starting with 'en' must not contain Chinese characters",
+      message: "@xml:lang value 'en' must not contain Chinese characters",
       params: {
-        validationCode: LOCALIZED_TEXT_EN_MUST_NOT_CONTAIN_CHINESE_CHARACTER_CODE,
+        validationCode:
+          LOCALIZED_TEXT_EN_MUST_NOT_CONTAIN_CHINESE_CHARACTER_CODE,
       },
     });
   }
 };
 
 const LocalizedTextItemBaseSchema = z.object({
-  '@xml:lang': z.string(),
+  '@xml:lang': IlcdLanguageCodeSchema,
   '#text': z.string(),
 });
 
@@ -73,10 +76,9 @@ export const LocalizedTextItemSchema = LocalizedTextItemBaseSchema.superRefine(
   addLocalizedTextLanguageChecks
 );
 
-export const LocalizedText500ItemSchema =
-  LocalizedTextItemBaseSchema.extend({
-    '#text': z.string().max(500),
-  }).superRefine(addLocalizedTextLanguageChecks);
+export const LocalizedText500ItemSchema = LocalizedTextItemBaseSchema.extend({
+  '#text': z.string().max(500),
+}).superRefine(addLocalizedTextLanguageChecks);
 
 export const AnnualSupplyOrProductionVolumeTextItemSchema =
   LocalizedTextItemBaseSchema.extend({
@@ -91,15 +93,11 @@ export const AnnualSupplyOrProductionVolumeMultiLangSchema = z.union([
   AnnualSupplyOrProductionVolumeTextItemSchema,
 ]);
 
-export const LocalizedText1000ItemSchema =
-  LocalizedTextItemBaseSchema.extend({
-    '#text': z.string().max(1000),
-  }).superRefine(addLocalizedTextLanguageChecks);
+export const LocalizedText1000ItemSchema = LocalizedTextItemBaseSchema.extend({
+  '#text': z.string().max(1000),
+}).superRefine(addLocalizedTextLanguageChecks);
 
-const addRequiredMultiLangIssue = (
-  value: unknown,
-  ctx: z.RefinementCtx
-) => {
+const addRequiredMultiLangIssue = (value: unknown, ctx: z.RefinementCtx) => {
   if (Array.isArray(value) && value.length === 0) {
     ctx.addIssue({
       code: z.ZodIssueCode.custom,
@@ -113,8 +111,9 @@ export const StringMultiLangSchema = z.union([
   LocalizedText500ItemSchema,
 ]);
 
-export const RequiredStringMultiLangSchema =
-  StringMultiLangSchema.superRefine(addRequiredMultiLangIssue);
+export const RequiredStringMultiLangSchema = StringMultiLangSchema.superRefine(
+  addRequiredMultiLangIssue
+);
 
 export const Int1Schema = z.string().regex(/^[0-9]$/);
 
@@ -145,16 +144,18 @@ export const STMultiLangSchema = z.union([
   LocalizedText1000ItemSchema,
 ]);
 
-export const RequiredSTMultiLangSchema =
-  STMultiLangSchema.superRefine(addRequiredMultiLangIssue);
+export const RequiredSTMultiLangSchema = STMultiLangSchema.superRefine(
+  addRequiredMultiLangIssue
+);
 
 export const FTMultiLangSchema = z.union([
   z.array(LocalizedTextItemSchema),
   LocalizedTextItemSchema,
 ]);
 
-export const RequiredFTMultiLangSchema =
-  FTMultiLangSchema.superRefine(addRequiredMultiLangIssue);
+export const RequiredFTMultiLangSchema = FTMultiLangSchema.superRefine(
+  addRequiredMultiLangIssue
+);
 
 export const AnyXmlElementSchema: z.ZodType<AnyXmlElement> = z.lazy(() =>
   z.union([

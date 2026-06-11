@@ -3,6 +3,8 @@ import {
   AnnualSupplyOrProductionVolumeTextItemSchema,
   CASNumberSchema,
   CommonOtherSchema,
+  IlcdLanguageCodeSchema,
+  LocalizedTextItemSchema,
 } from './tidas_data_types.schema';
 import { ValidationUtils } from '../core/config/ValidationConfig';
 
@@ -55,6 +57,49 @@ describe('CommonOtherSchema', () => {
     expect(
       CommonOtherSchema.safeParse({
         'common:note': 'Carbon dioxide',
+      }).success
+    ).toBe(false);
+  });
+});
+
+describe('LocalizedTextItemSchema', () => {
+  it('accepts ILCD language enumeration values', () => {
+    expect(IlcdLanguageCodeSchema.safeParse('en').success).toBe(true);
+    expect(IlcdLanguageCodeSchema.safeParse('de').success).toBe(true);
+    expect(IlcdLanguageCodeSchema.safeParse('zh').success).toBe(true);
+    expect(
+      LocalizedTextItemSchema.safeParse({
+        '@xml:lang': 'de',
+        '#text': 'Deutscher Titel',
+      }).success
+    ).toBe(true);
+  });
+
+  it('rejects language codes outside the ILCD enumeration', () => {
+    const result = LocalizedTextItemSchema.safeParse({
+      '@xml:lang': 'en-US',
+      '#text': 'English title',
+    });
+
+    expect(result.success).toBe(false);
+    if (!result.success) {
+      expect(
+        ValidationUtils.normalizeIssues(result.error.issues)[0]?.code
+      ).toBe('localized_text_language_not_in_ilcd_enum');
+    }
+  });
+
+  it('checks scripts only for exact zh and en language codes', () => {
+    expect(
+      LocalizedTextItemSchema.safeParse({
+        '@xml:lang': 'zh',
+        '#text': 'English only',
+      }).success
+    ).toBe(false);
+    expect(
+      LocalizedTextItemSchema.safeParse({
+        '@xml:lang': 'en',
+        '#text': '中文',
       }).success
     ).toBe(false);
   });
