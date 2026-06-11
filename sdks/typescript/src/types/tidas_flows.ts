@@ -62,7 +62,11 @@ export interface Flows {
     };
     modellingAndValidation: {
       LCIMethod: {
-        typeOfDataSet: 'Elementary flow' | 'Product flow' | 'Waste flow';
+        typeOfDataSet:
+          | 'Elementary flow'
+          | 'Product flow'
+          | 'Waste flow'
+          | 'Other flow';
         'common:other'?: CommonOther;
       };
       complianceDeclarations: {

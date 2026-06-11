@@ -64,6 +64,7 @@ export interface Lciamethods {
           | 'Natural resources'
           | 'Natural environment'
           | 'Human health'
+          | 'Man-made environment'
           | 'Other';
         impactIndicator?: String;
         'common:generalComment'?: FTMultiLang;
@@ -172,7 +173,7 @@ export interface Lciamethods {
                         | 'Cross-check with other data set'
                         | 'Expert judgement'
                         | 'Mass balance'
-                        | 'Compliance with legal limitsRegulated Inputs and Outputs e.g. emission data are validated for compliance with legal limits, typically after relating and scaling the data to the regulated processes/sites etc.'
+                        | 'Compliance with legal limits'
                         | 'Compliance with ISO 14040 to 14044'
                         | 'Documentation'
                         | 'Evidence collection by means of plant visits and/or interviews';
@@ -187,7 +188,7 @@ export interface Lciamethods {
                         | 'Cross-check with other data set'
                         | 'Expert judgement'
                         | 'Mass balance'
-                        | 'Compliance with legal limitsRegulated Inputs and Outputs e.g. emission data are validated for compliance with legal limits, typically after relating and scaling the data to the regulated processes/sites etc.'
+                        | 'Compliance with legal limits'
                         | 'Compliance with ISO 14040 to 14044'
                         | 'Documentation'
                         | 'Evidence collection by means of plant visits and/or interviews';
@@ -215,7 +216,7 @@ export interface Lciamethods {
                         | 'Cross-check with other data set'
                         | 'Expert judgement'
                         | 'Mass balance'
-                        | 'Compliance with legal limitsRegulated Inputs and Outputs e.g. emission data are validated for compliance with legal limits, typically after relating and scaling the data to the regulated processes/sites etc.'
+                        | 'Compliance with legal limits'
                         | 'Compliance with ISO 14040 to 14044'
                         | 'Documentation'
                         | 'Evidence collection by means of plant visits and/or interviews';
@@ -230,7 +231,7 @@ export interface Lciamethods {
                         | 'Cross-check with other data set'
                         | 'Expert judgement'
                         | 'Mass balance'
-                        | 'Compliance with legal limitsRegulated Inputs and Outputs e.g. emission data are validated for compliance with legal limits, typically after relating and scaling the data to the regulated processes/sites etc.'
+                        | 'Compliance with legal limits'
                         | 'Compliance with ISO 14040 to 14044'
                         | 'Documentation'
                         | 'Evidence collection by means of plant visits and/or interviews';
@@ -368,7 +369,7 @@ export interface Lciamethods {
             uncertaintyDistributionType?:
               | 'undefined'
               | 'log-normal'
-              | 'normalisation'
+              | 'normal'
               | 'triangular'
               | 'uniform';
             relativeStandardDeviation95In?: Perc;
@@ -399,7 +400,7 @@ export interface Lciamethods {
             uncertaintyType?:
               | 'undefined'
               | 'log-normal'
-              | 'normalisation'
+              | 'normal'
               | 'triangular'
               | 'uniform';
             relativeStandardDeviation95In?: Perc;

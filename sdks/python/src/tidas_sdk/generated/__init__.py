@@ -10,6 +10,7 @@ from .tidas_data_types import GlobalReferenceTypeVariant1Item
 from .tidas_data_types import DataTypes
 from .tidas_data_types import CASNumber
 from .tidas_data_types import FT
+from .tidas_data_types import Languages
 from .tidas_data_types import Int1
 from .tidas_data_types import Int5
 from .tidas_data_types import Int6
@@ -5830,6 +5831,7 @@ __all__ = [
     'DataTypes',
     'CASNumber',
     'FT',
+    'Languages',
     'Int1',
     'Int5',
     'Int6',
