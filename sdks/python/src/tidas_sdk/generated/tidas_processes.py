@@ -61,7 +61,7 @@ class CommonClassItemOption3(TidasBaseModel):
 
 class DataSetInformationClassificationInformationCommonClassification(TidasBaseModel):
     """Optional statistical or other classification of the data set. Typically also used for structuring LCA databases."""
-    common_class: list[CommonClassItemOption0 | CommonClassItemOption1 | CommonClassItemOption2 | CommonClassItemOption3] = Field(default_factory=list, alias='common:class')
+    common_class: list[CommonClassItemOption0 | CommonClassItemOption1 | CommonClassItemOption2 | CommonClassItemOption3] = Field(default_factory=list, alias='common:class', max_items=4)
     common_other: CommonOther | None = Field(default=None, alias='common:other')
 
 class ProcessInformationDataSetInformationClassificationInformation(TidasBaseModel):
