@@ -263,9 +263,9 @@ export type Int6 = string;
  */
 export type LevelType = Int1;
 /**
- * percentage amount
+ * percentage amount (ILCD Perc: decimal, totalDigits=5, fractionDigits=3)
  *
- * @pattern ^(100(\.0{1,3})?|([0-9]|[1-9][0-9])(\.\d{1,3})?)$
+ * @pattern ^[+-]?(\d{1,5}|\d{1,4}\.\d|\d{1,3}\.\d{2}|\d{1,2}\.\d{3})$
  */
 export type Perc = string;
 /**
@@ -279,7 +279,7 @@ export type MatV = string;
 /**
  * 38-digit real number
  *
- * @pattern [+-]?(\d+(\.\d*)?|\.\d+)([Ee][+-]?\d+)?$
+ * @pattern ^[+-]?(\d+(\.\d*)?|\.\d+)([Ee][+-]?\d+)?$
  */
 export type Real = string;
 /**
@@ -322,18 +322,20 @@ export type CommonOther = { [key: string]: string | AnyXmlElement };
  */
 export type GlobalReferenceType =
   | {
-      '@type': string;
+      '@type': GlobalReferenceTypeValues;
       '@refObjectId': string;
-      '@version': string;
+      '@version': Version;
       '@uri': string;
       'common:shortDescription': STMultiLang;
+      'common:subReference'?: String | String[];
     }
   | {
-      '@type': string;
+      '@type': GlobalReferenceTypeValues;
       '@refObjectId': string;
-      '@version': string;
+      '@version': Version;
       '@uri': string;
       'common:shortDescription': STMultiLang;
+      'common:subReference'?: String | String[];
     }[];
 /**
  * Global geographical reference in Latitude and LongitudeExamples: "+42.42;-180", "0;0", "13.22 ; -3"
@@ -347,6 +349,24 @@ export type GIS = string;
  * @pattern ^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$
  */
 export type UUID = string;
+/**
+ * Data set version number, format NN.NN(.NNN) per ILCD.
+ *
+ * @pattern ^\d{2}\.\d{2}(\.\d{3})?$
+ */
+export type Version = string;
+/**
+ * Type of the referenced dataset/file (ILCD GlobalReferenceTypeValues).
+ */
+export type GlobalReferenceTypeValues =
+  | 'source data set'
+  | 'process data set'
+  | 'flow data set'
+  | 'flow property data set'
+  | 'unit group data set'
+  | 'contact data set'
+  | 'LCIA method data set'
+  | 'other external file';
 /**
  * 4-digit year
  *

@@ -11,6 +11,7 @@ import type {
   LevelType,
   StringMultiLang,
   UUID,
+  Version,
   dateTime,
 } from './tidas_data_types';
 
@@ -48,7 +49,7 @@ export interface Sources {
           | 'Software or database'
           | 'Other unpublished and grey literature';
         sourceDescriptionOrComment?: FTMultiLang;
-        referenceToDigitalFile?: { '@uri'?: string };
+        referenceToDigitalFile?: { '@uri'?: string } | { '@uri'?: string }[];
         referenceToContact?: GlobalReferenceType;
         referenceToLogo?: GlobalReferenceType;
         'common:other'?: CommonOther;
@@ -62,7 +63,7 @@ export interface Sources {
         'common:other'?: CommonOther;
       };
       publicationAndOwnership: {
-        'common:dataSetVersion': string;
+        'common:dataSetVersion': Version;
         'common:referenceToPrecedingDataSetVersion'?: GlobalReferenceType;
         'common:permanentDataSetURI'?: string;
         'common:referenceToOwnershipOfDataSet': GlobalReferenceType;

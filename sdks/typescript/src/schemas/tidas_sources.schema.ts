@@ -8,6 +8,7 @@ import {
   LevelTypeSchema,
   RequiredStringMultiLangSchema,
   UUIDSchema,
+  VersionSchema,
   dateTimeSchema,
 } from './tidas_data_types.schema';
 
@@ -51,9 +52,16 @@ export const SourcesSchema = z.object({
           .optional(),
         sourceDescriptionOrComment: FTMultiLangSchema.optional(),
         referenceToDigitalFile: z
-          .object({
-            '@uri': z.string().optional(),
-          })
+          .union([
+            z.object({
+              '@uri': z.string().optional(),
+            }),
+            z.array(
+              z.object({
+                '@uri': z.string().optional(),
+              })
+            ),
+          ])
           .optional(),
         referenceToContact: GlobalReferenceTypeSchema.optional(),
         referenceToLogo: GlobalReferenceTypeSchema.optional(),
@@ -68,7 +76,7 @@ export const SourcesSchema = z.object({
         'common:other': CommonOtherSchema.optional(),
       }),
       publicationAndOwnership: z.object({
-        'common:dataSetVersion': z.string(),
+        'common:dataSetVersion': VersionSchema,
         'common:referenceToPrecedingDataSetVersion':
           GlobalReferenceTypeSchema.optional(),
         'common:permanentDataSetURI': z.string().optional(),

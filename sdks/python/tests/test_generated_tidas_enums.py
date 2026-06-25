@@ -57,19 +57,15 @@ def test_flow_type_accepts_other_flow() -> None:
 
 
 def test_lcia_uncertainty_distribution_uses_normal() -> None:
-    uncertainty_distribution_values = field_literal_values(
+    # Both the single-object and array branches now use the ILCD-aligned field
+    # name uncertainty_distribution_type (A5 unified the array branch).
+    for model in (
         CharacterisationFactorsFactorOption0,
-        "uncertainty_distribution_type",
-    )
-    uncertainty_type_values = field_literal_values(
         CharacterisationFactorsFactorItem,
-        "uncertainty_type",
-    )
-
-    assert "normal" in uncertainty_distribution_values
-    assert "normalisation" not in uncertainty_distribution_values
-    assert "normal" in uncertainty_type_values
-    assert "normalisation" not in uncertainty_type_values
+    ):
+        values = field_literal_values(model, "uncertainty_distribution_type")
+        assert "normal" in values
+        assert "normalisation" not in values
 
 
 def test_lcia_normalisation_boolean_field_keeps_schema_alias() -> None:
@@ -89,16 +85,15 @@ def test_lcia_normalisation_boolean_field_keeps_schema_alias() -> None:
         ItemCommonMethodItem,
     ],
 )
-def test_review_method_accepts_exact_compliance_with_legal_limits(model) -> None:
+def test_review_method_uses_lcia_specific_values(model) -> None:
+    # A4: LCIA-method review uses ILCD MethodOfReviewValues, not the process
+    # review method list. "Compliance with legal limits" is process-only and
+    # must NOT appear here.
     values = field_literal_values(model, "name")
 
-    assert "Compliance with legal limits" in values
-    assert all(
-        not value.startswith("Compliance with legal limitsRegulated")
-        for value in values
-    )
-    model.model_validate({"@name": "Compliance with legal limits"})
+    assert "Expert judgement" in values
+    assert "Cross-check with other LCIA method(ology)" in values
+    assert "Compliance with legal limits" not in values
+    model.model_validate({"@name": "Expert judgement"})
     with pytest.raises(ValidationError):
-        model.model_validate(
-            {"@name": "Compliance with legal limitsRegulated limits given"}
-        )
+        model.model_validate({"@name": "Compliance with legal limits"})

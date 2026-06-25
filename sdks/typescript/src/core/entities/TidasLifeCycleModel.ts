@@ -324,9 +324,9 @@ export class TidasLifeCycleModel extends TidasEntity<LifeCycleModel> {
   private classificationPath(
     dataInfo: LifeCycleModel['lifeCycleModelDataSet']['lifeCycleModelInformation']['dataSetInformation'] | undefined
   ): string | undefined {
-    const classes = ensureArray<any>(
-      dataInfo?.classificationInformation?.['common:classification']?.['common:class']
-    );
+    const cc = dataInfo?.classificationInformation?.['common:classification'];
+    const block = Array.isArray(cc) ? cc[0] : cc;
+    const classes = ensureArray<any>((block as any)?.['common:class']);
     if (!classes.length) return undefined;
     const sorted = classes.slice().sort((a, b) => {
       const aLevel = Number((a as any)['@level']);

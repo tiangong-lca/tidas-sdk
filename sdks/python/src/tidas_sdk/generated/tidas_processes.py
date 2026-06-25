@@ -23,6 +23,7 @@ from .tidas_data_types import Perc
 from .tidas_data_types import Real
 from .tidas_data_types import String
 from .tidas_data_types import UUID
+from .tidas_data_types import Version
 from .tidas_data_types import Year
 from .tidas_locations_category import LocationsCategory
 from datetime import datetime
@@ -59,14 +60,27 @@ class CommonClassItemOption3(TidasBaseModel):
     class_id: str = Field(default=..., alias='@classId')
     text: str = Field(default=..., alias='#text')
 
-class DataSetInformationClassificationInformationCommonClassification(TidasBaseModel):
-    """Optional statistical or other classification of the data set. Typically also used for structuring LCA databases."""
+class ClassificationInformationCommonClassificationOption0(TidasBaseModel):
     common_class: list[CommonClassItemOption0 | CommonClassItemOption1 | CommonClassItemOption2 | CommonClassItemOption3] = Field(default_factory=list, alias='common:class', max_items=4)
+    common_other: CommonOther | None = Field(default=None, alias='common:other')
+    name: str | None = Field(default=None, alias='@name', description="Name of the classification system (e.g. CPC, ISIC, HS). Per ILCD this defaults to 'ILCD' when absent; set it explicitly for non-ILCD systems.")
+    classes: str | None = Field(default=None, alias='@classes', description='Optional URL or identifier of the classification file/system.')
+
+class ItemCommonClassItem(TidasBaseModel):
+    level: LevelType = Field(default=..., alias='@level')
+    class_id: str = Field(default=..., alias='@classId')
+    text: str = Field(default=..., alias='#text')
+
+class ClassificationInformationCommonClassificationItem(TidasBaseModel):
+    """One named classification system (e.g. CPC or HS). Used in the array form to let multiple systems coexist."""
+    name: str = Field(default=..., alias='@name', description="Name of the classification system (e.g. CPC, ISIC, HS). Per ILCD this defaults to 'ILCD' when absent; set it explicitly for non-ILCD systems.")
+    classes: str | None = Field(default=None, alias='@classes', description='Optional URL or identifier of the classification file/system.')
+    common_class: list[ItemCommonClassItem] = Field(default_factory=list, alias='common:class', min_items=1)
     common_other: CommonOther | None = Field(default=None, alias='common:other')
 
 class ProcessInformationDataSetInformationClassificationInformation(TidasBaseModel):
     """Hierarchical or flat classification of the good, service or function that is provided by this life cycle model; typically used to structure database contents in LCA software, among other purposes. (Note: This entry is NOT required for the identification of a Life cycle model, but it should nevertheless be avoided to use identical names for Life cycle model data sets in the same class. The ILCD classifications are defined in the ILCDClassifications.xml file, for common use.)"""
-    common_classification: DataSetInformationClassificationInformationCommonClassification = Field(default=..., alias='common:classification', description='Optional statistical or other classification of the data set. Typically also used for structuring LCA databases.')
+    common_classification: ClassificationInformationCommonClassificationOption0 | list[ClassificationInformationCommonClassificationItem] = Field(default=..., alias='common:classification', description='Optional statistical or other classification of the data set. Typically also used for structuring LCA databases.')
 
 class ProcessDataSetProcessInformationDataSetInformation(TidasBaseModel):
     """General data set information. Section covers all single fields in the ISO/TS 14048 \"Process description\", which are not part of the other sub-sections. In ISO/TS 14048 no own sub-section is foreseen for these entries."""
@@ -291,7 +305,7 @@ class ProcessDataSetAdministrativeInformationDataEntryBy(TidasBaseModel):
 class ProcessDataSetAdministrativeInformationPublicationAndOwnership(TidasBaseModel):
     """Information related to publication and version management of the data set including copyright and access restrictions."""
     common_date_of_last_revision: datetime | None = Field(default=None, alias='common:dateOfLastRevision', description='Date when the data set was revised for the last time, typically manually set.')
-    common_data_set_version: str = Field(default=..., alias='common:dataSetVersion', description='Version number of data set. First two digits refer to major updates, the second two digits to minor revisions and error corrections etc. The third three digits are intended for automatic and internal counting of versions during data set development. Together with the data set\'s UUID, the "Data set version" uniquely identifies each data set.')
+    common_data_set_version: Version = Field(default=..., alias='common:dataSetVersion', description='Version number of data set. First two digits refer to major updates, the second two digits to minor revisions and error corrections etc. The third three digits are intended for automatic and internal counting of versions during data set development. Together with the data set\'s UUID, the "Data set version" uniquely identifies each data set.')
     common_reference_to_preceding_data_set_version: GlobalReferenceType | None = Field(default=None, alias='common:referenceToPrecedingDataSetVersion', description='Last preceding data set, which was replaced by this version. In TIDAS, this reference includes the preceding data set URI, UUID, and version number.')
     common_permanent_data_set_uri: str = Field(default=..., alias='common:permanentDataSetURI', description="URI (i.e. an internet address) of the original of this data set. [Note: This equally globally unique identifier supports users and software tools to identify and retrieve the original version of a data set via the internet or to check for available updates. The URI must not represent an existing WWW address, but it should be unique and point to the data access point, e.g. by combining the data owner's www path with the data set's UUID, e.g. http://www.mycompany.com/lca/processes/50f12420-8855-12db-b606-0900210c9a66.]")
     common_workflow_and_publication_status: Literal['Working draft', 'Final draft for internal review', 'Final draft for external review', 'Data set finalised; unpublished', 'Under revision', 'Withdrawn', 'Data set finalised; subsystems published', 'Data set finalised; entirely published'] | None = Field(default=None, alias='common:workflowAndPublicationStatus', description='Workflow or publication status of data set. Details e.g. of foreseen publication dates should be provided on request by the "Data set owner".')
@@ -313,14 +327,17 @@ class ProcessesProcessDataSetAdministrativeInformation(TidasBaseModel):
     publication_and_ownership: ProcessDataSetAdministrativeInformationPublicationAndOwnership = Field(default=..., alias='publicationAndOwnership', description='Information related to publication and version management of the data set including copyright and access restrictions.')
     common_other: CommonOther | None = Field(default=None, alias='common:other')
 
-class ItemAllocationsAllocation(TidasBaseModel):
-    """specifies one allocation of this exchange (see the attributes of this tag below)"""
+class AllocationsAllocationOption0(TidasBaseModel):
+    internal_reference_to_co_product: Int6 | None = Field(default=None, alias='@internalReferenceToCoProduct', description='Reference to one of the co-products. The applied allocation approach(es), details and and explanations are documented in the fields "LCI method approaches" and "Deviations from LCI method approaches / explanations". [Notes: Applicable only to multifunctional processes. The documented allocated fractions are only applicable when using the data set for attributional modelling and are to be ignored for consequential modeling.]')
+    allocated_fraction: Perc | None = Field(default=None, alias='@allocatedFraction', description='Fraction (expressed in %) of this Input or Output flow that is foreseen to be allocated to this co-product (recommended allocation). The numbers across the co-products should sum up to 100%.')
+
+class AllocationsAllocationItem(TidasBaseModel):
     internal_reference_to_co_product: Int6 | None = Field(default=None, alias='@internalReferenceToCoProduct', description='Reference to one of the co-products. The applied allocation approach(es), details and and explanations are documented in the fields "LCI method approaches" and "Deviations from LCI method approaches / explanations". [Notes: Applicable only to multifunctional processes. The documented allocated fractions are only applicable when using the data set for attributional modelling and are to be ignored for consequential modeling.]')
     allocated_fraction: Perc | None = Field(default=None, alias='@allocatedFraction', description='Fraction (expressed in %) of this Input or Output flow that is foreseen to be allocated to this co-product (recommended allocation). The numbers across the co-products should sum up to 100%.')
 
 class ExchangeItemAllocations(TidasBaseModel):
     """container tag for the specification of allocations if process has more than one reference product. Use only for multifunctional processes."""
-    allocation: ItemAllocationsAllocation | None = Field(default=None, alias='allocation', description='specifies one allocation of this exchange (see the attributes of this tag below)')
+    allocation: AllocationsAllocationOption0 | list[AllocationsAllocationItem] | None = Field(default=None, alias='allocation', description='specifies one allocation of this exchange (see the attributes of this tag below)')
 
 class ExchangeItemReferencesToDataSource(TidasBaseModel):
     """\"Source data set\" of data source(s) used for the value of this specific Input or Output, especially if differing from the general data source used for this data set."""

@@ -17,6 +17,7 @@ import {
   StringMultiLangSchema,
   RequiredStringMultiLangSchema,
   UUIDSchema,
+  VersionSchema,
   YearSchema,
   dateTimeSchema,
 } from './tidas_data_types.schema';
@@ -49,31 +50,49 @@ export const ProcessesSchema = z.object({
           })
           .optional(),
         classificationInformation: z.object({
-          'common:classification': z.object({
-            'common:class': z.tuple([
+          'common:classification': z.union([
+            z.object({
+              'common:class': z.tuple([
+                z.object({
+                  '@level': LevelTypeSchema,
+                  '@classId': z.string(),
+                  '#text': z.string(),
+                }),
+                z.object({
+                  '@level': LevelTypeSchema,
+                  '@classId': z.string(),
+                  '#text': z.string(),
+                }),
+                z.object({
+                  '@level': LevelTypeSchema,
+                  '@classId': z.string(),
+                  '#text': z.string(),
+                }),
+                z.object({
+                  '@level': LevelTypeSchema,
+                  '@classId': z.string(),
+                  '#text': z.string(),
+                }),
+              ]),
+              'common:other': CommonOtherSchema.optional(),
+              '@name': z.string().optional(),
+              '@classes': z.string().optional(),
+            }),
+            z.array(
               z.object({
-                '@level': LevelTypeSchema,
-                '@classId': z.string(),
-                '#text': z.string(),
-              }),
-              z.object({
-                '@level': LevelTypeSchema,
-                '@classId': z.string(),
-                '#text': z.string(),
-              }),
-              z.object({
-                '@level': LevelTypeSchema,
-                '@classId': z.string(),
-                '#text': z.string(),
-              }),
-              z.object({
-                '@level': LevelTypeSchema,
-                '@classId': z.string(),
-                '#text': z.string(),
-              }),
-            ]),
-            'common:other': CommonOtherSchema.optional(),
-          }),
+                '@name': z.string(),
+                '@classes': z.string().optional(),
+                'common:class': z.array(
+                  z.object({
+                    '@level': LevelTypeSchema,
+                    '@classId': z.string(),
+                    '#text': z.string(),
+                  })
+                ),
+                'common:other': CommonOtherSchema.optional(),
+              })
+            ),
+          ]),
         }),
         'common:generalComment': FTMultiLangSchema,
         referenceToExternalDocumentation: GlobalReferenceTypeSchema.optional(),
@@ -570,7 +589,7 @@ export const ProcessesSchema = z.object({
       }),
       publicationAndOwnership: z.object({
         'common:dateOfLastRevision': z.string().optional(),
-        'common:dataSetVersion': z.string(),
+        'common:dataSetVersion': VersionSchema,
         'common:referenceToPrecedingDataSetVersion':
           GlobalReferenceTypeSchema.optional(),
         'common:permanentDataSetURI': z.string(),
@@ -639,10 +658,18 @@ export const ProcessesSchema = z.object({
           allocations: z
             .object({
               allocation: z
-                .object({
-                  '@internalReferenceToCoProduct': Int6Schema.optional(),
-                  '@allocatedFraction': PercSchema.optional(),
-                })
+                .union([
+                  z.object({
+                    '@internalReferenceToCoProduct': Int6Schema.optional(),
+                    '@allocatedFraction': PercSchema.optional(),
+                  }),
+                  z.array(
+                    z.object({
+                      '@internalReferenceToCoProduct': Int6Schema.optional(),
+                      '@allocatedFraction': PercSchema.optional(),
+                    })
+                  ),
+                ])
                 .optional(),
             })
             .optional(),

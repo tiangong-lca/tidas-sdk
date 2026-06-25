@@ -25,6 +25,8 @@ from .tidas_data_types import AnyXmlElement
 from .tidas_data_types import CommonOther
 from .tidas_data_types import GIS
 from .tidas_data_types import UUID
+from .tidas_data_types import Version
+from .tidas_data_types import GlobalReferenceTypeValues
 from .tidas_data_types import Year
 from .tidas_data_types import DateTime
 from .tidas_data_types import AnnualSupplyOrProductionVolumeMultiLang
@@ -4839,7 +4841,9 @@ from .tidas_lifecyclemodels import CommonClassItemOption0
 from .tidas_lifecyclemodels import CommonClassItemOption1
 from .tidas_lifecyclemodels import CommonClassItemOption2
 from .tidas_lifecyclemodels import CommonClassItemOption3
-from .tidas_lifecyclemodels import DataSetInformationClassificationInformationCommonClassification
+from .tidas_lifecyclemodels import ClassificationInformationCommonClassificationOption0
+from .tidas_lifecyclemodels import ItemCommonClassItem
+from .tidas_lifecyclemodels import ClassificationInformationCommonClassificationItem
 from .tidas_lifecyclemodels import LifeCycleModelInformationDataSetInformationClassificationInformation
 from .tidas_lifecyclemodels import LifeCycleModelDataSetLifeCycleModelInformationDataSetInformation
 from .tidas_lifecyclemodels import LifeCycleModelDataSetLifeCycleModelInformationQuantitativeReference
@@ -4899,7 +4903,9 @@ from .tidas_processes import CommonClassItemOption0
 from .tidas_processes import CommonClassItemOption1
 from .tidas_processes import CommonClassItemOption2
 from .tidas_processes import CommonClassItemOption3
-from .tidas_processes import DataSetInformationClassificationInformationCommonClassification
+from .tidas_processes import ClassificationInformationCommonClassificationOption0
+from .tidas_processes import ItemCommonClassItem
+from .tidas_processes import ClassificationInformationCommonClassificationItem
 from .tidas_processes import ProcessInformationDataSetInformationClassificationInformation
 from .tidas_processes import ProcessDataSetProcessInformationDataSetInformation
 from .tidas_processes import ProcessDataSetProcessInformationQuantitativeReference
@@ -4935,7 +4941,8 @@ from .tidas_processes import ProcessDataSetAdministrativeInformationDataGenerato
 from .tidas_processes import ProcessDataSetAdministrativeInformationDataEntryBy
 from .tidas_processes import ProcessDataSetAdministrativeInformationPublicationAndOwnership
 from .tidas_processes import ProcessesProcessDataSetAdministrativeInformation
-from .tidas_processes import ItemAllocationsAllocation
+from .tidas_processes import AllocationsAllocationOption0
+from .tidas_processes import AllocationsAllocationItem
 from .tidas_processes import ExchangeItemAllocations
 from .tidas_processes import ExchangeItemReferencesToDataSource
 from .tidas_processes import ExchangesExchangeItem
@@ -5779,7 +5786,8 @@ from .tidas_processes_category import ProcessesCategory
 from .tidas_sources import ClassificationInformationCommonClassificationCommonClass
 from .tidas_sources import DataSetInformationClassificationInformationCommonClassification
 from .tidas_sources import SourceInformationDataSetInformationClassificationInformation
-from .tidas_sources import SourceInformationDataSetInformationReferenceToDigitalFile
+from .tidas_sources import DataSetInformationReferenceToDigitalFileOption0
+from .tidas_sources import DataSetInformationReferenceToDigitalFileItem
 from .tidas_sources import SourceDataSetSourceInformationDataSetInformation
 from .tidas_sources import SourcesSourceDataSetSourceInformation
 from .tidas_sources import SourceDataSetAdministrativeInformationDataEntryBy
@@ -5846,6 +5854,8 @@ __all__ = [
     'CommonOther',
     'GIS',
     'UUID',
+    'Version',
+    'GlobalReferenceTypeValues',
     'Year',
     'DateTime',
     'AnnualSupplyOrProductionVolumeMultiLang',
@@ -10660,7 +10670,9 @@ __all__ = [
     'CommonClassItemOption1',
     'CommonClassItemOption2',
     'CommonClassItemOption3',
-    'DataSetInformationClassificationInformationCommonClassification',
+    'ClassificationInformationCommonClassificationOption0',
+    'ItemCommonClassItem',
+    'ClassificationInformationCommonClassificationItem',
     'LifeCycleModelInformationDataSetInformationClassificationInformation',
     'LifeCycleModelDataSetLifeCycleModelInformationDataSetInformation',
     'LifeCycleModelDataSetLifeCycleModelInformationQuantitativeReference',
@@ -10720,7 +10732,9 @@ __all__ = [
     'CommonClassItemOption1',
     'CommonClassItemOption2',
     'CommonClassItemOption3',
-    'DataSetInformationClassificationInformationCommonClassification',
+    'ClassificationInformationCommonClassificationOption0',
+    'ItemCommonClassItem',
+    'ClassificationInformationCommonClassificationItem',
     'ProcessInformationDataSetInformationClassificationInformation',
     'ProcessDataSetProcessInformationDataSetInformation',
     'ProcessDataSetProcessInformationQuantitativeReference',
@@ -10756,7 +10770,8 @@ __all__ = [
     'ProcessDataSetAdministrativeInformationDataEntryBy',
     'ProcessDataSetAdministrativeInformationPublicationAndOwnership',
     'ProcessesProcessDataSetAdministrativeInformation',
-    'ItemAllocationsAllocation',
+    'AllocationsAllocationOption0',
+    'AllocationsAllocationItem',
     'ExchangeItemAllocations',
     'ExchangeItemReferencesToDataSource',
     'ExchangesExchangeItem',
@@ -11600,7 +11615,8 @@ __all__ = [
     'ClassificationInformationCommonClassificationCommonClass',
     'DataSetInformationClassificationInformationCommonClassification',
     'SourceInformationDataSetInformationClassificationInformation',
-    'SourceInformationDataSetInformationReferenceToDigitalFile',
+    'DataSetInformationReferenceToDigitalFileOption0',
+    'DataSetInformationReferenceToDigitalFileItem',
     'SourceDataSetSourceInformationDataSetInformation',
     'SourcesSourceDataSetSourceInformation',
     'SourceDataSetAdministrativeInformationDataEntryBy',

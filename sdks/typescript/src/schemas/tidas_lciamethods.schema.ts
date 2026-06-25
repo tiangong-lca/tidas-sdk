@@ -16,6 +16,7 @@ import {
   StringMultiLangSchema,
   RequiredStringMultiLangSchema,
   UUIDSchema,
+  VersionSchema,
   dateTimeSchema,
 } from './tidas_data_types.schema';
 
@@ -169,15 +170,13 @@ export const LciamethodsSchema = z.object({
           z.literal('other'),
         ]),
         deviationsFromLCIAMethodPrinciple: FTMultiLangSchema.optional(),
-        normalisation: z
-          .union([z.literal('true'), z.literal('false')])
-          .optional(),
+        normalisation: z.boolean().optional(),
         referenceToUsableNormalisationDataSets:
           GlobalReferenceTypeSchema.optional(),
         normalisationDescription: STMultiLangSchema.optional(),
         referenceToIncludedNormalisationDataSets:
           GlobalReferenceTypeSchema.optional(),
-        weighting: z.union([z.literal('true'), z.literal('false')]).optional(),
+        weighting: z.boolean().optional(),
         referenceToUsableWeightingDataSets:
           GlobalReferenceTypeSchema.optional(),
         weightingDescription: STMultiLangSchema.optional(),
@@ -208,52 +207,36 @@ export const LciamethodsSchema = z.object({
             .union([
               z.object({
                 '@name': z.union([
-                  z.literal('Raw data'),
-                  z.literal('Unit process(es), single operation'),
-                  z.literal('Unit process(es), black box'),
-                  z.literal('LCI results or Partly terminated system'),
-                  z.literal('LCIA results'),
+                  z.literal('Substance properties, physical and chemical'),
+                  z.literal('Substance properties, biological'),
+                  z.literal('Model for Transport and Fate'),
+                  z.literal('Model for Exposure'),
+                  z.literal('Model for Effect'),
+                  z.literal('Model for Damage'),
+                  z.literal('Characterisation factors'),
+                  z.literal('Application of model'),
+                  z.literal('Normalisation'),
+                  z.literal('Weighting'),
                   z.literal('Documentation'),
-                  z.literal('Life cycle inventory methods'),
-                  z.literal('LCIA results calculation'),
-                  z.literal('Goal and scope definition'),
                 ]),
                 'common:method': z.union([
                   z.object({
                     '@name': z.union([
-                      z.literal('Validation of data sources'),
-                      z.literal('Sample tests on calculations'),
-                      z.literal('Energy balance'),
-                      z.literal('Element balance'),
+                      z.literal('Recollection / Validation of data'),
+                      z.literal('Recalculation'),
                       z.literal('Cross-check with other source'),
-                      z.literal('Cross-check with other data set'),
+                      z.literal('Cross-check with other LCIA method(ology)'),
                       z.literal('Expert judgement'),
-                      z.literal('Mass balance'),
-                      z.literal('Compliance with legal limits'),
-                      z.literal('Compliance with ISO 14040 to 14044'),
-                      z.literal('Documentation'),
-                      z.literal(
-                        'Evidence collection by means of plant visits and/or interviews'
-                      ),
                     ]),
                   }),
                   z.array(
                     z.object({
                       '@name': z.union([
-                        z.literal('Validation of data sources'),
-                        z.literal('Sample tests on calculations'),
-                        z.literal('Energy balance'),
-                        z.literal('Element balance'),
+                        z.literal('Recollection / Validation of data'),
+                        z.literal('Recalculation'),
                         z.literal('Cross-check with other source'),
-                        z.literal('Cross-check with other data set'),
+                        z.literal('Cross-check with other LCIA method(ology)'),
                         z.literal('Expert judgement'),
-                        z.literal('Mass balance'),
-                        z.literal('Compliance with legal limits'),
-                        z.literal('Compliance with ISO 14040 to 14044'),
-                        z.literal('Documentation'),
-                        z.literal(
-                          'Evidence collection by means of plant visits and/or interviews'
-                        ),
                       ]),
                     })
                   ),
@@ -262,52 +245,38 @@ export const LciamethodsSchema = z.object({
               z.array(
                 z.object({
                   '@name': z.union([
-                    z.literal('Raw data'),
-                    z.literal('Unit process(es), single operation'),
-                    z.literal('Unit process(es), black box'),
-                    z.literal('LCI results or Partly terminated system'),
-                    z.literal('LCIA results'),
+                    z.literal('Substance properties, physical and chemical'),
+                    z.literal('Substance properties, biological'),
+                    z.literal('Model for Transport and Fate'),
+                    z.literal('Model for Exposure'),
+                    z.literal('Model for Effect'),
+                    z.literal('Model for Damage'),
+                    z.literal('Characterisation factors'),
+                    z.literal('Application of model'),
+                    z.literal('Normalisation'),
+                    z.literal('Weighting'),
                     z.literal('Documentation'),
-                    z.literal('Life cycle inventory methods'),
-                    z.literal('LCIA results calculation'),
-                    z.literal('Goal and scope definition'),
                   ]),
                   'common:method': z.union([
                     z.object({
                       '@name': z.union([
-                        z.literal('Validation of data sources'),
-                        z.literal('Sample tests on calculations'),
-                        z.literal('Energy balance'),
-                        z.literal('Element balance'),
+                        z.literal('Recollection / Validation of data'),
+                        z.literal('Recalculation'),
                         z.literal('Cross-check with other source'),
-                        z.literal('Cross-check with other data set'),
+                        z.literal('Cross-check with other LCIA method(ology)'),
                         z.literal('Expert judgement'),
-                        z.literal('Mass balance'),
-                        z.literal('Compliance with legal limits'),
-                        z.literal('Compliance with ISO 14040 to 14044'),
-                        z.literal('Documentation'),
-                        z.literal(
-                          'Evidence collection by means of plant visits and/or interviews'
-                        ),
                       ]),
                     }),
                     z.array(
                       z.object({
                         '@name': z.union([
-                          z.literal('Validation of data sources'),
-                          z.literal('Sample tests on calculations'),
-                          z.literal('Energy balance'),
-                          z.literal('Element balance'),
+                          z.literal('Recollection / Validation of data'),
+                          z.literal('Recalculation'),
                           z.literal('Cross-check with other source'),
-                          z.literal('Cross-check with other data set'),
-                          z.literal('Expert judgement'),
-                          z.literal('Mass balance'),
-                          z.literal('Compliance with legal limits'),
-                          z.literal('Compliance with ISO 14040 to 14044'),
-                          z.literal('Documentation'),
                           z.literal(
-                            'Evidence collection by means of plant visits and/or interviews'
+                            'Cross-check with other LCIA method(ology)'
                           ),
+                          z.literal('Expert judgement'),
                         ]),
                       })
                     ),
@@ -440,7 +409,7 @@ export const LciamethodsSchema = z.object({
       }),
       publicationAndOwnership: z.object({
         'common:dateOfLastRevision': dateTimeSchema,
-        'common:dataSetVersion': z.string(),
+        'common:dataSetVersion': VersionSchema,
         'common:referenceToPrecedingDataSetVersion':
           GlobalReferenceTypeSchema.optional(),
         'common:permanentDataSetURI': z.string().optional(),
@@ -518,7 +487,7 @@ export const LciamethodsSchema = z.object({
             meanValue: RealSchema,
             minimumValue: RealSchema.optional(),
             maximumValue: RealSchema.optional(),
-            uncertaintyType: z
+            uncertaintyDistributionType: z
               .union([
                 z.literal('undefined'),
                 z.literal('log-normal'),

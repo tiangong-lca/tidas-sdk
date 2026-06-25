@@ -317,7 +317,7 @@ export const LevelTypeSchema = Int1Schema;
 
 export const PercSchema = z
   .string()
-  .regex(/^(100(\.0{1,3})?|([0-9]|[1-9][0-9])(\.\d{1,3})?)$/);
+  .regex(/^[+-]?(\d{1,5}|\d{1,4}\.\d|\d{1,3}\.\d{2}|\d{1,2}\.\d{3})$/);
 
 export const MatRSchema = z.string();
 
@@ -325,7 +325,7 @@ export const MatVSchema = z.string();
 
 export const RealSchema = z
   .string()
-  .regex(/[+-]?(\d+(\.\d*)?|\.\d+)([Ee][+-]?\d+)?$/);
+  .regex(/^[+-]?(\d+(\.\d*)?|\.\d+)([Ee][+-]?\d+)?$/);
 
 export const STSchema = z.string().max(1000);
 
@@ -402,24 +402,18 @@ export const CommonOtherSchema = z
     }
   });
 
-export const GlobalReferenceTypeSchema = z.union([
-  z.object({
-    '@type': z.string(),
-    '@refObjectId': z.string(),
-    '@version': z.string(),
-    '@uri': z.string(),
-    'common:shortDescription': STMultiLangSchema,
-  }),
-  z.array(
-    z.object({
-      '@type': z.string(),
-      '@refObjectId': z.string(),
-      '@version': z.string(),
-      '@uri': z.string(),
-      'common:shortDescription': STMultiLangSchema,
-    })
-  ),
+export const GlobalReferenceTypeValuesSchema = z.union([
+  z.literal('source data set'),
+  z.literal('process data set'),
+  z.literal('flow data set'),
+  z.literal('flow property data set'),
+  z.literal('unit group data set'),
+  z.literal('contact data set'),
+  z.literal('LCIA method data set'),
+  z.literal('other external file'),
 ]);
+
+export const VersionSchema = z.string().regex(/^\d{2}\.\d{2}(\.\d{3})?$/);
 
 export const GISSchema = z
   .string()
@@ -434,3 +428,28 @@ export const UUIDSchema = z
 export const YearSchema = z.number().min(1000).max(9999);
 
 export const dateTimeSchema = z.string().datetime();
+
+export const GlobalReferenceTypeSchema = z.union([
+  z.object({
+    '@type': GlobalReferenceTypeValuesSchema,
+    '@refObjectId': z.string(),
+    '@version': VersionSchema,
+    '@uri': z.string(),
+    'common:shortDescription': STMultiLangSchema,
+    'common:subReference': z
+      .union([StringSchema, z.array(StringSchema)])
+      .optional(),
+  }),
+  z.array(
+    z.object({
+      '@type': GlobalReferenceTypeValuesSchema,
+      '@refObjectId': z.string(),
+      '@version': VersionSchema,
+      '@uri': z.string(),
+      'common:shortDescription': STMultiLangSchema,
+      'common:subReference': z
+        .union([StringSchema, z.array(StringSchema)])
+        .optional(),
+    })
+  ),
+]);

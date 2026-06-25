@@ -12,6 +12,7 @@ import {
   StringMultiLangSchema,
   RequiredStringMultiLangSchema,
   UUIDSchema,
+  VersionSchema,
   dateTimeSchema,
 } from './tidas_data_types.schema';
 
@@ -82,7 +83,7 @@ export const UnitgroupsSchema = z.object({
         'common:other': CommonOtherSchema.optional(),
       }),
       publicationAndOwnership: z.object({
-        'common:dataSetVersion': z.string(),
+        'common:dataSetVersion': VersionSchema,
         'common:referenceToPrecedingDataSetVersion':
           GlobalReferenceTypeSchema.optional(),
         'common:permanentDataSetURI': z.string().optional(),

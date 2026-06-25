@@ -18,6 +18,7 @@ import type {
   String,
   StringMultiLang,
   UUID,
+  Version,
   dateTime,
 } from './tidas_data_types';
 
@@ -124,11 +125,11 @@ export interface Lciamethods {
           | 'Resource dissipation'
           | 'other';
         deviationsFromLCIAMethodPrinciple?: FTMultiLang;
-        normalisation?: 'true' | 'false';
+        normalisation?: boolean;
         referenceToUsableNormalisationDataSets?: GlobalReferenceType;
         normalisationDescription?: STMultiLang;
         referenceToIncludedNormalisationDataSets?: GlobalReferenceType;
-        weighting?: 'true' | 'false';
+        weighting?: boolean;
         referenceToUsableWeightingDataSets?: GlobalReferenceType;
         weightingDescription?: STMultiLang;
         referenceToIncludedWeightingDataSets?: GlobalReferenceType;
@@ -153,88 +154,64 @@ export interface Lciamethods {
           'common:scope'?:
             | {
                 '@name':
-                  | 'Raw data'
-                  | 'Unit process(es), single operation'
-                  | 'Unit process(es), black box'
-                  | 'LCI results or Partly terminated system'
-                  | 'LCIA results'
-                  | 'Documentation'
-                  | 'Life cycle inventory methods'
-                  | 'LCIA results calculation'
-                  | 'Goal and scope definition';
+                  | 'Substance properties, physical and chemical'
+                  | 'Substance properties, biological'
+                  | 'Model for Transport and Fate'
+                  | 'Model for Exposure'
+                  | 'Model for Effect'
+                  | 'Model for Damage'
+                  | 'Characterisation factors'
+                  | 'Application of model'
+                  | 'Normalisation'
+                  | 'Weighting'
+                  | 'Documentation';
                 'common:method':
                   | {
                       '@name':
-                        | 'Validation of data sources'
-                        | 'Sample tests on calculations'
-                        | 'Energy balance'
-                        | 'Element balance'
+                        | 'Recollection / Validation of data'
+                        | 'Recalculation'
                         | 'Cross-check with other source'
-                        | 'Cross-check with other data set'
-                        | 'Expert judgement'
-                        | 'Mass balance'
-                        | 'Compliance with legal limits'
-                        | 'Compliance with ISO 14040 to 14044'
-                        | 'Documentation'
-                        | 'Evidence collection by means of plant visits and/or interviews';
+                        | 'Cross-check with other LCIA method(ology)'
+                        | 'Expert judgement';
                     }
                   | {
                       '@name':
-                        | 'Validation of data sources'
-                        | 'Sample tests on calculations'
-                        | 'Energy balance'
-                        | 'Element balance'
+                        | 'Recollection / Validation of data'
+                        | 'Recalculation'
                         | 'Cross-check with other source'
-                        | 'Cross-check with other data set'
-                        | 'Expert judgement'
-                        | 'Mass balance'
-                        | 'Compliance with legal limits'
-                        | 'Compliance with ISO 14040 to 14044'
-                        | 'Documentation'
-                        | 'Evidence collection by means of plant visits and/or interviews';
+                        | 'Cross-check with other LCIA method(ology)'
+                        | 'Expert judgement';
                     }[];
               }
             | {
                 '@name':
-                  | 'Raw data'
-                  | 'Unit process(es), single operation'
-                  | 'Unit process(es), black box'
-                  | 'LCI results or Partly terminated system'
-                  | 'LCIA results'
-                  | 'Documentation'
-                  | 'Life cycle inventory methods'
-                  | 'LCIA results calculation'
-                  | 'Goal and scope definition';
+                  | 'Substance properties, physical and chemical'
+                  | 'Substance properties, biological'
+                  | 'Model for Transport and Fate'
+                  | 'Model for Exposure'
+                  | 'Model for Effect'
+                  | 'Model for Damage'
+                  | 'Characterisation factors'
+                  | 'Application of model'
+                  | 'Normalisation'
+                  | 'Weighting'
+                  | 'Documentation';
                 'common:method':
                   | {
                       '@name':
-                        | 'Validation of data sources'
-                        | 'Sample tests on calculations'
-                        | 'Energy balance'
-                        | 'Element balance'
+                        | 'Recollection / Validation of data'
+                        | 'Recalculation'
                         | 'Cross-check with other source'
-                        | 'Cross-check with other data set'
-                        | 'Expert judgement'
-                        | 'Mass balance'
-                        | 'Compliance with legal limits'
-                        | 'Compliance with ISO 14040 to 14044'
-                        | 'Documentation'
-                        | 'Evidence collection by means of plant visits and/or interviews';
+                        | 'Cross-check with other LCIA method(ology)'
+                        | 'Expert judgement';
                     }
                   | {
                       '@name':
-                        | 'Validation of data sources'
-                        | 'Sample tests on calculations'
-                        | 'Energy balance'
-                        | 'Element balance'
+                        | 'Recollection / Validation of data'
+                        | 'Recalculation'
                         | 'Cross-check with other source'
-                        | 'Cross-check with other data set'
-                        | 'Expert judgement'
-                        | 'Mass balance'
-                        | 'Compliance with legal limits'
-                        | 'Compliance with ISO 14040 to 14044'
-                        | 'Documentation'
-                        | 'Evidence collection by means of plant visits and/or interviews';
+                        | 'Cross-check with other LCIA method(ology)'
+                        | 'Expert judgement';
                     }[];
               }[];
           'common:reviewDetails'?: FTMultiLang;
@@ -337,7 +314,7 @@ export interface Lciamethods {
       };
       publicationAndOwnership: {
         'common:dateOfLastRevision': dateTime;
-        'common:dataSetVersion': string;
+        'common:dataSetVersion': Version;
         'common:referenceToPrecedingDataSetVersion'?: GlobalReferenceType;
         'common:permanentDataSetURI'?: string;
         'common:workflowAndPublicationStatus'?:
@@ -397,7 +374,7 @@ export interface Lciamethods {
             meanValue: Real;
             minimumValue?: Real;
             maximumValue?: Real;
-            uncertaintyType?:
+            uncertaintyDistributionType?:
               | 'undefined'
               | 'log-normal'
               | 'normal'

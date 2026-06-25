@@ -7,6 +7,7 @@
 export type LocationsCategory =
   | 'NULL'
   | 'GLO'
+  | 'RoW'
   | 'RAF'
   | 'RAM'
   | 'RAS'
@@ -649,6 +650,6 @@ export type LocationsCategory =
   | 'CN-XJ-ILD'
   | 'CN-XJ-TCD'
   | 'CN-XJ-ALD'
-  | 'CN-TW'
-  | 'CN-HK'
-  | 'CN-MO';
+  | 'TW'
+  | 'HK'
+  | 'MO';

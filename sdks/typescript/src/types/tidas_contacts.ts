@@ -13,6 +13,7 @@ import type {
   String,
   StringMultiLang,
   UUID,
+  Version,
   dateTime,
 } from './tidas_data_types';
 
@@ -59,7 +60,7 @@ export interface Contacts {
         'common:other'?: CommonOther;
       };
       publicationAndOwnership: {
-        'common:dataSetVersion': string;
+        'common:dataSetVersion': Version;
         'common:referenceToPrecedingDataSetVersion'?: GlobalReferenceType;
         'common:permanentDataSetURI'?: string;
         'common:referenceToOwnershipOfDataSet': GlobalReferenceType;

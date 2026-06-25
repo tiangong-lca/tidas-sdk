@@ -308,17 +308,15 @@ describe('package validation parity', () => {
         'classification_hierarchy_error',
       ])
     );
-    // The bare `.../common:class` schema_error was the JSON-Schema `contains`/`minContains`
-    // "array must contain an item matching level N" rule. That over-strict cardinality
-    // constraint was removed as a bug fix (short/shallow classifications are valid per the
-    // schema author's `minContains:0` intent — e.g. Land use / Noise elementary flows that
-    // only reach level 0-1). Value-level schema errors on each class item (`/0`, `/0/@level`)
-    // are still reported, and classification ordering is still checked by the hierarchy gate.
+    // common:classification is now anyOf(strict single-system object | named
+    // multi-system array). An invalid classification that matches neither branch
+    // surfaces a single schema_error at the common:classification node (anyOf
+    // failures don't report per-item); classification ordering is still checked
+    // by the hierarchy gate below.
     expect(schemaLocations).toEqual(
       expect.arrayContaining([
         'flowDataSet/flowInformation/dataSetInformation/name/baseName',
-        'flowDataSet/flowInformation/dataSetInformation/classificationInformation/common:classification/common:class/0',
-        'flowDataSet/flowInformation/dataSetInformation/classificationInformation/common:classification/common:class/0/@level',
+        'flowDataSet/flowInformation/dataSetInformation/classificationInformation/common:classification',
       ])
     );
     expect(report.issues).toEqual(

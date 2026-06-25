@@ -4,6 +4,7 @@ import { z } from 'zod';
 export const LocationsCategorySchema: z.ZodType<any> = z.union([
   z.literal('NULL'),
   z.literal('GLO'),
+  z.literal('RoW'),
   z.literal('RAF'),
   z.literal('RAM'),
   z.literal('RAS'),
@@ -646,7 +647,7 @@ export const LocationsCategorySchema: z.ZodType<any> = z.union([
   z.literal('CN-XJ-ILD'),
   z.literal('CN-XJ-TCD'),
   z.literal('CN-XJ-ALD'),
-  z.literal('CN-TW'),
-  z.literal('CN-HK'),
-  z.literal('CN-MO'),
+  z.literal('TW'),
+  z.literal('HK'),
+  z.literal('MO'),
 ]);

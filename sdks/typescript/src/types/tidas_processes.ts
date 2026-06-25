@@ -19,6 +19,7 @@ import type {
   String,
   StringMultiLang,
   UUID,
+  Version,
   Year,
   dateTime,
 } from './tidas_data_types';
@@ -48,15 +49,28 @@ export interface Processes {
           referenceToComplementingProcess?: GlobalReferenceType;
         };
         classificationInformation: {
-          'common:classification': {
-            'common:class': [
-              { '@level': LevelType; '@classId': string; '#text': string },
-              { '@level': LevelType; '@classId': string; '#text': string },
-              { '@level': LevelType; '@classId': string; '#text': string },
-              { '@level': LevelType; '@classId': string; '#text': string },
-            ];
-            'common:other'?: CommonOther;
-          };
+          'common:classification':
+            | {
+                'common:class': [
+                  { '@level': LevelType; '@classId': string; '#text': string },
+                  { '@level': LevelType; '@classId': string; '#text': string },
+                  { '@level': LevelType; '@classId': string; '#text': string },
+                  { '@level': LevelType; '@classId': string; '#text': string },
+                ];
+                'common:other'?: CommonOther;
+                '@name'?: string;
+                '@classes'?: string;
+              }
+            | {
+                '@name': string;
+                '@classes'?: string;
+                'common:class': {
+                  '@level': LevelType;
+                  '@classId': string;
+                  '#text': string;
+                }[];
+                'common:other'?: CommonOther;
+              }[];
         };
         'common:generalComment': FTMultiLang;
         referenceToExternalDocumentation?: GlobalReferenceType;
@@ -447,7 +461,7 @@ export interface Processes {
       };
       publicationAndOwnership: {
         'common:dateOfLastRevision'?: string;
-        'common:dataSetVersion': string;
+        'common:dataSetVersion': Version;
         'common:referenceToPrecedingDataSetVersion'?: GlobalReferenceType;
         'common:permanentDataSetURI': string;
         'common:workflowAndPublicationStatus'?:
@@ -499,10 +513,15 @@ export interface Processes {
           | 'uniform';
         relativeStandardDeviation95In?: Perc;
         allocations?: {
-          allocation?: {
-            '@internalReferenceToCoProduct'?: Int6;
-            '@allocatedFraction'?: Perc;
-          };
+          allocation?:
+            | {
+                '@internalReferenceToCoProduct'?: Int6;
+                '@allocatedFraction'?: Perc;
+              }
+            | {
+                '@internalReferenceToCoProduct'?: Int6;
+                '@allocatedFraction'?: Perc;
+              }[];
         };
         dataSourceType?:
           | 'Primary'

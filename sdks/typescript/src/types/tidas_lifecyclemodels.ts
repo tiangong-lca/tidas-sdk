@@ -13,6 +13,7 @@ import type {
   Real,
   StringMultiLang,
   UUID,
+  Version,
   dateTime,
 } from './tidas_data_types';
 
@@ -36,15 +37,28 @@ export interface Lifecyclemodels {
           'common:other'?: CommonOther;
         };
         classificationInformation: {
-          'common:classification': {
-            'common:class': [
-              { '@level': LevelType; '@classId': string; '#text': string },
-              { '@level': LevelType; '@classId': string; '#text': string },
-              { '@level': LevelType; '@classId': string; '#text': string },
-              { '@level': LevelType; '@classId': string; '#text': string },
-            ];
-            'common:other'?: CommonOther;
-          };
+          'common:classification':
+            | {
+                'common:class': [
+                  { '@level': LevelType; '@classId': string; '#text': string },
+                  { '@level': LevelType; '@classId': string; '#text': string },
+                  { '@level': LevelType; '@classId': string; '#text': string },
+                  { '@level': LevelType; '@classId': string; '#text': string },
+                ];
+                'common:other'?: CommonOther;
+                '@name'?: string;
+                '@classes'?: string;
+              }
+            | {
+                '@name': string;
+                '@classes'?: string;
+                'common:class': {
+                  '@level': LevelType;
+                  '@classId': string;
+                  '#text': string;
+                }[];
+                'common:other'?: CommonOther;
+              }[];
         };
         referenceToResultingProcess?: GlobalReferenceType;
         'common:generalComment'?: FTMultiLang;
@@ -52,7 +66,7 @@ export interface Lifecyclemodels {
         'common:other'?: CommonOther;
       };
       quantitativeReference: {
-        referenceToReferenceProcess: string;
+        referenceToReferenceProcess: number;
         'common:other'?: CommonOther;
       };
       technology: {
@@ -87,13 +101,16 @@ export interface Lifecyclemodels {
                               '@flowUUID': UUID;
                               '@location'?: string;
                               '@dominant'?: 'true' | 'false';
+                              '@version': Version;
                             }
                           | {
                               '@id': string;
                               '@flowUUID': UUID;
                               '@location'?: string;
                               '@dominant'?: 'true' | 'false';
+                              '@version': Version;
                             }[];
+                        '@version': Version;
                       }
                     | {
                         '@dominant'?: 'true' | 'false';
@@ -104,13 +121,16 @@ export interface Lifecyclemodels {
                               '@flowUUID': UUID;
                               '@location'?: string;
                               '@dominant'?: 'true' | 'false';
+                              '@version': Version;
                             }
                           | {
                               '@id': string;
                               '@flowUUID': UUID;
                               '@location'?: string;
                               '@dominant'?: 'true' | 'false';
+                              '@version': Version;
                             }[];
+                        '@version': Version;
                       }[];
                 };
                 'common:other'?: CommonOther;
@@ -141,13 +161,16 @@ export interface Lifecyclemodels {
                               '@flowUUID': UUID;
                               '@location'?: string;
                               '@dominant'?: 'true' | 'false';
+                              '@version': Version;
                             }
                           | {
                               '@id': string;
                               '@flowUUID': UUID;
                               '@location'?: string;
                               '@dominant'?: 'true' | 'false';
+                              '@version': Version;
                             }[];
+                        '@version': Version;
                       }
                     | {
                         '@dominant'?: 'true' | 'false';
@@ -158,13 +181,16 @@ export interface Lifecyclemodels {
                               '@flowUUID': UUID;
                               '@location'?: string;
                               '@dominant'?: 'true' | 'false';
+                              '@version': Version;
                             }
                           | {
                               '@id': string;
                               '@flowUUID': UUID;
                               '@location'?: string;
                               '@dominant'?: 'true' | 'false';
+                              '@version': Version;
                             }[];
+                        '@version': Version;
                       }[];
                 };
                 'common:other'?: CommonOther;
@@ -275,7 +301,7 @@ export interface Lifecyclemodels {
         'common:other'?: CommonOther;
       };
       publicationAndOwnership: {
-        'common:dataSetVersion': string;
+        'common:dataSetVersion': Version;
         'common:referenceToPrecedingDataSetVersion'?: GlobalReferenceType;
         'common:permanentDataSetURI': string;
         'common:referenceToOwnershipOfDataSet': GlobalReferenceType;

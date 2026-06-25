@@ -17,6 +17,7 @@ from .tidas_data_types import LevelType
 from .tidas_data_types import MatV
 from .tidas_data_types import Real
 from .tidas_data_types import UUID
+from .tidas_data_types import Version
 from datetime import datetime
 from pydantic import AfterValidator
 
@@ -48,14 +49,27 @@ class CommonClassItemOption3(TidasBaseModel):
     class_id: str = Field(default=..., alias='@classId')
     text: str = Field(default=..., alias='#text')
 
-class DataSetInformationClassificationInformationCommonClassification(TidasBaseModel):
-    """Optional statistical or other classification of the data set. Typically also used for structuring LCA databases."""
+class ClassificationInformationCommonClassificationOption0(TidasBaseModel):
     common_class: list[CommonClassItemOption0 | CommonClassItemOption1 | CommonClassItemOption2 | CommonClassItemOption3] = Field(default_factory=list, alias='common:class', max_items=4)
+    common_other: CommonOther | None = Field(default=None, alias='common:other')
+    name: str | None = Field(default=None, alias='@name', description="Name of the classification system (e.g. CPC, ISIC, HS). Per ILCD this defaults to 'ILCD' when absent; set it explicitly for non-ILCD systems.")
+    classes: str | None = Field(default=None, alias='@classes', description='Optional URL or identifier of the classification file/system.')
+
+class ItemCommonClassItem(TidasBaseModel):
+    level: LevelType = Field(default=..., alias='@level')
+    class_id: str = Field(default=..., alias='@classId')
+    text: str = Field(default=..., alias='#text')
+
+class ClassificationInformationCommonClassificationItem(TidasBaseModel):
+    """One named classification system (e.g. CPC or HS). Used in the array form to let multiple systems coexist."""
+    name: str = Field(default=..., alias='@name', description="Name of the classification system (e.g. CPC, ISIC, HS). Per ILCD this defaults to 'ILCD' when absent; set it explicitly for non-ILCD systems.")
+    classes: str | None = Field(default=None, alias='@classes', description='Optional URL or identifier of the classification file/system.')
+    common_class: list[ItemCommonClassItem] = Field(default_factory=list, alias='common:class', min_items=1)
     common_other: CommonOther | None = Field(default=None, alias='common:other')
 
 class LifeCycleModelInformationDataSetInformationClassificationInformation(TidasBaseModel):
     """Hierarchical or flat classification of the good, service or function that is provided by this life cycle model; typically used to structure database contents in LCA software, among other purposes. (Note: This entry is NOT required for the identification of a Life cycle model, but it should nevertheless be avoided to use identical names for Life cycle model data sets in the same class. The ILCD classifications are defined in the ILCDClassifications.xml file, for common use.)"""
-    common_classification: DataSetInformationClassificationInformationCommonClassification = Field(default=..., alias='common:classification', description='Optional statistical or other classification of the data set. Typically also used for structuring LCA databases.')
+    common_classification: ClassificationInformationCommonClassificationOption0 | list[ClassificationInformationCommonClassificationItem] = Field(default=..., alias='common:classification', description='Optional statistical or other classification of the data set. Typically also used for structuring LCA databases.')
 
 class LifeCycleModelDataSetLifeCycleModelInformationDataSetInformation(TidasBaseModel):
     """General data set information, to identify the life cycle model, document a general comment about it, and to reference resulting aggregated process data sets that are based on this ife cycle model and to reference a potential background report."""
@@ -69,7 +83,7 @@ class LifeCycleModelDataSetLifeCycleModelInformationDataSetInformation(TidasBase
 
 class LifeCycleModelDataSetLifeCycleModelInformationQuantitativeReference(TidasBaseModel):
     """This section names the quantitative reference of this data set, i.e. the reference to which the inputs and outputs of all process instances of the life cycle model quantitatively relate."""
-    reference_to_reference_process: str = Field(default=..., alias='referenceToReferenceProcess', description='Process instance that scales the life cycle model and thereby all directly and indirectly connected process instances of the model; it is often a process instance at the "end" of the life cycle model chain, or the process that provides the delivered good, service or function of the model.', pattern='^-?\\d+$')
+    reference_to_reference_process: int = Field(default=..., alias='referenceToReferenceProcess', description='Process instance that scales the life cycle model and thereby all directly and indirectly connected process instances of the model; it is often a process instance at the "end" of the life cycle model chain, or the process that provides the delivered good, service or function of the model.')
     common_other: CommonOther | None = Field(default=None, alias='common:other')
 
 class GroupDeclarationsGroupOption0(TidasBaseModel):
@@ -109,34 +123,40 @@ class Option0DownstreamProcessOption0(TidasBaseModel):
     flow_uuid: UUID = Field(default=..., alias='@flowUUID', description='UUID of the connected flow exchange in the input of the downstream process instance.')
     location: str | None = Field(default=None, alias='@location', description='Location, e.g. country code, of the connected flow exchange in downstream process, if any.')
     dominant: Literal['true', 'false'] | None = Field(default=None, alias='@dominant', description='If the connected exchanges are based on different flow data sets, one of these can be marked as dominant. Dominant means that in cases where the connection itself carries properties (e.g. a flow name that may be used in graphical model display), the properties of the dominant flow object are used.')
+    version: Version = Field(default=..., alias='@version', description='Version number of the referenced data set.')
 
 class Option0DownstreamProcessItem(TidasBaseModel):
     id: str = Field(default=..., alias='@id', description='Internal ID of the process instance in this model which is to be connected to this output exchange.', pattern='^-?\\d+$')
     flow_uuid: UUID = Field(default=..., alias='@flowUUID', description='UUID of the connected flow exchange in the input of the downstream process instance.')
     location: str | None = Field(default=None, alias='@location', description='Location, e.g. country code, of the connected flow exchange in downstream process, if any.')
     dominant: Literal['true', 'false'] | None = Field(default=None, alias='@dominant', description='If the connected exchanges are based on different flow data sets, one of these can be marked as dominant. Dominant means that in cases where the connection itself carries properties (e.g. a flow name that may be used in graphical model display), the properties of the dominant flow object are used.')
+    version: Version = Field(default=..., alias='@version', description='Version number of the referenced data set.')
 
 class ConnectionsOutputExchangeOption0(TidasBaseModel):
     dominant: Literal['true', 'false'] | None = Field(default=None, alias='@dominant', description='If the connected exchanges are based on different flow data sets, one of these can be marked as dominant. Dominant means that in cases where the connection itself carries properties (e.g. a flow name that may be used in graphical model display), the properties of the dominant flow object are used.')
     flow_uuid: UUID = Field(default=..., alias='@flowUUID', description='UUID of the connected flow exchange in the input of the downstream process instance.')
     downstream_process: Option0DownstreamProcessOption0 | list[Option0DownstreamProcessItem] = Field(default=..., alias='downstreamProcess', description='Process instance that is connected downstream with this process instance, with its connected input product or waste (flow) exchange internal ID, the flow UUID and optionally the exchange\'s "location" (if any). Finally, the dominant flow exchange may be identified, where two different flow data sets are connected, in support e.g. of graphical model display.')
+    version: Version = Field(default=..., alias='@version', description='Version number of the referenced data set.')
 
 class ItemDownstreamProcessOption0(TidasBaseModel):
     id: str = Field(default=..., alias='@id', description='Internal ID of the process instance in this model which is to be connected to this output exchange.', pattern='^-?\\d+$')
     flow_uuid: UUID = Field(default=..., alias='@flowUUID', description='UUID of the connected flow exchange in the input of the downstream process instance.')
     location: str | None = Field(default=None, alias='@location', description='Location, e.g. country code, of the connected flow exchange in downstream process, if any.')
     dominant: Literal['true', 'false'] | None = Field(default=None, alias='@dominant', description='If the connected exchanges are based on different flow data sets, one of these can be marked as dominant. Dominant means that in cases where the connection itself carries properties (e.g. a flow name that may be used in graphical model display), the properties of the dominant flow object are used.')
+    version: Version = Field(default=..., alias='@version', description='Version number of the referenced data set.')
 
 class ItemDownstreamProcessItem(TidasBaseModel):
     id: str = Field(default=..., alias='@id', description='Internal ID of the process instance in this model which is to be connected to this output exchange.', pattern='^-?\\d+$')
     flow_uuid: UUID = Field(default=..., alias='@flowUUID', description='UUID of the connected flow exchange in the input of the downstream process instance.')
     location: str | None = Field(default=None, alias='@location', description='Location, e.g. country code, of the connected flow exchange in downstream process, if any.')
     dominant: Literal['true', 'false'] | None = Field(default=None, alias='@dominant', description='If the connected exchanges are based on different flow data sets, one of these can be marked as dominant. Dominant means that in cases where the connection itself carries properties (e.g. a flow name that may be used in graphical model display), the properties of the dominant flow object are used.')
+    version: Version = Field(default=..., alias='@version', description='Version number of the referenced data set.')
 
 class ConnectionsOutputExchangeItem(TidasBaseModel):
     dominant: Literal['true', 'false'] | None = Field(default=None, alias='@dominant', description='If the connected exchanges are based on different flow data sets, one of these can be marked as dominant. Dominant means that in cases where the connection itself carries properties (e.g. a flow name that may be used in graphical model display), the properties of the dominant flow object are used.')
     flow_uuid: UUID = Field(default=..., alias='@flowUUID', description='UUID of the connected flow exchange in the input of the downstream process instance.')
     downstream_process: ItemDownstreamProcessOption0 | list[ItemDownstreamProcessItem] = Field(default=..., alias='downstreamProcess', description='Process instance that is connected downstream with this process instance, with its connected input product or waste (flow) exchange internal ID, the flow UUID and optionally the exchange\'s "location" (if any). Finally, the dominant flow exchange may be identified, where two different flow data sets are connected, in support e.g. of graphical model display.')
+    version: Version = Field(default=..., alias='@version', description='Version number of the referenced data set.')
 
 class ProcessInstanceItemConnections(TidasBaseModel):
     """Connection information among process instances, via connecting product or waste flow exchanges."""
@@ -179,34 +199,40 @@ class Option0DownstreamProcessOption02(TidasBaseModel):
     flow_uuid: UUID = Field(default=..., alias='@flowUUID', description='UUID of the connected flow exchange in the input of the downstream process instance.')
     location: str | None = Field(default=None, alias='@location', description='Location, e.g. country code, of the connected flow exchange in downstream process, if any.')
     dominant: Literal['true', 'false'] | None = Field(default=None, alias='@dominant', description='If the connected exchanges are based on different flow data sets, one of these can be marked as dominant. Dominant means that in cases where the connection itself carries properties (e.g. a flow name that may be used in graphical model display), the properties of the dominant flow object are used.')
+    version: Version = Field(default=..., alias='@version', description='Version number of the referenced data set.')
 
 class Option0DownstreamProcessItem2(TidasBaseModel):
     id: str = Field(default=..., alias='@id', description='Internal ID of the process instance in this model which is to be connected to this output exchange.', pattern='^-?\\d+$')
     flow_uuid: UUID = Field(default=..., alias='@flowUUID', description='UUID of the connected flow exchange in the input of the downstream process instance.')
     location: str | None = Field(default=None, alias='@location', description='Location, e.g. country code, of the connected flow exchange in downstream process, if any.')
     dominant: Literal['true', 'false'] | None = Field(default=None, alias='@dominant', description='If the connected exchanges are based on different flow data sets, one of these can be marked as dominant. Dominant means that in cases where the connection itself carries properties (e.g. a flow name that may be used in graphical model display), the properties of the dominant flow object are used.')
+    version: Version = Field(default=..., alias='@version', description='Version number of the referenced data set.')
 
 class ConnectionsOutputExchangeOption02(TidasBaseModel):
     dominant: Literal['true', 'false'] | None = Field(default=None, alias='@dominant', description='If the connected exchanges are based on different flow data sets, one of these can be marked as dominant. Dominant means that in cases where the connection itself carries properties (e.g. a flow name that may be used in graphical model display), the properties of the dominant flow object are used.')
     flow_uuid: UUID = Field(default=..., alias='@flowUUID', description='UUID of the connected flow exchange in the input of the downstream process instance.')
     downstream_process: Option0DownstreamProcessOption02 | list[Option0DownstreamProcessItem2] = Field(default=..., alias='downstreamProcess', description='Process instance that is connected downstream with this process instance, with its connected input product or waste (flow) exchange internal ID, the flow UUID and optionally the exchange\'s "location" (if any). Finally, the dominant flow exchange may be identified, where two different flow data sets are connected, in support e.g. of graphical model display.')
+    version: Version = Field(default=..., alias='@version', description='Version number of the referenced data set.')
 
 class ItemDownstreamProcessOption02(TidasBaseModel):
     id: str = Field(default=..., alias='@id', description='Internal ID of the process instance in this model which is to be connected to this output exchange.', pattern='^-?\\d+$')
     flow_uuid: UUID = Field(default=..., alias='@flowUUID', description='UUID of the connected flow exchange in the input of the downstream process instance.')
     location: str | None = Field(default=None, alias='@location', description='Location, e.g. country code, of the connected flow exchange in downstream process, if any.')
     dominant: Literal['true', 'false'] | None = Field(default=None, alias='@dominant', description='If the connected exchanges are based on different flow data sets, one of these can be marked as dominant. Dominant means that in cases where the connection itself carries properties (e.g. a flow name that may be used in graphical model display), the properties of the dominant flow object are used.')
+    version: Version = Field(default=..., alias='@version', description='Version number of the referenced data set.')
 
 class ItemDownstreamProcessItem2(TidasBaseModel):
     id: str = Field(default=..., alias='@id', description='Internal ID of the process instance in this model which is to be connected to this output exchange.', pattern='^-?\\d+$')
     flow_uuid: UUID = Field(default=..., alias='@flowUUID', description='UUID of the connected flow exchange in the input of the downstream process instance.')
     location: str | None = Field(default=None, alias='@location', description='Location, e.g. country code, of the connected flow exchange in downstream process, if any.')
     dominant: Literal['true', 'false'] | None = Field(default=None, alias='@dominant', description='If the connected exchanges are based on different flow data sets, one of these can be marked as dominant. Dominant means that in cases where the connection itself carries properties (e.g. a flow name that may be used in graphical model display), the properties of the dominant flow object are used.')
+    version: Version = Field(default=..., alias='@version', description='Version number of the referenced data set.')
 
 class ConnectionsOutputExchangeItem2(TidasBaseModel):
     dominant: Literal['true', 'false'] | None = Field(default=None, alias='@dominant', description='If the connected exchanges are based on different flow data sets, one of these can be marked as dominant. Dominant means that in cases where the connection itself carries properties (e.g. a flow name that may be used in graphical model display), the properties of the dominant flow object are used.')
     flow_uuid: UUID = Field(default=..., alias='@flowUUID', description='UUID of the connected flow exchange in the input of the downstream process instance.')
     downstream_process: ItemDownstreamProcessOption02 | list[ItemDownstreamProcessItem2] = Field(default=..., alias='downstreamProcess', description='Process instance that is connected downstream with this process instance, with its connected input product or waste (flow) exchange internal ID, the flow UUID and optionally the exchange\'s "location" (if any). Finally, the dominant flow exchange may be identified, where two different flow data sets are connected, in support e.g. of graphical model display.')
+    version: Version = Field(default=..., alias='@version', description='Version number of the referenced data set.')
 
 class ProcessInstanceOption1Connections(TidasBaseModel):
     """Connection information among process instances, via connecting product or waste flow exchanges."""
@@ -314,7 +340,7 @@ class LifeCycleModelDataSetAdministrativeInformationDataEntryBy(TidasBaseModel):
 
 class LifeCycleModelDataSetAdministrativeInformationPublicationAndOwnership(TidasBaseModel):
     """Information related to publication and version management of the data set including copyright and access restrictions."""
-    common_data_set_version: str = Field(default=..., alias='common:dataSetVersion', description='Version number of data set. First two digits refer to major updates, the second two digits to minor revisions and error corrections etc. The third three digits are intended for automatic and internal counting of versions during data set development. Together with the data set\'s UUID, the "Data set version" uniquely identifies each data set.')
+    common_data_set_version: Version = Field(default=..., alias='common:dataSetVersion', description='Version number of data set. First two digits refer to major updates, the second two digits to minor revisions and error corrections etc. The third three digits are intended for automatic and internal counting of versions during data set development. Together with the data set\'s UUID, the "Data set version" uniquely identifies each data set.')
     common_reference_to_preceding_data_set_version: GlobalReferenceType | None = Field(default=None, alias='common:referenceToPrecedingDataSetVersion', description='Last preceding data set, which was replaced by this version. In TIDAS, this reference includes the preceding data set URI, UUID, and version number.')
     common_permanent_data_set_uri: str = Field(default=..., alias='common:permanentDataSetURI', description="URI (i.e. an internet address) of the original of this data set. [Note: This equally globally unique identifier supports users and software tools to identify and retrieve the original version of a data set via the internet or to check for available updates. The URI must not represent an existing WWW address, but it should be unique and point to the data access point, e.g. by combining the data owner's www path with the data set's UUID, e.g. http://www.mycompany.com/lca/processes/50f12420-8855-12db-b606-0900210c9a66.]")
     common_reference_to_ownership_of_data_set: GlobalReferenceType = Field(default=..., alias='common:referenceToOwnershipOfDataSet', description='Quality compliance of this data set with the respective requirements set by the "compliance system" refered to.')

@@ -11,6 +11,7 @@ import type {
   LevelType,
   StringMultiLang,
   UUID,
+  Version,
 } from './tidas_data_types';
 
 export interface Flowproperties {
@@ -76,7 +77,7 @@ export interface Flowproperties {
         'common:other'?: CommonOther;
       };
       publicationAndOwnership: {
-        'common:dataSetVersion': string;
+        'common:dataSetVersion': Version;
         'common:referenceToPrecedingDataSetVersion'?: GlobalReferenceType;
         'common:permanentDataSetURI'?: string;
         'common:referenceToOwnershipOfDataSet': GlobalReferenceType;

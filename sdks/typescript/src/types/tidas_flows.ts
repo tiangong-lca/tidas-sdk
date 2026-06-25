@@ -15,6 +15,7 @@ import type {
   String,
   StringMultiLang,
   UUID,
+  Version,
   dateTime,
 } from './tidas_data_types';
 import type { LocationsCategory } from './tidas_locations_category';
@@ -99,7 +100,7 @@ export interface Flows {
         'common:other'?: CommonOther;
       };
       publicationAndOwnership: {
-        'common:dataSetVersion': string;
+        'common:dataSetVersion': Version;
         'common:referenceToPrecedingDataSetVersion'?: GlobalReferenceType;
         'common:permanentDataSetURI'?: string;
         'common:referenceToOwnershipOfDataSet': GlobalReferenceType;

@@ -56,15 +56,17 @@ describe('TIDAS field enum schemas', () => {
       ).success
     ).toBe(false);
     expect(
-      factorArrayItemSchema.shape.uncertaintyType.safeParse('normal').success
+      factorArrayItemSchema.shape.uncertaintyDistributionType.safeParse('normal')
+        .success
     ).toBe(true);
     expect(
-      factorArrayItemSchema.shape.uncertaintyType.safeParse('normalisation')
-        .success
+      factorArrayItemSchema.shape.uncertaintyDistributionType.safeParse(
+        'normalisation'
+      ).success
     ).toBe(false);
   });
 
-  it('accepts the exact TIDAS review method enum value', () => {
+  it('uses the LCIA-specific review method enum values', () => {
     const scopeSchema = unwrapOptionalSchema(reviewScopeSchema());
     const scopeObjectSchema = scopeSchema.options[0];
     const scopeArrayItemSchema = scopeSchema.options[1].element;
@@ -73,19 +75,17 @@ describe('TIDAS field enum schemas', () => {
     const methodArrayItemSchema =
       scopeArrayItemSchema.shape['common:method'].options[1].element;
 
+    // A4: LCIA-method review uses ILCD MethodOfReviewValues, not the process
+    // review method list ("Compliance with legal limits" is process-only).
+    expect(
+      methodObjectSchema.shape['@name'].safeParse('Expert judgement').success
+    ).toBe(true);
+    expect(
+      methodArrayItemSchema.shape['@name'].safeParse('Expert judgement').success
+    ).toBe(true);
     expect(
       methodObjectSchema.shape['@name'].safeParse(
         'Compliance with legal limits'
-      ).success
-    ).toBe(true);
-    expect(
-      methodArrayItemSchema.shape['@name'].safeParse(
-        'Compliance with legal limits'
-      ).success
-    ).toBe(true);
-    expect(
-      methodObjectSchema.shape['@name'].safeParse(
-        'Compliance with legal limitsRegulated limits given'
       ).success
     ).toBe(false);
   });

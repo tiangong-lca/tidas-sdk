@@ -15,6 +15,7 @@ from .tidas_data_types import DateTime
 from .tidas_data_types import GlobalReferenceType
 from .tidas_data_types import LevelType
 from .tidas_data_types import UUID
+from .tidas_data_types import Version
 from datetime import datetime
 from pydantic import AfterValidator
 
@@ -31,8 +32,10 @@ class SourceInformationDataSetInformationClassificationInformation(TidasBaseMode
     """Hierarchical classification of the Source foreseen to be used to structure the Source content of the database. (Note: This entry is NOT required for the identification of a Source. It should nevertheless be avoided to use identical names for Source in the same class."""
     common_classification: DataSetInformationClassificationInformationCommonClassification = Field(default=..., alias='common:classification')
 
-class SourceInformationDataSetInformationReferenceToDigitalFile(TidasBaseModel):
-    """Link to a digital file of the source (www-address or intranet-path; relative or absolue path). (Info: Allows direct access to e.g. complete reports of further documentation, which may also be digitally attached to this data set and exchanged jointly with the XML file.)"""
+class DataSetInformationReferenceToDigitalFileOption0(TidasBaseModel):
+    uri: str | None = Field(default=None, alias='@uri')
+
+class DataSetInformationReferenceToDigitalFileItem(TidasBaseModel):
     uri: str | None = Field(default=None, alias='@uri')
 
 class SourceDataSetSourceInformationDataSetInformation(TidasBaseModel):
@@ -42,7 +45,7 @@ class SourceDataSetSourceInformationDataSetInformation(TidasBaseModel):
     source_citation: str | None = Field(default=None, alias='sourceCitation', description='Bibliographical reference or reference to internal data source. Also used in order to reference to databases and tools, data set formats, conformity systems, pictures etc..')
     publication_type: Literal['Undefined', 'Article in periodical', 'Chapter in anthology', 'Monograph', 'Direct measurement', 'Oral communication', 'Personal written communication', 'Questionnaire', 'Software or database', 'Other unpublished and grey literature'] | None = Field(default=None, alias='publicationType', description='Bibliographic publication type of the source.')
     source_description_or_comment: MultiLangList = Field(default_factory=MultiLangList, alias='sourceDescriptionOrComment', description='Free text for additional description of the source. In case of use of published data it may contain a brief summary of the publication and the kind of medium used (e.g. CD-ROM, hard copy).')
-    reference_to_digital_file: SourceInformationDataSetInformationReferenceToDigitalFile | None = Field(default=None, alias='referenceToDigitalFile', description='Link to a digital file of the source (www-address or intranet-path; relative or absolue path). (Info: Allows direct access to e.g. complete reports of further documentation, which may also be digitally attached to this data set and exchanged jointly with the XML file.)')
+    reference_to_digital_file: DataSetInformationReferenceToDigitalFileOption0 | list[DataSetInformationReferenceToDigitalFileItem] | None = Field(default=None, alias='referenceToDigitalFile', description='Link to a digital file of the source (www-address or intranet-path; relative or absolue path). (Info: Allows direct access to e.g. complete reports of further documentation, which may also be digitally attached to this data set and exchanged jointly with the XML file.)')
     reference_to_contact: GlobalReferenceType | None = Field(default=None, alias='referenceToContact', description='"Contact data set"s of working groups, organisations or database networks to which EITHER this person or entity OR this database, data set format, or compliance system belongs. [Note: This does not necessarily imply a legally binding relationship, but may also be a voluntary membership.]')
     reference_to_logo: GlobalReferenceType | None = Field(default=None, alias='referenceToLogo', description='"Source data set" of the logo of the organisation or source to be used in reports etc.')
     common_other: CommonOther | None = Field(default=None, alias='common:other')
@@ -58,7 +61,7 @@ class SourceDataSetAdministrativeInformationDataEntryBy(TidasBaseModel):
 
 class SourceDataSetAdministrativeInformationPublicationAndOwnership(TidasBaseModel):
     """Information related to publication and version management of the data set including copyright and access restrictions."""
-    common_data_set_version: str = Field(default=..., alias='common:dataSetVersion', description='Version number of data set. First two digits refer to major updates, the second two digits to minor revisions and error corrections etc. The third three digits are intended for automatic and internal counting of versions during data set development. Together with the data set\'s UUID, the "Data set version" uniquely identifies each data set.')
+    common_data_set_version: Version = Field(default=..., alias='common:dataSetVersion', description='Version number of data set. First two digits refer to major updates, the second two digits to minor revisions and error corrections etc. The third three digits are intended for automatic and internal counting of versions during data set development. Together with the data set\'s UUID, the "Data set version" uniquely identifies each data set.')
     common_reference_to_preceding_data_set_version: GlobalReferenceType | None = Field(default=None, alias='common:referenceToPrecedingDataSetVersion', description='Last preceding data set, which was replaced by this version. In TIDAS, this reference includes the preceding data set URI, UUID, and version number.')
     common_permanent_data_set_uri: str | None = Field(default=None, alias='common:permanentDataSetURI', description="URI (i.e. an internet address) of the original of this data set. [Note: This equally globally unique identifier supports users and software tools to identify and retrieve the original version of a data set via the internet or to check for available updates. The URI must not represent an existing WWW address, but it should be unique and point to the data access point, e.g. by combining the data owner's www path with the data set's UUID, e.g. http://www.mycompany.com/lca/processes/50f12420-8855-12db-b606-0900210c9a66.]")
     common_reference_to_ownership_of_data_set: GlobalReferenceType = Field(default=..., alias='common:referenceToOwnershipOfDataSet', description='"Contact data set" of the person or entity who owns this data set. (Note: this is not necessarily the publisher of the data set.)')

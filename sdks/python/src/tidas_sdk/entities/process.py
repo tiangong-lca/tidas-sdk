@@ -17,7 +17,7 @@ from ..generated.tidas_processes import (
     ProcessDataSetProcessInformationQuantitativeReference,
     ProcessDataSetProcessInformationTechnology,
     ProcessDataSetProcessInformationTime,
-    DataSetInformationClassificationInformationCommonClassification,
+    ClassificationInformationCommonClassificationOption0,
     ProcessInformationDataSetInformationClassificationInformation,
     ProcessInformationDataSetInformationName,
     Processes,
@@ -97,7 +97,7 @@ class TidasProcess(TidasEntity[Processes]):
             ensure_model(
                 classification_info,
                 "common_classification",
-                DataSetInformationClassificationInformationCommonClassification,
+                ClassificationInformationCommonClassificationOption0,
             )
         for field_name in ("common_synonyms", "common_general_comment"):
             ensure_multilang(data_info, field_name)

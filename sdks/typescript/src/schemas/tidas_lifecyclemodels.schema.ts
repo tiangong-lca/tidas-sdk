@@ -11,6 +11,7 @@ import {
   StringMultiLangSchema,
   RequiredStringMultiLangSchema,
   UUIDSchema,
+  VersionSchema,
   dateTimeSchema,
 } from './tidas_data_types.schema';
 
@@ -38,31 +39,49 @@ export const LifecyclemodelsSchema = z.object({
           'common:other': CommonOtherSchema.optional(),
         }),
         classificationInformation: z.object({
-          'common:classification': z.object({
-            'common:class': z.tuple([
+          'common:classification': z.union([
+            z.object({
+              'common:class': z.tuple([
+                z.object({
+                  '@level': LevelTypeSchema,
+                  '@classId': z.string(),
+                  '#text': z.string(),
+                }),
+                z.object({
+                  '@level': LevelTypeSchema,
+                  '@classId': z.string(),
+                  '#text': z.string(),
+                }),
+                z.object({
+                  '@level': LevelTypeSchema,
+                  '@classId': z.string(),
+                  '#text': z.string(),
+                }),
+                z.object({
+                  '@level': LevelTypeSchema,
+                  '@classId': z.string(),
+                  '#text': z.string(),
+                }),
+              ]),
+              'common:other': CommonOtherSchema.optional(),
+              '@name': z.string().optional(),
+              '@classes': z.string().optional(),
+            }),
+            z.array(
               z.object({
-                '@level': LevelTypeSchema,
-                '@classId': z.string(),
-                '#text': z.string(),
-              }),
-              z.object({
-                '@level': LevelTypeSchema,
-                '@classId': z.string(),
-                '#text': z.string(),
-              }),
-              z.object({
-                '@level': LevelTypeSchema,
-                '@classId': z.string(),
-                '#text': z.string(),
-              }),
-              z.object({
-                '@level': LevelTypeSchema,
-                '@classId': z.string(),
-                '#text': z.string(),
-              }),
-            ]),
-            'common:other': CommonOtherSchema.optional(),
-          }),
+                '@name': z.string(),
+                '@classes': z.string().optional(),
+                'common:class': z.array(
+                  z.object({
+                    '@level': LevelTypeSchema,
+                    '@classId': z.string(),
+                    '#text': z.string(),
+                  })
+                ),
+                'common:other': CommonOtherSchema.optional(),
+              })
+            ),
+          ]),
         }),
         referenceToResultingProcess: GlobalReferenceTypeSchema.optional(),
         'common:generalComment': FTMultiLangSchema.optional(),
@@ -70,7 +89,7 @@ export const LifecyclemodelsSchema = z.object({
         'common:other': CommonOtherSchema.optional(),
       }),
       quantitativeReference: z.object({
-        referenceToReferenceProcess: z.string(),
+        referenceToReferenceProcess: z.number(),
         'common:other': CommonOtherSchema.optional(),
       }),
       technology: z.object({
@@ -153,6 +172,7 @@ export const LifecyclemodelsSchema = z.object({
                                     z.literal('false'),
                                   ])
                                   .optional(),
+                                '@version': VersionSchema,
                               }),
                               z.array(
                                 z.object({
@@ -165,9 +185,11 @@ export const LifecyclemodelsSchema = z.object({
                                       z.literal('false'),
                                     ])
                                     .optional(),
+                                  '@version': VersionSchema,
                                 })
                               ),
                             ]),
+                            '@version': VersionSchema,
                           }),
                           z.array(
                             z.object({
@@ -186,6 +208,7 @@ export const LifecyclemodelsSchema = z.object({
                                       z.literal('false'),
                                     ])
                                     .optional(),
+                                  '@version': VersionSchema,
                                 }),
                                 z.array(
                                   z.object({
@@ -198,9 +221,11 @@ export const LifecyclemodelsSchema = z.object({
                                         z.literal('false'),
                                       ])
                                       .optional(),
+                                    '@version': VersionSchema,
                                   })
                                 ),
                               ]),
+                              '@version': VersionSchema,
                             })
                           ),
                         ])
@@ -265,6 +290,7 @@ export const LifecyclemodelsSchema = z.object({
                             '@dominant': z
                               .union([z.literal('true'), z.literal('false')])
                               .optional(),
+                            '@version': VersionSchema,
                           }),
                           z.array(
                             z.object({
@@ -274,9 +300,11 @@ export const LifecyclemodelsSchema = z.object({
                               '@dominant': z
                                 .union([z.literal('true'), z.literal('false')])
                                 .optional(),
+                              '@version': VersionSchema,
                             })
                           ),
                         ]),
+                        '@version': VersionSchema,
                       }),
                       z.array(
                         z.object({
@@ -292,6 +320,7 @@ export const LifecyclemodelsSchema = z.object({
                               '@dominant': z
                                 .union([z.literal('true'), z.literal('false')])
                                 .optional(),
+                              '@version': VersionSchema,
                             }),
                             z.array(
                               z.object({
@@ -304,9 +333,11 @@ export const LifecyclemodelsSchema = z.object({
                                     z.literal('false'),
                                   ])
                                   .optional(),
+                                '@version': VersionSchema,
                               })
                             ),
                           ]),
+                          '@version': VersionSchema,
                         })
                       ),
                     ]),
@@ -450,7 +481,7 @@ export const LifecyclemodelsSchema = z.object({
         'common:other': CommonOtherSchema.optional(),
       }),
       publicationAndOwnership: z.object({
-        'common:dataSetVersion': z.string(),
+        'common:dataSetVersion': VersionSchema,
         'common:referenceToPrecedingDataSetVersion':
           GlobalReferenceTypeSchema.optional(),
         'common:permanentDataSetURI': z.string(),
