@@ -6,7 +6,7 @@ from __future__ import annotations
 
 from typing import Annotated, Literal
 
-from pydantic import Field
+from pydantic import Field, model_validator
 from tidas_sdk.core.base import TidasBaseModel
 from tidas_sdk.core.multilang import MultiLangList
 
@@ -177,6 +177,12 @@ class ProcessesProcessInstanceItem(TidasBaseModel):
     scaling_factor: Real | None = Field(default=None, alias='scalingFactor', description='A multiplicative scaling factor for the entire inventory of this process instance, used e.g. to scale the "Reference process" to the aimed-at amount of product (and thereby indirectly the entire inventory of the life cycle model). Note: Care is to be taken that models are not over- or under-specified - note that each process instance scaling is reducing the model\'s degree of freedom by one.')
     scaling_factors: Real | None = Field(default=None, alias='scalingFactors', description='A multiplicative scaling factor for the entire inventory of this process instance, used e.g. to scale the "Reference process" to the aimed-at amount of product (and thereby indirectly the entire inventory of the life cycle model). Note: Care is to be taken that models are not over- or under-specified - note that each process instance scaling is reducing the model\'s degree of freedom by one.')
 
+    @model_validator(mode='after')
+    def _validate_excluded_required(self):
+        if set(['scaling_factor', 'scaling_factors']).issubset(self.model_fields_set):
+            raise ValueError('Properties must not all be present: scalingFactor, scalingFactors')
+        return self
+
 class GroupsMemberOfOption02(TidasBaseModel):
     group_id: str = Field(default=..., alias='@groupId', description='Data set internal ID of the group.', pattern='^-?\\d+$')
 
@@ -255,6 +261,12 @@ class ProcessesProcessInstanceOption1(TidasBaseModel):
     common_other: CommonOther | None = Field(default=None, alias='common:other')
     scaling_factor: Real | None = Field(default=None, alias='scalingFactor', description='A multiplicative scaling factor for the entire inventory of this process instance, used e.g. to scale the "Reference process" to the aimed-at amount of product (and thereby indirectly the entire inventory of the life cycle model). Note: Care is to be taken that models are not over- or under-specified - note that each process instance scaling is reducing the model\'s degree of freedom by one.')
     scaling_factors: Real | None = Field(default=None, alias='scalingFactors', description='A multiplicative scaling factor for the entire inventory of this process instance, used e.g. to scale the "Reference process" to the aimed-at amount of product (and thereby indirectly the entire inventory of the life cycle model). Note: Care is to be taken that models are not over- or under-specified - note that each process instance scaling is reducing the model\'s degree of freedom by one.')
+
+    @model_validator(mode='after')
+    def _validate_excluded_required(self):
+        if set(['scaling_factor', 'scaling_factors']).issubset(self.model_fields_set):
+            raise ValueError('Properties must not all be present: scalingFactor, scalingFactors')
+        return self
 
 class LifeCycleModelInformationTechnologyProcesses(TidasBaseModel):
     """\"Process data set(s)\" included in this life cycle model as separate data set(s)."""

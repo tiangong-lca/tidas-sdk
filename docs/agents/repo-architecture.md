@@ -27,7 +27,7 @@ checkPaths:
   - scripts/docpact-gate.sh
   - scripts/install-git-hooks.sh
 lastReviewedAt: 2026-10-01
-lastReviewedCommit: 936202d3e4ea814fc8a42260836726e73b44f255
+lastReviewedCommit: c7b2fdf8f3a496b2fc8e5b32fb58364197922c85
 lastReviewedNote: "Reviewed SDK #156: spec/public-rule identities advance together and the Python generator adds a Process quantitative-reference Pydantic validator; package topology and release ownership remain unchanged."
 related:
   - ../../AGENTS.md

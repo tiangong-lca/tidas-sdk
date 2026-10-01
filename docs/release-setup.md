@@ -19,7 +19,7 @@ checkPaths:
   - package.json
   - .docpact/config.yaml
 lastReviewedAt: 2026-10-01
-lastReviewedCommit: 936202d3e4ea814fc8a42260836726e73b44f255
+lastReviewedCommit: c7b2fdf8f3a496b2fc8e5b32fb58364197922c85
 lastReviewedNote: "Reviewed SDK #156: exact 0.2.3 generated Process validation, including Python Pydantic conditions, retains existing npm/PyPI trusted publishers and tag workflow; no registry setup changes."
 related:
   - ../AGENTS.md

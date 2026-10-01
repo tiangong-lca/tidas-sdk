@@ -1,7 +1,7 @@
 version: 1
 layout: repo
 lastReviewedAt: "2026-10-01"
-lastReviewedCommit: "936202d3e4ea814fc8a42260836726e73b44f255"
+lastReviewedCommit: "c7b2fdf8f3a496b2fc8e5b32fb58364197922c85"
 lastReviewedNote: "Reviewed SDK #156: archive-bound pin refresh and Python Process model-validator generation stay in existing generation/package routes. Generated TS/Python surfaces retain their owners; no catalog or coverage change."
 
 catalog:

@@ -6,7 +6,7 @@ from __future__ import annotations
 
 from typing import Annotated, Literal
 
-from pydantic import Field
+from pydantic import Field, model_validator
 from tidas_sdk.core.base import TidasBaseModel
 from tidas_sdk.core.multilang import MultiLangList
 
@@ -112,6 +112,12 @@ class LCIAMethodDataSetLCIAMethodInformationGeography(TidasBaseModel):
     intervention_sub_location: Annotated[list[InterventionSubLocationItemOption0 | str], Field(min_length=1)] | GeographyInterventionSubLocationOption0 | str | None = Field(default=None, alias='interventionSubLocation')
     intervension_sub_location: GeographyIntervensionSubLocationOption0 | str | None = Field(default=None, alias='intervensionSubLocation', description='Geographical sub-unit(s) of "Intervention location(s)" that further specify the specifically modelled sub-locations. Such sub-locations can be e.g. sites of a company, specific catchments modleled, countries of a continent, or locations in a country. Information on limited representativeness should be provided if applicable.')
 
+    @model_validator(mode='after')
+    def _validate_excluded_required(self):
+        if set(['intervention_sub_location', 'intervension_sub_location']).issubset(self.model_fields_set):
+            raise ValueError('Properties must not all be present: interventionSubLocation, intervensionSubLocation')
+        return self
+
 class LCIAMethodDataSetLCIAMethodInformationImpactModel(TidasBaseModel):
     """Provides information about the general representativiness of the data set and about its composition of single LCIA-methods."""
     model_name: ST = Field(default=..., alias='modelName', description='Name(s) of the model(s) used for calculating the LCIA impact indicator values (if any)')
@@ -170,6 +176,12 @@ class Option0ScopeOption0(TidasBaseModel):
     method: Option0MethodOption0 | list[Option0MethodItem] | None = Field(default=None, alias='method', description='Validation method(s) used in the respective "Scope of review".')
     common_method: Option0CommonMethodOption0 | list[Option0CommonMethodItem] | None = Field(default=None, alias='common:method', description='Validation method(s) used in the respective "Scope of review".')
 
+    @model_validator(mode='after')
+    def _validate_excluded_required(self):
+        if set(['method', 'common_method']).issubset(self.model_fields_set):
+            raise ValueError('Properties must not all be present: method, common:method')
+        return self
+
 class ItemMethodOption0(TidasBaseModel):
     name: Literal['Recollection / Validation of data', 'Recalculation', 'Cross-check with other source', 'Cross-check with other LCIA method(ology)', 'Expert judgement'] = Field(default=..., alias='@name')
 
@@ -186,6 +198,12 @@ class Option0ScopeItem(TidasBaseModel):
     name: Literal['Substance properties, physical and chemical', 'Substance properties, biological', 'Model for Transport and Fate', 'Model for Exposure', 'Model for Effect', 'Model for Damage', 'Characterisation factors', 'Application of model', 'Normalisation', 'Weighting', 'Documentation'] = Field(default=..., alias='@name')
     method: ItemMethodOption0 | list[ItemMethodItem] | None = Field(default=None, alias='method', description='Validation method(s) used in the respective "Scope of review".')
     common_method: ItemCommonMethodOption0 | list[ItemCommonMethodItem] | None = Field(default=None, alias='common:method', description='Validation method(s) used in the respective "Scope of review".')
+
+    @model_validator(mode='after')
+    def _validate_excluded_required(self):
+        if set(['method', 'common_method']).issubset(self.model_fields_set):
+            raise ValueError('Properties must not all be present: method, common:method')
+        return self
 
 class Option0CommonMethodOption02(TidasBaseModel):
     name: Literal['Recollection / Validation of data', 'Recalculation', 'Cross-check with other source', 'Cross-check with other LCIA method(ology)', 'Expert judgement'] = Field(default=..., alias='@name')
@@ -217,6 +235,12 @@ class ValidationReviewOption0(TidasBaseModel):
     scope: Option0ScopeOption0 | list[Option0ScopeItem] | None = Field(default=None, alias='scope', description='Scope of review regarding which aspects and components of the data set was reviewed or verified. In case of aggregated e.g. LCI results also and on which level of detail (e.g. LCI results only, included unit processes, ...) the review / verification was performed.')
     common_scope: Option0CommonScopeOption0 | list[Option0CommonScopeItem] | None = Field(default=None, alias='common:scope', description='Scope of review regarding which aspects and components of the data set was reviewed or verified. In case of aggregated e.g. LCI results also and on which level of detail (e.g. LCI results only, included unit processes, ...) the review / verification was performed.')
 
+    @model_validator(mode='after')
+    def _validate_excluded_required(self):
+        if set(['scope', 'common_scope']).issubset(self.model_fields_set):
+            raise ValueError('Properties must not all be present: scope, common:scope')
+        return self
+
 class Option0MethodOption02(TidasBaseModel):
     name: Literal['Recollection / Validation of data', 'Recalculation', 'Cross-check with other source', 'Cross-check with other LCIA method(ology)', 'Expert judgement'] = Field(default=..., alias='@name')
 
@@ -234,6 +258,12 @@ class ItemScopeOption0(TidasBaseModel):
     method: Option0MethodOption02 | list[Option0MethodItem2] | None = Field(default=None, alias='method', description='Validation method(s) used in the respective "Scope of review".')
     common_method: Option0CommonMethodOption03 | list[Option0CommonMethodItem3] | None = Field(default=None, alias='common:method', description='Validation method(s) used in the respective "Scope of review".')
 
+    @model_validator(mode='after')
+    def _validate_excluded_required(self):
+        if set(['method', 'common_method']).issubset(self.model_fields_set):
+            raise ValueError('Properties must not all be present: method, common:method')
+        return self
+
 class ItemMethodOption02(TidasBaseModel):
     name: Literal['Recollection / Validation of data', 'Recalculation', 'Cross-check with other source', 'Cross-check with other LCIA method(ology)', 'Expert judgement'] = Field(default=..., alias='@name')
 
@@ -250,6 +280,12 @@ class ItemScopeItem(TidasBaseModel):
     name: Literal['Substance properties, physical and chemical', 'Substance properties, biological', 'Model for Transport and Fate', 'Model for Exposure', 'Model for Effect', 'Model for Damage', 'Characterisation factors', 'Application of model', 'Normalisation', 'Weighting', 'Documentation'] = Field(default=..., alias='@name')
     method: ItemMethodOption02 | list[ItemMethodItem2] | None = Field(default=None, alias='method', description='Validation method(s) used in the respective "Scope of review".')
     common_method: ItemCommonMethodOption03 | list[ItemCommonMethodItem3] | None = Field(default=None, alias='common:method', description='Validation method(s) used in the respective "Scope of review".')
+
+    @model_validator(mode='after')
+    def _validate_excluded_required(self):
+        if set(['method', 'common_method']).issubset(self.model_fields_set):
+            raise ValueError('Properties must not all be present: method, common:method')
+        return self
 
 class Option0CommonMethodOption04(TidasBaseModel):
     name: Literal['Recollection / Validation of data', 'Recalculation', 'Cross-check with other source', 'Cross-check with other LCIA method(ology)', 'Expert judgement'] = Field(default=..., alias='@name')
@@ -280,6 +316,12 @@ class ValidationReviewItem(TidasBaseModel):
     common_other: CommonOther | None = Field(default=None, alias='common:other')
     scope: ItemScopeOption0 | list[ItemScopeItem] | None = Field(default=None, alias='scope', description='Scope of review regarding which aspects and components of the data set was reviewed or verified. In case of aggregated e.g. LCI results also and on which level of detail (e.g. LCI results only, included unit processes, ...) the review / verification was performed.')
     common_scope: ItemCommonScopeOption0 | list[ItemCommonScopeItem] | None = Field(default=None, alias='common:scope', description='Scope of review regarding which aspects and components of the data set was reviewed or verified. In case of aggregated e.g. LCI results also and on which level of detail (e.g. LCI results only, included unit processes, ...) the review / verification was performed.')
+
+    @model_validator(mode='after')
+    def _validate_excluded_required(self):
+        if set(['scope', 'common_scope']).issubset(self.model_fields_set):
+            raise ValueError('Properties must not all be present: scope, common:scope')
+        return self
 
 class LCIAMethodDataSetModellingAndValidationValidation(TidasBaseModel):
     """Review information on LCIA method."""
@@ -392,6 +434,12 @@ class CharacterisationFactorsFactorOption0(TidasBaseModel):
     references_to_data_source: FactorOption0ReferencesToDataSource | None = Field(default=None, alias='referencesToDataSource')
     reference_to_data_source: GlobalReferenceType | Option0ReferenceToDataSourceOption1 | None = Field(default=None, alias='referenceToDataSource')
 
+    @model_validator(mode='after')
+    def _validate_excluded_required(self):
+        if set(['reference_to_data_source', 'references_to_data_source']).issubset(self.model_fields_set):
+            raise ValueError('Properties must not all be present: referenceToDataSource, referencesToDataSource')
+        return self
+
 class FactorItemReferencesToDataSource(TidasBaseModel):
     reference_to_data_source: GlobalReferenceType = Field(default=..., alias='referenceToDataSource')
     common_other: CommonOther | None = Field(default=None, alias='common:other')
@@ -415,6 +463,12 @@ class CharacterisationFactorsFactorItem(TidasBaseModel):
     references_to_data_source: FactorItemReferencesToDataSource | None = Field(default=None, alias='referencesToDataSource')
     reference_to_data_source: GlobalReferenceType | ItemReferenceToDataSourceOption1 | None = Field(default=None, alias='referenceToDataSource')
     common_other: CommonOther | None = Field(default=None, alias='common:other')
+
+    @model_validator(mode='after')
+    def _validate_excluded_required(self):
+        if set(['reference_to_data_source', 'references_to_data_source']).issubset(self.model_fields_set):
+            raise ValueError('Properties must not all be present: referenceToDataSource, referencesToDataSource')
+        return self
 
 class LciamethodsLCIAMethodDataSetCharacterisationFactors(TidasBaseModel):
     """Flow / Exchanges list with corresponding impact factors according to the respective LCIA method."""
