@@ -31,8 +31,8 @@ checkPaths:
   - scripts/docpact
   - scripts/docpact-gate.sh
   - scripts/install-git-hooks.sh
-lastReviewedAt: 2026-09-24
-lastReviewedCommit: 04b6ac2c9566ba0209cebfe4cc56b6eef5a56845
+lastReviewedAt: 2026-10-01
+lastReviewedCommit: 936202d3e4ea814fc8a42260836726e73b44f255
 lastReviewedNote: "Reviewed SDK #156: exact tidas-spec 0.2.3 adoption and Python generator validation keep Process quantitative-reference conditions aligned across Zod, shipped JSON Schema and Pydantic; ownership and tag-driven publication remain unchanged."
 related:
   - .docpact/config.yaml

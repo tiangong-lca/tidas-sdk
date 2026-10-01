@@ -87,11 +87,11 @@ class LifeCycleModelDataSetLifeCycleModelInformationQuantitativeReference(TidasB
     common_other: CommonOther | None = Field(default=None, alias='common:other')
 
 class GroupDeclarationsGroupOption0(TidasBaseModel):
-    id: str | None = Field(default=None, alias='@id', pattern='^-?\\d+$')
+    id: str = Field(default=..., alias='@id', pattern='^-?\\d+$')
     group_name: MultiLangList = Field(default_factory=MultiLangList, alias='groupName')
 
 class GroupDeclarationsGroupItem(TidasBaseModel):
-    id: str | None = Field(default=None, alias='@id', pattern='^-?\\d+$')
+    id: str = Field(default=..., alias='@id', pattern='^-?\\d+$')
     group_name: MultiLangList = Field(default_factory=MultiLangList, alias='groupName')
 
 class LifeCycleModelInformationTechnologyGroupDeclarations(TidasBaseModel):
@@ -99,20 +99,24 @@ class LifeCycleModelInformationTechnologyGroupDeclarations(TidasBaseModel):
     group: GroupDeclarationsGroupOption0 | list[GroupDeclarationsGroupItem] | None = Field(default=None, alias='group', description='Definition for each group.')
 
 class GroupsMemberOfOption0(TidasBaseModel):
-    group_id: str | None = Field(default=None, alias='@groupId', description='Data set internal ID of the group.', pattern='^-?\\d+$')
+    group_id: str = Field(default=..., alias='@groupId', description='Data set internal ID of the group.', pattern='^-?\\d+$')
 
 class GroupsMemberOfItem(TidasBaseModel):
-    group_id: str | None = Field(default=None, alias='@groupId', description='Data set internal ID of the group.', pattern='^-?\\d+$')
+    group_id: str = Field(default=..., alias='@groupId', description='Data set internal ID of the group.', pattern='^-?\\d+$')
 
 class ProcessInstanceItemGroups(TidasBaseModel):
     """Group(s) to which this process instance belongs."""
     member_of: GroupsMemberOfOption0 | list[GroupsMemberOfItem] | None = Field(default=None, alias='memberOf', description='Refers to one user-definable group, to which this process instance belongs.')
 
 class ParametersParameterOption0(TidasBaseModel):
-    name: MatV | None = Field(default=None, alias='@name', description='Name of free parameter')
+    name: MatV = Field(default=..., alias='@name')
+    text: Real | None = Field(default=None, alias='#text')
+    parameter: Real | None = Field(default=None, alias='parameter')
 
 class ParametersParameterItem(TidasBaseModel):
-    name: MatV | None = Field(default=None, alias='@name', description='Name of free parameter')
+    name: MatV = Field(default=..., alias='@name')
+    text: Real | None = Field(default=None, alias='#text')
+    parameter: Real | None = Field(default=None, alias='parameter')
 
 class ProcessInstanceItemParameters(TidasBaseModel):
     """Set of parameters of this process instance with parameter values (changed or unchanged from those in the underlying process data set)."""
@@ -160,35 +164,38 @@ class ConnectionsOutputExchangeItem(TidasBaseModel):
 
 class ProcessInstanceItemConnections(TidasBaseModel):
     """Connection information among process instances, via connecting product or waste flow exchanges."""
-    output_exchange: ConnectionsOutputExchangeOption0 | list[ConnectionsOutputExchangeItem] | None = Field(default=None, alias='outputExchange', description="Reference to process data set UUID of one of the connecting output product or waste flow exchanges of this process instance. I.e. which (flow) exchange on output side of this process instance is to be connected to another process instance's input product or waste (flow) exchange?")
+    output_exchange: ConnectionsOutputExchangeOption0 | list[ConnectionsOutputExchangeItem] = Field(default=..., alias='outputExchange', description="Reference to process data set UUID of one of the connecting output product or waste flow exchanges of this process instance. I.e. which (flow) exchange on output side of this process instance is to be connected to another process instance's input product or waste (flow) exchange?")
 
 class ProcessesProcessInstanceItem(TidasBaseModel):
     data_set_internal_id: str = Field(default=..., alias='@dataSetInternalID', pattern='^-?\\d+$')
     multiplication_factor: str = Field(default=..., alias='@multiplicationFactor', description='The multiplication factor corresponds to the amount of output product from the process instance that is needed over the full life cycle. In practice, the Life Cycle Inventory of a specific process instance shall be multiplied by the multiplication factor to calculate the exact amount needed over the full life cycle.', pattern='^-?\\d+(\\.\\d+)?([eE][-+]?\\d+)?$')
     reference_to_process: GlobalReferenceType = Field(default=..., alias='referenceToProcess', description='Reference to the process data set, including its version, that is included in the eILCD archive of the Life cycle model and/or accessible at a remote location, i.e. a URI or URL.')
-    scaling_factors: Real | None = Field(default=None, alias='scalingFactors', description='A multiplicative scaling factor for the entire inventory of this process instance, used e.g. to scale the "Reference process" to the aimed-at amount of product (and thereby indirectly the entire inventory of the life cycle model). Note: Care is to be taken that models are not over- or under-specified - note that each process instance scaling is reducing the model\'s degree of freedom by one.')
     groups: ProcessInstanceItemGroups | None = Field(default=None, alias='groups', description='Group(s) to which this process instance belongs.')
     parameters: ProcessInstanceItemParameters | None = Field(default=None, alias='parameters', description='Set of parameters of this process instance with parameter values (changed or unchanged from those in the underlying process data set).')
     connections: ProcessInstanceItemConnections | None = Field(default=None, alias='connections', description='Connection information among process instances, via connecting product or waste flow exchanges.')
     common_other: CommonOther | None = Field(default=None, alias='common:other')
+    scaling_factor: Real | None = Field(default=None, alias='scalingFactor', description='A multiplicative scaling factor for the entire inventory of this process instance, used e.g. to scale the "Reference process" to the aimed-at amount of product (and thereby indirectly the entire inventory of the life cycle model). Note: Care is to be taken that models are not over- or under-specified - note that each process instance scaling is reducing the model\'s degree of freedom by one.')
+    scaling_factors: Real | None = Field(default=None, alias='scalingFactors', description='A multiplicative scaling factor for the entire inventory of this process instance, used e.g. to scale the "Reference process" to the aimed-at amount of product (and thereby indirectly the entire inventory of the life cycle model). Note: Care is to be taken that models are not over- or under-specified - note that each process instance scaling is reducing the model\'s degree of freedom by one.')
 
 class GroupsMemberOfOption02(TidasBaseModel):
-    group_id: str | None = Field(default=None, alias='@groupId', description='Data set internal ID of the group.', pattern='^-?\\d+$')
+    group_id: str = Field(default=..., alias='@groupId', description='Data set internal ID of the group.', pattern='^-?\\d+$')
 
 class GroupsMemberOfItem2(TidasBaseModel):
-    group_id: str | None = Field(default=None, alias='@groupId', description='Data set internal ID of the group.', pattern='^-?\\d+$')
+    group_id: str = Field(default=..., alias='@groupId', description='Data set internal ID of the group.', pattern='^-?\\d+$')
 
 class ProcessInstanceOption1Groups(TidasBaseModel):
     """Group(s) to which this process instance belongs."""
     member_of: GroupsMemberOfOption02 | list[GroupsMemberOfItem2] | None = Field(default=None, alias='memberOf', description='Refers to one user-definable group, to which this process instance belongs.')
 
 class ParametersParameterOption02(TidasBaseModel):
-    name: str | None = Field(default=None, alias='@name', description='Name of free parameter')
-    parameter: Real | None = Field(default=None, alias='parameter', description='Value of the parameter.')
+    name: MatV = Field(default=..., alias='@name')
+    parameter: Real | None = Field(default=None, alias='parameter')
+    text: Real | None = Field(default=None, alias='#text')
 
 class ParametersParameterItem2(TidasBaseModel):
-    name: str | None = Field(default=None, alias='@name', description='Name of free parameter')
-    parameter: Real | None = Field(default=None, alias='parameter', description='Value of the parameter.')
+    name: MatV = Field(default=..., alias='@name')
+    parameter: Real | None = Field(default=None, alias='parameter')
+    text: Real | None = Field(default=None, alias='#text')
 
 class ProcessInstanceOption1Parameters(TidasBaseModel):
     """Set of parameters of this process instance with parameter values (changed or unchanged from those in the underlying process data set)."""
@@ -242,11 +249,12 @@ class ProcessesProcessInstanceOption1(TidasBaseModel):
     data_set_internal_id: str = Field(default=..., alias='@dataSetInternalID', pattern='^-?\\d+$')
     multiplication_factor: str = Field(default=..., alias='@multiplicationFactor', description='The multiplication factor corresponds to the amount of output product from the process instance that is needed over the full life cycle. In practice, the Life Cycle Inventory of a specific process instance shall be multiplied by the multiplication factor to calculate the exact amount needed over the full life cycle.', pattern='^-?\\d+(\\.\\d+)?([eE][-+]?\\d+)?$')
     reference_to_process: GlobalReferenceType = Field(default=..., alias='referenceToProcess', description='Reference to the process data set, including its version, that is included in the eILCD archive of the Life cycle model and/or accessible at a remote location, i.e. a URI or URL.')
-    scaling_factors: Real | None = Field(default=None, alias='scalingFactors', description='A multiplicative scaling factor for the entire inventory of this process instance, used e.g. to scale the "Reference process" to the aimed-at amount of product (and thereby indirectly the entire inventory of the life cycle model). Note: Care is to be taken that models are not over- or under-specified - note that each process instance scaling is reducing the model\'s degree of freedom by one.')
     groups: ProcessInstanceOption1Groups | None = Field(default=None, alias='groups', description='Group(s) to which this process instance belongs.')
     parameters: ProcessInstanceOption1Parameters | None = Field(default=None, alias='parameters', description='Set of parameters of this process instance with parameter values (changed or unchanged from those in the underlying process data set).')
     connections: ProcessInstanceOption1Connections | None = Field(default=None, alias='connections', description='Connection information among process instances, via connecting product or waste flow exchanges.')
     common_other: CommonOther | None = Field(default=None, alias='common:other')
+    scaling_factor: Real | None = Field(default=None, alias='scalingFactor', description='A multiplicative scaling factor for the entire inventory of this process instance, used e.g. to scale the "Reference process" to the aimed-at amount of product (and thereby indirectly the entire inventory of the life cycle model). Note: Care is to be taken that models are not over- or under-specified - note that each process instance scaling is reducing the model\'s degree of freedom by one.')
+    scaling_factors: Real | None = Field(default=None, alias='scalingFactors', description='A multiplicative scaling factor for the entire inventory of this process instance, used e.g. to scale the "Reference process" to the aimed-at amount of product (and thereby indirectly the entire inventory of the life cycle model). Note: Care is to be taken that models are not over- or under-specified - note that each process instance scaling is reducing the model\'s degree of freedom by one.')
 
 class LifeCycleModelInformationTechnologyProcesses(TidasBaseModel):
     """\"Process data set(s)\" included in this life cycle model as separate data set(s)."""
@@ -287,7 +295,7 @@ class LifeCycleModelDataSetModellingAndValidationValidation(TidasBaseModel):
     review: ValidationReviewOption0 | list[ValidationReviewItem] = Field(default=..., alias='review', description='Review information on this life cycle model data set')
     common_other: CommonOther | None = Field(default=None, alias='common:other')
 
-class ComplianceDeclarationsComplianceOption0(TidasBaseModel):
+class Option0ComplianceOption0(TidasBaseModel):
     common_reference_to_compliance_system: GlobalReferenceType = Field(default=..., alias='common:referenceToComplianceSystem', description='"Source data set" of the "Compliance system" that is declared to be met by the data set.')
     common_approval_of_overall_compliance: Literal['Fully compliant', 'Not compliant', 'Not defined'] = Field(default=..., alias='common:approvalOfOverallCompliance', description='Official approval whether or not and in how far the data set meets all the requirements of the "Compliance system" refered to. This approval should be issued/confirmed by the owner of that compliance system, who is identified via the respective "Contact data set".')
     common_nomenclature_compliance: Literal['Fully compliant', 'Not compliant', 'Not defined'] = Field(default=..., alias='common:nomenclatureCompliance', description='Nomenclature compliance of this data set with the respective requirements set by the "compliance system" refered to.')
@@ -297,7 +305,7 @@ class ComplianceDeclarationsComplianceOption0(TidasBaseModel):
     common_quality_compliance: Literal['Fully compliant', 'Not compliant', 'Not defined'] = Field(default=..., alias='common:qualityCompliance', description='Quality compliance of this data set with the respective requirements set by the "compliance system" refered to.')
     common_other: CommonOther | None = Field(default=None, alias='common:other')
 
-class ComplianceDeclarationsComplianceItem(TidasBaseModel):
+class Option0ComplianceItem(TidasBaseModel):
     common_reference_to_compliance_system: GlobalReferenceType = Field(default=..., alias='common:referenceToComplianceSystem', description='"Source data set" of the "Compliance system" that is declared to be met by the data set.')
     common_approval_of_overall_compliance: Literal['Fully compliant', 'Not compliant', 'Not defined'] = Field(default=..., alias='common:approvalOfOverallCompliance', description='Official approval whether or not and in how far the data set meets all the requirements of the "Compliance system" refered to. This approval should be issued/confirmed by the owner of that compliance system, who is identified via the respective "Contact data set".')
     common_nomenclature_compliance: Literal['Fully compliant', 'Not compliant', 'Not defined'] = Field(default=..., alias='common:nomenclatureCompliance', description='Nomenclature compliance of this data set with the respective requirements set by the "compliance system" refered to.')
@@ -307,16 +315,39 @@ class ComplianceDeclarationsComplianceItem(TidasBaseModel):
     common_quality_compliance: Literal['Fully compliant', 'Not compliant', 'Not defined'] = Field(default=..., alias='common:qualityCompliance', description='Quality compliance of this data set with the respective requirements set by the "compliance system" refered to.')
     common_other: CommonOther | None = Field(default=None, alias='common:other')
 
-class LifeCycleModelDataSetModellingAndValidationComplianceDeclarations(TidasBaseModel):
-    """One or more declarations of compliance to selected standards, schemes and other references, e.g. ISO 14040, ISO 14044, ILCD, EF, EN 15804, ..."""
-    compliance: Annotated[list[ComplianceDeclarationsComplianceItem], Field(min_length=1)] | ComplianceDeclarationsComplianceOption0 = Field(default=..., alias='compliance', description='One compliance declaration. Multiple declarations may be provided.')
+class ModellingAndValidationComplianceDeclarationsOption0(TidasBaseModel):
+    compliance: Annotated[list[Option0ComplianceItem], Field(min_length=1)] | Option0ComplianceOption0 = Field(default=..., alias='compliance', description='One compliance declaration. Multiple declarations may be provided.')
+    common_other: CommonOther | None = Field(default=None, alias='common:other')
+
+class ItemComplianceOption0(TidasBaseModel):
+    common_reference_to_compliance_system: GlobalReferenceType = Field(default=..., alias='common:referenceToComplianceSystem', description='"Source data set" of the "Compliance system" that is declared to be met by the data set.')
+    common_approval_of_overall_compliance: Literal['Fully compliant', 'Not compliant', 'Not defined'] = Field(default=..., alias='common:approvalOfOverallCompliance', description='Official approval whether or not and in how far the data set meets all the requirements of the "Compliance system" refered to. This approval should be issued/confirmed by the owner of that compliance system, who is identified via the respective "Contact data set".')
+    common_nomenclature_compliance: Literal['Fully compliant', 'Not compliant', 'Not defined'] = Field(default=..., alias='common:nomenclatureCompliance', description='Nomenclature compliance of this data set with the respective requirements set by the "compliance system" refered to.')
+    common_methodological_compliance: Literal['Fully compliant', 'Not compliant', 'Not defined'] = Field(default=..., alias='common:methodologicalCompliance', description='Methodological compliance of this data set with the respective requirements set by the "compliance system" refered to.')
+    common_review_compliance: Literal['Fully compliant', 'Not compliant', 'Not defined'] = Field(default=..., alias='common:reviewCompliance', description='Review/Verification compliance of this data set with the respective requirements set by the "compliance system" refered to.')
+    common_documentation_compliance: Literal['Fully compliant', 'Not compliant', 'Not defined'] = Field(default=..., alias='common:documentationCompliance', description='Documentation/Reporting compliance of this data set with the respective requirements set by the "compliance system" refered to.')
+    common_quality_compliance: Literal['Fully compliant', 'Not compliant', 'Not defined'] = Field(default=..., alias='common:qualityCompliance', description='Quality compliance of this data set with the respective requirements set by the "compliance system" refered to.')
+    common_other: CommonOther | None = Field(default=None, alias='common:other')
+
+class ItemComplianceItem(TidasBaseModel):
+    common_reference_to_compliance_system: GlobalReferenceType = Field(default=..., alias='common:referenceToComplianceSystem', description='"Source data set" of the "Compliance system" that is declared to be met by the data set.')
+    common_approval_of_overall_compliance: Literal['Fully compliant', 'Not compliant', 'Not defined'] = Field(default=..., alias='common:approvalOfOverallCompliance', description='Official approval whether or not and in how far the data set meets all the requirements of the "Compliance system" refered to. This approval should be issued/confirmed by the owner of that compliance system, who is identified via the respective "Contact data set".')
+    common_nomenclature_compliance: Literal['Fully compliant', 'Not compliant', 'Not defined'] = Field(default=..., alias='common:nomenclatureCompliance', description='Nomenclature compliance of this data set with the respective requirements set by the "compliance system" refered to.')
+    common_methodological_compliance: Literal['Fully compliant', 'Not compliant', 'Not defined'] = Field(default=..., alias='common:methodologicalCompliance', description='Methodological compliance of this data set with the respective requirements set by the "compliance system" refered to.')
+    common_review_compliance: Literal['Fully compliant', 'Not compliant', 'Not defined'] = Field(default=..., alias='common:reviewCompliance', description='Review/Verification compliance of this data set with the respective requirements set by the "compliance system" refered to.')
+    common_documentation_compliance: Literal['Fully compliant', 'Not compliant', 'Not defined'] = Field(default=..., alias='common:documentationCompliance', description='Documentation/Reporting compliance of this data set with the respective requirements set by the "compliance system" refered to.')
+    common_quality_compliance: Literal['Fully compliant', 'Not compliant', 'Not defined'] = Field(default=..., alias='common:qualityCompliance', description='Quality compliance of this data set with the respective requirements set by the "compliance system" refered to.')
+    common_other: CommonOther | None = Field(default=None, alias='common:other')
+
+class ModellingAndValidationComplianceDeclarationsItem(TidasBaseModel):
+    compliance: Annotated[list[ItemComplianceItem], Field(min_length=1)] | ItemComplianceOption0 = Field(default=..., alias='compliance', description='One compliance declaration. Multiple declarations may be provided.')
     common_other: CommonOther | None = Field(default=None, alias='common:other')
 
 class LifecyclemodelsLifeCycleModelDataSetModellingAndValidation(TidasBaseModel):
     """This section covers the following sub-sections: 1) \"Data sources, treatment and representativeness\", 2) \"Validation\", and 3) \"Compliance\"."""
     data_sources_treatment_etc: LifeCycleModelDataSetModellingAndValidationDataSourcesTreatmentEtc | None = Field(default=None, alias='dataSourcesTreatmentEtc', description='Data selection, completeness, and treatment principles and procedures, data sources and market coverage information.')
     validation: LifeCycleModelDataSetModellingAndValidationValidation = Field(default=..., alias='validation', description='Review / validation information on data set.')
-    compliance_declarations: LifeCycleModelDataSetModellingAndValidationComplianceDeclarations = Field(default=..., alias='complianceDeclarations', description='One or more declarations of compliance to selected standards, schemes and other references, e.g. ISO 14040, ISO 14044, ILCD, EF, EN 15804, ...')
+    compliance_declarations: Annotated[list[ModellingAndValidationComplianceDeclarationsItem], Field(min_length=1)] | ModellingAndValidationComplianceDeclarationsOption0 = Field(default=..., alias='complianceDeclarations', description='One or more declarations of compliance to selected standards, schemes and other references, e.g. ISO 14040, ISO 14044, ILCD, EF, EN 15804, ...')
     common_other: CommonOther | None = Field(default=None, alias='common:other')
 
 class LifeCycleModelDataSetAdministrativeInformationCommonCommissionerAndGoal(TidasBaseModel):

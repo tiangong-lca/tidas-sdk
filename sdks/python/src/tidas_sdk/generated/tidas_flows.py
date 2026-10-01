@@ -15,6 +15,7 @@ from .tidas_data_types import CommonOther
 from .tidas_data_types import DateTime
 from .tidas_data_types import GlobalReferenceType
 from .tidas_data_types import Int5
+from .tidas_data_types import LevelType
 from .tidas_data_types import Perc
 from .tidas_data_types import Real
 from .tidas_data_types import String
@@ -24,6 +25,25 @@ from .tidas_locations_category import LocationsCategory
 from datetime import datetime
 from pydantic import AfterValidator
 from tidas_sdk.core.cas_number import validate_cas_number_check_digit
+
+class CommonCategoryItemOption0(TidasBaseModel):
+    level: LevelType = Field(default=..., alias='@level')
+    cat_id: str = Field(default=..., alias='@catId')
+    text: str = Field(default=..., alias='#text')
+
+class CommonCategoryItemOption1(TidasBaseModel):
+    level: LevelType = Field(default=..., alias='@level')
+    cat_id: str = Field(default=..., alias='@catId')
+    text: str = Field(default=..., alias='#text')
+
+class CommonCategoryItemOption2(TidasBaseModel):
+    level: LevelType = Field(default=..., alias='@level')
+    cat_id: str = Field(default=..., alias='@catId')
+    text: str = Field(default=..., alias='#text')
+
+class ElementaryFlowCategorization(TidasBaseModel):
+    common_category: Annotated[list[CommonCategoryItemOption0 | CommonCategoryItemOption1 | CommonCategoryItemOption2], Field(max_length=3)] = Field(default_factory=list, alias='common:category')
+    common_other: CommonOther | None = Field(default=None, alias='common:other')
 
 class FlowInformationDataSetInformationName(TidasBaseModel):
     base_name: MultiLangList = Field(default=..., alias='baseName')
@@ -47,7 +67,7 @@ class FlowDataSetFlowInformationQuantitativeReference(TidasBaseModel):
     common_other: CommonOther | None = Field(default=None, alias='common:other')
 
 class FlowDataSetFlowInformationGeography(TidasBaseModel):
-    location_of_supply: LocationsCategory | None = Field(default=None, alias='locationOfSupply')
+    location_of_supply: Annotated[list[LocationsCategory], Field(min_length=1)] | LocationsCategory | None = Field(default=None, alias='locationOfSupply')
     common_other: CommonOther | None = Field(default=None, alias='common:other')
 
 class FlowDataSetFlowInformationTechnology(TidasBaseModel):

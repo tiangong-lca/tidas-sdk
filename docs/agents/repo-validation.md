@@ -28,8 +28,8 @@ checkPaths:
   - scripts/docpact
   - scripts/docpact-gate.sh
   - scripts/install-git-hooks.sh
-lastReviewedAt: 2026-09-24
-lastReviewedCommit: 04b6ac2c9566ba0209cebfe4cc56b6eef5a56845
+lastReviewedAt: 2026-10-01
+lastReviewedCommit: 936202d3e4ea814fc8a42260836726e73b44f255
 lastReviewedNote: "Reviewed SDK #156: exact-archive public-rule pin, conditional Process schema and bilingual non-flow tests are covered by both canonical package verifiers and automation regressions."
 related:
   - ../../AGENTS.md
@@ -173,3 +173,10 @@ failure all retain ordered Docpact, TypeScript and Python gates. This is not an
 environment-selected bypass. `sh scripts/ci/test-pre-push.sh` exercises the real
 hook with isolated gate transports; the existing automation suite includes it.
 Direct canonical verification and release-time package proof remain unchanged.
+
+
+### ILCD compatibility candidate qualification
+
+The content-addressed candidate for SDK #158 binds the spec archive and public-rule identity to commit `97a3725e6a24886ec1332be61e462e2228ee94fe`. The pin explicitly identifies the eighteen repository-authored public paths. Both canonical package verifiers must pass against this archive and the existing tools pin; generator tests cover annotation-only `$comment`, bounded `not: { required: [...] }` alias exclusion, and parenthesized enum-array TypeScript output. Generated-schema tests exercise repeated Process/Flow fields, named classifications, model scaling aliases, LCIA geography aliases and strict unit items.
+
+This archive retains the historical 0.2.3 package version but differs from the formal 0.2.3 release. It is a reviewed candidate input only. Stable publication requires a new formal spec version, refreshed immutable pins and normal SDK release qualification; neither replacing the existing release nor treating local package installation as publication is allowed.

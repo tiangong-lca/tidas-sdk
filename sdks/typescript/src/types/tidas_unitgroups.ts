@@ -30,14 +30,27 @@ export interface Unitgroups {
         'common:UUID': UUID;
         'common:name': StringMultiLang;
         classificationInformation: {
-          'common:classification': {
-            'common:class': {
-              '@level': LevelType;
-              '@classId': string;
-              '#text': string;
-            };
-            'common:other'?: CommonOther;
-          };
+          'common:classification':
+            | {
+                'common:class': {
+                  '@level': LevelType;
+                  '@classId': string;
+                  '#text': string;
+                };
+                'common:other'?: CommonOther;
+                '@name'?: string;
+                '@classes'?: string;
+              }
+            | {
+                '@name': string;
+                '@classes'?: string;
+                'common:class': {
+                  '@level': LevelType;
+                  '@classId': string;
+                  '#text': string;
+                }[];
+                'common:other'?: CommonOther;
+              }[];
         };
         'common:generalComment'?: FTMultiLang;
         'common:other'?: CommonOther;
@@ -82,20 +95,21 @@ export interface Unitgroups {
       };
       'common:other'?: CommonOther;
     };
-    units?: {
-      unit?:
+    units: {
+      unit:
         | {
             '@dataSetInternalID'?: Int5;
-            name?: String;
-            meanValue?: Real;
+            name: String;
+            meanValue: Real;
             generalComment?: StringMultiLang;
             'common:other'?: CommonOther;
           }
         | {
             '@dataSetInternalID'?: Int5;
-            name?: String;
-            meanValue?: Real;
+            name: String;
+            meanValue: Real;
             generalComment?: StringMultiLang;
+            'common:other'?: CommonOther;
           }[];
       'common:other'?: CommonOther;
     };

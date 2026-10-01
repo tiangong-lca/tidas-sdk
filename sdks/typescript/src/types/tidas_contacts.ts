@@ -30,14 +30,40 @@ export interface Contacts {
         'common:shortName': StringMultiLang;
         'common:name': StringMultiLang;
         classificationInformation: {
-          'common:classification': {
-            'common:class':
-              | [
-                  { '@level': LevelType; '@classId': string; '#text': string },
-                  { '@level': LevelType; '@classId': string; '#text': string },
-                ]
-              | { '@level': LevelType; '@classId': string; '#text': string };
-          };
+          'common:classification':
+            | {
+                'common:class':
+                  | [
+                      {
+                        '@level': LevelType;
+                        '@classId': string;
+                        '#text': string;
+                      },
+                      {
+                        '@level': LevelType;
+                        '@classId': string;
+                        '#text': string;
+                      },
+                    ]
+                  | {
+                      '@level': LevelType;
+                      '@classId': string;
+                      '#text': string;
+                    };
+                '@name'?: string;
+                '@classes'?: string;
+                'common:other'?: CommonOther;
+              }
+            | {
+                '@name': string;
+                '@classes'?: string;
+                'common:class': {
+                  '@level': LevelType;
+                  '@classId': string;
+                  '#text': string;
+                }[];
+                'common:other'?: CommonOther;
+              }[];
           'common:other'?: CommonOther;
         };
         contactAddress?: STMultiLang;

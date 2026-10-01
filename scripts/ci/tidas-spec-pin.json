@@ -3,17 +3,38 @@
   "package": "@tiangong-lca/tidas-spec",
   "version": "0.2.3",
   "sourceRepository": "https://github.com/tiangong-lca/tidas-spec.git",
-  "sourceCommit": "f118660dbcbfbf736be74837cce0bf26cd177245",
-  "sourceRef": "v0.2.3",
+  "sourceCommit": "97a3725e6a24886ec1332be61e462e2228ee94fe",
+  "sourceRef": "candidate/ilcd-compatibility-97a3725",
   "importedFrom": {
     "repository": "https://github.com/tiangong-lca/tidas-toolkit",
     "commit": "9c0d8b1c8ceb1841074f5bc6de5fbb7fcc9318f5"
   },
   "archiveFile": "tiangong-lca-tidas-spec-0.2.3.tgz",
-  "archiveSha256": "e28018d2bf6eb4b67ca437225adfc25fe3795cf69f9dcd95698a5214aaea2a29",
+  "archiveSha256": "57effe04aba1b3450b988853edf6233bc52e09c3f7b55dfe1e88aa4261f39a77",
   "manifestFile": "spec-manifest.json",
   "manifestPathInArchive": "package/spec-manifest.json",
-  "manifestSha256": "5b69ab859e26a253dc51c6aeee68c971d727b1f8db44128143795113fe3eee6a",
+  "manifestSha256": "2a258b8acc498c02df70d461ecf7cb7063defb7ba4e378606fd143ca3e9f61e7",
   "assetRootInPackage": "assets/tidas",
-  "releaseArchiveUrl": "https://github.com/tiangong-lca/tidas-spec/releases/download/v0.2.3/tiangong-lca-tidas-spec-0.2.3.tgz"
+  "releaseArchiveUrl": "https://raw.githubusercontent.com/tiangong-lca/tidas-spec/97a3725e6a24886ec1332be61e462e2228ee94fe/release/tiangong-lca-tidas-spec-0.2.3.tgz",
+  "repositoryAuthoredPaths": [
+    "assets/tidas/methodologies/tidas_processes.yaml",
+    "assets/tidas/schema.lock.json",
+    "assets/tidas/schemas/tidas_contacts.json",
+    "assets/tidas/schemas/tidas_flowproperties.json",
+    "assets/tidas/schemas/tidas_flows.json",
+    "assets/tidas/schemas/tidas_lciamethods.json",
+    "assets/tidas/schemas/tidas_lifecyclemodels.json",
+    "assets/tidas/schemas/tidas_processes.json",
+    "assets/tidas/schemas/tidas_sources.json",
+    "assets/tidas/schemas/tidas_unitgroups.json",
+    "assets/tidas/schemas_zh/tidas_contacts.json",
+    "assets/tidas/schemas_zh/tidas_flowproperties.json",
+    "assets/tidas/schemas_zh/tidas_flows.json",
+    "assets/tidas/schemas_zh/tidas_lciamethods.json",
+    "assets/tidas/schemas_zh/tidas_lifecyclemodels.json",
+    "assets/tidas/schemas_zh/tidas_processes.json",
+    "assets/tidas/schemas_zh/tidas_sources.json",
+    "assets/tidas/schemas_zh/tidas_unitgroups.json"
+  ],
+  "note": "Unreleased content-addressed ILCD compatibility candidate; not the previously published 0.2.3 archive. Stable adoption requires a new spec release version."
 }

@@ -22,19 +22,32 @@ from .tidas_data_types import Version
 from datetime import datetime
 from pydantic import AfterValidator
 
-class ClassificationInformationCommonClassificationCommonClass(TidasBaseModel):
+class CommonClassificationOption0CommonClass(TidasBaseModel):
     level: LevelType = Field(default=..., alias='@level', description='If more than one class is specified in a hierachical classification system, the hierarchy level (1,2,...) could be specified with this attribute of class.')
     class_id: str = Field(default=..., alias='@classId', description="Unique identifier for the class. [Notes: If such identifiers are also defined in the referenced category file, they should be identical. Identifiers can be UUID's, but also other forms are allowed.]")
     text: str = Field(default=..., alias='#text')
 
-class DataSetInformationClassificationInformationCommonClassification(TidasBaseModel):
-    """Optional statistical or other classification of the data set. Typically also used for structuring LCA databases."""
-    common_class: ClassificationInformationCommonClassificationCommonClass = Field(default=..., alias='common:class')
+class ClassificationInformationCommonClassificationOption0(TidasBaseModel):
+    common_class: CommonClassificationOption0CommonClass = Field(default=..., alias='common:class')
+    common_other: CommonOther | None = Field(default=None, alias='common:other')
+    name: str | None = Field(default=None, alias='@name')
+    classes: str | None = Field(default=None, alias='@classes')
+
+class ItemCommonClassItem(TidasBaseModel):
+    level: LevelType = Field(default=..., alias='@level')
+    class_id: str = Field(default=..., alias='@classId')
+    text: str = Field(default=..., alias='#text')
+
+class ClassificationInformationCommonClassificationItem(TidasBaseModel):
+    """One named classification system (e.g. CPC or HS). Used in the array form to let multiple systems coexist."""
+    name: str = Field(default=..., alias='@name', description="Name of the classification system (e.g. CPC, ISIC, HS). Per ILCD this defaults to 'ILCD' when absent; set it explicitly for non-ILCD systems.")
+    classes: str | None = Field(default=None, alias='@classes', description='Optional URL or identifier of the classification file/system.')
+    common_class: Annotated[list[ItemCommonClassItem], Field(min_length=1)] = Field(default_factory=list, alias='common:class')
     common_other: CommonOther | None = Field(default=None, alias='common:other')
 
 class UnitGroupInformationDataSetInformationClassificationInformation(TidasBaseModel):
     """Hierachical classification of the Unit groups; foreseen to be used to structure the Unit group content of the database. (Note: This entry is NOT required for the identification of the Unit group data set. It should nevertheless be avoided to use identical names for Unit groups in the same class."""
-    common_classification: DataSetInformationClassificationInformationCommonClassification = Field(default=..., alias='common:classification', description='Optional statistical or other classification of the data set. Typically also used for structuring LCA databases.')
+    common_classification: Annotated[list[ClassificationInformationCommonClassificationItem], Field(min_length=1)] | ClassificationInformationCommonClassificationOption0 = Field(default=..., alias='common:classification', description='Optional statistical or other classification of the data set. Typically also used for structuring LCA databases.')
 
 class UnitGroupDataSetUnitGroupInformationDataSetInformation(TidasBaseModel):
     common_uuid: UUID = Field(default=..., alias='common:UUID', description='Automatically generated Universally Unique Identifier of this data set. Together with the "Data set version", the UUID uniquely identifies each data set.')
@@ -89,19 +102,20 @@ class UnitgroupsUnitGroupDataSetAdministrativeInformation(TidasBaseModel):
 
 class UnitsUnitOption0(TidasBaseModel):
     data_set_internal_id: Int5 | None = Field(default=None, alias='@dataSetInternalID')
-    name: String | None = Field(default=None, alias='name')
-    mean_value: Real | None = Field(default=None, alias='meanValue')
+    name: String = Field(default=..., alias='name')
+    mean_value: Real = Field(default=..., alias='meanValue')
     general_comment: MultiLangList = Field(default_factory=MultiLangList, alias='generalComment', description='General comment on each single unit, typically giving the long name and unit system from which this unit stems, and (if necessary) referring to specifc data sources used, or for workflow purposes about status of "finalisation" of an entry etc.')
     common_other: CommonOther | None = Field(default=None, alias='common:other')
 
 class UnitsUnitItem(TidasBaseModel):
     data_set_internal_id: Int5 | None = Field(default=None, alias='@dataSetInternalID')
-    name: String | None = Field(default=None, alias='name')
-    mean_value: Real | None = Field(default=None, alias='meanValue')
+    name: String = Field(default=..., alias='name')
+    mean_value: Real = Field(default=..., alias='meanValue')
     general_comment: MultiLangList = Field(default_factory=MultiLangList, alias='generalComment', description='General comment on each single unit, typically giving the long name and unit system from which this unit stems, and (if necessary) referring to specifc data sources used, or for workflow purposes about status of "finalisation" of an entry etc.')
+    common_other: CommonOther | None = Field(default=None, alias='common:other')
 
 class UnitgroupsUnitGroupDataSetUnits(TidasBaseModel):
-    unit: UnitsUnitOption0 | list[UnitsUnitItem] | None = Field(default=None, alias='unit')
+    unit: UnitsUnitOption0 | list[UnitsUnitItem] = Field(default=..., alias='unit')
     common_other: CommonOther | None = Field(default=None, alias='common:other')
 
 class UnitgroupsUnitGroupDataSet(TidasBaseModel):
@@ -113,7 +127,7 @@ class UnitgroupsUnitGroupDataSet(TidasBaseModel):
     unit_group_information: UnitgroupsUnitGroupDataSetUnitGroupInformation = Field(default=..., alias='unitGroupInformation')
     modelling_and_validation: UnitgroupsUnitGroupDataSetModellingAndValidation = Field(default=..., alias='modellingAndValidation')
     administrative_information: UnitgroupsUnitGroupDataSetAdministrativeInformation = Field(default=..., alias='administrativeInformation')
-    units: UnitgroupsUnitGroupDataSetUnits | None = Field(default=None, alias='units')
+    units: UnitgroupsUnitGroupDataSetUnits = Field(default=..., alias='units')
     common_other: CommonOther | None = Field(default=None, alias='common:other')
 
 class Unitgroups(TidasBaseModel):

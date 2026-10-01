@@ -3,6 +3,7 @@ import path from 'node:path';
 export type JsonSchema = boolean | JsonSchemaObject;
 
 export interface JsonSchemaObject {
+  $comment?: string;
   $defs?: Record<string, JsonSchema>;
   $ref?: string;
   additionalItems?: boolean | JsonSchema;
@@ -210,6 +211,11 @@ export class JsonSchemaToZod {
           discriminator ? `, ${JSON.stringify(discriminator)}` : ''
         })`
       );
+    }
+
+    if (isNegatedRequired(schema.not)) {
+      this.validationHelpers.add('jsonSchemaNotRequired');
+      fragments.push(`jsonSchemaNotRequired(${JSON.stringify(schema.not.required)})`);
     }
 
     const conditionals: Array<{
@@ -531,7 +537,7 @@ export class JsonSchemaToZod {
 
 function hasRootSchema(schema: JsonSchemaObject): boolean {
   return Object.keys(schema).some(
-    (key) => key !== '$schema' && key !== '$defs' && key !== 'description'
+    (key) => key !== '$schema' && key !== '$defs' && key !== 'description' && key !== '$comment'
   );
 }
 
@@ -555,7 +561,7 @@ function isConditionalSchema(
 }
 
 function isExplicitEmptySchema(schema: JsonSchemaObject): boolean {
-  const ignoredKeys = new Set(['description', 'else', 'if', 'then']);
+  const ignoredKeys = new Set(['description', '$comment', 'else', 'if', 'then']);
   return Object.keys(schema).every((key) => ignoredKeys.has(key));
 }
 
@@ -841,6 +847,7 @@ function hasIndependentRefSiblingConstraints(
 }
 
 const SUPPORTED_SCHEMA_KEYWORDS = new Set([
+  '$comment',
   '$defs',
   '$ref',
   '$schema',
@@ -894,6 +901,10 @@ function validateSchemaTree(
     }
   }
 
+  if (schema.$comment !== undefined && typeof schema.$comment !== 'string') {
+    throw new Error(`${fileName}${location}: $comment must be a string`);
+  }
+
   if (schema.format) {
     const supported = ['date-time', 'email', 'uri'].includes(schema.format);
     if (!supported && !isCASNumberOverlay(fileName, location, schema.format)) {
@@ -908,9 +919,9 @@ function validateSchemaTree(
       `${fileName}${location}: patternProperties is only supported by the CommonOther domain overlay`
     );
   }
-  if (schema.not && !isAllowedNotOverlay(fileName, location)) {
+  if (schema.not && !isNegatedRequired(schema.not) && !isAllowedNotOverlay(fileName, location)) {
     throw new Error(
-      `${fileName}${location}: not is only supported by the CommonOther or LocalizedText domain overlay`
+      `${fileName}${location}: not requires a required-only constraint or the CommonOther/LocalizedText domain overlay`
     );
   }
   if (
@@ -1135,4 +1146,10 @@ function collectLocalDefinitionReferences(schema: JsonSchema): Set<string> {
 
   visit(schema);
   return references;
+}
+
+function isNegatedRequired(schema: JsonSchema | undefined): schema is JsonSchemaObject & { required: string[] } {
+  return typeof schema === 'object' && schema !== null &&
+    Object.keys(schema).every((key) => key === 'required' || key === '$comment') &&
+    Array.isArray(schema.required) && schema.required.every((key) => typeof key === 'string');
 }

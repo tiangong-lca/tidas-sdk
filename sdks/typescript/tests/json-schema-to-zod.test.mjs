@@ -149,7 +149,7 @@ test('throws for a not-only schema instead of accepting unknown input', () => {
       new JsonSchemaToZod('unsupported.json', {
         not: { type: 'string' },
       }).renderModule(),
-    /unsupported\.json#: not is only supported by the CommonOther or LocalizedText domain overlay/
+    /unsupported\.json#: not requires a required-only constraint or the CommonOther\/LocalizedText domain overlay/
   );
 });
 
@@ -312,4 +312,14 @@ test('fails when a domain overlay target is absent', () => {
       ),
     /Could not replace missing generated schema MissingSchema/
   );
+});
+
+
+test('comments do not change validation and conflicting aliases render a negated required constraint', () => {
+  const original = new JsonSchemaToZod('comment.json', { type: 'string' }).renderModule();
+  const annotated = new JsonSchemaToZod('comment.json', { type: 'string', $comment: 'Maintainer-only text' }).renderModule();
+  assert.equal(annotated.content, original.content);
+  assert.throws(() => new JsonSchemaToZod('comment.json', { type: 'string', $comment: 1 }).renderModule(), /comment must be a string/);
+  const aliases = new JsonSchemaToZod('alias.json', { not: { required: ['canonical', 'legacy'] } }).renderModule();
+  assert.match(aliases.content, /jsonSchemaNotRequired\(\["canonical","legacy"\]\)/);
 });

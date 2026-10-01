@@ -16,9 +16,16 @@ function characterisationFactorSchema() {
   return lciaDataSetShape().characterisationFactors.shape.factor;
 }
 
+function objectSchema(schema: any): any {
+  if (schema.shape) return schema;
+  if (schema.unwrap) return objectSchema(schema.unwrap());
+  if (schema._def.left) return objectSchema(schema._def.left);
+  if (schema.options) return objectSchema(schema.options[0]);
+  throw new Error('Expected an object branch');
+}
+
 function reviewScopeSchema() {
-  return lciaDataSetShape().modellingAndValidation.shape.validation.shape.review
-    .shape['common:scope'];
+  return objectSchema(lciaDataSetShape().modellingAndValidation.shape.validation.shape.review).shape.scope;
 }
 
 function unwrapOptionalSchema(schema: any) {
@@ -45,8 +52,8 @@ describe('TIDAS field enum schemas', () => {
 
   it('uses normal as the TIDAS uncertainty distribution enum value', () => {
     const factorSchema = characterisationFactorSchema();
-    const factorObjectSchema = factorSchema.options[0];
-    const factorArrayItemSchema = factorSchema.options[1].element;
+    const factorObjectSchema = objectSchema(factorSchema.options[0]);
+    const factorArrayItemSchema = objectSchema(factorSchema.options[1].element);
 
     assert.strictEqual(
       factorObjectSchema.shape.uncertaintyDistributionType.safeParse('normal')
@@ -75,12 +82,12 @@ describe('TIDAS field enum schemas', () => {
 
   it('uses the LCIA-specific review method enum values', () => {
     const scopeSchema = unwrapOptionalSchema(reviewScopeSchema());
-    const scopeObjectSchema = scopeSchema.options[0];
-    const scopeArrayItemSchema = scopeSchema.options[1].element;
+    const scopeObjectSchema = objectSchema(scopeSchema.options[0]);
+    const scopeArrayItemSchema = objectSchema(scopeSchema.options[1].element);
     const methodObjectSchema =
-      scopeObjectSchema.shape['common:method'].options[0];
+      objectSchema(scopeObjectSchema.shape.method);
     const methodArrayItemSchema =
-      scopeArrayItemSchema.shape['common:method'].options[1].element;
+      objectSchema(scopeArrayItemSchema.shape.method);
 
     // A4: LCIA-method review uses ILCD MethodOfReviewValues, not the process
     // review method list ("Compliance with legal limits" is process-only).
@@ -118,9 +125,9 @@ describe('TIDAS field enum schemas', () => {
       assert.deepStrictEqual(
         result.error.issues.map((issue: any) => issue.path.join('.')).sort(),
         [
+          '',
           'common:referenceToNameOfReviewerAndInstitution',
           'common:reviewDetails',
-          'common:scope',
         ]
       );
     }

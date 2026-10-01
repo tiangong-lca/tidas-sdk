@@ -3,6 +3,7 @@ import { describe, it } from 'node:test';
 import { z } from 'zod';
 import {
   jsonSchemaOneOf,
+  jsonSchemaNotRequired,
   jsonSchemaTuple,
   withJsonSchemaConditional,
   withJsonSchemaDependencies,
@@ -99,4 +100,15 @@ describe('JSON Schema runtime validation helpers', () => {
       ]);
     }
   });
+});
+
+it('negated required rejects coexisting aliases without stripping valid data', () => {
+  const schema = jsonSchemaNotRequired(['canonical', 'legacy']);
+  for (const value of [{}, { canonical: 0 }, { legacy: '0' }]) {
+    assert.deepEqual(schema.parse(value), value);
+  }
+  for (const value of [null, [], 1, 'value', { canonical: 0, legacy: 0 }]) {
+    assert.equal(schema.safeParse(value).success, false);
+  }
+  assert.equal(jsonSchemaNotRequired([]).safeParse({}).success, false);
 });

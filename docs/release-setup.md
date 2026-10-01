@@ -18,8 +18,8 @@ checkPaths:
   - .nvmrc
   - package.json
   - .docpact/config.yaml
-lastReviewedAt: 2026-09-24
-lastReviewedCommit: 04b6ac2c9566ba0209cebfe4cc56b6eef5a56845
+lastReviewedAt: 2026-10-01
+lastReviewedCommit: 936202d3e4ea814fc8a42260836726e73b44f255
 lastReviewedNote: "Reviewed SDK #156: exact 0.2.3 generated Process validation, including Python Pydantic conditions, retains existing npm/PyPI trusted publishers and tag workflow; no registry setup changes."
 related:
   - ../AGENTS.md

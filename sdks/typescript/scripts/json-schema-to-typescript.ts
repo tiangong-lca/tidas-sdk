@@ -788,7 +788,7 @@ class JsonSchemaToTypeScript {
         return `[${tupleTypes.join(', ')}]`;
       } else {
         const itemType = this.getTypeScriptType(itemsSchema);
-        return `${itemType}[]`;
+        return itemType.includes(' | ') || itemType.includes(' & ') ? `(${itemType})[]` : `${itemType}[]`;
       }
     }
 
