@@ -241,7 +241,7 @@ export interface Processes {
           | 'Functional unit'
           | 'Other parameter'
           | 'Production period';
-        referenceToReferenceFlow?: Int6;
+        referenceToReferenceFlow?: Int6 | Int6[];
         functionalUnitOrOther?: StringMultiLang;
         'common:other'?: CommonOther;
       };
@@ -258,12 +258,19 @@ export interface Processes {
           descriptionOfRestrictions?: FTMultiLang;
           'common:other'?: CommonOther;
         };
-        subLocationOfOperationSupplyOrProduction?: {
-          '@subLocation'?: LocationsCategory;
-          '@latitudeAndLongitude'?: GIS;
-          descriptionOfRestrictions?: FTMultiLang;
-          'common:other'?: CommonOther;
-        };
+        subLocationOfOperationSupplyOrProduction?:
+          | {
+              '@subLocation'?: LocationsCategory;
+              '@latitudeAndLongitude'?: GIS;
+              descriptionOfRestrictions?: FTMultiLang;
+              'common:other'?: CommonOther;
+            }
+          | {
+              '@subLocation'?: LocationsCategory;
+              '@latitudeAndLongitude'?: GIS;
+              descriptionOfRestrictions?: FTMultiLang;
+              'common:other'?: CommonOther;
+            }[];
         'common:other'?: CommonOther;
       };
       technology?: {
@@ -276,18 +283,39 @@ export interface Processes {
       };
       mathematicalRelations?: {
         modelDescription?: FTMultiLang;
-        variableParameter?: {
-          '@name'?: MatV;
-          formula?: MatR;
-          meanValue?: Real;
-          minimumValue?: Real;
-          maximumValue?: Real;
-          uncertaintyDistributionType?:
-            'undefined' | 'log-normal' | 'normal' | 'triangular' | 'uniform';
-          relativeStandardDeviation95In?: Perc;
-          comment?: StringMultiLang;
-          'common:other'?: CommonOther;
-        };
+        variableParameter?:
+          | {
+              '@name': MatV;
+              formula?: MatR;
+              meanValue?: Real;
+              minimumValue?: Real;
+              maximumValue?: Real;
+              uncertaintyDistributionType?:
+                | 'undefined'
+                | 'log-normal'
+                | 'normal'
+                | 'triangular'
+                | 'uniform';
+              relativeStandardDeviation95In?: Perc;
+              comment?: StringMultiLang;
+              'common:other'?: CommonOther;
+            }
+          | {
+              '@name': MatV;
+              formula?: MatR;
+              meanValue?: Real;
+              minimumValue?: Real;
+              maximumValue?: Real;
+              uncertaintyDistributionType?:
+                | 'undefined'
+                | 'log-normal'
+                | 'normal'
+                | 'triangular'
+                | 'uniform';
+              relativeStandardDeviation95In?: Perc;
+              comment?: StringMultiLang;
+              'common:other'?: CommonOther;
+            }[];
         'common:other'?: CommonOther;
       };
       'common:other'?: CommonOther;
@@ -330,7 +358,32 @@ export interface Processes {
           | 'Substitution - specific'
           | 'Consequential effects - other'
           | 'Not applicable'
-          | 'Other';
+          | 'Other'
+          | (
+              | 'Allocation - market value'
+              | 'Allocation - gross calorific value'
+              | 'Allocation - net calorific value'
+              | 'Allocation - exergetic content'
+              | 'Allocation - element content'
+              | 'Allocation - mass'
+              | 'Allocation - volume'
+              | 'Allocation - ability to bear'
+              | 'Allocation - marginal causality'
+              | 'Allocation - physical causality'
+              | 'Allocation - 100% to main function'
+              | 'Allocation - other explicit assignment'
+              | 'Allocation - equal distribution'
+              | 'Substitution - BAT'
+              | 'Substitution - average, market price correction'
+              | 'Substitution - average, technical properties correction'
+              | 'Allocation - recycled content'
+              | 'Substitution - recycling potential'
+              | 'Substitution - average, no correction'
+              | 'Substitution - specific'
+              | 'Consequential effects - other'
+              | 'Not applicable'
+              | 'Other'
+            )[];
         deviationsFromLCIMethodApproaches?: FTMultiLang;
         modellingConstants?: FTMultiLang;
         deviationsFromModellingConstants?: FTMultiLang;
@@ -361,32 +414,59 @@ export interface Processes {
           | 'Topic not relevant'
           | 'No statement';
         referenceToSupportedImpactAssessmentMethods?: GlobalReferenceType;
-        completenessElementaryFlows?: {
-          '@type'?:
-            | 'Climate change'
-            | 'Ozone depletion'
-            | 'Summer smog'
-            | 'Eutrophication'
-            | 'Acidification'
-            | 'Human toxicity'
-            | 'Freshwater ecotoxicity'
-            | 'Seawater eco-toxicity'
-            | 'Terrestric eco-toxicity'
-            | 'Radioactivity'
-            | 'Land use'
-            | 'Non-renewable material resource depletion'
-            | 'Renewable material resource consumption'
-            | 'Non-renewable primary energy depletion'
-            | 'Renewable primary energy consumption'
-            | 'Particulate matter/respiratory inorganics'
-            | 'Species depletion'
-            | 'Noise';
-          '@value'?:
-            | 'All relevant flows quantified'
-            | 'Relevant flows missing'
-            | 'Topic not relevant'
-            | 'No statement';
-        };
+        completenessElementaryFlows?:
+          | {
+              '@type'?:
+                | 'Climate change'
+                | 'Ozone depletion'
+                | 'Summer smog'
+                | 'Eutrophication'
+                | 'Acidification'
+                | 'Human toxicity'
+                | 'Freshwater ecotoxicity'
+                | 'Seawater eco-toxicity'
+                | 'Terrestric eco-toxicity'
+                | 'Radioactivity'
+                | 'Land use'
+                | 'Non-renewable material resource depletion'
+                | 'Renewable material resource consumption'
+                | 'Non-renewable primary energy depletion'
+                | 'Renewable primary energy consumption'
+                | 'Particulate matter/respiratory inorganics'
+                | 'Species depletion'
+                | 'Noise';
+              '@value'?:
+                | 'All relevant flows quantified'
+                | 'Relevant flows missing'
+                | 'Topic not relevant'
+                | 'No statement';
+            }
+          | {
+              '@type'?:
+                | 'Climate change'
+                | 'Ozone depletion'
+                | 'Summer smog'
+                | 'Eutrophication'
+                | 'Acidification'
+                | 'Human toxicity'
+                | 'Freshwater ecotoxicity'
+                | 'Seawater eco-toxicity'
+                | 'Terrestric eco-toxicity'
+                | 'Radioactivity'
+                | 'Land use'
+                | 'Non-renewable material resource depletion'
+                | 'Renewable material resource consumption'
+                | 'Non-renewable primary energy depletion'
+                | 'Renewable primary energy consumption'
+                | 'Particulate matter/respiratory inorganics'
+                | 'Species depletion'
+                | 'Noise';
+              '@value'?:
+                | 'All relevant flows quantified'
+                | 'Relevant flows missing'
+                | 'Topic not relevant'
+                | 'No statement';
+            }[];
         completenessOtherProblemField?: FTMultiLang;
         'common:other'?: CommonOther;
       };
@@ -501,7 +581,7 @@ export interface Processes {
           'undefined' | 'log-normal' | 'normal' | 'triangular' | 'uniform';
         relativeStandardDeviation95In?: Perc;
         allocations?: {
-          allocation?:
+          allocation:
             | {
                 '@internalReferenceToCoProduct'?: Int6;
                 '@allocatedFraction'?: Perc;

@@ -194,11 +194,11 @@ describe('package validation parity', () => {
 
     assert.strictEqual(report.ok, false);
     assert.strictEqual(report.summary.category_count, 1);
-    assert.strictEqual(report.summary.issue_count, 8);
-    assert.strictEqual(report.summary.error_count, 8);
+    assert.strictEqual(report.summary.issue_count, 6);
+    assert.strictEqual(report.summary.error_count, 6);
     assert.strictEqual(report.categories.length, 1);
     assert.strictEqual(report.categories[0]?.category, 'flows');
-    assert.strictEqual(report.categories[0]?.summary.issue_count, 8);
+    assert.strictEqual(report.categories[0]?.summary.issue_count, 6);
     assert.deepStrictEqual(
       new Set(report.issues.map((issue) => issue.issue_code)),
       new Set(['schema_error'])
@@ -206,9 +206,9 @@ describe('package validation parity', () => {
     for (const expectedLocation of [
       'flowDataSet',
       'flowDataSet/administrativeInformation/publicationAndOwnership',
-      'flowDataSet/flowInformation/dataSetInformation/classificationInformation/common:elementaryFlowCategorization/common:category/0',
+      'flowDataSet/flowInformation/dataSetInformation/classificationInformation/common:elementaryFlowCategorization',
     ]) {
-      assert.ok(locations.includes(expectedLocation));
+      assert.ok(locations.includes(expectedLocation), JSON.stringify(locations));
     }
     assert.ok(
       !locations.includes('flowDataSet/flowInformation/dataSetInformation/name')

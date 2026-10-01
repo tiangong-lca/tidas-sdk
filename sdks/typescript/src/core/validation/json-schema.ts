@@ -233,3 +233,13 @@ export function withJsonSchemaUniqueItems<TSchema extends z.ZodType<unknown[]>>(
 ): TSchema {
   return schema.superRefine(addUniqueItemsIssue) as TSchema;
 }
+
+/** Draft-07 `not: {required: [...]}` rejects coexisting aliases, including non-objects. */
+export function jsonSchemaNotRequired(keys: readonly string[]) {
+  return z.unknown().superRefine((value, context) => {
+    const object = typeof value === 'object' && value !== null && !Array.isArray(value);
+    if (!object || keys.every((key) => Object.prototype.hasOwnProperty.call(value, key))) {
+      context.addIssue({ code: 'custom', message: 'Properties must not all be present', path: [keys[0] ?? ''] });
+    }
+  });
+}

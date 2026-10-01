@@ -59,9 +59,9 @@ describe('LCIA method review conditional schema', () => {
       assert.deepStrictEqual(
         result.error.issues.map((issue: any) => issue.path.join('.')).sort(),
         [
+          '',
           'common:referenceToNameOfReviewerAndInstitution',
           'common:reviewDetails',
-          'common:scope',
         ]
       );
     }

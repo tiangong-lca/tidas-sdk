@@ -71,6 +71,7 @@ class ModelDef:
     description: str | None
     fields: list[FieldDef] = field(default_factory=list)
     base_class: str | None = None
+    excluded_required: list[list[str]] = field(default_factory=list)
 
 
 @dataclass
@@ -179,6 +180,7 @@ class SchemaGenerator:
             needs_localized_text_validators
             or needs_flow_name_condition_validator
             or needs_process_reference_validator
+            or any(model.excluded_required for model in artifact.models)
         ):
             pydantic_imports.append("model_validator")
         lines.append(f"from pydantic import {', '.join(pydantic_imports)}")
@@ -277,6 +279,19 @@ class SchemaGenerator:
         if process_reference_validator_lines:
             lines.append("")
             lines.extend(process_reference_validator_lines)
+
+        if model.excluded_required:
+            lines.extend([
+                "",
+                "    @model_validator(mode='after')",
+                "    def _validate_excluded_required(self):",
+            ])
+            for names in model.excluded_required:
+                fields = [to_field_name(name) for name in names]
+                lines.append(f"        if set({fields!r}).issubset(self.model_fields_set):")
+                message = "Properties must not all be present: " + ", ".join(names)
+                lines.append(f"            raise ValueError({message!r})")
+            lines.append("        return self")
 
         return lines
 
@@ -508,6 +523,7 @@ class SchemaConverter:
             description=description,
             fields=fields,
             base_class=base_class,
+            excluded_required=normalized["excluded_required"],
         )
 
     def _build_field(
@@ -658,6 +674,9 @@ class SchemaConverter:
             self.typing_imports.add("Literal")
             literals = ", ".join(repr(value) for value in schema["enum"])
             return f"Literal[{literals}]"
+
+        if "allOf" in schema and (schema.get("type") == "object" or "properties" in schema):
+            return self._inline_model(parent_path + (prop_name,), schema, qualifier=qualifier)
 
         if "allOf" in schema:
             inline_schema: dict[str, Any] | None = None
@@ -892,6 +911,7 @@ class SchemaConverter:
         required: set[str] = set()
         description: str | None = None
         base_class: str | None = None
+        excluded_required: list[list[str]] = []
 
         if not isinstance(schema, dict):
             return {
@@ -899,6 +919,7 @@ class SchemaConverter:
                 "required": required,
                 "description": description,
                 "base_class": base_class,
+                "excluded_required": excluded_required,
             }
 
         if isinstance(schema.get("description"), str):
@@ -918,6 +939,7 @@ class SchemaConverter:
                         normalized_ref["properties"],
                     )
                     required |= normalized_ref["required"]
+                    excluded_required.extend(normalized_ref["excluded_required"])
                     if not description:
                         description = normalized_ref["description"]
                     if normalized_ref["base_class"] and not base_class:
@@ -932,6 +954,7 @@ class SchemaConverter:
                     normalized["properties"],
                 )
                 required |= normalized["required"]
+                excluded_required.extend(normalized["excluded_required"])
                 if not description:
                     description = normalized["description"]
                 if normalized["base_class"] and not base_class:
@@ -941,12 +964,18 @@ class SchemaConverter:
             properties = self._merge_property_maps(properties, schema["properties"])
 
         required |= set(schema.get("required", []))
+        negation = schema.get("not")
+        if isinstance(negation, dict) and set(negation) <= {"required", "$comment"}:
+            keys = negation.get("required")
+            if isinstance(keys, list) and all(isinstance(key, str) for key in keys):
+                excluded_required.append(keys)
 
         return {
             "properties": properties,
             "required": required,
             "description": description,
             "base_class": base_class,
+            "excluded_required": excluded_required,
         }
 
     def _resolve_local_ref_schema(self, ref: str) -> dict[str, Any] | None:

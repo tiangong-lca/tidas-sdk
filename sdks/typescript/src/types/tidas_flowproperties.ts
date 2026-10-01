@@ -27,14 +27,27 @@ export interface Flowproperties {
         'common:name': StringMultiLang;
         'common:synonyms'?: FTMultiLang;
         classificationInformation: {
-          'common:classification': {
-            'common:class': {
-              '@level': LevelType;
-              '@classId': string;
-              '#text': string;
-            };
-            'common:other'?: CommonOther;
-          };
+          'common:classification':
+            | {
+                'common:class': {
+                  '@level': LevelType;
+                  '@classId': string;
+                  '#text': string;
+                };
+                'common:other'?: CommonOther;
+                '@name'?: string;
+                '@classes'?: string;
+              }
+            | {
+                '@name': string;
+                '@classes'?: string;
+                'common:class': {
+                  '@level': LevelType;
+                  '@classId': string;
+                  '#text': string;
+                }[];
+                'common:other'?: CommonOther;
+              }[];
         };
         'common:generalComment'?: FTMultiLang;
         'common:other'?: CommonOther;

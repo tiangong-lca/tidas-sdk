@@ -10,6 +10,7 @@ import type {
   FTMultiLang,
   GlobalReferenceType,
   Int5,
+  LevelType,
   Perc,
   Real,
   String,
@@ -19,6 +20,19 @@ import type {
   dateTime,
 } from './tidas_data_types';
 import type { LocationsCategory } from './tidas_locations_category';
+
+export interface ElementaryFlowCategorization {
+  /**
+   * @maxItems 3
+   * @uniqueItems
+   */
+  'common:category': [
+    { '@level': LevelType; '@catId': string; '#text': string },
+    { '@level': LevelType; '@catId': string; '#text': string },
+    { '@level': LevelType; '@catId': string; '#text': string },
+  ];
+  'common:other'?: CommonOther;
+}
 
 export interface Flows {
   flowDataSet: {
@@ -51,7 +65,7 @@ export interface Flows {
         'common:other'?: CommonOther;
       };
       geography?: {
-        locationOfSupply?: LocationsCategory;
+        locationOfSupply?: LocationsCategory | LocationsCategory[];
         'common:other'?: CommonOther;
       };
       technology?: {

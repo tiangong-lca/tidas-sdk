@@ -6,7 +6,7 @@ from __future__ import annotations
 
 from typing import Annotated, Literal
 
-from pydantic import Field
+from pydantic import Field, model_validator
 from tidas_sdk.core.base import TidasBaseModel
 from tidas_sdk.core.multilang import MultiLangList
 
@@ -40,21 +40,34 @@ class CommonClassItemOption2(TidasBaseModel):
     class_id: str = Field(default=..., alias='@classId')
     text: str = Field(default=..., alias='#text')
 
-class DataSetInformationClassificationInformationCommonClassification(TidasBaseModel):
-    """Optional statistical or other classification of the data set. Typically also used for structuring LCA databases."""
+class ClassificationInformationCommonClassificationOption0(TidasBaseModel):
     common_class: Annotated[list[CommonClassItemOption0 | CommonClassItemOption1 | CommonClassItemOption2], Field(max_length=3)] = Field(default=..., alias='common:class')
+    common_other: CommonOther | None = Field(default=None, alias='common:other')
+    name: str | None = Field(default=None, alias='@name')
+    classes: str | None = Field(default=None, alias='@classes')
+
+class ItemCommonClassItem(TidasBaseModel):
+    level: LevelType = Field(default=..., alias='@level')
+    class_id: str = Field(default=..., alias='@classId')
+    text: str = Field(default=..., alias='#text')
+
+class ClassificationInformationCommonClassificationItem(TidasBaseModel):
+    """One named classification system (e.g. CPC or HS). Used in the array form to let multiple systems coexist."""
+    name: str = Field(default=..., alias='@name', description="Name of the classification system (e.g. CPC, ISIC, HS). Per ILCD this defaults to 'ILCD' when absent; set it explicitly for non-ILCD systems.")
+    classes: str | None = Field(default=None, alias='@classes', description='Optional URL or identifier of the classification file/system.')
+    common_class: Annotated[list[ItemCommonClassItem], Field(min_length=1)] = Field(default_factory=list, alias='common:class')
     common_other: CommonOther | None = Field(default=None, alias='common:other')
 
 class LCIAMethodInformationDataSetInformationClassificationInformation(TidasBaseModel):
-    common_classification: DataSetInformationClassificationInformationCommonClassification = Field(default=..., alias='common:classification', description='Optional statistical or other classification of the data set. Typically also used for structuring LCA databases.')
+    common_classification: Annotated[list[ClassificationInformationCommonClassificationItem], Field(min_length=1)] | ClassificationInformationCommonClassificationOption0 = Field(default=..., alias='common:classification', description='Optional statistical or other classification of the data set. Typically also used for structuring LCA databases.')
 
 class LCIAMethodDataSetLCIAMethodInformationDataSetInformation(TidasBaseModel):
     common_uuid: UUID = Field(default=..., alias='common:UUID', description='Unique identifier of the data set. The UUID is a 128-bit number represented as a hexadecimal string of the form: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx. The UUID is used to uniquely identify the data set in the ILCD database.')
     common_name: MultiLangList = Field(default=..., alias='common:name', description='Name of the data set. Composed as follows "LCIA methodology short name; Impact category/ies; midpoint/endpoint; Impact indicator; Source short name". Not applicable components are left out. Examples: "Impacts2007+; Climate change; midpoint; Global Warming Potential; IPCC 2001"; "ABC 2006; Acidification; endpoint; Species diversity loss; John Doe 2006"; "My-indicator2009; combined; endpoint; Ecopoints; various"')
-    methodology: str | None = Field(default=None, alias='methodology', description='Name of the LCIA methodology/ies the data set belongs to, if any')
+    methodology: Annotated[list[str], Field(min_length=1)] | str | None = Field(default=None, alias='methodology', description='Name of the LCIA methodology/ies the data set belongs to, if any')
     classification_information: LCIAMethodInformationDataSetInformationClassificationInformation = Field(default=..., alias='classificationInformation')
-    impact_category: Literal['Climate change', 'Ozone depletion', 'Terrestrial Eutrophication', 'Aquatic Eutrophication', 'Acidification', 'Photochemical ozone creation', 'Land use', 'Abiotic resource depletion', 'Biotic resource depletion', 'Ionizing radiation', 'Cancer human health effects', 'Non-cancer human health effects', 'Respiratory inorganics', 'Aquatic eco-toxicity', 'Terrestrial eco-toxicity', 'other'] | None = Field(default=None, alias='impactCategory', description='Impact category/ies covered by the LCIA method or methodology.')
-    area_of_protection: Literal['Natural resources', 'Natural environment', 'Human health', 'Man-made environment', 'Other'] | None = Field(default=None, alias='areaOfProtection', description='For damage (endpoint) and single-point indicators only: Area(s) of Protection the data set relates to.')
+    impact_category: Annotated[list[Literal['Climate change', 'Ozone depletion', 'Terrestrial Eutrophication', 'Aquatic Eutrophication', 'Acidification', 'Photochemical ozone creation', 'Land use', 'Abiotic resource depletion', 'Biotic resource depletion', 'Ionizing radiation', 'Cancer human health effects', 'Non-cancer human health effects', 'Respiratory inorganics', 'Aquatic eco-toxicity', 'Terrestrial eco-toxicity', 'other']], Field(min_length=1)] | Literal['Climate change', 'Ozone depletion', 'Terrestrial Eutrophication', 'Aquatic Eutrophication', 'Acidification', 'Photochemical ozone creation', 'Land use', 'Abiotic resource depletion', 'Biotic resource depletion', 'Ionizing radiation', 'Cancer human health effects', 'Non-cancer human health effects', 'Respiratory inorganics', 'Aquatic eco-toxicity', 'Terrestrial eco-toxicity', 'other'] | None = Field(default=None, alias='impactCategory', description='Impact category/ies covered by the LCIA method or methodology.')
+    area_of_protection: Annotated[list[Literal['Natural resources', 'Natural environment', 'Human health', 'Man-made environment', 'Other']], Field(min_length=1)] | Literal['Natural resources', 'Natural environment', 'Human health', 'Man-made environment', 'Other'] | None = Field(default=None, alias='areaOfProtection', description='For damage (endpoint) and single-point indicators only: Area(s) of Protection the data set relates to.')
     impact_indicator: String | None = Field(default=None, alias='impactIndicator', description='Description of the meaning of the impact indicator of this data set (not applicable for LCIA methodologies data sets).')
     common_general_comment: MultiLangList = Field(default_factory=MultiLangList, alias='common:generalComment', description='General information about the data set, including e.g. general (internal, not reviewed) quality statements as well as information sources used. (Note: Please also check the more specific fields e.g. on "Intended application", "Advice on data set use" and the fields in the "Modelling and validation" section to avoid overlapping entries.)')
     reference_to_external_documentation: GlobalReferenceType | None = Field(default=None, alias='referenceToExternalDocumentation', description='"Source data set(s)" of external documents / files with further documentative information on the data set including on underlying data sources (e.g. time, geographical coverage, impact models, characterisation factors, substance property databases employed, etc.). (Note: can indirectly reference to digital file.)')
@@ -72,23 +85,38 @@ class LCIAMethodDataSetLCIAMethodInformationTime(TidasBaseModel):
     common_other: CommonOther | None = Field(default=None, alias='common:other')
 
 class GeographyInterventionLocationOption0(TidasBaseModel):
-    text: str | None = Field(default=None, alias='#text')
+    text: str = Field(default=..., alias='#text')
+    latitude_and_longitude: GIS | None = Field(default=None, alias='@latitudeAndLongitude', description='Geographical latitude and longitude reference of "Location" / "Sub-location". For area-type locations (e.g. countries, continents) the field is empty.')
+
+class GeographyImpactLocationOption0(TidasBaseModel):
+    text: str = Field(default=..., alias='#text')
+    latitude_and_longitude: GIS | None = Field(default=None, alias='@latitudeAndLongitude', description='Geographical latitude and longitude reference of "Location" / "Sub-location". For area-type locations (e.g. countries, continents) the field is empty.')
+
+class GeographyInterventionSubLocationOption0(TidasBaseModel):
+    text: str = Field(default=..., alias='#text')
+    latitude_and_longitude: GIS | None = Field(default=None, alias='@latitudeAndLongitude', description='Geographical latitude and longitude reference of "Location" / "Sub-location". For area-type locations (e.g. countries, continents) the field is empty.')
+
+class InterventionSubLocationItemOption0(TidasBaseModel):
+    text: str = Field(default=..., alias='#text')
     latitude_and_longitude: GIS | None = Field(default=None, alias='@latitudeAndLongitude', description='Geographical latitude and longitude reference of "Location" / "Sub-location". For area-type locations (e.g. countries, continents) the field is empty.')
 
 class GeographyIntervensionSubLocationOption0(TidasBaseModel):
     text: str | None = Field(default=None, alias='#text')
     latitude_and_longitude: GIS | None = Field(default=None, alias='@latitudeAndLongitude', description='Geographical latitude and longitude reference of "Location" / "Sub-location". For area-type locations (e.g. countries, continents) the field is empty.')
 
-class GeographyImpactLocationOption0(TidasBaseModel):
-    text: str | None = Field(default=None, alias='#text')
-    latitude_and_longitude: GIS | None = Field(default=None, alias='@latitudeAndLongitude', description='Geographical latitude and longitude reference of "Location" / "Sub-location". For area-type locations (e.g. countries, continents) the field is empty.')
-
 class LCIAMethodDataSetLCIAMethodInformationGeography(TidasBaseModel):
     intervention_location: GeographyInterventionLocationOption0 | str | None = Field(default=None, alias='interventionLocation', description='Specific, country, or region of the elementary flows\' / exchanges\' occurence for which the LCIA method(ology) is valid / modelled. [Note: Entry can be of type "two-letter ISO 3166 country code" for countries, "seven-letter regional codes" for regions or continents, or "market areas and market organisations", as predefined for the ILCD. Also a name for e.g. a specific plant etc. can be given here (e.g. "FR, Lyon, XY Company, Z Site"; user defined). ]')
-    intervension_sub_location: GeographyIntervensionSubLocationOption0 | str | None = Field(default=None, alias='intervensionSubLocation', description='Geographical sub-unit(s) of "Intervention location(s)" that further specify the specifically modelled sub-locations. Such sub-locations can be e.g. sites of a company, specific catchments modleled, countries of a continent, or locations in a country. Information on limited representativeness should be provided if applicable.')
     impact_location: GeographyImpactLocationOption0 | str | None = Field(default=None, alias='impactLocation', description='Location or region where the impact is modelled to take place. [Note: Entry can be of type "two-letter ISO 3166 country code" for countries, "seven-letter regional codes" for regions or continents, or "market areas and market organisations", as predefined for the ILCD. Also a name for e.g. a specific catchment etc. can be given here, user defined).]')
     geographical_representativeness_description: MultiLangList = Field(default_factory=MultiLangList, alias='geographicalRepresentativenessDescription', description='Further explanation on additional aspects of the location, both regarding the intervention and the impact: whether certain areas are exempted from the location, whether data is only valid for certain sub-locations within the location indicated, or whether impact indicator values for certain elementary flows are extrapolated from another geographical area than indicated. Information on the use of generic intervention and/or impact locations, and other restrictions.')
     common_other: CommonOther | None = Field(default=None, alias='common:other')
+    intervention_sub_location: Annotated[list[InterventionSubLocationItemOption0 | str], Field(min_length=1)] | GeographyInterventionSubLocationOption0 | str | None = Field(default=None, alias='interventionSubLocation')
+    intervension_sub_location: GeographyIntervensionSubLocationOption0 | str | None = Field(default=None, alias='intervensionSubLocation', description='Geographical sub-unit(s) of "Intervention location(s)" that further specify the specifically modelled sub-locations. Such sub-locations can be e.g. sites of a company, specific catchments modleled, countries of a continent, or locations in a country. Information on limited representativeness should be provided if applicable.')
+
+    @model_validator(mode='after')
+    def _validate_excluded_required(self):
+        if set(['intervention_sub_location', 'intervension_sub_location']).issubset(self.model_fields_set):
+            raise ValueError('Properties must not all be present: interventionSubLocation, intervensionSubLocation')
+        return self
 
 class LCIAMethodDataSetLCIAMethodInformationImpactModel(TidasBaseModel):
     """Provides information about the general representativiness of the data set and about its composition of single LCIA-methods."""
@@ -111,7 +139,7 @@ class LciamethodsLCIAMethodDataSetLCIAMethodInformation(TidasBaseModel):
 class LCIAMethodDataSetModellingAndValidationLCIAMethodNormalisationAndWeighting(TidasBaseModel):
     """LCIA methodological modelling aspects"""
     type_of_data_set: Literal['Inventory indicator', 'Mid-point indicator', 'Damage indicator', 'Area of Protection damage indicator', 'Combined single-point indicator', 'LCIA methodology documentation'] = Field(default=..., alias='typeOfDataSet', description='Type of data set regarding the extent of the impact chain that is covered.')
-    lcia_method_principle: Literal['Distance-to-target', 'Critical surface-time', 'Effective volumes', 'AoP-Damage model', 'Carrying capacity', 'Resource dissipation', 'other'] = Field(default=..., alias='LCIAMethodPrinciple', description='LCIA method principle(s) followed to derive the impact factors.')
+    lcia_method_principle: Annotated[list[Literal['Distance-to-target', 'Critical surface-time', 'Effective volumes', 'AoP-Damage model', 'Carrying capacity', 'Resource dissipation', 'other']], Field(min_length=1)] | Literal['Distance-to-target', 'Critical surface-time', 'Effective volumes', 'AoP-Damage model', 'Carrying capacity', 'Resource dissipation', 'other'] = Field(default=..., alias='LCIAMethodPrinciple', description='LCIA method principle(s) followed to derive the impact factors.')
     deviations_from_lcia_method_principle: MultiLangList = Field(default_factory=MultiLangList, alias='deviationsFromLCIAMethodPrinciple', description='Short description of possible data set specific deviations from "LCIA method principle(s)". Refers especially to explanations on the combination of LCIA methods with different principles in a single LCIA methodology.')
     normalisation: bool | None = Field(default=None, alias='normalisation', description='Indication whether or not a normalisation step was included in the resulting impact factors.')
     reference_to_usable_normalisation_data_sets: GlobalReferenceType | None = Field(default=None, alias='referenceToUsableNormalisationDataSets', description='"Normalisation data sets" that can be used together with the impact factors of this data set.')
@@ -131,15 +159,34 @@ class LCIAMethodDataSetModellingAndValidationCompleteness(TidasBaseModel):
     completeness_impact_coverage: Perc | None = Field(default=None, alias='completenessImpactCoverage', description='Estimate of the completeness of coverage of impact(s), as identified in the fields "Impact category/ies" or - only for LCIA methodologies with Damage indicator or Combined single-point indicators - "Area(s) of Protection". Expressed by the quantitative extent of coverage of the scientifically recognized, impact. Note that this information is typically highly uncertain.')
     inventory_items: Int6 | None = Field(default=None, alias='inventoryItems', description='Number of chemical substances/substance groups, chemical elements, or types covered, without considering variants by environmental emission or source compartment, geographical location, time, or other.')
 
+class Option0MethodOption0(TidasBaseModel):
+    name: Literal['Recollection / Validation of data', 'Recalculation', 'Cross-check with other source', 'Cross-check with other LCIA method(ology)', 'Expert judgement'] = Field(default=..., alias='@name')
+
+class Option0MethodItem(TidasBaseModel):
+    name: Literal['Recollection / Validation of data', 'Recalculation', 'Cross-check with other source', 'Cross-check with other LCIA method(ology)', 'Expert judgement'] = Field(default=..., alias='@name')
+
 class Option0CommonMethodOption0(TidasBaseModel):
     name: Literal['Recollection / Validation of data', 'Recalculation', 'Cross-check with other source', 'Cross-check with other LCIA method(ology)', 'Expert judgement'] = Field(default=..., alias='@name')
 
 class Option0CommonMethodItem(TidasBaseModel):
     name: Literal['Recollection / Validation of data', 'Recalculation', 'Cross-check with other source', 'Cross-check with other LCIA method(ology)', 'Expert judgement'] = Field(default=..., alias='@name')
 
-class ReviewCommonScopeOption0(TidasBaseModel):
+class Option0ScopeOption0(TidasBaseModel):
     name: Literal['Substance properties, physical and chemical', 'Substance properties, biological', 'Model for Transport and Fate', 'Model for Exposure', 'Model for Effect', 'Model for Damage', 'Characterisation factors', 'Application of model', 'Normalisation', 'Weighting', 'Documentation'] = Field(default=..., alias='@name')
-    common_method: Option0CommonMethodOption0 | list[Option0CommonMethodItem] = Field(default=..., alias='common:method', description='Validation method(s) used in the respective "Scope of review".')
+    method: Option0MethodOption0 | list[Option0MethodItem] | None = Field(default=None, alias='method', description='Validation method(s) used in the respective "Scope of review".')
+    common_method: Option0CommonMethodOption0 | list[Option0CommonMethodItem] | None = Field(default=None, alias='common:method', description='Validation method(s) used in the respective "Scope of review".')
+
+    @model_validator(mode='after')
+    def _validate_excluded_required(self):
+        if set(['method', 'common_method']).issubset(self.model_fields_set):
+            raise ValueError('Properties must not all be present: method, common:method')
+        return self
+
+class ItemMethodOption0(TidasBaseModel):
+    name: Literal['Recollection / Validation of data', 'Recalculation', 'Cross-check with other source', 'Cross-check with other LCIA method(ology)', 'Expert judgement'] = Field(default=..., alias='@name')
+
+class ItemMethodItem(TidasBaseModel):
+    name: Literal['Recollection / Validation of data', 'Recalculation', 'Cross-check with other source', 'Cross-check with other LCIA method(ology)', 'Expert judgement'] = Field(default=..., alias='@name')
 
 class ItemCommonMethodOption0(TidasBaseModel):
     name: Literal['Recollection / Validation of data', 'Recalculation', 'Cross-check with other source', 'Cross-check with other LCIA method(ology)', 'Expert judgement'] = Field(default=..., alias='@name')
@@ -147,23 +194,138 @@ class ItemCommonMethodOption0(TidasBaseModel):
 class ItemCommonMethodItem(TidasBaseModel):
     name: Literal['Recollection / Validation of data', 'Recalculation', 'Cross-check with other source', 'Cross-check with other LCIA method(ology)', 'Expert judgement'] = Field(default=..., alias='@name')
 
-class ReviewCommonScopeItem(TidasBaseModel):
+class Option0ScopeItem(TidasBaseModel):
     name: Literal['Substance properties, physical and chemical', 'Substance properties, biological', 'Model for Transport and Fate', 'Model for Exposure', 'Model for Effect', 'Model for Damage', 'Characterisation factors', 'Application of model', 'Normalisation', 'Weighting', 'Documentation'] = Field(default=..., alias='@name')
-    common_method: ItemCommonMethodOption0 | list[ItemCommonMethodItem] = Field(default=..., alias='common:method', description='Validation method(s) used in the respective "Scope of review".')
+    method: ItemMethodOption0 | list[ItemMethodItem] | None = Field(default=None, alias='method', description='Validation method(s) used in the respective "Scope of review".')
+    common_method: ItemCommonMethodOption0 | list[ItemCommonMethodItem] | None = Field(default=None, alias='common:method', description='Validation method(s) used in the respective "Scope of review".')
 
-class ModellingAndValidationValidationReview(TidasBaseModel):
-    """Type of review that has been performed regarding independency and type of review process."""
+    @model_validator(mode='after')
+    def _validate_excluded_required(self):
+        if set(['method', 'common_method']).issubset(self.model_fields_set):
+            raise ValueError('Properties must not all be present: method, common:method')
+        return self
+
+class Option0CommonMethodOption02(TidasBaseModel):
+    name: Literal['Recollection / Validation of data', 'Recalculation', 'Cross-check with other source', 'Cross-check with other LCIA method(ology)', 'Expert judgement'] = Field(default=..., alias='@name')
+
+class Option0CommonMethodItem2(TidasBaseModel):
+    name: Literal['Recollection / Validation of data', 'Recalculation', 'Cross-check with other source', 'Cross-check with other LCIA method(ology)', 'Expert judgement'] = Field(default=..., alias='@name')
+
+class Option0CommonScopeOption0(TidasBaseModel):
+    name: Literal['Substance properties, physical and chemical', 'Substance properties, biological', 'Model for Transport and Fate', 'Model for Exposure', 'Model for Effect', 'Model for Damage', 'Characterisation factors', 'Application of model', 'Normalisation', 'Weighting', 'Documentation'] = Field(default=..., alias='@name')
+    common_method: Option0CommonMethodOption02 | list[Option0CommonMethodItem2] = Field(default=..., alias='common:method', description='Validation method(s) used in the respective "Scope of review".')
+
+class ItemCommonMethodOption02(TidasBaseModel):
+    name: Literal['Recollection / Validation of data', 'Recalculation', 'Cross-check with other source', 'Cross-check with other LCIA method(ology)', 'Expert judgement'] = Field(default=..., alias='@name')
+
+class ItemCommonMethodItem2(TidasBaseModel):
+    name: Literal['Recollection / Validation of data', 'Recalculation', 'Cross-check with other source', 'Cross-check with other LCIA method(ology)', 'Expert judgement'] = Field(default=..., alias='@name')
+
+class Option0CommonScopeItem(TidasBaseModel):
+    name: Literal['Substance properties, physical and chemical', 'Substance properties, biological', 'Model for Transport and Fate', 'Model for Exposure', 'Model for Effect', 'Model for Damage', 'Characterisation factors', 'Application of model', 'Normalisation', 'Weighting', 'Documentation'] = Field(default=..., alias='@name')
+    common_method: ItemCommonMethodOption02 | list[ItemCommonMethodItem2] = Field(default=..., alias='common:method', description='Validation method(s) used in the respective "Scope of review".')
+
+class ValidationReviewOption0(TidasBaseModel):
     type: Literal['Dependent internal review', 'Independent internal review', 'Independent external review', 'Accredited third party review', 'Independent review panel', 'Not reviewed'] = Field(default=..., alias='@type')
-    common_scope: ReviewCommonScopeOption0 | list[ReviewCommonScopeItem] | None = Field(default=None, alias='common:scope', description='Scope of review regarding which aspects and components of the data set was reviewed or verified. In case of aggregated e.g. LCI results also and on which level of detail (e.g. LCI results only, included unit processes, ...) the review / verification was performed.')
     common_review_details: MultiLangList = Field(default_factory=MultiLangList, alias='common:reviewDetails', description='Summary of the review. All the following items should be explicitly addressed: completeness and appropriateness of the model, geographical and temporal coverage and differentiation, correctness and precision of substance data or other underlying data; appropriateness and coherence of application of normalisation and/or weighting schemes, if included; correctness, appropriateness, comprehensibility, and completeness of the data set documentation; stakeholder aceptance of LCIA method. Optional: Comment of the reviewer on characterisation factors for single elementary flows or groups of elementary flows. Relevant restrictions to the review due to lack of transparency or documentation should be named. An overall quality statement may be included here.')
     common_reference_to_name_of_reviewer_and_institution: GlobalReferenceType | None = Field(default=None, alias='common:referenceToNameOfReviewerAndInstitution', description='"Contact data set" of reviewer. The full name of reviewer(s) and institution(s) as well as a contact address and/or email should be provided in that contact data set.')
     common_other_review_details: MultiLangList = Field(default_factory=MultiLangList, alias='common:otherReviewDetails', description='Further information from the review process, especially comments received from third parties once the data set has been published or additional reviewer comments from an additional external review.')
     common_reference_to_complete_review_report: GlobalReferenceType | None = Field(default=None, alias='common:referenceToCompleteReviewReport', description='"Source data set" of the complete review report.')
     common_other: CommonOther | None = Field(default=None, alias='common:other')
+    scope: Option0ScopeOption0 | list[Option0ScopeItem] | None = Field(default=None, alias='scope', description='Scope of review regarding which aspects and components of the data set was reviewed or verified. In case of aggregated e.g. LCI results also and on which level of detail (e.g. LCI results only, included unit processes, ...) the review / verification was performed.')
+    common_scope: Option0CommonScopeOption0 | list[Option0CommonScopeItem] | None = Field(default=None, alias='common:scope', description='Scope of review regarding which aspects and components of the data set was reviewed or verified. In case of aggregated e.g. LCI results also and on which level of detail (e.g. LCI results only, included unit processes, ...) the review / verification was performed.')
+
+    @model_validator(mode='after')
+    def _validate_excluded_required(self):
+        if set(['scope', 'common_scope']).issubset(self.model_fields_set):
+            raise ValueError('Properties must not all be present: scope, common:scope')
+        return self
+
+class Option0MethodOption02(TidasBaseModel):
+    name: Literal['Recollection / Validation of data', 'Recalculation', 'Cross-check with other source', 'Cross-check with other LCIA method(ology)', 'Expert judgement'] = Field(default=..., alias='@name')
+
+class Option0MethodItem2(TidasBaseModel):
+    name: Literal['Recollection / Validation of data', 'Recalculation', 'Cross-check with other source', 'Cross-check with other LCIA method(ology)', 'Expert judgement'] = Field(default=..., alias='@name')
+
+class Option0CommonMethodOption03(TidasBaseModel):
+    name: Literal['Recollection / Validation of data', 'Recalculation', 'Cross-check with other source', 'Cross-check with other LCIA method(ology)', 'Expert judgement'] = Field(default=..., alias='@name')
+
+class Option0CommonMethodItem3(TidasBaseModel):
+    name: Literal['Recollection / Validation of data', 'Recalculation', 'Cross-check with other source', 'Cross-check with other LCIA method(ology)', 'Expert judgement'] = Field(default=..., alias='@name')
+
+class ItemScopeOption0(TidasBaseModel):
+    name: Literal['Substance properties, physical and chemical', 'Substance properties, biological', 'Model for Transport and Fate', 'Model for Exposure', 'Model for Effect', 'Model for Damage', 'Characterisation factors', 'Application of model', 'Normalisation', 'Weighting', 'Documentation'] = Field(default=..., alias='@name')
+    method: Option0MethodOption02 | list[Option0MethodItem2] | None = Field(default=None, alias='method', description='Validation method(s) used in the respective "Scope of review".')
+    common_method: Option0CommonMethodOption03 | list[Option0CommonMethodItem3] | None = Field(default=None, alias='common:method', description='Validation method(s) used in the respective "Scope of review".')
+
+    @model_validator(mode='after')
+    def _validate_excluded_required(self):
+        if set(['method', 'common_method']).issubset(self.model_fields_set):
+            raise ValueError('Properties must not all be present: method, common:method')
+        return self
+
+class ItemMethodOption02(TidasBaseModel):
+    name: Literal['Recollection / Validation of data', 'Recalculation', 'Cross-check with other source', 'Cross-check with other LCIA method(ology)', 'Expert judgement'] = Field(default=..., alias='@name')
+
+class ItemMethodItem2(TidasBaseModel):
+    name: Literal['Recollection / Validation of data', 'Recalculation', 'Cross-check with other source', 'Cross-check with other LCIA method(ology)', 'Expert judgement'] = Field(default=..., alias='@name')
+
+class ItemCommonMethodOption03(TidasBaseModel):
+    name: Literal['Recollection / Validation of data', 'Recalculation', 'Cross-check with other source', 'Cross-check with other LCIA method(ology)', 'Expert judgement'] = Field(default=..., alias='@name')
+
+class ItemCommonMethodItem3(TidasBaseModel):
+    name: Literal['Recollection / Validation of data', 'Recalculation', 'Cross-check with other source', 'Cross-check with other LCIA method(ology)', 'Expert judgement'] = Field(default=..., alias='@name')
+
+class ItemScopeItem(TidasBaseModel):
+    name: Literal['Substance properties, physical and chemical', 'Substance properties, biological', 'Model for Transport and Fate', 'Model for Exposure', 'Model for Effect', 'Model for Damage', 'Characterisation factors', 'Application of model', 'Normalisation', 'Weighting', 'Documentation'] = Field(default=..., alias='@name')
+    method: ItemMethodOption02 | list[ItemMethodItem2] | None = Field(default=None, alias='method', description='Validation method(s) used in the respective "Scope of review".')
+    common_method: ItemCommonMethodOption03 | list[ItemCommonMethodItem3] | None = Field(default=None, alias='common:method', description='Validation method(s) used in the respective "Scope of review".')
+
+    @model_validator(mode='after')
+    def _validate_excluded_required(self):
+        if set(['method', 'common_method']).issubset(self.model_fields_set):
+            raise ValueError('Properties must not all be present: method, common:method')
+        return self
+
+class Option0CommonMethodOption04(TidasBaseModel):
+    name: Literal['Recollection / Validation of data', 'Recalculation', 'Cross-check with other source', 'Cross-check with other LCIA method(ology)', 'Expert judgement'] = Field(default=..., alias='@name')
+
+class Option0CommonMethodItem4(TidasBaseModel):
+    name: Literal['Recollection / Validation of data', 'Recalculation', 'Cross-check with other source', 'Cross-check with other LCIA method(ology)', 'Expert judgement'] = Field(default=..., alias='@name')
+
+class ItemCommonScopeOption0(TidasBaseModel):
+    name: Literal['Substance properties, physical and chemical', 'Substance properties, biological', 'Model for Transport and Fate', 'Model for Exposure', 'Model for Effect', 'Model for Damage', 'Characterisation factors', 'Application of model', 'Normalisation', 'Weighting', 'Documentation'] = Field(default=..., alias='@name')
+    common_method: Option0CommonMethodOption04 | list[Option0CommonMethodItem4] = Field(default=..., alias='common:method', description='Validation method(s) used in the respective "Scope of review".')
+
+class ItemCommonMethodOption04(TidasBaseModel):
+    name: Literal['Recollection / Validation of data', 'Recalculation', 'Cross-check with other source', 'Cross-check with other LCIA method(ology)', 'Expert judgement'] = Field(default=..., alias='@name')
+
+class ItemCommonMethodItem4(TidasBaseModel):
+    name: Literal['Recollection / Validation of data', 'Recalculation', 'Cross-check with other source', 'Cross-check with other LCIA method(ology)', 'Expert judgement'] = Field(default=..., alias='@name')
+
+class ItemCommonScopeItem(TidasBaseModel):
+    name: Literal['Substance properties, physical and chemical', 'Substance properties, biological', 'Model for Transport and Fate', 'Model for Exposure', 'Model for Effect', 'Model for Damage', 'Characterisation factors', 'Application of model', 'Normalisation', 'Weighting', 'Documentation'] = Field(default=..., alias='@name')
+    common_method: ItemCommonMethodOption04 | list[ItemCommonMethodItem4] = Field(default=..., alias='common:method', description='Validation method(s) used in the respective "Scope of review".')
+
+class ValidationReviewItem(TidasBaseModel):
+    type: Literal['Dependent internal review', 'Independent internal review', 'Independent external review', 'Accredited third party review', 'Independent review panel', 'Not reviewed'] = Field(default=..., alias='@type')
+    common_review_details: MultiLangList = Field(default_factory=MultiLangList, alias='common:reviewDetails', description='Summary of the review. All the following items should be explicitly addressed: completeness and appropriateness of the model, geographical and temporal coverage and differentiation, correctness and precision of substance data or other underlying data; appropriateness and coherence of application of normalisation and/or weighting schemes, if included; correctness, appropriateness, comprehensibility, and completeness of the data set documentation; stakeholder aceptance of LCIA method. Optional: Comment of the reviewer on characterisation factors for single elementary flows or groups of elementary flows. Relevant restrictions to the review due to lack of transparency or documentation should be named. An overall quality statement may be included here.')
+    common_reference_to_name_of_reviewer_and_institution: GlobalReferenceType | None = Field(default=None, alias='common:referenceToNameOfReviewerAndInstitution', description='"Contact data set" of reviewer. The full name of reviewer(s) and institution(s) as well as a contact address and/or email should be provided in that contact data set.')
+    common_other_review_details: MultiLangList = Field(default_factory=MultiLangList, alias='common:otherReviewDetails', description='Further information from the review process, especially comments received from third parties once the data set has been published or additional reviewer comments from an additional external review.')
+    common_reference_to_complete_review_report: GlobalReferenceType | None = Field(default=None, alias='common:referenceToCompleteReviewReport', description='"Source data set" of the complete review report.')
+    common_other: CommonOther | None = Field(default=None, alias='common:other')
+    scope: ItemScopeOption0 | list[ItemScopeItem] | None = Field(default=None, alias='scope', description='Scope of review regarding which aspects and components of the data set was reviewed or verified. In case of aggregated e.g. LCI results also and on which level of detail (e.g. LCI results only, included unit processes, ...) the review / verification was performed.')
+    common_scope: ItemCommonScopeOption0 | list[ItemCommonScopeItem] | None = Field(default=None, alias='common:scope', description='Scope of review regarding which aspects and components of the data set was reviewed or verified. In case of aggregated e.g. LCI results also and on which level of detail (e.g. LCI results only, included unit processes, ...) the review / verification was performed.')
+
+    @model_validator(mode='after')
+    def _validate_excluded_required(self):
+        if set(['scope', 'common_scope']).issubset(self.model_fields_set):
+            raise ValueError('Properties must not all be present: scope, common:scope')
+        return self
 
 class LCIAMethodDataSetModellingAndValidationValidation(TidasBaseModel):
     """Review information on LCIA method."""
-    review: ModellingAndValidationValidationReview = Field(default=..., alias='review', description='Type of review that has been performed regarding independency and type of review process.')
+    review: Annotated[list[ValidationReviewItem], Field(min_length=1)] | ValidationReviewOption0 = Field(default=..., alias='review', description='Type of review that has been performed regarding independency and type of review process.')
     common_other: CommonOther | None = Field(default=None, alias='common:other')
 
 class ComplianceDeclarationsComplianceOption0(TidasBaseModel):
@@ -248,6 +410,14 @@ class LciamethodsLCIAMethodDataSetAdministrativeInformation(TidasBaseModel):
     publication_and_ownership: LCIAMethodDataSetAdministrativeInformationPublicationAndOwnership = Field(default=..., alias='publicationAndOwnership', description='Information related to publication and version management of the data set including copyright and access restrictions.')
     common_other: CommonOther | None = Field(default=None, alias='common:other')
 
+class FactorOption0ReferencesToDataSource(TidasBaseModel):
+    reference_to_data_source: GlobalReferenceType = Field(default=..., alias='referenceToDataSource')
+    common_other: CommonOther | None = Field(default=None, alias='common:other')
+
+class Option0ReferenceToDataSourceOption1(TidasBaseModel):
+    reference_to_data_source: GlobalReferenceType = Field(default=..., alias='referenceToDataSource')
+    common_other: CommonOther | None = Field(default=None, alias='common:other')
+
 class CharacterisationFactorsFactorOption0(TidasBaseModel):
     reference_to_flow_data_set: GlobalReferenceType = Field(default=..., alias='referenceToFlowDataSet', description='Reference to "UUID of flow" of "Flow data set" to link the particular impact factor in the "LCIA data set" to the respective "Flow data set". Please be aware, that for location-specific LCIA methods, there may be multiple references to the same Flow data set.')
     location: str | None = Field(default=None, alias='location', description='Location where exchange of elementary flow occurs. Used only for those LCIA methods, that make use of such information. This information refers to the entry within the same field in the "Process data set".')
@@ -259,12 +429,24 @@ class CharacterisationFactorsFactorOption0(TidasBaseModel):
     relative_standard_deviation95_in: Perc | None = Field(default=None, alias='relativeStandardDeviation95In', description='The resulting overall uncertainty of the calculated variable value considering uncertainty of measurements, modelling, appropriateness etc. [Notes: For log-normal distribution the square of the geometric standard deviation (SDg^2) is stated. Mean value times SDg^2 equals the 97.5% value (= Maximum value), Mean value divided by SDg^2 equals the 2.5% value (= Minimum value). For normal distribution the doubled standard deviation value (2*SD) is entered. Mean value plus 2*SD equals 97.5% value (= Maximum value), Mean value minus 2*SD equals 2.5% value (= Minimum value). This data field remains empty when uniform or triangular uncertainty distribution is applied.]')
     data_derivation_type_status: Literal['Measured', 'Calculated', 'Estimated', 'Unknown derivation', 'Missing important', 'Missing unimportant'] | None = Field(default=None, alias='dataDerivationTypeStatus', description='Identifies the way by which the individual Input / Output amount was derived (e.g. measured, estimated etc.), respectively the status and relevancy of missing data.')
     deviating_recommendation: Literal['Level I', 'Level II', 'Level III', 'Interim', 'Not recommended'] = Field(default=..., alias='deviatingRecommendation', description='Deviating (downgraded) recommendation level for this exchange, in reference to the recommendation level of the LCIA method data set as a whole (see field "Official recommendation of data set by governmental body:").')
-    reference_to_data_source: GlobalReferenceType | None = Field(default=None, alias='referenceToDataSource', description='Reference to "UUID of source"(s) in the "Source data set" of data source(s) used for modelling the value of this single LCIA factor e.g. a specific paper, questionnaire, monography etc. If, as typical, more than one data source was used, more than one source can be referenced.')
     general_comment: MultiLangList = Field(default_factory=MultiLangList, alias='generalComment', description='General information about the data set, including e.g. general (internal, not reviewed) quality statements as well as information sources used. (Note: Please also check the more specific fields e.g. on "Intended application", "Advice on data set use" and the fields in the "Modelling and validation" section to avoid overlapping entries.)')
     common_other: CommonOther | None = Field(default=None, alias='common:other')
+    references_to_data_source: FactorOption0ReferencesToDataSource | None = Field(default=None, alias='referencesToDataSource')
+    reference_to_data_source: GlobalReferenceType | Option0ReferenceToDataSourceOption1 | None = Field(default=None, alias='referenceToDataSource')
 
-class FactorItemReferenceToDataSource(TidasBaseModel):
-    reference_to_data_source: GlobalReferenceType | None = Field(default=None, alias='referenceToDataSource', description='Reference to "UUID of source"(s) in the "Source data set" of data source(s) used for modelling the value of this single LCIA factor e.g. a specific paper, questionnaire, monography etc. If, as typical, more than one data source was used, more than one source can be referenced.')
+    @model_validator(mode='after')
+    def _validate_excluded_required(self):
+        if set(['reference_to_data_source', 'references_to_data_source']).issubset(self.model_fields_set):
+            raise ValueError('Properties must not all be present: referenceToDataSource, referencesToDataSource')
+        return self
+
+class FactorItemReferencesToDataSource(TidasBaseModel):
+    reference_to_data_source: GlobalReferenceType = Field(default=..., alias='referenceToDataSource')
+    common_other: CommonOther | None = Field(default=None, alias='common:other')
+
+class ItemReferenceToDataSourceOption1(TidasBaseModel):
+    reference_to_data_source: GlobalReferenceType = Field(default=..., alias='referenceToDataSource')
+    common_other: CommonOther | None = Field(default=None, alias='common:other')
 
 class CharacterisationFactorsFactorItem(TidasBaseModel):
     reference_to_flow_data_set: GlobalReferenceType = Field(default=..., alias='referenceToFlowDataSet', description='Reference to "UUID of flow" of "Flow data set" to link the particular impact factor in the "LCIA data set" to the respective "Flow data set". Please be aware, that for location-specific LCIA methods, there may be multiple references to the same Flow data set.')
@@ -277,8 +459,16 @@ class CharacterisationFactorsFactorItem(TidasBaseModel):
     relative_standard_deviation95_in: Perc | None = Field(default=None, alias='relativeStandardDeviation95In', description='The resulting overall uncertainty of the calculated variable value considering uncertainty of measurements, modelling, appropriateness etc. [Notes: For log-normal distribution the square of the geometric standard deviation (SDg^2) is stated. Mean value times SDg^2 equals the 97.5% value (= Maximum value), Mean value divided by SDg^2 equals the 2.5% value (= Minimum value). For normal distribution the doubled standard deviation value (2*SD) is entered. Mean value plus 2*SD equals 97.5% value (= Maximum value), Mean value minus 2*SD equals 2.5% value (= Minimum value). This data field remains empty when uniform or triangular uncertainty distribution is applied.]')
     data_derivation_type_status: Literal['Measured', 'Calculated', 'Estimated', 'Unknown derivation', 'Missing important', 'Missing unimportant'] | None = Field(default=None, alias='dataDerivationTypeStatus', description='Identifies the way by which the individual Input / Output amount was derived (e.g. measured, estimated etc.), respectively the status and relevancy of missing data.')
     deviating_recommendation: Literal['Level I', 'Level II', 'Level III', 'Interim', 'Not recommended'] = Field(default=..., alias='deviatingRecommendation', description='Deviating (downgraded) recommendation level for this exchange, in reference to the recommendation level of the LCIA method data set as a whole (see field "Official recommendation of data set by governmental body:").')
-    reference_to_data_source: FactorItemReferenceToDataSource | None = Field(default=None, alias='referenceToDataSource')
     general_comment: MultiLangList = Field(default_factory=MultiLangList, alias='generalComment', description='General information about the data set, including e.g. general (internal, not reviewed) quality statements as well as information sources used. (Note: Please also check the more specific fields e.g. on "Intended application", "Advice on data set use" and the fields in the "Modelling and validation" section to avoid overlapping entries.)')
+    references_to_data_source: FactorItemReferencesToDataSource | None = Field(default=None, alias='referencesToDataSource')
+    reference_to_data_source: GlobalReferenceType | ItemReferenceToDataSourceOption1 | None = Field(default=None, alias='referenceToDataSource')
+    common_other: CommonOther | None = Field(default=None, alias='common:other')
+
+    @model_validator(mode='after')
+    def _validate_excluded_required(self):
+        if set(['reference_to_data_source', 'references_to_data_source']).issubset(self.model_fields_set):
+            raise ValueError('Properties must not all be present: referenceToDataSource, referencesToDataSource')
+        return self
 
 class LciamethodsLCIAMethodDataSetCharacterisationFactors(TidasBaseModel):
     """Flow / Exchanges list with corresponding impact factors according to the respective LCIA method."""

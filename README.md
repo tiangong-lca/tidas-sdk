@@ -20,9 +20,9 @@ checkPaths:
   - sdks/python/**
   - scripts/ci/**
   - .nvmrc
-lastReviewedAt: "2026-09-24"
-lastReviewedCommit: "04b6ac2c9566ba0209cebfe4cc56b6eef5a56845"
-lastReviewedNote: "Reviewed SDK #156: generated TS/Python surfaces adopt exact tidas-spec 0.2.3; public-rule bytes remain unchanged while source identity advances. Package guidance remains aligned."
+lastReviewedAt: 2026-10-01
+lastReviewedCommit: ebaaf22172af0fae89a77ef80dc2cd589f641dbe
+lastReviewedNote: "Reviewed SDK #158: formal spec 0.3.0 identity and TypeScript 0.5.0 / Python 0.3.0 release preparation preserve exact-source generation, alias validation and normal tag-driven publication."
 ---
 
 # TIDAS SDKs
@@ -54,7 +54,7 @@ cd sdks/python && uv sync
 
 ### Upstream Tools
 
-`tidas-tools` remains the native Rust upstream for execution-oriented generation helpers, product profiles, runtime rulesets, taxonomies, optional methodologies, and standalone tooling behavior. Public schemas, the schema lock, and public methodologies are consumed from one separately versioned, content-addressed `tidas-spec` archive. The current package-input pin is the formal 0.2.3 release, whose Process schema conditionally requires a Flow reference or a language-tagged accounting basis and permits an omitted data-set type. The public-rule API's separately verified index/schema pin binds the same formal release source even though the rule bytes did not change. Product execution policy stays with its consumers; the former mixed `runtime_rulesets.json` and its schema are omitted from the SDK runtime projection without changing the upstream tools lock.
+`tidas-tools` remains the native Rust upstream for execution-oriented generation helpers, product profiles, runtime rulesets, taxonomies, optional methodologies, and standalone tooling behavior. Public schemas, the schema lock, and public methodologies are consumed from one separately versioned, content-addressed `tidas-spec` archive. The package-input and public-rule pins bind the formal spec `0.3.0` release at `32e1ba38da7d5f4f6245c6c1927f83b326cd5404`, with exact archive and manifest hashes. TypeScript `0.5.0` and Python `0.3.0` adopt repeated fields, named classifications and canonical/legacy alias validation while retaining conditional Process references and required documentation. Product execution policy stays with its consumers; the former mixed `runtime_rulesets.json` and its schema are omitted from the SDK runtime projection without changing the upstream tools lock.
 
 The TypeScript contracts entry point exposes `getTidasPublicRules(kind)` and `getTidasPublicRulesSchema()`. `getTidasPublicRules` returns an explicit `covered` or `not-covered` result with source identity; it never supplies severity, phase, blocker defaults, waivers, profiles, or action authorization. The former `getTidasRuntimeRuleset` compatibility API is removed; CLI owns the execution rules and AI context it derives from them.
 

@@ -72,8 +72,8 @@ export interface Lifecyclemodels {
       technology: {
         groupDeclarations?: {
           group?:
-            | { '@id'?: string; groupName?: StringMultiLang }
-            | { '@id'?: string; groupName?: StringMultiLang }[];
+            | { '@id': string; groupName?: StringMultiLang }
+            | { '@id': string; groupName?: StringMultiLang }[];
         };
         processes: {
           processInstance?:
@@ -81,72 +81,13 @@ export interface Lifecyclemodels {
                 '@dataSetInternalID': string;
                 '@multiplicationFactor': string;
                 referenceToProcess: GlobalReferenceType;
-                scalingFactors?: Real;
                 groups?: {
-                  memberOf?:
-                    { '@groupId'?: string } | { '@groupId'?: string }[];
-                };
-                parameters?: {
-                  parameter?: { '@name'?: MatV } | { '@name'?: MatV }[];
-                };
-                connections?: {
-                  outputExchange?:
-                    | {
-                        '@dominant'?: 'true' | 'false';
-                        '@flowUUID': UUID;
-                        downstreamProcess:
-                          | {
-                              '@id': string;
-                              '@flowUUID': UUID;
-                              '@location'?: string;
-                              '@dominant'?: 'true' | 'false';
-                              '@version': Version;
-                            }
-                          | {
-                              '@id': string;
-                              '@flowUUID': UUID;
-                              '@location'?: string;
-                              '@dominant'?: 'true' | 'false';
-                              '@version': Version;
-                            }[];
-                        '@version': Version;
-                      }
-                    | {
-                        '@dominant'?: 'true' | 'false';
-                        '@flowUUID': UUID;
-                        downstreamProcess:
-                          | {
-                              '@id': string;
-                              '@flowUUID': UUID;
-                              '@location'?: string;
-                              '@dominant'?: 'true' | 'false';
-                              '@version': Version;
-                            }
-                          | {
-                              '@id': string;
-                              '@flowUUID': UUID;
-                              '@location'?: string;
-                              '@dominant'?: 'true' | 'false';
-                              '@version': Version;
-                            }[];
-                        '@version': Version;
-                      }[];
-                };
-                'common:other'?: CommonOther;
-              }[]
-            | {
-                '@dataSetInternalID': string;
-                '@multiplicationFactor': string;
-                referenceToProcess: GlobalReferenceType;
-                scalingFactors?: Real;
-                groups?: {
-                  memberOf?:
-                    { '@groupId'?: string } | { '@groupId'?: string }[];
+                  memberOf?: { '@groupId': string } | { '@groupId': string }[];
                 };
                 parameters?: {
                   parameter?:
-                    | { '@name'?: string; parameter?: Real }
-                    | { '@name'?: string; parameter?: Real }[];
+                    | { '@name': MatV; '#text'?: Real; parameter?: Real }
+                    | { '@name': MatV; '#text'?: Real; parameter?: Real }[];
                 };
                 connections?: {
                   outputExchange:
@@ -192,6 +133,67 @@ export interface Lifecyclemodels {
                       }[];
                 };
                 'common:other'?: CommonOther;
+                scalingFactor?: Real;
+                scalingFactors?: Real;
+              }[]
+            | {
+                '@dataSetInternalID': string;
+                '@multiplicationFactor': string;
+                referenceToProcess: GlobalReferenceType;
+                groups?: {
+                  memberOf?: { '@groupId': string } | { '@groupId': string }[];
+                };
+                parameters?: {
+                  parameter?:
+                    | { '@name': MatV; parameter?: Real; '#text'?: Real }
+                    | { '@name': MatV; parameter?: Real; '#text'?: Real }[];
+                };
+                connections?: {
+                  outputExchange:
+                    | {
+                        '@dominant'?: 'true' | 'false';
+                        '@flowUUID': UUID;
+                        downstreamProcess:
+                          | {
+                              '@id': string;
+                              '@flowUUID': UUID;
+                              '@location'?: string;
+                              '@dominant'?: 'true' | 'false';
+                              '@version': Version;
+                            }
+                          | {
+                              '@id': string;
+                              '@flowUUID': UUID;
+                              '@location'?: string;
+                              '@dominant'?: 'true' | 'false';
+                              '@version': Version;
+                            }[];
+                        '@version': Version;
+                      }
+                    | {
+                        '@dominant'?: 'true' | 'false';
+                        '@flowUUID': UUID;
+                        downstreamProcess:
+                          | {
+                              '@id': string;
+                              '@flowUUID': UUID;
+                              '@location'?: string;
+                              '@dominant'?: 'true' | 'false';
+                              '@version': Version;
+                            }
+                          | {
+                              '@id': string;
+                              '@flowUUID': UUID;
+                              '@location'?: string;
+                              '@dominant'?: 'true' | 'false';
+                              '@version': Version;
+                            }[];
+                        '@version': Version;
+                      }[];
+                };
+                'common:other'?: CommonOther;
+                scalingFactor?: Real;
+                scalingFactors?: Real;
               };
         };
         referenceToDiagram?: GlobalReferenceType;
@@ -219,42 +221,79 @@ export interface Lifecyclemodels {
             }[];
         'common:other'?: CommonOther;
       };
-      complianceDeclarations: {
-        compliance:
-          | {
-              'common:referenceToComplianceSystem': GlobalReferenceType;
-              'common:approvalOfOverallCompliance':
-                'Fully compliant' | 'Not compliant' | 'Not defined';
-              'common:nomenclatureCompliance':
-                'Fully compliant' | 'Not compliant' | 'Not defined';
-              'common:methodologicalCompliance':
-                'Fully compliant' | 'Not compliant' | 'Not defined';
-              'common:reviewCompliance':
-                'Fully compliant' | 'Not compliant' | 'Not defined';
-              'common:documentationCompliance':
-                'Fully compliant' | 'Not compliant' | 'Not defined';
-              'common:qualityCompliance':
-                'Fully compliant' | 'Not compliant' | 'Not defined';
-              'common:other'?: CommonOther;
-            }
-          | {
-              'common:referenceToComplianceSystem': GlobalReferenceType;
-              'common:approvalOfOverallCompliance':
-                'Fully compliant' | 'Not compliant' | 'Not defined';
-              'common:nomenclatureCompliance':
-                'Fully compliant' | 'Not compliant' | 'Not defined';
-              'common:methodologicalCompliance':
-                'Fully compliant' | 'Not compliant' | 'Not defined';
-              'common:reviewCompliance':
-                'Fully compliant' | 'Not compliant' | 'Not defined';
-              'common:documentationCompliance':
-                'Fully compliant' | 'Not compliant' | 'Not defined';
-              'common:qualityCompliance':
-                'Fully compliant' | 'Not compliant' | 'Not defined';
-              'common:other'?: CommonOther;
-            }[];
-        'common:other'?: CommonOther;
-      };
+      complianceDeclarations:
+        | {
+            compliance:
+              | {
+                  'common:referenceToComplianceSystem': GlobalReferenceType;
+                  'common:approvalOfOverallCompliance':
+                    'Fully compliant' | 'Not compliant' | 'Not defined';
+                  'common:nomenclatureCompliance':
+                    'Fully compliant' | 'Not compliant' | 'Not defined';
+                  'common:methodologicalCompliance':
+                    'Fully compliant' | 'Not compliant' | 'Not defined';
+                  'common:reviewCompliance':
+                    'Fully compliant' | 'Not compliant' | 'Not defined';
+                  'common:documentationCompliance':
+                    'Fully compliant' | 'Not compliant' | 'Not defined';
+                  'common:qualityCompliance':
+                    'Fully compliant' | 'Not compliant' | 'Not defined';
+                  'common:other'?: CommonOther;
+                }
+              | {
+                  'common:referenceToComplianceSystem': GlobalReferenceType;
+                  'common:approvalOfOverallCompliance':
+                    'Fully compliant' | 'Not compliant' | 'Not defined';
+                  'common:nomenclatureCompliance':
+                    'Fully compliant' | 'Not compliant' | 'Not defined';
+                  'common:methodologicalCompliance':
+                    'Fully compliant' | 'Not compliant' | 'Not defined';
+                  'common:reviewCompliance':
+                    'Fully compliant' | 'Not compliant' | 'Not defined';
+                  'common:documentationCompliance':
+                    'Fully compliant' | 'Not compliant' | 'Not defined';
+                  'common:qualityCompliance':
+                    'Fully compliant' | 'Not compliant' | 'Not defined';
+                  'common:other'?: CommonOther;
+                }[];
+            'common:other'?: CommonOther;
+          }
+        | {
+            compliance:
+              | {
+                  'common:referenceToComplianceSystem': GlobalReferenceType;
+                  'common:approvalOfOverallCompliance':
+                    'Fully compliant' | 'Not compliant' | 'Not defined';
+                  'common:nomenclatureCompliance':
+                    'Fully compliant' | 'Not compliant' | 'Not defined';
+                  'common:methodologicalCompliance':
+                    'Fully compliant' | 'Not compliant' | 'Not defined';
+                  'common:reviewCompliance':
+                    'Fully compliant' | 'Not compliant' | 'Not defined';
+                  'common:documentationCompliance':
+                    'Fully compliant' | 'Not compliant' | 'Not defined';
+                  'common:qualityCompliance':
+                    'Fully compliant' | 'Not compliant' | 'Not defined';
+                  'common:other'?: CommonOther;
+                }
+              | {
+                  'common:referenceToComplianceSystem': GlobalReferenceType;
+                  'common:approvalOfOverallCompliance':
+                    'Fully compliant' | 'Not compliant' | 'Not defined';
+                  'common:nomenclatureCompliance':
+                    'Fully compliant' | 'Not compliant' | 'Not defined';
+                  'common:methodologicalCompliance':
+                    'Fully compliant' | 'Not compliant' | 'Not defined';
+                  'common:reviewCompliance':
+                    'Fully compliant' | 'Not compliant' | 'Not defined';
+                  'common:documentationCompliance':
+                    'Fully compliant' | 'Not compliant' | 'Not defined';
+                  'common:qualityCompliance':
+                    'Fully compliant' | 'Not compliant' | 'Not defined';
+                  'common:other'?: CommonOther;
+                }[];
+            'common:other'?: CommonOther;
+          }[];
       'common:other'?: CommonOther;
     };
     administrativeInformation: {

@@ -39,17 +39,39 @@ export const SourcesSchema = z.object({
         'common:UUID': UUIDSchema,
         'common:shortName': RequiredStringMultiLangSchema,
         classificationInformation: z.object({
-          'common:classification': z.object({
-            'common:class': withJsonSchemaDependencies(
-              z.object({
-                '@level': z.intersection(z.literal('0'), LevelTypeSchema),
-                '@classId': z.string(),
-                '#text': z.string(),
-              }),
-              [{ property: '@level', schema: SourceSchema }],
-            ),
-            'common:other': CommonOtherSchema.optional(),
-          }),
+          'common:classification': z.union([
+            z.object({
+              'common:class': withJsonSchemaDependencies(
+                z.object({
+                  '@level': z.intersection(z.literal('0'), LevelTypeSchema),
+                  '@classId': z.string(),
+                  '#text': z.string(),
+                }),
+                [{ property: '@level', schema: SourceSchema }],
+              ),
+              'common:other': CommonOtherSchema.optional(),
+              '@name': z.string().optional(),
+              '@classes': z.string().optional(),
+            }),
+            z
+              .array(
+                z.object({
+                  '@name': z.string(),
+                  '@classes': z.string().optional(),
+                  'common:class': z
+                    .array(
+                      z.object({
+                        '@level': LevelTypeSchema,
+                        '@classId': z.string(),
+                        '#text': z.string(),
+                      }),
+                    )
+                    .min(1),
+                  'common:other': CommonOtherSchema.optional(),
+                }),
+              )
+              .min(1),
+          ]),
         }),
         sourceCitation: z.string().optional(),
         publicationType: z

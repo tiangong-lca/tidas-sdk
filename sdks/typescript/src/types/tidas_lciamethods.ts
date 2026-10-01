@@ -33,16 +33,29 @@ export interface Lciamethods {
       dataSetInformation: {
         'common:UUID': UUID;
         'common:name': StringMultiLang;
-        methodology?: string;
+        methodology?: string | string[];
         classificationInformation: {
-          'common:classification': {
-            'common:class': [
-              { '@level': LevelType; '@classId': string; '#text': string },
-              { '@level': LevelType; '@classId': string; '#text': string },
-              { '@level': LevelType; '@classId': string; '#text': string },
-            ];
-            'common:other'?: CommonOther;
-          };
+          'common:classification':
+            | {
+                'common:class': [
+                  { '@level': LevelType; '@classId': string; '#text': string },
+                  { '@level': LevelType; '@classId': string; '#text': string },
+                  { '@level': LevelType; '@classId': string; '#text': string },
+                ];
+                'common:other'?: CommonOther;
+                '@name'?: string;
+                '@classes'?: string;
+              }
+            | {
+                '@name': string;
+                '@classes'?: string;
+                'common:class': {
+                  '@level': LevelType;
+                  '@classId': string;
+                  '#text': string;
+                }[];
+                'common:other'?: CommonOther;
+              }[];
         };
         impactCategory?:
           | 'Climate change'
@@ -60,13 +73,38 @@ export interface Lciamethods {
           | 'Respiratory inorganics'
           | 'Aquatic eco-toxicity'
           | 'Terrestrial eco-toxicity'
-          | 'other';
+          | 'other'
+          | (
+              | 'Climate change'
+              | 'Ozone depletion'
+              | 'Terrestrial Eutrophication'
+              | 'Aquatic Eutrophication'
+              | 'Acidification'
+              | 'Photochemical ozone creation'
+              | 'Land use'
+              | 'Abiotic resource depletion'
+              | 'Biotic resource depletion'
+              | 'Ionizing radiation'
+              | 'Cancer human health effects'
+              | 'Non-cancer human health effects'
+              | 'Respiratory inorganics'
+              | 'Aquatic eco-toxicity'
+              | 'Terrestrial eco-toxicity'
+              | 'other'
+            )[];
         areaOfProtection?:
           | 'Natural resources'
           | 'Natural environment'
           | 'Human health'
           | 'Man-made environment'
-          | 'Other';
+          | 'Other'
+          | (
+              | 'Natural resources'
+              | 'Natural environment'
+              | 'Human health'
+              | 'Man-made environment'
+              | 'Other'
+            )[];
         impactIndicator?: String;
         'common:generalComment'?: FTMultiLang;
         referenceToExternalDocumentation?: GlobalReferenceType;
@@ -84,13 +122,17 @@ export interface Lciamethods {
       };
       geography?: {
         interventionLocation?:
-          { '#text'?: string; '@latitudeAndLongitude'?: GIS } | string;
-        intervensionSubLocation?:
-          { '#text'?: string; '@latitudeAndLongitude'?: GIS } | string;
+          { '#text': string; '@latitudeAndLongitude'?: GIS } | string;
         impactLocation?:
-          { '#text'?: string; '@latitudeAndLongitude'?: GIS } | string;
+          { '#text': string; '@latitudeAndLongitude'?: GIS } | string;
         geographicalRepresentativenessDescription?: FTMultiLang;
         'common:other'?: CommonOther;
+        interventionSubLocation?:
+          | { '#text': string; '@latitudeAndLongitude'?: GIS }
+          | string
+          | ({ '#text': string; '@latitudeAndLongitude'?: GIS } | string)[];
+        intervensionSubLocation?:
+          { '#text'?: string; '@latitudeAndLongitude'?: GIS } | string;
       };
       impactModel: {
         modelName: ST;
@@ -120,7 +162,16 @@ export interface Lciamethods {
           | 'AoP-Damage model'
           | 'Carrying capacity'
           | 'Resource dissipation'
-          | 'other';
+          | 'other'
+          | (
+              | 'Distance-to-target'
+              | 'Critical surface-time'
+              | 'Effective volumes'
+              | 'AoP-Damage model'
+              | 'Carrying capacity'
+              | 'Resource dissipation'
+              | 'other'
+            )[];
         deviationsFromLCIAMethodPrinciple?: FTMultiLang;
         normalisation?: boolean;
         referenceToUsableNormalisationDataSets?: GlobalReferenceType;
@@ -140,83 +191,355 @@ export interface Lciamethods {
         inventoryItems?: Int6;
       };
       validation: {
-        review: {
-          '@type':
-            | 'Dependent internal review'
-            | 'Independent internal review'
-            | 'Independent external review'
-            | 'Accredited third party review'
-            | 'Independent review panel'
-            | 'Not reviewed';
-          'common:scope'?:
-            | {
-                '@name':
-                  | 'Substance properties, physical and chemical'
-                  | 'Substance properties, biological'
-                  | 'Model for Transport and Fate'
-                  | 'Model for Exposure'
-                  | 'Model for Effect'
-                  | 'Model for Damage'
-                  | 'Characterisation factors'
-                  | 'Application of model'
-                  | 'Normalisation'
-                  | 'Weighting'
-                  | 'Documentation';
-                'common:method':
-                  | {
-                      '@name':
-                        | 'Recollection / Validation of data'
-                        | 'Recalculation'
-                        | 'Cross-check with other source'
-                        | 'Cross-check with other LCIA method(ology)'
-                        | 'Expert judgement';
-                    }
-                  | {
-                      '@name':
-                        | 'Recollection / Validation of data'
-                        | 'Recalculation'
-                        | 'Cross-check with other source'
-                        | 'Cross-check with other LCIA method(ology)'
-                        | 'Expert judgement';
-                    }[];
-              }
-            | {
-                '@name':
-                  | 'Substance properties, physical and chemical'
-                  | 'Substance properties, biological'
-                  | 'Model for Transport and Fate'
-                  | 'Model for Exposure'
-                  | 'Model for Effect'
-                  | 'Model for Damage'
-                  | 'Characterisation factors'
-                  | 'Application of model'
-                  | 'Normalisation'
-                  | 'Weighting'
-                  | 'Documentation';
-                'common:method':
-                  | {
-                      '@name':
-                        | 'Recollection / Validation of data'
-                        | 'Recalculation'
-                        | 'Cross-check with other source'
-                        | 'Cross-check with other LCIA method(ology)'
-                        | 'Expert judgement';
-                    }
-                  | {
-                      '@name':
-                        | 'Recollection / Validation of data'
-                        | 'Recalculation'
-                        | 'Cross-check with other source'
-                        | 'Cross-check with other LCIA method(ology)'
-                        | 'Expert judgement';
-                    }[];
-              }[];
-          'common:reviewDetails'?: FTMultiLang;
-          'common:referenceToNameOfReviewerAndInstitution'?: GlobalReferenceType;
-          'common:otherReviewDetails'?: FTMultiLang;
-          'common:referenceToCompleteReviewReport'?: GlobalReferenceType;
-          'common:other'?: CommonOther;
-        };
+        review:
+          | {
+              '@type':
+                | 'Dependent internal review'
+                | 'Independent internal review'
+                | 'Independent external review'
+                | 'Accredited third party review'
+                | 'Independent review panel'
+                | 'Not reviewed';
+              'common:reviewDetails'?: FTMultiLang;
+              'common:referenceToNameOfReviewerAndInstitution'?: GlobalReferenceType;
+              'common:otherReviewDetails'?: FTMultiLang;
+              'common:referenceToCompleteReviewReport'?: GlobalReferenceType;
+              'common:other'?: CommonOther;
+              scope?:
+                | {
+                    '@name':
+                      | 'Substance properties, physical and chemical'
+                      | 'Substance properties, biological'
+                      | 'Model for Transport and Fate'
+                      | 'Model for Exposure'
+                      | 'Model for Effect'
+                      | 'Model for Damage'
+                      | 'Characterisation factors'
+                      | 'Application of model'
+                      | 'Normalisation'
+                      | 'Weighting'
+                      | 'Documentation';
+                    method?:
+                      | {
+                          '@name':
+                            | 'Recollection / Validation of data'
+                            | 'Recalculation'
+                            | 'Cross-check with other source'
+                            | 'Cross-check with other LCIA method(ology)'
+                            | 'Expert judgement';
+                        }
+                      | {
+                          '@name':
+                            | 'Recollection / Validation of data'
+                            | 'Recalculation'
+                            | 'Cross-check with other source'
+                            | 'Cross-check with other LCIA method(ology)'
+                            | 'Expert judgement';
+                        }[];
+                    'common:method'?:
+                      | {
+                          '@name':
+                            | 'Recollection / Validation of data'
+                            | 'Recalculation'
+                            | 'Cross-check with other source'
+                            | 'Cross-check with other LCIA method(ology)'
+                            | 'Expert judgement';
+                        }
+                      | {
+                          '@name':
+                            | 'Recollection / Validation of data'
+                            | 'Recalculation'
+                            | 'Cross-check with other source'
+                            | 'Cross-check with other LCIA method(ology)'
+                            | 'Expert judgement';
+                        }[];
+                  }
+                | {
+                    '@name':
+                      | 'Substance properties, physical and chemical'
+                      | 'Substance properties, biological'
+                      | 'Model for Transport and Fate'
+                      | 'Model for Exposure'
+                      | 'Model for Effect'
+                      | 'Model for Damage'
+                      | 'Characterisation factors'
+                      | 'Application of model'
+                      | 'Normalisation'
+                      | 'Weighting'
+                      | 'Documentation';
+                    method?:
+                      | {
+                          '@name':
+                            | 'Recollection / Validation of data'
+                            | 'Recalculation'
+                            | 'Cross-check with other source'
+                            | 'Cross-check with other LCIA method(ology)'
+                            | 'Expert judgement';
+                        }
+                      | {
+                          '@name':
+                            | 'Recollection / Validation of data'
+                            | 'Recalculation'
+                            | 'Cross-check with other source'
+                            | 'Cross-check with other LCIA method(ology)'
+                            | 'Expert judgement';
+                        }[];
+                    'common:method'?:
+                      | {
+                          '@name':
+                            | 'Recollection / Validation of data'
+                            | 'Recalculation'
+                            | 'Cross-check with other source'
+                            | 'Cross-check with other LCIA method(ology)'
+                            | 'Expert judgement';
+                        }
+                      | {
+                          '@name':
+                            | 'Recollection / Validation of data'
+                            | 'Recalculation'
+                            | 'Cross-check with other source'
+                            | 'Cross-check with other LCIA method(ology)'
+                            | 'Expert judgement';
+                        }[];
+                  }[];
+              'common:scope'?:
+                | {
+                    '@name':
+                      | 'Substance properties, physical and chemical'
+                      | 'Substance properties, biological'
+                      | 'Model for Transport and Fate'
+                      | 'Model for Exposure'
+                      | 'Model for Effect'
+                      | 'Model for Damage'
+                      | 'Characterisation factors'
+                      | 'Application of model'
+                      | 'Normalisation'
+                      | 'Weighting'
+                      | 'Documentation';
+                    'common:method':
+                      | {
+                          '@name':
+                            | 'Recollection / Validation of data'
+                            | 'Recalculation'
+                            | 'Cross-check with other source'
+                            | 'Cross-check with other LCIA method(ology)'
+                            | 'Expert judgement';
+                        }
+                      | {
+                          '@name':
+                            | 'Recollection / Validation of data'
+                            | 'Recalculation'
+                            | 'Cross-check with other source'
+                            | 'Cross-check with other LCIA method(ology)'
+                            | 'Expert judgement';
+                        }[];
+                  }
+                | {
+                    '@name':
+                      | 'Substance properties, physical and chemical'
+                      | 'Substance properties, biological'
+                      | 'Model for Transport and Fate'
+                      | 'Model for Exposure'
+                      | 'Model for Effect'
+                      | 'Model for Damage'
+                      | 'Characterisation factors'
+                      | 'Application of model'
+                      | 'Normalisation'
+                      | 'Weighting'
+                      | 'Documentation';
+                    'common:method':
+                      | {
+                          '@name':
+                            | 'Recollection / Validation of data'
+                            | 'Recalculation'
+                            | 'Cross-check with other source'
+                            | 'Cross-check with other LCIA method(ology)'
+                            | 'Expert judgement';
+                        }
+                      | {
+                          '@name':
+                            | 'Recollection / Validation of data'
+                            | 'Recalculation'
+                            | 'Cross-check with other source'
+                            | 'Cross-check with other LCIA method(ology)'
+                            | 'Expert judgement';
+                        }[];
+                  }[];
+            }
+          | {
+              '@type':
+                | 'Dependent internal review'
+                | 'Independent internal review'
+                | 'Independent external review'
+                | 'Accredited third party review'
+                | 'Independent review panel'
+                | 'Not reviewed';
+              'common:reviewDetails'?: FTMultiLang;
+              'common:referenceToNameOfReviewerAndInstitution'?: GlobalReferenceType;
+              'common:otherReviewDetails'?: FTMultiLang;
+              'common:referenceToCompleteReviewReport'?: GlobalReferenceType;
+              'common:other'?: CommonOther;
+              scope?:
+                | {
+                    '@name':
+                      | 'Substance properties, physical and chemical'
+                      | 'Substance properties, biological'
+                      | 'Model for Transport and Fate'
+                      | 'Model for Exposure'
+                      | 'Model for Effect'
+                      | 'Model for Damage'
+                      | 'Characterisation factors'
+                      | 'Application of model'
+                      | 'Normalisation'
+                      | 'Weighting'
+                      | 'Documentation';
+                    method?:
+                      | {
+                          '@name':
+                            | 'Recollection / Validation of data'
+                            | 'Recalculation'
+                            | 'Cross-check with other source'
+                            | 'Cross-check with other LCIA method(ology)'
+                            | 'Expert judgement';
+                        }
+                      | {
+                          '@name':
+                            | 'Recollection / Validation of data'
+                            | 'Recalculation'
+                            | 'Cross-check with other source'
+                            | 'Cross-check with other LCIA method(ology)'
+                            | 'Expert judgement';
+                        }[];
+                    'common:method'?:
+                      | {
+                          '@name':
+                            | 'Recollection / Validation of data'
+                            | 'Recalculation'
+                            | 'Cross-check with other source'
+                            | 'Cross-check with other LCIA method(ology)'
+                            | 'Expert judgement';
+                        }
+                      | {
+                          '@name':
+                            | 'Recollection / Validation of data'
+                            | 'Recalculation'
+                            | 'Cross-check with other source'
+                            | 'Cross-check with other LCIA method(ology)'
+                            | 'Expert judgement';
+                        }[];
+                  }
+                | {
+                    '@name':
+                      | 'Substance properties, physical and chemical'
+                      | 'Substance properties, biological'
+                      | 'Model for Transport and Fate'
+                      | 'Model for Exposure'
+                      | 'Model for Effect'
+                      | 'Model for Damage'
+                      | 'Characterisation factors'
+                      | 'Application of model'
+                      | 'Normalisation'
+                      | 'Weighting'
+                      | 'Documentation';
+                    method?:
+                      | {
+                          '@name':
+                            | 'Recollection / Validation of data'
+                            | 'Recalculation'
+                            | 'Cross-check with other source'
+                            | 'Cross-check with other LCIA method(ology)'
+                            | 'Expert judgement';
+                        }
+                      | {
+                          '@name':
+                            | 'Recollection / Validation of data'
+                            | 'Recalculation'
+                            | 'Cross-check with other source'
+                            | 'Cross-check with other LCIA method(ology)'
+                            | 'Expert judgement';
+                        }[];
+                    'common:method'?:
+                      | {
+                          '@name':
+                            | 'Recollection / Validation of data'
+                            | 'Recalculation'
+                            | 'Cross-check with other source'
+                            | 'Cross-check with other LCIA method(ology)'
+                            | 'Expert judgement';
+                        }
+                      | {
+                          '@name':
+                            | 'Recollection / Validation of data'
+                            | 'Recalculation'
+                            | 'Cross-check with other source'
+                            | 'Cross-check with other LCIA method(ology)'
+                            | 'Expert judgement';
+                        }[];
+                  }[];
+              'common:scope'?:
+                | {
+                    '@name':
+                      | 'Substance properties, physical and chemical'
+                      | 'Substance properties, biological'
+                      | 'Model for Transport and Fate'
+                      | 'Model for Exposure'
+                      | 'Model for Effect'
+                      | 'Model for Damage'
+                      | 'Characterisation factors'
+                      | 'Application of model'
+                      | 'Normalisation'
+                      | 'Weighting'
+                      | 'Documentation';
+                    'common:method':
+                      | {
+                          '@name':
+                            | 'Recollection / Validation of data'
+                            | 'Recalculation'
+                            | 'Cross-check with other source'
+                            | 'Cross-check with other LCIA method(ology)'
+                            | 'Expert judgement';
+                        }
+                      | {
+                          '@name':
+                            | 'Recollection / Validation of data'
+                            | 'Recalculation'
+                            | 'Cross-check with other source'
+                            | 'Cross-check with other LCIA method(ology)'
+                            | 'Expert judgement';
+                        }[];
+                  }
+                | {
+                    '@name':
+                      | 'Substance properties, physical and chemical'
+                      | 'Substance properties, biological'
+                      | 'Model for Transport and Fate'
+                      | 'Model for Exposure'
+                      | 'Model for Effect'
+                      | 'Model for Damage'
+                      | 'Characterisation factors'
+                      | 'Application of model'
+                      | 'Normalisation'
+                      | 'Weighting'
+                      | 'Documentation';
+                    'common:method':
+                      | {
+                          '@name':
+                            | 'Recollection / Validation of data'
+                            | 'Recalculation'
+                            | 'Cross-check with other source'
+                            | 'Cross-check with other LCIA method(ology)'
+                            | 'Expert judgement';
+                        }
+                      | {
+                          '@name':
+                            | 'Recollection / Validation of data'
+                            | 'Recalculation'
+                            | 'Cross-check with other source'
+                            | 'Cross-check with other LCIA method(ology)'
+                            | 'Expert judgement';
+                        }[];
+                  }[];
+            }[];
         'common:other'?: CommonOther;
       };
       complianceDeclarations: {
@@ -332,9 +655,18 @@ export interface Lciamethods {
               | 'Level III'
               | 'Interim'
               | 'Not recommended';
-            referenceToDataSource?: GlobalReferenceType;
             generalComment?: StringMultiLang;
             'common:other'?: CommonOther;
+            referencesToDataSource?: {
+              referenceToDataSource: GlobalReferenceType;
+              'common:other'?: CommonOther;
+            };
+            referenceToDataSource?:
+              | GlobalReferenceType
+              | {
+                  referenceToDataSource: GlobalReferenceType;
+                  'common:other'?: CommonOther;
+                };
           }
         | {
             referenceToFlowDataSet: GlobalReferenceType;
@@ -359,10 +691,18 @@ export interface Lciamethods {
               | 'Level III'
               | 'Interim'
               | 'Not recommended';
-            referenceToDataSource?: {
-              referenceToDataSource?: GlobalReferenceType;
-            };
             generalComment?: StringMultiLang;
+            referencesToDataSource?: {
+              referenceToDataSource: GlobalReferenceType;
+              'common:other'?: CommonOther;
+            };
+            referenceToDataSource?:
+              | GlobalReferenceType
+              | {
+                  referenceToDataSource: GlobalReferenceType;
+                  'common:other'?: CommonOther;
+                };
+            'common:other'?: CommonOther;
           }[];
       'common:other'?: CommonOther;
     };

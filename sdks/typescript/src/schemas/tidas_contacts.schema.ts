@@ -45,39 +45,68 @@ export const ContactsSchema = z.object({
         'common:shortName': RequiredStringMultiLangSchema,
         'common:name': RequiredStringMultiLangSchema,
         classificationInformation: z.object({
-          'common:classification': z.object({
-            'common:class': z.union([
-              jsonSchemaTuple(
-                [
-                  withJsonSchemaDependencies(
-                    z.object({
-                      '@level': z.intersection(z.literal('0'), LevelTypeSchema),
-                      '@classId': z.string(),
-                      '#text': z.string(),
-                    }),
-                    [{ property: '@level', schema: ContactSchema }],
-                  ),
-                  withJsonSchemaDependencies(
-                    z.object({
-                      '@level': z.intersection(z.literal('1'), LevelTypeSchema),
-                      '@classId': z.string(),
-                      '#text': z.string(),
-                    }),
-                    [{ property: '@level', schema: ContactSchema }],
-                  ),
-                ],
-                { additionalItems: false, maxItems: 2, uniqueItems: true },
-              ),
-              withJsonSchemaDependencies(
+          'common:classification': z.union([
+            z.object({
+              'common:class': z.union([
+                jsonSchemaTuple(
+                  [
+                    withJsonSchemaDependencies(
+                      z.object({
+                        '@level': z.intersection(
+                          z.literal('0'),
+                          LevelTypeSchema,
+                        ),
+                        '@classId': z.string(),
+                        '#text': z.string(),
+                      }),
+                      [{ property: '@level', schema: ContactSchema }],
+                    ),
+                    withJsonSchemaDependencies(
+                      z.object({
+                        '@level': z.intersection(
+                          z.literal('1'),
+                          LevelTypeSchema,
+                        ),
+                        '@classId': z.string(),
+                        '#text': z.string(),
+                      }),
+                      [{ property: '@level', schema: ContactSchema }],
+                    ),
+                  ],
+                  { additionalItems: false, maxItems: 2, uniqueItems: true },
+                ),
+                withJsonSchemaDependencies(
+                  z.object({
+                    '@level': z.intersection(z.literal('0'), LevelTypeSchema),
+                    '@classId': z.string(),
+                    '#text': z.string(),
+                  }),
+                  [{ property: '@level', schema: ContactSchema }],
+                ),
+              ]),
+              '@name': z.string().optional(),
+              '@classes': z.string().optional(),
+              'common:other': CommonOtherSchema.optional(),
+            }),
+            z
+              .array(
                 z.object({
-                  '@level': z.intersection(z.literal('0'), LevelTypeSchema),
-                  '@classId': z.string(),
-                  '#text': z.string(),
+                  '@name': z.string(),
+                  '@classes': z.string().optional(),
+                  'common:class': z
+                    .array(
+                      z.object({
+                        '@level': LevelTypeSchema,
+                        '@classId': z.string(),
+                        '#text': z.string(),
+                      }),
+                    )
+                    .min(1),
+                  'common:other': CommonOtherSchema.optional(),
                 }),
-                [{ property: '@level', schema: ContactSchema }],
-              ),
-            ]),
-          }),
+              )
+              .min(1),
+          ]),
           'common:other': CommonOtherSchema.optional(),
         }),
         contactAddress: STMultiLangSchema.optional(),

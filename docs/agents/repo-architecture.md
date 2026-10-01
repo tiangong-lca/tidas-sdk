@@ -26,9 +26,9 @@ checkPaths:
   - scripts/docpact
   - scripts/docpact-gate.sh
   - scripts/install-git-hooks.sh
-lastReviewedAt: 2026-09-24
-lastReviewedCommit: 04b6ac2c9566ba0209cebfe4cc56b6eef5a56845
-lastReviewedNote: "Reviewed SDK #156: spec/public-rule identities advance together and the Python generator adds a Process quantitative-reference Pydantic validator; package topology and release ownership remain unchanged."
+lastReviewedAt: 2026-10-01
+lastReviewedCommit: ebaaf22172af0fae89a77ef80dc2cd589f641dbe
+lastReviewedNote: "Reviewed SDK #158: formal spec 0.3.0 identity and TypeScript 0.5.0 / Python 0.3.0 release preparation preserve exact-source generation, alias validation and normal tag-driven publication."
 related:
   - ../../AGENTS.md
   - ../../.docpact/config.yaml
@@ -148,3 +148,6 @@ This release model is part of the repo architecture, not just a release checklis
 ## Local Docpact Push Gate
 
 This repository has a versioned local `pre-push` hook under `.githooks/pre-push` that, except for validated branch-deletion-only pushes, delegates to `scripts/docpact-gate.sh` and then runs both package verification scripts. The gate resolves the CLI through `scripts/docpact`, so local agent shells do not need bare `docpact` on `PATH`. The hook is the local guard for docpact config validation, enforced doc-governance linting, and package tests; the GitHub `CI` workflow is manual-dispatch only.
+
+
+The ILCD compatibility candidate extends generated singletons with repeated fields and named classifications. The Zod generator treats `$comment` as an annotation and supports the narrowly defined `not`/`required` form used for conflicting aliases; unsupported negation remains a generation error. TypeScript array generation groups union and intersection item types before appending `[]`. Platform policy, including review eligibility and deliberately required documentation, is not relaxed by these public shape changes.

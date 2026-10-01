@@ -28,9 +28,9 @@ checkPaths:
   - scripts/docpact
   - scripts/docpact-gate.sh
   - scripts/install-git-hooks.sh
-lastReviewedAt: 2026-09-24
-lastReviewedCommit: 04b6ac2c9566ba0209cebfe4cc56b6eef5a56845
-lastReviewedNote: "Reviewed SDK #156: exact-archive public-rule pin, conditional Process schema and bilingual non-flow tests are covered by both canonical package verifiers and automation regressions."
+lastReviewedAt: 2026-10-01
+lastReviewedCommit: ebaaf22172af0fae89a77ef80dc2cd589f641dbe
+lastReviewedNote: "Reviewed SDK #158: formal spec 0.3.0 identity and TypeScript 0.5.0 / Python 0.3.0 release preparation preserve exact-source generation, alias validation and normal tag-driven publication."
 related:
   - ../../AGENTS.md
   - ../../.docpact/config.yaml
@@ -173,3 +173,10 @@ failure all retain ordered Docpact, TypeScript and Python gates. This is not an
 environment-selected bypass. `sh scripts/ci/test-pre-push.sh` exercises the real
 hook with isolated gate transports; the existing automation suite includes it.
 Direct canonical verification and release-time package proof remain unchanged.
+
+
+### ILCD compatibility release qualification
+
+SDK #158 consumes formal spec `0.3.0` at `32e1ba38da7d5f4f6245c6c1927f83b326cd5404`. The package-input and public-rule pins must bind the same released archive and manifest. Both canonical package verifiers must pass with the existing exact tools pin before tag-driven TypeScript `0.5.0` and Python `0.3.0` publication. Generator tests cover annotation-only `$comment`, bounded `not: { required: [...] }` alias exclusion, and parenthesized enum-array TypeScript output. Generated-schema tests exercise repeated Process/Flow fields, named classifications, model scaling aliases, LCIA geography aliases and strict unit items. Platform must verify the actual released package outside its Jest SDK mapper.
+
+Python object generation preserves `allOf` negated-required groups through normalization and emits model validators using explicit field presence. Regression cases require either scaling/geography alias alone to pass and both aliases together to fail, including Python field-name input. This closes the gap between shipped JSON Schema validation and direct Pydantic construction.

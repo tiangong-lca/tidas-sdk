@@ -84,7 +84,7 @@ describe('TIDAS contract helpers', () => {
     );
   });
 
-  it('binds the public index to the exact pinned formal release source', () => {
+  it('binds the public index to the exact pinned released source', () => {
     const selection = getTidasPublicRules('flow');
     const indexPath = path.join(
       __dirname,

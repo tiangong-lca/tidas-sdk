@@ -351,7 +351,7 @@ export class TidasFlow extends TidasEntity<Flow> {
   ): string | undefined {
     const location = flowInfo?.geography?.locationOfSupply;
     if (!location) return undefined;
-    return `**Location of Supply:** ${location}`;
+    return `**Location of Supply:** ${Array.isArray(location) ? location.join("; ") : location}`;
   }
 
   private technology(

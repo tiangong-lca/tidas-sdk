@@ -27,14 +27,27 @@ export interface Sources {
         'common:UUID': UUID;
         'common:shortName': StringMultiLang;
         classificationInformation: {
-          'common:classification': {
-            'common:class': {
-              '@level': LevelType;
-              '@classId': string;
-              '#text': string;
-            };
-            'common:other'?: CommonOther;
-          };
+          'common:classification':
+            | {
+                'common:class': {
+                  '@level': LevelType;
+                  '@classId': string;
+                  '#text': string;
+                };
+                'common:other'?: CommonOther;
+                '@name'?: string;
+                '@classes'?: string;
+              }
+            | {
+                '@name': string;
+                '@classes'?: string;
+                'common:class': {
+                  '@level': LevelType;
+                  '@classId': string;
+                  '#text': string;
+                }[];
+                'common:other'?: CommonOther;
+              }[];
         };
         sourceCitation?: string;
         publicationType?:

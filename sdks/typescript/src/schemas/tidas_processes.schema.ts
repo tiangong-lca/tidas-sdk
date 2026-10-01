@@ -365,7 +365,9 @@ export const ProcessesSchema = z.object({
               ]),
               z.string(),
             ),
-            referenceToReferenceFlow: Int6Schema.optional(),
+            referenceToReferenceFlow: z
+              .union([Int6Schema, z.array(Int6Schema).min(1)])
+              .optional(),
             functionalUnitOrOther: StringMultiLangSchema.optional(),
             'common:other': CommonOtherSchema.optional(),
           }),
@@ -398,12 +400,24 @@ export const ProcessesSchema = z.object({
           'common:other': CommonOtherSchema.optional(),
         }),
         subLocationOfOperationSupplyOrProduction: z
-          .object({
-            '@subLocation': LocationsCategorySchema.optional(),
-            '@latitudeAndLongitude': GISSchema.optional(),
-            descriptionOfRestrictions: FTMultiLangSchema.optional(),
-            'common:other': CommonOtherSchema.optional(),
-          })
+          .union([
+            z.object({
+              '@subLocation': LocationsCategorySchema.optional(),
+              '@latitudeAndLongitude': GISSchema.optional(),
+              descriptionOfRestrictions: FTMultiLangSchema.optional(),
+              'common:other': CommonOtherSchema.optional(),
+            }),
+            z
+              .array(
+                z.object({
+                  '@subLocation': LocationsCategorySchema.optional(),
+                  '@latitudeAndLongitude': GISSchema.optional(),
+                  descriptionOfRestrictions: FTMultiLangSchema.optional(),
+                  'common:other': CommonOtherSchema.optional(),
+                }),
+              )
+              .min(1),
+          ])
           .optional(),
         'common:other': CommonOtherSchema.optional(),
       }),
@@ -423,28 +437,56 @@ export const ProcessesSchema = z.object({
         .object({
           modelDescription: FTMultiLangSchema.optional(),
           variableParameter: z
-            .object({
-              '@name': MatVSchema.optional(),
-              formula: MatRSchema.optional(),
-              meanValue: RealSchema.optional(),
-              minimumValue: RealSchema.optional(),
-              maximumValue: RealSchema.optional(),
-              uncertaintyDistributionType: z
-                .intersection(
-                  z.union([
-                    z.literal('undefined'),
-                    z.literal('log-normal'),
-                    z.literal('normal'),
-                    z.literal('triangular'),
-                    z.literal('uniform'),
-                  ]),
-                  z.string(),
+            .union([
+              z.object({
+                '@name': MatVSchema,
+                formula: MatRSchema.optional(),
+                meanValue: RealSchema.optional(),
+                minimumValue: RealSchema.optional(),
+                maximumValue: RealSchema.optional(),
+                uncertaintyDistributionType: z
+                  .intersection(
+                    z.union([
+                      z.literal('undefined'),
+                      z.literal('log-normal'),
+                      z.literal('normal'),
+                      z.literal('triangular'),
+                      z.literal('uniform'),
+                    ]),
+                    z.string(),
+                  )
+                  .optional(),
+                relativeStandardDeviation95In: PercSchema.optional(),
+                comment: StringMultiLangSchema.optional(),
+                'common:other': CommonOtherSchema.optional(),
+              }),
+              z
+                .array(
+                  z.object({
+                    '@name': MatVSchema,
+                    formula: MatRSchema.optional(),
+                    meanValue: RealSchema.optional(),
+                    minimumValue: RealSchema.optional(),
+                    maximumValue: RealSchema.optional(),
+                    uncertaintyDistributionType: z
+                      .intersection(
+                        z.union([
+                          z.literal('undefined'),
+                          z.literal('log-normal'),
+                          z.literal('normal'),
+                          z.literal('triangular'),
+                          z.literal('uniform'),
+                        ]),
+                        z.string(),
+                      )
+                      .optional(),
+                    relativeStandardDeviation95In: PercSchema.optional(),
+                    comment: StringMultiLangSchema.optional(),
+                    'common:other': CommonOtherSchema.optional(),
+                  }),
                 )
-                .optional(),
-              relativeStandardDeviation95In: PercSchema.optional(),
-              comment: StringMultiLangSchema.optional(),
-              'common:other': CommonOtherSchema.optional(),
-            })
+                .min(1),
+            ])
             .optional(),
           'common:other': CommonOtherSchema.optional(),
         })
@@ -479,36 +521,74 @@ export const ProcessesSchema = z.object({
           .optional(),
         deviationsFromLCIMethodPrinciple: FTMultiLangSchema.optional(),
         LCIMethodApproaches: z
-          .intersection(
-            z.union([
-              z.literal('Allocation - market value'),
-              z.literal('Allocation - gross calorific value'),
-              z.literal('Allocation - net calorific value'),
-              z.literal('Allocation - exergetic content'),
-              z.literal('Allocation - element content'),
-              z.literal('Allocation - mass'),
-              z.literal('Allocation - volume'),
-              z.literal('Allocation - ability to bear'),
-              z.literal('Allocation - marginal causality'),
-              z.literal('Allocation - physical causality'),
-              z.literal('Allocation - 100% to main function'),
-              z.literal('Allocation - other explicit assignment'),
-              z.literal('Allocation - equal distribution'),
-              z.literal('Substitution - BAT'),
-              z.literal('Substitution - average, market price correction'),
-              z.literal(
-                'Substitution - average, technical properties correction',
-              ),
-              z.literal('Allocation - recycled content'),
-              z.literal('Substitution - recycling potential'),
-              z.literal('Substitution - average, no correction'),
-              z.literal('Substitution - specific'),
-              z.literal('Consequential effects - other'),
-              z.literal('Not applicable'),
-              z.literal('Other'),
-            ]),
-            z.string(),
-          )
+          .union([
+            z.intersection(
+              z.union([
+                z.literal('Allocation - market value'),
+                z.literal('Allocation - gross calorific value'),
+                z.literal('Allocation - net calorific value'),
+                z.literal('Allocation - exergetic content'),
+                z.literal('Allocation - element content'),
+                z.literal('Allocation - mass'),
+                z.literal('Allocation - volume'),
+                z.literal('Allocation - ability to bear'),
+                z.literal('Allocation - marginal causality'),
+                z.literal('Allocation - physical causality'),
+                z.literal('Allocation - 100% to main function'),
+                z.literal('Allocation - other explicit assignment'),
+                z.literal('Allocation - equal distribution'),
+                z.literal('Substitution - BAT'),
+                z.literal('Substitution - average, market price correction'),
+                z.literal(
+                  'Substitution - average, technical properties correction',
+                ),
+                z.literal('Allocation - recycled content'),
+                z.literal('Substitution - recycling potential'),
+                z.literal('Substitution - average, no correction'),
+                z.literal('Substitution - specific'),
+                z.literal('Consequential effects - other'),
+                z.literal('Not applicable'),
+                z.literal('Other'),
+              ]),
+              z.string(),
+            ),
+            z
+              .array(
+                z.intersection(
+                  z.union([
+                    z.literal('Allocation - market value'),
+                    z.literal('Allocation - gross calorific value'),
+                    z.literal('Allocation - net calorific value'),
+                    z.literal('Allocation - exergetic content'),
+                    z.literal('Allocation - element content'),
+                    z.literal('Allocation - mass'),
+                    z.literal('Allocation - volume'),
+                    z.literal('Allocation - ability to bear'),
+                    z.literal('Allocation - marginal causality'),
+                    z.literal('Allocation - physical causality'),
+                    z.literal('Allocation - 100% to main function'),
+                    z.literal('Allocation - other explicit assignment'),
+                    z.literal('Allocation - equal distribution'),
+                    z.literal('Substitution - BAT'),
+                    z.literal(
+                      'Substitution - average, market price correction',
+                    ),
+                    z.literal(
+                      'Substitution - average, technical properties correction',
+                    ),
+                    z.literal('Allocation - recycled content'),
+                    z.literal('Substitution - recycling potential'),
+                    z.literal('Substitution - average, no correction'),
+                    z.literal('Substitution - specific'),
+                    z.literal('Consequential effects - other'),
+                    z.literal('Not applicable'),
+                    z.literal('Other'),
+                  ]),
+                  z.string(),
+                ),
+              )
+              .min(1),
+          ])
           .optional(),
         deviationsFromLCIMethodApproaches: FTMultiLangSchema.optional(),
         modellingConstants: FTMultiLangSchema.optional(),
@@ -557,44 +637,92 @@ export const ProcessesSchema = z.object({
           referenceToSupportedImpactAssessmentMethods:
             GlobalReferenceTypeSchema.optional(),
           completenessElementaryFlows: z
-            .object({
-              '@type': z
-                .intersection(
-                  z.union([
-                    z.literal('Climate change'),
-                    z.literal('Ozone depletion'),
-                    z.literal('Summer smog'),
-                    z.literal('Eutrophication'),
-                    z.literal('Acidification'),
-                    z.literal('Human toxicity'),
-                    z.literal('Freshwater ecotoxicity'),
-                    z.literal('Seawater eco-toxicity'),
-                    z.literal('Terrestric eco-toxicity'),
-                    z.literal('Radioactivity'),
-                    z.literal('Land use'),
-                    z.literal('Non-renewable material resource depletion'),
-                    z.literal('Renewable material resource consumption'),
-                    z.literal('Non-renewable primary energy depletion'),
-                    z.literal('Renewable primary energy consumption'),
-                    z.literal('Particulate matter/respiratory inorganics'),
-                    z.literal('Species depletion'),
-                    z.literal('Noise'),
-                  ]),
-                  z.string(),
+            .union([
+              z.object({
+                '@type': z
+                  .intersection(
+                    z.union([
+                      z.literal('Climate change'),
+                      z.literal('Ozone depletion'),
+                      z.literal('Summer smog'),
+                      z.literal('Eutrophication'),
+                      z.literal('Acidification'),
+                      z.literal('Human toxicity'),
+                      z.literal('Freshwater ecotoxicity'),
+                      z.literal('Seawater eco-toxicity'),
+                      z.literal('Terrestric eco-toxicity'),
+                      z.literal('Radioactivity'),
+                      z.literal('Land use'),
+                      z.literal('Non-renewable material resource depletion'),
+                      z.literal('Renewable material resource consumption'),
+                      z.literal('Non-renewable primary energy depletion'),
+                      z.literal('Renewable primary energy consumption'),
+                      z.literal('Particulate matter/respiratory inorganics'),
+                      z.literal('Species depletion'),
+                      z.literal('Noise'),
+                    ]),
+                    z.string(),
+                  )
+                  .optional(),
+                '@value': z
+                  .intersection(
+                    z.union([
+                      z.literal('All relevant flows quantified'),
+                      z.literal('Relevant flows missing'),
+                      z.literal('Topic not relevant'),
+                      z.literal('No statement'),
+                    ]),
+                    z.string(),
+                  )
+                  .optional(),
+              }),
+              z
+                .array(
+                  z.object({
+                    '@type': z
+                      .intersection(
+                        z.union([
+                          z.literal('Climate change'),
+                          z.literal('Ozone depletion'),
+                          z.literal('Summer smog'),
+                          z.literal('Eutrophication'),
+                          z.literal('Acidification'),
+                          z.literal('Human toxicity'),
+                          z.literal('Freshwater ecotoxicity'),
+                          z.literal('Seawater eco-toxicity'),
+                          z.literal('Terrestric eco-toxicity'),
+                          z.literal('Radioactivity'),
+                          z.literal('Land use'),
+                          z.literal(
+                            'Non-renewable material resource depletion',
+                          ),
+                          z.literal('Renewable material resource consumption'),
+                          z.literal('Non-renewable primary energy depletion'),
+                          z.literal('Renewable primary energy consumption'),
+                          z.literal(
+                            'Particulate matter/respiratory inorganics',
+                          ),
+                          z.literal('Species depletion'),
+                          z.literal('Noise'),
+                        ]),
+                        z.string(),
+                      )
+                      .optional(),
+                    '@value': z
+                      .intersection(
+                        z.union([
+                          z.literal('All relevant flows quantified'),
+                          z.literal('Relevant flows missing'),
+                          z.literal('Topic not relevant'),
+                          z.literal('No statement'),
+                        ]),
+                        z.string(),
+                      )
+                      .optional(),
+                  }),
                 )
-                .optional(),
-              '@value': z
-                .intersection(
-                  z.union([
-                    z.literal('All relevant flows quantified'),
-                    z.literal('Relevant flows missing'),
-                    z.literal('Topic not relevant'),
-                    z.literal('No statement'),
-                  ]),
-                  z.string(),
-                )
-                .optional(),
-            })
+                .min(1),
+            ])
             .optional(),
           completenessOtherProblemField: FTMultiLangSchema.optional(),
           'common:other': CommonOtherSchema.optional(),
@@ -837,20 +965,18 @@ export const ProcessesSchema = z.object({
           relativeStandardDeviation95In: PercSchema.optional(),
           allocations: z
             .object({
-              allocation: z
-                .union([
+              allocation: z.union([
+                z.object({
+                  '@internalReferenceToCoProduct': Int6Schema.optional(),
+                  '@allocatedFraction': PercSchema.optional(),
+                }),
+                z.array(
                   z.object({
                     '@internalReferenceToCoProduct': Int6Schema.optional(),
                     '@allocatedFraction': PercSchema.optional(),
                   }),
-                  z.array(
-                    z.object({
-                      '@internalReferenceToCoProduct': Int6Schema.optional(),
-                      '@allocatedFraction': PercSchema.optional(),
-                    }),
-                  ),
-                ])
-                .optional(),
+                ),
+              ]),
             })
             .optional(),
           dataSourceType: z

@@ -25,6 +25,39 @@ import { FlowsElementaryCategorySchema } from './tidas_flows_elementary_category
 import { FlowsProductCategorySchema } from './tidas_flows_product_category.schema';
 import { LocationsCategorySchema } from './tidas_locations_category.schema';
 
+export const ElementaryFlowCategorizationSchema = z.object({
+  'common:category': jsonSchemaTuple(
+    [
+      withJsonSchemaDependencies(
+        z.object({
+          '@level': z.intersection(z.literal('0'), LevelTypeSchema),
+          '@catId': z.string(),
+          '#text': z.string(),
+        }),
+        [{ property: '@level', schema: FlowsElementaryCategorySchema }],
+      ),
+      withJsonSchemaDependencies(
+        z.object({
+          '@level': z.intersection(z.literal('1'), LevelTypeSchema),
+          '@catId': z.string(),
+          '#text': z.string(),
+        }),
+        [{ property: '@level', schema: FlowsElementaryCategorySchema }],
+      ),
+      withJsonSchemaDependencies(
+        z.object({
+          '@level': z.intersection(z.literal('2'), LevelTypeSchema),
+          '@catId': z.string(),
+          '#text': z.string(),
+        }),
+        [{ property: '@level', schema: FlowsElementaryCategorySchema }],
+      ),
+    ],
+    { additionalItems: false, maxItems: 3, uniqueItems: true },
+  ),
+  'common:other': CommonOtherSchema.optional(),
+});
+
 const FLOW_NAME_CONDITIONAL_FIELDS = [
   'treatmentStandardsRoutes',
   'mixAndLocationTypes',
@@ -76,62 +109,10 @@ export const FlowsSchema = z
           classificationInformation: z.intersection(
             z.object({
               'common:elementaryFlowCategorization': z
-                .object({
-                  'common:category': jsonSchemaTuple(
-                    [
-                      withJsonSchemaDependencies(
-                        z.object({
-                          '@level': z.intersection(
-                            z.literal('0'),
-                            LevelTypeSchema,
-                          ),
-                          '@catId': z.string(),
-                          '#text': z.string(),
-                        }),
-                        [
-                          {
-                            property: '@level',
-                            schema: FlowsElementaryCategorySchema,
-                          },
-                        ],
-                      ),
-                      withJsonSchemaDependencies(
-                        z.object({
-                          '@level': z.intersection(
-                            z.literal('1'),
-                            LevelTypeSchema,
-                          ),
-                          '@catId': z.string(),
-                          '#text': z.string(),
-                        }),
-                        [
-                          {
-                            property: '@level',
-                            schema: FlowsElementaryCategorySchema,
-                          },
-                        ],
-                      ),
-                      withJsonSchemaDependencies(
-                        z.object({
-                          '@level': z.intersection(
-                            z.literal('2'),
-                            LevelTypeSchema,
-                          ),
-                          '@catId': z.string(),
-                          '#text': z.string(),
-                        }),
-                        [
-                          {
-                            property: '@level',
-                            schema: FlowsElementaryCategorySchema,
-                          },
-                        ],
-                      ),
-                    ],
-                    { additionalItems: false, maxItems: 3, uniqueItems: true },
-                  ),
-                  'common:other': CommonOtherSchema.optional(),
-                })
+                .union([
+                  ElementaryFlowCategorizationSchema,
+                  z.array(ElementaryFlowCategorizationSchema).min(1),
+                ])
                 .optional(),
               'common:classification': z
                 .union([
@@ -266,7 +247,12 @@ export const FlowsSchema = z
         }),
         geography: z
           .object({
-            locationOfSupply: LocationsCategorySchema.optional(),
+            locationOfSupply: z
+              .union([
+                LocationsCategorySchema,
+                z.array(LocationsCategorySchema).min(1),
+              ])
+              .optional(),
             'common:other': CommonOtherSchema.optional(),
           })
           .optional(),

@@ -1,6 +1,8 @@
 // Generated directly from TIDAS JSON Schema: tidas_lifecyclemodels.json
 import { z } from 'zod';
 import {
+  jsonSchemaNotRequired,
+  jsonSchemaOneOf,
   jsonSchemaTuple,
   withJsonSchemaDependencies,
 } from './../core/validation/json-schema';
@@ -135,18 +137,12 @@ export const LifecyclemodelsSchema = z.object({
             group: z
               .union([
                 z.object({
-                  '@id': z
-                    .string()
-                    .regex(/^-?\d+$/)
-                    .optional(),
+                  '@id': z.string().regex(/^-?\d+$/),
                   groupName: StringMultiLangSchema.optional(),
                 }),
                 z.array(
                   z.object({
-                    '@id': z
-                      .string()
-                      .regex(/^-?\d+$/)
-                      .optional(),
+                    '@id': z.string().regex(/^-?\d+$/),
                     groupName: StringMultiLangSchema.optional(),
                   }),
                 ),
@@ -158,49 +154,64 @@ export const LifecyclemodelsSchema = z.object({
           processInstance: z
             .union([
               z.array(
-                z.object({
-                  '@dataSetInternalID': z.string().regex(/^-?\d+$/),
-                  '@multiplicationFactor': z
-                    .string()
-                    .regex(/^-?\d+(\.\d+)?([eE][-+]?\d+)?$/),
-                  referenceToProcess: GlobalReferenceTypeSchema,
-                  scalingFactors: RealSchema.optional(),
-                  groups: z
-                    .object({
-                      memberOf: z
-                        .union([
-                          z.object({
-                            '@groupId': z
-                              .string()
-                              .regex(/^-?\d+$/)
-                              .optional(),
-                          }),
-                          z.array(
+                z.intersection(
+                  z.object({
+                    '@dataSetInternalID': z.string().regex(/^-?\d+$/),
+                    '@multiplicationFactor': z
+                      .string()
+                      .regex(/^-?\d+(\.\d+)?([eE][-+]?\d+)?$/),
+                    referenceToProcess: GlobalReferenceTypeSchema,
+                    groups: z
+                      .object({
+                        memberOf: z
+                          .union([
                             z.object({
-                              '@groupId': z
-                                .string()
-                                .regex(/^-?\d+$/)
-                                .optional(),
+                              '@groupId': z.string().regex(/^-?\d+$/),
                             }),
-                          ),
-                        ])
-                        .optional(),
-                    })
-                    .optional(),
-                  parameters: z
-                    .object({
-                      parameter: z
-                        .union([
-                          z.object({ '@name': MatVSchema.optional() }),
-                          z.array(z.object({ '@name': MatVSchema.optional() })),
-                        ])
-                        .optional(),
-                    })
-                    .optional(),
-                  connections: z
-                    .object({
-                      outputExchange: z
-                        .union([
+                            z.array(
+                              z.object({
+                                '@groupId': z.string().regex(/^-?\d+$/),
+                              }),
+                            ),
+                          ])
+                          .optional(),
+                      })
+                      .optional(),
+                    parameters: z
+                      .object({
+                        parameter: z
+                          .union([
+                            z.intersection(
+                              z.object({
+                                '@name': MatVSchema,
+                                '#text': RealSchema.optional(),
+                                parameter: RealSchema.optional(),
+                              }),
+                              jsonSchemaOneOf([
+                                z.object({ '#text': z.unknown() }),
+                                z.object({ parameter: z.unknown() }),
+                              ]),
+                            ),
+                            z.array(
+                              z.intersection(
+                                z.object({
+                                  '@name': MatVSchema,
+                                  '#text': RealSchema.optional(),
+                                  parameter: RealSchema.optional(),
+                                }),
+                                jsonSchemaOneOf([
+                                  z.object({ '#text': z.unknown() }),
+                                  z.object({ parameter: z.unknown() }),
+                                ]),
+                              ),
+                            ),
+                          ])
+                          .optional(),
+                      })
+                      .optional(),
+                    connections: z
+                      .object({
+                        outputExchange: z.union([
                           z.object({
                             '@dominant': z
                               .intersection(
@@ -297,108 +308,72 @@ export const LifecyclemodelsSchema = z.object({
                               '@version': VersionSchema,
                             }),
                           ),
+                        ]),
+                      })
+                      .optional(),
+                    'common:other': CommonOtherSchema.optional(),
+                    scalingFactor: RealSchema.optional(),
+                    scalingFactors: RealSchema.optional(),
+                  }),
+                  jsonSchemaNotRequired(['scalingFactor', 'scalingFactors']),
+                ),
+              ),
+              z.intersection(
+                z.object({
+                  '@dataSetInternalID': z.string().regex(/^-?\d+$/),
+                  '@multiplicationFactor': z
+                    .string()
+                    .regex(/^-?\d+(\.\d+)?([eE][-+]?\d+)?$/),
+                  referenceToProcess: GlobalReferenceTypeSchema,
+                  groups: z
+                    .object({
+                      memberOf: z
+                        .union([
+                          z.object({ '@groupId': z.string().regex(/^-?\d+$/) }),
+                          z.array(
+                            z.object({
+                              '@groupId': z.string().regex(/^-?\d+$/),
+                            }),
+                          ),
                         ])
                         .optional(),
                     })
                     .optional(),
-                  'common:other': CommonOtherSchema.optional(),
-                }),
-              ),
-              z.object({
-                '@dataSetInternalID': z.string().regex(/^-?\d+$/),
-                '@multiplicationFactor': z
-                  .string()
-                  .regex(/^-?\d+(\.\d+)?([eE][-+]?\d+)?$/),
-                referenceToProcess: GlobalReferenceTypeSchema,
-                scalingFactors: RealSchema.optional(),
-                groups: z
-                  .object({
-                    memberOf: z
-                      .union([
-                        z.object({
-                          '@groupId': z
-                            .string()
-                            .regex(/^-?\d+$/)
-                            .optional(),
-                        }),
-                        z.array(
-                          z.object({
-                            '@groupId': z
-                              .string()
-                              .regex(/^-?\d+$/)
-                              .optional(),
-                          }),
-                        ),
-                      ])
-                      .optional(),
-                  })
-                  .optional(),
-                parameters: z
-                  .object({
-                    parameter: z
-                      .union([
-                        z.object({
-                          '@name': z.string().optional(),
-                          parameter: RealSchema.optional(),
-                        }),
-                        z.array(
-                          z.object({
-                            '@name': z.string().optional(),
-                            parameter: RealSchema.optional(),
-                          }),
-                        ),
-                      ])
-                      .optional(),
-                  })
-                  .optional(),
-                connections: z
-                  .object({
-                    outputExchange: z.union([
-                      z.object({
-                        '@dominant': z
-                          .intersection(
-                            z.union([z.literal('true'), z.literal('false')]),
-                            z.string(),
-                          )
-                          .optional(),
-                        '@flowUUID': UUIDSchema,
-                        downstreamProcess: z.union([
-                          z.object({
-                            '@id': z.string().regex(/^-?\d+$/),
-                            '@flowUUID': UUIDSchema,
-                            '@location': z.string().optional(),
-                            '@dominant': z
-                              .intersection(
-                                z.union([
-                                  z.literal('true'),
-                                  z.literal('false'),
-                                ]),
-                                z.string(),
-                              )
-                              .optional(),
-                            '@version': VersionSchema,
-                          }),
-                          z.array(
+                  parameters: z
+                    .object({
+                      parameter: z
+                        .union([
+                          z.intersection(
                             z.object({
-                              '@id': z.string().regex(/^-?\d+$/),
-                              '@flowUUID': UUIDSchema,
-                              '@location': z.string().optional(),
-                              '@dominant': z
-                                .intersection(
-                                  z.union([
-                                    z.literal('true'),
-                                    z.literal('false'),
-                                  ]),
-                                  z.string(),
-                                )
-                                .optional(),
-                              '@version': VersionSchema,
+                              '@name': MatVSchema,
+                              parameter: RealSchema.optional(),
+                              '#text': RealSchema.optional(),
                             }),
+                            jsonSchemaOneOf([
+                              z.object({ '#text': z.unknown() }),
+                              z.object({ parameter: z.unknown() }),
+                            ]),
                           ),
-                        ]),
-                        '@version': VersionSchema,
-                      }),
-                      z.array(
+                          z.array(
+                            z.intersection(
+                              z.object({
+                                '@name': MatVSchema,
+                                parameter: RealSchema.optional(),
+                                '#text': RealSchema.optional(),
+                              }),
+                              jsonSchemaOneOf([
+                                z.object({ '#text': z.unknown() }),
+                                z.object({ parameter: z.unknown() }),
+                              ]),
+                            ),
+                          ),
+                        ])
+                        .optional(),
+                    })
+                    .optional(),
+                  connections: z
+                    .object({
+                      outputExchange: z.union([
                         z.object({
                           '@dominant': z
                             .intersection(
@@ -443,12 +418,64 @@ export const LifecyclemodelsSchema = z.object({
                           ]),
                           '@version': VersionSchema,
                         }),
-                      ),
-                    ]),
-                  })
-                  .optional(),
-                'common:other': CommonOtherSchema.optional(),
-              }),
+                        z.array(
+                          z.object({
+                            '@dominant': z
+                              .intersection(
+                                z.union([
+                                  z.literal('true'),
+                                  z.literal('false'),
+                                ]),
+                                z.string(),
+                              )
+                              .optional(),
+                            '@flowUUID': UUIDSchema,
+                            downstreamProcess: z.union([
+                              z.object({
+                                '@id': z.string().regex(/^-?\d+$/),
+                                '@flowUUID': UUIDSchema,
+                                '@location': z.string().optional(),
+                                '@dominant': z
+                                  .intersection(
+                                    z.union([
+                                      z.literal('true'),
+                                      z.literal('false'),
+                                    ]),
+                                    z.string(),
+                                  )
+                                  .optional(),
+                                '@version': VersionSchema,
+                              }),
+                              z.array(
+                                z.object({
+                                  '@id': z.string().regex(/^-?\d+$/),
+                                  '@flowUUID': UUIDSchema,
+                                  '@location': z.string().optional(),
+                                  '@dominant': z
+                                    .intersection(
+                                      z.union([
+                                        z.literal('true'),
+                                        z.literal('false'),
+                                      ]),
+                                      z.string(),
+                                    )
+                                    .optional(),
+                                  '@version': VersionSchema,
+                                }),
+                              ),
+                            ]),
+                            '@version': VersionSchema,
+                          }),
+                        ),
+                      ]),
+                    })
+                    .optional(),
+                  'common:other': CommonOtherSchema.optional(),
+                  scalingFactor: RealSchema.optional(),
+                  scalingFactors: RealSchema.optional(),
+                }),
+                jsonSchemaNotRequired(['scalingFactor', 'scalingFactors']),
+              ),
             ])
             .optional(),
         }),
@@ -486,119 +513,241 @@ export const LifecyclemodelsSchema = z.object({
         ]),
         'common:other': CommonOtherSchema.optional(),
       }),
-      complianceDeclarations: z.object({
-        compliance: z.union([
-          z.object({
-            'common:referenceToComplianceSystem': GlobalReferenceTypeSchema,
-            'common:approvalOfOverallCompliance': z.intersection(
-              z.union([
-                z.literal('Fully compliant'),
-                z.literal('Not compliant'),
-                z.literal('Not defined'),
+      complianceDeclarations: z.union([
+        z.object({
+          compliance: z.union([
+            z.object({
+              'common:referenceToComplianceSystem': GlobalReferenceTypeSchema,
+              'common:approvalOfOverallCompliance': z.intersection(
+                z.union([
+                  z.literal('Fully compliant'),
+                  z.literal('Not compliant'),
+                  z.literal('Not defined'),
+                ]),
+                z.string(),
+              ),
+              'common:nomenclatureCompliance': z.intersection(
+                z.union([
+                  z.literal('Fully compliant'),
+                  z.literal('Not compliant'),
+                  z.literal('Not defined'),
+                ]),
+                z.string(),
+              ),
+              'common:methodologicalCompliance': z.intersection(
+                z.union([
+                  z.literal('Fully compliant'),
+                  z.literal('Not compliant'),
+                  z.literal('Not defined'),
+                ]),
+                z.string(),
+              ),
+              'common:reviewCompliance': z.intersection(
+                z.union([
+                  z.literal('Fully compliant'),
+                  z.literal('Not compliant'),
+                  z.literal('Not defined'),
+                ]),
+                z.string(),
+              ),
+              'common:documentationCompliance': z.intersection(
+                z.union([
+                  z.literal('Fully compliant'),
+                  z.literal('Not compliant'),
+                  z.literal('Not defined'),
+                ]),
+                z.string(),
+              ),
+              'common:qualityCompliance': z.intersection(
+                z.union([
+                  z.literal('Fully compliant'),
+                  z.literal('Not compliant'),
+                  z.literal('Not defined'),
+                ]),
+                z.string(),
+              ),
+              'common:other': CommonOtherSchema.optional(),
+            }),
+            z
+              .array(
+                z.object({
+                  'common:referenceToComplianceSystem':
+                    GlobalReferenceTypeSchema,
+                  'common:approvalOfOverallCompliance': z.intersection(
+                    z.union([
+                      z.literal('Fully compliant'),
+                      z.literal('Not compliant'),
+                      z.literal('Not defined'),
+                    ]),
+                    z.string(),
+                  ),
+                  'common:nomenclatureCompliance': z.intersection(
+                    z.union([
+                      z.literal('Fully compliant'),
+                      z.literal('Not compliant'),
+                      z.literal('Not defined'),
+                    ]),
+                    z.string(),
+                  ),
+                  'common:methodologicalCompliance': z.intersection(
+                    z.union([
+                      z.literal('Fully compliant'),
+                      z.literal('Not compliant'),
+                      z.literal('Not defined'),
+                    ]),
+                    z.string(),
+                  ),
+                  'common:reviewCompliance': z.intersection(
+                    z.union([
+                      z.literal('Fully compliant'),
+                      z.literal('Not compliant'),
+                      z.literal('Not defined'),
+                    ]),
+                    z.string(),
+                  ),
+                  'common:documentationCompliance': z.intersection(
+                    z.union([
+                      z.literal('Fully compliant'),
+                      z.literal('Not compliant'),
+                      z.literal('Not defined'),
+                    ]),
+                    z.string(),
+                  ),
+                  'common:qualityCompliance': z.intersection(
+                    z.union([
+                      z.literal('Fully compliant'),
+                      z.literal('Not compliant'),
+                      z.literal('Not defined'),
+                    ]),
+                    z.string(),
+                  ),
+                  'common:other': CommonOtherSchema.optional(),
+                }),
+              )
+              .min(1),
+          ]),
+          'common:other': CommonOtherSchema.optional(),
+        }),
+        z
+          .array(
+            z.object({
+              compliance: z.union([
+                z.object({
+                  'common:referenceToComplianceSystem':
+                    GlobalReferenceTypeSchema,
+                  'common:approvalOfOverallCompliance': z.intersection(
+                    z.union([
+                      z.literal('Fully compliant'),
+                      z.literal('Not compliant'),
+                      z.literal('Not defined'),
+                    ]),
+                    z.string(),
+                  ),
+                  'common:nomenclatureCompliance': z.intersection(
+                    z.union([
+                      z.literal('Fully compliant'),
+                      z.literal('Not compliant'),
+                      z.literal('Not defined'),
+                    ]),
+                    z.string(),
+                  ),
+                  'common:methodologicalCompliance': z.intersection(
+                    z.union([
+                      z.literal('Fully compliant'),
+                      z.literal('Not compliant'),
+                      z.literal('Not defined'),
+                    ]),
+                    z.string(),
+                  ),
+                  'common:reviewCompliance': z.intersection(
+                    z.union([
+                      z.literal('Fully compliant'),
+                      z.literal('Not compliant'),
+                      z.literal('Not defined'),
+                    ]),
+                    z.string(),
+                  ),
+                  'common:documentationCompliance': z.intersection(
+                    z.union([
+                      z.literal('Fully compliant'),
+                      z.literal('Not compliant'),
+                      z.literal('Not defined'),
+                    ]),
+                    z.string(),
+                  ),
+                  'common:qualityCompliance': z.intersection(
+                    z.union([
+                      z.literal('Fully compliant'),
+                      z.literal('Not compliant'),
+                      z.literal('Not defined'),
+                    ]),
+                    z.string(),
+                  ),
+                  'common:other': CommonOtherSchema.optional(),
+                }),
+                z
+                  .array(
+                    z.object({
+                      'common:referenceToComplianceSystem':
+                        GlobalReferenceTypeSchema,
+                      'common:approvalOfOverallCompliance': z.intersection(
+                        z.union([
+                          z.literal('Fully compliant'),
+                          z.literal('Not compliant'),
+                          z.literal('Not defined'),
+                        ]),
+                        z.string(),
+                      ),
+                      'common:nomenclatureCompliance': z.intersection(
+                        z.union([
+                          z.literal('Fully compliant'),
+                          z.literal('Not compliant'),
+                          z.literal('Not defined'),
+                        ]),
+                        z.string(),
+                      ),
+                      'common:methodologicalCompliance': z.intersection(
+                        z.union([
+                          z.literal('Fully compliant'),
+                          z.literal('Not compliant'),
+                          z.literal('Not defined'),
+                        ]),
+                        z.string(),
+                      ),
+                      'common:reviewCompliance': z.intersection(
+                        z.union([
+                          z.literal('Fully compliant'),
+                          z.literal('Not compliant'),
+                          z.literal('Not defined'),
+                        ]),
+                        z.string(),
+                      ),
+                      'common:documentationCompliance': z.intersection(
+                        z.union([
+                          z.literal('Fully compliant'),
+                          z.literal('Not compliant'),
+                          z.literal('Not defined'),
+                        ]),
+                        z.string(),
+                      ),
+                      'common:qualityCompliance': z.intersection(
+                        z.union([
+                          z.literal('Fully compliant'),
+                          z.literal('Not compliant'),
+                          z.literal('Not defined'),
+                        ]),
+                        z.string(),
+                      ),
+                      'common:other': CommonOtherSchema.optional(),
+                    }),
+                  )
+                  .min(1),
               ]),
-              z.string(),
-            ),
-            'common:nomenclatureCompliance': z.intersection(
-              z.union([
-                z.literal('Fully compliant'),
-                z.literal('Not compliant'),
-                z.literal('Not defined'),
-              ]),
-              z.string(),
-            ),
-            'common:methodologicalCompliance': z.intersection(
-              z.union([
-                z.literal('Fully compliant'),
-                z.literal('Not compliant'),
-                z.literal('Not defined'),
-              ]),
-              z.string(),
-            ),
-            'common:reviewCompliance': z.intersection(
-              z.union([
-                z.literal('Fully compliant'),
-                z.literal('Not compliant'),
-                z.literal('Not defined'),
-              ]),
-              z.string(),
-            ),
-            'common:documentationCompliance': z.intersection(
-              z.union([
-                z.literal('Fully compliant'),
-                z.literal('Not compliant'),
-                z.literal('Not defined'),
-              ]),
-              z.string(),
-            ),
-            'common:qualityCompliance': z.intersection(
-              z.union([
-                z.literal('Fully compliant'),
-                z.literal('Not compliant'),
-                z.literal('Not defined'),
-              ]),
-              z.string(),
-            ),
-            'common:other': CommonOtherSchema.optional(),
-          }),
-          z
-            .array(
-              z.object({
-                'common:referenceToComplianceSystem': GlobalReferenceTypeSchema,
-                'common:approvalOfOverallCompliance': z.intersection(
-                  z.union([
-                    z.literal('Fully compliant'),
-                    z.literal('Not compliant'),
-                    z.literal('Not defined'),
-                  ]),
-                  z.string(),
-                ),
-                'common:nomenclatureCompliance': z.intersection(
-                  z.union([
-                    z.literal('Fully compliant'),
-                    z.literal('Not compliant'),
-                    z.literal('Not defined'),
-                  ]),
-                  z.string(),
-                ),
-                'common:methodologicalCompliance': z.intersection(
-                  z.union([
-                    z.literal('Fully compliant'),
-                    z.literal('Not compliant'),
-                    z.literal('Not defined'),
-                  ]),
-                  z.string(),
-                ),
-                'common:reviewCompliance': z.intersection(
-                  z.union([
-                    z.literal('Fully compliant'),
-                    z.literal('Not compliant'),
-                    z.literal('Not defined'),
-                  ]),
-                  z.string(),
-                ),
-                'common:documentationCompliance': z.intersection(
-                  z.union([
-                    z.literal('Fully compliant'),
-                    z.literal('Not compliant'),
-                    z.literal('Not defined'),
-                  ]),
-                  z.string(),
-                ),
-                'common:qualityCompliance': z.intersection(
-                  z.union([
-                    z.literal('Fully compliant'),
-                    z.literal('Not compliant'),
-                    z.literal('Not defined'),
-                  ]),
-                  z.string(),
-                ),
-                'common:other': CommonOtherSchema.optional(),
-              }),
-            )
-            .min(1),
-        ]),
-        'common:other': CommonOtherSchema.optional(),
-      }),
+              'common:other': CommonOtherSchema.optional(),
+            }),
+          )
+          .min(1),
+      ]),
       'common:other': CommonOtherSchema.optional(),
     }),
     administrativeInformation: z.object({

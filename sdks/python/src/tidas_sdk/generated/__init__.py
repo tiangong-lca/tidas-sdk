@@ -36,8 +36,10 @@ from .tidas_data_types import FTMultiLang
 from .tidas_data_types import GlobalReferenceType
 from .tidas_contacts import CommonClassItemOption0
 from .tidas_contacts import CommonClassItemOption1
-from .tidas_contacts import CommonClassificationCommonClassOption1
-from .tidas_contacts import DataSetInformationClassificationInformationCommonClassification
+from .tidas_contacts import Option0CommonClassOption1
+from .tidas_contacts import ClassificationInformationCommonClassificationOption0
+from .tidas_contacts import ItemCommonClassItem
+from .tidas_contacts import ClassificationInformationCommonClassificationItem
 from .tidas_contacts import ContactInformationDataSetInformationClassificationInformation
 from .tidas_contacts import ContactDataSetContactInformationDataSetInformation
 from .tidas_contacts import ContactsContactDataSetContactInformation
@@ -57,8 +59,10 @@ from .tidas_contacts_category import ContactVariant7
 from .tidas_contacts_category import ContactVariant8
 from .tidas_contacts_category import ContactsCategory
 from .tidas_contacts_category import Contact
-from .tidas_flowproperties import ClassificationInformationCommonClassificationCommonClass
-from .tidas_flowproperties import DataSetInformationClassificationInformationCommonClassification
+from .tidas_flowproperties import CommonClassificationOption0CommonClass
+from .tidas_flowproperties import ClassificationInformationCommonClassificationOption0
+from .tidas_flowproperties import ItemCommonClassItem
+from .tidas_flowproperties import ClassificationInformationCommonClassificationItem
 from .tidas_flowproperties import FlowPropertiesInformationDataSetInformationClassificationInformation
 from .tidas_flowproperties import FlowPropertyDataSetFlowPropertiesInformationDataSetInformation
 from .tidas_flowproperties import FlowPropertyDataSetFlowPropertiesInformationQuantitativeReference
@@ -79,6 +83,10 @@ from .tidas_flowproperties_category import FlowPropertyVariant2
 from .tidas_flowproperties_category import FlowPropertyVariant3
 from .tidas_flowproperties_category import FlowpropertiesCategory
 from .tidas_flowproperties_category import FlowProperty
+from .tidas_flows import CommonCategoryItemOption0
+from .tidas_flows import CommonCategoryItemOption1
+from .tidas_flows import CommonCategoryItemOption2
+from .tidas_flows import ElementaryFlowCategorization
 from .tidas_flows import FlowInformationDataSetInformationName
 from .tidas_flows import FlowDataSetFlowInformationDataSetInformation
 from .tidas_flows import FlowDataSetFlowInformationQuantitativeReference
@@ -4754,27 +4762,58 @@ from .tidas_flows_product_category import FlowsProductCategory
 from .tidas_lciamethods import CommonClassItemOption0
 from .tidas_lciamethods import CommonClassItemOption1
 from .tidas_lciamethods import CommonClassItemOption2
-from .tidas_lciamethods import DataSetInformationClassificationInformationCommonClassification
+from .tidas_lciamethods import ClassificationInformationCommonClassificationOption0
+from .tidas_lciamethods import ItemCommonClassItem
+from .tidas_lciamethods import ClassificationInformationCommonClassificationItem
 from .tidas_lciamethods import LCIAMethodInformationDataSetInformationClassificationInformation
 from .tidas_lciamethods import LCIAMethodDataSetLCIAMethodInformationDataSetInformation
 from .tidas_lciamethods import LCIAMethodDataSetLCIAMethodInformationQuantitativeReference
 from .tidas_lciamethods import LCIAMethodDataSetLCIAMethodInformationTime
 from .tidas_lciamethods import GeographyInterventionLocationOption0
-from .tidas_lciamethods import GeographyIntervensionSubLocationOption0
 from .tidas_lciamethods import GeographyImpactLocationOption0
+from .tidas_lciamethods import GeographyInterventionSubLocationOption0
+from .tidas_lciamethods import InterventionSubLocationItemOption0
+from .tidas_lciamethods import GeographyIntervensionSubLocationOption0
 from .tidas_lciamethods import LCIAMethodDataSetLCIAMethodInformationGeography
 from .tidas_lciamethods import LCIAMethodDataSetLCIAMethodInformationImpactModel
 from .tidas_lciamethods import LciamethodsLCIAMethodDataSetLCIAMethodInformation
 from .tidas_lciamethods import LCIAMethodDataSetModellingAndValidationLCIAMethodNormalisationAndWeighting
 from .tidas_lciamethods import LCIAMethodDataSetModellingAndValidationDataSources
 from .tidas_lciamethods import LCIAMethodDataSetModellingAndValidationCompleteness
+from .tidas_lciamethods import Option0MethodOption0
+from .tidas_lciamethods import Option0MethodItem
 from .tidas_lciamethods import Option0CommonMethodOption0
 from .tidas_lciamethods import Option0CommonMethodItem
-from .tidas_lciamethods import ReviewCommonScopeOption0
+from .tidas_lciamethods import Option0ScopeOption0
+from .tidas_lciamethods import ItemMethodOption0
+from .tidas_lciamethods import ItemMethodItem
 from .tidas_lciamethods import ItemCommonMethodOption0
 from .tidas_lciamethods import ItemCommonMethodItem
-from .tidas_lciamethods import ReviewCommonScopeItem
-from .tidas_lciamethods import ModellingAndValidationValidationReview
+from .tidas_lciamethods import Option0ScopeItem
+from .tidas_lciamethods import Option0CommonMethodOption02
+from .tidas_lciamethods import Option0CommonMethodItem2
+from .tidas_lciamethods import Option0CommonScopeOption0
+from .tidas_lciamethods import ItemCommonMethodOption02
+from .tidas_lciamethods import ItemCommonMethodItem2
+from .tidas_lciamethods import Option0CommonScopeItem
+from .tidas_lciamethods import ValidationReviewOption0
+from .tidas_lciamethods import Option0MethodOption02
+from .tidas_lciamethods import Option0MethodItem2
+from .tidas_lciamethods import Option0CommonMethodOption03
+from .tidas_lciamethods import Option0CommonMethodItem3
+from .tidas_lciamethods import ItemScopeOption0
+from .tidas_lciamethods import ItemMethodOption02
+from .tidas_lciamethods import ItemMethodItem2
+from .tidas_lciamethods import ItemCommonMethodOption03
+from .tidas_lciamethods import ItemCommonMethodItem3
+from .tidas_lciamethods import ItemScopeItem
+from .tidas_lciamethods import Option0CommonMethodOption04
+from .tidas_lciamethods import Option0CommonMethodItem4
+from .tidas_lciamethods import ItemCommonScopeOption0
+from .tidas_lciamethods import ItemCommonMethodOption04
+from .tidas_lciamethods import ItemCommonMethodItem4
+from .tidas_lciamethods import ItemCommonScopeItem
+from .tidas_lciamethods import ValidationReviewItem
 from .tidas_lciamethods import LCIAMethodDataSetModellingAndValidationValidation
 from .tidas_lciamethods import ComplianceDeclarationsComplianceOption0
 from .tidas_lciamethods import ComplianceDeclarationsComplianceItem
@@ -4786,8 +4825,11 @@ from .tidas_lciamethods import AdministrativeInformationDataEntryByRecommendatio
 from .tidas_lciamethods import LCIAMethodDataSetAdministrativeInformationDataEntryBy
 from .tidas_lciamethods import LCIAMethodDataSetAdministrativeInformationPublicationAndOwnership
 from .tidas_lciamethods import LciamethodsLCIAMethodDataSetAdministrativeInformation
+from .tidas_lciamethods import FactorOption0ReferencesToDataSource
+from .tidas_lciamethods import Option0ReferenceToDataSourceOption1
 from .tidas_lciamethods import CharacterisationFactorsFactorOption0
-from .tidas_lciamethods import FactorItemReferenceToDataSource
+from .tidas_lciamethods import FactorItemReferencesToDataSource
+from .tidas_lciamethods import ItemReferenceToDataSourceOption1
 from .tidas_lciamethods import CharacterisationFactorsFactorItem
 from .tidas_lciamethods import LciamethodsLCIAMethodDataSetCharacterisationFactors
 from .tidas_lciamethods import LciamethodsLCIAMethodDataSet
@@ -4895,9 +4937,12 @@ from .tidas_lifecyclemodels import LifeCycleModelDataSetModellingAndValidationDa
 from .tidas_lifecyclemodels import ValidationReviewOption0
 from .tidas_lifecyclemodels import ValidationReviewItem
 from .tidas_lifecyclemodels import LifeCycleModelDataSetModellingAndValidationValidation
-from .tidas_lifecyclemodels import ComplianceDeclarationsComplianceOption0
-from .tidas_lifecyclemodels import ComplianceDeclarationsComplianceItem
-from .tidas_lifecyclemodels import LifeCycleModelDataSetModellingAndValidationComplianceDeclarations
+from .tidas_lifecyclemodels import Option0ComplianceOption0
+from .tidas_lifecyclemodels import Option0ComplianceItem
+from .tidas_lifecyclemodels import ModellingAndValidationComplianceDeclarationsOption0
+from .tidas_lifecyclemodels import ItemComplianceOption0
+from .tidas_lifecyclemodels import ItemComplianceItem
+from .tidas_lifecyclemodels import ModellingAndValidationComplianceDeclarationsItem
 from .tidas_lifecyclemodels import LifecyclemodelsLifeCycleModelDataSetModellingAndValidation
 from .tidas_lifecyclemodels import LifeCycleModelDataSetAdministrativeInformationCommonCommissionerAndGoal
 from .tidas_lifecyclemodels import LifeCycleModelDataSetAdministrativeInformationDataGenerator
@@ -4931,15 +4976,18 @@ from .tidas_processes import ProcessDataSetProcessInformationDataSetInformation
 from .tidas_processes import ProcessDataSetProcessInformationQuantitativeReference
 from .tidas_processes import ProcessDataSetProcessInformationTime
 from .tidas_processes import ProcessInformationGeographyLocationOfOperationSupplyOrProduction
-from .tidas_processes import ProcessInformationGeographySubLocationOfOperationSupplyOrProduction
+from .tidas_processes import GeographySubLocationOfOperationSupplyOrProductionOption0
+from .tidas_processes import GeographySubLocationOfOperationSupplyOrProductionItem
 from .tidas_processes import ProcessDataSetProcessInformationGeography
 from .tidas_processes import ProcessDataSetProcessInformationTechnology
-from .tidas_processes import ProcessInformationMathematicalRelationsVariableParameter
+from .tidas_processes import MathematicalRelationsVariableParameterOption0
+from .tidas_processes import MathematicalRelationsVariableParameterItem
 from .tidas_processes import ProcessDataSetProcessInformationMathematicalRelations
 from .tidas_processes import ProcessesProcessDataSetProcessInformation
 from .tidas_processes import ProcessDataSetModellingAndValidationLCIMethodAndAllocation
 from .tidas_processes import ProcessDataSetModellingAndValidationDataSourcesTreatmentAndRepresentativeness
-from .tidas_processes import ModellingAndValidationCompletenessCompletenessElementaryFlows
+from .tidas_processes import CompletenessCompletenessElementaryFlowsOption0
+from .tidas_processes import CompletenessCompletenessElementaryFlowsItem
 from .tidas_processes import ProcessDataSetModellingAndValidationCompleteness
 from .tidas_processes import ProcessDataSetModellingAndValidationValidation
 from .tidas_processes import ComplianceDeclarationsComplianceOption0
@@ -5793,8 +5841,10 @@ from .tidas_processes_category import ProcessesCategoryVariant827
 from .tidas_processes_category import ProcessesCategoryVariant828
 from .tidas_processes_category import ProcessesCategoryVariant829
 from .tidas_processes_category import ProcessesCategory
-from .tidas_sources import ClassificationInformationCommonClassificationCommonClass
-from .tidas_sources import DataSetInformationClassificationInformationCommonClassification
+from .tidas_sources import CommonClassificationOption0CommonClass
+from .tidas_sources import ClassificationInformationCommonClassificationOption0
+from .tidas_sources import ItemCommonClassItem
+from .tidas_sources import ClassificationInformationCommonClassificationItem
 from .tidas_sources import SourceInformationDataSetInformationClassificationInformation
 from .tidas_sources import DataSetInformationReferenceToDigitalFileOption0
 from .tidas_sources import DataSetInformationReferenceToDigitalFileItem
@@ -5814,8 +5864,10 @@ from .tidas_sources_category import SourceVariant5
 from .tidas_sources_category import SourceVariant6
 from .tidas_sources_category import SourcesCategory
 from .tidas_sources_category import Source
-from .tidas_unitgroups import ClassificationInformationCommonClassificationCommonClass
-from .tidas_unitgroups import DataSetInformationClassificationInformationCommonClassification
+from .tidas_unitgroups import CommonClassificationOption0CommonClass
+from .tidas_unitgroups import ClassificationInformationCommonClassificationOption0
+from .tidas_unitgroups import ItemCommonClassItem
+from .tidas_unitgroups import ClassificationInformationCommonClassificationItem
 from .tidas_unitgroups import UnitGroupInformationDataSetInformationClassificationInformation
 from .tidas_unitgroups import UnitGroupDataSetUnitGroupInformationDataSetInformation
 from .tidas_unitgroups import UnitGroupDataSetUnitGroupInformationQuantitativeReference
@@ -5875,8 +5927,10 @@ __all__ = [
     'GlobalReferenceType',
     'CommonClassItemOption0',
     'CommonClassItemOption1',
-    'CommonClassificationCommonClassOption1',
-    'DataSetInformationClassificationInformationCommonClassification',
+    'Option0CommonClassOption1',
+    'ClassificationInformationCommonClassificationOption0',
+    'ItemCommonClassItem',
+    'ClassificationInformationCommonClassificationItem',
     'ContactInformationDataSetInformationClassificationInformation',
     'ContactDataSetContactInformationDataSetInformation',
     'ContactsContactDataSetContactInformation',
@@ -5896,8 +5950,10 @@ __all__ = [
     'ContactVariant8',
     'ContactsCategory',
     'Contact',
-    'ClassificationInformationCommonClassificationCommonClass',
-    'DataSetInformationClassificationInformationCommonClassification',
+    'CommonClassificationOption0CommonClass',
+    'ClassificationInformationCommonClassificationOption0',
+    'ItemCommonClassItem',
+    'ClassificationInformationCommonClassificationItem',
     'FlowPropertiesInformationDataSetInformationClassificationInformation',
     'FlowPropertyDataSetFlowPropertiesInformationDataSetInformation',
     'FlowPropertyDataSetFlowPropertiesInformationQuantitativeReference',
@@ -5918,6 +5974,10 @@ __all__ = [
     'FlowPropertyVariant3',
     'FlowpropertiesCategory',
     'FlowProperty',
+    'CommonCategoryItemOption0',
+    'CommonCategoryItemOption1',
+    'CommonCategoryItemOption2',
+    'ElementaryFlowCategorization',
     'FlowInformationDataSetInformationName',
     'FlowDataSetFlowInformationDataSetInformation',
     'FlowDataSetFlowInformationQuantitativeReference',
@@ -10593,27 +10653,58 @@ __all__ = [
     'CommonClassItemOption0',
     'CommonClassItemOption1',
     'CommonClassItemOption2',
-    'DataSetInformationClassificationInformationCommonClassification',
+    'ClassificationInformationCommonClassificationOption0',
+    'ItemCommonClassItem',
+    'ClassificationInformationCommonClassificationItem',
     'LCIAMethodInformationDataSetInformationClassificationInformation',
     'LCIAMethodDataSetLCIAMethodInformationDataSetInformation',
     'LCIAMethodDataSetLCIAMethodInformationQuantitativeReference',
     'LCIAMethodDataSetLCIAMethodInformationTime',
     'GeographyInterventionLocationOption0',
-    'GeographyIntervensionSubLocationOption0',
     'GeographyImpactLocationOption0',
+    'GeographyInterventionSubLocationOption0',
+    'InterventionSubLocationItemOption0',
+    'GeographyIntervensionSubLocationOption0',
     'LCIAMethodDataSetLCIAMethodInformationGeography',
     'LCIAMethodDataSetLCIAMethodInformationImpactModel',
     'LciamethodsLCIAMethodDataSetLCIAMethodInformation',
     'LCIAMethodDataSetModellingAndValidationLCIAMethodNormalisationAndWeighting',
     'LCIAMethodDataSetModellingAndValidationDataSources',
     'LCIAMethodDataSetModellingAndValidationCompleteness',
+    'Option0MethodOption0',
+    'Option0MethodItem',
     'Option0CommonMethodOption0',
     'Option0CommonMethodItem',
-    'ReviewCommonScopeOption0',
+    'Option0ScopeOption0',
+    'ItemMethodOption0',
+    'ItemMethodItem',
     'ItemCommonMethodOption0',
     'ItemCommonMethodItem',
-    'ReviewCommonScopeItem',
-    'ModellingAndValidationValidationReview',
+    'Option0ScopeItem',
+    'Option0CommonMethodOption02',
+    'Option0CommonMethodItem2',
+    'Option0CommonScopeOption0',
+    'ItemCommonMethodOption02',
+    'ItemCommonMethodItem2',
+    'Option0CommonScopeItem',
+    'ValidationReviewOption0',
+    'Option0MethodOption02',
+    'Option0MethodItem2',
+    'Option0CommonMethodOption03',
+    'Option0CommonMethodItem3',
+    'ItemScopeOption0',
+    'ItemMethodOption02',
+    'ItemMethodItem2',
+    'ItemCommonMethodOption03',
+    'ItemCommonMethodItem3',
+    'ItemScopeItem',
+    'Option0CommonMethodOption04',
+    'Option0CommonMethodItem4',
+    'ItemCommonScopeOption0',
+    'ItemCommonMethodOption04',
+    'ItemCommonMethodItem4',
+    'ItemCommonScopeItem',
+    'ValidationReviewItem',
     'LCIAMethodDataSetModellingAndValidationValidation',
     'ComplianceDeclarationsComplianceOption0',
     'ComplianceDeclarationsComplianceItem',
@@ -10625,8 +10716,11 @@ __all__ = [
     'LCIAMethodDataSetAdministrativeInformationDataEntryBy',
     'LCIAMethodDataSetAdministrativeInformationPublicationAndOwnership',
     'LciamethodsLCIAMethodDataSetAdministrativeInformation',
+    'FactorOption0ReferencesToDataSource',
+    'Option0ReferenceToDataSourceOption1',
     'CharacterisationFactorsFactorOption0',
-    'FactorItemReferenceToDataSource',
+    'FactorItemReferencesToDataSource',
+    'ItemReferenceToDataSourceOption1',
     'CharacterisationFactorsFactorItem',
     'LciamethodsLCIAMethodDataSetCharacterisationFactors',
     'LciamethodsLCIAMethodDataSet',
@@ -10734,9 +10828,12 @@ __all__ = [
     'ValidationReviewOption0',
     'ValidationReviewItem',
     'LifeCycleModelDataSetModellingAndValidationValidation',
-    'ComplianceDeclarationsComplianceOption0',
-    'ComplianceDeclarationsComplianceItem',
-    'LifeCycleModelDataSetModellingAndValidationComplianceDeclarations',
+    'Option0ComplianceOption0',
+    'Option0ComplianceItem',
+    'ModellingAndValidationComplianceDeclarationsOption0',
+    'ItemComplianceOption0',
+    'ItemComplianceItem',
+    'ModellingAndValidationComplianceDeclarationsItem',
     'LifecyclemodelsLifeCycleModelDataSetModellingAndValidation',
     'LifeCycleModelDataSetAdministrativeInformationCommonCommissionerAndGoal',
     'LifeCycleModelDataSetAdministrativeInformationDataGenerator',
@@ -10770,15 +10867,18 @@ __all__ = [
     'ProcessDataSetProcessInformationQuantitativeReference',
     'ProcessDataSetProcessInformationTime',
     'ProcessInformationGeographyLocationOfOperationSupplyOrProduction',
-    'ProcessInformationGeographySubLocationOfOperationSupplyOrProduction',
+    'GeographySubLocationOfOperationSupplyOrProductionOption0',
+    'GeographySubLocationOfOperationSupplyOrProductionItem',
     'ProcessDataSetProcessInformationGeography',
     'ProcessDataSetProcessInformationTechnology',
-    'ProcessInformationMathematicalRelationsVariableParameter',
+    'MathematicalRelationsVariableParameterOption0',
+    'MathematicalRelationsVariableParameterItem',
     'ProcessDataSetProcessInformationMathematicalRelations',
     'ProcessesProcessDataSetProcessInformation',
     'ProcessDataSetModellingAndValidationLCIMethodAndAllocation',
     'ProcessDataSetModellingAndValidationDataSourcesTreatmentAndRepresentativeness',
-    'ModellingAndValidationCompletenessCompletenessElementaryFlows',
+    'CompletenessCompletenessElementaryFlowsOption0',
+    'CompletenessCompletenessElementaryFlowsItem',
     'ProcessDataSetModellingAndValidationCompleteness',
     'ProcessDataSetModellingAndValidationValidation',
     'ComplianceDeclarationsComplianceOption0',
@@ -11632,8 +11732,10 @@ __all__ = [
     'ProcessesCategoryVariant828',
     'ProcessesCategoryVariant829',
     'ProcessesCategory',
-    'ClassificationInformationCommonClassificationCommonClass',
-    'DataSetInformationClassificationInformationCommonClassification',
+    'CommonClassificationOption0CommonClass',
+    'ClassificationInformationCommonClassificationOption0',
+    'ItemCommonClassItem',
+    'ClassificationInformationCommonClassificationItem',
     'SourceInformationDataSetInformationClassificationInformation',
     'DataSetInformationReferenceToDigitalFileOption0',
     'DataSetInformationReferenceToDigitalFileItem',
@@ -11653,8 +11755,10 @@ __all__ = [
     'SourceVariant6',
     'SourcesCategory',
     'Source',
-    'ClassificationInformationCommonClassificationCommonClass',
-    'DataSetInformationClassificationInformationCommonClassification',
+    'CommonClassificationOption0CommonClass',
+    'ClassificationInformationCommonClassificationOption0',
+    'ItemCommonClassItem',
+    'ClassificationInformationCommonClassificationItem',
     'UnitGroupInformationDataSetInformationClassificationInformation',
     'UnitGroupDataSetUnitGroupInformationDataSetInformation',
     'UnitGroupDataSetUnitGroupInformationQuantitativeReference',
