@@ -29,8 +29,8 @@ checkPaths:
   - scripts/docpact-gate.sh
   - scripts/install-git-hooks.sh
 lastReviewedAt: 2026-10-01
-lastReviewedCommit: c7b2fdf8f3a496b2fc8e5b32fb58364197922c85
-lastReviewedNote: "Reviewed SDK #156: exact-archive public-rule pin, conditional Process schema and bilingual non-flow tests are covered by both canonical package verifiers and automation regressions."
+lastReviewedCommit: ebaaf22172af0fae89a77ef80dc2cd589f641dbe
+lastReviewedNote: "Reviewed SDK #158: formal spec 0.3.0 identity and TypeScript 0.5.0 / Python 0.3.0 release preparation preserve exact-source generation, alias validation and normal tag-driven publication."
 related:
   - ../../AGENTS.md
   - ../../.docpact/config.yaml
@@ -175,10 +175,8 @@ hook with isolated gate transports; the existing automation suite includes it.
 Direct canonical verification and release-time package proof remain unchanged.
 
 
-### ILCD compatibility candidate qualification
+### ILCD compatibility release qualification
 
-The content-addressed candidate for SDK #158 binds the spec archive and public-rule identity to commit `97a3725e6a24886ec1332be61e462e2228ee94fe`. The pin explicitly identifies the eighteen repository-authored public paths. Both canonical package verifiers must pass against this archive and the existing tools pin; generator tests cover annotation-only `$comment`, bounded `not: { required: [...] }` alias exclusion, and parenthesized enum-array TypeScript output. Generated-schema tests exercise repeated Process/Flow fields, named classifications, model scaling aliases, LCIA geography aliases and strict unit items.
-
-This archive retains the historical 0.2.3 package version but differs from the formal 0.2.3 release. It is a reviewed candidate input only. Stable publication requires a new formal spec version, refreshed immutable pins and normal SDK release qualification; neither replacing the existing release nor treating local package installation as publication is allowed.
+SDK #158 consumes formal spec `0.3.0` at `32e1ba38da7d5f4f6245c6c1927f83b326cd5404`. The package-input and public-rule pins must bind the same released archive and manifest. Both canonical package verifiers must pass with the existing exact tools pin before tag-driven TypeScript `0.5.0` and Python `0.3.0` publication. Generator tests cover annotation-only `$comment`, bounded `not: { required: [...] }` alias exclusion, and parenthesized enum-array TypeScript output. Generated-schema tests exercise repeated Process/Flow fields, named classifications, model scaling aliases, LCIA geography aliases and strict unit items. Platform must verify the actual released package outside its Jest SDK mapper.
 
 Python object generation preserves `allOf` negated-required groups through normalization and emits model validators using explicit field presence. Regression cases require either scaling/geography alias alone to pass and both aliases together to fail, including Python field-name input. This closes the gap between shipped JSON Schema validation and direct Pydantic construction.
