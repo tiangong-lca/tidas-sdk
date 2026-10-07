@@ -19,7 +19,7 @@ checkPaths:
   - package.json
   - .docpact/config.yaml
 lastReviewedAt: 2026-10-07
-lastReviewedCommit: 6e6f05d727c04859767e0db644abdd71b8cc04f8
+lastReviewedCommit: a6caa3287172a1ec640256da986968fde0e19b4d
 lastReviewedNote: "Reviewed SDK #158: formal spec 0.3.0 identity and TypeScript 0.5.0 / Python 0.3.0 release preparation preserve exact-source generation, alias validation and normal tag-driven publication."
 related:
   - ../AGENTS.md

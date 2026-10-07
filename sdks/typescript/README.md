@@ -268,7 +268,14 @@ is checked separately. Absolute percentage-point sum tolerance is `0.0010000001`
 fractions, and provides the full inferred compatibility projection for Output-share
 and full-fallback modes. Inferred legacy targets retain historical compatibility
 without claiming an explicit target-type check: a generator that materializes an
-explicit vector must validate that final vector with exact Flow evidence; `coefficients` projects each declared qref, independently of direction.
+explicit vector must validate that final vector with exact Flow evidence and prove
+coefficient preservation for every declared qref. In `legacy-output-share` mode,
+`allocations` is the declared legacy share vector, not an unconditional rewrite
+recipe: a qref omitted from those shares has the historical coefficient 1, while
+an explicit vector omitting that qref has SparseZero coefficient 0. A generator
+must report unsupported applicability when it cannot preserve that distinction
+without choosing or redirecting modelling targets. `coefficients` projects each
+declared qref, independently of direction.
 An invalid/unresolved vector has no accepted interpretation. Consumers must check
 the aggregate result before using any projection.
 
