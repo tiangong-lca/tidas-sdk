@@ -30,6 +30,8 @@ export type ProcessSemanticIssueCode =
   | 'allocation_flow_version_mismatch'
   | 'allocation_fraction_invalid'
   | 'allocation_legacy_sum_invalid'
+  | 'allocation_legacy_reference_ambiguous'
+  | 'allocation_legacy_full_invalid'
   | 'allocation_mixed_modes'
   | 'allocation_target_ambiguous'
   | 'allocation_target_direction_invalid'
@@ -102,8 +104,9 @@ const id = (v: unknown): string | undefined =>
     : typeof v === 'number' && Number.isInteger(v) && v >= 0 && v <= 999999
       ? String(v)
       : undefined;
-/** Full-string decimal grammar: no whitespace, percent suffix, hexadecimal, Infinity or coercion. */
-const fraction = (v: unknown): number | undefined => {
+/** Full decimal token after trimming: no percent suffix, hexadecimal, Infinity or coercion. */
+const fraction = (value: unknown): number | undefined => {
+  const v = typeof value === 'string' ? value.trim() : value;
   const n =
     typeof v === 'number'
       ? v
@@ -113,6 +116,9 @@ const fraction = (v: unknown): number | undefined => {
         : NaN;
   return Number.isFinite(n) && n >= 0 && n <= 100 ? n : undefined;
 };
+
+const legacyFraction = (v: unknown): number | undefined =>
+  fraction(typeof v === 'string' ? v.trim().replace(/%$/, '').trim() : v);
 
 export function analyzeProcessSemantics(
   process: unknown,
@@ -311,7 +317,18 @@ export function analyzeProcessSemantics(
                 ? 'allocation_flow_version_mismatch'
                 : 'allocation_flow_evidence_unavailable',
           };
-        else if (evidence.uuid !== uuid || evidence.version !== version)
+        else if (
+          typeof evidence !== 'object' ||
+          Array.isArray(evidence) ||
+          typeof evidence.uuid !== 'string' ||
+          typeof evidence.version !== 'string' ||
+          evidence.uuid !== uuid
+        )
+          state = {
+            status: 'unresolved',
+            code: 'allocation_flow_evidence_invalid',
+          };
+        else if (evidence.version !== version)
           state = {
             status: 'unresolved',
             code: 'allocation_flow_version_mismatch',
@@ -345,6 +362,7 @@ export function analyzeProcessSemantics(
     fraction: number;
     path: SemanticPath;
     direction: unknown;
+    raw: unknown;
   }> = [];
   let explicitCount = 0;
   for (const ex of exchanges) {
@@ -411,7 +429,8 @@ export function analyzeProcessSemantics(
         );
         continue;
       }
-      const n = fraction(obj(allocations[0].value)['@allocatedFraction']);
+      const rawFraction = obj(allocations[0].value)['@allocatedFraction'];
+      const n = legacyFraction(rawFraction);
       if (n === undefined)
         check(
           'allocation-fraction',
@@ -425,6 +444,7 @@ export function analyzeProcessSemantics(
           fraction: n,
           path,
           direction: value.exchangeDirection,
+          raw: rawFraction,
         });
       continue;
     }
@@ -499,30 +519,68 @@ export function analyzeProcessSemantics(
     }
   }
   if (legacy.length) {
-    const outputShares =
-      legacy.every((l) => l.direction === 'Output') && legacy.length >= 2;
+    const outputShares = legacy.some((l) => l.direction === 'Output');
+    const mixed =
+      explicitCount > 0 ||
+      (outputShares && legacy.some((l) => l.direction !== 'Output'));
     const sum = legacy.reduce((n, l) => n + l.fraction, 0);
+    const shares = legacy.map((l) => ({
+      targetId: result.interpretations[l.index].exchangeId,
+      fraction: l.fraction,
+    }));
+    let acceptedProcessMode = true;
     for (const l of legacy) {
-      const mixed = explicitCount > 0;
-      const accepted =
-        !mixed &&
-        (outputShares
+      const uniqueReference =
+        result.reference.calculationApplicability === 'single-reference';
+      const full =
+        l.fraction === 100 &&
+        (typeof l.raw !== 'string' ||
+          !l.raw.includes('%') ||
+          l.raw.trim() === '100%');
+      const code = mixed
+        ? 'allocation_mixed_modes'
+        : outputShares
           ? Math.abs(sum - 100) <= ALLOCATION_SUM_TOLERANCE
-          : Math.abs(l.fraction - 100) <= ALLOCATION_SUM_TOLERANCE);
+            ? undefined
+            : 'allocation_legacy_sum_invalid'
+          : !uniqueReference
+            ? 'allocation_legacy_reference_ambiguous'
+            : !full
+              ? 'allocation_legacy_full_invalid'
+              : undefined;
+      const accepted = code === undefined;
+      acceptedProcessMode &&= accepted;
       check(
         'allocation-legacy',
         l.path,
         accepted ? 'passed' : 'invalid',
-        mixed ? 'allocation_mixed_modes' : 'allocation_legacy_sum_invalid',
+        code,
         { sum: outputShares ? sum : l.fraction }
       );
-      if (accepted) {
+      if (accepted && !outputShares) {
         const interpretation = result.interpretations[l.index];
-        interpretation.mode = outputShares
-          ? 'legacy-output-share'
-          : 'legacy-targetless-full';
+        interpretation.mode = 'legacy-targetless-full';
         interpretation.coefficients = result.reference.ids.map(
-          (referenceId) => ({ referenceId, coefficient: l.fraction / 100 })
+          (referenceId) => ({ referenceId, coefficient: 1 })
+        );
+        interpretation.allocations = [
+          { targetId: result.reference.ids[0], fraction: 100 },
+        ];
+      }
+    }
+    if (outputShares && acceptedProcessMode) {
+      // Legacy shares select a process view; the selected qref share applies to
+      // the whole inventory, including undeclared/scalar-empty exchanges.
+      for (const interpretation of result.interpretations) {
+        interpretation.mode = 'legacy-output-share';
+        interpretation.allocations = shares.map((share) => ({ ...share }));
+        interpretation.coefficients = result.reference.ids.map(
+          (referenceId) => ({
+            referenceId,
+            coefficient:
+              (shares.find((share) => share.targetId === referenceId)
+                ?.fraction ?? 100) / 100,
+          })
         );
       }
     }

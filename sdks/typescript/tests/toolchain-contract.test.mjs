@@ -459,7 +459,10 @@ for (const fixture of semanticFixtures.cases) {
   if (result.profile !== semanticFixtures.profile || result.tolerance !== semanticFixtures.tolerance ||
       result.valid !== fixture.expected.valid || result.complete !== fixture.expected.complete ||
       JSON.stringify(result.validationIssues.map(issue => issue.code)) !== JSON.stringify(fixture.expected.codes) ||
-      JSON.stringify(fixture.process) !== before) {
+      JSON.stringify(fixture.process) !== before ||
+      (fixture.expected.coefficients && JSON.stringify(result.interpretations.map(i => i.coefficients[0]?.coefficient)) !== JSON.stringify(fixture.expected.coefficients)) ||
+      (fixture.expected.coefficientVectors && JSON.stringify(result.interpretations.map(i => i.coefficients.map(c => c.coefficient))) !== JSON.stringify(fixture.expected.coefficientVectors)) ||
+      (fixture.expected.allocationVectors && JSON.stringify(result.interpretations.map(i => i.allocations)) !== JSON.stringify(fixture.expected.allocationVectors))) {
     throw new Error('Packed process semantic conformance failed: ' + fixture.name);
   }
 }

@@ -27,7 +27,7 @@ checkPaths:
   - scripts/docpact-gate.sh
   - scripts/install-git-hooks.sh
 lastReviewedAt: 2026-10-07
-lastReviewedCommit: b301971d2f3a2a2fb4ad7b52dbdcbc7b96da8d7e
+lastReviewedCommit: 6e6f05d727c04859767e0db644abdd71b8cc04f8
 lastReviewedNote: "Reviewed SDK #160: additive TypeScript 0.5.1 process semantic API uses exact caller Flow evidence, native conformance and explicit coverage; structural schemas, Python and upstream release contracts remain unchanged."
 related:
   - ../../AGENTS.md

@@ -248,19 +248,27 @@ Compatibility is interpreted without modifying authored data:
 | Empty array or `[{}]` | Invalid malformed vector |
 | Explicit target vector | Unique eligible targets, finite fractions 0–100, sum 100 |
 | Explicit vector omitting a selected qref | Valid SparseZero coefficient 0 |
-| One targetless declaration with 100 | Bounded `legacy-targetless-full`, including Input |
-| At least two targetless Output declarations | Process-wide `legacy-output-share`; shares sum 100 (70 + 30 supported) |
+| Targetless full declaration on a non-Output exchange | Bounded `legacy-targetless-full`: exactly 100 or the retained `100%` spelling, and one uniquely resolved qref |
+| Any targetless Output declaration | Process-wide `legacy-output-share`; all such declarations must be on Outputs and sum 100 (70% + 30% supported) |
 | Targetless fraction declarations plus any explicit vector | Invalid mixed modes |
 | Mixed targeted and targetless entries in one vector | Invalid mixed modes |
 
-Multiple targetless declarations that are not all Outputs use the bounded full
-fallback: each must equal 100. Undeclared/scalar-empty declarations are neutral
-and do not change compatibility-mode selection. Full decimal strings or finite
-numbers are parsed without coercion, whitespace, suffixes, hexadecimal, Infinity
-or NaN. Exponent notation is supported by this policy; structural `Perc` validity
+When no Output-share declaration exists, each targetless declaration uses the
+bounded full fallback. Undeclared/scalar-empty declarations do not select a
+compatibility mode. In Output-share mode, the selected qref share applies to the
+whole inventory, including undeclared and scalar-empty exchanges; a qref without
+a declared legacy share retains the historical coefficient 1. Output and Input
+targetless fraction declarations cannot be mixed. Full decimal tokens or finite
+numbers are parsed after trimming surrounding whitespace, without coercion,
+hexadecimal, Infinity or NaN. Explicit vector fractions reject percent suffixes;
+legacy Output shares accept a trailing percent sign. Non-Output full fallback
+accepts exactly 100 or the special trimmed `100%` spelling, without sum tolerance. Exponent notation is supported by this policy; structural `Perc` validity
 is checked separately. Absolute percentage-point sum tolerance is `0.0010000001` (the retained three-decimal Perc boundary).
 `interpretations.allocations` preserves all validated explicit target IDs and
-fractions; `coefficients` projects each declared qref, independently of direction.
+fractions, and provides the full inferred compatibility projection for Output-share
+and full-fallback modes. Inferred legacy targets retain historical compatibility
+without claiming an explicit target-type check: a generator that materializes an
+explicit vector must validate that final vector with exact Flow evidence; `coefficients` projects each declared qref, independently of direction.
 An invalid/unresolved vector has no accepted interpretation. Consumers must check
 the aggregate result before using any projection.
 
