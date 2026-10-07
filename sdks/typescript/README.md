@@ -199,3 +199,71 @@ repository-owned Trusted Publishing workflow publishes it.
 ## License
 
 MIT — see [LICENSE](./LICENSE).
+
+### Allocation/reference semantic analysis (0.5.1)
+
+`analyzeProcessSemantics` is a separate, synchronous, side-effect-free API, exported
+from the package root and `/core`. Run structural validation and semantic analysis
+as distinct checks; `strict` and generated schemas keep their existing behavior.
+
+```typescript
+import { analyzeProcessSemantics, PROCESS_SEMANTIC_PROFILE } from '@tiangong-lca/tidas-sdk';
+const result = analyzeProcessSemantics(process, {
+  flows: [{ uuid: flowId, version: '01.00.000', type: 'Waste flow', contentHash: flowHash }],
+});
+// Admission requires both result.valid and result.complete, plus structural proof.
+// result.validationIssues has normalized code/path/severity/params/message/rawCode.
+// result.interpretations exposes every validated explicit target and qref coefficient.
+```
+
+The API executes consumer policy `tidas.process-allocation-reference.v1`, not a
+new public specification. Every explicit target must resolve uniquely within the
+same Process. Input and Output targets with exact Product or Waste Flow evidence
+are eligible; Elementary and Other targets are invalid. The target-type check is
+not applied to unrelated exchanges or qrefs. Supply exact UUID/version evidence
+in `flows`, or `resolveFlow(uuid, version)`. The resolver is called at most once
+per distinct applicable exact identity; exceptions are unresolved. There is no
+implicit network or filesystem access. Duplicate evidence, absent evidence,
+invalid types, inexact references, and version mismatches cannot become a pass.
+The caller verifies evidence content and binds the process hash, Flow hashes,
+package/source identity, profile and tolerance to its acceptance receipt;
+`contentHash` records supplied provenance and is not computed or verified here.
+
+Coverage is `passed`, `invalid`, `unresolved`, or `not-applicable` for each check.
+`complete` is false if applicable evidence is unresolved; `valid` is false for
+invalid or unresolved findings. A resolved semantic finding can be complete and
+invalid. No explicit allocation means no target-type evidence is required.
+Quantitative references resolve scalar or repeated `Reference flow(s)` IDs
+uniquely, including Input references. Valid Functional unit, Other parameter and
+Production period preserve their language-tagged basis. Multiple references and
+non-flow bases have `calculationApplicability: 'unsupported'` for the selected
+single-reference calculation capability without becoming semantic errors.
+
+Compatibility is interpreted without modifying authored data:
+
+| Declaration | Interpretation |
+| --- | --- |
+| Absent allocation | `undeclared`; coefficient 1 for each declared qref |
+| Scalar `allocation: {}` | `legacy-scalar-empty`; coefficient 1 |
+| Empty array or `[{}]` | Invalid malformed vector |
+| Explicit target vector | Unique eligible targets, finite fractions 0–100, sum 100 |
+| Explicit vector omitting a selected qref | Valid SparseZero coefficient 0 |
+| One targetless declaration with 100 | Bounded `legacy-targetless-full`, including Input |
+| At least two targetless Output declarations | Process-wide `legacy-output-share`; shares sum 100 (70 + 30 supported) |
+| Targetless fraction declarations plus any explicit vector | Invalid mixed modes |
+| Mixed targeted and targetless entries in one vector | Invalid mixed modes |
+
+Multiple targetless declarations that are not all Outputs use the bounded full
+fallback: each must equal 100. Undeclared/scalar-empty declarations are neutral
+and do not change compatibility-mode selection. Full decimal strings or finite
+numbers are parsed without coercion, whitespace, suffixes, hexadecimal, Infinity
+or NaN. Exponent notation is supported by this policy; structural `Perc` validity
+is checked separately. Absolute percentage-point sum tolerance is `0.0010000001` (the retained three-decimal Perc boundary).
+`interpretations.allocations` preserves all validated explicit target IDs and
+fractions; `coefficients` projects each declared qref, independently of direction.
+An invalid/unresolved vector has no accepted interpretation. Consumers must check
+the aggregate result before using any projection.
+
+The shared `tests/fixtures/process-semantics.v1.json` is consumed independently
+by TypeScript and native Rust Toolkit tests. Source qualification does not claim
+registry publication or downstream runtime adoption. Python API is unchanged.

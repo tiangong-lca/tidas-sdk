@@ -26,9 +26,9 @@ checkPaths:
   - scripts/docpact
   - scripts/docpact-gate.sh
   - scripts/install-git-hooks.sh
-lastReviewedAt: 2026-10-01
-lastReviewedCommit: ebaaf22172af0fae89a77ef80dc2cd589f641dbe
-lastReviewedNote: "Reviewed SDK #158: formal spec 0.3.0 identity and TypeScript 0.5.0 / Python 0.3.0 release preparation preserve exact-source generation, alias validation and normal tag-driven publication."
+lastReviewedAt: 2026-10-07
+lastReviewedCommit: b301971d2f3a2a2fb4ad7b52dbdcbc7b96da8d7e
+lastReviewedNote: "Reviewed SDK #160: additive TypeScript 0.5.1 process semantic API uses exact caller Flow evidence, native conformance and explicit coverage; structural schemas, Python and upstream release contracts remain unchanged."
 related:
   - ../../AGENTS.md
   - ../../.docpact/config.yaml
@@ -151,3 +151,7 @@ This repository has a versioned local `pre-push` hook under `.githooks/pre-push`
 
 
 The ILCD compatibility candidate extends generated singletons with repeated fields and named classifications. The Zod generator treats `$comment` as an annotation and supports the narrowly defined `not`/`required` form used for conflicting aliases; unsupported negation remains a generation error. TypeScript array generation groups union and intersection item types before appending `[]`. Platform policy, including review eligibility and deliberately required documentation, is not relaxed by these public shape changes.
+
+## Process semantic analysis
+
+`sdks/typescript/src/core/validation/process-semantics.ts` owns pure allocation/reference analysis and is exported from both root and `core`. It uses explicit exact Flow evidence, returns coverage and interpretations, and never participates implicitly in schema generation or `strict` validation. The TypeScript/Toolkit conformance fixture binds the versioned consumer policy; it is not a public specification asset. Consumers own resolver access, evidence hashes, modelling decisions and acceptance disposition.

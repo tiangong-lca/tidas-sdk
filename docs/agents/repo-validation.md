@@ -28,9 +28,9 @@ checkPaths:
   - scripts/docpact
   - scripts/docpact-gate.sh
   - scripts/install-git-hooks.sh
-lastReviewedAt: 2026-10-01
-lastReviewedCommit: ebaaf22172af0fae89a77ef80dc2cd589f641dbe
-lastReviewedNote: "Reviewed SDK #158: formal spec 0.3.0 identity and TypeScript 0.5.0 / Python 0.3.0 release preparation preserve exact-source generation, alias validation and normal tag-driven publication."
+lastReviewedAt: 2026-10-07
+lastReviewedCommit: b301971d2f3a2a2fb4ad7b52dbdcbc7b96da8d7e
+lastReviewedNote: "Reviewed SDK #160: additive TypeScript 0.5.1 process semantic API uses exact caller Flow evidence, native conformance and explicit coverage; structural schemas, Python and upstream release contracts remain unchanged."
 related:
   - ../../AGENTS.md
   - ../../.docpact/config.yaml
@@ -127,6 +127,10 @@ Facts that matter:
   cannot satisfy existing `^0.2.x` consumers. Python's API and version are
   unchanged. A compatible CLI release must pin this new line explicitly.
 - If a change touches `sdks/typescript/scripts/generate-zod-schemas.ts`, `sdks/typescript/src/core/config/ValidationConfig.ts`, or committed schema output under `sdks/typescript/src/schemas/**`, mention in the PR note whether the validation contract changed or remained backward compatible.
+
+## Process allocation/reference semantic API proof
+
+SDK #160 adds the additive TypeScript 0.5.1 API independently of structural validation. Public root-API tests exercise the byte-identical SDK/Toolkit `process-semantics.v1.json` fixture, exact Flow evidence, resolver bounds/failures, singleton/array paths, stable diagnostics, full vector projection, legacy interpretations and immutability. Run the canonical TypeScript verifier plus coverage; TypeScript tarball qualification is source-package proof. Actual `typescript-v0.5.1` publication and consumer adoption need their separate exact package/registry receipts. Python source/API/version are unchanged.
 
 ## Minimum PR Note Quality
 
