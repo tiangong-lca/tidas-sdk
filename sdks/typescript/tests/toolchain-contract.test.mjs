@@ -449,6 +449,26 @@ test('the Node coverage command scopes first-party code and enforces the recorde
   assert.match(coverageCommand, /--test-coverage-functions=70(?:\s|$)/);
 });
 
+function processSemanticConsumerContract(apiExpression) {
+  const fixtures = readJson(join(PACKAGE_ROOT, 'tests/fixtures/process-semantics.v1.json'));
+  return `const semanticApi = ${apiExpression};
+const semanticFixtures = ${JSON.stringify(fixtures)};
+for (const fixture of semanticFixtures.cases) {
+  const before = JSON.stringify(fixture.process);
+  const result = semanticApi.analyzeProcessSemantics(fixture.process, { flows: fixture.flows });
+  if (result.profile !== semanticFixtures.profile || result.tolerance !== semanticFixtures.tolerance ||
+      result.valid !== fixture.expected.valid || result.complete !== fixture.expected.complete ||
+      JSON.stringify(result.validationIssues.map(issue => issue.code)) !== JSON.stringify(fixture.expected.codes) ||
+      JSON.stringify(fixture.process) !== before ||
+      (fixture.expected.coefficients && JSON.stringify(result.interpretations.map(i => i.coefficients[0]?.coefficient)) !== JSON.stringify(fixture.expected.coefficients)) ||
+      (fixture.expected.coefficientVectors && JSON.stringify(result.interpretations.map(i => i.coefficients.map(c => c.coefficient))) !== JSON.stringify(fixture.expected.coefficientVectors)) ||
+      (fixture.expected.allocationVectors && JSON.stringify(result.interpretations.map(i => i.allocations)) !== JSON.stringify(fixture.expected.allocationVectors))) {
+    throw new Error('Packed process semantic conformance failed: ' + fixture.name);
+  }
+}
+`;
+}
+
 test(
   'a built and packed SDK exposes every entry point to clean CJS, ESM, and TS7 consumers without bringing TypeScript',
   { timeout: 120_000 },
@@ -531,7 +551,7 @@ test(
           )
           .join(
             '\n'
-          )}\nconst publicRules = require('@tiangong-lca/tidas-sdk/contracts').getTidasPublicRules('flow');\nif (publicRules.status !== 'covered' || publicRules.rules.length === 0) {\n  throw new TypeError('Expected the packed CommonJS contract to expose covered Flow public rules.');\n}\n\nfunction assertModule(specifier, value) {\n  if ((typeof value !== 'object' && typeof value !== 'function') || value === null) {\n    throw new TypeError(\`Expected \${specifier} to load as a CommonJS module.\`);\n  }\n}\n`,
+          )}\n${processSemanticConsumerContract("require('@tiangong-lca/tidas-sdk')")}\nconst publicRules = require('@tiangong-lca/tidas-sdk/contracts').getTidasPublicRules('flow');\nif (publicRules.status !== 'covered' || publicRules.rules.length === 0) {\n  throw new TypeError('Expected the packed CommonJS contract to expose covered Flow public rules.');\n}\n\nfunction assertModule(specifier, value) {\n  if ((typeof value !== 'object' && typeof value !== 'function') || value === null) {\n    throw new TypeError(\`Expected \${specifier} to load as a CommonJS module.\`);\n  }\n}\n`,
         { encoding: 'utf8', flag: 'wx' }
       );
       execFileSync(
@@ -549,7 +569,7 @@ test(
           )
           .join(
             '\n'
-          )}\nconst contracts = await import('@tiangong-lca/tidas-sdk/contracts');\nconst publicRules = contracts.getTidasPublicRules('process');\nif (publicRules.status !== 'covered' || publicRules.rules.length === 0) {\n  throw new TypeError('Expected the packed ES contract to expose covered Process public rules.');\n}\n\nfunction assertModule(specifier, value) {\n  if (typeof value !== 'object' || value === null) {\n    throw new TypeError(\`Expected \${specifier} to load as an ES module.\`);\n  }\n}\n`,
+          )}\n${processSemanticConsumerContract("(await import('@tiangong-lca/tidas-sdk')).default")}\nconst contracts = await import('@tiangong-lca/tidas-sdk/contracts');\nconst publicRules = contracts.getTidasPublicRules('process');\nif (publicRules.status !== 'covered' || publicRules.rules.length === 0) {\n  throw new TypeError('Expected the packed ES contract to expose covered Process public rules.');\n}\n\nfunction assertModule(specifier, value) {\n  if (typeof value !== 'object' || value === null) {\n    throw new TypeError(\`Expected \${specifier} to load as an ES module.\`);\n  }\n}\n`,
         { encoding: 'utf8', flag: 'wx' }
       );
       execFileSync(
@@ -565,7 +585,7 @@ test(
         )
         .join(
           '\n'
-        )}\nimport { ProcessSchema } from '@tiangong-lca/tidas-sdk/schemas';\nimport { getTidasPublicRules, type TidasPublicRuleSelection } from '@tiangong-lca/tidas-sdk/contracts';\nimport { z } from 'zod';\nconst publicRules: TidasPublicRuleSelection = getTidasPublicRules('flow');\nif (publicRules.status === 'covered') publicRules.rules[0]?.id;\ntype ProcessOutput = z.output<typeof ProcessSchema>;\ntype ProcessResults = NonNullable<ProcessOutput['processDataSet']['LCIAResults']>;\ntype LCIAResultOutput = ProcessResults['LCIAResult'];\ntype IsUnknown<T> = unknown extends T ? ([T] extends [unknown] ? true : false) : false;\ntype AssertFalse<T extends false> = T;\ntype LCIAResultMustRemainTyped = AssertFalse<IsUnknown<LCIAResultOutput>>;\nvoid (undefined as unknown as LCIAResultMustRemainTyped);\n`;
+        )}\nimport { analyzeProcessSemantics, type NormalizedValidationIssue } from '@tiangong-lca/tidas-sdk';\nconst semanticAnalysis = analyzeProcessSemantics({}, { flows: [{ uuid: 'id', version: '01.00.000', type: 'Waste flow' }] });\nconst semanticIssues: NormalizedValidationIssue[] = semanticAnalysis.validationIssues;\nvoid semanticIssues;\nimport { ProcessSchema } from '@tiangong-lca/tidas-sdk/schemas';\nimport { getTidasPublicRules, type TidasPublicRuleSelection } from '@tiangong-lca/tidas-sdk/contracts';\nimport { z } from 'zod';\nconst publicRules: TidasPublicRuleSelection = getTidasPublicRules('flow');\nif (publicRules.status === 'covered') publicRules.rules[0]?.id;\ntype ProcessOutput = z.output<typeof ProcessSchema>;\ntype ProcessResults = NonNullable<ProcessOutput['processDataSet']['LCIAResults']>;\ntype LCIAResultOutput = ProcessResults['LCIAResult'];\ntype IsUnknown<T> = unknown extends T ? ([T] extends [unknown] ? true : false) : false;\ntype AssertFalse<T extends false> = T;\ntype LCIAResultMustRemainTyped = AssertFalse<IsUnknown<LCIAResultOutput>>;\nvoid (undefined as unknown as LCIAResultMustRemainTyped);\n`;
       writeFileSync(join(consumerRoot, 'imports.ts'), typecheckSource, {
         encoding: 'utf8',
         flag: 'wx',

@@ -18,8 +18,8 @@ checkPaths:
   - .nvmrc
   - package.json
   - .docpact/config.yaml
-lastReviewedAt: 2026-10-01
-lastReviewedCommit: ebaaf22172af0fae89a77ef80dc2cd589f641dbe
+lastReviewedAt: 2026-10-07
+lastReviewedCommit: a6caa3287172a1ec640256da986968fde0e19b4d
 lastReviewedNote: "Reviewed SDK #158: formal spec 0.3.0 identity and TypeScript 0.5.0 / Python 0.3.0 release preparation preserve exact-source generation, alias validation and normal tag-driven publication."
 related:
   - ../AGENTS.md

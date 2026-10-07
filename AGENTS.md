@@ -31,9 +31,9 @@ checkPaths:
   - scripts/docpact
   - scripts/docpact-gate.sh
   - scripts/install-git-hooks.sh
-lastReviewedAt: 2026-10-01
-lastReviewedCommit: ebaaf22172af0fae89a77ef80dc2cd589f641dbe
-lastReviewedNote: "Reviewed SDK #158: formal spec 0.3.0 identity and TypeScript 0.5.0 / Python 0.3.0 release preparation preserve exact-source generation, alias validation and normal tag-driven publication."
+lastReviewedAt: 2026-10-07
+lastReviewedCommit: a6caa3287172a1ec640256da986968fde0e19b4d
+lastReviewedNote: "Reviewed SDK #160: additive TypeScript 0.5.1 process semantic API uses exact caller Flow evidence, native conformance and explicit coverage; structural schemas, Python and upstream release contracts remain unchanged."
 related:
   - .docpact/config.yaml
   - docs/agents/repo-validation.md
@@ -48,6 +48,8 @@ related:
 `tidas-sdk` owns the generated developer package surface for TIDAS: the published TypeScript package, the in-repo Python SDK, and the generation / verification / release automation that keeps them aligned with the standalone public `tidas-spec` archive and the execution-oriented `tidas-tools` asset set.
 
 For the TypeScript package, that ownership now includes the machine-readable validation contract exposed by `validateEnhanced()`: downstream callers should expect a stable `validationIssues` array with normalized `code`, `path`, `severity`, optional `params`, and `rawCode`, rather than parsing raw Zod messages when stable behavior matters.
+
+The TypeScript SDK also owns `analyzeProcessSemantics()` as a separate, non-mutating consumer-policy API for allocation/reference interpretation, with exact caller-supplied Flow evidence and explicit per-check coverage. Structural `strict` validation and generated public schemas remain unchanged. Its versioned policy is documented in the TypeScript package README.
 
 The TypeScript SDK publishes spec-owned public definitions but no longer exports the former mixed runtime-ruleset getter or bundles its two legacy files. Its derived runtime lock preserves the verified upstream tools-lock identity while excluding those exact files. Consumer execution policy remains outside the SDK; Python's package boundary is unchanged.
 

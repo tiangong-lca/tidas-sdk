@@ -1,3 +1,4 @@
+import type { ProcessSemanticIssueCode } from '../validation/process-semantics';
 import { z } from 'zod';
 
 /**
@@ -52,7 +53,8 @@ export type ValidationIssueCode =
   | 'localized_text_en_must_not_contain_chinese_character'
   | 'cas_number_checksum_error'
   | 'custom'
-  | 'unknown';
+  | 'unknown'
+  | ProcessSemanticIssueCode;
 
 export interface NormalizedValidationIssue {
   code: ValidationIssueCode;

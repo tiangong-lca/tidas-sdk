@@ -38,3 +38,5 @@ export * from './validation/tidas-languages';
 
 // Utility functions
 export { deepClone, merge, get, set, updatePath } from '../utils/object-utils';
+
+export * from './validation/process-semantics';
